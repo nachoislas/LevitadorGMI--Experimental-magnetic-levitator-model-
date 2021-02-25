@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Levitador GMI V2.0", "Levitador GMI V2.0\Levitador GMI V2.0.csproj", "{3D6E01F6-B85D-422D-8E53-0CD9365D6E65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D6E01F6-B85D-422D-8E53-0CD9365D6E65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D6E01F6-B85D-422D-8E53-0CD9365D6E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D6E01F6-B85D-422D-8E53-0CD9365D6E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D6E01F6-B85D-422D-8E53-0CD9365D6E65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {602267CD-94B4-4D19-95D8-1AACD1BEC661}
+	EndGlobalSection
+EndGlobal

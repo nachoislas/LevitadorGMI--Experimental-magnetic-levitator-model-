@@ -1,0 +1,107 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.31.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Igna Cio, Is, LIC=585GK-Z7X5L-9UV4U-S6K9J-W7ZGG-PSR7V
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.31.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.31.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      Segger\JL2CM3.dll V2.99.38.0
+Dialog DLL:      TCM.DLL V1.46.0.0
+ 
+<h2>Project:</h2>
+C:\Users\Ignacio Islas\OneDrive\Escritorio\Event Recorder Pola\pulseV3\MDK-ARM\pulse.uvprojx
+Project File Date:  01/21/2021
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'pulse'
+compiling main.c...
+../Src/comm_protocol.c(28): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  if(strstr(data_buff,letra)!=NULL){
+../Src/comm_protocol.c(32): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *restrict"
+  	if(4==sscanf( data_buff, "$RPOL,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(32): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	if(4==sscanf( data_buff, "$RPOL,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(32): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	if(4==sscanf( data_buff, "$RPOL,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(32): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	if(4==sscanf( data_buff, "$RPOL,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(32): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	if(4==sscanf( data_buff, "$RPOL,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(39): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *restrict"
+  	}else if (4==sscanf( data_buff, "$RCONFIG,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(39): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	}else if (4==sscanf( data_buff, "$RCONFIG,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(39): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	}else if (4==sscanf( data_buff, "$RCONFIG,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(39): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	}else if (4==sscanf( data_buff, "$RCONFIG,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(39): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	}else if (4==sscanf( data_buff, "$RCONFIG,%d,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2],&parsed.params[3]))
+../Src/comm_protocol.c(46): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *restrict"
+  	}else if (3==sscanf( data_buff, "$RZERO,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2]))
+../Src/comm_protocol.c(46): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	}else if (3==sscanf( data_buff, "$RZERO,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2]))
+../Src/comm_protocol.c(46): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	}else if (3==sscanf( data_buff, "$RZERO,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2]))
+../Src/comm_protocol.c(46): warning:  #181-D: argument is incompatible with corresponding format string conversion
+  	}else if (3==sscanf( data_buff, "$RZERO,%d,%d,%d\r\n", &parsed.params[0], &parsed.params[1], &parsed.params[2]))
+../Src/comm_protocol.c(53): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *restrict"
+  	} else if (1==sscanf( data_buff, "$SGFACTOR,%d\r\n"))
+../Src/comm_protocol.c(53): warning:  #224-D: the format string requires additional arguments
+  	} else if (1==sscanf( data_buff, "$SGFACTOR,%d\r\n"))
+../Src/comm_protocol.c(60): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  	} else if (0 == strncmp(data_buff, "$RRESET\r\n",strlen("$RRESET\r\n")))
+../Src/comm_protocol.c(67): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+  	}else if (0 == strncmp(data_buff, "$RCOVER",6))
+../Src/main.c(335): warning:  #940-D: missing return statement at end of non-void function "measure" 
+  }
+../Src/main.c(409): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  								uint8_t len = sprintf((char*)uart_tx_buffer,"$RPOL,%d\r\n",(int)(pol*1000.0));
+../Src/main.c(410): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  								sprintf((char*)uart_tx_buffer,"$RPOL,%d\r\n",(int)(pol*1000.0));
+../Src/main.c(455): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  									polarimeter.g_factor = (float) new_cmd.params[0]/1000.0;
+../Src/main.c: 23 warnings, 0 errors
+linking...
+Program Size: Code=19968 RO-data=744 RW-data=184 ZI-data=18400  
+FromELF: creating hex file...
+"pulse\pulse.axf" - 0 Error(s), 23 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
+                ARM.CMSIS.5.7.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.4.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.14.0.pack
+                Keil.STM32F4xx_DFP.2.14.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_pulse
+  C:\Users\Ignacio Islas\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  C:\Users\Ignacio Islas\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.4.0
+Build Time Elapsed:  00:00:03
+</pre>
+</body>
+</html>

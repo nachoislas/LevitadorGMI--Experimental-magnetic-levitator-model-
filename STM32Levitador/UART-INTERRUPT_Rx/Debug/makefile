@@ -54,8 +54,8 @@ all: main-build
 main-build: UART-INTERRUPT_Rx.elf secondary-outputs
 
 # Tool invocations
-UART-INTERRUPT_Rx.elf: $(OBJS) $(USER_OBJS) C:\Documentos\Proyectos\ STM\UART-INTERRUPT_Rx\STM32F103C8TX_FLASH.ld
-	arm-none-eabi-gcc -o "UART-INTERRUPT_Rx.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Documentos\Proyectos STM\UART-INTERRUPT_Rx\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="UART-INTERRUPT_Rx.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+UART-INTERRUPT_Rx.elf: $(OBJS) $(USER_OBJS) D:\Javi\Documents\GitHub\LevitadorGMI\STM32Levitador\UART-INTERRUPT_Rx\STM32F103C8TX_FLASH.ld
+	arm-none-eabi-gcc -o "UART-INTERRUPT_Rx.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\Javi\Documents\GitHub\LevitadorGMI\STM32Levitador\UART-INTERRUPT_Rx\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="UART-INTERRUPT_Rx.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

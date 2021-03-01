@@ -15,6 +15,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	HAL_UART_Transmit(&huart1, &uart1ReceivedData, 1, 100);
-	HAL_UART_Receive_IT(&huart1, &uart1ReceivedData, 1);
+	HAL_UART_Receive_DMA(&huart1, &uart1ReceivedData, 1);
 }
 

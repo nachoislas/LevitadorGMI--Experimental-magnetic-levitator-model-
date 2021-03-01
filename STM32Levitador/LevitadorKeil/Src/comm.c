@@ -6,8 +6,6 @@
 
 #include "comm.h"
 
-//const char COM_INICIO[]= "INICIO";
-
 
 comando_in comm_parse(uint8_t *data_buff)
 {

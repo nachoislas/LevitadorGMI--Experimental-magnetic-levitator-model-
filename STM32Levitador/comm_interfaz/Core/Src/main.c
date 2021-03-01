@@ -20,9 +20,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "comm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,6 +48,12 @@ DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
 	uint8_t uart1ReceivedData;
+	uint8_t inputBuffer[64];
+	uint8_t inputIndex;
+
+
+	comando_in comandoUart;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,6 +114,30 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  if(comandoUart.name == ETC){
+		  HAL_UART_Transmit(&huart1,(uint8_t*) "HOLA GATO\n", 9, 100);
+		  comandoUart.name = CMD_NULL;
+	  }
+	  else if(comandoUart.name == INICIO){
+		  float comp_coeff[7];
+		  memcpy(comp_coeff, comandoUart.coeficientes,  7 * sizeof(float));
+		  char strCoef[20];
+		  char strFor[20];
+		  for(int i = 0; i<7; i++){
+			  if(i != 6){
+				  sprintf(strFor, "%f,", comp_coeff[i]);
+				  strcat(strCoef, strFor);
+			  }
+			  else
+			  {
+				  sprintf(strFor, "%f\r\n", comp_coeff[i]);
+				  strcat(strCoef, strFor);
+			  }
+		  }
+		  //sprintf(strCoef, "%f,%f,%f,%f,%f,%f,%f\r\n", comp_coeff[0]);
+		  HAL_UART_Transmit(&huart1, (uint8_t*) strCoef, strlen(strCoef), 100);
+		  comandoUart.name = CMD_NULL;
+	  }
   }
   /* USER CODE END 3 */
 }

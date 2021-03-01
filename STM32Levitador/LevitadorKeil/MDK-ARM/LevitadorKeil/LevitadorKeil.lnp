@@ -1,0 +1,28 @@
+--cpu=Cortex-M4.fp.sp
+"levitadorkeil\startup_stm32f407xx.o"
+"levitadorkeil\main.o"
+"levitadorkeil\stm32f4xx_it.o"
+"levitadorkeil\stm32f4xx_hal_msp.o"
+"levitadorkeil\stm32f4xx_hal_adc.o"
+"levitadorkeil\stm32f4xx_hal_adc_ex.o"
+"levitadorkeil\stm32f4xx_hal_rcc.o"
+"levitadorkeil\stm32f4xx_hal_rcc_ex.o"
+"levitadorkeil\stm32f4xx_hal_flash.o"
+"levitadorkeil\stm32f4xx_hal_flash_ex.o"
+"levitadorkeil\stm32f4xx_hal_flash_ramfunc.o"
+"levitadorkeil\stm32f4xx_hal_gpio.o"
+"levitadorkeil\stm32f4xx_hal_dma_ex.o"
+"levitadorkeil\stm32f4xx_hal_dma.o"
+"levitadorkeil\stm32f4xx_hal_pwr.o"
+"levitadorkeil\stm32f4xx_hal_pwr_ex.o"
+"levitadorkeil\stm32f4xx_hal_cortex.o"
+"levitadorkeil\stm32f4xx_hal.o"
+"levitadorkeil\stm32f4xx_hal_exti.o"
+"levitadorkeil\stm32f4xx_hal_tim.o"
+"levitadorkeil\stm32f4xx_hal_tim_ex.o"
+"levitadorkeil\stm32f4xx_hal_uart.o"
+"levitadorkeil\system_stm32f4xx.o"
+--library_type=microlib --strict --scatter "LevitadorKeil\LevitadorKeil.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "LevitadorKeil.map" -o LevitadorKeil\LevitadorKeil.axf

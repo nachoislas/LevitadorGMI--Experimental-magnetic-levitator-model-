@@ -4,21 +4,9 @@
 #include "stm32f4xx_hal.h"
 #include "stdio.h"
 
-const char COM_INICIO[]= "INICIO";
+#include "comm.h"
 
-typedef enum
-{
-	CMD_NULL = 0,	
-	INICIO,
-	ETC
-} comando_nombre;
-
-
-typedef struct command_s
-{
-	comando_nombre name;
-	float coeficientes[7];
-} comando_in;
+//const char COM_INICIO[]= "INICIO";
 
 
 comando_in comm_parse(uint8_t *data_buff)

@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "comm.c"
+#include "comm.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -127,7 +128,7 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim3);
-  HAL_UART_Receive_IT(&huart6, &rxData, 1);
+  HAL_UART_Receive_DMA(&huart6, &rxData, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */

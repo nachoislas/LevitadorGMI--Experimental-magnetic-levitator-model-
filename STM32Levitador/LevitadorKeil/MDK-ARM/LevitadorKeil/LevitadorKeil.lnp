@@ -1,5 +1,6 @@
 --cpu=Cortex-M4.fp.sp
 "levitadorkeil\startup_stm32f407xx.o"
+"levitadorkeil\comm.o"
 "levitadorkeil\main.o"
 "levitadorkeil\stm32f4xx_it.o"
 "levitadorkeil\stm32f4xx_hal_msp.o"

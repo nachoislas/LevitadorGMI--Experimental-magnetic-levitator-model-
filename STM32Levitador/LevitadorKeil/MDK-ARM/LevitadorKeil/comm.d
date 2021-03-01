@@ -1,5 +1,4 @@
 levitadorkeil\comm.o: ..\Src\comm.c
-levitadorkeil\comm.o: ../Inc/comm.h
 levitadorkeil\comm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 levitadorkeil\comm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 levitadorkeil\comm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
@@ -35,3 +34,5 @@ levitadorkeil\comm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 levitadorkeil\comm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 levitadorkeil\comm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 levitadorkeil\comm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+levitadorkeil\comm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+levitadorkeil\comm.o: ../Inc/comm.h

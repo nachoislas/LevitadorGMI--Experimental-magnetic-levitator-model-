@@ -22,6 +22,6 @@ typedef struct command_s
 } comando_in;
 
 
-comando_in comm_parse(uint8_t *data_buff);
+//comando_in comm_parse(uint8_t *data_buff);
 
 #endif

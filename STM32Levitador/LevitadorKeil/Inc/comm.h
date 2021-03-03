@@ -1,4 +1,4 @@
-#ifndef _COMM_H
+/*#ifndef _COMM_H
 #define _COMM_H
 
 #include <stdint.h>
@@ -22,6 +22,7 @@ typedef struct command_s
 } comando_in;
 
 
-//comando_in comm_parse(uint8_t *data_buff);
+comando_in comm_parse(uint8_t *data_buff);
 
 #endif
+*/

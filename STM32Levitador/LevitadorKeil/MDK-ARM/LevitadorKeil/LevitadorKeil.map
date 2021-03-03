@@ -46,6 +46,9 @@ Section Cross References
     main.o(i.SystemClock_Config) refers to memseta.o(.text) for __aeabi_memclr4
     main.o(i.SystemClock_Config) refers to stm32f4xx_hal_rcc.o(i.HAL_RCC_OscConfig) for HAL_RCC_OscConfig
     main.o(i.SystemClock_Config) refers to stm32f4xx_hal_rcc.o(i.HAL_RCC_ClockConfig) for HAL_RCC_ClockConfig
+    main.o(i.comm_case) refers to comm.o(i.comm_parse) for comm_parse
+    main.o(i.comm_case) refers to main.o(i.comm_parse) for comm_parse
+    main.o(i.comm_case) refers to main.o(.bss) for .bss
     main.o(i.comm_parse) refers to scanf_fp.o(.text) for _scanf_real
     main.o(i.comm_parse) refers to strstr.o(.text) for strstr
     main.o(i.comm_parse) refers to __0sscanf.o(.text) for __0sscanf

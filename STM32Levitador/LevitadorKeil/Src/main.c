@@ -20,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "comm.c"
-#include "comm.h"
+//#include "comm.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -55,7 +55,7 @@ DMA_HandleTypeDef hdma_usart6_rx;
 	uint8_t inputBuffer[20];
 	uint8_t indice = 0;
 	comando_in comando_uart; 
-
+	uint8_t a,b,c,d;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -83,11 +83,20 @@ void comm_case(comando_in comando_uart)
 							{/************************************************
 							 *  @description:
 							 ***********************************************/
-
+								
+							break;
+							}
+							case ETC:
+							{/************************************************
+							 *  @description:
+							 ***********************************************/
+								
 							break;
 							}
 							case CMD_NULL:
-							{
+							{/************************************************
+							 *  @description:
+							 ***********************************************/
 							break;
 							}
 						}

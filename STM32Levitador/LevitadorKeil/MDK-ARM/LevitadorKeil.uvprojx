@@ -413,6 +413,16 @@
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
+            <File>
+              <FileName>interrupciones.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\interrupciones.c</FilePath>
+            </File>
+            <File>
+              <FileName>interrupciones.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\interrupciones.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

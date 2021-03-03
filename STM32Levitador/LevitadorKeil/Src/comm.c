@@ -1,7 +1,5 @@
 #include "comm.h"
 
-
-
 comando_in comm_parse(uint8_t *data_buff)
 {
 comando_in dato;

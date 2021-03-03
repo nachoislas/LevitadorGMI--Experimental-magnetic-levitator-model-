@@ -4,6 +4,7 @@
 "levitadorkeil\main.o"
 "levitadorkeil\stm32f4xx_it.o"
 "levitadorkeil\stm32f4xx_hal_msp.o"
+"levitadorkeil\interrupciones.o"
 "levitadorkeil\stm32f4xx_hal_adc.o"
 "levitadorkeil\stm32f4xx_hal_adc_ex.o"
 "levitadorkeil\stm32f4xx_hal_rcc.o"

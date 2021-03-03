@@ -34,5 +34,6 @@ typedef struct command_s
 } comando_in;
 
 comando_in comm_parse(uint8_t *data_buff, uint8_t data_len);
+void comm_case(comando_in comando_uart);
 
 #endif /* INC_COMM_H_ */

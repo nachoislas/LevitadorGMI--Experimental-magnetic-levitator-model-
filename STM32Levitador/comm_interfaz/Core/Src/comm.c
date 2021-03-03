@@ -11,15 +11,15 @@
 #include <stdbool.h>
 #include <string.h>
 
-comando_in comm_parse(uint8_t *data_buff){
+comando_in comm_parse(uint8_t *uart_buff, uint8_t data_len){
 
 	comando_in dato;
-	char *letra="\n";
-	if(strstr((char*)data_buff,letra)!=NULL){
+	char data_buff[data_len];
+	memcpy(data_buff, uart_buff, data_len);		//copio la string al nuevo char array
 
-		/* check a command string */
-		if(7 == sscanf( (char*) data_buff,
-						"INICIO,%f,%f,%f,%f,%f,%f,%f\r\n",
+		//nos fijamos si lo que recibimos tiene la estructura que sigue
+		if(7 == sscanf(data_buff,
+						"INICIO,%ld,%ld,%ld,%ld,%ld,%ld,%ld\r\n",
 						&dato.coeficientes[0],
 						&dato.coeficientes[1],
 						&dato.coeficientes[2],
@@ -34,8 +34,5 @@ comando_in comm_parse(uint8_t *data_buff){
 		}
 		else
 			dato.name=ETC;
-	}
-	else
-		dato.name = CMD_NULL;
 	return dato;
 }

@@ -24,10 +24,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	if(uart1ReceivedData == '\n'){
 		inputBuffer[inputIndex] = '\0';
 		uint8_t inputBufferLen = strlen((char*) inputBuffer);
+
 		HAL_UART_Transmit(&huart1, inputBuffer, inputBufferLen, 100);
-		comandoUart = comm_parse(inputBuffer);
+
+		comandoUart = comm_parse(inputBuffer, inputBufferLen);
 		inputIndex = 0;
 	}
-	//HAL_UART_Receive_DMA(&huart1, &uart1ReceivedData, 1);
 }
 

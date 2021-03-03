@@ -47,12 +47,15 @@ UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
+
+	//variables para la comunicación serie
 	uint8_t uart1ReceivedData;
 	uint8_t inputBuffer[64];
 	uint8_t inputIndex;
-
-
 	comando_in comandoUart;
+
+	//variables para ...
+
 
 /* USER CODE END PV */
 
@@ -115,26 +118,15 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  if(comandoUart.name == ETC){
-		  HAL_UART_Transmit(&huart1,(uint8_t*) "HOLA GATO\n", 9, 100);
+		  HAL_UART_Transmit(&huart1,(uint8_t*) "HOLA GATO\r\n", strlen("HOLA GATO\r\n\0"), 100);
 		  comandoUart.name = CMD_NULL;
 	  }
 	  else if(comandoUart.name == INICIO){
-		  float comp_coeff[7];
-		  memcpy(comp_coeff, comandoUart.coeficientes,  7 * sizeof(float));
+		  int32_t comp_coeff[7];
+		  memcpy(comp_coeff, comandoUart.coeficientes,  7 * sizeof(*comp_coeff));
 		  char strCoef[20];
-		  char strFor[20];
-		  for(int i = 0; i<7; i++){
-			  if(i != 6){
-				  sprintf(strFor, "%f,", comp_coeff[i]);
-				  strcat(strCoef, strFor);
-			  }
-			  else
-			  {
-				  sprintf(strFor, "%f\r\n", comp_coeff[i]);
-				  strcat(strCoef, strFor);
-			  }
-		  }
-		  //sprintf(strCoef, "%f,%f,%f,%f,%f,%f,%f\r\n", comp_coeff[0]);
+
+		  sprintf(strCoef, "%ld,%ld\r\n", comp_coeff[0], comp_coeff[1]);  //ld para recibir long
 		  HAL_UART_Transmit(&huart1, (uint8_t*) strCoef, strlen(strCoef), 100);
 		  comandoUart.name = CMD_NULL;
 	  }

@@ -159,30 +159,6 @@ int main(void)
 		  comandoUart = comm_parse(inputBuffer, inputBufferLen);
 		  comm_case(comandoUart);
 	  }
-
-
-	/*  if(comandoUart.name == ETC){
-		  HAL_UART_Transmit(&huart1,(uint8_t*) "HOLA GATO\r\n", strlen("HOLA GATO\r\n\0"), 100);
-		  comandoUart.name = CMD_NULL;
-	  }
-
-	  else if(comandoUart.name == INICIO){
-		  float comp_coeff[7];
-		  memcpy(comp_coeff, comandoUart.coeficientes,  7 * sizeof(*comp_coeff));
-		  char strCoef[100];
-		  sprintf(strCoef, "%9.6f,%9.6f,%9.6f,%9.6f,%9.6f,%9.6f,%9.6f\r\n",
-				  	  	  	  	  	  comp_coeff[0],
-									  comp_coeff[1],
-									  comp_coeff[2],
-									  comp_coeff[3],
-									  comp_coeff[4],
-									  comp_coeff[5],
-									  comp_coeff[6]
-				 );  //9.6f para recibir float con 6 digitos decimales
-
-		  HAL_UART_Transmit(&huart1, (uint8_t*) strCoef, strlen(strCoef), 100);
-		  comandoUart.name = CMD_NULL;
-	  }*/
   }
   /* USER CODE END 3 */
 }

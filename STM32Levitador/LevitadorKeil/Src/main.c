@@ -19,13 +19,14 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "comm.c"
-//#include "comm.h"
+
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <string.h>
+#include "comm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -71,36 +72,9 @@ static void MX_USART6_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void comm_case(comando_in comando_uart)
-/**
-       * Accion segun comando reciido
-       * @param 
-       */
 
-{	switch ((uint8_t) comando_uart.name)
-						{
-							case INICIO:
-							{/************************************************
-							 *  @description:
-							 ***********************************************/
-								
-							break;
-							}
-							case ETC:
-							{/************************************************
-							 *  @description:
-							 ***********************************************/
-								
-							break;
-							}
-							case CMD_NULL:
-							{/************************************************
-							 *  @description:
-							 ***********************************************/
-							break;
-							}
-						}
-}
+
+
 /* USER CODE END 0 */
 
 /**

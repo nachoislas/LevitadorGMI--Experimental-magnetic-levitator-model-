@@ -1,24 +1,5 @@
-#include <stdint.h>
-#include <stdbool.h>
-#include <string.h>
-#include "stm32f4xx_hal.h"
-#include "stdio.h"
+#include "comm.h"
 
-//#include "comm.h"
-
-typedef enum
-{
-	CMD_NULL = 0,	
-	INICIO,
-	ETC
-} comando_nombre;
-
-
-typedef struct command_s
-{
-	comando_nombre name;
-	float coeficientes[7];
-} comando_in;
 
 
 comando_in comm_parse(uint8_t *data_buff)
@@ -44,3 +25,56 @@ if(strstr((char*)data_buff,letra)!=NULL){
 return dato;
 }
 
+
+void comm_case(comando_in comando_uart)
+/**
+       * Accion segun comando reciido
+       * @param 
+       */
+
+{	switch ((uint8_t) comando_uart.name)
+						{
+							case INICIO:
+							{/************************************************
+							 *  @description:
+							 ***********************************************/
+								
+							break;
+							}
+							case ETC:
+							{/************************************************
+							 *  @description:
+							 ***********************************************/
+								
+							break;
+							}
+							case CMD_NULL:
+							{/************************************************
+							 *  @description:
+							 ***********************************************/
+							break;
+							}
+						}
+}
+
+void lecturaADC(void)
+/**
+       * Leer datos del ADC
+       * @param 
+       */
+{
+
+
+
+}
+
+void salidasDAC(void)
+/**
+       * Aplicar coeficientes
+       * @param 
+       */
+{
+
+
+
+}

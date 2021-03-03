@@ -1,4 +1,5 @@
 levitadorkeil\comm.o: ..\Src\comm.c
+levitadorkeil\comm.o: ../Inc/comm.h
 levitadorkeil\comm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 levitadorkeil\comm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 levitadorkeil\comm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

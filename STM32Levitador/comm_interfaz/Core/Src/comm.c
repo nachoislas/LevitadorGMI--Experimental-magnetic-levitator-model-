@@ -19,7 +19,7 @@ comando_in comm_parse(uint8_t *data_buff){
 
 		/* check a command string */
 		if(7 == sscanf( (char*) data_buff,
-						"INICIO,%f,%f,%f,%f,%f,%f,%f\r\n",
+						"INICIO,%ld,%ld,%ld,%ld,%ld,%ld,%ld\r\n",
 						&dato.coeficientes[0],
 						&dato.coeficientes[1],
 						&dato.coeficientes[2],

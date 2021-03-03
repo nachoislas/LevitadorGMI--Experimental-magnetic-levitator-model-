@@ -118,7 +118,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  if(comandoUart.name == ETC){
-		  HAL_UART_Transmit(&huart1,(uint8_t*) "HOLA GATO\r\n", sizeof("HOLA GATO\r\n"), 100);
+		  HAL_UART_Transmit(&huart1,(uint8_t*) "HOLA GATO\r\n", strlen("HOLA GATO\r\n\0"), 100);
 		  comandoUart.name = CMD_NULL;
 	  }
 	  else if(comandoUart.name == INICIO){

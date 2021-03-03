@@ -33,6 +33,6 @@ typedef struct command_s
 	int32_t coeficientes[7];
 } comando_in;
 
-comando_in comm_parse(uint8_t *data_buff);
+comando_in comm_parse(uint8_t *data_buff, uint8_t data_len);
 
 #endif /* INC_COMM_H_ */

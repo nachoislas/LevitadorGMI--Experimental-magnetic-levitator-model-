@@ -339,7 +339,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+/*
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 	char buf[] = "CONECTADO\r\n\0";
@@ -359,7 +359,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		else
 			indice++;
 		HAL_UART_Receive_IT(&huart6, &rxData, 1);
-}
+}*/
 
 /* USER CODE END 4 */
 

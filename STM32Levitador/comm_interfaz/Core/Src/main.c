@@ -23,6 +23,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "comm.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,17 +56,27 @@ DMA_HandleTypeDef hdma_usart1_rx;
 /* USER CODE BEGIN PV */
 
 	//variables para la comunicación serie
-	uint8_t uart1ReceivedData;
-	uint8_t inputBuffer[64];
-	uint8_t inputIndex;
-	comando_in comandoUart;
+	uint8_t uart1ReceivedData;				//variable para recibir cada byte del UART
+	uint8_t inputBuffer[64];				//buffer para ir concatenando el string recibido
+	uint8_t inputBufferLen;					//largo del string recibido
+	uint8_t inputIndex;						//indice para escribir en el buffer
+	comando_in comandoUart;					//struct que tiene los campos .name y .coeficientes.
+	uint8_t uart_rx_complete = 0;
 
 	//variables para el ADC
-	#define ADC_MAX_SAMPLES 6
-	const uint8_t adcSamples = ADC_MAX_SAMPLES;
-	uint16_t adcBuf[ADC_MAX_SAMPLES];
+	#define ADC_MAX_SAMPLES 6			//cantidad maxima de muestras que debe tomar el adc
+										//hay que tener en cuenta la cantidad de canales del adc que se leen
+	const uint8_t adcSamples = ADC_MAX_SAMPLES;    //lo mismo
+	uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestras del ADC
 	uint8_t adcConverted = 0;
 
+	//variables para el compensador digital
+	struct digitalComp
+	{
+		float denCoef[3];
+		float numCoef[3];
+		float intGain;
+	};
 
 /* USER CODE END PV */
 
@@ -140,8 +154,14 @@ int main(void)
 		  HAL_UART_Transmit(&huart1, (uint8_t*) adcStr, strlen(adcStr), 100);
 	  }
 
+	  if(uart_rx_complete){
+		  uart_rx_complete = 0;
+		  comandoUart = comm_parse(inputBuffer, inputBufferLen);
+		  comm_case(comandoUart);
+	  }
 
-	  if(comandoUart.name == ETC){
+
+	/*  if(comandoUart.name == ETC){
 		  HAL_UART_Transmit(&huart1,(uint8_t*) "HOLA GATO\r\n", strlen("HOLA GATO\r\n\0"), 100);
 		  comandoUart.name = CMD_NULL;
 	  }
@@ -162,7 +182,7 @@ int main(void)
 
 		  HAL_UART_Transmit(&huart1, (uint8_t*) strCoef, strlen(strCoef), 100);
 		  comandoUart.name = CMD_NULL;
-	  }
+	  }*/
   }
   /* USER CODE END 3 */
 }

@@ -10,9 +10,11 @@ extern uint8_t inputBuffer[64];
 extern uint8_t inputIndex;
 extern comando_in comandoUart;
 
+extern uint8_t adcConverted;
+
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	char strConectado[] = "CONECTADO\r\n\0";
 	HAL_UART_Transmit(&huart1, (uint8_t*) strConectado, strlen(strConectado), 100);
 }
@@ -30,5 +32,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		comandoUart = comm_parse(inputBuffer, inputBufferLen);
 		inputIndex = 0;
 	}
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef * hadc){
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	adcConverted = 1;
 }
 

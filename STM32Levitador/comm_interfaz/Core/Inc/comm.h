@@ -30,7 +30,7 @@ typedef enum
 typedef struct command_s
 {
 	comando_nombre name;
-	int32_t coeficientes[7];
+	float coeficientes[7];
 } comando_in;
 
 comando_in comm_parse(uint8_t *data_buff, uint8_t data_len);

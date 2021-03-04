@@ -9,6 +9,7 @@ extern	uint8_t rxData;
 extern	uint8_t inputBuffer[20];
 extern	uint8_t indice;
 extern	comando_in comando_uart; 
+extern DAC_HandleTypeDef hdac;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
@@ -31,3 +32,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 				HAL_UART_Receive_IT(&huart6, &rxData, 1);
 				}
 }
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef * hadc){
+		//!Aca se tiene que pasar la funcion en z y los valores almaceados de los ADC
+	//!y al final se pasa el valor de y[n]=algo; al adc
+	//!AlgoMaximo es lo maximo que poriamos entregar con respecto a yn (5V?)
+	const float algomaximo=5;
+	float algo;
+	uint16_t y = 4095 * algo/(algomaximo);
+	HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R,y);
+}
+
+

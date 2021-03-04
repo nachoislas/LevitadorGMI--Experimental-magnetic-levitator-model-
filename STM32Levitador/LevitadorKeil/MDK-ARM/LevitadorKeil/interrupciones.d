@@ -25,6 +25,8 @@ levitadorkeil\interrupciones.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ha
 levitadorkeil\interrupciones.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
 levitadorkeil\interrupciones.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h
 levitadorkeil\interrupciones.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h
+levitadorkeil\interrupciones.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dac.h
+levitadorkeil\interrupciones.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dac_ex.h
 levitadorkeil\interrupciones.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 levitadorkeil\interrupciones.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
 levitadorkeil\interrupciones.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h

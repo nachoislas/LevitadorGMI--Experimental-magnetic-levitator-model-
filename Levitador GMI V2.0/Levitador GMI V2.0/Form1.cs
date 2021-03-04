@@ -182,7 +182,7 @@ namespace Levitador_GMI_V2._0
 
             string GananciaInteg = txtGananciaInteg.Text;
 
-            string mensajeInicio = "Inicio," + CoefNumZ0 + "," + CoefNumZ1 + "," + CoefNumZ2 + "," + CoefDenZ0 + "," + CoefDenZ1 + "," + CoefDenZ2 + "," + GananciaInteg + "\r\n";
+            string mensajeInicio = "INICIO," + CoefNumZ0 + "," + CoefNumZ1 + "," + CoefNumZ2 + "," + CoefDenZ0 + "," + CoefDenZ1 + "," + CoefDenZ2 + "," + GananciaInteg + "\r\n";
 
             if(levitadorConectado)      comPort.Write(mensajeInicio);
 
@@ -208,6 +208,7 @@ namespace Levitador_GMI_V2._0
                     corr.Close();
                     pos.Close();
                     referencia.Close();
+                    comPort.Write("DETENER\r\n");
                     break;
                 }
             }
@@ -234,7 +235,7 @@ namespace Levitador_GMI_V2._0
             string comando = datos[0];
             switch (comando)
             {
-                case "Datos":
+                case "DATOS":
                     datoCorr = datos[1];
                     datoComp = datos[2];
                     datoPos = datos[3];

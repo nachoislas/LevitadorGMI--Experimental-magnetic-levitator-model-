@@ -22,3 +22,15 @@ D:\Javi\Documents\Facu\Proyecto Final - Levitador\LevitadorJavi\Interfáz Gráfi
 D:\Javi\Documents\Facu\Proyecto Final - Levitador\LevitadorJavi\Interfáz Gráfica\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador GMI V2.0.csproj.CoreCompileInputs.cache
 D:\Javi\Documents\Facu\Proyecto Final - Levitador\LevitadorJavi\Interfáz Gráfica\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador GMI V2.0.exe
 D:\Javi\Documents\Facu\Proyecto Final - Levitador\LevitadorJavi\Interfáz Gráfica\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador GMI V2.0.pdb
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\bin\Debug\Levitador GMI V2.0.exe.config
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\bin\Debug\Levitador GMI V2.0.exe
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\bin\Debug\Levitador GMI V2.0.pdb
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador GMI V2.0.csprojAssemblyReference.cache
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador_GMI_V2._0.Form1.resources
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador_GMI_V2._0.Graficos.resources
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador_GMI_V2._0.Properties.Resources.resources
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador_GMI_V2._0.Splash.resources
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador GMI V2.0.csproj.GenerateResource.cache
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador GMI V2.0.csproj.CoreCompileInputs.cache
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador GMI V2.0.exe
+D:\Javi\Documents\GitHub\LevitadorGMI\Levitador GMI V2.0\Levitador GMI V2.0\obj\Debug\Levitador GMI V2.0.pdb

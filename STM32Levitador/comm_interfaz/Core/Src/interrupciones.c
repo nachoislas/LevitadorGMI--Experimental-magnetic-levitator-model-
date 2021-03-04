@@ -6,25 +6,32 @@
 
 //variables externas para lo del timer
 extern TIM_HandleTypeDef htim4;
+extern volatile uint8_t tim4_period_complete;
+
+extern TIM_HandleTypeDef htim2;
+extern volatile uint8_t tim2_period_complete;
 
 //variables externas de la UART
-extern uint8_t uart1ReceivedData;
+extern volatile uint8_t uart1ReceivedData;
 extern UART_HandleTypeDef huart1;
-extern uint8_t inputBuffer[64];
-extern uint8_t inputIndex;
+extern volatile uint8_t inputBuffer[64];
+extern volatile uint8_t inputIndex;
 extern comando_in comandoUart;
-extern uint8_t uart_rx_complete;
-extern uint8_t inputBufferLen;
+extern volatile uint8_t uart_rx_complete;
+
 
 //variables externas para el adc
-extern uint8_t adcConverted;
+extern volatile uint8_t adcConverted;
+extern ADC_HandleTypeDef hadc1;
 
-//callback para cuando el timer 4 cumple su ciclo
+//callback para cuando los timers cumplen su ciclo
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == htim4.Instance){
-		char strConectado[] = "CONECTADO\r\n\0";
-		HAL_UART_Transmit(&huart1, (uint8_t*) strConectado, strlen(strConectado), 100);
+		tim4_period_complete = 1;					//activo el flag del timer4
 	}
+	else if(htim->Instance == htim2.Instance){
+			tim2_period_complete = 1;					//activo el flag del timer2
+		}
 }
 
 //callback para cuando se recibe un byte en la UART
@@ -33,11 +40,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	inputIndex++;
 	if(uart1ReceivedData == '\n'){
 		inputBuffer[inputIndex] = '\0';
-		inputBufferLen = strlen((char*) inputBuffer);
-
-		//HAL_UART_Transmit(&huart1, inputBuffer, inputBufferLen, 100);
-
-		//comandoUart = comm_parse(inputBuffer, inputBufferLen);
 		uart_rx_complete = 1;
 		inputIndex = 0;
 	}
@@ -45,7 +47,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 
 //callback para cuando finalizan las conversiones del ADC
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef * hadc){
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	adcConverted = 1;
+	if(hadc->Instance == hadc1.Instance){
+		adcConverted = 1;					//activo el flag del adc1
+	}
 }
 

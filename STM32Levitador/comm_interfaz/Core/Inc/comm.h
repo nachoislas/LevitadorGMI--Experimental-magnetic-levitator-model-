@@ -24,6 +24,7 @@ typedef enum
 {
 	CMD_NULL = 0,
 	INICIO,
+	DETENER,
 	ETC
 } comando_nombre;
 
@@ -33,7 +34,9 @@ typedef struct command_s
 	float coeficientes[7];
 } comando_in;
 
-comando_in comm_parse(uint8_t *data_buff, uint8_t data_len);
+comando_in comm_parse(uint8_t *data_buff);
 void comm_case(comando_in comando_uart);
+void comm_send_conectado();
+void comm_send_data(int,int,int,int);
 
 #endif /* INC_COMM_H_ */

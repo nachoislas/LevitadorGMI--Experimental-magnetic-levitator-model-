@@ -47,6 +47,7 @@
 ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
+TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 
@@ -55,28 +56,38 @@ DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
 
-	//variables para la comunicación serie
-	uint8_t uart1ReceivedData;				//variable para recibir cada byte del UART
-	uint8_t inputBuffer[64];				//buffer para ir concatenando el string recibido
-	uint8_t inputBufferLen;					//largo del string recibido
-	uint8_t inputIndex;						//indice para escribir en el buffer
-	comando_in comandoUart;					//struct que tiene los campos .name y .coeficientes.
-	uint8_t uart_rx_complete = 0;
+//variables para el timer4
+volatile uint8_t tim4_period_complete = 0;     //flag para ver si se cumplió un periodo del timer 4
 
-	//variables para el ADC
-	#define ADC_MAX_SAMPLES 6			//cantidad maxima de muestras que debe tomar el adc
-										//hay que tener en cuenta la cantidad de canales del adc que se leen
-	const uint8_t adcSamples = ADC_MAX_SAMPLES;    //lo mismo
-	uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestras del ADC
-	uint8_t adcConverted = 0;
+//variables para el timer2
+volatile uint8_t tim2_period_complete = 0;     //flag para ver si se cumplió un periodo del timer 2
 
-	//variables para el compensador digital
-	struct digitalComp
-	{
-		float denCoef[3];
-		float numCoef[3];
-		float intGain;
-	};
+//variables para comunicación con la interfaz
+uint8_t enviarDatos = 0;   						//flag para saber si se deben enviar datos o no
+
+//variables para la comunicación serie
+uint8_t uart1ReceivedData;				//variable para recibir cada byte del UART
+volatile uint8_t inputBuffer[64];				//buffer para ir concatenando el string recibido
+volatile uint8_t inputIndex;						//indice para escribir en el buffer
+comando_in comandoUart;					//struct que tiene los campos .name y .coeficientes.
+volatile uint8_t uart_rx_complete = 0;
+
+
+
+//variables para el ADC
+#define ADC_MAX_SAMPLES 6			//cantidad maxima de muestras que debe tomar el adc
+									//hay que tener en cuenta la cantidad de canales del adc que se leen
+const uint8_t adcSamples = ADC_MAX_SAMPLES;    //lo mismo
+volatile uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestras del ADC
+volatile uint8_t adcConverted = 0;
+
+//variables para el compensador digital
+struct digitalComp			//estructura que guarda los coeficientes del compensador digital
+{
+	float denCoef[3];				//denominador
+	float numCoef[3];				//numerador
+	float intGain;					//ganancia integrador
+};
 
 /* USER CODE END PV */
 
@@ -88,6 +99,7 @@ static void MX_TIM3_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_TIM4_Init(void);
+static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -130,7 +142,9 @@ int main(void)
   MX_USART1_UART_Init();
   MX_ADC1_Init();
   MX_TIM4_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+
   HAL_TIM_Base_Start_IT(&htim4);			//inicio el tim4 para enviar la secuencia conectado
   HAL_UART_Receive_DMA(&huart1, &uart1ReceivedData, 1);	//inicio la recepción por uart dma
 
@@ -147,16 +161,31 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  //me fijo si el timer4 cumplió el periodo de 3 segundos
+	  if(tim4_period_complete){
+		  tim4_period_complete = 0;
+		  comm_send_conectado();
+	  }
+
+	  //me fijo si el timer2 cumplió su periodo para envíar los datos a la app
+	  if(tim2_period_complete & enviarDatos){
+	 		  tim2_period_complete = 0;
+	 		  comm_send_data(adcBuf[0],adcBuf[1],adcBuf[2],adcBuf[3]);
+	 		 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	 	  }
+
+	  //si se cumple el numero de conversiones deseadas
 	  if(adcConverted){
 		  adcConverted = 0;
 		  char adcStr[20];
 		  sprintf(adcStr, "%d,%d\r\n", adcBuf[0], adcBuf[1]);
-		  HAL_UART_Transmit(&huart1, (uint8_t*) adcStr, strlen(adcStr), 100);
+		  //HAL_UART_Transmit(&huart1, (uint8_t*) adcStr, strlen(adcStr), 100);
 	  }
 
+	  //si se recibe un nuevo comando por uart
 	  if(uart_rx_complete){
 		  uart_rx_complete = 0;
-		  comandoUart = comm_parse(inputBuffer, inputBufferLen);
+		  comandoUart = comm_parse(inputBuffer);
 		  comm_case(comandoUart);
 	  }
   }
@@ -258,6 +287,51 @@ static void MX_ADC1_Init(void)
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 1000 - 1;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 18000 - 1;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
 
 }
 

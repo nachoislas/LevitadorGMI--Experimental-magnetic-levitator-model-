@@ -82,12 +82,14 @@ volatile uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestra
 volatile uint8_t adcConverted = 0;
 
 //variables para el compensador digital
-struct digitalComp			//estructura que guarda los coeficientes del compensador digital
+struct comp_t			//estructura que guarda los coeficientes del compensador digital
 {
 	float denCoef[3];				//denominador
 	float numCoef[3];				//numerador
 	float intGain;					//ganancia integrador
 };
+
+struct comp_t digitalComp;
 
 /* USER CODE END PV */
 
@@ -186,7 +188,14 @@ int main(void)
 	  if(uart_rx_complete){
 		  uart_rx_complete = 0;
 		  comandoUart = comm_parse(inputBuffer);
+
 		  comm_case(comandoUart);
+		  //tuve que hacer esto, por ahora no me anda hacerlo dentro del comm_case
+		  for(int i = 0; i<3; i++){
+			 digitalComp.numCoef[i] =	comandoUart.coeficientes[i];
+			 digitalComp.denCoef[i] = comandoUart.coeficientes[i+3];
+		 }
+		 digitalComp.intGain = comandoUart.coeficientes[6];
 	  }
   }
   /* USER CODE END 3 */

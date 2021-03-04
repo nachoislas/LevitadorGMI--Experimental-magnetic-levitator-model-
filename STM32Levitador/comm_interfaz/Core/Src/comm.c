@@ -5,6 +5,7 @@
  *      Author: Javi
  */
 
+#include "main.h"
 #include "comm.h"
 #include <stdio.h>
 #include <stdint.h>
@@ -14,6 +15,7 @@
 extern UART_HandleTypeDef huart1;
 extern uint8_t enviarDatos;
 extern TIM_HandleTypeDef htim2;
+extern struct comp_t digitalComp;
 
 //función para parsear los comandos
 comando_in comm_parse(uint8_t *uart_buff){
@@ -59,23 +61,22 @@ void comm_case(comando_in comando_uart)
 		{/************************************************
 		 *  @description:
 		 ***********************************************/
-			 float comp_coeff[7];
-					  memcpy(comp_coeff, comando_uart.coeficientes,  7 * sizeof(*comp_coeff));
-					  char strCoef[100];
-					  sprintf(strCoef, "%9.6f,%9.6f,%9.6f,%9.6f,%9.6f,%9.6f,%9.6f\r\n",
-												  comp_coeff[0],
-												  comp_coeff[1],
-												  comp_coeff[2],
-												  comp_coeff[3],
-												  comp_coeff[4],
-												  comp_coeff[5],
-												  comp_coeff[6]
-							 );  //9.6f para recibir float con 6 digitos decimales
 
-					  HAL_UART_Transmit(&huart1, (uint8_t*) strCoef, strlen(strCoef), 100);
-					  enviarDatos = 1;							//para comenzar el envío de datos a la interfaz
-					  HAL_TIM_Base_Start_IT(&htim2);
-					  comando_uart.name = CMD_NULL;
+			 /* char strCoef[100];
+			  sprintf(strCoef, "%9.6f,%9.6f,%9.6f,%9.6f,%9.6f,%9.6f,%9.6f\r\n",
+										  comp_coeff[0],
+										  comp_coeff[1],
+										  comp_coeff[2],
+										  comp_coeff[3],
+										  comp_coeff[4],
+										  comp_coeff[5],
+										  comp_coeff[6]
+					 );  //9.6f para recibir float con 6 digitos decimales
+
+			  //HAL_UART_Transmit(&huart1, (uint8_t*) strCoef, strlen(strCoef), 100); */
+
+			 enviarDatos = 1;							//para comenzar el envío de datos a la interfaz
+			  HAL_TIM_Base_Start_IT(&htim2);
 		break;
 		}
 		case DETENER:
@@ -91,7 +92,7 @@ void comm_case(comando_in comando_uart)
 				 *  @description:
 				 ***********************************************/
 					 HAL_UART_Transmit(&huart1,(uint8_t*) "HOLA GATO\r\n", strlen("HOLA GATO\r\n\0"), 100);
-							  comando_uart.name = CMD_NULL;
+							 // comando_uart.name = CMD_NULL;
 
 				break;
 				}

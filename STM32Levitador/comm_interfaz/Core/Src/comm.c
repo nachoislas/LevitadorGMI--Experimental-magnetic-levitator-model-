@@ -12,10 +12,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-extern UART_HandleTypeDef huart1;
-extern uint8_t enviarDatos;
-extern TIM_HandleTypeDef htim2;
-extern struct comp_t digitalComp;
+
 
 //función para parsear los comandos
 comando_in comm_parse(uint8_t *uart_buff){

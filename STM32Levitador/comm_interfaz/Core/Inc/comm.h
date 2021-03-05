@@ -8,6 +8,7 @@
 #ifndef INC_COMM_H_
 #define INC_COMM_H_
 #include "main.h"
+#include "common_variables.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -19,6 +20,8 @@
 #define COM_CHAR  '$'
 #define COM_SEPARATOR_CHAR ','
 #define COM_END_CHAR	'\n'
+
+
 
 typedef enum
 {
@@ -35,6 +38,7 @@ typedef struct command_s
 } comando_in;
 
 comando_in comm_parse(uint8_t *data_buff);
+extern comando_in comandoUart;
 void comm_case(comando_in comando_uart);
 void comm_send_conectado();
 void comm_send_data(int,int,int,int);

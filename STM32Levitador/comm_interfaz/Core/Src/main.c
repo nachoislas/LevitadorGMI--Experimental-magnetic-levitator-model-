@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "comm.h"
+#include "common_variables.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>

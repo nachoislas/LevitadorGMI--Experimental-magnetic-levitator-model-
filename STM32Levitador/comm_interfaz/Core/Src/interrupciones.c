@@ -2,27 +2,8 @@
 
 #include "main.h"
 #include "comm.h"
+#include "common_variables.h"
 #include <string.h>
-
-//variables externas para lo del timer
-extern TIM_HandleTypeDef htim4;
-extern volatile uint8_t tim4_period_complete;
-
-extern TIM_HandleTypeDef htim2;
-extern volatile uint8_t tim2_period_complete;
-
-//variables externas de la UART
-extern volatile uint8_t uart1ReceivedData;
-extern UART_HandleTypeDef huart1;
-extern volatile uint8_t inputBuffer[64];
-extern volatile uint8_t inputIndex;
-extern comando_in comandoUart;
-extern volatile uint8_t uart_rx_complete;
-
-
-//variables externas para el adc
-extern volatile uint8_t adcConverted;
-extern ADC_HandleTypeDef hadc1;
 
 //callback para cuando los timers cumplen su ciclo
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){

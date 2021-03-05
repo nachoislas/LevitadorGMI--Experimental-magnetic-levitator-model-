@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "comm.h"
 #include "common_variables.h"
+#include "time_functions.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -57,12 +58,18 @@ DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
 
+//variables de prueba del time_functions
+uint32_t tLast1 = 0;
+
 //variables para el timer4
 volatile uint8_t tim4_period_complete = 0;     //flag para ver si se cumplió un periodo del timer 4
+const uint16_t sendConectadoPeriod = 3000;
+uint32_t tLast_sendConectado = 0;
 
 //variables para el timer2
 volatile uint8_t tim2_period_complete = 0;     //flag para ver si se cumplió un periodo del timer 2
-
+const uint16_t sendDataPeriod = 500;
+uint32_t tLast_sendData = 0;
 //variables para comunicación con la interfaz
 uint8_t enviarDatos = 0;   						//flag para saber si se deben enviar datos o no
 
@@ -148,7 +155,7 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_TIM_Base_Start_IT(&htim4);			//inicio el tim4 para enviar la secuencia conectado
+ // HAL_TIM_Base_Start_IT(&htim4);			//inicio el tim4 para enviar la secuencia conectado
   HAL_UART_Receive_DMA(&huart1, &uart1ReceivedData, 1);	//inicio la recepción por uart dma
 
   HAL_TIM_Base_Start(&htim3);				//inicio el timer 3 para comenzar las conversiones del ADC
@@ -170,11 +177,20 @@ int main(void)
 		  comm_send_conectado();
 	  }
 
+	  if(checkPeriod(sendConectadoPeriod, &tLast_sendConectado)){
+		  comm_send_conectado();
+	  }
+
+	  if(enviarDatos & checkPeriod(sendDataPeriod, &tLast_sendData)){
+	  		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	  		  comm_send_data(adcBuf[0],adcBuf[1],adcBuf[2],adcBuf[3]);
+	  	  }
+
 	  //me fijo si el timer2 cumplió su periodo para envíar los datos a la app
 	  if(tim2_period_complete & enviarDatos){
 	 		  tim2_period_complete = 0;
 	 		  comm_send_data(adcBuf[0],adcBuf[1],adcBuf[2],adcBuf[3]);
-	 		 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	 		// HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	 	  }
 
 	  //si se cumple el numero de conversiones deseadas

@@ -15,7 +15,7 @@
 
 
 //función para parsear los comandos
-comando_in comm_parse(uint8_t *uart_buff){
+comando_in comm_parse(volatile uint8_t *uart_buff){
 	uint8_t data_len = strlen((char*) uart_buff);
 	comando_in dato;
 
@@ -73,7 +73,7 @@ void comm_case(comando_in comando_uart)
 			  //HAL_UART_Transmit(&huart1, (uint8_t*) strCoef, strlen(strCoef), 100); */
 
 			 enviarDatos = 1;							//para comenzar el envío de datos a la interfaz
-			  HAL_TIM_Base_Start_IT(&htim2);
+			 // HAL_TIM_Base_Start_IT(&htim2);
 		break;
 		}
 		case DETENER:

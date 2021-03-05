@@ -37,7 +37,7 @@ typedef struct command_s
 	float coeficientes[7];
 } comando_in;
 
-comando_in comm_parse(uint8_t *data_buff);
+comando_in comm_parse(volatile uint8_t *data_buff);
 extern comando_in comandoUart;
 void comm_case(comando_in comando_uart);
 void comm_send_conectado();

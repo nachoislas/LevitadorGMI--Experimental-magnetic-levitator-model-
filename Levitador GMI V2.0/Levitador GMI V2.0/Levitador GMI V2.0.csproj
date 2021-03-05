@@ -59,6 +59,12 @@
     <Compile Include="Graficos.Designer.cs">
       <DependentUpon>Graficos.cs</DependentUpon>
     </Compile>
+    <Compile Include="graficos_v2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="graficos_v2.Designer.cs">
+      <DependentUpon>graficos_v2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Splash.cs">
@@ -72,6 +78,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Graficos.resx">
       <DependentUpon>Graficos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="graficos_v2.resx">
+      <DependentUpon>graficos_v2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

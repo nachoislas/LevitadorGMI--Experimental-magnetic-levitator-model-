@@ -18,12 +18,12 @@ namespace Levitador_GMI_V2._0
                                  //lo hago acá para que sea de alcance 
                                  //global dentro de esta clase
 
-        string[] datos;     //string array que guarda los datos recibidos por puerto serie separados por ,
-        bool newDataParaGraficar = false;
+        private string[] datos = new string[5];     //string array que guarda los datos recibidos por puerto serie separados por ,
+        private bool datosNuevos = false;
         bool levitadorConectado = false; //indica si el micro está conectado o no
         
 
-        string datoComp, datoCorr, datoPos, datoRef;
+        
       
 
         //coeficientes por defecto
@@ -143,12 +143,14 @@ namespace Levitador_GMI_V2._0
         {
             //creo un objeto para cada gráfico, todos de la misma clase Graficos
             //lo hago acá para que se cree un objeto nuevo cada vez que se aprieta el botón iniciar
-            Graficos VentanaCorriente = new Graficos("Controlador de corriente");
-            Graficos VentanaCompensador = new Graficos("Salida del compensador");
-            Graficos VentanaPosicion = new Graficos("Posición estimada");
-            Graficos VentanaReferencia = new Graficos("Referencia de posición");
+            /*  Graficos VentanaCorriente = new Graficos("Controlador de corriente");
+              Graficos VentanaCompensador = new Graficos("Salida del compensador");
+              Graficos VentanaPosicion = new Graficos("Posición estimada");
+              Graficos VentanaReferencia = new Graficos("Referencia de posición");*/
 
-            if (chkCompensador.Checked)
+            graficos_v2 graficos = new graficos_v2(this);
+
+           /* if (chkCompensador.Checked)
             {
                 VentanaCompensador.Show();
             }
@@ -171,7 +173,7 @@ namespace Levitador_GMI_V2._0
                                                                             VentanaReferencia));
 
             ventanasThread.IsBackground = true;
-            ventanasThread.Start();
+            ventanasThread.Start(); */
 
             string CoefNumZ0 = txtCoefNumZ0.Text;
             string CoefNumZ1 = txtCoefNumZ1.Text;
@@ -184,12 +186,16 @@ namespace Levitador_GMI_V2._0
 
             string mensajeInicio = "INICIO," + CoefNumZ0 + "," + CoefNumZ1 + "," + CoefNumZ2 + "," + CoefDenZ0 + "," + CoefDenZ1 + "," + CoefDenZ2 + "," + GananciaInteg + "\r\n";
 
-            if(levitadorConectado)      comPort.Write(mensajeInicio);
+            if (levitadorConectado)
+            {
+                comPort.Write(mensajeInicio);
+                graficos.Show();
+            }
 
 
         }
 
-        private void actualizarGraficos(Graficos comp, Graficos corr, Graficos pos, Graficos referencia)
+     /*   private void actualizarGraficos(Graficos comp, Graficos corr, Graficos pos, Graficos referencia)
         {
             while (true)
             {
@@ -212,7 +218,7 @@ namespace Levitador_GMI_V2._0
                     break;
                 }
             }
-        }
+        } */
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -236,25 +242,36 @@ namespace Levitador_GMI_V2._0
             switch (comando)
             {
                 case "DATOS":
-                    datoCorr = datos[1];
-                    datoComp = datos[2];
-                    datoPos = datos[3];
-                    datoRef = datos[4];
-                    newDataParaGraficar = true;
+                    datosNuevos = true;
                     break;
 
                 case "CONECTADO\r":
                     lblStatus.Text = "Conectado";
                     timer1.Stop();
-                    timer1.Start();
+                    //timer1.Start();
                     break;
 
                 default:
                    // txtRcv.Text = "Error";
                     break;
-            }
+            }     
+        }
 
-            
+        public bool DatosNuevos
+        {
+            set { datosNuevos = value; }
+            get { return datosNuevos;  }
+        }
+
+        
+        public string Datos(int indice)
+        {
+            return datos[indice];
+        }
+
+        public void SerialPort_write(string str)
+        {
+            comPort.Write(str);
         }
 
         private void timer1_Tick(object sender, EventArgs e)

@@ -81,7 +81,7 @@ void comm_case(comando_in comando_uart)
 				 *  @description:
 				 ***********************************************/
 					enviarDatos = 0;
-					HAL_TIM_Base_Stop_IT(&htim2);
+					//HAL_TIM_Base_Stop_IT(&htim2);
 				break;
 				}
 		case ETC:

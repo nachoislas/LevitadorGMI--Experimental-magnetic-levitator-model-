@@ -320,6 +320,7 @@ namespace Levitador_GMI_V2._0
             this.cmbPuerto.Size = new System.Drawing.Size(121, 21);
             this.cmbPuerto.TabIndex = 75;
             this.cmbPuerto.SelectedIndexChanged += new System.EventHandler(this.cmbPuerto_SelectedIndexChanged_1);
+            this.cmbPuerto.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmbPuerto_MouseClick);
             // 
             // label12
             // 

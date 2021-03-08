@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO.Ports;
 
+
 namespace Levitador_GMI_V2._0
 {
     public partial class Form1 : Form
@@ -51,10 +52,12 @@ namespace Levitador_GMI_V2._0
             Thread.Sleep(2500);
 
             InitializeComponent();
-
+            //NativeMethods.SetForegroundWindow(this.Handle);
+            
             //Finalizamos el hilo
             t.Abort();
-            this.BringToFront();
+            
+
         }
         public void SplashStart()
         {
@@ -72,15 +75,22 @@ namespace Levitador_GMI_V2._0
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
+            this.Activate();
+            RefreshPorts();
+            // cargamos los valores predefinidos en la función transferencia
+            setDefaultCoef();
+        }
+
+        private void RefreshPorts()
+        {
+            //reseteamos los items del combobox
+            cmbPuerto.Items.Clear();
             //cargamos los nombres de puertos en el combo box
             string[] ports = SerialPort.GetPortNames();
             foreach (string port in ports)
             {
                 cmbPuerto.Items.Add(port);
             }
-
-            // cargamos los valores predefinidos en la función transferencia
-            setDefaultCoef();
         }
 
         private void setDefaultCoef()
@@ -256,6 +266,11 @@ namespace Levitador_GMI_V2._0
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             comPort.Close();
+        }
+
+        private void cmbPuerto_MouseClick(object sender, MouseEventArgs e)
+        {
+            RefreshPorts();
         }
     }
 }

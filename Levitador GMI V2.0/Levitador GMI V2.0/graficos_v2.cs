@@ -39,6 +39,7 @@ namespace Levitador_GMI_V2._0
         private void graficos_v2_FormClosing(object sender, FormClosingEventArgs e)
         {
             parentForm.SerialPort_write("DETENER\r\n");
+            parentForm.DatosNuevos = false;
         }
 
         private int muestra = 0;
@@ -49,32 +50,32 @@ namespace Levitador_GMI_V2._0
             {
                 parentForm.DatosNuevos = false;
                 //datos = parentForm.Datos;
-                try
+              //  try
                 {
                     datoCorr = parentForm.Datos(1);
                     datoComp = parentForm.Datos(2);
                     datoPos = parentForm.Datos(3);
                     datoRef = parentForm.Datos(4);
                 }
-                catch
+             /*   catch
                 {
                     //
-                }
+                }*/
 
                 chart_update(chartCorriente, datoCorr, 0);
                 chart_update(chartCompensador, datoComp, 0);
                 chart_update(chartPosicion, datoPos, 0);
                 chart_update(chartPosicion, datoRef, 1);
                 muestra++;
-                X += 0.1;
-                X = Math.Round(X, 1);
+                X += 1;
+              //  X = Math.Round(X, 1);
 
             }
         }
 
         private void chart_update(Chart chart, string valor, int serie)
         {
-            if (valor != "")
+            if (!(valor is null) & valor != "ERROR")
             {
                 float Y = float.Parse(valor);       //convierte lo recibido a float
 
@@ -84,7 +85,7 @@ namespace Levitador_GMI_V2._0
                          chart.Series[serie].Points.AddXY(X, Y)));
                 //   chart.Series[serie].Points.AddXY(X, Y);
 
-                if (chart.Series[serie].Points.Count > 15)
+                if (chart.Series[serie].Points.Count > 50)
                     chart.Series[serie].Points.RemoveAt(0);
 
                 chart.ChartAreas[0].AxisX.Minimum = chart.Series[serie].Points[0].XValue;

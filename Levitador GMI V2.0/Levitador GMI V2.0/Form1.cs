@@ -242,7 +242,8 @@ namespace Levitador_GMI_V2._0
             switch (comando)
             {
                 case "DATOS":
-                    datosNuevos = true;
+                    if(!datosNuevos)                    //lo hago así para evitar que se sobreescriban los datos antes de leerlos
+                         datosNuevos = true;
                     break;
 
                 case "CONECTADO\r":
@@ -266,7 +267,10 @@ namespace Levitador_GMI_V2._0
         
         public string Datos(int indice)
         {
-            return datos[indice];
+            if (indice >= 0 & indice < datos.Length)
+                return datos[indice];
+            else
+                return "ERROR";
         }
 
         public void SerialPort_write(string str)

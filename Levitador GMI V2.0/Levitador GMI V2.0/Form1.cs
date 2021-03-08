@@ -21,7 +21,10 @@ namespace Levitador_GMI_V2._0
         private string[] datos = new string[5];     //string array que guarda los datos recibidos por puerto serie separados por ,
         private bool datosNuevos = false;
         bool levitadorConectado = false; //indica si el micro está conectado o no
-        
+
+
+        int intervalo = 60;                                 //intervalo entre muestras para graficar
+       
 
         
       
@@ -141,40 +144,18 @@ namespace Levitador_GMI_V2._0
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            //creo un objeto para cada gráfico, todos de la misma clase Graficos
+            intervalo = Convert.ToInt32(txtIntervalo.Text);
+            string mensajeIntervalo = "INTERVALO," + intervalo + "\r\n";      /*string para enviarle
+                                                                               * al micro 
+                                                                               * el intervalo 
+                                                                               * entre muestras*/
+            //creo un objeto para cada todos los gráficos
             //lo hago acá para que se cree un objeto nuevo cada vez que se aprieta el botón iniciar
-            /*  Graficos VentanaCorriente = new Graficos("Controlador de corriente");
-              Graficos VentanaCompensador = new Graficos("Salida del compensador");
-              Graficos VentanaPosicion = new Graficos("Posición estimada");
-              Graficos VentanaReferencia = new Graficos("Referencia de posición");*/
 
-            graficos_v2 graficos = new graficos_v2(this);
-
-           /* if (chkCompensador.Checked)
-            {
-                VentanaCompensador.Show();
-            }
-            if (chkCorriente.Checked)
-            {
-                VentanaCorriente.Show();
-            }
-            if (chkPosicion.Checked)
-            {
-                VentanaPosicion.Show();
-            }
-            if (chkReferencia.Checked)
-            {
-                VentanaReferencia.Show();
-            }
-
-            Thread ventanasThread = new Thread(() => actualizarGraficos(VentanaCompensador,
-                                                                            VentanaCorriente,
-                                                                            VentanaPosicion,
-                                                                            VentanaReferencia));
-
-            ventanasThread.IsBackground = true;
-            ventanasThread.Start(); */
-
+            graficos_v2 graficos = new graficos_v2(this, intervalo);    /*tiene como argumentos
+                                                                         * el objeto de la ventana
+                                                                         * principal,
+                                                                         * y el intervalo deseado */
             string CoefNumZ0 = txtCoefNumZ0.Text;
             string CoefNumZ1 = txtCoefNumZ1.Text;
             string CoefNumZ2 = txtCoefNumZ2.Text;
@@ -188,37 +169,13 @@ namespace Levitador_GMI_V2._0
 
             if (levitadorConectado)
             {
+                comPort.Write(mensajeIntervalo);
                 comPort.Write(mensajeInicio);
                 graficos.Show();
             }
 
 
         }
-
-     /*   private void actualizarGraficos(Graficos comp, Graficos corr, Graficos pos, Graficos referencia)
-        {
-            while (true)
-            {
-                if (newDataParaGraficar)
-                {
-                    newDataParaGraficar = false;
-                    comp.ValorSerie = datoComp;
-                    corr.ValorSerie = datoCorr;
-                    pos.ValorSerie = datoPos;
-                    referencia.ValorSerie = datoRef;
-                }
-                //cierro el thread si se cierran los graficos
-                if(comp.IsDisposed | corr.IsDisposed | pos.IsDisposed | referencia.IsDisposed)
-                {
-                    comp.Close();
-                    corr.Close();
-                    pos.Close();
-                    referencia.Close();
-                    comPort.Write("DETENER\r\n");
-                    break;
-                }
-            }
-        } */
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {

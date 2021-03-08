@@ -64,6 +64,7 @@ namespace Levitador_GMI_V2._0
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.comPort = new System.IO.Ports.SerialPort(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.txtIntervalo = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -364,11 +365,19 @@ namespace Levitador_GMI_V2._0
             this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // txtIntervalo
+            // 
+            this.txtIntervalo.Location = new System.Drawing.Point(514, 330);
+            this.txtIntervalo.Name = "txtIntervalo";
+            this.txtIntervalo.Size = new System.Drawing.Size(100, 20);
+            this.txtIntervalo.TabIndex = 80;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 454);
+            this.Controls.Add(this.txtIntervalo);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnConectar);
             this.Controls.Add(this.label12);
@@ -445,6 +454,7 @@ namespace Levitador_GMI_V2._0
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.IO.Ports.SerialPort comPort;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.TextBox txtIntervalo;
     }
 }
 

@@ -20,19 +20,21 @@ namespace Levitador_GMI_V2._0
         private string datoComp, datoCorr, datoPos, datoRef;
 
         private double X;
+        private int intervalo;
         
 
 
-        public graficos_v2(Form1 parent)
+        public graficos_v2(Form1 parent, int intervalo)
         {
             InitializeComponent();
             this.parentForm = parent;
+            this.intervalo = intervalo;
         }
 
         private void graficos_v2_Load(object sender, EventArgs e)
         {
             
-            timerPlot.Interval = 30;
+            timerPlot.Interval = intervalo/2;   //lo pongo la mitad para que vaya mas rápido
             timerPlot.Start();
         }
 
@@ -52,7 +54,7 @@ namespace Levitador_GMI_V2._0
                 //datos = parentForm.Datos;
               //  try
                 {
-                    datoCorr = parentForm.Datos(1);
+                    datoCorr = parentForm.Datos(1);     //llamo a la función Datos para que me devuelva el valor correspondiente
                     datoComp = parentForm.Datos(2);
                     datoPos = parentForm.Datos(3);
                     datoRef = parentForm.Datos(4);
@@ -73,6 +75,7 @@ namespace Levitador_GMI_V2._0
             }
         }
 
+        //función para actualizar los valores del gráfico
         private void chart_update(Chart chart, string valor, int serie)
         {
             if (!(valor is null) & valor != "ERROR")

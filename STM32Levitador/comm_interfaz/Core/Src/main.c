@@ -68,7 +68,7 @@ uint32_t tLast_sendConectado = 0;
 
 //variables para el timer2
 volatile uint8_t tim2_period_complete = 0;     //flag para ver si se cumplió un periodo del timer 2
-const uint16_t sendDataPeriod = 60;
+int16_t sendDataPeriod = 60;
 uint32_t tLast_sendData = 0;
 //variables para comunicación con la interfaz
 uint8_t enviarDatos = 0;   						//flag para saber si se deben enviar datos o no

@@ -68,7 +68,7 @@ uint32_t tLast_sendConectado = 0;
 
 //variables para el timer2
 volatile uint8_t tim2_period_complete = 0;     //flag para ver si se cumplió un periodo del timer 2
-const uint16_t sendDataPeriod = 500;
+int16_t sendDataPeriod = 60;
 uint32_t tLast_sendData = 0;
 //variables para comunicación con la interfaz
 uint8_t enviarDatos = 0;   						//flag para saber si se deben enviar datos o no
@@ -171,11 +171,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  //me fijo si el timer4 cumplió el periodo de 3 segundos
+	/*  //me fijo si el timer4 cumplió el periodo de 3 segundos
 	  if(tim4_period_complete){
 		  tim4_period_complete = 0;
 		  comm_send_conectado();
-	  }
+	  } */
 
 	  if(checkPeriod(sendConectadoPeriod, &tLast_sendConectado)){
 		  comm_send_conectado();
@@ -186,12 +186,12 @@ int main(void)
 	  		  comm_send_data(adcBuf[0],adcBuf[1],adcBuf[2],adcBuf[3]);
 	  	  }
 
-	  //me fijo si el timer2 cumplió su periodo para envíar los datos a la app
+	/*  //me fijo si el timer2 cumplió su periodo para envíar los datos a la app
 	  if(tim2_period_complete & enviarDatos){
 	 		  tim2_period_complete = 0;
 	 		  comm_send_data(adcBuf[0],adcBuf[1],adcBuf[2],adcBuf[3]);
 	 		// HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	 	  }
+	 	  } */
 
 	  //si se cumple el numero de conversiones deseadas
 	  if(adcConverted){

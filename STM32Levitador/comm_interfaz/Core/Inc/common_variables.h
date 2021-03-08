@@ -18,6 +18,7 @@ extern volatile uint8_t tim4_period_complete;
 
 extern TIM_HandleTypeDef htim2;
 extern volatile uint8_t tim2_period_complete;
+extern int16_t sendDataPeriod;
 
 //variables externas de la UART
 extern  uint8_t uart1ReceivedData;

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO.Ports;
 
+
 namespace Levitador_GMI_V2._0
 {
     public partial class Form1 : Form
@@ -18,12 +19,15 @@ namespace Levitador_GMI_V2._0
                                  //lo hago acá para que sea de alcance 
                                  //global dentro de esta clase
 
-        string[] datos;     //string array que guarda los datos recibidos por puerto serie separados por ,
-        bool newDataParaGraficar = false;
+        private string[] datos = new string[5];     //string array que guarda los datos recibidos por puerto serie separados por ,
+        private bool datosNuevos = false;
         bool levitadorConectado = false; //indica si el micro está conectado o no
-        
 
-        string datoComp, datoCorr, datoPos, datoRef;
+
+        int intervalo = 60;                                 //intervalo entre muestras para graficar
+       
+
+        
       
 
         //coeficientes por defecto
@@ -48,10 +52,12 @@ namespace Levitador_GMI_V2._0
             Thread.Sleep(2500);
 
             InitializeComponent();
-
+            //NativeMethods.SetForegroundWindow(this.Handle);
+            
             //Finalizamos el hilo
             t.Abort();
-            this.BringToFront();
+            
+
         }
         public void SplashStart()
         {
@@ -69,15 +75,22 @@ namespace Levitador_GMI_V2._0
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
+            this.Activate();
+            RefreshPorts();
+            // cargamos los valores predefinidos en la función transferencia
+            setDefaultCoef();
+        }
+
+        private void RefreshPorts()
+        {
+            //reseteamos los items del combobox
+            cmbPuerto.Items.Clear();
             //cargamos los nombres de puertos en el combo box
             string[] ports = SerialPort.GetPortNames();
             foreach (string port in ports)
             {
                 cmbPuerto.Items.Add(port);
             }
-
-            // cargamos los valores predefinidos en la función transferencia
-            setDefaultCoef();
         }
 
         private void setDefaultCoef()
@@ -141,38 +154,18 @@ namespace Levitador_GMI_V2._0
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            //creo un objeto para cada gráfico, todos de la misma clase Graficos
+            intervalo = Convert.ToInt32(txtIntervalo.Text);
+            string mensajeIntervalo = "INTERVALO," + intervalo + "\r\n";      /*string para enviarle
+                                                                               * al micro 
+                                                                               * el intervalo 
+                                                                               * entre muestras*/
+            //creo un objeto para cada todos los gráficos
             //lo hago acá para que se cree un objeto nuevo cada vez que se aprieta el botón iniciar
-            Graficos VentanaCorriente = new Graficos("Controlador de corriente");
-            Graficos VentanaCompensador = new Graficos("Salida del compensador");
-            Graficos VentanaPosicion = new Graficos("Posición estimada");
-            Graficos VentanaReferencia = new Graficos("Referencia de posición");
 
-            if (chkCompensador.Checked)
-            {
-                VentanaCompensador.Show();
-            }
-            if (chkCorriente.Checked)
-            {
-                VentanaCorriente.Show();
-            }
-            if (chkPosicion.Checked)
-            {
-                VentanaPosicion.Show();
-            }
-            if (chkReferencia.Checked)
-            {
-                VentanaReferencia.Show();
-            }
-
-            Thread ventanasThread = new Thread(() => actualizarGraficos(VentanaCompensador,
-                                                                            VentanaCorriente,
-                                                                            VentanaPosicion,
-                                                                            VentanaReferencia));
-
-            ventanasThread.IsBackground = true;
-            ventanasThread.Start();
-
+            graficos_v2 graficos = new graficos_v2(this, intervalo);    /*tiene como argumentos
+                                                                         * el objeto de la ventana
+                                                                         * principal,
+                                                                         * y el intervalo deseado */
             string CoefNumZ0 = txtCoefNumZ0.Text;
             string CoefNumZ1 = txtCoefNumZ1.Text;
             string CoefNumZ2 = txtCoefNumZ2.Text;
@@ -184,34 +177,14 @@ namespace Levitador_GMI_V2._0
 
             string mensajeInicio = "INICIO," + CoefNumZ0 + "," + CoefNumZ1 + "," + CoefNumZ2 + "," + CoefDenZ0 + "," + CoefDenZ1 + "," + CoefDenZ2 + "," + GananciaInteg + "\r\n";
 
-            if(levitadorConectado)      comPort.Write(mensajeInicio);
-
-
-        }
-
-        private void actualizarGraficos(Graficos comp, Graficos corr, Graficos pos, Graficos referencia)
-        {
-            while (true)
+            if (levitadorConectado)
             {
-                if (newDataParaGraficar)
-                {
-                    newDataParaGraficar = false;
-                    comp.ValorSerie = datoComp;
-                    corr.ValorSerie = datoCorr;
-                    pos.ValorSerie = datoPos;
-                    referencia.ValorSerie = datoRef;
-                }
-                //cierro el thread si se cierran los graficos
-                if(comp.IsDisposed | corr.IsDisposed | pos.IsDisposed | referencia.IsDisposed)
-                {
-                    comp.Close();
-                    corr.Close();
-                    pos.Close();
-                    referencia.Close();
-                    comPort.Write("DETENER\r\n");
-                    break;
-                }
+                comPort.Write(mensajeIntervalo);
+                comPort.Write(mensajeInicio);
+                graficos.Show();
             }
+
+
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -236,25 +209,40 @@ namespace Levitador_GMI_V2._0
             switch (comando)
             {
                 case "DATOS":
-                    datoCorr = datos[1];
-                    datoComp = datos[2];
-                    datoPos = datos[3];
-                    datoRef = datos[4];
-                    newDataParaGraficar = true;
+                    if(!datosNuevos)                    //lo hago así para evitar que se sobreescriban los datos antes de leerlos
+                         datosNuevos = true;
                     break;
 
                 case "CONECTADO\r":
                     lblStatus.Text = "Conectado";
                     timer1.Stop();
-                    timer1.Start();
+                    //timer1.Start();
                     break;
 
                 default:
                    // txtRcv.Text = "Error";
                     break;
-            }
+            }     
+        }
 
-            
+        public bool DatosNuevos
+        {
+            set { datosNuevos = value; }
+            get { return datosNuevos;  }
+        }
+
+        
+        public string Datos(int indice)
+        {
+            if (indice >= 0 & indice < datos.Length)
+                return datos[indice];
+            else
+                return "ERROR";
+        }
+
+        public void SerialPort_write(string str)
+        {
+            comPort.Write(str);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -278,6 +266,11 @@ namespace Levitador_GMI_V2._0
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             comPort.Close();
+        }
+
+        private void cmbPuerto_MouseClick(object sender, MouseEventArgs e)
+        {
+            RefreshPorts();
         }
     }
 }

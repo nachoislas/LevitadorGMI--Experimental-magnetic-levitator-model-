@@ -40,6 +40,10 @@ comando_in comm_parse(volatile uint8_t *uart_buff){
 		else if(strstr(data_buff, "DETENER\r\n") != NULL){
 			dato.name = DETENER;
 		}
+		else if(strstr(data_buff, "INTERVALO") != NULL){
+					sscanf(data_buff, "INTERVALO,%hd\r\n", &dato.intervalo);
+					dato.name = INTERVALO;
+				}
 		else
 			dato.name=ETC;
 	return dato;
@@ -81,9 +85,16 @@ void comm_case(comando_in comando_uart)
 				 *  @description:
 				 ***********************************************/
 					enviarDatos = 0;
-					HAL_TIM_Base_Stop_IT(&htim2);
+					//HAL_TIM_Base_Stop_IT(&htim2);
 				break;
 				}
+		case INTERVALO:
+						{/************************************************
+						 *  @description:
+						 ***********************************************/
+							sendDataPeriod = comando_uart.intervalo;
+						break;
+						}
 		case ETC:
 				{/************************************************
 				 *  @description:

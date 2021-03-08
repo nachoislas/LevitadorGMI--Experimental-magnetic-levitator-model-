@@ -28,6 +28,7 @@ typedef enum
 	CMD_NULL = 0,
 	INICIO,
 	DETENER,
+	INTERVALO,
 	ETC
 } comando_nombre;
 
@@ -35,6 +36,7 @@ typedef struct command_s
 {
 	comando_nombre name;
 	float coeficientes[7];
+	int16_t intervalo;
 } comando_in;
 
 comando_in comm_parse(volatile uint8_t *data_buff);

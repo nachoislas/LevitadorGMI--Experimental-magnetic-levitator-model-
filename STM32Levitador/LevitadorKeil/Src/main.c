@@ -54,7 +54,7 @@ DMA_HandleTypeDef hdma_usart6_rx;
 
 /* USER CODE BEGIN PV */
 	uint8_t rxData;
-	uint8_t inputBuffer[20];
+	uint8_t inputBuffer[30];
 	uint8_t indice = 0;
 	comando_in comando_uart; 
 	const uint8_t adcSamples = 10;  //puede ser otro numero
@@ -121,6 +121,7 @@ int main(void)
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*) adcBuf, adcSamples);    //inicio el ADC en modo DMA
   HAL_TIM_Base_Start_IT(&htim3);
 	HAL_DAC_Start(&hdac,DAC_CHANNEL_1);
+	HAL_UART_Receive_DMA(&huart6, &rxData, 1);
   
 	/* USER CODE END 2 */
 
@@ -129,7 +130,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+		
     /* USER CODE BEGIN 3 */
 
   }
@@ -458,7 +459,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-		HAL_UART_Transmit(&huart6, inputBuffer, indice, 100);
+
 		inputBuffer[indice] = rxData;
 		if(rxData == '\n'){
 			HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
@@ -467,9 +468,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		else
 			indice++;
 		HAL_UART_Receive_IT(&huart6, &rxData, 1);
-}*/
-
+}
+*/
 /* USER CODE END 4 */
+
 
 /**
   * @brief  This function is executed in case of error occurrence.

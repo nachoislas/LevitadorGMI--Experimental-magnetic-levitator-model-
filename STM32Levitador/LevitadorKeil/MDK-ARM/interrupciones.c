@@ -6,7 +6,7 @@
 extern 	UART_HandleTypeDef huart6;
 extern 	DMA_HandleTypeDef hdma_usart6_rx;
 extern	uint8_t rxData;
-extern	uint8_t inputBuffer[20];
+extern	uint8_t inputBuffer[30];
 extern	uint8_t indice;
 extern	comando_in comando_uart; 
 extern DAC_HandleTypeDef hdac;
@@ -21,11 +21,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-		HAL_UART_Transmit(&huart6, inputBuffer, indice, 100);
 		inputBuffer[indice] = rxData;
 		if(rxData == '\n'){
 			HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
 			indice = 0;
+			comando_uart=comm_parse(inputBuffer);
+			comm_case(comando_uart);
 		}
 		else{
 				indice++;

@@ -19,7 +19,7 @@ typedef enum
 typedef struct command_s
 {
 	comando_nombre name;
-	float coeficientes[7];
+	float coeficientes[8];
 } comando_in;
 
 

@@ -43,6 +43,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
+DMA_HandleTypeDef hdma_adc1;
 
 DAC_HandleTypeDef hdac;
 
@@ -57,8 +58,8 @@ DMA_HandleTypeDef hdma_usart6_rx;
 	uint8_t inputBuffer[30];
 	uint8_t indice = 0;
 	comando_in comando_uart; 
-	const uint8_t adcSamples = 10;  //puede ser otro numero
-  uint16_t adcBuf[10];
+	const uint8_t adcSamples = 1;  //puede ser otro numero
+  uint16_t adcBuf[1];
 
 /* USER CODE END PV */
 
@@ -122,17 +123,17 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim3);
 	HAL_DAC_Start(&hdac,DAC_CHANNEL_1);
 	HAL_UART_Receive_DMA(&huart6, &rxData, 1);
-  
-	/* USER CODE END 2 */
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t*) adcBuf, adcSamples);
+  /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-		
-    /* USER CODE BEGIN 3 */
 
+    /* USER CODE BEGIN 3 */
+		
   }
   /* USER CODE END 3 */
 }
@@ -204,8 +205,8 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
   hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T8_TRGO;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 2;
-  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DMAContinuousRequests = ENABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
@@ -216,14 +217,6 @@ static void MX_ADC1_Init(void)
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_15CYCLES;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-  */
-  sConfig.Channel = ADC_CHANNEL_1;
-  sConfig.Rank = 2;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -415,6 +408,9 @@ static void MX_DMA_Init(void)
   __HAL_RCC_DMA2_CLK_ENABLE();
 
   /* DMA interrupt init */
+  /* DMA2_Stream0_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
   /* DMA2_Stream1_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
@@ -471,7 +467,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 }
 */
 /* USER CODE END 4 */
-
 
 /**
   * @brief  This function is executed in case of error occurrence.

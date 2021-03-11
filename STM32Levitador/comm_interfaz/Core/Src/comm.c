@@ -99,7 +99,7 @@ void comm_case(comando_in comando_uart)
 				{/************************************************
 				 *  @description:
 				 ***********************************************/
-					 HAL_UART_Transmit(&huart1,(uint8_t*) "HOLA GATO\r\n", strlen("HOLA GATO\r\n\0"), 100);
+					serialSend(serialDevice,(uint8_t*) "HOLA GATO\r\n", strlen("HOLA GATO\r\n\0"), 100);
 							 // comando_uart.name = CMD_NULL;
 
 				break;
@@ -108,7 +108,7 @@ void comm_case(comando_in comando_uart)
 		{/************************************************
 		 *  @description:
 		 ***********************************************/
-			HAL_UART_Transmit(&huart1,(uint8_t*) "NULL\r\n", strlen("NULL\r\n\0"), 100);
+			serialSend(serialDevice,(uint8_t*) "NULL\r\n", strlen("NULL\r\n\0"), 100);
 		break;
 		}
 	}
@@ -117,12 +117,46 @@ void comm_case(comando_in comando_uart)
 //función que envía el comando conectado
 void comm_send_conectado(){
 	 char strConectado[] = "CONECTADO\r\n\0";
-	 HAL_UART_Transmit(&huart1, (uint8_t*) strConectado, strlen(strConectado), 100);
+	 serialSend(serialDevice, (uint8_t*) strConectado, strlen(strConectado), 100);
 }
 
 //función para transmitir los datos leídos/calculados
 void comm_send_data(int data1, int data2, int data3, int data4){
 	char dataStr[32];
 	sprintf(dataStr,"DATOS,%d,%d,%d,%d\r\n", data1, data2, data3, data4);
-	HAL_UART_Transmit(&huart1, (uint8_t*) dataStr, strlen(dataStr), 100);
+	//HAL_UART_Transmit(&huart1, (uint8_t*) dataStr, strlen(dataStr), 100);
+	serialSend(serialDevice, (uint8_t*) dataStr, strlen(dataStr), 100);
+}
+
+//función para envíar datos por puerto serie, se puede elegir si es uart o usb
+void serialSend(serialDevice_t device, uint8_t * buf, size_t bufLen, uint32_t timeOut){
+	switch((uint8_t) device){
+	case UART1:
+				{
+					HAL_UART_Transmit(&huart1, buf, bufLen, 100);
+					break;
+				}
+	/*case UART2:
+					{
+						HAL_UART_Transmit(&huart2, buf, bufLen, 100);
+						break;
+					}
+	case UART3:
+						{
+							HAL_UART_Transmit(&huart3, buf, bufLen, 100);
+							break;
+						} */
+	case USB_SERIAL:
+				{
+					CDC_Transmit_FS(buf, bufLen);
+					break;
+				}
+	}
+}
+
+//esta función es llamada desde el archivo usbd_cdc_if.c, en la función CDC_Receive_FS
+void usbReceive(uint8_t * Buf, uint32_t * Len){
+	memcpy(inputBuffer, Buf, *Len);
+	inputBuffer[*Len] = '\0';
+	uart_rx_complete = 1;
 }

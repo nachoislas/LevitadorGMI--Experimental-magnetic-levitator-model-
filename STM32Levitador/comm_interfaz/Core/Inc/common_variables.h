@@ -23,9 +23,21 @@ extern int16_t sendDataPeriod;
 //variables externas de la UART
 extern  uint8_t uart1ReceivedData;
 extern UART_HandleTypeDef huart1;
+//extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart3;
 extern volatile uint8_t inputBuffer[64];
 extern volatile uint8_t inputIndex;
 extern volatile uint8_t uart_rx_complete;
+
+typedef enum {				//enum para elegir el dispositivo de salida de los datos
+	UART1 = 0,
+	UART2,
+	UART3,
+	USB_SERIAL
+} serialDevice_t;
+
+extern serialDevice_t serialDevice;		//variable serialDevice inicializada en main.
+										//acepta los valores definidos en el enum (UART1, USB_SERIAL)
 
 
 //variables externas para el adc

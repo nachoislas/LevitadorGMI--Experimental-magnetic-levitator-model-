@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "comm.h"
@@ -29,6 +30,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include "usbd_cdc_if.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -80,6 +82,9 @@ volatile uint8_t inputIndex;						//indice para escribir en el buffer
 comando_in comandoUart;					//struct que tiene los campos .name y .coeficientes.
 volatile uint8_t uart_rx_complete = 0;
 
+
+//tipo de dato serialDevice_t definido en common_variables.h
+serialDevice_t serialDevice = USB_SERIAL;	 //la variable serialDevice define por dónde se envían los datos
 
 
 //variables para el ADC
@@ -153,6 +158,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM4_Init();
   MX_TIM2_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
  // HAL_TIM_Base_Start_IT(&htim4);			//inicio el tim4 para enviar la secuencia conectado
@@ -255,8 +261,9 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_USB;
   PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV6;
+  PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();

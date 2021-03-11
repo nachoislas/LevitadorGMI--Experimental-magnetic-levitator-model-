@@ -60,7 +60,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef * hadc){
 		var = 4095*m/3.3;
 		HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, 
 		DAC_ALIGN_12B_R, var);
-		HAL_Delay(2000);
 	}*/
 	
 	

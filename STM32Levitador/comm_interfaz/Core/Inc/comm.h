@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include "usb_device.h"
 
 #define UART_CMD_BUFFER_LENGTH 64
 #define PARAMETERS_MAX 7
@@ -44,5 +45,6 @@ extern comando_in comandoUart;
 void comm_case(comando_in comando_uart);
 void comm_send_conectado();
 void comm_send_data(int,int,int,int);
+void serialSend(serialDevice_t device, uint8_t * buf, size_t bufLen, uint32_t timeOut);
 
 #endif /* INC_COMM_H_ */

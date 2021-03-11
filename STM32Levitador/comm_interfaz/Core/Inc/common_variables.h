@@ -27,6 +27,15 @@ extern volatile uint8_t inputBuffer[64];
 extern volatile uint8_t inputIndex;
 extern volatile uint8_t uart_rx_complete;
 
+typedef enum {
+	UART1 = 0,
+	UART2,
+	UART3,
+	USB_SERIAL
+} serialDevice_t;
+
+extern serialDevice_t serialDevice;
+
 
 //variables externas para el adc
 extern volatile uint8_t adcConverted;

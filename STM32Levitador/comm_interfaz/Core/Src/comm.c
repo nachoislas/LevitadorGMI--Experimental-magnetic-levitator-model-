@@ -128,7 +128,7 @@ void comm_send_data(int data1, int data2, int data3, int data4){
 	serialSend(serialDevice, (uint8_t*) dataStr, strlen(dataStr), 100);
 }
 
-
+//función para envíar datos por puerto serie, se puede elegir si es uart o usb
 void serialSend(serialDevice_t device, uint8_t * buf, size_t bufLen, uint32_t timeOut){
 	switch((uint8_t) device){
 	case UART1:
@@ -136,10 +136,27 @@ void serialSend(serialDevice_t device, uint8_t * buf, size_t bufLen, uint32_t ti
 					HAL_UART_Transmit(&huart1, buf, bufLen, 100);
 					break;
 				}
+	/*case UART2:
+					{
+						HAL_UART_Transmit(&huart2, buf, bufLen, 100);
+						break;
+					}
+	case UART3:
+						{
+							HAL_UART_Transmit(&huart3, buf, bufLen, 100);
+							break;
+						} */
 	case USB_SERIAL:
 				{
 					CDC_Transmit_FS(buf, bufLen);
 					break;
 				}
 	}
+}
+
+//esta función es llamada desde el archivo usbd_cdc_if.c, en la función CDC_Receive_FS
+void usbReceive(uint8_t * Buf, uint32_t * Len){
+	memcpy(inputBuffer, Buf, *Len);
+	inputBuffer[*Len] = '\0';
+	uart_rx_complete = 1;
 }

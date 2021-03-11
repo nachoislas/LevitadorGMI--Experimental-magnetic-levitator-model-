@@ -111,6 +111,8 @@ extern USBD_HandleTypeDef hUsbDeviceFS;
 
 /* USER CODE BEGIN EXPORTED_VARIABLES */
 
+//acá declaro la función usbReceive como externa
+extern void usbReceive(uint8_t * Buf, uint32_t * Len);
 /* USER CODE END EXPORTED_VARIABLES */
 
 /**
@@ -262,6 +264,10 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   /* USER CODE BEGIN 6 */
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+
+  //llamo a la función usbReceive para guardar los datos en el programa principal
+  usbReceive(Buf, Len);
+
   return (USBD_OK);
   /* USER CODE END 6 */
 }

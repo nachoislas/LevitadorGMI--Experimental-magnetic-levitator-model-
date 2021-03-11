@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "usbd_cdc_if.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -30,6 +30,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include "usbd_cdc_if.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -81,7 +82,9 @@ volatile uint8_t inputIndex;						//indice para escribir en el buffer
 comando_in comandoUart;					//struct que tiene los campos .name y .coeficientes.
 volatile uint8_t uart_rx_complete = 0;
 
-serialDevice_t serialDevice = USB_SERIAL;		//tipo de dato serialDevice_t definido en common_variables.h
+
+//tipo de dato serialDevice_t definido en common_variables.h
+serialDevice_t serialDevice = USB_SERIAL;	 //la variable serialDevice define por dónde se envían los datos
 
 
 //variables para el ADC

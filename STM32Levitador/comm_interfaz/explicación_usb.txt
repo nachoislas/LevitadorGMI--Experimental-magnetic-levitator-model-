@@ -1,0 +1,20 @@
+este archivo es para explicar los cambios que hice para agregar la comunicación por usb, y poder elegir si usar uart o usb
+
+la parte de configuración en cubemx ya la debés saber.
+primero cree un enum con las constantes (UART1, UART2, UART3, USB_SERIAL) en el archivo common_variables.h
+después en el main cree una variable serialDevice que toma un valor de este enum. De esta manera se elige, si envíar datos por uart o por usb.
+desepués cree la función serialSend en el archivo comm.c. Esta función recibe 4 parámetros: 
+			
+			device => el dispositivo por el cual enviar la información (debe ser el definido en serialDevice)
+			*buf => puntero a el buffer de datos que se quiere mandar
+			bufLen => largo del string que se quiere mandar
+			timeOut => timeout para el uart transmit. no hace falta en usb
+dentro de esta función se hace un case, y se envían los datos según corresponda
+
+entonces cada vez que se quiera mandar algo por puerto serie, se usa la función serialSend.
+
+
+para recibir por usb, creé la función usbReceive en el archivo comm.c. Esta función es llamada desde el archivo usbd_cdc_if.c
+Se encarga de guardar los datos recibidos por usb, en la variable inputBuffer y activar el flag de uart_rx_complete.
+
+para la recepción por uart no cambia nada

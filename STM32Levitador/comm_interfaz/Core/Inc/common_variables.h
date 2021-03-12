@@ -44,4 +44,15 @@ extern serialDevice_t serialDevice;		//variable serialDevice inicializada en mai
 extern volatile uint8_t adcConverted;
 extern ADC_HandleTypeDef hadc1;
 
+
+//compensador
+typedef struct 			//estructura que guarda los coeficientes del compensador digital
+{
+	float denCoef[3];				//denominador
+	float numCoef[3];				//numerador
+	float intGain;					//ganancia integrador
+} comp_t;
+
+extern comp_t digitalComp;
+
 #endif /* INC_COMMON_VARIABLES_H_ */

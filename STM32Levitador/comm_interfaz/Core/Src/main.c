@@ -88,21 +88,14 @@ serialDevice_t serialDevice = USB_SERIAL;	 //la variable serialDevice define por
 
 
 //variables para el ADC
-#define ADC_MAX_SAMPLES 6			//cantidad maxima de muestras que debe tomar el adc
+#define ADC_MAX_SAMPLES 4			//cantidad maxima de muestras que debe tomar el adc
 									//hay que tener en cuenta la cantidad de canales del adc que se leen
 const uint8_t adcSamples = ADC_MAX_SAMPLES;    //lo mismo
 volatile uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestras del ADC
 volatile uint8_t adcConverted = 0;
 
 //variables para el compensador digital
-struct comp_t			//estructura que guarda los coeficientes del compensador digital
-{
-	float denCoef[3];				//denominador
-	float numCoef[3];				//numerador
-	float intGain;					//ganancia integrador
-};
-
-struct comp_t digitalComp;
+comp_t digitalComp;			//comp_t definido en common_variables.h
 
 /* USER CODE END PV */
 
@@ -177,48 +170,27 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	/*  //me fijo si el timer4 cumplió el periodo de 3 segundos
-	  if(tim4_period_complete){
-		  tim4_period_complete = 0;
-		  comm_send_conectado();
-	  } */
-
+	 //me fijo si se cumplió el periodo de 3 segundos
 	  if(checkPeriod(sendConectadoPeriod, &tLast_sendConectado)){
 		  comm_send_conectado();
 	  }
 
+	  //me fijo si se cumplió el periodo para envíar los datos a la app
 	  if(enviarDatos & checkPeriod(sendDataPeriod, &tLast_sendData)){
 	  		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	  		  comm_send_data(adcBuf[0],adcBuf[1],adcBuf[2],adcBuf[3]);
 	  	  }
 
-	/*  //me fijo si el timer2 cumplió su periodo para envíar los datos a la app
-	  if(tim2_period_complete & enviarDatos){
-	 		  tim2_period_complete = 0;
-	 		  comm_send_data(adcBuf[0],adcBuf[1],adcBuf[2],adcBuf[3]);
-	 		// HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	 	  } */
-
 	  //si se cumple el numero de conversiones deseadas
 	  if(adcConverted){
 		  adcConverted = 0;
-		  char adcStr[20];
-		  sprintf(adcStr, "%d,%d\r\n", adcBuf[0], adcBuf[1]);
-		  //HAL_UART_Transmit(&huart1, (uint8_t*) adcStr, strlen(adcStr), 100);
 	  }
 
-	  //si se recibe un nuevo comando por uart
+	  //si se recibe un nuevo comando por uart o por usb
 	  if(uart_rx_complete){
-		  uart_rx_complete = 0;
-		  comandoUart = comm_parse(inputBuffer);
-
-		  comm_case(comandoUart);
-		  //tuve que hacer esto, por ahora no me anda hacerlo dentro del comm_case
-		  for(int i = 0; i<3; i++){
-			 digitalComp.numCoef[i] =	comandoUart.coeficientes[i];
-			 digitalComp.denCoef[i] = comandoUart.coeficientes[i+3];
-		 }
-		 digitalComp.intGain = comandoUart.coeficientes[6];
+		  uart_rx_complete = 0;			//reseteo el flag
+		  comandoUart = comm_parse(inputBuffer);		//configura los campos de comandoUart
+		  comm_case(comandoUart);						//decide qué hacer en función del comando
 	  }
   }
   /* USER CODE END 3 */

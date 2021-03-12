@@ -19,7 +19,7 @@ comando_in comm_parse(volatile uint8_t *uart_buff){
 	uint8_t data_len = strlen((char*) uart_buff);
 	comando_in dato;
 
-	char data_buff[data_len];
+	volatile char data_buff[data_len];
 	memcpy(data_buff, uart_buff, data_len);		//copio la string al nuevo char array
 
 		//nos fijamos si lo que recibimos tiene la estructura que sigue
@@ -37,79 +37,53 @@ comando_in comm_parse(volatile uint8_t *uart_buff){
 		{
 			dato.name=INICIO;
 		}
+
 		else if(strstr(data_buff, "DETENER\r\n") != NULL){
 			dato.name = DETENER;
 		}
+
 		else if(strstr(data_buff, "INTERVALO") != NULL){
-					sscanf(data_buff, "INTERVALO,%hd\r\n", &dato.intervalo);
-					dato.name = INTERVALO;
-				}
+			sscanf(data_buff, "INTERVALO,%hd\r\n", &dato.intervalo);
+			dato.name = INTERVALO;
+		}
 		else
 			dato.name=ETC;
+
 	return dato;
 }
 
-void comm_case(comando_in comando_uart)
-/**
-       * Accion segun comando reciido
-       * @param
-       */
+void comm_case(comando_in comando_uart){
 
-{
-	switch ((uint8_t) comando_uart.name)
-	{
+	switch ((uint8_t) comando_uart.name){
 		case INICIO:
-		{/************************************************
-		 *  @description:
-		 ***********************************************/
-
-			 /* char strCoef[100];
-			  sprintf(strCoef, "%9.6f,%9.6f,%9.6f,%9.6f,%9.6f,%9.6f,%9.6f\r\n",
-										  comp_coeff[0],
-										  comp_coeff[1],
-										  comp_coeff[2],
-										  comp_coeff[3],
-										  comp_coeff[4],
-										  comp_coeff[5],
-										  comp_coeff[6]
-					 );  //9.6f para recibir float con 6 digitos decimales
-
-			  //HAL_UART_Transmit(&huart1, (uint8_t*) strCoef, strlen(strCoef), 100); */
-
-			 enviarDatos = 1;							//para comenzar el envío de datos a la interfaz
-			 // HAL_TIM_Base_Start_IT(&htim2);
-		break;
+		{
+			for(int i = 0; i<3; i++){
+			digitalComp.numCoef[i] =	comando_uart.coeficientes[i];
+			digitalComp.denCoef[i] = comando_uart.coeficientes[i+3];
+			}
+			digitalComp.intGain = comando_uart.coeficientes[6];
+			enviarDatos = 1;				//para comenzar el envío de datos a la interfaz
+			break;
 		}
 		case DETENER:
-				{/************************************************
-				 *  @description:
-				 ***********************************************/
-					enviarDatos = 0;
-					//HAL_TIM_Base_Stop_IT(&htim2);
-				break;
-				}
-		case INTERVALO:
-						{/************************************************
-						 *  @description:
-						 ***********************************************/
-							sendDataPeriod = comando_uart.intervalo;
-						break;
-						}
-		case ETC:
-				{/************************************************
-				 *  @description:
-				 ***********************************************/
-					serialSend(serialDevice,(uint8_t*) "HOLA GATO\r\n", strlen("HOLA GATO\r\n\0"), 100);
-							 // comando_uart.name = CMD_NULL;
-
-				break;
-				}
-		case CMD_NULL:
-		{/************************************************
-		 *  @description:
-		 ***********************************************/
-			serialSend(serialDevice,(uint8_t*) "NULL\r\n", strlen("NULL\r\n\0"), 100);
+		{
+			enviarDatos = 0;
 		break;
+		}
+		case INTERVALO:
+		{
+			sendDataPeriod = comando_uart.intervalo;
+			break;
+		}
+		case ETC:
+		{
+			serialSend(serialDevice,(uint8_t*) "HOLA GATO\r\n", strlen("HOLA GATO\r\n\0"), 100);
+			break;
+		}
+		case CMD_NULL:
+		{
+			serialSend(serialDevice,(uint8_t*) "NULL\r\n", strlen("NULL\r\n\0"), 100);
+			break;
 		}
 	}
 }

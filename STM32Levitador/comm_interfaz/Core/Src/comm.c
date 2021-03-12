@@ -19,8 +19,8 @@ comando_in comm_parse(volatile uint8_t *uart_buff){
 	uint8_t data_len = strlen((char*) uart_buff);
 	comando_in dato;
 
-	volatile char data_buff[data_len];
-	memcpy(data_buff, uart_buff, data_len);		//copio la string al nuevo char array
+	char data_buff[data_len];
+	memcpy(data_buff, (uint8_t*) uart_buff, data_len);		//copio la string al nuevo char array
 
 		//nos fijamos si lo que recibimos tiene la estructura que sigue
 	if(7 == sscanf(data_buff,
@@ -130,7 +130,7 @@ void serialSend(serialDevice_t device, uint8_t * buf, size_t bufLen, uint32_t ti
 
 //esta función es llamada desde el archivo usbd_cdc_if.c, en la función CDC_Receive_FS
 void usbReceive(uint8_t * Buf, uint32_t * Len){
-	memcpy(inputBuffer, Buf, *Len);
+	memcpy( (uint8_t*) inputBuffer, Buf, *Len);
 	inputBuffer[*Len] = '\0';
 	uart_rx_complete = 1;
 }

@@ -84,8 +84,8 @@ volatile uint8_t uart_rx_complete = 0;
 
 
 //tipo de dato serialDevice_t definido en common_variables.h
-serialDevice_t serialDevice = USB_SERIAL;	 //la variable serialDevice define por dónde se envían los datos
-
+//serialDevice_t serialDevice = USB_SERIAL;	 //la variable serialDevice define por dónde se envían los datos
+serialDevice_t serialDevice = UART1;
 
 //variables para el ADC
 #define ADC_MAX_SAMPLES 4			//cantidad maxima de muestras que debe tomar el adc

@@ -93,6 +93,7 @@ serialDevice_t serialDevice = UART1;
 const uint8_t adcSamples = ADC_MAX_SAMPLES;    //lo mismo
 volatile uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestras del ADC
 volatile uint8_t adcConverted = 0;
+const uint32_t ADC_SAMPLE_FREQ = 50000;					//frecuencia de muestreo del adc en Hz
 
 //variables para el compensador digital
 comp_t digitalComp;			//comp_t definido en common_variables.h
@@ -154,6 +155,9 @@ int main(void)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
+
+  setAdcFreq(ADC_SAMPLE_FREQ);    //setea la frecuencia de muestreo del adc
+
  // HAL_TIM_Base_Start_IT(&htim4);			//inicio el tim4 para enviar la secuencia conectado
   HAL_UART_Receive_DMA(&huart1, &uart1ReceivedData, 1);	//inicio la recepción por uart dma
 
@@ -177,13 +181,14 @@ int main(void)
 
 	  //me fijo si se cumplió el periodo para envíar los datos a la app
 	  if(enviarDatos & checkPeriod(sendDataPeriod, &tLast_sendData)){
-	  		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	  		 // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	  		  comm_send_data(adcBuf[0],adcBuf[1],adcBuf[2],adcBuf[3]);
 	  	  }
 
 	  //si se cumple el numero de conversiones deseadas
 	  if(adcConverted){
 		  adcConverted = 0;
+		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	  }
 
 	  //si se recibe un nuevo comando por uart o por usb

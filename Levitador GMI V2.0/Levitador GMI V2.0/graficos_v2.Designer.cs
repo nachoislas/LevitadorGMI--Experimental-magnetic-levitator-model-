@@ -81,6 +81,7 @@ namespace Levitador_GMI_V2._0
             this.chartCompensador.Legends.Add(legend2);
             this.chartCompensador.Location = new System.Drawing.Point(12, 211);
             this.chartCompensador.Name = "chartCompensador";
+            series2.BorderWidth = 4;
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series2.Legend = "Legend1";
@@ -99,10 +100,12 @@ namespace Levitador_GMI_V2._0
             this.chartPosicion.Legends.Add(legend3);
             this.chartPosicion.Location = new System.Drawing.Point(12, 420);
             this.chartPosicion.Name = "chartPosicion";
+            series3.BorderWidth = 4;
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series3.Legend = "Legend1";
             series3.Name = "series1";
+            series4.BorderWidth = 4;
             series4.ChartArea = "ChartArea1";
             series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series4.Legend = "Legend1";

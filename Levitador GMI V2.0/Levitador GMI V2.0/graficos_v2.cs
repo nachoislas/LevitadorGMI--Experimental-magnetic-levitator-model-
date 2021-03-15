@@ -93,7 +93,7 @@ namespace Levitador_GMI_V2._0
 
                 chart.ChartAreas[0].AxisX.Minimum = chart.Series[serie].Points[0].XValue;
                 chart.ChartAreas[0].AxisX.Maximum = X;
-                chart.ChartAreas[0].AxisY.Maximum = 4096;
+               // chart.ChartAreas[0].AxisY.Maximum = 4096;
             }
         }
     }

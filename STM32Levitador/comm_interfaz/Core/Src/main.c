@@ -19,13 +19,14 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "comm.h"
 #include "common_variables.h"
 #include "time_functions.h"
+#include "compensador.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -51,7 +52,6 @@
 ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
-TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 
@@ -63,15 +63,14 @@ DMA_HandleTypeDef hdma_usart1_rx;
 //variables de prueba del time_functions
 uint32_t tLast1 = 0;
 
-//variables para el timer4
-volatile uint8_t tim4_period_complete = 0;     //flag para ver si se cumplió un periodo del timer 4
-const uint16_t sendConectadoPeriod = 3000;
-uint32_t tLast_sendConectado = 0;
+//variables para el envio de la secuencia CONECTADO
+const uint16_t sendConectadoPeriod = 3000;		//intervalo de tiempo en milisegundos
+uint32_t tLast_sendConectado = 0;				//variable para almacenar el último tiempo que se envió
 
-//variables para el timer2
-volatile uint8_t tim2_period_complete = 0;     //flag para ver si se cumplió un periodo del timer 2
-int16_t sendDataPeriod = 60;
-uint32_t tLast_sendData = 0;
+//variables para el envío de valores a la interfaz
+int16_t sendDataPeriod = 60;					//intervalo de tiempo en milisegundos
+uint32_t tLast_sendData = 0;					//variable para almacenar el último tiempo que se envió
+
 //variables para comunicación con la interfaz
 uint8_t enviarDatos = 0;   						//flag para saber si se deben enviar datos o no
 
@@ -88,15 +87,16 @@ volatile uint8_t uart_rx_complete = 0;
 serialDevice_t serialDevice = UART1;
 
 //variables para el ADC
-#define ADC_MAX_SAMPLES 4			//cantidad maxima de muestras que debe tomar el adc
-									//hay que tener en cuenta la cantidad de canales del adc que se leen
-const uint8_t adcSamples = ADC_MAX_SAMPLES;    //lo mismo
+const uint8_t adcSamples = ADC_MAX_SAMPLES;    //cantidad de muestras a tomar
 volatile uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestras del ADC
-volatile uint8_t adcConverted = 0;
+volatile uint8_t adcConverted = 0;					//flag que indica si hay nuevos valores disponibles del adc
 const uint32_t ADC_SAMPLE_FREQ = 50000;					//frecuencia de muestreo del adc en Hz
 
 //variables para el compensador digital
 comp_t digitalComp;			//comp_t definido en common_variables.h
+float Yestimada, Yreferencia;			//variables para los valores de posición
+float corriente_actual, corriente_anterior,  corriente_media; 	//variables para almacenar los valores de la corriente
+uint16_t corriente_media_int;
 
 /* USER CODE END PV */
 
@@ -108,7 +108,6 @@ static void MX_TIM3_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_TIM4_Init(void);
-static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -150,12 +149,11 @@ int main(void)
   MX_TIM3_Init();
   MX_USART1_UART_Init();
   MX_ADC1_Init();
-  MX_TIM4_Init();
-  MX_TIM2_Init();
   MX_USB_DEVICE_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
-
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
   setAdcFreq(ADC_SAMPLE_FREQ);    //setea la frecuencia de muestreo del adc
 
  // HAL_TIM_Base_Start_IT(&htim4);			//inicio el tim4 para enviar la secuencia conectado
@@ -174,6 +172,17 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	  //si se cumple el numero de conversiones deseadas
+	  if(adcConverted){
+		  adcConverted = 0;
+		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+
+		  leerCorriente(&corriente_actual, &corriente_anterior, &corriente_media);
+		  Yestimada = estimar(corriente_actual, corriente_anterior);
+	  }
+
+
 	 //me fijo si se cumplió el periodo de 3 segundos
 	  if(checkPeriod(sendConectadoPeriod, &tLast_sendConectado)){
 		  comm_send_conectado();
@@ -182,14 +191,16 @@ int main(void)
 	  //me fijo si se cumplió el periodo para envíar los datos a la app
 	  if(enviarDatos & checkPeriod(sendDataPeriod, &tLast_sendData)){
 	  		 // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  		  comm_send_data(adcBuf[0],adcBuf[1],adcBuf[2],adcBuf[3]);
+	  		  comm_send_data((uint16_t) Yestimada, (uint16_t) corriente_media, (uint16_t) corriente_actual,  adcBuf[3]);
+
+	  		  char strEstim[20];
+	  		  sprintf(strEstim, "%5.2f\r\n", Yestimada);
+	  		//  serialSend(serialDevice, (uint8_t*) strEstim, strlen(strEstim), 100);
+
+	  		 // __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, adcBuf[0]);
 	  	  }
 
-	  //si se cumple el numero de conversiones deseadas
-	  if(adcConverted){
-		  adcConverted = 0;
-		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  }
+
 
 	  //si se recibe un nuevo comando por uart o por usb
 	  if(uart_rx_complete){
@@ -301,51 +312,6 @@ static void MX_ADC1_Init(void)
 }
 
 /**
-  * @brief TIM2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM2_Init(void)
-{
-
-  /* USER CODE BEGIN TIM2_Init 0 */
-
-  /* USER CODE END TIM2_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM2_Init 1 */
-
-  /* USER CODE END TIM2_Init 1 */
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 1000 - 1;
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 18000 - 1;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM2_Init 2 */
-
-  /* USER CODE END TIM2_Init 2 */
-
-}
-
-/**
   * @brief TIM3 Initialization Function
   * @param None
   * @retval None
@@ -404,14 +370,15 @@ static void MX_TIM4_Init(void)
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
 
   /* USER CODE BEGIN TIM4_Init 1 */
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 10000 - 1;
+  htim4.Init.Prescaler = 20 - 1;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 21600 - 1;
+  htim4.Init.Period = 100 - 1;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
@@ -423,15 +390,28 @@ static void MX_TIM4_Init(void)
   {
     Error_Handler();
   }
+  if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 50;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
+  HAL_TIM_MspPostInit(&htim4);
 
 }
 
@@ -500,6 +480,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);

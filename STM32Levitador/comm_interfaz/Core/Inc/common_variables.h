@@ -57,4 +57,9 @@ typedef struct 			//estructura que guarda los coeficientes del compensador digit
 
 extern comp_t digitalComp;
 
+#define ADC_MAX_SAMPLES 4			//cantidad maxima de muestras que debe tomar el adc
+									//hay que tener en cuenta la cantidad de canales del adc que se leen
+extern const uint32_t ADC_SAMPLE_FREQ;		//frecuencia de muestreo del adc
+extern volatile uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestras del ADC
+
 #endif /* INC_COMMON_VARIABLES_H_ */

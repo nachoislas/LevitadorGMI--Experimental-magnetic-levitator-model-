@@ -94,7 +94,7 @@ const uint32_t ADC_SAMPLE_FREQ = 50000;					//frecuencia de muestreo del adc en 
 
 //variables para el compensador digital
 comp_t digitalComp;			//comp_t definido en common_variables.h
-float Yestimada, Yreferencia;			//variables para los valores de posición
+float Yestimada, Yreferencia, Yestimada_prom;			//variables para los valores de posición
 float corriente_actual, corriente_anterior,  corriente_media; 	//variables para almacenar los valores de la corriente
 uint16_t corriente_media_int;
 
@@ -176,12 +176,9 @@ int main(void)
 	  //si se cumple el numero de conversiones deseadas
 	  if(adcConverted){
 		  adcConverted = 0;
-		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-
-		  leerCorriente(&corriente_actual, &corriente_anterior, &corriente_media);
+		  leerCorriente(&corriente_actual, &corriente_anterior);
 		  Yestimada = estimar(corriente_actual, corriente_anterior);
 	  }
-
 
 	 //me fijo si se cumplió el periodo de 3 segundos
 	  if(checkPeriod(sendConectadoPeriod, &tLast_sendConectado)){
@@ -376,7 +373,7 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 20 - 1;
+  htim4.Init.Prescaler = 1500 - 1;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 100 - 1;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -409,7 +406,7 @@ static void MX_TIM4_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM4_Init 2 */
-
+ // htim4.Init.Prescaler = 2000 - 1;
   /* USER CODE END TIM4_Init 2 */
   HAL_TIM_MspPostInit(&htim4);
 

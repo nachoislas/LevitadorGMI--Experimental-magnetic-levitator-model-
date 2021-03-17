@@ -10,8 +10,13 @@
 
 #include "main.h"
 #include "common_variables.h"
+#include <math.h>
+
+
+
+
 //función para convertir los valores del adc en corriente en Amp
-void leerCorriente(float * actual, float * anterior, float * media);
+void leerCorriente(float * actual, float * anterior);
 float convert_adc_en_corriente(uint16_t adcVal);
 float estimar(float corr_actual, float corr_anterior);
 

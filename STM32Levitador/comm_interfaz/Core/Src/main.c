@@ -95,6 +95,7 @@ const uint32_t ADC_SAMPLE_FREQ = 50000;					//frecuencia de muestreo del adc en 
 //variables para el compensador digital
 comp_t digitalComp;			//comp_t definido en common_variables.h
 float Yestimada, Yreferencia, Yestimada_prom;			//variables para los valores de posición
+float ViL_actual, ViL_anterior;						//para almacenar el valor de la salida del sensor de efecto hall
 float corriente_actual, corriente_anterior,  corriente_media; 	//variables para almacenar los valores de la corriente
 uint16_t corriente_media_int;
 
@@ -176,8 +177,10 @@ int main(void)
 	  //si se cumple el numero de conversiones deseadas
 	  if(adcConverted){
 		  adcConverted = 0;
-		  leerCorriente(&corriente_actual, &corriente_anterior);
-		  Yestimada = estimar(corriente_actual, corriente_anterior);
+		  leerSensorHall(&ViL_actual, &ViL_anterior);
+		  corriente_actual = ViL_actual / 0.05 - 2.5;
+		  corriente_anterior = ViL_anterior / 0.05 - 2.5;
+		  Yestimada = estimar(ViL_actual, ViL_anterior);
 	  }
 
 	 //me fijo si se cumplió el periodo de 3 segundos

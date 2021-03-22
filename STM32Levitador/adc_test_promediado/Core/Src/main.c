@@ -75,9 +75,9 @@ void setAdcFreq(uint32_t fSample){
 	}
 }
 
-void derivar(float * array, uint16_t * adc, uint16_t size){
+void derivar(float * array, uint16_t * adc, uint16_t size, uint32_t fSample){
 	for(int i = 0; i < size - 1; i++){
-		array[i] = abs((adc[i + 1] - adc[i]) * 50000 * 3.3 / 4095);
+		array[i] = abs((adc[i + 1] - adc[i]) * fSample * 3.3 / 4095);
 	}
 }
 
@@ -126,6 +126,7 @@ float derivadas[adcSamples];
 float deriv_promedio;
 float Yestimada;
 float corriente_media;
+uint32_t fSample = 50000;
 /* USER CODE END 0 */
 
 /**
@@ -162,7 +163,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-  setAdcFreq(50000);
+  setAdcFreq(fSample);
   HAL_TIM_OC_Start(&htim4, TIM_CHANNEL_1);
 
 
@@ -186,7 +187,7 @@ int main(void)
 		 adcConverted = 0;
 		 HAL_TIM_Base_Stop(&htim3);
 		 corriente_media = obtenerCorrienteMedia(adcBuf, adcSamples);
-		 derivar(derivadas, adcBuf, adcSamples);
+		 derivar(derivadas, adcBuf, adcSamples, fSample);
 		 deriv_promedio = promediar(derivadas, adcSamples);
 		 Yestimada = estimar(deriv_promedio);
 

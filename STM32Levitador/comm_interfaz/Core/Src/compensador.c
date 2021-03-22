@@ -15,6 +15,15 @@ void leerSensorHall(float * actual, float * anterior){
 	*actual = convert_adc_en_corriente(adcBuf[2]);  //acá sería el 2
 }
 
+float obtenerCorrienteMedia(uint16_t * adc, uint16_t size){
+	float sum = 0;
+	for(int i= 0; i< size; i++){
+		sum += adc[i] * 3.3 / (4095 * size * 0.05);
+	}
+	return sum;
+}
+
+/*
 float estimar(float Vcorr_actual, float Vcorr_anterior){
 	//constantes del electroimán
 	const uint8_t N = 150;
@@ -31,4 +40,38 @@ float estimar(float Vcorr_actual, float Vcorr_anterior){
 		estimacion *= -1;
 	return estimacion;
 }
+*/
+
+void derivar(float * array, uint16_t * adc, uint16_t size, uint32_t fSample){
+	for(int i = 0; i < size - 1; i++){
+		array[i] = abs((adc[i + 1] - adc[i]) * fSample * 3.3 / 4095);
+		//array[i] = abs((adc[i + 1] - adc[i]));
+	}
+}
+
+float promediar(float * array, uint16_t size){
+	float sum = 0;
+	for(int i = 0; i < size - 1; i++){
+		sum += array[i] / size;
+	}
+	return sum;
+}
+
+float estimar(float derivada){
+	//constantes del electroimán
+	const uint8_t N = 150;
+	const float mu0 = 4 * 3.1415 * 1e-7;
+	const float Kh = 1;
+	const float A = 25e-4;
+	const uint8_t Vbus = 24;
+	const float Linf = 12e-3;
+	float estimacion;
+	//float derivada = 1000 * (corr_actual - corr_anterior);
+	estimacion =  mu0 * N * N * A * derivada / (2 * (Kh * Vbus -  Linf * derivada));
+	if(estimacion < 0)
+		estimacion *= -1;
+	return estimacion;
+}
+
+
 

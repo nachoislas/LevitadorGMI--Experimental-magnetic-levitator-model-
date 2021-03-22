@@ -31,6 +31,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 #include "usbd_cdc_if.h"
 /* USER CODE END Includes */
 
@@ -95,10 +96,14 @@ const uint32_t ADC_SAMPLE_FREQ = 50000;					//frecuencia de muestreo del adc en 
 //variables para el compensador digital
 comp_t digitalComp;			//comp_t definido en common_variables.h
 float Yestimada, Yreferencia, Yestimada_prom;			//variables para los valores de posición
-float ViL_actual, ViL_anterior;						//para almacenar el valor de la salida del sensor de efecto hall
-float corriente_actual, corriente_anterior,  corriente_media; 	//variables para almacenar los valores de la corriente
+//float ViL_actual, ViL_anterior;						//para almacenar el valor de la salida del sensor de efecto hall
+//float corriente_actual, corriente_anterior,  corriente_media; 	//variables para almacenar los valores de la corriente
 uint16_t corriente_media_int;
 
+float derivadas[ADC_MAX_SAMPLES];
+float deriv_promedio;
+//float Yestimada;
+float corriente_media;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -177,10 +182,19 @@ int main(void)
 	  //si se cumple el numero de conversiones deseadas
 	  if(adcConverted){
 		  adcConverted = 0;
+		  HAL_TIM_Base_Stop(&htim3);
+		  corriente_media = obtenerCorrienteMedia((uint16_t *) adcBuf, adcSamples);
+		  derivar(derivadas, (uint16_t *) adcBuf, adcSamples, ADC_SAMPLE_FREQ);
+		  deriv_promedio = promediar(derivadas, adcSamples);
+		  Yestimada = estimar(deriv_promedio);
+
+		  /*
 		  leerSensorHall(&ViL_actual, &ViL_anterior);
 		  corriente_actual = ViL_actual / 0.05 - 2.5;
 		  corriente_anterior = ViL_anterior / 0.05 - 2.5;
-		  Yestimada = estimar(ViL_actual, ViL_anterior);
+		  Yestimada = estimar(ViL_actual, ViL_anterior); */
+		  HAL_TIM_Base_Start(&htim3);
+
 	  }
 
 	 //me fijo si se cumplió el periodo de 3 segundos
@@ -191,7 +205,7 @@ int main(void)
 	  //me fijo si se cumplió el periodo para envíar los datos a la app
 	  if(enviarDatos & checkPeriod(sendDataPeriod, &tLast_sendData)){
 	  		 // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  		  comm_send_data((uint16_t) Yestimada, (uint16_t) corriente_media, (uint16_t) corriente_actual,  adcBuf[3]);
+	  		  comm_send_data((uint16_t) Yestimada, (uint16_t) corriente_media, adcBuf[2],  adcBuf[3]);
 
 	  		  char strEstim[20];
 	  		  sprintf(strEstim, "%5.2f\r\n", Yestimada);
@@ -278,12 +292,12 @@ static void MX_ADC1_Init(void)
   /** Common config
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ScanConvMode = ADC_SCAN_ENABLE;
+  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T3_TRGO;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 2;
+  hadc1.Init.NbrOfConversion = 1;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
     Error_Handler();
@@ -293,14 +307,6 @@ static void MX_ADC1_Init(void)
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_13CYCLES_5;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure Regular Channel
-  */
-  sConfig.Channel = ADC_CHANNEL_1;
-  sConfig.Rank = ADC_REGULAR_RANK_2;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();

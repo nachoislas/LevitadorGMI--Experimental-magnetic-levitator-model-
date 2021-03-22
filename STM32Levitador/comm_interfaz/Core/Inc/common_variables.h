@@ -20,6 +20,8 @@ extern TIM_HandleTypeDef htim2;
 extern volatile uint8_t tim2_period_complete;
 extern int16_t sendDataPeriod;
 
+extern TIM_HandleTypeDef htim3;
+
 //variables externas de la UART
 extern  uint8_t uart1ReceivedData;
 extern UART_HandleTypeDef huart1;
@@ -54,5 +56,10 @@ typedef struct 			//estructura que guarda los coeficientes del compensador digit
 } comp_t;
 
 extern comp_t digitalComp;
+
+#define ADC_MAX_SAMPLES 4			//cantidad maxima de muestras que debe tomar el adc
+									//hay que tener en cuenta la cantidad de canales del adc que se leen
+extern const uint32_t ADC_SAMPLE_FREQ;		//frecuencia de muestreo del adc
+extern volatile uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestras del ADC
 
 #endif /* INC_COMMON_VARIABLES_H_ */

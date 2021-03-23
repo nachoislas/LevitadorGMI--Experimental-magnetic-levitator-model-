@@ -15,12 +15,6 @@
 
 
 
-
-//función para convertir los valores del adc en corriente en Amp
-void leerSensorHall(float * actual, float * anterior);
-float convert_adc_en_corriente(uint16_t adcVal);
-//float estimar(float corr_actual, float corr_anterior);
-
 float obtenerCorrienteMedia(uint16_t * adc, uint16_t size);
 void derivar(float * array, uint16_t * adc, uint16_t size, uint32_t fSample);
 float promediar(float * array, uint16_t size);

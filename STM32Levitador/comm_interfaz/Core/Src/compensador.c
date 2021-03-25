@@ -34,12 +34,12 @@ float promediar(float * array, uint16_t size){
 //estima la posición a partir de la derivada promedio
 float estimar(float derivada){
 	//constantes del electroimán
-	const uint8_t N = 150;
+	/*const uint8_t N = 150;
 	const float mu0 = 4 * 3.1415 * 1e-7;
 	const float Kh = 1;
 	const float A = 25e-4;
 	const uint8_t Vbus = 24;
-	const float Linf = 12e-3;
+	const float Linf = 12e-3; */
 	float estimacion;
 
 	//usando estimación con formula alineal

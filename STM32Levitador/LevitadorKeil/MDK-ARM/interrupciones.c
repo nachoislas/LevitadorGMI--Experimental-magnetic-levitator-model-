@@ -14,6 +14,11 @@ extern ADC_HandleTypeDef hadc1;
 
 extern const uint8_t adcSamples;  //puede ser otro numero
 extern uint16_t adcBuf[1];
+uint16_t adcBuf2=0;
+uint16_t adcBuf3=0;
+uint16_t salida1=0;
+uint16_t salida0=0;
+
 
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
@@ -51,20 +56,16 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef * hadc){
 	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
 	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-	HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, 
-		DAC_ALIGN_12B_R, 2000);
-	/*double val = 0;
-	uint32_t var = (uint32_t)(val*4096)/3.3;
-	for (float m=0; m<=3.3; m=0.1+m)
-	{
-		var = 4095*m/3.3;
-		HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, 
-		DAC_ALIGN_12B_R, var);
-	}*/
-	
+	salida0=((adcBuf[0])+(adcBuf2))/2;
+	//salida0=0.5*(0.8*adcBuf[0]+0.3*adcBuf2+0.4*adcBuf3);
+	adcBuf3=adcBuf2;
+	adcBuf2=salida0;
 	
 
-//HAL_ADC_Start_DMA(&hadc1, (uint32_t*) adcBuf, adcSamples);
+	salida1=salida0;
+	HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, 
+		DAC_ALIGN_12B_R, salida0);
+	
 }
 
 

@@ -76,8 +76,15 @@ void setAdcFreq(uint32_t fSample){
 }
 
 void derivar(float * array, uint16_t * adc, uint16_t size, uint32_t fSample){
+	float constant = 3.3 * fSample / 4095;
 	for(int i = 0; i < size - 1; i++){
-		array[i] = abs((adc[i + 1] - adc[i]) * fSample * 3.3 / 4095);
+		float temp;
+		temp = adc[i + 1] - adc[i];
+		temp *= constant;
+		array[i] = temp;
+//		array[i] = (adc[i + 1] - adc[i]) * fSample * 3.3 / 4095;
+		if(array[i] < 0)
+			array[i] *= -1;
 	}
 }
 

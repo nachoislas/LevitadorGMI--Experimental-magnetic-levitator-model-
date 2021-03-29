@@ -13,4 +13,8 @@ Debug/
 Release/
 >>>>>>> 33289cbc09f3413d6adcdd01656f6810d5e10413
 
+
+#cosas para excluir del Altium
 *.zip
+_Previews/
+History/

@@ -89,13 +89,16 @@ serialDevice_t serialDevice = UART1;
 
 //variables para el ADC
 const uint8_t adcSamples = ADC_MAX_SAMPLES;    //cantidad de muestras a tomar
+const uint8_t adcSamples_per_ch = adcSamples / 2;		//muestras por canal
 volatile uint16_t adcBuf[ADC_MAX_SAMPLES];			//buffer para almacenar las muestras del ADC
+uint16_t adc_ch0[ADC_MAX_SAMPLES / 2];						//PARA ALMACENAR LAS MEUSTRAS DEL CANAL 0
+uint16_t adc_ch1[ADC_MAX_SAMPLES / 2];
 volatile uint8_t adcConverted = 0;					//flag que indica si hay nuevos valores disponibles del adc
 const uint32_t ADC_SAMPLE_FREQ = 50000;					//frecuencia de muestreo del adc en Hz
 
 //variables para el compensador digital
 comp_t digitalComp;			//comp_t definido en common_variables.h
-float Yestimada, Yreferencia, Yestimada_prom;			//variables para los valores de posición
+float Yestimada_mm, Yreferencia_mm, Yestimada_prom;			//variables para los valores de posición en mm
 //float ViL_actual, ViL_anterior;						//para almacenar el valor de la salida del sensor de efecto hall
 //float corriente_actual, corriente_anterior,  corriente_media; 	//variables para almacenar los valores de la corriente
 uint16_t corriente_media_int;
@@ -159,7 +162,8 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_TIM_OC_Start(&htim4, TIM_CHANNEL_1);
+  HAL_TIM_OC_Start(&htim4, TIM_CHANNEL_1);  //esto es una señal de prueba para generar una onda cuadrada
+
   setAdcFreq(ADC_SAMPLE_FREQ);    //setea la frecuencia de muestreo del adc
 
  // HAL_TIM_Base_Start_IT(&htim4);			//inicio el tim4 para enviar la secuencia conectado
@@ -183,10 +187,25 @@ int main(void)
 	  if(adcConverted){
 		  adcConverted = 0;
 		  HAL_TIM_Base_Stop(&htim3);
-		  corriente_media = obtenerCorrienteMedia((uint16_t *) adcBuf, adcSamples);
-		  derivar(derivadas, (uint16_t *) adcBuf, adcSamples, ADC_SAMPLE_FREQ);
-		  deriv_promedio = promediar(derivadas, adcSamples);
-		  Yestimada = estimar(deriv_promedio);
+
+		  //esto es para separar las muestras del canal 1 y el 2
+		  for(int i= 0; i < adcSamples; i = i + 2){
+			  adc_ch0[i/2] = adcBuf[i];
+			  adc_ch1[i/2] = adcBuf[i+1];
+		  }
+
+		  //acá calculamos la posición de referencia que se lee por el canal 1
+		  Yreferencia_mm = 2 * adc_ch1[0] * 3.3 / 4095;	//el dos es suponiendo que ponemos un divisor resistivo a la entrada
+		  Yreferencia_mm -= 3.4687;
+		  Yreferencia_mm /= 0.2125;
+
+		  //acá calculamos la posición estimada
+		  corriente_media = obtenerCorrienteMedia((uint16_t *) adc_ch0, adcSamples_per_ch);
+		  derivar(derivadas, (uint16_t *) adc_ch0, adcSamples_per_ch, ADC_SAMPLE_FREQ);
+		  deriv_promedio = promediar(derivadas, adcSamples_per_ch);
+		  Yestimada_mm = estimar(deriv_promedio);
+
+		  //acá hay que aplicar el algoritmo de compensación
 
 
 		  HAL_TIM_Base_Start(&htim3);
@@ -201,10 +220,10 @@ int main(void)
 	  //me fijo si se cumplió el periodo para envíar los datos a la app
 	  if(enviarDatos & checkPeriod(sendDataPeriod, &tLast_sendData)){
 	  		 // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  		  comm_send_data((uint16_t) Yestimada, (uint16_t) corriente_media, adcBuf[2],  adcBuf[3]);
+	  		  comm_send_data((uint16_t) Yestimada_mm, (uint16_t) corriente_media, adcBuf[2],  adcBuf[3]);
 
 	  		  char strEstim[20];
-	  		  sprintf(strEstim, "%5.2f\r\n", Yestimada);
+	  		  sprintf(strEstim, "%5.2f\r\n", Yestimada_mm);
 	  		//  serialSend(serialDevice, (uint8_t*) strEstim, strlen(strEstim), 100);
 
 	  		 // __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, adcBuf[0]);
@@ -288,12 +307,12 @@ static void MX_ADC1_Init(void)
   /** Common config
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc1.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T3_TRGO;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.NbrOfConversion = 2;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
     Error_Handler();
@@ -302,7 +321,15 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_13CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_1;
+  sConfig.Rank = ADC_REGULAR_RANK_2;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();

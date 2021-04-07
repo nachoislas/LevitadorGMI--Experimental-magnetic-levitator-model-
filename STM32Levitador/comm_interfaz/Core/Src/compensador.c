@@ -58,7 +58,7 @@ float estimar(float derivada){
 	//estimacion =  mu0 * N * N * A * derivada / (2 * (Kh * Vbus -  Linf * derivada));
 
 	//usando estimación con aproximación lineal por las mediciones que hicimos
-	estimacion = (derivada - 7.75e2 )/ 1.7e5;
+	estimacion = 1000 * (derivada - 7.75e2 )/ 1.7e5;
 
 	if(estimacion < 0)
 		estimacion *= -1;

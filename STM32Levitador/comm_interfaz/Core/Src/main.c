@@ -98,15 +98,25 @@ const uint32_t ADC_SAMPLE_FREQ = 50000;					//frecuencia de muestreo del adc en 
 
 //variables para el compensador digital
 comp_t digitalComp;			//comp_t definido en common_variables.h
-float Yestimada_mm, Yreferencia_mm, Yestimada_prom;			//variables para los valores de posición en mm
+float Yestimada_m, Yreferencia_m, Yestimada_prom;			//variables para los valores de posición en mm
 //float ViL_actual, ViL_anterior;						//para almacenar el valor de la salida del sensor de efecto hall
 //float corriente_actual, corriente_anterior,  corriente_media; 	//variables para almacenar los valores de la corriente
 uint16_t corriente_media_int;
+
+float ViLref;							//salida del compensador, que entra al controlador de corriente
+
 
 float derivadas[ADC_MAX_SAMPLES];
 float deriv_promedio;
 //float Yestimada;
 float corriente_media;
+
+
+//estructura del compensador
+comp_t digitalComp;						//compensador digital, tipo de dato definido en common_variables.h
+//coeficientes por defecto del compensador
+const float DEFAULT_DEN_COEF[] = {0, 1.947, -0.9473};		//denominador por defecto del compensador
+const float DEFAULT_NUM_COEF[] = {2.422e6, -4.838e6, 2.416e6}; //numerador por defecto del compensador
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -162,6 +172,26 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
+  //inicialización de los valores del compensador digital
+  digitalComp.sum1.sign_in = -1;
+  digitalComp.sum1.sign_feed = 1;
+  digitalComp.sum2.sign_in = -1;
+  digitalComp.sum2.sign_feed = 1;
+  digitalComp.Kint = 20;				//ganancia del integrador
+  digitalComp.Ts = 0.001;				//1 ms de periodo de muestreo
+  for(int i = 0; i<3; i++){
+	  digitalComp.numCoef[i] = DEFAULT_NUM_COEF[i];
+	  digitalComp.denCoef[i] = DEFAULT_DEN_COEF[i];
+  }
+
+
+
+
+
+
+
+
+
   HAL_TIM_OC_Start(&htim4, TIM_CHANNEL_1);  //esto es una señal de prueba para generar una onda cuadrada
 
   setAdcFreq(ADC_SAMPLE_FREQ);    //setea la frecuencia de muestreo del adc
@@ -195,18 +225,24 @@ int main(void)
 		  }
 
 		  //acá calculamos la posición de referencia que se lee por el canal 1
-		  Yreferencia_mm = 2 * adc_ch1[0] * 3.3 / 4095;	//el dos es suponiendo que ponemos un divisor resistivo a la entrada
-		  Yreferencia_mm -= 3.4687;
-		  Yreferencia_mm /= 0.2125;
+		  Yreferencia_m = 2 * adc_ch1[0] * 3.3 / 4095;	//el dos es suponiendo que ponemos un divisor resistivo a la entrada
+		  Yreferencia_m -= 3.4687;
+		  Yreferencia_m /= 212.5;
+
 
 		  //acá calculamos la posición estimada
 		  corriente_media = obtenerCorrienteMedia((uint16_t *) adc_ch0, adcSamples_per_ch);
 		  derivar(derivadas, (uint16_t *) adc_ch0, adcSamples_per_ch, ADC_SAMPLE_FREQ);
 		  deriv_promedio = promediar(derivadas, adcSamples_per_ch);
-		  Yestimada_mm = estimar(deriv_promedio);
+		  Yestimada_m = estimar(deriv_promedio);
+
+		  digitalComp.Yref = Yreferencia_m;
+		  digitalComp.Yestimada = Yestimada_m;
 
 		  //acá hay que aplicar el algoritmo de compensación
-
+		  compensar(&digitalComp);
+		  ViLref = digitalComp.control2_n;
+		  //poner salida en el DAC ( que no tengo jej)
 
 		  HAL_TIM_Base_Start(&htim3);
 
@@ -220,10 +256,10 @@ int main(void)
 	  //me fijo si se cumplió el periodo para envíar los datos a la app
 	  if(enviarDatos & checkPeriod(sendDataPeriod, &tLast_sendData)){
 	  		 // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  		  comm_send_data((uint16_t) Yestimada_mm, (uint16_t) corriente_media, adcBuf[2],  adcBuf[3]);
+	  		  comm_send_data((uint16_t) Yestimada_m, (uint16_t) corriente_media, adcBuf[2],  adcBuf[3]);
 
 	  		  char strEstim[20];
-	  		  sprintf(strEstim, "%5.2f\r\n", Yestimada_mm);
+	  		  sprintf(strEstim, "%5.2f\r\n", Yestimada_m);
 	  		//  serialSend(serialDevice, (uint8_t*) strEstim, strlen(strEstim), 100);
 
 	  		 // __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, adcBuf[0]);

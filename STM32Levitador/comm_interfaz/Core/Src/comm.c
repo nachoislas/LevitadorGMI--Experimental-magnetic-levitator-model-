@@ -61,7 +61,7 @@ void comm_case(comando_in comando_uart){
 			digitalComp.numCoef[i] =	comando_uart.coeficientes[i];
 			digitalComp.denCoef[i] = comando_uart.coeficientes[i+3];
 			}
-			digitalComp.intGain = comando_uart.coeficientes[6];
+			digitalComp.Kint = comando_uart.coeficientes[6];
 			enviarDatos = 1;				//para comenzar el envío de datos a la interfaz
 			break;
 		}

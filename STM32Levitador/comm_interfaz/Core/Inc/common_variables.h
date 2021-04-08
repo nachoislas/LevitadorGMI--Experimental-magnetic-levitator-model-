@@ -46,13 +46,38 @@ extern serialDevice_t serialDevice;		//variable serialDevice inicializada en mai
 extern volatile uint8_t adcConverted;
 extern ADC_HandleTypeDef hadc1;
 
+typedef struct
+{
+	int sign_in;
+	int sign_feed;
+} sumador_t;
+
+
 
 //compensador
-typedef struct 			//estructura que guarda los coeficientes del compensador digital
+typedef struct 			//estructura que guarda los coeficientes y señales del compensador digital
 {
-	float denCoef[3];				//denominador
-	float numCoef[3];				//numerador
-	float intGain;					//ganancia integrador
+	float Yref;			//posición de referencia en m
+	float Yestimada;	//posición estimada en m
+
+	sumador_t sum1;
+	sumador_t sum2;
+	float Kint;					//ganancia del integrador
+	float Ts;					//periodo de muestreo
+	float error1_n;				//error en n
+	float error1_n1;			//error en n-1
+	float control1_n;				//salida del integrador en n
+	float control1_n1;			//salida del integrador en n-1
+	float error2_n;				//error del segundo sumador en n
+	float error2_n1;
+	float error2_n2;
+	float control2_n;				//salida del compensador por adelanto de fase en n
+	float control2_n1;
+	float control2_n2;
+
+	float denCoef[3];				//coeficientes que afectan a las salidas anteriores del compensador
+	float numCoef[3];				//coeficientes que afectan a la entrada actual y pasadas
+
 } comp_t;
 
 extern comp_t digitalComp;

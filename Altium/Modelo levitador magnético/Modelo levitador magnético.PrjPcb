@@ -107,6 +107,23 @@ GenerateClassCluster=0
 DocumentUniqueId=EUFBWVEW
 
 [Document5]
+DocumentPath=Esquemáticos\uC.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=UPMPLJAA
+
+[Document6]
 DocumentPath=Esquemáticos\Estimador.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -123,7 +140,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=CODDGAOP
 
-[Document6]
+[Document7]
 DocumentPath=..\Librerías\Mi librería.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -138,9 +155,9 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=
+DocumentUniqueId=EMEUOWJX
 
-[Document7]
+[Document8]
 DocumentPath=..\Librerías\Mi libreria.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -155,7 +172,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=
+DocumentUniqueId=NIBQWQYT
 
 [Configuration1]
 Name=Default Configuration

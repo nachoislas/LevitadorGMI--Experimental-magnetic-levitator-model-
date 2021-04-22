@@ -1,0 +1,2 @@
+En el archivo de simulink elegir la posición real y la referencia de corriente. Darle a play el tiempo que se quiera.
+Despues ejecutan el que dice export_corriente.m y se va a generar un archivo de texto llamado "Corriente.txt". Ahí están las muestras de la salida del sensor de efecto hall.

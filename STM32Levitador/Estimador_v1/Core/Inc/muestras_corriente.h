@@ -11,7 +11,7 @@
 //elegir lo que se desea
 
 #define ViLref 5
-#define Ymm 3
+#define Ymm 5
 
 //muestras de corriente generadas por simulink considerando Rl = 0.2 ohm. 
 

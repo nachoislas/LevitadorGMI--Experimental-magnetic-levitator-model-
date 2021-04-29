@@ -43,6 +43,7 @@
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
+const int n = N - 1;
 float X[N];
 const int fs = 10;
 float Ts, interval;
@@ -118,17 +119,17 @@ int main(void)
 		  Y[i] = 0;
 		}
 	  else{
-		X[0] = 1;
-	  	Y[0] = 0;
+		X[n] = 1;							//la posición n es la muestra actual, n-1 es la anterior, etc
+	  	Y[n] = 0;
 	  }
 	  //aplicar filtro
 	  for (int i = 0; i < N; i++) {
-		Y[0] += B[i] * X[i];
+		Y[n] += B[i] * X[n - i];
 	  }
 
 	  for (int i = N - 1; i > 0; i--) {
-		X[i] = X[i - 1];
-		Y[i] = Y[i - 1];
+		X[n - i] = X[n - i + 1];
+		Y[n - i] = Y[n - i + 1];
 	  }
 
 	  vilIndex = (vilIndex + 1) & 63;

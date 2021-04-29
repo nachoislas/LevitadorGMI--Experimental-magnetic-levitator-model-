@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "muestras_corriente.h"
+#include "fdacoefs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -64,20 +65,20 @@ static void MX_USART1_UART_Init(void);
 const uint16_t fs = 50000;
 const float RL = 0.2;
 const float L_4mm = 16.2e-3;
-float IL[numSamples];
+const float Kh = 0.05;				//transductancia del sensor de efecto Hall
+uint16_t vilIndex = 0;
+#define N_ADC 8
+const int n = N_ADC - 1;
+float muestrasADC[N_ADC];
+float IL[N_ADC];
 float ILmed;
 float deltaIL;
-float derivadas[numSamples];
-float Yestimada[numSamples];
-float Yestimada_promedio;
+float derivadas[N_ADC];
+float Yestimada[N_ADC];
+float Yestimada_filtrada[N_ADC];
 
-float corriente(float Xn, float Xn_1){
-		float sum = 0;
-		sum += Xn;
-		sum += Xn_1;
-		sum /= 0.05;
-		sum /= 2;
-		return sum ;
+float corriente(float Xn){
+		return Xn / Kh;
 }
 
 float corriente_media(float * IL){
@@ -96,14 +97,27 @@ float delta_corriente(float  IL){
 	return ILmax - ILmin;
 }
 
-void derivar(float * derivadas, float Xn, float Xn_1, float ILmed, int index){
-	float deriv = 	(Xn - Xn_1) * fs;
+float derivar(float * muestrasADC, float ILmed){
+	float deriv = 	(muestrasADC[n] - muestrasADC[n - 1]) * fs;
 	deriv += ILmed * 0.05 * RL / L_4mm;			//corrección I * R
-	derivadas[index] = deriv;
+	return deriv;
 }
 
-void estimar(float * Yestimada, float * derivadas, int index){
-		Yestimada[index] = (20 * abs(derivadas[index]) - 7.75e2) / 1.7e5;
+float estimar(float derivada){
+		float estim = (20 * abs(derivada) - 7.75e2) / 1.7e5;
+		if(estim < 8e-3)
+			return estim;
+		else
+			return 8e-3;						//esto lo hago para que la primera muestra no sea tan erronea
+}
+
+
+float filtrar(float * X, float * Y){			//acá la Y significa la salida del filtro, no la posición en mm
+	Y[n] = 0;
+	for (int i = 0; i < N_ADC; i++) {				//acá aplico el filtro
+		Y[n] += B[i] * X[n - i];			//B son los coeficientes de un filtro FIR
+	 }
+	 return Y[n];
 }
 
 float promediar(float * Yestimada){
@@ -156,30 +170,28 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  ILmed = 0;
-	  for(int i = 0; i < 100; i += 2){
-		  float Xn = ViL[i + 1];
-		  float Xn_1 = ViL[i];
-		  int j = i / 2;
-		  IL[j] = corriente(Xn, Xn_1);
-		  ILmed = (IL[j] + ILmed) / 2;
-		  deltaIL = delta_corriente(IL[j]);
-		  derivar(derivadas, Xn, Xn_1, ILmed, j);
-		  estimar(Yestimada, derivadas, j);
-		  Yestimada_promedio = (Yestimada_promedio + Yestimada[j]) / 2;
-	  }
 
+	  //leo la muestra de corriente y la pongo al final del array del ADC
+	  muestrasADC[n] = ViL[vilIndex];
+	  IL[n] = corriente(muestrasADC[n]);			//calculo el valor en corriente
+	  ILmed = (IL[n] + ILmed) / 2;							//añado al promedio movil
+	  //deltaIL
+	  derivadas[n]  = derivar(muestrasADC, ILmed);
+	  Yestimada[n]  = estimar(derivadas[n]);
+	  Yestimada_filtrada[n] = filtrar(Yestimada, Yestimada_filtrada);
+
+	  //acá paso todos los valores un lugar a la izquierda
+	  for (int i = n; i > 0; i--) {
+	 		muestrasADC[n - i] = muestrasADC[n - i + 1];
+	 		IL[n - i] = IL[n - i + 1];
+	 		derivadas[n - i] = derivadas[n - i + 1];
+	 		Yestimada[n - i] = Yestimada[n - i + 1];
+	 		Yestimada_filtrada[n - i] = Yestimada_filtrada[n - i + 1];
+	 	  }
+
+	  //incremento el index y vuelvo a empezar a recorrer el arreglo de ViL si es necesario
+	  vilIndex = (vilIndex + 1) & 63;
 	  HAL_Delay(10);
-
-
-
-
-
-
-
-
-
-
   }
   /* USER CODE END 3 */
 }

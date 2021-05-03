@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,13 +62,17 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+uint8_t printSerial = 1;
+
+
 #define numSamples  50
 const uint16_t fs = 50000;
 const float RL = 0.2;
 const float L_4mm = 16.2e-3;
 const float Kh = 0.05;				//transductancia del sensor de efecto Hall
 uint16_t vilIndex = 0;
-#define N_ADC 8
+#define N_ADC 16
 const int n = N_ADC - 1;
 float muestrasADC[N_ADC];
 float IL[N_ADC];
@@ -112,12 +117,12 @@ float estimar(float derivada){
 }
 
 
-float filtrar(float * X, float * Y){			//acá la Y significa la salida del filtro, no la posición en mm
-	Y[n] = 0;
+float filtrar(float * X){			//acá la Y significa la salida del filtro, no la posición en mm
+	float out = 0;
 	for (int i = 0; i < N_ADC; i++) {				//acá aplico el filtro
-		Y[n] += B[i] * X[n - i];			//B son los coeficientes de un filtro FIR
+		out += B[i] * X[n - i];			//B son los coeficientes de un filtro FIR
 	 }
-	 return Y[n];
+	 return out;
 }
 
 float promediar(float * Yestimada){
@@ -178,7 +183,7 @@ int main(void)
 	  //deltaIL
 	  derivadas[n]  = derivar(muestrasADC, ILmed);
 	  Yestimada[n]  = estimar(derivadas[n]);
-	  Yestimada_filtrada[n] = filtrar(Yestimada, Yestimada_filtrada);
+	  Yestimada_filtrada[n] = filtrar(Yestimada);
 
 	  //acá paso todos los valores un lugar a la izquierda
 	  for (int i = n; i > 0; i--) {
@@ -190,7 +195,19 @@ int main(void)
 	 	  }
 
 	  //incremento el index y vuelvo a empezar a recorrer el arreglo de ViL si es necesario
-	  vilIndex = (vilIndex + 1) & 63;
+	  vilIndex++;
+	  if(vilIndex == 74)
+		  vilIndex = 0;
+
+	  if(printSerial){
+		  uint16_t Yint = Yestimada[n] * 1e6;
+		  uint16_t Yint_filt = Yestimada_filtrada[n] * 1e6;
+		//  uint16_t Yint = abs(derivadas[n]);
+		  char str[20];
+		  sprintf(str, "%d,%d\r\n", Yint, Yint_filt);
+		  HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
+	  }
+
 	  HAL_Delay(10);
   }
   /* USER CODE END 3 */
@@ -250,7 +267,7 @@ static void MX_USART1_UART_Init(void)
 
   /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 9600;
+  huart1.Init.BaudRate = 115200;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;

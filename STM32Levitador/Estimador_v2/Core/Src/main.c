@@ -24,8 +24,10 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include "muestras.h"
+#include "fdacoefs.h"
 
 /* USER CODE END Includes */
 
@@ -52,22 +54,26 @@ TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 
+UART_HandleTypeDef huart1;
+
 /* USER CODE BEGIN PV */
 volatile uint16_t counter = 0;
 volatile int8_t sign = 1;
 uint16_t numViL;
 
+uint8_t printSerial = 1;
 
 #define adcSamples 100
 uint16_t adcBuf[adcSamples];
 
+volatile uint16_t adcVal[2];
 #define numSamples  adcSamples / 2
 
 uint16_t adc_ch0[numSamples];
 uint16_t adc_ch1[numSamples];
 
 volatile uint8_t adcConverted = 0;
-const uint16_t fs = 50000;
+/*const uint16_t fs = 50000;
 const float RL = 0.2;
 const float L_4mm = 16.2e-3;
 float ViL[numSamples];
@@ -77,6 +83,23 @@ float deltaIL;
 float derivadas[numSamples];
 float Yestimada[numSamples];
 float Yestimada_promedio;
+*/
+const uint16_t fs = 50000;
+const float RL = 0.2;
+const float L_4mm = 16.2e-3;
+const float Kh = 0.05;				//transductancia del sensor de efecto Hall
+uint16_t vilIndex = 0;
+#define N_ADC 16
+const int n = N_ADC - 1;
+uint16_t muestrasHall[N_ADC];
+uint16_t muestrasRef[N_ADC];
+float muestrasADC[N_ADC];
+float IL[N_ADC];
+float ILmed;
+float deltaIL;
+float derivadas[N_ADC];
+float Yestimada[N_ADC];
+float Yestimada_filtrada[N_ADC];
 
 void getViL(float * ViL, uint16_t * adc){
 	float res = 3.3 / 4096;
@@ -85,10 +108,8 @@ void getViL(float * ViL, uint16_t * adc){
 	}
 }
 
-void corriente(float * IL, float * ViL){
-	for(int i=0; i<numSamples; i++){
-		IL[i] = ViL[i] / 0.05;
-	}
+float corriente(float Xn){
+		return Xn / Kh;
 }
 
 float corriente_media(float * IL){
@@ -109,21 +130,26 @@ float delta_corriente(float * IL){
 	return ILmax - ILmin;
 }
 
-void derivar(float * derivadas, float * ViL, float ILmed){
-	for(int i= 0; i < numSamples; i++){
-		if(i != numSamples - 1){
-			derivadas[i] = (ViL[i + 1] - ViL[i] ) * fs;
-			derivadas[i] += ILmed * 0.05 * RL / L_4mm;			//corrección I * R
-		}
-		else
-			derivadas[i] = derivadas[i - 1];
-	}
+float derivar(float * muestrasADC, float ILmed){
+	float deriv = 	(muestrasADC[n] - muestrasADC[n - 1]) * fs;
+	deriv += ILmed * 0.05 * RL / L_4mm;			//corrección I * R
+	return deriv;
 }
 
-void estimar(float * Yestimada, float * derivadas){
-	for(int i=0; i<numSamples; i++){
-		Yestimada[i] = (20 * abs(derivadas[i]) - 7.75e2) / 1.7e5;
-	}
+float estimar(float derivada){
+		float estim = (20 * abs(derivada) - 7.75e2) / 1.7e5;
+		if(estim < 8e-3)
+			return estim;
+		else
+			return 8e-3;						//esto lo hago para que la primera muestra no sea tan erronea
+}
+
+float filtrar(float * X){			//acá la Y significa la salida del filtro, no la posición en mm
+	float out = 0;
+	for (int i = 0; i < N_ADC; i++) {				//acá aplico el filtro
+		out += B[i] * X[n - i];			//B son los coeficientes de un filtro FIR
+	 }
+	 return out;
 }
 
 float promediar(float * Yestimada){
@@ -146,6 +172,7 @@ static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -194,17 +221,18 @@ int main(void)
   MX_TIM4_Init();
   MX_ADC1_Init();
   MX_TIM2_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
   HAL_TIM_Base_Start_IT(&htim4);
 
   HAL_TIM_Base_Start(&htim3);				//inicio el timer 3 para comenzar las conversiones del ADC
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t*) adcBuf, adcSamples);	//inicio el ADC en modo DMA
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t *) adcVal, 2);			//inicio adc dma
       	  	  	  	  	  	  	  	  	  	  	  	  	  	  	//para que lea la cantidad numSamples
   	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	//y luego dispare una interrupción
 
-  uint16_t loopDelay = 1;
+  //uint16_t loopDelay = 1;
   numViL = sizeof(ViLmuestras)/sizeof(ViLmuestras[0]);
   /* USER CODE END 2 */
 
@@ -219,21 +247,41 @@ int main(void)
 	  if(adcConverted){
 	 		 adcConverted = 0;
 	 		 HAL_TIM_Base_Stop(&htim3);
+
 	 		 //esto es para separar las muestras del canal 1 y el 2
-			  for(int i= 0; i < adcSamples; i = i + 2){
-				  adc_ch0[i/2] = adcBuf[i];
-				  adc_ch1[i/2] = adcBuf[i+1];
-			  }
+	 		 //leo la muestra de corriente y la pongo al final del array del sensor de efecto hall
+			  muestrasHall[n] = adcVal[0];
+			  muestrasRef[n] = adcVal[1];
 
-	 		 getViL(ViL, adc_ch0);
+			  muestrasADC[n] = (muestrasHall[n] * 3.3 / 4096) - 2.5;		//convierto el valor del ADC en valor de tensión
+			  IL[n] = corriente(muestrasADC[n]);					//calculo el valor en corriente
+			  ILmed = (IL[n] + ILmed) / 2;							//añado al promedio movil
+			  //deltaIL
+			  derivadas[n]  = derivar(muestrasADC, ILmed);
+			  Yestimada[n]  = estimar(derivadas[n]);
+			  Yestimada_filtrada[n] = filtrar(Yestimada);
 
-	 		  corriente(IL, ViL);
-	 		  ILmed = corriente_media(IL);
-	 		  deltaIL = delta_corriente(IL);
-	 		  derivar(derivadas, ViL, ILmed);
-	 		  estimar(Yestimada, derivadas);
-	 		  Yestimada_promedio = promediar(Yestimada);
+			  //acá paso todos los valores un lugar a la izquierda
+			  for (int i = n; i > 0; i--) {
+				  	muestrasHall[n - i] = muestrasHall[n - i + 1];
+				  	muestrasRef[n - i] = muestrasRef[n - i + 1];
+				  	muestrasADC[n - i] = muestrasADC[n - i + 1];
+					IL[n - i] = IL[n - i + 1];
+					derivadas[n - i] = derivadas[n - i + 1];
+					Yestimada[n - i] = Yestimada[n - i + 1];
+					Yestimada_filtrada[n - i] = Yestimada_filtrada[n - i + 1];
+				  }
+
 	 		 HAL_TIM_Base_Start(&htim3);
+
+	 		  if(printSerial){
+	 				  uint16_t Yint = Yestimada[n] * 1e6;
+	 				  uint16_t Yint_filt = Yestimada_filtrada[n] * 1e6;
+	 				//  uint16_t Yint = abs(derivadas[n]);
+	 				  char str[20];
+	 				  sprintf(str, "%d,%d\r\n", Yint, Yint_filt);
+	 				  HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
+	 			  }
 	 	 }
 
 
@@ -501,6 +549,39 @@ static void MX_TIM4_Init(void)
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
+
+}
+
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
 
 }
 

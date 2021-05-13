@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "muestras_corriente.h"
 #include "fdacoefs.h"
+#include "fda_derivador.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -68,6 +69,7 @@ uint8_t printSerial = 1;
 
 #define numSamples  50
 const uint16_t fs = 50000;
+const float alfa = 0.4665119;			//el alfa sale de alfa = 1 - exp(-2pi*fc/fs) fc es la frecuencia de corte
 const float RL = 0.2;
 const float L_4mm = 16.2e-3;
 const float Kh = 0.05;				//transductancia del sensor de efecto Hall
@@ -79,7 +81,9 @@ float IL[N_ADC];
 float ILmed;
 float deltaIL;
 float derivadas[N_ADC];
+float derivadas_filtrada[N_ADC];
 float Yestimada[N_ADC];
+float Yestimada_1[N_ADC];
 float Yestimada_filtrada[N_ADC];
 
 float corriente(float Xn){
@@ -117,7 +121,7 @@ float estimar(float derivada){
 }
 
 
-float filtrar(float * X){			//acá la Y significa la salida del filtro, no la posición en mm
+float filtrar(float * X, float * B){			//acá la Y significa la salida del filtro, no la posición en mm
 	float out = 0;
 	for (int i = 0; i < N_ADC; i++) {				//acá aplico el filtro
 		out += B[i] * X[n - i];			//B son los coeficientes de un filtro FIR
@@ -179,18 +183,23 @@ int main(void)
 	  //leo la muestra de corriente y la pongo al final del array del ADC
 	  muestrasADC[n] = ViL[vilIndex];
 	  IL[n] = corriente(muestrasADC[n]);			//calculo el valor en corriente
-	  ILmed = (IL[n] + ILmed) / 2;							//añado al promedio movil
+	  ILmed = alfa * IL[n] + (1 - alfa) * ILmed;		//exponential integrator
+	  //  ILmed = (IL[n] + ILmed) / 2;							//añado al promedio movil
 	  //deltaIL
-	  derivadas[n]  = derivar(muestrasADC, ILmed);
-	  Yestimada[n]  = estimar(derivadas[n]);
-	  Yestimada_filtrada[n] = filtrar(Yestimada);
+	  derivadas[n]  = abs(derivar(muestrasADC, IL[n]));		//acá calculo derivada y hago el valor absoluto
+	  derivadas_filtrada[n] = filtrar(derivadas, Bderiv);	//filtro las derivadas obtenidas
+	  Yestimada_1[n] = estimar(derivadas[n]);				//esto es para comparar con la filtrada
+	  Yestimada[n]  = estimar(derivadas_filtrada[n]);		//estimacion
+	  Yestimada_filtrada[n] = filtrar(Yestimada, Bposicion);	//filtro
 
 	  //acá paso todos los valores un lugar a la izquierda
 	  for (int i = n; i > 0; i--) {
 	 		muestrasADC[n - i] = muestrasADC[n - i + 1];
 	 		IL[n - i] = IL[n - i + 1];
 	 		derivadas[n - i] = derivadas[n - i + 1];
+	 		derivadas_filtrada[n - i] = derivadas_filtrada[n - i + 1];
 	 		Yestimada[n - i] = Yestimada[n - i + 1];
+	 		Yestimada_1[n - i] = Yestimada_1[n - i + 1];
 	 		Yestimada_filtrada[n - i] = Yestimada_filtrada[n - i + 1];
 	 	  }
 
@@ -200,15 +209,19 @@ int main(void)
 		  vilIndex = 0;
 
 	  if(printSerial){
-		  uint16_t Yint = Yestimada[n] * 1e6;
-		  uint16_t Yint_filt = Yestimada_filtrada[n] * 1e6;
-		//  uint16_t Yint = abs(derivadas[n]);
+		 uint16_t s1 = Yestimada[n] * 1e6;
+		 uint16_t s2 = Yestimada_filtrada[n] * 1e6;
+		 // int16_t s1 = derivadas[n];
+		 // int16_t s2 = derivadas_filtrada[n];
+		 // uint16_t s1 = IL[n] * 1e3;
+		 // uint16_t s2 = ILmed * 1e3;
 		  char str[20];
-		  sprintf(str, "%d,%d\r\n", Yint, Yint_filt);
+		  sprintf(str, "%d,%d\r\n", s1, s2);
+		 // sprintf(str, "%d\r\n,", s1);
 		  HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
 	  }
 
-	  HAL_Delay(10);
+	  HAL_Delay(30);
   }
   /* USER CODE END 3 */
 }

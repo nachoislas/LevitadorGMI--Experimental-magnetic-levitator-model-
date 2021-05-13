@@ -58,6 +58,7 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 volatile uint16_t counter = 0;
+const int pwmGain = 800;
 volatile int8_t sign = 1;
 uint16_t numViL;
 
@@ -89,7 +90,7 @@ const float RL = 0.2;
 const float L_4mm = 16.2e-3;
 const float Kh = 0.05;				//transductancia del sensor de efecto Hall
 uint16_t vilIndex = 0;
-#define N_ADC 16
+#define N_ADC 64
 const int n = N_ADC - 1;
 uint16_t muestrasHall[N_ADC];
 uint16_t muestrasRef[N_ADC];
@@ -138,7 +139,7 @@ float derivar(float * muestrasADC, float ILmed){
 
 float estimar(float derivada){
 		float estim = (20 * abs(derivada) - 7.75e2) / 1.7e5;
-		if(estim < 8e-3)
+		if(estim < 800e-3)
 			return estim;
 		else
 			return 8e-3;						//esto lo hago para que la primera muestra no sea tan erronea
@@ -234,6 +235,7 @@ int main(void)
 
   //uint16_t loopDelay = 1;
   numViL = sizeof(ViLmuestras)/sizeof(ViLmuestras[0]);
+  int loopCount = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -253,7 +255,7 @@ int main(void)
 			  muestrasHall[n] = adcVal[0];
 			  muestrasRef[n] = adcVal[1];
 
-			  muestrasADC[n] = (muestrasHall[n] * 3.3 / 4096) - 2.5;		//convierto el valor del ADC en valor de tensión
+			  muestrasADC[n] = (muestrasHall[n] * 3.3 / 4096) / pwmGain;		//convierto el valor del ADC en valor de tensión
 			  IL[n] = corriente(muestrasADC[n]);					//calculo el valor en corriente
 			  ILmed = (IL[n] + ILmed) / 2;							//añado al promedio movil
 			  //deltaIL
@@ -272,21 +274,26 @@ int main(void)
 					Yestimada_filtrada[n - i] = Yestimada_filtrada[n - i + 1];
 				  }
 
-	 		 HAL_TIM_Base_Start(&htim3);
+
 
 	 		  if(printSerial){
-	 				  uint16_t Yint = Yestimada[n] * 1e6;
-	 				  uint16_t Yint_filt = Yestimada_filtrada[n] * 1e6;
+	 				 // uint16_t s1 = Yestimada[n] * 1e6;
+	 				 // uint16_t s2 = Yestimada_filtrada[n] * 1e6;
 	 				//  uint16_t Yint = abs(derivadas[n]);
+	 			  	  uint16_t s1 = muestrasADC[n] * 1e6;
+	 			  	 // uint16_t s2 = ILmed * 1e6;
 	 				  char str[20];
-	 				  sprintf(str, "%d,%d\r\n", Yint, Yint_filt);
+	 				 // sprintf(str, "%d,%d\r\n", s1, s2);
+	 				  sprintf(str, "%d,", s1);
 	 				  HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
 	 			  }
+
+	 		 if(++loopCount == 100) {
+	 			 HAL_Delay(1000);
+	 			 loopCount = 0;
+	 		 }
+	 		 HAL_TIM_Base_Start(&htim3);
 	 	 }
-
-
-
-
 
   }
   /* USER CODE END 3 */
@@ -623,7 +630,7 @@ static void MX_GPIO_Init(void)
 
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	float num = ViLmuestras[counter] * 800;
+	float num = ViLmuestras[counter] * pwmGain;
 	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, (uint8_t) num);
 	  counter +=1 * sign;
 	  if(counter >= numViL)

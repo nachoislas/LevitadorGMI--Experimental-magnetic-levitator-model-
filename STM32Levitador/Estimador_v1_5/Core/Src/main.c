@@ -209,15 +209,16 @@ int main(void)
 		  vilIndex = 0;
 
 	  if(printSerial){
-		 uint16_t s1 = Yestimada[n] * 1e6;
-		 uint16_t s2 = Yestimada_filtrada[n] * 1e6;
-		 // int16_t s1 = derivadas[n];
+		// uint16_t s1 = Yestimada[n] * 1e6;
+		// uint16_t s2 = Yestimada_filtrada[n] * 1e6;
+		  int16_t s1 = derivadas[n];
+		  int16_t s2 = abs(derivadas[n]);
 		 // int16_t s2 = derivadas_filtrada[n];
 		 // uint16_t s1 = IL[n] * 1e3;
 		 // uint16_t s2 = ILmed * 1e3;
 		  char str[20];
 		  sprintf(str, "%d,%d\r\n", s1, s2);
-		 // sprintf(str, "%d\r\n,", s1);
+		 //sprintf(str, "%d\r\n,", s1);
 		  HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
 	  }
 

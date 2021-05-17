@@ -121,7 +121,7 @@ float estimar(float derivada){
 }
 
 
-float filtrar(float * X, float * B){			//acá la Y significa la salida del filtro, no la posición en mm
+float filtrar(float * X, const float * B){			//acá la Y significa la salida del filtro, no la posición en mm
 	float out = 0;
 	for (int i = 0; i < N_ADC; i++) {				//acá aplico el filtro
 		out += B[i] * X[n - i];			//B son los coeficientes de un filtro FIR

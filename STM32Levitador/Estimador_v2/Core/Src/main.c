@@ -93,7 +93,7 @@ const float RL = 0.2;
 const float L_4mm = 16.2e-3;
 const float Kh = 0.05;				//transductancia del sensor de efecto Hall
 uint16_t vilIndex = 0;
-#define N_ADC 64
+#define N_ADC 16
 const int n = N_ADC - 1;
 uint16_t muestrasHall[N_ADC];
 uint16_t muestrasRef[N_ADC];
@@ -229,12 +229,12 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  //esto es para generar una señal de prueba en pwm
+  //esto es para generar una señal de prueba en pwm. Se puede anular esta parte cuando hacemos pruebas en la placa real
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
   HAL_TIM_Base_Start_IT(&htim4);
   //uint16_t loopDelay = 1;
    numViL = sizeof(ViLmuestras)/sizeof(ViLmuestras[0]);
-  // int loopCount = 0;
+   int loopCount = 0;
 
 
   //cosas del adc
@@ -256,7 +256,7 @@ int main(void)
 
 	  if(adcConverted){
 	 		 adcConverted = 0;
-	 		 HAL_TIM_Base_Stop(&htim3);
+	 		 HAL_TIM_Base_Stop(&htim3);			//paro el timer del adc (esto es temporal)
 	 		 HAL_GPIO_TogglePin(led_GPIO_Port, led_Pin);		//esto es para ver la frecuencia de muestreo
 
 	 		 //esto es para separar las muestras del canal 1 y el 2
@@ -288,30 +288,37 @@ int main(void)
 					Yestimada_filtrada[n - i] = Yestimada_filtrada[n - i + 1];
 				  }
 
-
-
+			  //esto es para graficar cada 20ms
 	 		  if(printSerial){
 	 			  if(HAL_GetTick() - tLast > printInterval){
 	 				  tLast = HAL_GetTick();
 						 // uint16_t s1 = Yestimada[n] * 1e6;
 						 // uint16_t s2 = Yestimada_filtrada[n] * 1e6;
-						 // uint16_t s1 = derivadas[n];
-	 				  	  uint16_t s1 = muestrasRef[n];
+						  uint16_t s1 = derivadas[n];
+						  uint16_t s2 = derivadas_filtrada[n];
+	 				  	 // uint16_t s1 = muestrasRef[n];
 						 // uint16_t s1 = muestrasADC[n] * 1e6;
 						 // uint16_t s2 = ILmed * 1e6;
 						  char str[20];
-						 // sprintf(str, "%d,%d\r\n", s1, s2);
-						  sprintf(str, "%d\r\n", s1);
+						  sprintf(str, "%d,%d\r\n", s1, s2);
+						 // sprintf(str, "%d\r\n", s1);
 						  HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
 	 			  }
 	 		  }
 
-	 		  /*
-	 		 //esto es para pausar todo 1 seg
-	 		 if(++loopCount == 100) {
-	 			 HAL_Delay(1000);
+
+	 		 //esto es para pausar el muestreo y graficar variables, después de cierta cantidad de muestras
+	 		 if(++loopCount == 10000 && !printSerial) {
+	 			 for(uint8_t i = 0; i < N_ADC; i++){
+	 				// uint16_t s1 = derivadas[i];
+	 				 uint16_t s1 = muestrasHall[i];
+	 				 char str[20];
+					 // sprintf(str, "%d,%d\r\n", s1, s2);
+					 sprintf(str, "%d\r\n", s1);
+					 HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
+	 			 }
 	 			 loopCount = 0;
-	 		 } */
+	 		 }
 
 	 		 HAL_GPIO_TogglePin(led_GPIO_Port, led_Pin);		//esto es para ver cuanto tarda en ejecutar el código
 	 		 HAL_TIM_Base_Start(&htim3);

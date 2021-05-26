@@ -90,6 +90,8 @@ float derivadas[numSamples];
 float Yestimada[numSamples];
 float Yestimada_promedio;
 */
+
+const int fixedPointGain = 1000;
 const uint16_t fs = 50000;
 const float RL = 0.2;
 const float L_4mm = 16.2e-3;
@@ -99,14 +101,14 @@ uint16_t vilIndex = 0;
 const int n = N_ADC - 1;
 uint16_t muestrasHall[N_ADC];
 uint16_t muestrasRef[N_ADC];
-float muestrasADC[N_ADC];
-float IL[N_ADC];
-float ILmed;
+int32_t muestrasADC[N_ADC];
+int32_t IL[N_ADC];
+int32_t ILmed;
 float deltaIL;
-float derivadas[N_ADC];
-float derivadas_filtrada[N_ADC];
-float Yestimada[N_ADC];
-float Yestimada_filtrada[N_ADC];
+int16_t derivadas[N_ADC];
+int32_t derivadas_filtrada[N_ADC];
+int32_t Yestimada[N_ADC];
+int32_t Yestimada_filtrada[N_ADC];
 
 void getViL(float * ViL, uint16_t * adc){
 	float res = 3.3 / 4096;
@@ -137,14 +139,14 @@ float delta_corriente(float * IL){
 	return ILmax - ILmin;
 }
 
-float derivar(float * muestrasADC, float ILmed){
-	float deriv = 	(muestrasADC[n] - muestrasADC[n - 1]) * fs;
-	deriv += ILmed * 0.05 * RL / L_4mm;			//corrección I * R
+int16_t derivar(uint16_t * muestrasHall){
+	int16_t deriv = (muestrasHall[n] - muestrasHall[n - 1]);	//acá tengo la diferencia en el número que lee el adc
+//	deriv += ILmed * 0.05 * RL / L_4mm;			//corrección I * R
 	return deriv;
 }
 
-float estimar(float derivada){
-		float estim = (20 * abs(derivada) - 7.75e2) / 1.7e5;
+float estimar(int16_t derivada){
+		float estim = abs(derivada) * 4.74e-3 - 4.55e-3;
 		if(estim < 800e-3)
 			return estim;
 		else
@@ -167,8 +169,6 @@ float promediar(float * Yestimada){
 	return sum / numSamples;
 }
 
-
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -186,12 +186,6 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-
-
-
-
-
 
 /* USER CODE END 0 */
 
@@ -230,23 +224,22 @@ int main(void)
   MX_TIM2_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-/*
+  /*
   //esto es para generar una señal de prueba en pwm. Se puede anular esta parte cuando hacemos pruebas en la placa real
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_Base_Start_IT(&htim4);
-  //uint16_t loopDelay = 1;
-   numViL = sizeof(ViLmuestras)/sizeof(ViLmuestras[0]);
-   int loopCount = 0;
-*/
+   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+   HAL_TIM_Base_Start_IT(&htim4);
+   //uint16_t loopDelay = 1;
+    numViL = sizeof(ViLmuestras)/sizeof(ViLmuestras[0]);
+    int loopCount = 0;
+ */
 
-  //cosas del adc
-  HAL_TIM_Base_Start(&htim3);				//inicio el timer 3 para comenzar las conversiones del ADC
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t *) adcVal, 2);			//inicio adc dma
-      	  	  	  	  	  	  	  	  	  	  	  	  	  	  	//para que lea la cantidad numSamples
-  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	//y luego dispare una interrupción
-  //para medir el tiempo que tarda en ejecutar el código
-  HAL_TIM_Base_Start(&htim4);
-
+   //cosas del adc
+   HAL_TIM_Base_Start(&htim3);				//inicio el timer 3 para comenzar las conversiones del ADC
+   HAL_ADC_Start_DMA(&hadc1, (uint32_t *) adcVal, 2);			//inicio adc dma
+       	  	  	  	  	  	  	  	  	  	  	  	  	  	  	//para que lea la cantidad numSamples
+   	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	//y luego dispare una interrupción
+   //para medir el tiempo que tarda en ejecutar el código
+   HAL_TIM_Base_Start(&htim4);
 
   /* USER CODE END 2 */
 
@@ -259,74 +252,76 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  if(adcConverted){
-		  	 tStart = __HAL_TIM_GET_COUNTER(&htim4);
-	 		 adcConverted = 0;
-	 		 HAL_TIM_Base_Stop(&htim3);			//paro el timer del adc (esto es temporal)
-	 		 HAL_GPIO_TogglePin(led_GPIO_Port, led_Pin);		//esto es para ver la frecuencia de muestreo
+		 tStart = __HAL_TIM_GET_COUNTER(&htim4);		//para calcular el tiempo que tarda
+		 adcConverted = 0;								//reseteo el flag del adc
+		// HAL_TIM_Base_Stop(&htim3);			//paro el timer del adc (esto es temporal)
+		// HAL_GPIO_TogglePin(led_GPIO_Port, led_Pin);		//esto es para ver la frecuencia de muestreo
 
-	 		 //esto es para separar las muestras del canal 1 y el 2
-	 		 //leo la muestra de corriente y la pongo al final del array del sensor de efecto hall
-			  muestrasHall[n] = adcVal[0];
-			  muestrasRef[n] = adcVal[1];
+		 //esto es para separar las muestras del canal 1 y el 2
+		 //leo la muestra de corriente y la pongo al final del array del sensor de efecto hall
+		  muestrasHall[n] = adcVal[0];
+		  muestrasRef[n] = adcVal[1];
 
-			  //convierto el valor del ADC en valor de tensión
-			  //muestrasADC[n] = (muestrasHall[n] * 3.3 / 4096) / pwmGain;
-			  muestrasADC[n] = (muestrasHall[n] * 3.3 / 4096);
+		  //convierto el valor del ADC en valor de tensión
+		  //muestrasADC[n] = (muestrasHall[n] * 3.3 / 4096) / pwmGain;
+		//  muestrasADC[n] = muestrasHall[n] * (8.056e-4 * fixedPointGain);	//3.3/4096 = 8.056e-4
 
-			  IL[n] = corriente(muestrasADC[n]);					//calculo el valor en corriente
-			  ILmed = (IL[n] + ILmed) / 2;							//añado al promedio movil
-			  //deltaIL
-			  derivadas[n]  = abs(derivar(muestrasADC, IL[n]));			//calculo la derivada con la muestra anterior
-			  derivadas_filtrada[n] = filtrar(derivadas, Bderiv);	//filtro las derivadas obtenidas
-			  Yestimada[n]  = estimar(derivadas[n]);
-			  Yestimada_filtrada[n] = filtrar(Yestimada, Bposicion);	//filtro
+		//  IL[n] = corriente(muestrasADC[n]);					//calculo el valor en corriente
+		//  ILmed = (IL[n] + ILmed) / 2;							//añado al promedio movil
+		  //deltaIL
+		  derivadas[n]  = derivar(muestrasHall);			//calculo la derivada con la muestra anterior
+		  //derivadas_filtrada[n] = filtrar(derivadas, Bderiv);	//filtro las derivadas obtenidas
+		  Yestimada[n]  = estimar(derivadas[n]);
+		  //Yestimada_filtrada[n] = filtrar(Yestimada, Bposicion);	//filtro
 
-			  //acá paso todos los valores un lugar a la izquierda
-			  for (int i = n; i > 0; i--) {
-				  	muestrasHall[n - i] = muestrasHall[n - i + 1];
-				  	muestrasRef[n - i] = muestrasRef[n - i + 1];
-				  	muestrasADC[n - i] = muestrasADC[n - i + 1];
-					IL[n - i] = IL[n - i + 1];
-					derivadas[n - i] = derivadas[n - i + 1];
-					derivadas_filtrada[n - i] = derivadas_filtrada[n - i + 1];
-					Yestimada[n - i] = Yestimada[n - i + 1];
-					Yestimada_filtrada[n - i] = Yestimada_filtrada[n - i + 1];
-				  }
+		  //acá paso todos los valores un lugar a la izquierda
+		  //for (int i = n; i > 0; i--) {
+				//muestrasHall[n - i] = muestrasHall[n - i + 1];
+				//muestrasRef[n - i] = muestrasRef[n - i + 1];
+				//muestrasADC[n - i] = muestrasADC[n - i + 1];
+				//IL[n - i] = IL[n - i + 1];
+				//derivadas[n - i] = derivadas[n - i + 1];
+				//derivadas_filtrada[n - i] = derivadas_filtrada[n - i + 1];
+				//Yestimada[n - i] = Yestimada[n - i + 1];
+				//Yestimada_filtrada[n - i] = Yestimada_filtrada[n - i + 1];
+		//	  }
 
-			  //esto es para graficar cada 20ms
-	 	/*	  if(printSerial){
-	 			  if(HAL_GetTick() - tLast > printInterval){
-	 				  tLast = HAL_GetTick();
-						 // uint16_t s1 = Yestimada[n] * 1e6;
-						 // uint16_t s2 = Yestimada_filtrada[n] * 1e6;
-						  uint16_t s1 = derivadas[n];
-						  uint16_t s2 = derivadas_filtrada[n];
-	 				  	 // uint16_t s1 = muestrasRef[n];
-						 // uint16_t s1 = muestrasADC[n] * 1e6;
-						 // uint16_t s2 = ILmed * 1e6;
-						  char str[20];
-						  sprintf(str, "%d,%d\r\n", s1, s2);
-						 // sprintf(str, "%d\r\n", s1);
-						  HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
-	 			  }
-	 		  }
-	 		  else if(++loopCount == 10000) {     //esto es para pausar el muestreo y graficar variables, después de cierta cantidad de muestras
-	 			 for(uint8_t i = 0; i < N_ADC; i++){
-	 				// uint16_t s1 = derivadas[i];
-	 				 uint16_t s1 = muestrasHall[i];
-	 				 char str[20];
-					 // sprintf(str, "%d,%d\r\n", s1, s2);
-					 sprintf(str, "%d\r\n", s1);
-					 HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
-	 			 }
-	 			 loopCount = 0;
-	 		 }   */
+		  muestrasHall[n - 1] = muestrasHall[n];
 
-			 tEnd = __HAL_TIM_GET_COUNTER(&htim4);
-			 tTotal = tEnd - tStart;
-	 		 HAL_GPIO_TogglePin(led_GPIO_Port, led_Pin);		//esto es para ver cuanto tarda en ejecutar el código
-	 		 HAL_TIM_Base_Start(&htim3);
-	 	 }
+		  //esto es para graficar cada 20ms
+	/*	  if(printSerial){
+			  if(HAL_GetTick() - tLast > printInterval){
+				  tLast = HAL_GetTick();
+					 // uint16_t s1 = Yestimada[n] * 1e6;
+					 // uint16_t s2 = Yestimada_filtrada[n] * 1e6;
+					  uint16_t s1 = derivadas[n];
+					  uint16_t s2 = derivadas_filtrada[n];
+					 // uint16_t s1 = muestrasRef[n];
+					 // uint16_t s1 = muestrasADC[n] * 1e6;
+					 // uint16_t s2 = ILmed * 1e6;
+					  char str[20];
+					  sprintf(str, "%d,%d\r\n", s1, s2);
+					 // sprintf(str, "%d\r\n", s1);
+					  HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
+			  }
+		  }
+		  else if(++loopCount == 10000) {     //esto es para pausar el muestreo y graficar variables, después de cierta cantidad de muestras
+			 for(uint8_t i = 0; i < N_ADC; i++){
+				// uint16_t s1 = derivadas[i];
+				 uint16_t s1 = muestrasHall[i];
+				 char str[20];
+				 // sprintf(str, "%d,%d\r\n", s1, s2);
+				 sprintf(str, "%d\r\n", s1);
+				 HAL_UART_Transmit(&huart1, (uint8_t * ) str, strlen(str), 100);
+			 }
+			 loopCount = 0;
+		 }   */
+
+		 tEnd = __HAL_TIM_GET_COUNTER(&htim4);
+		 tTotal = tEnd - tStart;
+		 HAL_GPIO_TogglePin(led_GPIO_Port, led_Pin);		//esto es para ver cuanto tarda en ejecutar el código
+		// HAL_TIM_Base_Start(&htim3);
+	 }
 
   }
   /* USER CODE END 3 */
@@ -674,17 +669,6 @@ static void MX_GPIO_Init(void)
 
 
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	float num = ViLmuestras[counter] * pwmGain;
-	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, (uint8_t) num);
-	  counter +=1 * sign;
-	  if(counter >= numViL)
-		  counter = 0;
-	/*  if(sign == 1 && counter == 255)
-		  sign = -1;
-	  else if(sign == -1 && counter == 0)
-		  sign = 1; */
-}
 
 
 //callback para cuando finalizan las conversiones del ADC
@@ -694,6 +678,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef * hadc){
 		// HAL_GPIO_TogglePin(led_GPIO_Port, led_Pin);		//esto es para ver la frecuencia de muestreo
 	}
 }
+
+
+
+
+
+
 
 
 

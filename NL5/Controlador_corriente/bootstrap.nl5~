@@ -4,124 +4,132 @@
   <c> CAUTION: DO NOT MODIFY THIS FILE !!! </c>
   <c>     ...if you don't know how...      </c>
   <c>======================================</c>
-  <Version ver="2" rev="5" build="3" date="08/19/2019" ID="2073052845" />
+  <Version ver="2" rev="5" build="3" date="08/19/2019" ID="2022885293" />
   <Doc display="3" activeSheet="0">
-    <Properties title="No+title" revision="1.0" author="Javi" project="Unknown" organization="Javi" comments="" created="24%2f8%2f2021+19%3a27%3a40" modified="24%2f8%2f2021+19%3a55%3a46" save="0" />
-    <CirWin state="2" />
+    <Properties title="No+title" revision="1.0" author="Javi" project="Unknown" organization="Javi" comments="" created="24%2f8%2f2021+19%3a27%3a40" modified="26%2f8%2f2021+18%3a59%3a01" save="0" />
+    <CirWin state="0" l="0" t="0" w="1125" h="380" />
     <Cmps>
-      <Cmp type="C_C" id="2" name="C1" file_name="" view="0" node0="3" node1="2" model="C" ic="" c="10e-9" fs="1%2fs" />
-      <Cmp type="C_C" id="3" name="C2" file_name="" view="0" node0="7" node1="2" model="C" ic="" c="1e-9" fs="1%2fs" />
-      <Cmp type="C_C" id="8" name="C3" file_name="" view="0" node0="3" node1="1" model="C" ic="" c="1e-6" fs="1%2fs" />
-      <Cmp type="D_D" id="13" name="D1" file_name="" view="0" node0="1" node1="5" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
+      <Cmp type="C_C" id="2" name="C1" file_name="" view="0" node0="3" node1="2" model="C" ic="" c="10.7e-9" fs="1%2fs" />
+      <Cmp type="C_C" id="3" name="C2" file_name="" view="0" node0="8" node1="2" model="C" ic="" c="138e-12" fs="1%2fs" />
+      <Cmp type="C_C" id="8" name="C3" file_name="" view="0" node0="3" node1="1" model="C" ic="" c="10e-6" fs="1%2fs" />
+      <Cmp type="C_C" id="22" name="C4" file_name="" view="0" node0="8" node1="3" model="C" ic="" c="2.5e-9" fs="1%2fs" />
+      <Cmp type="D_D" id="13" name="D1" file_name="" view="0" node0="5" node1="6" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
       <Cmp type="R_R" id="4" name="R1" file_name="" view="0" node0="0" node1="3" model="R" r="1" fs="1" />
-      <Cmp type="R_R" id="9" name="R2" file_name="" view="0" node0="4" node1="5" model="R" r="100" fs="1" />
-      <Cmp type="R_R" id="11" name="R3" file_name="" view="0" node0="10" node1="11" model="R" r="100" fs="1" />
-      <Cmp type="R_R" id="21" name="R4" file_name="" view="0" node0="3" node1="2" model="R" r="1e+3" fs="1" />
+      <Cmp type="R_R" id="9" name="R2" file_name="" view="0" node0="4" node1="6" model="R" r="100" fs="1" />
+      <Cmp type="R_R" id="11" name="R3" file_name="" view="0" node0="11" node1="12" model="R" r="100" fs="1" />
+      <Cmp type="R_R" id="21" name="R4" file_name="" view="0" node0="3" node1="2" model="R" r="4.7e+3" fs="1" />
+      <Cmp type="R_R" id="23" name="R5" file_name="" view="0" node0="1" node1="5" model="R" r="2" fs="1" />
       <Cmp type="S_LCS" id="19" name="S1" file_name="" view="0" node0="2" node1="1" node2="4" model="Switch" a="0" thr="5" hyst="0" ic="0" width="100e-3" roff="1e+3" ron="1" steps="10" slope="0" />
       <Cmp type="S_LCS" id="20" name="S2" file_name="" view="0" node0="3" node1="2" node2="4" model="Switch" a="1" thr="5" hyst="0" ic="0" width="100e-3" roff="1e+3" ron="1" steps="10" slope="0" />
-      <Cmp type="T_NFET" id="1" name="T1" file_name="" view="0" node0="2" node1="3" node2="7" model="Switch" k="1" f1="inf" vbe="0" ic="" s_ic="0" rdson="1" vd="700e-3" fet_ic="0" fetd_ic="0" />
-      <Cmp type="T_TNPN" id="10" name="T4" file_name="" view="0" node0="11" node1="0" node2="4" model="Switch" k="1" f1="inf" vbe="700e-3" ic="" s_ic="0" vsat="0" be_ic="0" bc_ic="0" />
-      <Cmp type="V_V" id="5" name="V1" file_name="" view="0" node0="0" node1="7" model="V" v="24" />
-      <Cmp type="V_V" id="12" name="V2" file_name="" view="0" node0="0" node1="10" model="Pulse" v="10">
-        <Signal u0="0" u1="5" p="10e-3" w="5e-3" s="0" r="0" f="0" d="0" ph="0" pwl="0%2c0" function="10" file="" trace="" c="0" />
+      <Cmp type="T_NFET" id="1" name="T1" file_name="" view="0" node0="2" node1="3" node2="8" model="Switch" k="1" f1="inf" vbe="0" ic="" s_ic="0" rdson="1" vd="700e-3" fet_ic="0" fetd_ic="0" />
+      <Cmp type="T_TNPN" id="10" name="T4" file_name="" view="0" node0="12" node1="0" node2="4" model="Switch" k="1" f1="inf" vbe="700e-3" ic="" s_ic="0" vsat="0" be_ic="0" bc_ic="0" />
+      <Cmp type="V_V" id="5" name="V1" file_name="" view="0" node0="0" node1="8" model="V" v="24" />
+      <Cmp type="V_V" id="12" name="V2" file_name="" view="0" node0="0" node1="11" model="Pulse" v="10">
+        <Signal u0="0" u1="5" p="20e-6" w="10e-6" s="0" r="0" f="0" d="0" ph="0" pwl="0%2c0" function="10" file="" trace="" c="0" />
       </Cmp>
-      <Cmp type="V_V" id="14" name="V3" file_name="" view="0" node0="0" node1="5" model="V" v="12" />
+      <Cmp type="V_V" id="14" name="V3" file_name="" view="0" node0="0" node1="6" model="V" v="12" />
       <Cmp type="label" id="17" name="Vbs" file_name="" view="0" node0="1" model="Label" ic="" r="0" v="10" />
       <Cmp type="label" id="15" name="Vgate" file_name="" view="0" node0="2" model="Label" ic="" r="0" v="10" />
       <Cmp type="label" id="18" name="Vload" file_name="" view="0" node0="3" model="Label" ic="" r="0" v="10" />
       <Cmp type="label" id="16" name="Vswitch" file_name="" view="0" node0="4" model="Label" ic="" r="0" v="10" />
     </Cmps>
     <Sheet name="Sheet1">
-      <VC size="27" center="-6,1" />
-      <Curs p="0,-1" dir="-1" />
+      <VC size="27" center="-22,6" />
+      <Curs p="-22,6" dir="-1" />
       <Pcts>
-        <Pct type="label" undo_id="357" id="17" p="-6,-7" text0="16,-24" text1="16,24" textdir="0" />
-        <Pct type="label" undo_id="271" id="15" p="-2,-3" text0="16,-24" text1="16,24" textdir="0" />
-        <Pct type="label" undo_id="416" id="18" p="2,0" text0="16,-24" text1="16,24" textdir="0" />
-        <Pct type="label" undo_id="346" id="16" p="-12,2" text0="16,-24" text1="16,24" textdir="0" />
-        <Pct type="cmp" undo_id="167" id="13" p="-14,-7" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="188" id="14" p="-21,-6" dir="1" mir="0" view="0" text0="24,-40" text1="42,-40" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="472" id="19" p="-9,-6" dir="1" mir="0" view="0" text0="32,-30" text1="52,16" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="19" id="3" p="-1,-6" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="51" id="5" p="8,-6" dir="1" mir="0" view="0" text0="24,-40" text1="42,-40" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="90" id="8" p="-6,-5" dir="1" mir="0" view="0" text0="24,-34" text1="40,-34" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="5" id="1" p="1,-3" dir="0" mir="0" view="0" text0="64,10" text1="72,-10" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="484" id="20" p="-9,-2" dir="1" mir="0" view="0" text0="32,-30" text1="52,16" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="628" id="21" p="-4,-1" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="9" id="2" p="-1,-1" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="110" id="9" p="-15,0" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="27" id="4" p="2,1" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="141" id="11" p="-17,4" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="117" id="10" p="-16,4" dir="0" mir="0" view="0" text0="6,-26" text1="50,0" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="155" id="12" p="-22,5" dir="1" mir="0" view="0" text0="24,-40" text1="42,-40" textdir="0" subcir="true" />
-        <Pct type="gnd" undo_id="196" p="-21,-3" dir="1" />
-        <Pct type="gnd" undo_id="56" p="8,-1" dir="1" />
-        <Pct type="gnd" undo_id="31" p="2,5" dir="1" />
-        <Pct type="gnd" undo_id="129" p="-15,6" dir="1" />
-        <Pct type="gnd" undo_id="161" p="-22,7" dir="1" />
-        <Pct type="dot" undo_id="327" p="-17,-7" />
-        <Pct type="dot" undo_id="281" p="-9,-7" />
-        <Pct type="dot" undo_id="282" p="2,-6" />
-        <Pct type="dot" undo_id="284" p="-9,-3" />
-        <Pct type="dot" undo_id="656" p="-4,-2" />
-        <Pct type="dot" undo_id="283" p="-12,-1" />
-        <Pct type="dot" undo_id="286" p="2,-1" />
-        <Pct type="dot" undo_id="285" p="-6,1" />
-        <Pct type="dot" undo_id="642" p="-4,1" />
-        <Pct type="dot" undo_id="280" p="2,1" />
-        <Pct type="dot" undo_id="326" p="-15,3" />
-        <Pct type="line" undo_id="181" p0="-21,-7" p1="-21,-6" />
-        <Pct type="line" undo_id="180" p0="-21,-7" p1="-17,-7" />
-        <Pct type="line" undo_id="648" p0="-17,-7" p1="-14,-7" />
-        <Pct type="line" undo_id="295" p0="-17,-7" p1="-17,-1" />
-        <Pct type="line" undo_id="173" p0="-12,-7" p1="-9,-7" />
-        <Pct type="line" undo_id="649" p0="-9,-7" p1="-6,-7" />
-        <Pct type="line" undo_id="84" p0="-9,-7" p1="-9,-6" />
-        <Pct type="line" undo_id="86" p0="-6,-7" p1="-6,-5" />
-        <Pct type="line" undo_id="46" p0="2,-7" p1="8,-7" />
-        <Pct type="line" undo_id="36" p0="2,-7" p1="2,-6" />
-        <Pct type="line" undo_id="650" p0="2,-6" p1="2,-4" />
-        <Pct type="line" undo_id="47" p0="8,-7" p1="8,-6" />
-        <Pct type="line" undo_id="17" p0="-2,-6" p1="-1,-6" />
-        <Pct type="line" undo_id="12" p0="-2,-6" p1="-2,-3" />
-        <Pct type="line" undo_id="643" p0="-2,-3" p1="-2,-1" />
-        <Pct type="line" undo_id="20" p0="1,-6" p1="2,-6" />
-        <Pct type="line" undo_id="98" p0="-12,-5" p1="-10,-5" />
-        <Pct type="line" undo_id="97" p0="-12,-5" p1="-12,-1" />
-        <Pct type="line" undo_id="652" p0="-12,-1" p1="-12,2" />
-        <Pct type="line" undo_id="646" p0="-12,2" p1="-12,3" />
-        <Pct type="line" undo_id="189" p0="-21,-4" p1="-21,-3" />
-        <Pct type="line" undo_id="80" p0="-9,-4" p1="-9,-3" />
-        <Pct type="line" undo_id="651" p0="-9,-3" p1="-9,-2" />
-        <Pct type="line" undo_id="52" p0="8,-4" p1="8,-1" />
-        <Pct type="line" undo_id="245" p0="-9,-3" p1="-8,-3" />
-        <Pct type="line" undo_id="246" p0="-8,-3" p1="-8,-2" />
-        <Pct type="line" undo_id="91" p0="-6,-3" p1="-6,1" />
-        <Pct type="line" undo_id="249" p0="-3,-3" p1="-2,-3" />
-        <Pct type="line" undo_id="644" p0="-2,-3" p1="1,-3" />
-        <Pct type="line" undo_id="248" p0="-3,-3" p1="-3,-2" />
-        <Pct type="line" undo_id="247" p0="-8,-2" p1="-4,-2" />
-        <Pct type="line" undo_id="655" p0="-4,-2" p1="-3,-2" />
-        <Pct type="line" undo_id="603" p0="-4,-2" p1="-4,-1" />
-        <Pct type="line" undo_id="11" p0="2,-2" p1="2,-1" />
-        <Pct type="line" undo_id="653" p0="2,-1" p1="2,0" />
-        <Pct type="line" undo_id="645" p0="2,0" p1="2,1" />
-        <Pct type="line" undo_id="296" p0="-17,-1" p1="-15,-1" />
-        <Pct type="line" undo_id="104" p0="-15,-1" p1="-15,0" />
-        <Pct type="line" undo_id="302" p0="-12,-1" p1="-10,-1" />
-        <Pct type="line" undo_id="8" p0="-2,-1" p1="-1,-1" />
-        <Pct type="line" undo_id="10" p0="1,-1" p1="2,-1" />
-        <Pct type="line" undo_id="68" p0="-9,0" p1="-9,1" />
-        <Pct type="line" undo_id="67" p0="-9,1" p1="-6,1" />
-        <Pct type="line" undo_id="654" p0="-6,1" p1="-4,1" />
-        <Pct type="line" undo_id="647" p0="-4,1" p1="2,1" />
-        <Pct type="line" undo_id="111" p0="-15,2" p1="-15,3" />
-        <Pct type="line" undo_id="316" p0="-15,3" p1="-12,3" />
-        <Pct type="line" undo_id="28" p0="2,3" p1="2,5" />
-        <Pct type="line" undo_id="149" p0="-22,4" p1="-22,5" />
-        <Pct type="line" undo_id="148" p0="-22,4" p1="-19,4" />
-        <Pct type="line" undo_id="135" p0="-17,4" p1="-16,4" />
-        <Pct type="line" undo_id="123" p0="-15,5" p1="-15,6" />
+        <Pct type="label" undo_id="1" id="17" p="-6,-7" text0="16,-24" text1="16,24" textdir="0" />
+        <Pct type="label" undo_id="2" id="15" p="-2,-3" text0="16,-24" text1="16,24" textdir="0" />
+        <Pct type="label" undo_id="3" id="18" p="2,0" text0="16,-24" text1="16,24" textdir="0" />
+        <Pct type="label" undo_id="4" id="16" p="-12,2" text0="16,-24" text1="16,24" textdir="0" />
+        <Pct type="cmp" undo_id="5" id="13" p="-14,-7" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="177" id="23" p="-11,-7" dir="0" mir="0" view="0" text0="32,-20" text1="32,20" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="6" id="14" p="-21,-6" dir="1" mir="0" view="0" text0="24,-40" text1="42,-40" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="7" id="19" p="-9,-6" dir="1" mir="0" view="0" text0="32,-30" text1="52,16" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="8" id="3" p="-1,-6" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="9" id="5" p="8,-6" dir="1" mir="0" view="0" text0="24,-40" text1="42,-40" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="10" id="8" p="-6,-5" dir="1" mir="0" view="0" text0="24,-34" text1="40,-34" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="11" id="1" p="1,-3" dir="0" mir="0" view="0" text0="64,10" text1="72,-10" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="12" id="20" p="-9,-2" dir="1" mir="0" view="0" text0="32,-30" text1="52,16" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="101" id="22" p="6,-2" dir="3" mir="0" view="0" text0="40,34" text1="24,34" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="13" id="21" p="-4,-1" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="14" id="2" p="-1,-1" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="15" id="9" p="-15,0" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="16" id="4" p="2,1" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="17" id="11" p="-17,4" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="18" id="10" p="-16,4" dir="0" mir="0" view="0" text0="6,-26" text1="50,0" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="19" id="12" p="-22,5" dir="1" mir="0" view="0" text0="24,-40" text1="42,-40" textdir="0" subcir="true" />
+        <Pct type="gnd" undo_id="20" p="-21,-3" dir="1" />
+        <Pct type="gnd" undo_id="21" p="8,-1" dir="1" />
+        <Pct type="gnd" undo_id="22" p="2,5" dir="1" />
+        <Pct type="gnd" undo_id="23" p="-15,6" dir="1" />
+        <Pct type="gnd" undo_id="24" p="-22,7" dir="1" />
+        <Pct type="dot" undo_id="25" p="-17,-7" />
+        <Pct type="dot" undo_id="26" p="-9,-7" />
+        <Pct type="dot" undo_id="27" p="2,-6" />
+        <Pct type="dot" undo_id="28" p="-9,-3" />
+        <Pct type="dot" undo_id="29" p="-4,-2" />
+        <Pct type="dot" undo_id="30" p="-12,-1" />
+        <Pct type="dot" undo_id="31" p="2,-1" />
+        <Pct type="dot" undo_id="32" p="-6,1" />
+        <Pct type="dot" undo_id="33" p="-4,1" />
+        <Pct type="dot" undo_id="34" p="2,1" />
+        <Pct type="dot" undo_id="35" p="-15,3" />
+        <Pct type="line" undo_id="36" p0="-21,-7" p1="-21,-6" />
+        <Pct type="line" undo_id="37" p0="-21,-7" p1="-17,-7" />
+        <Pct type="line" undo_id="183" p0="-17,-7" p1="-14,-7" />
+        <Pct type="line" undo_id="39" p0="-17,-7" p1="-17,-1" />
+        <Pct type="line" undo_id="162" p0="-12,-7" p1="-11,-7" />
+        <Pct type="line" undo_id="139" p0="-9,-7" p1="-6,-7" />
+        <Pct type="line" undo_id="42" p0="-9,-7" p1="-9,-6" />
+        <Pct type="line" undo_id="43" p0="-6,-7" p1="-6,-5" />
+        <Pct type="line" undo_id="44" p0="2,-7" p1="8,-7" />
+        <Pct type="line" undo_id="45" p0="2,-7" p1="2,-6" />
+        <Pct type="line" undo_id="46" p0="8,-7" p1="8,-6" />
+        <Pct type="line" undo_id="47" p0="-2,-6" p1="-1,-6" />
+        <Pct type="line" undo_id="48" p0="-2,-6" p1="-2,-3" />
+        <Pct type="line" undo_id="49" p0="1,-6" p1="2,-6" />
+        <Pct type="line" undo_id="184" p0="2,-6" p1="2,-4" />
+        <Pct type="line" undo_id="185" p0="2,-6" p1="6,-6" />
+        <Pct type="line" undo_id="115" p0="6,-6" p1="6,-4" />
+        <Pct type="line" undo_id="51" p0="-12,-5" p1="-10,-5" />
+        <Pct type="line" undo_id="52" p0="-12,-5" p1="-12,-1" />
+        <Pct type="line" undo_id="53" p0="-21,-4" p1="-21,-3" />
+        <Pct type="line" undo_id="54" p0="-9,-4" p1="-9,-3" />
+        <Pct type="line" undo_id="55" p0="8,-4" p1="8,-1" />
+        <Pct type="line" undo_id="186" p0="-9,-3" p1="-9,-2" />
+        <Pct type="line" undo_id="57" p0="-9,-3" p1="-8,-3" />
+        <Pct type="line" undo_id="58" p0="-8,-3" p1="-8,-2" />
+        <Pct type="line" undo_id="59" p0="-6,-3" p1="-6,1" />
+        <Pct type="line" undo_id="60" p0="-3,-3" p1="-2,-3" />
+        <Pct type="line" undo_id="61" p0="-3,-3" p1="-3,-2" />
+        <Pct type="line" undo_id="178" p0="-2,-3" p1="-2,-1" />
+        <Pct type="line" undo_id="179" p0="-2,-3" p1="1,-3" />
+        <Pct type="line" undo_id="64" p0="-8,-2" p1="-4,-2" />
+        <Pct type="line" undo_id="187" p0="-4,-2" p1="-3,-2" />
+        <Pct type="line" undo_id="66" p0="-4,-2" p1="-4,-1" />
+        <Pct type="line" undo_id="67" p0="2,-2" p1="2,-1" />
+        <Pct type="line" undo_id="132" p0="6,-2" p1="6,-1" />
+        <Pct type="line" undo_id="68" p0="-17,-1" p1="-15,-1" />
+        <Pct type="line" undo_id="69" p0="-15,-1" p1="-15,0" />
+        <Pct type="line" undo_id="188" p0="-12,-1" p1="-12,2" />
+        <Pct type="line" undo_id="71" p0="-12,-1" p1="-10,-1" />
+        <Pct type="line" undo_id="72" p0="-2,-1" p1="-1,-1" />
+        <Pct type="line" undo_id="73" p0="1,-1" p1="2,-1" />
+        <Pct type="line" undo_id="189" p0="2,-1" p1="2,0" />
+        <Pct type="line" undo_id="190" p0="2,-1" p1="6,-1" />
+        <Pct type="line" undo_id="75" p0="-9,0" p1="-9,1" />
+        <Pct type="line" undo_id="180" p0="2,0" p1="2,1" />
+        <Pct type="line" undo_id="77" p0="-9,1" p1="-6,1" />
+        <Pct type="line" undo_id="191" p0="-6,1" p1="-4,1" />
+        <Pct type="line" undo_id="182" p0="-4,1" p1="2,1" />
+        <Pct type="line" undo_id="80" p0="-15,2" p1="-15,3" />
+        <Pct type="line" undo_id="181" p0="-12,2" p1="-12,3" />
+        <Pct type="line" undo_id="82" p0="-15,3" p1="-12,3" />
+        <Pct type="line" undo_id="83" p0="2,3" p1="2,5" />
+        <Pct type="line" undo_id="84" p0="-22,4" p1="-22,5" />
+        <Pct type="line" undo_id="85" p0="-22,4" p1="-19,4" />
+        <Pct type="line" undo_id="86" p0="-17,4" p1="-16,4" />
+        <Pct type="line" undo_id="87" p0="-15,5" p1="-15,6" />
       </Pcts>
     </Sheet>
     <Calc zero="10e-12" kmin="10e-3" nsr="false" ndo="false" os="false" low="0" high="5" thr="2.5" zparam="" />
@@ -131,18 +139,18 @@
         <Width w0="4" w1="4" w2="4" w3="4" w4="4" w5="4" w6="4" w7="4" w8="4" w9="4" w10="4" w11="4" w12="4" />
         <TranTable l="1130574373" t="1919904879" w="0" h="1179010630" usetran="true" seltraces="true" />
       </Table>
-      <TranWin data_points="false" digital_labels="true" numbers="true" preview="false" preview_size="40" digital="false" digital_ratio="500e-3" split="true" legend="true" legend_x="1" legend_y="0" horgrid="true" vertgrid="true" vertscale="false" status_panels="7" phase="0" phase_y="600e-3" state="0" l="26" t="26" w="1181" h="384" table_height="120" />
+      <TranWin data_points="false" digital_labels="true" numbers="true" preview="false" preview_size="40" digital="false" digital_ratio="500e-3" split="true" legend="true" legend_x="1" legend_y="0" horgrid="true" vertgrid="true" vertscale="false" status_panels="7" phase="0" phase_y="600e-3" state="2" table_height="120" />
       <Settings start="0" screen="30e-3" step="1e-6" dispstep="1e-3" savebeforestart="true" sampling="0" rununtil="false" rununtilf="" />
       <Annotations />
-      <Scale start="0" screen="30e-3" scale="1" mid="-0" />
-      <Traces activeTrace="3">
-        <Trace type="0" id="15" color="0,255,0" mode="0" name="V(Vgate)" tracename="" expr="V(Vgate)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="18" mid="18" scale_history="5.7%2c18%2c1%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
-        <Trace type="0" id="12" color="0,255,255" mode="0" name="V(V2)" tracename="" expr="V(V2)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="2.5" mid="2.5" scale_history="1%2c2.5%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
-        <Trace type="0" id="16" color="255,255,0" mode="0" name="V(Vswitch)" tracename="" expr="V(Vswitch)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="6" mid="6" scale_history="1%2c6%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
-        <Trace type="0" id="17" color="255,0,255" mode="0" name="V(Vbs)" tracename="" expr="V(Vbs)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="12" mid="24" scale_history="11.4%2c12%2c1%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
-        <Trace type="0" id="18" color="255,0,0" mode="0" name="V(Vload)" tracename="" expr="V(Vload)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="12" mid="12" scale_history="11.4%2c12%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
+      <Scale start="0" screen="226.391327092e-6" scale="1" mid="-0" />
+      <Traces activeTrace="4">
+        <Trace type="0" id="15" color="0,255,0" mode="0" name="V(Vgate)" tracename="" expr="V(Vgate)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="18" mid="18" scale_history="18.2%2c1%2c18%2c5.7%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
+        <Trace type="0" id="12" color="0,255,255" mode="0" name="V(V2)" tracename="" expr="V(V2)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="2.5" mid="2.5" scale_history="2.5%2c1%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
+        <Trace type="0" id="16" color="255,255,0" mode="0" name="V(Vswitch)" tracename="" expr="V(Vswitch)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="6" mid="6" scale_history="6%2c1%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
+        <Trace type="0" id="17" color="255,0,255" mode="0" name="V(Vbs)" tracename="" expr="V(Vbs)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="12.1" mid="23.9" scale_history="12.7%2c1%2c12%2c11.4%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
+        <Trace type="0" id="18" color="255,0,0" mode="0" name="V(Vload)" tracename="" expr="V(Vload)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="12" mid="12" scale_history="12.2%2c1%2c12%2c11.4%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
       </Traces>
-      <Log>Transient+log%0aStarted+%3a+24%2f8%2f2021+19%3a55%3a49%0aFile+%3a+%0aStopped+%3a+24%2f8%2f2021+19%3a55%3a49%0a0+%3a+Init%0aComponents+%3d+19%0aNodes+%3d+8%0aRank+%3d+21%0aStopped+%3a+24%2f8%2f2021+19%3a55%3a56</Log>
+      <Log>Transient+log%0aStarted+%3a+26%2f8%2f2021+18%3a58%3a44%0aFile+%3a+D%3a%5cJavi%5cDocuments%5cGitHub%5cLevitadorGMI%5cNL5%5cControlador_corriente%5cbootstrap.nl5%0aStopped+%3a+26%2f8%2f2021+18%3a58%3a45%0a0+%3a+Init%0aComponents+%3d+21%0aNodes+%3d+9%0aRank+%3d+23%0a16.1125e-6+%3a+Oscillations+at+node+1+%3a+C3%2c+R5%2c+S1%2c+Vbs%0aStopped+%3a+26%2f8%2f2021+18%3a58%3a47</Log>
     </Tran>
     <Freq storage="1" last="false" storage_shift="true">
       <Cursors enabled="true" locked="false" interval="false" left="100" right="10e+3" active="true" />

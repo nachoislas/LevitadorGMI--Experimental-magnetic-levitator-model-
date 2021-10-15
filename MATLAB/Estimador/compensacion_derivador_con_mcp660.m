@@ -1,7 +1,7 @@
 s = tf('s');
 p1 =2 * pi * 20;           %primer polo del operacional en rads
 p2 = 2* pi * 60e6;          %segundo polo del operacional en rads
-Aw = 3.16227766 * 1e6 * 1 / ((1+s/p1) * (1+s/p2)) ;   %transferencia del operacional
+Aw = 1.778279 * 1e6 * 1 / ((1+s/p1) * (1+s/p2)) ;   %transferencia del operacional
 
 
 R1 = 25e3;                      
@@ -40,7 +40,7 @@ step(tlc)
 %%
 
 Gmenos = -s*C*R1/(1+s*C*(R2+R1));
-tlcmenos = minreal(Gmenos*tlc) * 1 / (1+s/10e3);
+tlcmenos = minreal(Gmenos*tlc) ;
 
 zpk(tlcmenos)
 

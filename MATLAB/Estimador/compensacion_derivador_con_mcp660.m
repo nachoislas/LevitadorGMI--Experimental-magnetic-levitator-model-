@@ -44,4 +44,5 @@ tlcmenos = minreal(Gmenos*tlc) ;
 
 zpk(tlcmenos)
 
+
 bode(tlcmenos)

@@ -4,9 +4,9 @@
   <c> CAUTION: DO NOT MODIFY THIS FILE !!! </c>
   <c>     ...if you don't know how...      </c>
   <c>======================================</c>
-  <Version ver="2" rev="7" build="4" date="03/17/2021" ID="197717677" />
+  <Version ver="2" rev="7" build="4" date="03/17/2021" ID="264825517" />
   <Doc display="3" activeSheet="0">
-    <Properties title="No+title" revision="1.0" author="Javi" project="Unknown" organization="Javi" comments="" created="17%2f10%2f2021+17%3a04%3a35" modified="19%2f10%2f2021+18%3a38%3a28" save="0" />
+    <Properties title="No+title" revision="1.0" author="Javi" project="Unknown" organization="Javi" comments="" created="17%2f10%2f2021+17%3a04%3a35" modified="19%2f10%2f2021+18%3a48%3a42" save="0" />
     <CirWin state="2" />
     <Cmps>
       <Cmp type="C_C" id="15" name="C1" file_name="" view="0" node0="0" node1="18" model="C" ic="" c="900e-12" fs="1%2fs" />
@@ -66,7 +66,7 @@
       <Cmp type="label" id="38" name="Vsw" file_name="" view="0" node0="5" model="Label" ic="" r="0" v="10" />
     </Cmps>
     <Sheet name="Sheet1">
-      <VC size="18" center="17,3" />
+      <VC size="18" center="17,5" />
       <Curs p="62,0" dir="-1" />
       <Pcts>
         <Pct type="label" undo_id="1" id="4" p="-10,-7" text0="16,-24" text1="56,-13" textdir="0" />
@@ -246,7 +246,7 @@
     </Sheet>
     <Calc zero="10e-12" kmin="10e-3" nsr="false" ndo="false" os="false" timeout="0" low="0" high="5" thr="2.5" zparam="" />
     <Tran storage="1" last="false" storage_shift="true">
-      <Cursors enabled="true" locked="false" interval="false" left="3.51919511383e-3" right="7.63575924447e-3" active="false" />
+      <Cursors enabled="true" locked="false" interval="false" left="14.9261419942e-3" right="15.574456071e-3" active="true" />
       <Table enabled="true" tran_table="false" time_table="true" time_header="false" vars="6143">
         <Width w0="4" w1="4" w2="4" w3="4" w4="4" w5="4" w6="4" w7="4" w8="4" w9="4" w10="4" w11="4" w12="4" />
         <TranTable l="0" t="0" w="0" h="0" usetran="false" seltraces="false" />
@@ -254,13 +254,28 @@
       <TranWin data_points="false" digital_labels="true" numbers="true" preview="false" preview_size="40" digital="false" digital_ratio="500e-3" split="true" legend="true" legend_x="1" legend_y="0" horgrid="true" vertgrid="true" vertscale="false" status_panels="7" phase="0" phase_y="600e-3" state="0" l="26" t="26" w="1181" h="384" table_height="120" />
       <Settings start="0" screen="20e-3" step="100e-9" dispstep="1e-3" savebeforestart="true" sampling="0" rununtil="false" rununtilf="" />
       <Annotations />
-      <Scale start="11.4291217257e-3" screen="5e-3" scale="1" mid="-0" />
-      <Traces activeTrace="0">
-        <Trace type="1" id="26" color="0,255,0" mode="0" name="I(L(y))" tracename="" expr="I(L(y))" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="246e-3" mid="5.982" scale_history="246e-3%2c254e-3%2c3.25%2c5%2c4.35%2c3.3%2c256e-3%2c15.2%2c14.2%2c12.9" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
-        <Trace type="0" id="40" color="255,0,255" mode="0" name="V(Vh)" tracename="" expr="V(Vh)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="2.5" mid="2.5" scale_history="2.9%2c2.5%2c3.25%2c650e-3%2c730e-3%2c1%2c101e-3%2c1.82e%2b15%2c28.2%2c31" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
-        <Trace type="0" id="38" color="0,255,255" mode="0" name="V(Vsw)" tracename="" expr="V(Vsw)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="2.8" mid="2.5" scale_history="5.45%2c2.5%2c12.2%2c7.7%2c12%2c11.7%2c920e%2b12%2c57.5%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0" />
+      <Scale start="13.6390403928e-3" screen="1.27921736499e-3" scale="1" mid="-600e-3" />
+      <Traces activeTrace="2">
+        <Trace type="1" id="26" color="0,255,0" mode="0" name="I(L(y))" tracename="" expr="I(L(y))" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="254e-3" mid="5.822" scale_history="254e-3%2c3.25%2c246e-3%2c5%2c4.35%2c3.3%2c256e-3%2c15.2%2c14.2%2c12.9" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0">
+          <Annotations>
+            <Annotation align="-1" dir="0" offset="-248,5" txt="Corriente+en+el+electroim%e1n" t="10.2134804375e-3" output="0" offset_xy="-50,-50" offset_ed="-50,-50" offset_ny="-50,-50" offset_ni="-50,-50" offset_smith="-50,-50" />
+            <Annotation align="-1" dir="0" offset="-159,-66" txt="" t="14.5605105286e-3" output="1" offset_xy="-50,-50" offset_ed="-50,-50" offset_ny="-50,-50" offset_ni="-50,-50" offset_smith="-50,-50" />
+          </Annotations>
+        </Trace>
+        <Trace type="0" id="40" color="255,0,255" mode="0" name="V(Vh)" tracename="" expr="V(Vh)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="2.5" mid="1" scale_history="2.5%2c2.9%2c3.25%2c650e-3%2c730e-3%2c1%2c101e-3%2c1.82e%2b15%2c28.2%2c31" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0">
+          <Annotations>
+            <Annotation align="-1" dir="0" offset="-262,19" txt="Salida+del+comparador+con+histeresis" t="10.7011515e-3" output="0" offset_xy="-50,-50" offset_ed="-50,-50" offset_ny="-50,-50" offset_ni="-50,-50" offset_smith="-50,-50" />
+            <Annotation align="-1" dir="0" offset="-153,-44" txt="" t="14.5605105286e-3" output="1" offset_xy="-50,-50" offset_ed="-50,-50" offset_ny="-50,-50" offset_ni="-50,-50" offset_smith="-50,-50" />
+          </Annotations>
+        </Trace>
+        <Trace type="0" id="38" color="0,255,255" mode="0" name="V(Vsw)" tracename="" expr="V(Vsw)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="2.78" mid="840e-3" scale_history="2.8%2c5.45%2c2.5%2c12.2%2c7.7%2c12%2c11.7%2c920e%2b12%2c57.5%2c10" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0">
+          <Annotations>
+            <Annotation align="-1" dir="0" offset="-50,-50" txt="" t="7.63575924447e-3" output="1" offset_xy="-50,-50" offset_ed="-50,-50" offset_ny="-50,-50" offset_ni="-50,-50" offset_smith="-50,-50" />
+            <Annotation align="-1" dir="0" offset="-148,-55" txt="" t="14.5570414121e-3" output="1" offset_xy="-50,-50" offset_ed="-50,-50" offset_ny="-50,-50" offset_ni="-50,-50" offset_smith="-50,-50" />
+          </Annotations>
+        </Trace>
       </Traces>
-      <Log>Transient+log%0aStarted+%3a+19%2f10%2f2021+18%3a28%3a18%0aFile+%3a+D%3a%5cJavi%5cDocuments%5cGitHub%5cLevitadorGMI%5cNL5%5cControlador_corriente%5ccontrolador_corriente_nuevo.nl5%0aStopped+%3a+19%2f10%2f2021+18%3a28%3a18%0a0+%3a+Init%0aComponents+%3d+47%0aNodes+%3d+22%0aRank+%3d+44%0a98.9109e-6+%3a+Oscillations+at+node+12+%3a+O1%2c+R4%2c+R5</Log>
+      <Log>Transient+log%0aStarted+%3a+19%2f10%2f2021+18%3a38%3a33%0aFile+%3a+D%3a%5cJavi%5cDocuments%5cGitHub%5cLevitadorGMI%5cNL5%5cControlador_corriente%5ccontrolador_corriente_nuevo.nl5%0aStopped+%3a+19%2f10%2f2021+18%3a38%3a33%0a0+%3a+Init%0aComponents+%3d+53%0aNodes+%3d+22%0aRank+%3d+44%0a1.92888e-6+%3a+Oscillations+at+node+14+%3a+O1%2c+R4%2c+R5%0aStopped+%3a+19%2f10%2f2021+18%3a38%3a45</Log>
     </Tran>
     <Freq storage="1" last="false" storage_shift="true">
       <Cursors enabled="true" locked="false" interval="false" left="100" right="10e+3" active="true" />

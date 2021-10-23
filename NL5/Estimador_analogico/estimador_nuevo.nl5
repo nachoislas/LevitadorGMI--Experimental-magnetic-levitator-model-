@@ -4,9 +4,9 @@
   <c> CAUTION: DO NOT MODIFY THIS FILE !!! </c>
   <c>     ...if you don't know how...      </c>
   <c>======================================</c>
-  <Version ver="2" rev="7" build="4" date="03/17/2021" ID="197684909" />
+  <Version ver="2" rev="5" build="3" date="08/19/2019" ID="1322004397" />
   <Doc display="3" activeSheet="0">
-    <Properties title="No+title" revision="1.0" author="Javi" project="Unknown" organization="Javi" comments="" created="17%2f10%2f2021+17%3a04%3a35" modified="19%2f10%2f2021+19%3a47%3a02" save="0" />
+    <Properties title="No+title" revision="1.0" author="Javi" project="Unknown" organization="Javi" comments="" created="17%2f10%2f2021+17%3a04%3a35" modified="23%2f10%2f2021+12%3a05%3a19" save="0" />
     <CirWin state="2" />
     <Cmps>
       <Cmp type="C_C" id="15" name="C1" file_name="" view="0" node0="0" node1="19" model="C" ic="" c="900e-12" fs="1%2fs" />
@@ -96,8 +96,8 @@
       <Cmp type="label" id="38" name="Vsw" file_name="" view="0" node0="5" model="Label" ic="" r="0" v="10" />
     </Cmps>
     <Sheet name="Sheet1">
-      <VC size="37" center="41,27" />
-      <Curs p="18,39" dir="-1" />
+      <VC size="8" center="53,23" />
+      <Curs p="61,29" dir="-1" />
       <Pcts>
         <Pct type="label" undo_id="1" id="4" p="-10,-7" text0="16,-24" text1="56,-13" textdir="0" />
         <Pct type="label" undo_id="2" id="49" p="-15,-3" text0="16,-24" text1="16,24" textdir="0" />
@@ -110,15 +110,14 @@
         <Pct type="label" undo_id="9" id="48" p="-6,12" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="10" id="47" p="19,13" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="11" id="4" p="42,13" text0="16,-24" text1="16,24" textdir="0" />
-        <Pct type="label" undo_id="12" id="82" p="50,18" text0="16,-24" text1="29,1" textdir="0" />
-        <Pct type="label" undo_id="13" id="85" p="46,24" text0="16,-24" text1="16,24" textdir="0" />
-        <Pct type="label" undo_id="14" id="83" p="61,25" text0="16,-24" text1="16,24" textdir="0" />
+        <Pct type="label" undo_id="12" id="82" p="45,18" text0="16,-24" text1="29,1" textdir="0" />
+        <Pct type="label" undo_id="13" id="85" p="42,24" text0="16,-24" text1="16,24" textdir="0" />
+        <Pct type="label" undo_id="14" id="83" p="56,25" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="15" id="84" p="39,26" text0="16,-24" text1="16,24" textdir="0" />
-        <Pct type="label" undo_id="16" id="85" p="46,27" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="17" id="66" p="12,28" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="18" id="65" p="26,29" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="19" id="13" p="30,31" text0="16,-24" text1="16,24" textdir="0" />
-        <Pct type="label" undo_id="20" id="13" p="55,32" text0="16,-24" text1="16,24" textdir="0" />
+        <Pct type="label" undo_id="20" id="13" p="50,32" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="21" id="64" p="11,37" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="22" id="13" p="-6,38" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="cmp" undo_id="23" id="24" p="37,-5" dir="1" mir="0" view="0" text0="24,-40" text1="42,-40" textdir="0" subcir="true" />
@@ -160,28 +159,28 @@
         <Pct type="cmp" undo_id="59" id="31" p="13,13" dir="2" mir="0" view="0" text0="70,-18" text1="121,5" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="60" id="29" p="17,13" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="61" id="30" p="14,14" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="62" id="80" p="56,20" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="63" id="73" p="50,22" dir="3" mir="0" view="0" text0="40,30" text1="24,30" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="64" id="79" p="56,22" dir="0" mir="0" view="0" text0="32,-20" text1="32,20" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="62" id="80" p="51,20" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="63" id="73" p="45,22" dir="3" mir="0" view="0" text0="40,30" text1="24,30" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="64" id="79" p="51,22" dir="0" mir="0" view="0" text0="32,-20" text1="32,20" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="65" id="53" p="5,23" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="66" id="63" p="22,23" dir="0" mir="0" view="0" text0="32,-20" text1="32,20" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="67" id="72" p="37,24" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="68" id="78" p="53,24" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="68" id="78" p="48,24" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="69" id="69" p="35,26" dir="0" mir="0" view="0" text0="32,-20" text1="32,20" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="70" id="76" p="54,26" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="71" id="75" p="56,26" dir="0" mir="1" view="0" text0="70,-18" text1="70,0" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="70" id="76" p="49,26" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="71" id="75" p="51,26" dir="0" mir="1" view="0" text0="70,-18" text1="70,0" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="72" id="54" p="-3,27" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="73" id="52" p="1,27" dir="2" mir="0" view="0" text0="32,20" text1="32,-20" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="74" id="50" p="6,27" dir="0" mir="0" view="0" text0="70,-18" text1="70,0" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="75" id="71" p="46,27" dir="1" mir="0" view="0" text0="40,34" text1="24,34" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="75" id="71" p="42,27" dir="1" mir="0" view="0" text0="40,34" text1="24,34" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="76" id="51" p="2,28" dir="1" mir="0" view="0" text0="24,-34" text1="40,-34" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="77" id="61" p="13,28" dir="0" mir="0" view="0" text0="32,-20" text1="32,20" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="78" id="62" p="17,28" dir="0" mir="0" view="0" text0="32,-24" text1="32,24" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="79" id="74" p="50,28" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="79" id="74" p="45,28" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="80" id="67" p="30,29" dir="0" mir="0" view="0" text0="32,-20" text1="32,20" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="81" id="70" p="39,29" dir="3" mir="0" view="0" text0="24,-34" text1="40,-34" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="82" id="77" p="55,29" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
-        <Pct type="cmp" undo_id="83" id="81" p="59,29" dir="1" mir="0" view="0" text0="24,-34" text1="40,-34" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="82" id="77" p="50,29" dir="1" mir="0" view="0" text0="24,-30" text1="40,-30" textdir="0" subcir="true" />
+        <Pct type="cmp" undo_id="83" id="81" p="54,29" dir="1" mir="0" view="0" text0="24,-34" text1="40,-34" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="84" id="60" p="21,30" dir="0" mir="1" view="0" text0="70,-18" text1="70,0" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="85" id="68" p="34,31" dir="0" mir="1" view="0" text0="70,-18" text1="70,0" textdir="0" subcir="true" />
         <Pct type="cmp" undo_id="86" id="56" p="7,34" dir="0" mir="0" view="0" text0="32,-20" text1="32,20" textdir="0" subcir="true" />
@@ -199,8 +198,8 @@
         <Pct type="gnd" undo_id="98" p="46,8" dir="1" />
         <Pct type="gnd" undo_id="99" p="14,16" dir="1" />
         <Pct type="gnd" undo_id="100" p="2,30" dir="1" />
-        <Pct type="gnd" undo_id="101" p="50,31" dir="1" />
-        <Pct type="gnd" undo_id="102" p="59,31" dir="1" />
+        <Pct type="gnd" undo_id="101" p="45,31" dir="1" />
+        <Pct type="gnd" undo_id="102" p="54,31" dir="1" />
         <Pct type="gnd" undo_id="103" p="4,41" dir="1" />
         <Pct type="dot" undo_id="104" p="30,-5" />
         <Pct type="dot" undo_id="105" p="37,-5" />
@@ -219,97 +218,97 @@
         <Pct type="dot" undo_id="118" p="14,11" />
         <Pct type="dot" undo_id="119" p="9,12" />
         <Pct type="dot" undo_id="120" p="14,13" />
-        <Pct type="dot" undo_id="121" p="55,22" />
-        <Pct type="dot" undo_id="736" p="61,22" />
-        <Pct type="dot" undo_id="123" p="50,24" />
-        <Pct type="dot" undo_id="124" p="55,24" />
+        <Pct type="dot" undo_id="121" p="50,22" />
+        <Pct type="dot" undo_id="122" p="56,22" />
+        <Pct type="dot" undo_id="123" p="45,24" />
+        <Pct type="dot" undo_id="124" p="50,24" />
         <Pct type="dot" undo_id="125" p="33,26" />
-        <Pct type="dot" undo_id="126" p="50,26" />
-        <Pct type="dot" undo_id="127" p="55,26" />
+        <Pct type="dot" undo_id="126" p="45,26" />
+        <Pct type="dot" undo_id="127" p="50,26" />
         <Pct type="dot" undo_id="128" p="-6,27" />
         <Pct type="dot" undo_id="129" p="-2,27" />
         <Pct type="dot" undo_id="130" p="2,27" />
         <Pct type="dot" undo_id="131" p="10,28" />
         <Pct type="dot" undo_id="132" p="20,28" />
-        <Pct type="dot" undo_id="737" p="55,28" />
+        <Pct type="dot" undo_id="133" p="50,28" />
         <Pct type="dot" undo_id="134" p="33,29" />
         <Pct type="dot" undo_id="135" p="39,30" />
         <Pct type="dot" undo_id="136" p="4,36" />
         <Pct type="dot" undo_id="137" p="4,38" />
         <Pct type="line" undo_id="138" p0="21,-8" p1="52,-8" />
         <Pct type="line" undo_id="139" p0="21,-8" p1="21,0" />
-        <Pct type="line" undo_id="1046" p0="21,0" p1="21,6" />
+        <Pct type="line" undo_id="1256" p0="21,0" p1="21,6" />
         <Pct type="line" undo_id="140" p0="52,-8" p1="52,0" />
-        <Pct type="line" undo_id="1048" p0="52,0" p1="52,6" />
+        <Pct type="line" undo_id="1258" p0="52,0" p1="52,6" />
         <Pct type="line" undo_id="141" p0="-10,-7" p1="-10,-6" />
         <Pct type="line" undo_id="142" p0="27,-5" p1="30,-5" />
-        <Pct type="line" undo_id="1042" p0="30,-5" p1="37,-5" />
-        <Pct type="line" undo_id="1040" p0="37,-5" p1="44,-5" />
-        <Pct type="line" undo_id="1043" p0="44,-5" p1="46,-5" />
+        <Pct type="line" undo_id="1252" p0="30,-5" p1="37,-5" />
+        <Pct type="line" undo_id="1250" p0="37,-5" p1="44,-5" />
+        <Pct type="line" undo_id="1253" p0="44,-5" p1="46,-5" />
         <Pct type="line" undo_id="143" p0="27,-5" p1="27,-1" />
-        <Pct type="line" undo_id="144" p0="30,-5" p1="30,-2" />
-        <Pct type="line" undo_id="147" p0="44,-5" p1="44,-4" />
+        <Pct type="line" undo_id="145" p0="30,-5" p1="30,-2" />
+        <Pct type="line" undo_id="148" p0="44,-5" p1="44,-4" />
         <Pct type="line" undo_id="149" p0="46,-5" p1="46,-1" />
         <Pct type="line" undo_id="150" p0="-10,-4" p1="-10,-3" />
-        <Pct type="line" undo_id="1044" p0="-10,-3" p1="-10,-2" />
+        <Pct type="line" undo_id="1254" p0="-10,-3" p1="-10,-2" />
         <Pct type="line" undo_id="151" p0="12,-4" p1="15,-4" />
         <Pct type="line" undo_id="152" p0="12,-4" p1="12,-1" />
         <Pct type="line" undo_id="153" p0="17,-4" p1="19,-4" />
         <Pct type="line" undo_id="154" p0="19,-4" p1="19,0" />
-        <Pct type="line" undo_id="1031" p0="19,0" p1="19,3" />
+        <Pct type="line" undo_id="1241" p0="19,0" p1="19,3" />
         <Pct type="line" undo_id="155" p0="-15,-3" p1="-13,-3" />
         <Pct type="line" undo_id="156" p0="-15,-3" p1="-15,-2" />
         <Pct type="line" undo_id="157" p0="-11,-3" p1="-10,-3" />
-        <Pct type="line" undo_id="1045" p0="-10,-3" p1="-6,-3" />
+        <Pct type="line" undo_id="1255" p0="-10,-3" p1="-6,-3" />
         <Pct type="line" undo_id="160" p0="-3,-2" p1="-2,-2" />
-        <Pct type="line" undo_id="1029" p0="-2,-2" p1="-1,-2" />
-        <Pct type="line" undo_id="161" p0="-2,-2" p1="-2,2" />
+        <Pct type="line" undo_id="1239" p0="-2,-2" p1="-1,-2" />
+        <Pct type="line" undo_id="162" p0="-2,-2" p1="-2,2" />
         <Pct type="line" undo_id="163" p0="1,-2" p1="3,-2" />
         <Pct type="line" undo_id="164" p0="44,-2" p1="44,3" />
-        <Pct type="line" undo_id="1054" p0="44,3" p1="44,6" />
+        <Pct type="line" undo_id="1264" p0="44,3" p1="44,6" />
         <Pct type="line" undo_id="165" p0="-6,-1" p1="-6,2" />
-        <Pct type="line" undo_id="1049" p0="-6,2" p1="-6,3" />
+        <Pct type="line" undo_id="1259" p0="-6,2" p1="-6,3" />
         <Pct type="line" undo_id="166" p0="6,-1" p1="8,-1" />
-        <Pct type="line" undo_id="1030" p0="8,-1" p1="9,-1" />
-        <Pct type="line" undo_id="167" p0="8,-1" p1="8,2" />
+        <Pct type="line" undo_id="1240" p0="8,-1" p1="9,-1" />
+        <Pct type="line" undo_id="168" p0="8,-1" p1="8,2" />
         <Pct type="line" undo_id="169" p0="11,-1" p1="12,-1" />
-        <Pct type="line" undo_id="1041" p0="12,-1" p1="15,-1" />
+        <Pct type="line" undo_id="1251" p0="12,-1" p1="15,-1" />
         <Pct type="line" undo_id="171" p0="2,0" p1="2,2" />
         <Pct type="line" undo_id="172" p0="2,0" p1="3,0" />
         <Pct type="line" undo_id="173" p0="18,0" p1="19,0" />
-        <Pct type="line" undo_id="1032" p0="19,0" p1="21,0" />
-        <Pct type="line" undo_id="1047" p0="21,0" p1="23,0" />
+        <Pct type="line" undo_id="1242" p0="19,0" p1="21,0" />
+        <Pct type="line" undo_id="1257" p0="21,0" p1="23,0" />
         <Pct type="line" undo_id="178" p0="25,0" p1="26,0" />
         <Pct type="line" undo_id="179" p0="30,0" p1="30,3" />
-        <Pct type="line" undo_id="1052" p0="30,3" p1="30,5" />
+        <Pct type="line" undo_id="1262" p0="30,3" p1="30,5" />
         <Pct type="line" undo_id="180" p0="47,0" p1="48,0" />
         <Pct type="line" undo_id="181" p0="50,0" p1="52,0" />
         <Pct type="line" undo_id="183" p0="15,1" p1="15,3" />
-        <Pct type="line" undo_id="1050" p0="15,3" p1="15,4" />
+        <Pct type="line" undo_id="1260" p0="15,3" p1="15,4" />
         <Pct type="line" undo_id="184" p0="27,1" p1="27,3" />
-        <Pct type="line" undo_id="1051" p0="27,3" p1="27,5" />
+        <Pct type="line" undo_id="1261" p0="27,3" p1="27,5" />
         <Pct type="line" undo_id="185" p0="46,1" p1="46,3" />
-        <Pct type="line" undo_id="1056" p0="46,3" p1="46,5" />
-        <Pct type="line" undo_id="186" p0="-6,2" p1="-5,2" />
+        <Pct type="line" undo_id="1266" p0="46,3" p1="46,5" />
+        <Pct type="line" undo_id="187" p0="-6,2" p1="-5,2" />
         <Pct type="line" undo_id="188" p0="-3,2" p1="-2,2" />
         <Pct type="line" undo_id="189" p0="2,2" p1="4,2" />
         <Pct type="line" undo_id="190" p0="6,2" p1="8,2" />
-        <Pct type="line" undo_id="191" p0="15,3" p1="16,3" />
+        <Pct type="line" undo_id="192" p0="15,3" p1="16,3" />
         <Pct type="line" undo_id="193" p0="18,3" p1="19,3" />
-        <Pct type="line" undo_id="194" p0="27,3" p1="30,3" />
-        <Pct type="line" undo_id="1053" p0="30,3" p1="31,3" />
+        <Pct type="line" undo_id="195" p0="27,3" p1="30,3" />
+        <Pct type="line" undo_id="1263" p0="30,3" p1="31,3" />
         <Pct type="line" undo_id="198" p0="33,3" p1="34,3" />
         <Pct type="line" undo_id="199" p0="36,3" p1="37,3" />
         <Pct type="line" undo_id="200" p0="41,3" p1="44,3" />
-        <Pct type="line" undo_id="1055" p0="44,3" p1="46,3" />
+        <Pct type="line" undo_id="1265" p0="44,3" p1="46,3" />
         <Pct type="line" undo_id="204" p0="2,4" p1="2,5" />
         <Pct type="line" undo_id="205" p0="37,4" p1="37,13" />
         <Pct type="line" undo_id="206" p0="37,4" p1="39,4" />
         <Pct type="line" undo_id="207" p0="41,4" p1="42,4" />
         <Pct type="line" undo_id="208" p0="42,4" p1="42,13" />
         <Pct type="line" undo_id="209" p0="-6,5" p1="-6,12" />
-        <Pct type="line" undo_id="1033" p0="-6,12" p1="-6,27" />
-        <Pct type="line" undo_id="1067" p0="-6,27" p1="-6,36" />
+        <Pct type="line" undo_id="1243" p0="-6,12" p1="-6,27" />
+        <Pct type="line" undo_id="1277" p0="-6,27" p1="-6,36" />
         <Pct type="line" undo_id="210" p0="21,6" p1="23,6" />
         <Pct type="line" undo_id="211" p0="25,6" p1="26,6" />
         <Pct type="line" undo_id="212" p0="47,6" p1="48,6" />
@@ -322,25 +321,25 @@
         <Pct type="line" undo_id="219" p0="12,9" p1="14,9" />
         <Pct type="line" undo_id="220" p0="14,9" p1="14,11" />
         <Pct type="line" undo_id="221" p0="13,11" p1="14,11" />
-        <Pct type="line" undo_id="1057" p0="14,11" p1="15,11" />
+        <Pct type="line" undo_id="1267" p0="14,11" p1="15,11" />
         <Pct type="line" undo_id="223" p0="17,11" p1="19,11" />
-        <Pct type="line" undo_id="224" p0="-6,12" p1="9,12" />
-        <Pct type="line" undo_id="1058" p0="9,12" p1="10,12" />
+        <Pct type="line" undo_id="225" p0="-6,12" p1="9,12" />
+        <Pct type="line" undo_id="1268" p0="9,12" p1="10,12" />
         <Pct type="line" undo_id="227" p0="13,13" p1="14,13" />
-        <Pct type="line" undo_id="1059" p0="14,13" p1="15,13" />
-        <Pct type="line" undo_id="228" p0="14,13" p1="14,14" />
+        <Pct type="line" undo_id="1269" p0="14,13" p1="15,13" />
+        <Pct type="line" undo_id="229" p0="14,13" p1="14,14" />
         <Pct type="line" undo_id="230" p0="17,13" p1="19,13" />
-        <Pct type="line" undo_id="1034" p0="19,13" p1="37,13" />
-        <Pct type="line" undo_id="232" p0="50,18" p1="50,20" />
-        <Pct type="line" undo_id="233" p0="55,20" p1="56,20" />
-        <Pct type="line" undo_id="234" p0="55,20" p1="55,22" />
-        <Pct type="line" undo_id="1060" p0="55,22" p1="55,24" />
-        <Pct type="line" undo_id="235" p0="58,20" p1="61,20" />
-        <Pct type="line" undo_id="236" p0="61,20" p1="61,22" />
-        <Pct type="line" undo_id="1061" p0="61,22" p1="61,25" />
-        <Pct type="line" undo_id="237" p0="50,22" p1="50,24" />
-        <Pct type="line" undo_id="238" p0="55,22" p1="56,22" />
-        <Pct type="line" undo_id="240" p0="58,22" p1="61,22" />
+        <Pct type="line" undo_id="1244" p0="19,13" p1="37,13" />
+        <Pct type="line" undo_id="232" p0="45,18" p1="45,20" />
+        <Pct type="line" undo_id="233" p0="50,20" p1="51,20" />
+        <Pct type="line" undo_id="234" p0="50,20" p1="50,22" />
+        <Pct type="line" undo_id="1270" p0="50,22" p1="50,24" />
+        <Pct type="line" undo_id="235" p0="53,20" p1="56,20" />
+        <Pct type="line" undo_id="236" p0="56,20" p1="56,22" />
+        <Pct type="line" undo_id="1271" p0="56,22" p1="56,25" />
+        <Pct type="line" undo_id="237" p0="45,22" p1="45,24" />
+        <Pct type="line" undo_id="239" p0="50,22" p1="51,22" />
+        <Pct type="line" undo_id="240" p0="53,22" p1="56,22" />
         <Pct type="line" undo_id="242" p0="-2,23" p1="5,23" />
         <Pct type="line" undo_id="243" p0="-2,23" p1="-2,27" />
         <Pct type="line" undo_id="244" p0="7,23" p1="12,23" />
@@ -350,72 +349,72 @@
         <Pct type="line" undo_id="248" p0="24,23" p1="26,23" />
         <Pct type="line" undo_id="249" p0="26,23" p1="26,29" />
         <Pct type="line" undo_id="250" p0="33,24" p1="33,26" />
-        <Pct type="line" undo_id="1064" p0="33,26" p1="33,29" />
+        <Pct type="line" undo_id="1274" p0="33,26" p1="33,29" />
         <Pct type="line" undo_id="251" p0="33,24" p1="35,24" />
-        <Pct type="line" undo_id="252" p0="37,24" p1="46,24" />
-        <Pct type="line" undo_id="1035" p0="46,24" p1="50,24" />
-        <Pct type="line" undo_id="1062" p0="50,24" p1="51,24" />
-        <Pct type="line" undo_id="255" p0="53,24" p1="55,24" />
-        <Pct type="line" undo_id="1063" p0="55,24" p1="56,24" />
-        <Pct type="line" undo_id="257" p0="59,25" p1="61,25" />
-        <Pct type="line" undo_id="258" p0="33,26" p1="35,26" />
+        <Pct type="line" undo_id="252" p0="37,24" p1="42,24" />
+        <Pct type="line" undo_id="1245" p0="42,24" p1="45,24" />
+        <Pct type="line" undo_id="1272" p0="45,24" p1="46,24" />
+        <Pct type="line" undo_id="507" p0="42,24" p1="42,27" />
+        <Pct type="line" undo_id="1189" p0="48,24" p1="50,24" />
+        <Pct type="line" undo_id="1273" p0="50,24" p1="51,24" />
+        <Pct type="line" undo_id="257" p0="54,25" p1="56,25" />
+        <Pct type="line" undo_id="259" p0="33,26" p1="35,26" />
         <Pct type="line" undo_id="260" p0="37,26" p1="39,26" />
-        <Pct type="line" undo_id="1036" p0="39,26" p1="50,26" />
-        <Pct type="line" undo_id="1065" p0="50,26" p1="52,26" />
-        <Pct type="line" undo_id="261" p0="39,26" p1="39,27" />
-        <Pct type="line" undo_id="263" p0="50,26" p1="50,28" />
-        <Pct type="line" undo_id="265" p0="54,26" p1="55,26" />
-        <Pct type="line" undo_id="1066" p0="55,26" p1="56,26" />
-        <Pct type="line" undo_id="266" p0="55,26" p1="55,28" />
-        <Pct type="line" undo_id="1072" p0="55,28" p1="55,29" />
-        <Pct type="line" undo_id="268" p0="-6,27" p1="-5,27" />
+        <Pct type="line" undo_id="1246" p0="39,26" p1="45,26" />
+        <Pct type="line" undo_id="1275" p0="45,26" p1="47,26" />
+        <Pct type="line" undo_id="262" p0="39,26" p1="39,27" />
+        <Pct type="line" undo_id="264" p0="45,26" p1="45,28" />
+        <Pct type="line" undo_id="265" p0="49,26" p1="50,26" />
+        <Pct type="line" undo_id="1276" p0="50,26" p1="51,26" />
+        <Pct type="line" undo_id="267" p0="50,26" p1="50,28" />
+        <Pct type="line" undo_id="1282" p0="50,28" p1="50,29" />
+        <Pct type="line" undo_id="269" p0="-6,27" p1="-5,27" />
         <Pct type="line" undo_id="270" p0="-3,27" p1="-2,27" />
-        <Pct type="line" undo_id="1068" p0="-2,27" p1="-1,27" />
+        <Pct type="line" undo_id="1278" p0="-2,27" p1="-1,27" />
         <Pct type="line" undo_id="272" p0="1,27" p1="2,27" />
-        <Pct type="line" undo_id="1069" p0="2,27" p1="6,27" />
-        <Pct type="line" undo_id="273" p0="2,27" p1="2,28" />
+        <Pct type="line" undo_id="1279" p0="2,27" p1="6,27" />
+        <Pct type="line" undo_id="274" p0="2,27" p1="2,28" />
         <Pct type="line" undo_id="275" p0="9,28" p1="10,28" />
-        <Pct type="line" undo_id="1070" p0="10,28" p1="12,28" />
-        <Pct type="line" undo_id="1037" p0="12,28" p1="13,28" />
-        <Pct type="line" undo_id="276" p0="10,28" p1="10,31" />
+        <Pct type="line" undo_id="1280" p0="10,28" p1="12,28" />
+        <Pct type="line" undo_id="1247" p0="12,28" p1="13,28" />
+        <Pct type="line" undo_id="277" p0="10,28" p1="10,31" />
         <Pct type="line" undo_id="279" p0="15,28" p1="17,28" />
         <Pct type="line" undo_id="280" p0="19,28" p1="20,28" />
-        <Pct type="line" undo_id="1071" p0="20,28" p1="21,28" />
-        <Pct type="line" undo_id="282" p0="55,28" p1="59,28" />
-        <Pct type="line" undo_id="284" p0="59,28" p1="59,29" />
+        <Pct type="line" undo_id="1281" p0="20,28" p1="21,28" />
+        <Pct type="line" undo_id="283" p0="50,28" p1="54,28" />
+        <Pct type="line" undo_id="284" p0="54,28" p1="54,29" />
         <Pct type="line" undo_id="285" p0="5,29" p1="5,31" />
         <Pct type="line" undo_id="286" p0="5,29" p1="6,29" />
         <Pct type="line" undo_id="287" p0="24,29" p1="26,29" />
-        <Pct type="line" undo_id="1038" p0="26,29" p1="30,29" />
+        <Pct type="line" undo_id="1248" p0="26,29" p1="30,29" />
         <Pct type="line" undo_id="289" p0="32,29" p1="33,29" />
-        <Pct type="line" undo_id="1073" p0="33,29" p1="34,29" />
+        <Pct type="line" undo_id="1283" p0="33,29" p1="34,29" />
         <Pct type="line" undo_id="291" p0="39,29" p1="39,30" />
-        <Pct type="line" undo_id="292" p0="46,29" p1="46,30" />
-        <Pct type="line" undo_id="294" p0="17,30" p1="21,30" />
-        <Pct type="line" undo_id="293" p0="17,30" p1="17,37" />
+        <Pct type="line" undo_id="292" p0="42,29" p1="42,30" />
+        <Pct type="line" undo_id="293" p0="17,30" p1="21,30" />
+        <Pct type="line" undo_id="294" p0="17,30" p1="17,37" />
         <Pct type="line" undo_id="295" p0="37,30" p1="39,30" />
-        <Pct type="line" undo_id="1074" p0="39,30" p1="46,30" />
-        <Pct type="line" undo_id="297" p0="50,30" p1="50,31" />
+        <Pct type="line" undo_id="1284" p0="39,30" p1="42,30" />
+        <Pct type="line" undo_id="297" p0="45,30" p1="45,31" />
         <Pct type="line" undo_id="298" p0="5,31" p1="10,31" />
         <Pct type="line" undo_id="299" p0="30,31" p1="34,31" />
-        <Pct type="line" undo_id="300" p0="55,31" p1="55,32" />
+        <Pct type="line" undo_id="300" p0="50,31" p1="50,32" />
         <Pct type="line" undo_id="301" p0="4,34" p1="7,34" />
         <Pct type="line" undo_id="302" p0="4,34" p1="4,36" />
         <Pct type="line" undo_id="303" p0="9,34" p1="11,34" />
         <Pct type="line" undo_id="304" p0="11,34" p1="11,37" />
         <Pct type="line" undo_id="305" p0="-6,36" p1="1,36" />
         <Pct type="line" undo_id="306" p0="3,36" p1="4,36" />
-        <Pct type="line" undo_id="1075" p0="4,36" p1="6,36" />
+        <Pct type="line" undo_id="1285" p0="4,36" p1="6,36" />
         <Pct type="line" undo_id="308" p0="9,37" p1="11,37" />
-        <Pct type="line" undo_id="1039" p0="11,37" p1="17,37" />
+        <Pct type="line" undo_id="1249" p0="11,37" p1="17,37" />
         <Pct type="line" undo_id="310" p0="-6,38" p1="1,38" />
         <Pct type="line" undo_id="311" p0="3,38" p1="4,38" />
-        <Pct type="line" undo_id="1076" p0="4,38" p1="6,38" />
-        <Pct type="line" undo_id="312" p0="4,38" p1="4,39" />
-        <Pct type="pict" undo_id="314" pict="1" p0="1434,724" dir="0" p1="1523,878" width="1" style="0" pictcolor="255,255,0" />
+        <Pct type="line" undo_id="1286" p0="4,38" p1="6,38" />
+        <Pct type="line" undo_id="313" p0="4,38" p1="4,39" />
       </Pcts>
     </Sheet>
-    <Calc zero="10e-12" kmin="10e-3" nsr="false" ndo="false" os="false" timeout="0" low="0" high="5" thr="2.5" zparam="" />
+    <Calc zero="10e-12" kmin="10e-3" nsr="false" ndo="false" os="false" low="0" high="5" thr="2.5" zparam="" />
     <Tran storage="1" last="false" storage_shift="true">
       <Cursors enabled="true" locked="false" interval="false" left="23.6721121039e-3" right="23.7298680893e-3" active="false" />
       <Table enabled="true" tran_table="false" time_table="true" time_header="false" vars="6143">

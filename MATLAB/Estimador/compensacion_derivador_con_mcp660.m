@@ -1,7 +1,7 @@
 s = tf('s');
 p1 =2 * pi * 20;           %primer polo del operacional en rads
-p2 = 2* pi * 60e6;          %segundo polo del operacional en rads
-Aw = 1.778279 * 1e6 * 1 / ((1+s/p1) * (1+s/p2)) ;   %transferencia del operacional
+%p2 = 2* pi * 60e6;          %segundo polo del operacional en rads
+Aw = 1.778279 * 1e6 * 1 / ((1+s/p1)) ;   %transferencia del operacional
 
 
 R1 = 25e3;                      
@@ -46,3 +46,6 @@ zpk(tlcmenos)
 
 
 bode(tlcmenos)
+
+%%
+step(tlcmenos)

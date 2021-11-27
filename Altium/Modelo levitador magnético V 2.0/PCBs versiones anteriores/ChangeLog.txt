@@ -1,1 +1,2 @@
-Version_1: Placement inicial y ruteo de las etapas individuales
+Version_1: Placement inicial y ruteo de las etapas individuales.
+Version_2: Todas las etapas ruteadas

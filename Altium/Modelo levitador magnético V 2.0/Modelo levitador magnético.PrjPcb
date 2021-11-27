@@ -123,9 +123,9 @@ DocumentUniqueId=UPMPLJAA
 
 [Document6]
 DocumentPath=Esquemáticos\Estimador.SchDoc
-AnnotationEnabled=1
+AnnotationEnabled=0
 AnnotateStartValue=500
-AnnotationIndexControlEnabled=1
+AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
 AnnotateOrder=4
@@ -226,6 +226,23 @@ DocumentUniqueId=FSQOBBIK
 [Document12]
 DocumentPath=Esquemáticos\Puente H.SchDoc
 AnnotationEnabled=1
+AnnotateStartValue=100
+AnnotationIndexControlEnabled=1
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=6
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=NPNAUHOJ
+
+[Document13]
+DocumentPath=PCB\Levitador Magnetico.PcbDoc
+AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
@@ -238,7 +255,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=NPNAUHOJ
+DocumentUniqueId=SSTWVYER
 
 [Configuration1]
 Name=Default Configuration

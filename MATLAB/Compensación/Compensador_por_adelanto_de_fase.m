@@ -1,27 +1,16 @@
 %% Controlador por adelanto de fase
+%%Variables, cambiar segun se desee
+m=1; %%kilogramos
+y=1; %%ya esta en mm;
+
 %Constantes
 s = tf('s');
 Kin = 0.32;
 H = 53.33/1000;
 R = 0.2;
 k=1.76715e-5;
+[y0,L] = distandinduc(y);
 
-%Descomentar y comentar para los casos deseados
-%% Caso m=1kg y=2 mm
-% m = 1;                 %masa que levanta el electroimán
-% y0=2/1000;              %Distancia de separacion 
-% L = 22.64/1000;         %Valor de Inductancia para y0
-
-%% Caso m=30kg y=5 mm
-% m = 30;                 %masa que levanta el electroimán
-% y0=5/1000;              %Distancia de separacion 
-% L = 14.9/1000;         %Valor de Inductancia para y0
-
-%% Caso m=30kg y=4 mm
-%(Este es el caso que se simula en el documento de Compensacion analogica)
-m = 30;                 %masa que levanta el electroimán
-y0=4/1000;              %Distancia de separacion 
-L = 16.44/1000;         %Valor de Inductancia para y0
 
 %% Calulo de las transferencias de cada bloque
 Gplanta = -(2/y0)*(sqrt(k*9.8/m))/(s^2-(2*9.8/y0));
@@ -68,3 +57,29 @@ step(tlc);
 %% error
 errorEscalon=1/(1+dcgain(Gc * Gplanta * GiL * Hestim));
 
+%% funciones
+function [y0,L] = distandinduc(y)
+    switch y
+        case 0
+            y0=y/1000;
+            L=0.07645;
+        case 1
+            y0=y/1000;
+            L=0.03342;
+        case 2
+            y0=y/1000;
+            L=0.02264;
+        case 3
+            y0=y/1000;
+            L=0.0188;
+        case 4
+            y0=y/1000;
+            L=0.01644;
+        case 5
+            case 1
+            y0=y/1000;
+            L=0.0149;
+        otherwise
+        disp('y value not valid')
+    end    
+end

@@ -1,7 +1,7 @@
 %% Controlador por adelanto de fase
 %%Variables, cambiar segun se desee
-m=1; %%kilogramos
-y=1; %%ya esta en mm;
+m=30; %%kilogramos
+y=5; %%ya esta en mm;
 
 %Constantes
 s = tf('s');
@@ -41,10 +41,13 @@ Kc = 10;
 Gc = Kc * (20.346 * (s + 47.4)/(s + 965.4))^2;
 
 %% Bode de la planta con compensador
+grid on;
+figure(4);
 Gcompensado = Gtotal * Gc;
 bode(Gcompensado);
 
 %% Nyquist de la planta con compensador 
+figure(5);
 nyquist(Gcompensado);
 
 %% Transferencia de lazo cerrado
@@ -52,6 +55,7 @@ tlc = zpk(minreal(feedback(Gc * Gplanta * GiL, -Hestim)));
 dcgain(tlc);
 
 %% Respuesta al escalon
+figure(6);
 step(tlc);
 
 %% error
@@ -76,7 +80,6 @@ function [y0,L] = distandinduc(y)
             y0=y/1000;
             L=0.01644;
         case 5
-            case 1
             y0=y/1000;
             L=0.0149;
         otherwise

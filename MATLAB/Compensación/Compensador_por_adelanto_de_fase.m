@@ -64,8 +64,13 @@ errorEscalon=1/(1+dcgain(Gc * Gplanta * GiL * Hestim));
 %% Bloque Integrador
 pint=10;
 Kint=1;
-integrador=Kint/(1+s/pint)
-tlcConIntegrador= feedback(tlc*integrador,-Hestim);
+integrador=Kint/(1+(s/pint));
+
+figure(7)
+rlocus(-tlc*Hestim*Gint)
+figure(8)
+tlcConIntegrador = -dcgain(Hestim) * feedback(integrador*tlc, Hestim, 1);
+
 step(tlcConIntegrador);
 
 %% funciones

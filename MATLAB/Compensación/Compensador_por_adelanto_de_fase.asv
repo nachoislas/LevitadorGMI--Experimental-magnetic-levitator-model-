@@ -64,8 +64,14 @@ errorEscalon=1/(1+dcgain(Gc * Gplanta * GiL * Hestim));
 %% Bloque Integrador
 pint=10;
 Kint=1;
-integrador=Kint/(1+s/pint)
-tlcConIntegrador= feedback();
+integrador=Kint/(1+s/pint);
+
+rlocus(-tlc*Hestim*Gint)
+tlctotal = -dcgain(Hestim) * feedback(integrador*tlc, Hestim, 1);
+step(tlctotal)
+
+tlcConIntegrador= feedback(tlc*integrador,-Hestim);
+step(tlcConIntegrador);
 
 %% funciones
 function [y0,L] = distandinduc(y)

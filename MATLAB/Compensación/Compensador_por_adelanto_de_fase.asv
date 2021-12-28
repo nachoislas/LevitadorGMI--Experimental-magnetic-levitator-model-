@@ -1,7 +1,12 @@
 %% Controlador por adelanto de fase
+
 %%Variables, cambiar segun se desee
 m=30; %%kilogramos
-y=5; %%ya esta en mm;
+y=2; %%ya esta en mm;
+
+%BLOQUE INTEGRADOR
+pint=0.1;
+Kint=1;
 
 %Constantes
 s = tf('s');
@@ -10,10 +15,6 @@ H = 53.33/1000;
 R = 0.2;
 k=1.76715e-5;
 [y0,L] = distandinduc(y);
-
-%BLOQUE INTEGRADOR
-pint=0.1;
-Kint=100;
 
 
 %% Calulo de las transferencias de cada bloque
@@ -69,11 +70,13 @@ errorEscalon=1/(1+dcgain(Gc * Gplanta * GiL * Hestim));
 integrador=Kint/(1+(s/pint));
 
 figure(7)
-rlocus(-tlc*Hestim*Gint)
+rlocus(-tlc*Hestim*integrador)
 figure(8)
 tlcConIntegrador = -dcgain(Hestim) * feedback(integrador*tlc, Hestim, 1);
-
+figure(9)
 step(tlcConIntegrador);
+figure(10)
+bode(integradortlc);
 
 %% funciones
 function [y0,L] = distandinduc(y)

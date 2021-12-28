@@ -6,7 +6,7 @@ y=5; %%ya esta en mm;
 
 %BLOQUE INTEGRADOR
 pint=0.1;
-Kint=100;
+Kint=25;
 
 %Constantes
 s = tf('s');
@@ -70,11 +70,12 @@ errorEscalon=1/(1+dcgain(Gc * Gplanta * GiL * Hestim));
 integrador=Kint/(1+(s/pint));
 
 figure(7)
-rlocus(-tlc*Hestim*Gint)
+rlocus(-tlc*Hestim*integrador)
 figure(8)
 tlcConIntegrador = -dcgain(Hestim) * feedback(integrador*tlc, Hestim, 1);
-
+figure(9)
 step(tlcConIntegrador);
+
 
 %% funciones
 function [y0,L] = distandinduc(y)

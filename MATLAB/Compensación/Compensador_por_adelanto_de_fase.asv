@@ -11,6 +11,10 @@ R = 0.2;
 k=1.76715e-5;
 [y0,L] = distandinduc(y);
 
+%BLOQUE INTEGRADOR
+pint=0.1;
+Kint=100;
+
 
 %% Calulo de las transferencias de cada bloque
 Gplanta = -(2/y0)*(sqrt(k*9.8/m))/(s^2-(2*9.8/y0));
@@ -62,15 +66,13 @@ step(tlc);
 errorEscalon=1/(1+dcgain(Gc * Gplanta * GiL * Hestim));
 
 %% Bloque Integrador
-pint=10;
-Kint=1;
-integrador=Kint/(1+s/pint);
+integrador=Kint/(1+(s/pint));
 
+figure(7)
 rlocus(-tlc*Hestim*Gint)
-tlctotal = -dcgain(Hestim) * feedback(integrador*tlc, Hestim, 1);
-step(tlctotal)
+figure(8)
+tlcConIntegrador = -dcgain(Hestim) * feedback(integrador*tlc, Hestim, 1);
 
-tlcConIntegrador= feedback(tlc*integrador,-Hestim);
 step(tlcConIntegrador);
 
 %% funciones

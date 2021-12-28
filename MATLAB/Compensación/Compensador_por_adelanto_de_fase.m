@@ -1,7 +1,12 @@
 %% Controlador por adelanto de fase
+
 %%Variables, cambiar segun se desee
 m=30; %%kilogramos
 y=5; %%ya esta en mm;
+
+%BLOQUE INTEGRADOR
+pint=0.1;
+Kint=100;
 
 %Constantes
 s = tf('s');
@@ -62,8 +67,6 @@ step(tlc);
 errorEscalon=1/(1+dcgain(Gc * Gplanta * GiL * Hestim));
 
 %% Bloque Integrador
-pint=10;
-Kint=1;
 integrador=Kint/(1+(s/pint));
 
 figure(7)

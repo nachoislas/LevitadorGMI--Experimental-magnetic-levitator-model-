@@ -20,7 +20,7 @@ k=1.76715e-5;
 %% Calulo de las transferencias de cada bloque
 Gplanta = -(2/y0)*(sqrt(k*9.8/m))/(s^2-(2*9.8/y0));
 GiL = (Kin/H) / (1 + s/(R/L));                  
-Hestim = 259.6 / ((1 + s/1e3) * (1 + s/60e3)^2 );
+Hestim = 259.6 / ((1 + s/13) * (1 + s/60e3)^2 );
 
 Gtotal = Gplanta * GiL * Hestim;
 
@@ -73,7 +73,6 @@ figure(7)
 rlocus(-tlc*Hestim*integrador)
 figure(8)
 tlcConIntegrador = -dcgain(Hestim) * feedback(integrador*tlc, Hestim, 1);
-figure(9)
 step(tlcConIntegrador);
 
 

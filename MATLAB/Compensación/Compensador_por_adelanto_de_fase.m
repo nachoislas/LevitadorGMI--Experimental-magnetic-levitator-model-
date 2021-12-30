@@ -1,12 +1,12 @@
 %% Controlador por adelanto de fase
 
 %%Variables, cambiar segun se desee
-m=30; %%kilogramos
-y=5; %%ya esta en mm;
+m=2; %%kilogramos
+y=2; %%ya esta en mm;
 
 %BLOQUE INTEGRADOR
 pint=0.1;
-Kint=25;
+Kint=50;
 
 %Constantes
 s = tf('s');
@@ -20,7 +20,7 @@ k=1.76715e-5;
 %% Calulo de las transferencias de cada bloque
 Gplanta = -(2/y0)*(sqrt(k*9.8/m))/(s^2-(2*9.8/y0));
 GiL = (Kin/H) / (1 + s/(R/L));                  
-Hestim = 259.6 / ((1 + s/13) * (1 + s/60e3)^2 );
+Hestim = 259.6 / ((1 + s/1e3) * (1 + s/60e3)^2 );
 
 Gtotal = Gplanta * GiL * Hestim;
 
@@ -43,7 +43,7 @@ rlocus(Gtotal);
 
 %% Agregando el compensador por adelanto de fase diseñado
 Kc = 10;
-Gc = Kc * (20.346 * (s + 47.4)/(s + 965.4))^2;
+Gc = Kc * (20.346 * (s + 44.3)/(s + 902.14))^2;
 
 %% Bode de la planta con compensador
 grid on;

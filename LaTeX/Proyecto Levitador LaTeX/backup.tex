@@ -1,0 +1,69 @@
+%% Perdidas
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Surge, entonces, que el valor de los inductores afecta la dinámica del convertidor y las condiciones críticas de operación de los mismos; y, a su vez, existe una dependencia en valor del inductor con el punto de operación, es decir, el valor medio de corriente. Por lo que resulta de interés medir en forma precisa el diseño del inductor en distintos niveles de corriente, acordes con las especificaciones y exigencias de la aplicación.
+%pérdidas en convertidores: MOSFET
+Dentro de las fuentes de pérdida de potencias en los convertidores de potencia son preponderantes las pérdidas en las llaves o dispositivos de conmutación y las pérdidas en los elementos magnéticos, es decir transformadores e inductores. Las pérdidas en las llaves se deben a tres fenómenos: las pérdidas en estado estacionario y las pérdidas en los transitorios de encendido y apagado. Las perdidas en estado estacionario se deben fundamentalmente a la resistencia de encendido del MOSFET y la corriente rms que circula por la misma.
+
+\begin{equation}\label{eq:perdidasFET}
+P_{on} = I^{2}R_{on} 
+\end{equation}
+
+Por otra parte, las pérdidas durante los transitorios son difíciles de modelar, por lo que suelen ser aproximadas mediante medición o simulación de la corriente y la caída de tensión entre extremos del MOSFET.~\cite{cita:Deng2004} En base a los valores relevados, se realizan integrales numéricas como se muestra en la Fig.~\ref{fig:integral_trapecios}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{integral_trapecios.pdf}
+\caption{Aproximación por trapecios para pérdidas de potencia.~\cite{cita:Deng2004}}
+\label{fig:integral_trapecios}
+\end{figure}
+
+%Perdidas en convertidores: inductores y transformadores
+%perdida en el nucleo.
+Respecto a las pérdidas en los elementos magnéticos, éstas se deben, principalmente, a las pérdidas en el conductor y en el núcleo. Las pérdidas en el núcleo son, por una parte, el resultado de las características alineales de lo materiales magnéticos, es decir las pérdidas por histéresis que se aproximan por ley de Faraday y ley de Ampere, conociendo el volumen del núcleo; es decir:
+
+\begin{equation}\label{eq:perdidasHisteresis1}
+P_{H} =  \int v(t)i(t) \cdot dt
+\end{equation}
+\begin{equation}\label{eq:perdidasHisteresis2}
+P_{H} =  \int (nA_c\frac{dB(t)}{dt})(\frac{H(t)l_m}{N}) \cdot dt
+\end{equation}
+\begin{equation}\label{eq:perdidasHisteresis3}
+P_{H} =   (f)(A_c l_m)\int H \cdot dB
+\end{equation}
+
+Por otra parte, existen corrientes parásitas que se inducen en el material, las cuales se ilustran en la Fig. ~\ref{fig:eddycurrentscore}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{eddycurrentscore.pdf}
+	\caption{Corrientes inducidas en el núcleo.}
+	\label{fig:eddycurrentscore}
+\end{figure}
+
+%
+La resistencia del bobinado es otra fuente significativa de pérdidas en los elementos magnéticos. En los inductores, las pérdidas de continua están dominadas por la resistencia de continua del conductor y la corriente RMS que circula por el mismo.
+
+\begin{equation}\label{eq:perdidasCopper}
+P_{copper} = I^{2}R_{copper} 
+\end{equation}
+
+Por lo que, al operar con elevadas corrientes es de relevancia optimizar el diseño para minimizar las pérdidas en el bobinado y, para ello, es necesario conocer la resistencia que representa el conductor.
+%perdidas en resistencia de alterna
+Sin embargo, debe contemplarse que existen otros fenómenos que incrementan las pérdidas en estos elementos cuando se trabaja a mayor frecuencia. La corriente variable que circula por un conductor induce un flujo cuyas lineas de campo  encierran la circulación de corriente, el cual a su vez induce corrientes dentro del conductor que restringen la circulación en la zona central del conductor. Este fenómeno, conocido como efecto pelicular, reduce el área eficaz y aumenta la resistencia del conductor. En la Fig. ~\ref{fig:eddycurrents} se representa tal fenómeno. A su vez, un conductor por el cual circula una corriente de alta frecuencia induce perdidas en un conductor adyacente por el efecto de proximidad.~\citep{cita:Erickson2001}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{eddycurrents.pdf}
+	\caption{Efecto pelicular: Se representan la corriente circulante, el flujo y las corrientes inducidas. En el extremo derecho, se representa cómo la densidad de corriente es menor en el centro del conductor y recae mayoritariamente en el entorno a la superficie.}
+	\label{fig:eddycurrents}
+\end{figure}
+
+
+Existe otro efecto parásito a los previamente descritos, el cual refiere a la capacitancia asociada al inductor. El valor que toma tal elemento equivalente depende de parámetros distribuidos y de la frecuencia de operación, lo cual complejiza la predicción teórica del comportamiento en frecuencia del inductor en cuestión.~\citep{cita:Knight2010} La consecuencia de la presencia del capacitor parásito es la limitación a un rango de frecuencias dado para la operación del inductor para los fines que fue diseñado. Por tanto, debe contemplarse sus efectos en el diseño del inductor, a fin de cerciorar el correcto comportamiento del elemento en las frecuencias de trabajo. ~\citep{cita:Dalessandro2007}~\citep{cita:Massarini1996}
+
+
+
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

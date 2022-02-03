@@ -1,0 +1,11 @@
+CREAR TABLAS
+https://www.ucm.es/data/cont/docs/1346-2019-04-12-BaSix%20LaTeX%20ba%CC%81sico%20con%20ejercicios%20resueltos%20-%20Noir16.pdf
+
+http://minisconlatex.blogspot.com/2012/01/mas-sobre-tablas-2.html
+
+http://minisconlatex.blogspot.com/2010/11/tablas.html
+
+
+
+AJUSTARLAS A LA PÁGINA
+http://tiburondealambre.blogspot.com/2012/04/redimensionando-tablas-en-latex.html

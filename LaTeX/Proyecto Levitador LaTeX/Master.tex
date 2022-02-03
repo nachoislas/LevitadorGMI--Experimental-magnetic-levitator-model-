@@ -1,0 +1,410 @@
+% !TeX spellcheck = es_ES
+\documentclass[twoside,openright,spanish,12pt,Grado]{licthesis_modIV}%,mydraft
+
+% librerias de circuitos
+%\usepackage{pstricks,pstricks-pdf,pst-node,pst-circ,pst-plot,pst-3dplot,pst-all}
+\usepackage[siunitx]{circuitikz}
+\usepackage[utf8]{inputenc}
+\usepackage[siunitx]{circuitikz}
+\usepackage[utf8]{inputenc}
+\pagestyle{empty}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{listings}
+
+
+\definecolor{mGreen}{rgb}{0.1,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.80,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+	backgroundcolor=\color{backgroundColour},   
+	commentstyle=\color{mGreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{mGray},
+	stringstyle=\color{mPurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2,
+	language=C
+}
+
+
+\usepackage{etoolbox}
+\usepackage{titlesec}
+\usepackage{soul}
+\usepackage{url}
+\usepackage[spanish,es-tabla]{babel}   % para escribir en castellano
+\usepackage[utf8]{inputenc}   % para tipo de caracteres de entrada
+\usepackage{graphicx}         % para insertar graficos *.eps
+\usepackage{listings}
+\usepackage[cmex10]{amsmath}  % simbolos matem\'{a}ticos extendidos
+\usepackage{amssymb}          % simbolos matem\'{a}ticos extendidos
+\usepackage{latexsym}         % S\'{\i}mbolos
+\usepackage{makeidx}          % para generar el indice
+%\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage{cases}
+\usepackage[normalem]{ulem}
+%\usepackage{natbib}
+%\usepackage{jurabib}
+%\usepackage{grffile}
+\usepackage[final]{pdfpages}
+\usepackage{enumerate}
+\usepackage{array} %centrar verticalmente en tablas
+\usepackage{float}
+%\usepackage{CJKutf8}
+%\usepackage[spanish,numbers]{flexbib}
+\usepackage[numbers,sort]{natbib}
+\usepackage{notoccite} % Evitar que las citas en los caption inicien el contador (aparecen en la lista de figuras)
+\usepackage{layouts}
+\usepackage{newverbs}
+\usepackage{xpatch}
+\usepackage{algorithm} %ctan.org\pkg\algorithms
+%\usepackage{algorithmic}
+\usepackage{algpseudocode}
+\makeatletter
+	\xpatchcmd{\algorithmic}{\itemsep\z@}{\itemsep=-4pt}{}{}
+\makeatother
+\floatname{algorithm}{Algoritmo} %Cambiar el titluo del float a español
+\renewcommand{\listalgorithmname}{Índice de algoritmos}
+\makeatletter %Para numerar los algoritmos como (num de capitulo).(num de algoritmo)
+	\renewcommand\thealgorithm{\thechapter.\arabic{algorithm}} 
+	\@addtoreset{algorithm}{chapter} 
+\makeatother
+%\input{spanishAlgorithmic} %Traducción de los algoritmos
+%\input{verticalruleforalgorithm} %Agrega lineas verticales el en el algoritmo
+
+% Excel2LaTeX.xla
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{bigstrut}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{bibentry}
+\nobibliography*
+\usepackage{longtable}
+\usepackage{afterpage}
+\usepackage{colortbl}
+\usepackage{multicol}
+\usepackage{amsmath}
+%% % % % COLOR Y CAJAS PARA ECUACIONES % % % % %
+%	\usepackage{color}
+%	\definecolor{myblue}{rgb}{.9, .9, .9}
+%	\usepackage{empheq}
+%	
+%	\newlength\mytemplen
+%	\newsavebox\mytempbox
+%	
+%	\makeatletter
+%	\newcommand\mybluebox{%
+%	    \@ifnextchar[%]
+%	       {\@mybluebox}%
+%	       {\@mybluebox[0pt]}}
+%	
+%	\def\@mybluebox[#1]{%
+%	    \@ifnextchar[%]
+%	       {\@@mybluebox[#1]}%
+%	       {\@@mybluebox[#1][0pt]}}
+%	
+%	\def\@@mybluebox[#1][#2]#3{
+%	    \sbox\mytempbox{#3}%
+%	    \mytemplen\ht\mytempbox
+%	    \advance\mytemplen #1\relax
+%	    \ht\mytempbox\mytemplen
+%	    \mytemplen\dp\mytempbox
+%	    \advance\mytemplen #2\relax
+%	    \dp\mytempbox\mytemplen
+%	    \colorbox{myblue}{\hspace{5pt}\usebox{\mytempbox}\hspace{5pt}}}
+%	
+%	\makeatother
+%% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+
+\let\includegraphicsWithoutCF=\includegraphics
+\renewcommand{\includegraphics}[2][]{\includegraphicsWithoutCF[#1]{\currentfolder figuras/#2}}
+\newcommand{\currentfolder}{}
+\newcommand{\chapterlabel}[1]{\label{#1}\renewcommand{\currentfolder}{#1/}}
+
+\let\inputCF=\input
+\newcommand{\inputfig}{}
+\renewcommand{\inputfig}[1]{\inputCF{\currentfolder figuras/#1.pdf_tex}}
+\renewcommand{\input}[1]{\inputCF{\currentfolder #1}}
+
+%\let\subrefWithoutProtect\subref
+%\renewcommand{\subref}[1]{\protect\subrefWithoutProtect{#1}}
+
+\newcommand{\sectionname}{Secci\'{o}n}
+\newcommand{\equationname}{Ecuaci\'{o}n}
+%\tablespagefalse
+
+\usepackage{colortbl}
+\newcommand{\cc[1]}{\cellcolor[rgb]{0.9,0.9,0.9}}
+
+\RequirePackage[bookmarksnumbered,colorlinks,hyperindex,a4paper]{hyperref}  % crea hipervinculos en el indice
+\hypersetup{linkcolor=blue,%
+            citecolor=red,%
+            pdfstartview=FitH,%
+            pdftoolbar=true,%
+            bookmarksopen=false,%
+            bookmarksopenlevel=\maxdimen,
+            urlcolor=red}  % color of external links
+\def\pdfBorderAttrs{/Border [0 0 0] } % Ning\'{u}n borde a los links
+
+%\setcounter{MaxMatrixCols}{30}
+%\clubpenalty=9999
+%\widowpenalty=9999
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+%\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+
+\def\sen{\mathop{\mbox{\normalfont sen}}\nolimits}
+%\renewcommand{\arraystretch}{1.2}
+\setlength{\minrowclearance}{1mm}
+%\renewcommand{\arraystretch}{1.8}
+\setlength{\intextsep}{10mm}
+%\renewcommand{\tabcolsep}{2mm}
+\newcommand{\on}[1]{\operatorname{#1}}           % Unidades
+\newcommand{\mx}[2]{\left[\begin{array}{#1}#2\end{array}\right]}           % Vector o matriz
+\setlength\arraycolsep{0.15em}
+\newcommand{\dif}[1]{\mathop{#1}\limits^\bullet} % Diferencial de una variable
+\newcommand{\m}[1]{\mathbf{#1}}         % Variables matriciales
+
+%\newcommand{\eq}[1]{Ec.~(\ref{eq:#1})}  % Referenciar una ecuacion
+\newcommand{\eq}[1]{\mbox{\hyperref[#1]{Ec.~(\ref{eq:#1})}}}
+%\newcommand{\eqs}[1]{(\ref{eq:#1})}     % Referenciar ecuaciones
+\newcommand{\eqs}[1]{\mbox{\hyperref[#1]{(\ref{eq:#1})}}}
+%\newcommand{\fig}[1]{Figura~\ref{fig:#1}}  % Referenciar una figura
+\newcommand{\fig}[1]{\mbox{\hyperref[fig:#1]{Figura~\ref{fig:#1}}}}
+\newcommand{\figs}[1]{\ref{fig:#1}}        % Referenciar figuras
+%\newcommand{\tab}[1]{Tabla~(\ref{tab:#1})} % Referenciar una tabla
+\newcommand{\tab}[1]{\mbox{\hyperref[tab:#1]{Tabla~(\ref{tab:#1})}}} % Referenciar una tabla
+
+\newcommand{\ch}[1]{\mbox{\hyperref[#1]{Cap\'\i tulo~\ref{#1}}}}       % Referenciar capitulos
+\newcommand{\apx}[1]{\mbox{\hyperref[#1]{Ap\'endice~\ref{#1}}}}        % Referenciar figuras
+\newcommand{\secc}[1]{\mbox{\hyperref[#1]{Secci\'on~\ref{#1}}}}
+
+
+\newcommand{\C}{\operatorname{{}^{\circ}{\rm C}}} % Grados (temperatura)
+
+\def\substring#1#2#3{\expandafter\subm\romannumeral#3000x.{}#1\relax\relax{#2}}
+\def\subm#1#2.#3#4\relax#5\relax{\csname sub#1\endcsname#2.#4\relax#5#3\relax}
+\def\subx#1.#2\relax#3\relax#4{\expandafter\submb\romannumeral#4000x.{}{}#3\relax}
+\def\submb#1#2.#3{\csname sub#1b\endcsname#2.}
+\def\subxb#1.#2\relax{#2}
+
+
+\newcommand{\se}[1]{{
+    \mathrm{\uppercase{\substring{#1}{1}{1}}}
+    _\mathrm{\uppercase{\substring{#1}{2}{2}}}
+    \mathrm{\uppercase{\substring{#1}{3}{3}}}
+    _\mathrm{\uppercase{\substring{#1}{4}{4}}}
+    \mathrm{\uppercase{\substring{#1}{5}{5}}}
+    _\mathrm{\uppercase{\substring{#1}{6}{6}}}}}
+
+%********************Separado en silabas correcto******************************************************
+\hyphenation{na-tu-ral trans-fe-ren-cia res-pues-tas consta mo-du-la-cion cons-tru-ir co-rrien-te}
+\hyphenation{su-mi-nis-trar e-fec-tua-das ins-pi-ra-do sa-cri-fi-cio erro-res esta-ble-ci-mien-to}
+\hyphenation{aproxi-ma-das pre-sin-cro-nis-mo megadiscap}
+
+
+%*************************Comienzo del documento Tesis*************************************************
+
+
+\makeindex
+
+%\includeonly{
+%%introduccion/introduccion,
+%%sintesis/sintesis,
+%control/control,
+%%experimentales/experimentales,
+%%conclusiones/conclusiones,
+%%%
+%%CE/CE,
+%%thermal/thermal,
+%%dinamica/dinamica,
+%%digital/digital,
+%%almacenamiento/almacenamiento,
+%%megadiscap/megadiscap,
+%}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}%
+
+% % % % % % % % % % 
+% % NOMENCLATURA % %
+
+	\newcommand{\rip}{{\Delta i_T}} 				%Ripple total
+	\newcommand{\itot}{i_T} 					%Corriente total
+	\newcommand{\itotmean}{\bar{i_T}}			%Corriente media total
+	\newcommand{\iphase}[1]{i_{#1}}				%Corriente de fase
+	\newcommand{\ierr}[1]{i_{e_{#1}}}			%Error de corriente
+	\newcommand{\iref}{i_{\mathit{Ref}}}		%Ref de corriente.
+	\newcommand{\pwm}[1]{\text{PWM}_{#1}}		%PWMj
+	\newcommand{\sync}[1]{\mathit{Sync_{#1}}}	%SINCj
+	\newcommand{\switch}[1]{T_{#1}}				%Switch de fase
+	\newcommand{\Lj}[1]{L_{#1}}					%Inductor de fase
+ 	\newcommand{\fswitch}{f_{sw}}				%Frec. de conmutacion.
+ 	\newcommand{\tswitch}{{T_{sw}}}				%Frec. de conmutacion.
+ 	\newcommand{\tsync}{T_{\mathit{Sync}}}		%Periodo de sinc.
+	\newcommand{\rms}{\mathit{RMS}}				%RMS
+	\newcommand{\spo}{{s_p}}					%Pendiente positiva
+	\newcommand{\sne}{{s_n}}					%Pendiente negativa
+	\newcommand{\tclk}{{T_{CLK}}}               %Periodo de clock
+	
+ 	%Caracterizacion
+	
+	\newcommand{\ripcart}{{r_{\!\!_{T}}}} 		%Ripple total 
+	\newcommand{\ripcarp}[1]{r_{#1}} 			%Ripple fase 
+	\newcommand{\peakt}[2]{{P_{\!#1}^{_#2}}} 	%Pico ripple tot 
+	\newcommand{\tgenp}{t_x^{+}} 				%Tiempo generico tx
+	\newcommand{\tgenn}{t_x^{-}} 				%Tiempo generico tx
+	\newcommand{\esr}{\mathit{ESR}}             %ESR del capacitor
+	
+% % % % % % % % % % 
+% % % % % % % % % %
+
+% AGREGADO PARA CREAR SUBSUBSUB-SECTIONS
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
+
+\titleformat{\subsubsubsection}
+{\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+	{3.25ex \@plus1ex \@minus.2ex}%
+	{-1em}%
+	{\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}%
+	{3.25ex \@plus1ex \@minus .2ex}%
+	{-1em}%
+	{\normalfont\normalsize\bfseries}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@paragraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{12em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\makeatother
+%
+
+
+%Para cambiar símbolos en los enumerados
+%\renewcommand{\labelitemi}{$-$}
+\renewcommand{\labelitemii}{$-$}
+\renewcommand{\labelitemiii}{$cDot$}
+%
+
+
+
+
+
+%Para poder tener más subsecciones
+\setcounter{secnumdepth}{6} 
+\setcounter{tocdepth}{6}
+
+\begin{document}
+\raggedbottom
+
+%% Inserta p\'{a}gina en blanco para imprimir dos p\'{a}ginas por hoja
+%\NoBgThispage
+%\thispagestyle{empty}
+%\setcounter{page}{0}
+%\begin{flushright}
+%\textcolor[rgb]{1.00,1.00,1.00}{P\'{a}gina intencionalmente vac\'{\i}a.}
+%\end{flushright}
+%\newpage
+
+\title{Sistema automatizado de estacionamiento}
+\shorttitle{}
+\englishtitle{}
+
+\author{Sebastián Alejandro Gregoracci \\ Juan Pablo Valeo}
+\authoreng{}
+
+\departamento{Departamento de Electrónica y Computación}
+
+\director{Dra. Leticia María Seijas}
+\codirector{Ing. Juan Alberto Etcheverry}
+
+\thesisdate{día X de Marzo del año 2020}
+\thesisdateeng{}
+
+\dedication{\textit{	COMPLETAR la "DEDICATION" que se encuentra junto con "title" en el Master.tex	.}}
+
+\affiliation{El presente trabajo de tesis fue realizado en el Laboratorio de Comunicaciones del Departamento de Electrónica y Computación, ICyTE, Facultad de Ingeniería, Universidad Nacional de Mar del Plata.}
+\englishaffiliation{This thesis work has been carried out in the Instrumentation and Control Laboratory, ICyTE, School of Engineering, National University of Mar del Plata.}
+%\include{dedication}
+
+\beforeabstract
+\include{agradecimientos}
+\afterabstract
+\afterpreface
+
+%------------------------------- CAP\'{I}TULOS -------------------------------
+
+\include{intro/intro-v1}
+\include{Estructura-sist/Estructura-sist-v1}
+\include{Cap_Patentes/Cap_Patentes-v1}
+\include{2do-Nucleo/2do-Nucleo-v1}
+\include{Primer_prototipo/Primer_prototipo-v2}
+\include{Conclusiones/conclusiones-v1}
+\include{Varios/Varios-v1}
+%\include{MedicionRes/MedicionRes}
+%\include{Principio-Teorico/Principio-Teorico}
+%\include{Metodologia/Metodologia}
+%\include{Implementacion/Implementacion}
+%\include{Resultados/Resultados}
+%\include{Conclusion/Conclusion}
+%----------------------------- BIBLIOGRAF\'{I}A -------------------------------
+%\bibliographystyle{IEEEtran}
+
+\bibliographystyle{unsrtnatesp}  
+\bibliography{IEEEfull,biblio_tesis}
+
+%--------------------------------------------------------- AP\'{E}NDICES
+%-------------------------------------------------------------------
+\appendix
+%\include{ap_x/ap_x}
+%\include{efectos_parasitos/efectos_parasitos}
+%\include{modelo_planta/modelo_planta}
+%\include{CodigosCCS/codigosccs}
+%\include{Esquematico/Esquematico}
+\end{document}

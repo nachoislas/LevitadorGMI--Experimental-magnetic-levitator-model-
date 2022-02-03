@@ -1,0 +1,309 @@
+\begin{thebibliography}{51}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Osorio(2018)]{Noticia1}
+Mauro Osorio.
+\newblock La flota circulante de argentina creció 30{\%} en 6 años.
+\newblock url
+  {http://www.carsdrive.com.ar/noticias/novedades/la-flota-circulante-de-argentina-crecio-30-en-6-anos/},
+  2018.
+\newblock Online; último acceso: 06 Agosto 2019.
+
+\bibitem[Murciego(2019)]{Noticia2}
+Leandro Murciego.
+\newblock Cocheras: todo lo que hay que saber antes de invertir.
+\newblock url
+  {https://www.lanacion.com.ar/propiedades/cocheras-todo-lo-hay-saber-antes-invertir-nid2224897},
+  2019.
+\newblock Online; último acceso: 06 Agosto 2019.
+
+\bibitem[KinouWell()]{kinouwell}
+KinouWell.
+\newblock Off street parking solution.
+\newblock url
+  {https://www.kinouwellparking.com/solutions/off-street-parking-system/}.
+\newblock Online; último acceso: 22 febrero 2020.
+
+\bibitem[Bahit(2011)]{Bahit}
+Eugenia Bahit.
+\newblock Scrum y extreme programming para programadores, 2011.
+
+\bibitem[Wingu(2016)]{ApunteWingu}
+Wingu.
+\newblock Manual de metodologías Ágiles.
+\newblock url
+  {https://www.winguweb.org/capacitacion/manual-de-metodologias-agiles}, 2016.
+\newblock Online; último acceso: 06 Agosto 2019.
+
+\bibitem[Moretti \textit{et~al.}(2016)Moretti, Jorge, Amado, Caniglia, y
+  Puntillo]{TRA-147}
+Ignacio Moretti, Javier Jorge, José Amado, Cristian Caniglia, y Daniel
+  Puntillo.
+\newblock Software libre para reconocimiento automático de las nuevas patentes
+  del mercosur.
+\newblock 08 2016.
+
+\bibitem[Patel \textit{et~al.}(2013)Patel, Shah, y
+  Patel]{0a392c343021f65fa374375e148cb5770a88}
+Chirag Patel, D.~Shah, y Atul Patel.
+\newblock Automatic number plate recognition system (anpr): A survey.
+\newblock \emph{International Journal of Computer Applications (IJCA)}, 69, 05
+  2013.
+\newblock \doi{10.5120/11871-7665}.
+
+\bibitem[J.C.~Cuttitta y
+  Campos(2011)]{2011-Reconocimiento_automatico_de_numero_de_patente}
+G.~De~Giovanni J.C.~Cuttitta y A.N. Campos.
+\newblock Reconocimiento automático de número de patente, 2011.
+
+\bibitem[{Du} \textit{et~al.}(2013){Du}, {Ibrahim}, {Shehata}, y
+  {Badawy}]{13EM9}
+S.~{Du}, M.~{Ibrahim}, M.~{Shehata}, y W.~{Badawy}.
+\newblock Automatic license plate recognition (alpr): A state-of-the-art
+  review.
+\newblock \emph{IEEE Transactions on Circuits and Systems for Video
+  Technology}, 23\penalty0 (2):\penalty0 311--325, Feb 2013.
+\newblock ISSN 1558-2205.
+\newblock \doi{10.1109/TCSVT.2012.2203741}.
+
+\bibitem[Agbemenu \textit{et~al.}(2018)Agbemenu, Yankey, y
+  O.]{LicensePlates2018}
+Andrew Agbemenu, Jepthah Yankey, y Ernest O.
+\newblock An automatic number plate recognition system using opencv and
+  tesseract ocr engine.
+\newblock \emph{International Journal of Computer Applications}, 180:\penalty0
+  1--5, 05 2018.
+\newblock \doi{10.5120/ijca2018917150}.
+
+\bibitem[pip()]{pipstechnology}
+Pips technology alpr.
+\newblock url {http://www.pipstechnology.com/es/soluciones-alpr/}.
+\newblock Online; último acceso: 09 marzo 2020.
+
+\bibitem[gen()]{genetec}
+Genetec alpr.
+\newblock url {https://www.genetec.com/es/soluciones/productos/autovu}.
+\newblock Online; último acceso: 09 marzo 2020.
+
+\bibitem[neu()]{neurallabs}
+Vpar – librería de reconocimiento de patentes.
+\newblock url
+  {http://www.neurallabs.net/es\_AR/sistemas-ocr/lector-matriculas}.
+\newblock Online; último acceso: 09 marzo 2020.
+
+\bibitem[vis()]{visart}
+Especificaciones lpr visart-visiondepatentes.
+\newblock url {http://visart.com.ar/especificaciones-lpr-anpr/}.
+\newblock Online; último acceso: 09 marzo 2020.
+
+\bibitem[Carvajal~Ahumada(2018)]{UCC4791_01}
+Bastián~Nicolás Carvajal~Ahumada.
+\newblock Reconocimiento fotográfico de patentes.
+\newblock 03 2018.
+
+\bibitem[Wolf y Jolion(2004)]{wolf2004}
+Christian Wolf y Jean-Michel Jolion.
+\newblock Extraction and recognition of artificial text in multimedia
+  documents.
+\newblock \emph{Formal Pattern Analysis \& Applications}, 6:\penalty0 309--326,
+  02 2004.
+\newblock \doi{10.1007/s10044-003-0197-7}.
+
+\bibitem[Yousefi(2015)]{Image_Binarization_using_Otsu_Thresholdi}
+Jamileh Yousefi.
+\newblock Image binarization using otsu thresholding algorithm, 05 2015.
+
+\bibitem[Navacerrada(2017)]{navacerrada}
+Jorge Navacerrada.
+\newblock Sistema de detección de matrículas con open cv.
+\newblock 10 2017.
+
+\bibitem[tes()]{tesseractdoc}
+Tesseract ocr.
+\newblock url {https://opensource.google/projects/tesseract}.
+\newblock Online; último acceso: 07 febrero 2020.
+
+\bibitem[Res(2014)]{Res-33-14-PATNT-MERCOSUR}
+Reglamentacion patente unica del mercosur, 08 2014.
+
+\bibitem[car({\natexlab{a}})]{caracpat1}
+Las patentes se renuevan.
+\newblock url {https://tinyurl.com/rqau287}, {\natexlab{a}}.
+\newblock Online; último acceso: 02 octubre 2019.
+
+\bibitem[car({\natexlab{b}})]{caracpat2}
+1995-2016: todas iguales.
+\newblock url {https://tinyurl.com/v9zqcsz}, {\natexlab{b}}.
+\newblock Online; último acceso: 02 octubre 2019.
+
+\bibitem[fal()]{fallaspat}
+Detectan fallas de fabricación en las nuevas patentes y recomiendan
+  cambiarlas.
+\newblock url {https://tinyurl.com/w4e8479}.
+\newblock Online; último acceso: 08 febrero 2020.
+
+\bibitem[ANYLINE()]{anyline}
+ANYLINE.
+\newblock Your smartphone as license plate scanner.
+\newblock url {https://anyline.com/products/scan-license-plates/}.
+\newblock Online; último acceso: 02 febrero 2020.
+
+\bibitem[RECONGNIZER()]{plate-recognizer}
+PLATE RECONGNIZER.
+\newblock Accurate, fast, developer-friendly anpr.
+\newblock url {https://platerecognizer.com/}.
+\newblock Online; último acceso: 02 febrero 2020.
+
+\bibitem[OPENALPR()]{openalpr}
+OPENALPR.
+\newblock Automatic license plate recognition.
+\newblock url {http://www.openalpr.com/}.
+\newblock Online; último acceso: 02 febrero 2020.
+
+\bibitem[Dhams({\natexlab{a}})]{opencv3}
+Chris Dhams.
+\newblock Opencv 3 license plate recognition.
+\newblock url {https://tinyurl.com/qplgw4q}, {\natexlab{a}}.
+\newblock Online; último acceso: 02 febrero 2020.
+
+\bibitem[ope({\natexlab{a}})]{openalprfree}
+Open alpr.
+\newblock url {https://github.com/openalpr/openalpr}, {\natexlab{a}}.
+\newblock Online; último acceso: 02 febrero 2020.
+
+\bibitem[ope({\natexlab{b}})]{openalprdoc}
+Openalpr documentation.
+\newblock url {http://doc.openalpr.com/index.html}, {\natexlab{b}}.
+\newblock Online; último acceso: 07 febrero 2020.
+
+\bibitem[lib()]{libreriaopencv}
+Open alpr.
+\newblock url {https://opencv.org/}.
+\newblock Online; último acceso: 07 febrero 2020.
+
+\bibitem[dev()]{developersguide}
+Developers guide.
+\newblock url {https://tinyurl.com/rsrlmc5}.
+\newblock Online; último acceso: 07 febrero 2020.
+
+\bibitem[Ramón-Balmaseda(2011)]{lbpalgoritmo}
+Enrique Ramón-Balmaseda.
+\newblock Transformaciones basadas en el algoritmo local binary pattern de
+  imágenes capturadas con la kinect para clasificación facial.
+\newblock 12 2011.
+
+\bibitem[img()]{imglbp}
+Lbp y ulbp – local binary patterns y uniform local binary patterns.
+\newblock url {https://tinyurl.com/txfflkq}.
+\newblock Online; último acceso: 09 marzo 2020.
+
+\bibitem[Sauvola \textit{et~al.}(1997)Sauvola, Seppänen, Haapakoski, y
+  Pietikäinen]{adaptive-document-binarization}
+Jaakko Sauvola, Tapio Seppänen, Sami Haapakoski, y Matti Pietikäinen.
+\newblock Adaptive document binarization.
+\newblock volume~33, pages 147--152 vol.1, 09 1997.
+\newblock ISBN 0-8186-7898-4.
+\newblock \doi{10.1109/ICDAR.1997.619831}.
+
+\bibitem[Molina \textit{et~al.}(2017)Molina, Diaz, Hidalgo-Silva, y
+  Chávez]{revistaiberoamericana}
+Edgar Molina, Julia Diaz, Hugo Hidalgo-Silva, y Edgar Chávez.
+\newblock Algoritmos de binarización robusta de imágenes con iluminación no
+  uniforme.
+\newblock \emph{Revista Iberoamericana de Automática e Informática
+  industrial}, 11 2017.
+\newblock \doi{10.4995/riai.2017.8847}.
+
+\bibitem[Magro(2013)]{rmagro}
+Rafael~Mu{\~n}oz Magro.
+\newblock Binarizaci{\'o}n de im{\'a}genes digitales y su algoritmia como
+  herramienta aplicada a la ilustraci{\'o}n entomol{\'o}gica.
+\newblock 2013.
+
+\bibitem[Tomás~Rubio(2015)]{politecnicacartagena}
+Valentín Tomás~Rubio.
+\newblock Sistema de reconocimiento de matrículas y gestión de acceso en una
+  plataforma embebida.
+\newblock 06 2015.
+
+\bibitem[bea({\natexlab{a}})]{beanstalkprotocol}
+Beanstalk protocol.
+\newblock url
+  {https://github.com/beanstalkd/beanstalkd/blob/master/doc/protocol.txt},
+  {\natexlab{a}}.
+\newblock Online; último acceso: 10 marzo 2020.
+
+\bibitem[bea({\natexlab{b}})]{beanstalkclient}
+Beanstalk client.
+\newblock url {https://github.com/deepfryed/beanstalk-client}, {\natexlab{b}}.
+\newblock Online; último acceso: 10 marzo 2020.
+
+\bibitem[jso()]{jsoncons}
+Jsoncons.
+\newblock url
+  {https://github.com/danielaparker/jsoncons/blob/master/README.md}.
+\newblock Online; último acceso: 10 marzo 2020.
+
+\bibitem[alp()]{alprd}
+Openalpr daemon (alprd).
+\newblock url
+  {https://github.com/openalpr/openalpr/wiki/OpenALPR-Daemon-(alprd)}.
+\newblock Online; último acceso: 10 marzo 2020.
+
+\bibitem[Arce~Arroyo(2016)]{MEMORIA-ARCEARROYO}
+Alberto Arce~Arroyo.
+\newblock Visión artificial de documentos., 07 2016.
+
+\bibitem[Dhams({\natexlab{b}})]{opencv3KNN}
+Chris Dhams.
+\newblock Opencv 3 knn character recognition.
+\newblock url {https://tinyurl.com/tgzd2ww}, {\natexlab{b}}.
+\newblock Online; último acceso: 07 febrero 2020.
+
+\bibitem[atm()]{atmega328p}
+Atmega 328 p.
+\newblock url
+  {https://www.alldatasheet.com/datasheet-pdf/pdf/313656/ATMEL/ATmega328P.html}.
+\newblock Online; último acceso: 10 febrero 2020.
+
+\bibitem[mod()]{modwifi}
+Esp-01 wifi module.
+\newblock url {http://www.microchip.ua/wireless/esp01.pdf}.
+\newblock Online; último acceso: 10 febrero 2020.
+
+\bibitem[ecl()]{eclipse}
+The platform for open innovation and collaboration.
+\newblock url {https://www.eclipse.org/}.
+\newblock Online; último acceso: 18 marzo 2020.
+
+\bibitem[ard()]{arduinoide}
+Arduino.
+\newblock url {https://www.arduino.cc/}.
+\newblock Online; último acceso: 18 marzo 2020.
+
+\bibitem[yak({\natexlab{a}})]{yakinduprincipalpage}
+Yakindu statechart tools use the power of state machines.
+\newblock url {https://www.itemis.com/en/yakindu/state-machine/},
+  {\natexlab{a}}.
+\newblock Online; último acceso: 18 marzo 2020.
+
+\bibitem[yak({\natexlab{b}})]{yakindustatemachine}
+What is a state machine?
+\newblock url {https://tinyurl.com/wjuo2ro}, {\natexlab{b}}.
+\newblock Online; último acceso: 18 marzo 2020.
+
+\bibitem[yak({\natexlab{c}})]{yakinduevent-cycle}
+Event-driven vs. cycle-based execution.
+\newblock url {https://tinyurl.com/wlt6qrh}, {\natexlab{c}}.
+\newblock Online; último acceso: 18 marzo 2020.
+
+\bibitem[mys()]{mysql}
+Oracle mysql: The most popular open source database.
+\newblock url {http://www.oracle.com/us/products/mysql/overview/index.html}.
+\newblock Online; último acceso: 20 marzo 2020.
+
+\end{thebibliography}

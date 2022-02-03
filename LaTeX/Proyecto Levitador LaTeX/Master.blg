@@ -1,0 +1,57 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: Master.aux
+A level-1 auxiliary file: agradecimientos.aux
+A level-1 auxiliary file: intro/intro-v1.aux
+A level-1 auxiliary file: Estructura-sist/Estructura-sist-v1.aux
+A level-1 auxiliary file: Cap_Patentes/Cap_Patentes-v1.aux
+A level-1 auxiliary file: 2do-Nucleo/2do-Nucleo-v1.aux
+A level-1 auxiliary file: Primer_prototipo/Primer_prototipo-v2.aux
+A level-1 auxiliary file: Varios/Varios-v1.aux
+The style file: unsrtnatesp.bst
+Database file #1: IEEEfull.bib
+Database file #2: biblio_tesis.bib
+I was expecting a `,' or a `}'---line 103 of file biblio_tesis.bib
+ :   
+ :   note = {PONTIFICIA UNIVERSIDAD CATÓLICA DE VALPARAÍSO, FACULTAD DE INGENIERÍA, ESCUELA DE INGENIERÍA INFORMÁTICA}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--entry type for "Image_Binarization_using_Otsu_Thresholdi" isn't style-file defined
+--line 106 of file biblio_tesis.bib
+Warning--empty year in kinouwell
+Warning--empty booktitle in TRA-147
+Warning--empty year in pipstechnology
+Warning--empty year in genetec
+Warning--empty year in neurallabs
+Warning--empty year in visart
+Warning--empty journal in UCC4791_01
+Warning--empty journal in navacerrada
+Warning--empty year in tesseractdoc
+Warning--empty year in caracpat1
+Warning--empty year in caracpat2
+Warning--empty year in fallaspat
+Warning--empty year in anyline
+Warning--empty year in plate-recognizer
+Warning--empty year in openalpr
+Warning--empty year in opencv3
+Warning--empty year in openalprfree
+Warning--empty year in openalprdoc
+Warning--empty year in libreriaopencv
+Warning--empty year in developersguide
+Warning--empty journal in lbpalgoritmo
+Warning--empty year in imglbp
+Warning--empty booktitle in adaptive-document-binarization
+Warning--empty booktitle in rmagro
+Warning--empty journal in politecnicacartagena
+Warning--empty year in beanstalkprotocol
+Warning--empty year in beanstalkclient
+Warning--empty year in jsoncons
+Warning--empty year in alprd
+Warning--empty year in opencv3KNN
+Warning--empty year in atmega328p
+Warning--empty year in modwifi
+Warning--empty year in eclipse
+Warning--empty year in arduinoide
+Warning--empty year in yakinduprincipalpage
+Warning--empty year in yakindustatemachine
+Warning--empty year in yakinduevent-cycle
+Warning--empty year in mysql
+(There was 1 error message)

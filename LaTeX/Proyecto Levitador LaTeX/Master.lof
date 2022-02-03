@@ -1,0 +1,66 @@
+\babel@toc {spanish}{}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Producto pensado a futuro.\relax }}{6}{figure.caption.5}% 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Esquema general de funcionamiento del sistema.\relax }}{8}{figure.caption.6}% 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Funcionamiento del sistema en el ingreso.\relax }}{9}{figure.caption.7}% 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Funcionamiento del sistema en el egreso.\relax }}{10}{figure.caption.8}% 
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Proporciones de: (a) los establecimientos que poseen y no poseen barreras, (b) de las caracter\IeC {\'\i }sticas de la iluminaci\IeC {\'o}n en los mismos y (c) de estacionamientos que utilizan o no c\IeC {\'a}maras de video.\relax }}{12}{figure.caption.10}% 
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Proporciones de los tipos de mecanismos de detecci\IeC {\'o}n de veh\IeC {\'\i }culos utilizados.\relax }}{14}{figure.caption.12}% 
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Proporciones de: (a) los establecimientos techados y descubiertos y (b) de los tipos de piso utilizados.\relax }}{15}{figure.caption.14}% 
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Proporciones de establecimientos que poseen una sola v\IeC {\'\i }a de acceso, dos v\IeC {\'\i }as independientes o dos v\IeC {\'\i }as de ingreso y dos de egreso.\relax }}{17}{figure.caption.16}% 
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Croquis del estacionamiento de prueba.\relax }}{18}{figure.caption.17}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Etapas generales de un sistema ALPR \cite {LicensePlates2018}.\relax }}{24}{figure.caption.18}% 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Imagen del veh\IeC {\'\i }culo que posee la patente a analizar, antes de comenzar el proceso de reconocimiento.\relax }}{26}{figure.caption.19}% 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Imagen del veh\IeC {\'\i }culo que posee la patente a analizar, en escala de grises.\relax }}{26}{figure.caption.20}% 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Imagen del veh\IeC {\'\i }culo que posee la patente a analizar, luego de aplicarle el proceso de binarizaci\IeC {\'o}n.\relax }}{27}{figure.caption.21}% 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Proceso de preprocesamiento de la regi\IeC {\'o}n candidata: imagen original (a), en escala de grises (b) y binarizada (c).\relax }}{27}{figure.caption.22}% 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Resultado del proceso de segmentaci\IeC {\'o}n de caracteres.\relax }}{28}{figure.caption.23}% 
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Patente reconocida, resultante de la aplicaci\IeC {\'o}n de un sistema ALPR.\relax }}{29}{figure.caption.24}% 
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Patente del MERCOSUR: caracter\IeC {\'\i }sticas.\relax }}{31}{figure.caption.25}% 
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Patente del MERCOSUR: medidas de seguridad.\relax }}{31}{figure.caption.25}% 
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Patente del MERCOSUR para autom\IeC {\'o}viles y motocicletas.\relax }}{31}{figure.caption.25}% 
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Patente argentina antigua correspondiente a autom\IeC {\'o}viles.\relax }}{33}{figure.caption.26}% 
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Patente argentina antigua correspondiente a motoveh\IeC {\'\i }culos.\relax }}{34}{figure.caption.27}% 
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Obtenci\IeC {\'o}n del valor LBP de un pixel analizado \cite {imglbp}.\relax }}{41}{figure.caption.28}% 
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Posibles patentes detectadas.\relax }}{42}{figure.caption.29}% 
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Detecci\IeC {\'o}n y an\IeC {\'a}lisis de los posibles caracteres.\relax }}{43}{figure.caption.30}% 
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Detecci\IeC {\'o}n de bordes horizontales (a) y verticales (b), y detecci\IeC {\'o}n de patente (c).\relax }}{44}{figure.caption.31}% 
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Caracteres limpios y segmentados.\relax }}{44}{figure.caption.32}% 
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Fragmento del proceso de reconocimiento de los caracteres.\relax }}{46}{figure.caption.33}% 
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Fragmento de la etapa de postprocesamiento junto con el listado de patentes obtenido como resultado del proceso completo.\relax }}{47}{figure.caption.34}% 
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Resultados parciales de la etapa inicial del software basado en OpenCV.\relax }}{50}{figure.caption.35}% 
+\contentsline {figure}{\numberline {3.21}{\ignorespaces Proceso de b\IeC {\'u}squeda de contornos y eliminaci\IeC {\'o}n de aquellos que no poseen dimensiones de caracteres.\relax }}{51}{figure.caption.36}% 
+\contentsline {figure}{\numberline {3.22}{\ignorespaces Grupos de caracteres coincidentes.\relax }}{51}{figure.caption.37}% 
+\contentsline {figure}{\numberline {3.23}{\ignorespaces Proceso desarrollado en la etapa de detecci\IeC {\'o}n de patente.\relax }}{52}{figure.caption.38}% 
+\contentsline {figure}{\numberline {3.24}{\ignorespaces Resultado de la remoci\IeC {\'o}n de caracteres internos.\relax }}{53}{figure.caption.39}% 
+\contentsline {figure}{\numberline {3.25}{\ignorespaces Resultado entregado por la fase de post-procesamiento.\relax }}{54}{figure.caption.40}% 
+\contentsline {figure}{\numberline {3.26}{\ignorespaces Ejemplo de m\IeC {\'a}scara que puede ser seteada.\relax }}{58}{figure.caption.42}% 
+\contentsline {figure}{\numberline {3.27}{\ignorespaces Patente con palabras internas apreciables.\relax }}{65}{figure.caption.48}% 
+\contentsline {figure}{\numberline {3.28}{\ignorespaces Reconocimiento de caracteres en patente con palabras internas apreciables.\relax }}{66}{figure.caption.49}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Microcontrolador Atmega328P utilizado.\relax }}{70}{figure.caption.50}% 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces M\IeC {\'o}dulo de comunicaci\IeC {\'o}n WiFi ESP-01 utilizado.\relax }}{71}{figure.caption.51}% 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Fuente de alimentaci\IeC {\'o}n de tensi\IeC {\'o}n continua del sistema.\relax }}{72}{figure.caption.52}% 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Esquema circuital de la etapa de l\IeC {\'o}gica y comunicaci\IeC {\'o}n.\relax }}{73}{figure.caption.53}% 
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Adaptaci\IeC {\'o}n de niveles de tensi\IeC {\'o}n entre los perif\IeC {\'e}ricos y el microcontrolador.\relax }}{74}{figure.caption.54}% 
+\contentsline {figure}{\numberline {4.6}{\ignorespaces PCB generado a partir del dise\IeC {\~n}o final.\relax }}{77}{figure.caption.55}% 
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Barrera infrarroja utilizada: receptor (izquierda) y transmisor (derecha).\relax }}{79}{figure.caption.56}% 
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Conexiones de la barrera infrarroja: receptor (izquierda) y transmisor (derecha).\relax }}{80}{figure.caption.57}% 
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Detector magn\IeC {\'e}tico utilizado.\relax }}{81}{figure.caption.58}% 
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Conexiones de la barrera infrarroja: receptor (izquierda) y transmisor (derecha).\relax }}{82}{figure.caption.59}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Comparaci\IeC {\'o}n entre diferentes m\IeC {\'a}quinas de estado \cite {yakindustatemachine}.\relax }}{88}{figure.caption.60}% 
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Comunicaci\IeC {\'o}n entre UCC, M\IeC {\'o}dulo y Placa.\relax }}{89}{figure.caption.61}% 
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Proceso de establecimiento de la conexi\IeC {\'o}n entre UCC, m\IeC {\'o}dulo WiFi y Placa I/O.\relax }}{90}{figure.caption.62}% 
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Control de ACK de la UCC.\relax }}{93}{figure.caption.63}% 
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Recepci\IeC {\'o}n de mensajes desde Placa I/O.\relax }}{94}{figure.caption.64}% 
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Env\IeC {\'\i }o de mensajes desde Placa I/O.\relax }}{94}{figure.caption.65}% 
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Procedimiento sobre la V\IeC {\'\i }a de ingreso de la UCC.\relax }}{95}{figure.caption.66}% 
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Procedimiento sobre la V\IeC {\'\i }a de ingreso de la Placa I/O.\relax }}{96}{figure.caption.67}% 
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Tabla ``Regular'' de la base de datos desarrollada.\relax }}{98}{figure.caption.68}% 
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Etapa de egreso de la Placa I/O.\relax }}{101}{figure.caption.69}% 
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Etapa de egreso de la UCC.\relax }}{102}{figure.caption.70}% 
+\addvspace {10\p@ }
+\addvspace {10\p@ }

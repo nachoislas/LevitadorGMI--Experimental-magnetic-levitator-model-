@@ -1,9 +1,15 @@
 Protel Design System Design Rule Check
-PCB File : N:\GitProyects\LevitadorGMI\Altium\Modelo levitador magnético V 2.0\PCB\Levitador Magnetico.PcbDoc
-Date     : 29/12/2021
-Time     : 17:56:49
+PCB File : C:\Documentos\Juanma\GitHub\LevitadorGMI\Altium\Modelo levitador magnético V 2.0\PCB\Levitador Magnetico.PcbDoc
+Date     : 17/2/2022
+Time     : 14:24:24
 
 Processing Rule : Clearance Constraint (Gap=0.254mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.305mm) (HasFootprint('SOP50P310X90-8N')),(All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.305mm) (InNet('BHI/ALI') And OnLayer('Top Layer')),(All)
 Rule Violations :0
 
 Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
@@ -28,11 +34,7 @@ Processing Rule : Hole To Hole Clearance (Gap=0.254mm) (All),(All)
 Rule Violations :0
 
 Processing Rule : Minimum Solder Mask Sliver (Gap=0.15mm) (All),(All)
-   Violation between Minimum Solder Mask Sliver Constraint: (0.097mm < 0.15mm) Between Pad VR202-1(49.718mm,65.208mm) on Top Layer And Pad VR202-2(48.768mm,65.208mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.097mm < 0.15mm) Between Pad VR202-2(48.768mm,65.208mm) on Top Layer And Pad VR202-3(47.818mm,65.208mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.097mm < 0.15mm) Between Pad VR202-4(47.818mm,62.808mm) on Top Layer And Pad VR202-5(48.768mm,62.808mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.097mm < 0.15mm) Between Pad VR202-5(48.768mm,62.808mm) on Top Layer And Pad VR202-6(49.718mm,62.808mm) on Top Layer [Top Solder] Mask Sliver [0.097mm]
-Rule Violations :4
+Rule Violations :0
 
 Processing Rule : Silk To Solder Mask (Clearance=0.15mm) (IsPad),(All)
 Rule Violations :0
@@ -49,29 +51,7 @@ Rule Violations :0
 Processing Rule : Silk primitive without silk layer
 Rule Violations :0
 
-Waived Violations Of Rule : Clearance Constraint (Gap=0.254mm) (All),(All)
-   Waived Violation between Clearance Constraint: (0.2mm < 0.254mm) Between Pad U101-1(117.399mm,122.694mm) on Top Layer And Pad U101-2(117.399mm,123.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.2mm < 0.254mm) Between Pad U101-2(117.399mm,123.194mm) on Top Layer And Pad U101-3(117.399mm,123.694mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.198mm < 0.254mm) Between Pad U101-2(117.399mm,123.194mm) on Top Layer And Track (117.399mm,113.843mm)(117.399mm,122.694mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.198mm < 0.254mm) Between Pad U101-2(117.399mm,123.194mm) on Top Layer And Track (117.399mm,123.694mm)(118.69mm,123.694mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.2mm < 0.254mm) Between Pad U101-3(117.399mm,123.694mm) on Top Layer And Pad U101-4(117.399mm,124.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.198mm < 0.254mm) Between Pad U101-3(117.399mm,123.694mm) on Top Layer And Track (117.399mm,124.194mm)(117.399mm,127.381mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.198mm < 0.254mm) Between Pad U101-4(117.399mm,124.194mm) on Top Layer And Track (117.399mm,123.694mm)(118.69mm,123.694mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.2mm < 0.254mm) Between Pad U101-5(114.249mm,124.194mm) on Top Layer And Pad U101-6(114.249mm,123.694mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.2mm < 0.254mm) Between Pad U101-6(114.249mm,123.694mm) on Top Layer And Pad U101-7(114.249mm,123.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.174mm < 0.254mm) Between Pad U101-6(114.249mm,123.694mm) on Top Layer And Track (112.344mm,124.562mm)(113.712mm,123.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.198mm < 0.254mm) Between Pad U101-6(114.249mm,123.694mm) on Top Layer And Track (113.712mm,123.194mm)(114.249mm,123.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.198mm < 0.254mm) Between Pad U101-6(114.249mm,123.694mm) on Top Layer And Track (114.249mm,124.194mm)(115.025mm,124.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.2mm < 0.254mm) Between Pad U101-7(114.249mm,123.194mm) on Top Layer And Pad U101-8(114.249mm,122.694mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.198mm < 0.254mm) Between Pad U101-7(114.249mm,123.194mm) on Top Layer And Track (108.83mm,122.694mm)(114.249mm,122.694mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.215mm < 0.254mm) Between Pad U101-8(114.249mm,122.694mm) on Top Layer And Track (112.344mm,124.562mm)(113.712mm,123.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.198mm < 0.254mm) Between Pad U101-8(114.249mm,122.694mm) on Top Layer And Track (113.712mm,123.194mm)(114.249mm,123.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.195mm < 0.254mm) Between Track (108.83mm,122.694mm)(114.249mm,122.694mm) on Top Layer And Track (112.344mm,124.562mm)(113.712mm,123.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.195mm < 0.254mm) Between Track (108.83mm,122.694mm)(114.249mm,122.694mm) on Top Layer And Track (113.712mm,123.194mm)(114.249mm,123.194mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-   Waived Violation between Clearance Constraint: (0.195mm < 0.254mm) Between Track (117.399mm,123.694mm)(118.69mm,123.694mm) on Top Layer And Track (117.399mm,124.194mm)(117.399mm,127.381mm) on Top Layer Waived by Ignacio at 28/12/2021 18:48:53Clearence Constrait del integrado inversor de Controlador de CorrienteSN74LVC3G06DCUT
-Waived Violations :19
 
-
-Violations Detected : 4
-Waived Violations : 19
-Time Elapsed        : 00:00:02
+Violations Detected : 0
+Waived Violations : 0
+Time Elapsed        : 00:00:01

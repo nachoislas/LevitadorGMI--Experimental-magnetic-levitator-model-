@@ -77,12 +77,18 @@ step(tlcConIntegrador);
 
 
 %% Digital
-Gtotalzpk = zpk(Gplanta*GiL);
+Gtotal30 = zpk(Gp30*Gil)
+Gtotal2 = zpk(Gp2*Gil)
+
+%% Pasar a z por invarianza al impulso
+
 fs = 50e3;
 Ts = 1/fs;
-Gtotalz = zpk(c2d(Gtotalzpk, Ts, 'zoh'));
+Gtotal30z = zpk(c2d(Gtotal30, Ts, 'zoh'));
+Gtotal2z = zpk(c2d(Gtotal2, Ts, 'zoh'));
 %pasar a w por bilineal
-Gtotalw = zpk(d2c(Gtotalz, 'tustin'));
+Gtotal30w = zpk(d2c(Gtotal30z, 'tustin'));
+Gtotal2w = zpk(d2c(Gtotal2z, 'tustin'));
 
 
 %% funciones

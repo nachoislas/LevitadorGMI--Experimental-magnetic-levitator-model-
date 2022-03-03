@@ -1,7 +1,7 @@
 %% Controlador por adelanto de fase
 %%Variables, cambiar segun se desee
-m=1; %%kilogramos
-y=1; %%ya esta en mm;
+m=30; %%kilogramos
+y=5; %%ya esta en mm;
 
 %Constantes
 s = tf('s');

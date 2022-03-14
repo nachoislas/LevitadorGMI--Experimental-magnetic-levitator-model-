@@ -92,6 +92,8 @@ wp=sqrt(alpha)*w0;
 
 GdigitalW=(1+s/wc)/(1+s/wc);
 
+gcompensado=Gtotalw*GdigitalW;
+nyquist(gcompensado);
 %% funciones
 function [y0,L] = distandinduc(y)
     switch y

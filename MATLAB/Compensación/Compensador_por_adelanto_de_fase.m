@@ -90,6 +90,8 @@ alpha=(1+sin(phimax))/((1-sin(phimax)));
 wc=w0/sqrt(alpha);
 wp=sqrt(alpha)*w0;
 
+GdigitalW=(1+s/wc)/(1+s/wc);
+
 %% funciones
 function [y0,L] = distandinduc(y)
     switch y

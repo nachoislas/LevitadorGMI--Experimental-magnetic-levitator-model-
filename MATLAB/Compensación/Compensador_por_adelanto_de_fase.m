@@ -1,8 +1,8 @@
 %% Controlador por adelanto de fase
 
 %%Variables, cambiar segun se desee
-m=1; %%kilogramos
-y=5; %%ya esta en mm;
+m=30; %%kilogramos
+y=4; %%ya esta en mm;
 
 %BLOQUE INTEGRADOR
 pint=0.1;
@@ -78,12 +78,17 @@ step(tlcConIntegrador);
 
 %% Digital
 Gtotalzpk = zpk(Gplanta*GiL);
-fs = 50e3;
+fs = 25e3/7;
 Ts = 1/fs;
 Gtotalz = zpk(c2d(Gtotalzpk, Ts, 'zoh'));
 %pasar a w por bilineal
 Gtotalw = zpk(d2c(Gtotalz, 'tustin'));
 
+w0=45;
+phimax=65*pi/180;
+alpha=(1+sin(phimax))/((1-sin(phimax)));
+wc=w0/sqrt(alpha);
+wp=sqrt(alpha)*w0;
 
 %% funciones
 function [y0,L] = distandinduc(y)

@@ -85,7 +85,7 @@ Gtotalz = zpk(c2d(Gtotalzpk, Ts, 'zoh'));
 Gtotalw = zpk(d2c(Gtotalz, 'tustin'));
 
 w0=45;
-phimax=65*pi/180;
+phimax=wo*pi/180;
 alpha=(1+sin(phimax))/((1-sin(phimax)));
 wc=w0/sqrt(alpha);
 wp=sqrt(alpha)*w0;

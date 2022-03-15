@@ -84,16 +84,28 @@ Gtotalz = zpk(c2d(Gtotalzpk, Ts, 'zoh'));
 %pasar a w por bilineal
 Gtotalw = zpk(d2c(Gtotalz, 'tustin'));
 
-w0=45;
-phimax=wo*pi/180;
+w0=300;
+gradosmax=65;
+phimax=gradosmax*pi/180;
 alpha=(1+sin(phimax))/((1-sin(phimax)));
 wc=w0/sqrt(alpha);
 wp=sqrt(alpha)*w0;
 
-GdigitalW=(1+s/wc)/(1+s/wc);
+CdigitalW=(1+s/wc)/(1+s/wc);
 
-gcompensado=Gtotalw*GdigitalW;
-nyquist(gcompensado);
+gcompensado=Gtotalw*CdigitalW*CdigitalW;
+figure(9)
+bode(Gtotalw)
+figure(10)
+nyquist(Gtotalw)
+figure(11)
+bode(Gtotalw)
+figure(12)
+nyquist(gcompensado)
+figure(13)
+step(gcompensado/(1+gcompensado))
+
+
 %% funciones
 function [y0,L] = distandinduc(y)
     switch y

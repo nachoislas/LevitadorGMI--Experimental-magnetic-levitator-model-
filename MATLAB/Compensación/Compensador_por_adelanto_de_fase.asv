@@ -104,7 +104,7 @@ bode(gcompensado)
 figure(12)
 nyquist(gcompensado)
 figure(13)
-step(-gcompensado/(1-gcompensado))
+step(gcompensado/(1+k*gcompensado))
 
 
 %% funciones

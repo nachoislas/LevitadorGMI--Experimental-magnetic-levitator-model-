@@ -84,14 +84,14 @@ Gtotalz = zpk(c2d(Gtotalzpk, Ts, 'zoh'));
 %pasar a w por bilineal
 Gtotalw = zpk(d2c(Gtotalz, 'tustin'));
 
-w0=300;
+w0=200;
 gradosmax=65;
 phimax=gradosmax*pi/180;
 alpha=(1+sin(phimax))/((1-sin(phimax)));
 wc=w0/sqrt(alpha);
 wp=sqrt(alpha)*w0;
 
-CdigitalW=(1+s/wc)/(1+s/wc);
+CdigitalW=(1+s/wc)/(1+s/wp);
 
 gcompensado=Gtotalw*CdigitalW*CdigitalW;
 figure(9)

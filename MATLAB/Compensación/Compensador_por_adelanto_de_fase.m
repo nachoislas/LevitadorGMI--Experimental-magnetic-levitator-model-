@@ -76,7 +76,7 @@ tlcConIntegrador = -dcgain(Hestim) * feedback(integrador*tlc, Hestim, 1);
 step(tlcConIntegrador);
 
 
-%% Digital
+%% Transformadas Digitales
 Gtotalzpk = zpk(Gplanta*GiL);
 fs = 25e3/7;
 Ts = 1/fs;
@@ -84,6 +84,7 @@ Gtotalz = zpk(c2d(Gtotalzpk, Ts, 'zoh'));
 %pasar a w por bilineal
 Gtotalw = zpk(d2c(Gtotalz, 'tustin'));
 
+%% Compensador Digital de adelanto atraso
 w0=200;
 gradosmax=65;
 phimax=gradosmax*pi/180;
@@ -91,10 +92,9 @@ alpha=(1+sin(phimax))/((1-sin(phimax)));
 wc=w0/sqrt(alpha);
 wp=sqrt(alpha)*w0;
 k=2630;
-
 CdigitalW=(1+s/wc)/(1+s/wp);
-
 gcompensado=k*Gtotalw*CdigitalW*CdigitalW;
+
 figure(9)
 bode(Gtotalw)
 figure(10)
@@ -103,9 +103,23 @@ figure(11)
 bode(gcompensado)
 figure(12)
 nyquist(gcompensado)
-figure(13)
-step(-gcompensado/(1-gcompensado))
 
+%% Transferencia de lazo cerrado Digital
+TlcDigitalSinIntegrador = zpk(minreal(feedback(gcompensado, -1)));
+dcgain(tlc);
+figure(13)
+step(TlcDigitalSinIntegrador)
+
+
+%% Bloque Integrador Digital
+KintD=1;
+integradorDigital=KintD/(s);
+
+figure(14)
+rlocus(-TlcDigitalSinIntegrador*integradorDigital)
+figure(15)
+tlcConIntegradorDigital = -1 * feedback(TlcDigitalSinIntegrador*integradorDigital, 1, 1);
+step(tlcConIntegradorDigital);
 
 %% funciones
 function [y0,L] = distandinduc(y)

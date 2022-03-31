@@ -20,3 +20,7 @@ _Previews/
 History/
 *.SchDocPreview
 *.LOG
+
+
+#simulink
+*.autosave

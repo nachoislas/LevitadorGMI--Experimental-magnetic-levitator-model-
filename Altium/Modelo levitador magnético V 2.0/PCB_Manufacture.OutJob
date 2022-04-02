@@ -34,7 +34,7 @@ OutputMedium3_Type=GeneratedFiles
 OutputType1=Gerber
 OutputName1=Gerber Files
 OutputCategory1=Fabrication
-OutputDocumentPath1=Citymesh-Tester.PcbDoc
+OutputDocumentPath1=Levitador Magnetico.PcbDoc
 OutputVariantName1=
 OutputEnabled1=0
 OutputEnabled1_OutputMedium1=0
@@ -46,7 +46,7 @@ Configuration1_Item1=AddToAllLayerClasses.Set= |AddToAllPlots.Set=SerializeLayer
 OutputType2=NC Drill
 OutputName2=NC Drill Files
 OutputCategory2=Fabrication
-OutputDocumentPath2=Citymesh-Tester.PcbDoc
+OutputDocumentPath2=Levitador Magnetico.PcbDoc
 OutputVariantName2=
 OutputEnabled2=0
 OutputEnabled2_OutputMedium1=0
@@ -58,7 +58,7 @@ Configuration2_Item1=BoardEdgeRoutToolDia=2000000|GenerateBoardEdgeRout=False|Ge
 OutputType3=Board Stack Report
 OutputName3=Report Board Stack
 OutputCategory3=Fabrication
-OutputDocumentPath3=Citymesh-Tester.PcbDoc
+OutputDocumentPath3=Levitador Magnetico.PcbDoc
 OutputVariantName3=
 OutputEnabled3=1
 OutputEnabled3_OutputMedium1=0
@@ -70,9 +70,9 @@ Configuration3_Name1=OutputConfigurationParameter1
 Configuration3_Item1=Record=LayerStackReportView|Units=Metric
 
 [PublishSettings]
-OutputFilePath2=C:\Users\Deitres\Documents\pcb-citypanel-tester\Project Outputs for Citymesh-Tester\
+OutputFilePath2=C:\Documentos\Documentos de GitHub\LevitadorGMI\Altium\Modelo levitador magnético V 2.0\Project Outputs for Modelo levitador magnético\
 ReleaseManaged2=1
-OutputBasePath2=Project Outputs for Citymesh-Tester
+OutputBasePath2=Project Outputs for Modelo levitador magnético
 OutputPathMedia2=
 OutputPathMediaValue2=
 OutputPathOutputer2=[Output Type]
@@ -83,9 +83,9 @@ OutputFileNameMulti2=
 UseOutputNameForMulti2=1
 OutputFileNameSpecial2=
 OpenOutput2=1
-OutputFilePath3=C:\Users\Deitres\Documents\pcb-citypanel-tester\Project Outputs for Citymesh-Tester\
+OutputFilePath3=C:\Documentos\Documentos de GitHub\LevitadorGMI\Altium\Modelo levitador magnético V 2.0\Project Outputs for Modelo levitador magnético\
 ReleaseManaged3=1
-OutputBasePath3=Project Outputs for Citymesh-Tester
+OutputBasePath3=Project Outputs for Modelo levitador magnético
 OutputPathMedia3=
 OutputPathMediaValue3=
 OutputPathOutputer3=[Output Type]
@@ -98,7 +98,7 @@ OutputFileNameSpecial3=
 OpenOutput3=1
 
 [GeneratedFilesSettings]
-RelativeOutputPath2=C:\Users\Deitres\Documents\pcb-citypanel-tester\Project Outputs for Citymesh-Tester\
+RelativeOutputPath2=C:\Documentos\Documentos de GitHub\LevitadorGMI\Altium\Modelo levitador magnético V 2.0\Project Outputs for Modelo levitador magnético\
 OpenOutputs2=1
 AddToProject2=1
 TimestampFolder2=0
@@ -108,7 +108,7 @@ OpenGerberOutput2=0
 OpenNCDrillOutput2=0
 OpenIPCOutput2=0
 EnableReload2=0
-RelativeOutputPath3=C:\Users\Deitres\Documents\pcb-citypanel-tester\Project Outputs for Citymesh-Tester\
+RelativeOutputPath3=C:\Documentos\Documentos de GitHub\LevitadorGMI\Altium\Modelo levitador magnético V 2.0\Project Outputs for Modelo levitador magnético\
 OpenOutputs3=1
 AddToProject3=1
 TimestampFolder3=0

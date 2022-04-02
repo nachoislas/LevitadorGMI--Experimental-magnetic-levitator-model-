@@ -140,23 +140,6 @@ GenerateClassCluster=0
 DocumentUniqueId=NURMQIUQ
 
 [Document7]
-DocumentPath=..\Librerías\Mi libreria.SchLib
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=NIBQWQYT
-
-[Document8]
 DocumentPath=Esquemáticos\Puente H.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=100
@@ -173,7 +156,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=NPNAUHOJ
 
-[Document9]
+[Document8]
 DocumentPath=PCB\Levitador Magnetico.PcbDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -190,7 +173,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=SSTWVYER
 
-[Document10]
+[Document9]
 DocumentPath=Assembly.OutJob
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -207,7 +190,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document11]
+[Document10]
 DocumentPath=PCB_Manufacture.OutJob
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -224,7 +207,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document12]
+[Document11]
 DocumentPath=Esquemáticos\Interfaz digital.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -241,7 +224,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=UPMPLJAA
 
-[Document13]
+[Document12]
 DocumentPath=Esquemáticos\Fuentes.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=200

@@ -1,7 +1,7 @@
 Protel Design System Design Rule Check
 PCB File : C:\Documentos\Documentos de GitHub\LevitadorGMI\Altium\Modelo levitador magnético V 2.0\PCB\Levitador Magnetico.PcbDoc
 Date     : 2/4/2022
-Time     : 12:15:25
+Time     : 12:45:19
 
 Processing Rule : Clearance Constraint (Gap=0.254mm) (All),(All)
 Rule Violations :0
@@ -54,4 +54,4 @@ Rule Violations :0
 
 Violations Detected : 0
 Waived Violations : 0
-Time Elapsed        : 00:00:03
+Time Elapsed        : 00:00:02

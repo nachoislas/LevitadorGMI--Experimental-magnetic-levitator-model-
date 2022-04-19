@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Proyecto final" company="" webLink="http://" view-date="2020-06-01" view-index="0" gantt-divider-location="745" resource-divider-location="300" version="2.8.11" locale="es">
+<?xml version="1.0" encoding="UTF-8"?><project name="Proyecto final" company="" webLink="http://" view-date="2021-08-01" view-index="0" gantt-divider-location="727" resource-divider-location="300" version="3.2.3230" locale="es_ES">
     <description/>
     <view zooming-state="default:8" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="526" order="0"/>
-        <field id="tpd4" name="Fecha de inicio" width="105" order="1"/>
-        <field id="tpd5" name="Fecha de fin" width="95" order="2"/>
-        <timeline><![CDATA[3,43,38,42,80,16,68,67,53,75,52,6,14,1,11,95,4,70,65,69,50,48,87,81,13,15,49,51,46,77,109,17,78,54,79,40,106,103]]></timeline>
+        <field id="tpd3" name="Nombre" width="516" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="101" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="94" order="2"/>
+        <option id="filter.completedTasks" value="false"/>
+        <timeline>
+            <![CDATA[67,103,13,106,69,40,77,81,95,46,16,6,87,68,15,17,4,79,1,78,51,70,54,75,48,38,80,3,43,42,50,52,14,11,53,49,109,65]]>
+        </timeline>
     </view>
     <view id="resource-table">
         <field id="0" name="Nombre" width="210" order="0"/>
@@ -49,7 +52,7 @@
                 <task id="164" name="Desarrollar ecuaciones de estado para modelar la planta" color="#8cb6ce" meeting="false" start="2020-09-02" duration="39" complete="0" thirdDate="2020-07-28" thirdDate-constraint="0" expand="true"/>
                 <task id="6" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2020-07-06" duration="97" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="11" name="Diseñar controlador de corriente" color="#8cb6ce" meeting="false" start="2020-10-11" duration="30" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
+            <task id="11" name="Diseñar controlador de corriente" color="#8cb6ce" meeting="false" start="2020-10-11" duration="30" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
                 <depend id="172" type="2" difference="0" hardness="Strong"/>
                 <task id="13" name="Diseñar diagrama en bloques del controlador de corriente" color="#8cb6ce" meeting="false" start="2020-10-11" duration="15" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                     <depend id="15" type="2" difference="0" hardness="Strong"/>
@@ -60,7 +63,7 @@
                 <task id="16" name="Simular modelo circuital del controlador de corriente" color="#8cb6ce" meeting="false" start="2020-10-26" duration="15" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
                 <task id="17" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2020-10-11" duration="30" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="172" name="Diseñar estimador de posición" color="#8cb6ce" meeting="false" start="2020-11-10" duration="37" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
+            <task id="172" name="Diseñar estimador de posición" color="#8cb6ce" meeting="false" start="2020-11-10" duration="37" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
                 <depend id="46" type="2" difference="0" hardness="Strong"/>
                 <depend id="185" type="2" difference="0" hardness="Strong"/>
                 <task id="174" name="Diseñar diagrama en bloques del estimador de posición" color="#8cb6ce" meeting="false" start="2020-11-10" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
@@ -75,35 +78,33 @@
                 <task id="180" name="Simular modelo circuital del estimador de posición" color="#8cb6ce" meeting="false" start="2020-12-02" duration="15" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
                 <task id="182" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2020-11-10" duration="22" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="185" name="Diseñar compensador analógico" color="#8cb6ce" meeting="false" start="2020-12-17" duration="28" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
+            <task id="185" name="Diseñar compensador analógico" color="#8cb6ce" meeting="false" start="2020-12-17" duration="41" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
                 <depend id="197" type="2" difference="0" hardness="Strong"/>
-                <task id="187" name="Diseñar diagrama en bloques del compensador analógico" color="#8cb6ce" meeting="false" start="2020-12-17" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
+                <task id="187" name="Diseñar diagrama en bloques del compensador analógico" color="#8cb6ce" meeting="false" start="2020-12-17" duration="23" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                     <depend id="193" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="189" name="Simular modelo en Simulink" color="#8cb6ce" meeting="false" start="2020-12-17" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
+                <task id="189" name="Simular modelo en Simulink" color="#8cb6ce" meeting="false" start="2020-12-17" duration="23" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                     <depend id="193" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="191" name="Realizar diseño circuital del compensador analógico" color="#8cb6ce" meeting="false" start="2020-12-17" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
-                    <depend id="193" type="2" difference="0" hardness="Strong"/>
-                </task>
-                <task id="193" name="Simular modelo circuital del compensador analógico" color="#8cb6ce" meeting="false" start="2020-12-31" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
-                <task id="195" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2020-12-17" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+                <task id="191" name="Realizar diseño circuital del compensador analógico" color="#8cb6ce" meeting="false" start="2021-01-09" duration="18" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+                <task id="193" name="Simular modelo circuital del compensador analógico" color="#8cb6ce" meeting="false" start="2021-01-09" duration="18" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+                <task id="195" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2020-12-17" duration="41" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="197" name="Diseñar fuente de tensión" color="#8cb6ce" meeting="false" start="2021-01-14" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
+            <task id="197" name="Diseñar fuente de tensión" color="#8cb6ce" meeting="false" start="2021-04-10" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
                 <depend id="38" type="2" difference="0" hardness="Strong"/>
-                <task id="199" name="Evaluar requerimiento de corriente del sistema" color="#8cb6ce" meeting="false" start="2021-01-14" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
-                <task id="201" name="Realizar diseño circuital" color="#8cb6ce" meeting="false" start="2021-01-14" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
-                <task id="203" name="Simular modelo circuital" color="#8cb6ce" meeting="false" start="2021-01-14" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
-                <task id="207" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2021-01-14" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+                <task id="199" name="Evaluar requerimiento de corriente del sistema" color="#8cb6ce" meeting="false" start="2021-04-10" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+                <task id="201" name="Realizar diseño circuital" color="#8cb6ce" meeting="false" start="2021-04-10" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+                <task id="203" name="Simular modelo circuital" color="#8cb6ce" meeting="false" start="2021-04-10" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+                <task id="207" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2021-04-10" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="38" name="Realizar un diseño integral" color="#8cb6ce" meeting="false" start="2021-01-21" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
-                <task id="40" name="integrar todos los diagramas en uno solo" color="#8cb6ce" meeting="false" start="2021-01-21" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
-                <task id="42" name="Realizar una simulación integral en Simulink" color="#8cb6ce" meeting="false" start="2021-01-21" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
-                <task id="209" name="Integrar todos los circuitos en uno solo" color="#8cb6ce" meeting="false" start="2021-01-21" duration="14" complete="0" thirdDate="2021-01-04" thirdDate-constraint="0" expand="true"/>
-                <task id="210" name="Realizar simulación circuital de todo el sistema" color="#8cb6ce" meeting="false" start="2021-01-21" duration="14" complete="0" thirdDate="2021-01-04" thirdDate-constraint="0" expand="true"/>
-                <task id="43" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2021-01-21" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+            <task id="38" name="Realizar un diseño integral" color="#8cb6ce" meeting="false" start="2021-04-17" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
+                <task id="40" name="integrar todos los diagramas en uno solo" color="#8cb6ce" meeting="false" start="2021-04-17" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+                <task id="42" name="Realizar una simulación integral en Simulink" color="#8cb6ce" meeting="false" start="2021-04-17" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
+                <task id="209" name="Integrar todos los circuitos en uno solo" color="#8cb6ce" meeting="false" start="2021-04-17" duration="14" complete="0" thirdDate="2021-01-04" thirdDate-constraint="0" expand="true"/>
+                <task id="210" name="Realizar simulación circuital de todo el sistema" color="#8cb6ce" meeting="false" start="2021-04-17" duration="14" complete="0" thirdDate="2021-01-04" thirdDate-constraint="0" expand="true"/>
+                <task id="43" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2021-04-17" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="46" name="Diseñar controlador digital" color="#8cb6ce" meeting="false" start="2021-01-18" duration="21" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
+            <task id="46" name="Diseñar controlador digital" color="#8cb6ce" meeting="false" start="2021-01-18" duration="21" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                 <depend id="65" type="2" difference="0" hardness="Strong"/>
                 <depend id="213" type="2" difference="0" hardness="Strong"/>
                 <depend id="229" type="2" difference="0" hardness="Strong"/>
@@ -146,18 +147,18 @@
                 <task id="80" name="Programar microcontrolador" color="#8cb6ce" meeting="false" start="2021-05-24" duration="21" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
                 <task id="81" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2021-05-24" duration="21" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="245" name="Construir soporte del sistema" color="#8cb6ce" meeting="false" start="2021-04-12" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
+            <task id="245" name="Construir soporte del sistema" color="#8cb6ce" meeting="false" start="2021-04-12" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                 <task id="247" name="Diseño del soporte" color="#8cb6ce" meeting="false" start="2021-04-12" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
                 <task id="249" name="Construir soporte" color="#8cb6ce" meeting="false" start="2021-04-12" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
                 <task id="251" name="Montar el electroiman y la placa sobre el soporte" color="#8cb6ce" meeting="false" start="2021-04-12" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
                 <task id="257" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2021-04-12" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="87" name="Realizar mediciones y validar lo calculado" color="#8cb6ce" meeting="false" start="2021-07-07" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
+            <task id="87" name="Realizar mediciones y validar lo calculado" color="#8cb6ce" meeting="false" start="2021-07-07" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                 <depend id="103" type="2" difference="0" hardness="Strong"/>
                 <task id="260" name="Ejecutar plan de pruebas" color="#8cb6ce" meeting="false" start="2021-07-07" duration="14" complete="0" thirdDate="2021-07-07" thirdDate-constraint="0" expand="true"/>
                 <task id="95" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2021-07-07" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="103" name="Desarrollo formal" color="#8cb6ce" meeting="false" start="2021-07-21" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="false">
+            <task id="103" name="Desarrollo formal" color="#8cb6ce" meeting="false" start="2021-07-21" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                 <depend id="109" type="2" difference="0" hardness="Strong"/>
                 <task id="106" name="Desarrollar informe final" color="#8cb6ce" meeting="false" start="2021-07-21" duration="14" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>

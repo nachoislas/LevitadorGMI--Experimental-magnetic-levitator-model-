@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Proyecto final" company="" webLink="http://" view-date="2021-12-01" view-index="0" gantt-divider-location="676" resource-divider-location="300" version="3.2.3200" locale="es_ES">
+<?xml version="1.0" encoding="UTF-8"?><project name="Proyecto final" company="" webLink="http://" view-date="2021-08-01" view-index="0" gantt-divider-location="493" resource-divider-location="300" version="3.2.3200" locale="es_ES">
     <description/>
     <view zooming-state="default:8" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="400" order="0"/>
+        <field id="tpd3" name="Nombre" width="394" order="0"/>
         <field id="tpd4" name="Fecha de inicio" width="10" order="1"/>
-        <field id="tpd5" name="Fecha de fin" width="250" order="2"/>
+        <field id="tpd5" name="Fecha de fin" width="73" order="2"/>
         <option id="filter.completedTasks" value="false"/>
         <timeline>
             <![CDATA[106,6,1,13,46,3,11,4,53,16,103,49,50,109,14,51,15,17,54]]>
@@ -53,7 +53,7 @@
                 <task id="160" name="Definir el plan de pruebas del producto" color="#8cb6ce" meeting="false" start="2020-09-08" duration="18" complete="0" thirdDate="2020-07-28" thirdDate-constraint="0" expand="true">
                     <depend id="270" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="270" name="Validar definición del proyecto final con el director" color="#8cb6ce" meeting="true" start="2020-09-26" duration="0" complete="0" thirdDate="2020-07-28" thirdDate-constraint="0" expand="true"/>
+                <task id="270" name="Validar definición del proyecto final con el director de proyecto" color="#8cb6ce" meeting="true" start="2020-09-26" duration="0" complete="0" thirdDate="2020-07-28" thirdDate-constraint="0" expand="true"/>
             </task>
             <task id="1" name="Modelar fisicamente el problema" color="#8cb6ce" meeting="false" start="2020-07-06" duration="97" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                 <depend id="11" type="2" difference="0" hardness="Strong"/>
@@ -130,10 +130,10 @@
                 <task id="53" name="Simular el sistema con el controlador digital" color="#8cb6ce" meeting="false" start="2021-03-05" duration="7" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
                 <task id="54" name="Documentar lo realizado" color="#8cb6ce" meeting="false" start="2021-01-27" duration="44" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="283" name="Enviar lo documentado al director" color="#8cb6ce" meeting="true" start="2021-03-12" duration="0" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true">
+            <task id="283" name="Enviar lo documentado al director de proyecto" color="#8cb6ce" meeting="true" start="2021-03-12" duration="0" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true">
                 <depend id="273" type="2" difference="10" hardness="Strong"/>
             </task>
-            <task id="273" name="Reunión y revisión de diseño con director" color="#8cb6ce" meeting="true" start="2021-03-22" duration="0" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true">
+            <task id="273" name="Reunión y revisión de diseño con director de proyecto" color="#8cb6ce" meeting="true" start="2021-03-22" duration="0" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true">
                 <depend id="282" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="282" name="Realizar mediciones sobre el electroiman" color="#8cb6ce" meeting="false" start="2021-03-22" duration="15" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true">
@@ -161,7 +161,7 @@
                 <task id="289" name="Diseñar PCB" color="#8cb6ce" meeting="false" start="2022-01-09" duration="84" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true"/>
                 <task id="290" name="Generar archivos de fabricación" color="#8cb6ce" meeting="false" start="2022-04-04" duration="5" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="291" name="Reunión con director" color="#8cb6ce" meeting="true" start="2022-02-24" duration="0" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true">
+            <task id="291" name="Reunión con director de proyecto" color="#8cb6ce" meeting="true" start="2022-02-24" duration="0" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true">
                 <depend id="103" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="103" name="Desarrollo formal" color="#8cb6ce" meeting="false" start="2022-02-24" duration="94" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">

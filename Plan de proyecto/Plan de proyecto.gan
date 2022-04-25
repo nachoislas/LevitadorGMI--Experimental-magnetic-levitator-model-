@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Proyecto final" company="" webLink="http://" view-date="2021-06-01" view-index="0" gantt-divider-location="597" resource-divider-location="300" version="2.8.11" locale="es">
+<?xml version="1.0" encoding="UTF-8"?><project name="Proyecto final" company="" webLink="http://" view-date="2022-01-01" view-index="0" gantt-divider-location="849" resource-divider-location="300" version="3.2.3230" locale="es_ES">
     <description/>
     <view zooming-state="default:9" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="373" order="0"/>
-        <field id="tpd4" name="Fecha de inicio" width="100" order="1"/>
-        <field id="tpd5" name="Fecha de fin" width="105" order="2"/>
-        <timeline><![CDATA[4,11,54,1,13,49,15,16,14,53,46,109,51,103,50,106,17,6,3]]></timeline>
+        <field id="tpd3" name="Nombre" width="537" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="145" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="151" order="2"/>
+        <option id="filter.completedTasks" value="false"/>
+        <timeline>
+            <![CDATA[4,6,53,3,49,13,11,54,15,109,16,1,14,51,103,46,50,106,17]]>
+        </timeline>
     </view>
     <view id="resource-table">
         <field id="0" name="Nombre" width="210" order="0"/>
@@ -50,7 +53,7 @@
                 <task id="160" name="Definir el plan de pruebas del producto" color="#8cb6ce" meeting="false" start="2020-09-08" duration="18" complete="0" thirdDate="2020-07-28" thirdDate-constraint="0" expand="true">
                     <depend id="270" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="270" name="Validar definición del proyecto final con el director de proyecto" color="#8cb6ce" meeting="true" start="2020-09-26" duration="0" complete="0" thirdDate="2020-07-28" thirdDate-constraint="0" expand="true"/>
+                <task id="270" name="Validar definición del proyecto final con el director de proyecto y cliente" color="#8cb6ce" meeting="true" start="2020-09-26" duration="0" complete="0" thirdDate="2020-07-28" thirdDate-constraint="0" expand="true"/>
             </task>
             <task id="1" name="Modelar fisicamente el problema" color="#8cb6ce" meeting="false" start="2020-07-06" duration="97" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                 <depend id="11" type="2" difference="0" hardness="Strong"/>
@@ -164,9 +167,12 @@
                     <depend id="103" type="3" difference="0" hardness="Strong"/>
                 </task>
             </task>
-            <task id="291" name="Reunión con director de proyecto" color="#8cb6ce" meeting="true" start="2022-02-24" duration="0" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true">
+            <task id="291" name="Reunión con director de proyecto y cliente" color="#8cb6ce" meeting="true" start="2022-02-24" duration="0" complete="0" thirdDate="2021-08-01" thirdDate-constraint="0" expand="true">
                 <depend id="103" type="2" difference="0" hardness="Strong"/>
             </task>
+            <task id="292" name="Reunión de seguimineto con director de proyecto" color="#8cb6ce" meeting="true" start="2022-05-02" duration="0" complete="0" thirdDate="2021-06-01" thirdDate-constraint="0" expand="true"/>
+            <task id="293" name="Reunión de seguimineto con director de proyecto" color="#8cb6ce" meeting="true" start="2022-05-16" duration="0" complete="0" thirdDate="2021-06-01" thirdDate-constraint="0" expand="true"/>
+            <task id="294" name="Reunión de seguimineto con director de proyecto" color="#8cb6ce" meeting="true" start="2022-05-23" duration="0" complete="0" thirdDate="2021-06-01" thirdDate-constraint="0" expand="true"/>
             <task id="103" name="Desarrollo formal" color="#8cb6ce" meeting="false" start="2022-02-24" duration="94" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                 <task id="106" name="Desarrollar informe final" color="#8cb6ce" meeting="false" start="2022-02-24" duration="94" complete="0" thirdDate="2020-07-02" thirdDate-constraint="0" expand="true">
                     <depend id="109" type="2" difference="0" hardness="Strong"/>

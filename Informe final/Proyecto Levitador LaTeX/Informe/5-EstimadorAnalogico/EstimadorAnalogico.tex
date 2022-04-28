@@ -1,10 +1,152 @@
-\chapter{EstimadorAnalogico} \chapterlabel{EstimadorAnalogico} \label{cap:Estimador Analogico}
+\chapter{EstimadorAnalogico} \chapterlabel{Estimador Analogico} \label{cap:Estimador Analogico}
 
-\section{Estimador Analogico}
+\section{Diseño y modelado del Estimador Analogico}
 
-En la Figura 3.1 se puede observar una representación física del problema.
+\noindent Para controlar la distancia de separaci\'{o}n del entrehierro del electroim\'{a}n es necesario conocer el gap de aire para poder realimentarlo en el lazo de control.  Para ello, se utiliza un estimador de posici\'{o}n que aprovecha la forma de onda triangular de la corriente que circula por el electroim\'{a}n. 
+
+\noindent 
+
+\noindent Para estimar la distancia se hace la derivada de la corriente, puesto que las pendientes de crecimiento y decrecimiento var\'{i}an con la separaci\'{o}n. Es importante tener en cuenta que durante el dise\~{n}o de la etapa de controlador de corriente, se eligi\'{o} una topolog\'{i}a que mantiene el sistema conmutando cont\'{i}nuamente (incluso para corriente nula) para tener siempre una estimaci\'{o}n disponible.
+
+\noindent 
+
+\noindent Se implementa un estimador compuesto por los bloques mostrados en la \textbf{Figura 4.14}. A este le ingresa una tensi\'{o}n triangular (ViL) que es la salida del sensor de efecto Hall. Para eliminar las componentes de alta frecuencia se aplica un filtro pasa bajos dejando pasar hasta la quinta arm\'{o}nica. Esta se\~{n}al filtrada conserva la forma triangular de la corriente. 
+
+\noindent 
+
+\noindent Al ingresar al derivador con ViL, la forma de onda resultante a su salida es aproximadamente cuadrada, y sus valores de alto y bajo se corresponden con las pendientes de bajada y subida multiplicadas por una constante de tiempo del derivador. Estas pendientes deber\'{i}an ser sim\'{e}tricas alrededor del punto de operaci\'{o}n de 2.5V, pero no lo son debido a la resistencia interna del electroim\'{a}n, que provoca que la pendiente de bajada sea mayor (en m\'{o}dulo) que la de subida. Por ello, se implementa la compensaci\'{o}n I*R, cuya salida ingresa al derivador y logra mantener la simetr\'{i}a alrededor de 2.5V. Esta se\~{n}al ingresa al \'{u}ltimo bloque que rectifica y filtra la forma de onda, obteni\'{e}ndose una tensi\'{o}n continua (Vout) proporcional a la distancia de separaci\'{o}n del gap (Yo).
+
+\noindent 
+\paragraph{4.2.1. An\'{a}lisis de la estimaci\'{o}n}
+
+\noindent La ecuaci\'{o}n que gobierna la corriente en el electroim\'{a}n se puede calcular aplicando las leyes de Kirchoff correspondientes al circuito que se ve en la \textbf{Figura 4.15.}
 
 
-A partir del modelado físico del electroimán se llega a la expresión de la inductancia (L) en función del gap de aire (Y) (ecuación 3.1) y de la fuerza magnética ejercida por el electroimán (Fm) (ecuación 3.2):
+\noindent 
+
+\noindent Sabiendo que$\ L(y)$ se puede aproximar como en la \textbf{ecuaci\'{o}n} \textbf{4.9}, y que $L_{\infty }$(inductancia de dispersi\'{o}n) es la inductancia del electroim\'{a}n sin la pieza en forma de ``I'' :
+
+\noindent 
+
+\begin{tabular}{|p{3.9in}|p{0.4in}|} \hline 
+$L(y)\ \approx \ \mu o\frac{N^2*A}{2Y}$ & \eqref{GrindEQ__4_9_}  \\ \hline 
+\end{tabular}
+
+
+
+\begin{tabular}{|p{3.9in}|p{0.4in}|} \hline 
+$\pm V_{BUS}-\ L(y)*\left|\frac{{di}_L}{dt}\right|-L_{\infty }*\left|\frac{{di}_L}{dt}\right|-R_L*I_L=0$ &  \\ \hline 
+\end{tabular}
+
+
+
+\noindent Asumiendo que:
+
+ 
+
+\begin{tabular}{|p{3.9in}|p{0.4in}|} \hline 
+$V_{BUS}>>i_L*R_L$ &  \\ \hline 
+\end{tabular}
+
+
+
+\noindent Se aproxima la derivada de la corriente como:
+
+\noindent 
+
+\begin{tabular}{|p{3.9in}|p{0.4in}|} \hline 
+$\left|\frac{{di}_L}{dt}\right|\simeq \frac{V_{BUS}}{L(y)+L_{\infty }}=\frac{V_{BUS}}{L_T(y)}$ & \eqref{GrindEQ__4_10_}  \\ \hline 
+\end{tabular}
+
+
+
+\noindent Seg\'{u}n mediciones realizadas, se tienen los valores de $L_T(y)$ correspondientes a cada posici\'{o}n. En base a ellos se hace una aproximaci\'{o}n lineal para obtener la expresi\'{o}n de la derivada de la \textbf{ecuaci\'{o}n 4}.\textbf{10.}
+
+\noindent 
+
+\begin{tabular}{|p{3.9in}|p{0.4in}|} \hline 
+${\left|\frac{{di}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y[m]+676\ A/s$ & \eqref{GrindEQ__4_11_}  \\ \hline 
+\end{tabular}
+
+
+
+\noindent 
+
+\noindent \textbf{}
+
+\noindent 
+\paragraph{4.2.2. Modelo circuital del estimador de posici\'{o}n}
+
+\noindent Para poder obtener $\left|\frac{{di}_L}{dt}\right|$ se utiliza un circuito derivador con un amplificador operacional como se observa en la \textbf{Figura 4.16}.
+
+
+\noindent 
+
+\noindent La salida del circuito, $V_{yf}(t)$, ante una entrada $V_L$ es:
+
+\noindent 
+
+\begin{tabular}{|p{3.9in}|p{0.4in}|} \hline 
+$V_{yf}(t)\ =\ 2.5V\ -\ \frac{dV_L}{dt}*C_1*R_1$\textbf{} &   \\ \hline 
+\end{tabular}
+
+
+
+\noindent Considerando $V_L=K_h*i_L$, donde Kh es la constante del sensor de efecto Hall, se obtiene: 
+
+\noindent 
+
+\begin{tabular}{|p{3.9in}|p{0.4in}|} \hline 
+$V_{yf}(t)\ =2.5V\ -\frac{diL}{dt}*K_h*C_1*R_1$\textbf{} & \eqref{GrindEQ__4_12_} \\ \hline 
+\end{tabular}
+
+
+
+\noindent $V_{yf}(t)$ tiene variaciones alrededor del setpoint de 2.5 V. Por lo tanto, para evitar la saturaci\'{o}n del derivador se debe cumplir que:
+
+\noindent 
+
+\begin{tabular}{|p{3.9in}|p{0.4in}|} \hline 
+$\left|-\frac{diL}{dt}*K_h*C_1*R_1\right|\ \le 2.5V$ & \eqref{GrindEQ__4_13_} \\ \hline 
+\end{tabular}
+
+
+
+\noindent Por lo tanto, con la ecuaci\'{o}n \eqref{GrindEQ__4_10_} y \eqref{GrindEQ__4_13_}:
+
+\noindent 
+
+\begin{tabular}{|p{3.9in}|p{0.4in}|} \hline 
+$C_1*R_1<=\frac{2.5\ V\ *L_{min}}{V_{BUS}*K_h}$\textbf{} &  \\ \hline 
+\end{tabular}
+
+
+
+\noindent Con $L_{min}=\ L_T(5\ mm)=\ 14.9\ mH$ (teniendo en cuenta la inductancia de dispersi\'{o}n) se obtiene: 
+
+\begin{tabular}{|p{3.9in}|p{0.5in}|} \hline 
+$C_1*R_1<=\ 29.1\ ms$\textbf{} &   \\ \hline 
+\end{tabular}
+
+
+
+\noindent Este derivador tendr\'{a} como salida una onda pulsada, cuyo flanco superior  es proporcional a la pendiente de bajada de la corriente en el electroim\'{a}n, y el flanco inferior es proporcional a la pendiente de subida de la corriente. 
+
+\noindent Para los c\'{a}lculos se utiliz\'{o} $C_1*R_1=\ 25\ mS$, para dar un margen y evitar la saturaci\'{o}n del amplificador operacional.  
+
+\noindent 
+
+\noindent Usando la \textbf{ecuaci\'{o}n 4.11 }y \textbf{4.12}, y considerando una variaci\'{o}n en torno a 2.5V se obtiene:
+
+\textbf{}
+
+\begin{tabular}{|p{3.9in}|p{0.5in}|} \hline 
+$Vyf(y)\ =\ |Kh*C_1*R_1*di/dt)|\ +2.5V=0.2595*y(mm)+3.4V$\textbf{} & \textbf{} \\ \hline 
+\end{tabular}
+
+
+
+\subsection{Análisis de la estimación}
+
 
 

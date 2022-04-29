@@ -1,14 +1,15 @@
-\chapter{Controlador de corriente} \chapterlabel{ControladorCorriente} \label{cap:ControladorCorriente}
+\chapter{Controlador de corriente} \chapterlabel{4-ControladorCorriente} \label{cap:ControladorCorriente}
+\section{Diseño y modelado}
 
-\section{Controlador de Corriente}Diseño y modelado del controlador de corriente
+\graphicspath{ {C:\Documentos\Documentos de GitHub\LevitadorGMI\Informe final\Proyecto Levitador LaTeX\Informe\4-ControladorCorriente\figuras} }
 
-Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la impedancia de un inductor con una resistencia serie, cuya inductancia varía con el gap de aire:
-
-$\frac{1}{sL(y)\ +\ Rl}$
+\noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la impedancia de un inductor con una resistencia serie, cuya inductancia varía con el gap de aire:
 
 \begin{equation} \label{eq1}
-\begin{split}
-A & = \frac{\pi r^2}{2} \\
- & = \frac{1}{2} \pi r^2
-\end{split}
+\frac{1}{sL(y)\ +\ R_L}
 \end{equation}
+
+\noindent Para realizar este control se utiliza un sistema realimentado, como el que se muestra en la Figura 4.1. Se puede ver que se ingresa con una tensión de referencia ($V_{in}$) proporcional a la corriente de salida deseada, que luego se multiplica por la ganancia de entrada ($K_{in}$). La corriente del electroimán se realimenta en forma de una tensión proporcional a ella ($V_{iF}$). Ambas tensiones son restadas y el resultado (e) ingresa al bloque de comparador con histéresis, que actúa en conmutación, por lo que su salida tiene dos estados posibles: $\pm$$V_L$.
+
+\noindent Al ser aplicadas al inductor se producirá una rampa de corriente: si la tensión es positiva, la rampa crece, y si es negativa decrece. De esta forma, debido a la conmutación del comparador se obtiene, a la salida, una forma de onda triangular $I_L$, cuyo valor medio es la corriente deseada y se corresponde a la tensión de referencia.
+

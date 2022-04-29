@@ -1,10 +1,14 @@
-\chapter{ControladorCorriente} \chapterlabel{ControladorCorriente} \label{cap:ControladorCorriente}
+\chapter{Controlador de corriente} \chapterlabel{ControladorCorriente} \label{cap:ControladorCorriente}
 
-\section{Controlador de Corriente}
+\section{Controlador de Corriente}Diseño y modelado del controlador de corriente
 
-En la Figura 3.1 se puede observar una representación física del problema.
+Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la impedancia de un inductor con una resistencia serie, cuya inductancia varía con el gap de aire:
 
+$\frac{1}{sL(y)\ +\ Rl}$
 
-A partir del modelado físico del electroimán se llega a la expresión de la inductancia (L) en función del gap de aire (Y) (ecuación 3.1) y de la fuerza magnética ejercida por el electroimán (Fm) (ecuación 3.2):
-
-
+\begin{equation} \label{eq1}
+\begin{split}
+A & = \frac{\pi r^2}{2} \\
+ & = \frac{1}{2} \pi r^2
+\end{split}
+\end{equation}

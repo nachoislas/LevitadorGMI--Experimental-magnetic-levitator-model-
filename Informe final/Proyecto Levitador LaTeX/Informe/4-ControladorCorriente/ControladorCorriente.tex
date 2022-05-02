@@ -3,7 +3,7 @@
 
 \noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la impedancia de un inductor con una resistencia serie, cuya inductancia varía con el gap de aire:
 
-\begin{equation} \label{eq1}
+\begin{equation} \label{eq_admitancia}
 \frac{1}{sL(y)\ +\ R_L}
 \end{equation}
 
@@ -150,27 +150,48 @@
 
 \noindent Por lo tanto, para poder dimensionar correctamente el capacitor de bootstrap es necesario tener en cuenta todos estos efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena el capacitor bootstrap. Esta se obtiene como:
 
+\begin{equation} \label{eq_carga-cap-bootstrap}
+Q_B=C_B*V_B
+\end{equation}
+
+\noindent En la ecuación \ref{eq_carga-cap-bootstrap}, $Q_B$ es la carga total del capacitor de bootstrap, $C_B$ es la propia capacidad del capacitor, y $V_B$ es la diferencia de  tensión entre sus terminales. 
+
+\noindent Para evitar sufrir una caída de tensión tal que afecte el encendido de los MOS, es necesario que $Q_B$ pueda abastecer también al gate, a la resistencia entre gate-source y al diodo en inversa. Por lo tanto:
+
+\begin{equation} \label{eq_carga-cap-bootstrap2}
+Q_B > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
+\end{equation}
+
+\noindent Donde:
+\begin{itemize}
+\item $Q_G$= Carga total que se debe entregar al gate del MOS.
+\item $Q_{RR}$ = Carga entregada al diodo en inversa durante el tiempo de recovery (cuando pasa de modo conducción a inversa).
+\item $I_{DR}$ = Corriente de fuga del diodo en inversa
+\item $I_{GS}$ = Corriente que circula por la resistencia de gate-source
+\item $f_{PWM}$= frecuencia de conmutación
+\end{itemize}
 
 
+\noindent Por lo tanto, al reemplazar la ecuación \ref{eq_carga-cap-bootstrap} en la \ref{eq_carga-cap-bootstrap2} se obtiene:
 
 
+\begin{equation} \label{eq_cap-bootstrap}
+C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
+\end{equation}
 
+\noindent Según la hoja de datos [5] del MOSFET IPB160N04, $Q_G$= 170 nC. Por lo tanto, adoptando una caída de tensión tolerable en el capacitor de $\Delta V_B$ = 0.1 V y considerando la información brindada por las hojas de datos, es posible dimensionar el capacitor para que este posea una carga suficiente para mantener siempre encendido al MOSFET utilizando la inecuación \ref{eq_cap-bootstrap} .
 
+\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR, se obtiene a partir de [3] que  $I_R$ es igual a 0.1 A  y  el tiempo de recuperación de inversión es de 12.5 ns. Por lo tanto, la carga de recuperación resulta de 0.625 nC.
 
+\noindent Para la corriente inversa de fuga del diodo de bootstrap se obtiene un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
 
+\noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de bootstrap ($V_B$=12V) dividido el valor de la resistencia gate-source. Esta resistencia es de 4.7 kOhm. Por lo tanto $I_{GS}$=2.55 mA. 
 
+\noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de 50 kHz. 
 
-
-
-
-
-
-
-
-
-
-
-
+\begin{equation} \label{eq_cap-bootstrap2}
+C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}>\frac{170 nC + 0.625nC + \frac{2 mA + 2.55 mA}{50 KHz}}{0.1 V} > 2.61 \mu F
+\end{equation}
 
 
 

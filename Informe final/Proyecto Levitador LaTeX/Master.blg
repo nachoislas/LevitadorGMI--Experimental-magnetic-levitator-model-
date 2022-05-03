@@ -1,0 +1,75 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Master.aux
+Reallocating 'name_of_file' (item size: 1) to 20 items.
+A level-1 auxiliary file: agradecimientos.aux
+Reallocating 'name_of_file' (item size: 1) to 40 items.
+A level-1 auxiliary file: Informe/1-Introduccion/Introduccion.aux
+Reallocating 'name_of_file' (item size: 1) to 60 items.
+A level-1 auxiliary file: Informe/2-DescripcionDispositivo/DescripcionDispositivo.aux
+Reallocating 'name_of_file' (item size: 1) to 72 items.
+A level-1 auxiliary file: Informe/3-CaracterizaciónElectroimán/CaracterizaciónElectroimán.aux
+Reallocating 'name_of_file' (item size: 1) to 56 items.
+A level-1 auxiliary file: Informe/4-ControladorCorriente/ControladorCorriente.aux
+Reallocating 'name_of_file' (item size: 1) to 52 items.
+A level-1 auxiliary file: Informe/5-EstimadorAnalogico/EstimadorAnalogico.aux
+Reallocating 'name_of_file' (item size: 1) to 56 items.
+A level-1 auxiliary file: Informe/6-CompensadorAnalogico/CompensadorAnalogico.aux
+Reallocating 'name_of_file' (item size: 1) to 58 items.
+A level-1 auxiliary file: Informe/7-ImplementacionDigital/ImplementacionDigital.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: Informe/8-PCB/PCB.aux
+Reallocating 'name_of_file' (item size: 1) to 12 items.
+The style file: unsrtnatesp.bst
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+I found no \citation commands---while reading file Master.aux
+Database file #1: IEEEfull.bib
+Database file #2: biblio_tesis.bib
+I was expecting a `,' or a `}'---line 205 of file biblio_tesis.bib
+ :   
+ :   note = {PONTIFICIA UNIVERSIDAD CATÓLICA DE VALPARAÍSO, FACULTAD DE INGENIERÍA, ESCUELA DE INGENIERÍA INFORMÁTICA}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You've used 0 entries,
+            2481 wiz_defined-function locations,
+            967 strings with 16047 characters,
+and the built_in function-call counts, 34 in all, are:
+= -- 0
+> -- 0
+< -- 0
++ -- 0
+- -- 0
+* -- 2
+:= -- 11
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 1
+format.name$ -- 0
+if$ -- 1
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 0
+newline$ -- 8
+num.names$ -- 0
+pop$ -- 0
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 1
+stack$ -- 0
+substring$ -- 0
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 0
+width$ -- 0
+write$ -- 7
+(There were 2 error messages)

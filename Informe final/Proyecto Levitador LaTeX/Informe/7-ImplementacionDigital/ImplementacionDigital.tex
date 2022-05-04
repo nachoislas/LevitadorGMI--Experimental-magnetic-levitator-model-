@@ -36,7 +36,7 @@
 
 \noindent La forma de onda de la salida del sensor es triangular y presenta una frecuencia variable en función de la inductancia del electroimán, la que, depende de la distancia de separación. Se puede calcular como:
 
-\begin{equation} 
+\begin{equation} \label{eq_frecuencia-de-muestreo}
 	F_{SW}=\frac{V_{BUS}}{2 * L(y) * \Delta I_H}
 \end{equation}
 
@@ -130,6 +130,140 @@
 \end{equation}
 
 \noindent Para la estimación de la posición se utiliza el término de alterna mientras que para compensar el error introducido por la resistencia interna del electroimán se utiliza el de continua. Por lo tanto, se obtiene:
+
+\begin{equation}
+	Y = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{K_h*T_S} + \frac{R*\bar{V_h}[n]}{K_h*L(y)[n-1]}|-3.472*10^{-3}[m]
+\end{equation}
+
+\noindent El valor de corriente $\bar{V_h}[n]$ se obtiene de sensar el valor medio de tensión entregado por el sensor de efecto Hall mediante otro canal del ADC.
+
+\noindent Por otro lado, el valor de L(y)[n-1] se obtiene de aplicar el valor anterior estimado de posición en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtiene a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
+
+\begin{equation} \label{eq_inductancia}
+	L(y)[n-1] = -2.56*Y[n-1]+0.0271 Hy
+\end{equation}
+
+\noindent Por lo tanto la ecuación correspondiente en el tiempo discreto:
+
+\colorbox{yellow}{-------------------------------acomodar tamaño de ecuaciones-------------}
+\begin{equation}
+	Y = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{K_h*T_S} + \frac{R*\bar{V_h}[n]}{K_h*(2.56*Y[n-1]+0.0271)}|-3.472*10^{-3}[m]
+\end{equation}
+
+\begin{equation}
+	Y = 96.3*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{T_S} + \frac{R*\bar{V_h}[n]}{(2.56*Y[n-1]+0.0271)}|-3.472*10^{-3}[m]
+\end{equation}
+
+
+\noindent Donde n representa el número de muestras. Es decir, $V_h[n]$ se refiere a la muestra más reciente en el buffer y $V_h[n-1]$ a la más vieja.
+
+\noindent Es importante notar que los coeficientes deben calcularse antes de actualizar el compensador en función de la cantidad de períodos de muestreo transcurridos desde la última actualización. Estos deben calcularse en ese momento puesto que el compensador digital presenta una frecuencia de actualización variable y los coeficientes del estimador dependen de ella.
+
+\noindent Por otro lado, el bloque K mostrado en la Figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
+
+\section{Resolución en posición}
+
+\noindent Una variación de posición ($\Delta Y$) produce un cambio de inductancia ($\Delta L[y]$) que se traduce en un cambio de frecuencia ($\Delta f$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
+
+\noindent A partir de los valores de inductancia  obtenidos con las mediciones, es posible realizar una aproximación lineal como se muestra en la ecuación \ref{eq_inductancia-linealizada}.
+
+\begin{equation} \label{eq_inductancia-linealizada}
+	L[Hy] = -2.56 * Y[m] + 0.0271 Hy
+\end{equation}
+
+\noindent Aplicando la expresión linealizada de la inductancia y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de Y=2.1mm. Este resulta de $f_{SW}[2.1mm] = 1104.8 Hz$. De esta forma, conociendo el valor de frecuencia para 2 mm, el cual es de $f_{SW}[2mm] = 1060 Hz$, es posible obtener la variación de frecuencia para un Y mínimo de 0.1mm. Este valor puede obtenerse como:
+
+\begin{equation} 
+	\Delta F_{SW}(Teorico) = f_{SW}[2.1mm] - f_{SW}[2mm] = 44.8 Hz
+\end{equation}
+
+\noindent Las pendientes para el peor caso se da con la menor variación de tensión entre muestras. Es decir, para el caso de frecuencia mínima. En la ecuación \ref{eq_pendiente} se muestra el cálculo de la pendiente de la onda triangular en función de la frecuencia de conmutación.
+
+\begin{equation} \label{eq_pendiente}
+	P(f_{SW}) = \frac{\Delta V}{T_{SW}/2} = 2*K_H*\Delta i_L*f_{SW} = 2 * 0.0533 * 0.5 * f_{SW}
+\end{equation}
+
+\noindent A partir de la ecuación \ref{eq_pendiente} es posible obtener el valor de la pendiente para la frecuencia mínima de conmutación y la de su incremento correspondiente a una variación en la posición de 0.1mm. Esta situación se representa en la figura \ref{fig:variacion-de-pendiente}.
+
+\begin{equation} 
+	\begin{aligned}
+		P(f_{SW_{min}}) &= 56.49 [V/s] \\
+		P(f_{SW_{min}} + \Delta f_{SW}) &= 58.89 [V/s] \\
+	\end{aligned}
+\end{equation}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{Variacion-de-pendientes.png}
+	\caption{Variación de pendiente ante mínimo cambio de posición.}
+	\label{fig:variacion-de-pendiente}
+\end{figure}
+
+\noindent Por lo tanto, para poder diferenciar las pendientes, la resolución del ADC debe ser menor o igual a $\Delta V$.
+
+\begin{equation} 
+	\begin{aligned}
+		V1 &= P(f_{SW_{min}} + \Delta f_{SW})* T_S \\
+		V2 &= P(f_{SW_{min}})* T_S \\		 
+	\end{aligned}
+\end{equation}
+
+\noindent Al considerar $T_s = 125 kHz$:
+
+\begin{equation} 
+	\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta f_{SW}) - P(f_{SW_{min}})] = 96 \mu V
+\end{equation}
+
+
+
+\noindent Este resultado indica que al usar un ADC de 12 bits, se necesitaría una tensión de referencia $V_{ref} = 0.393216 V$. Sin embargo, este valor resulta demasiado bajo y no sirve si se quiere medir la salida del sensor de efecto Hall de manera directa. Por lo tanto, se decide diseñar un circuito que permita realizar la estimación manteniendo la tensión de referencia en 3.3V
+
+\noindent La corriente que circula por el electroimán presenta una componente de continua y otra de alterna. La primera excursiona entre 0A y 30A mientras que la segunda varía entre $\pm 250 mA$ en torno al valor medio, con forma de onda triangular. Es posible hacer una adquisición separada de ambas componentes con el ADC para que luego sean procesadas. La señal que ingresa al circuito corresponde a la tensión de salida del sensor de efecto Hall sin el set point de 2.5V.
+
+\noindent Si se tiene en cuenta la ganancia del sensor de efecto Hall, a su salida se obtiene una señal cuyo valor medio varía entre 0 y 1.6 V, y un valor de alterna de $26.7 mV_{pp}$.
+
+\noindent Debido a que el ADC permite una excursión entre 0V y 3.3V, la máxima ganancia posible es de 60 veces para la señal de alterna. Por otro lado, para medir con la resolución en posición deseada de 0.1 mm se debe amplificar la señal triangular 9 veces como mínimo.
+
+\noindent Por lo tanto, se adopta una ganancia de 50, obteniendo así una excursión máxima de 3.17V (0.67V sobre el set-point).
+
+\noindent Las características del circuito son:
+
+\begin{itemize}
+	\item Ganancia: 50
+	\item Set-point de 2.5V 
+	\item Frecuencia de corte inferior: 100 Hz
+	\item Frecuencia de corte superior: 12,5 kHz
+\end{itemize}
+
+\noindent Teniendo en cuenta la ganancia elegida,  la pendiente de la onda triangular resulta:
+
+\begin{equation} 
+	P(F_{SW}) = 50 * [0.0533 * 0.5 * (F_{SW}*2)][\frac{V}{s}]
+\end{equation}
+
+\noindent Reemplazando para el incremento de frecuencia se obtiene los valores 
+
+\begin{equation} 
+	\begin{aligned}
+		P(f_{SW_{min}} &= 2824.9 \ [\frac{V}{s}]\\
+		P(f_{SW_{min}} + \Delta f_{SW}) &= 2944.29 \ [\frac{V}{s}]\\		 
+	\end{aligned}
+\end{equation}
+
+\noindent Entonces, 
+
+\colorbox{yellow}{--------------------Ver largo de ecuación--------------------}
+
+\begin{equation} 
+	\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta f_{SW}) - P(f_{SW_{min}})] = 0.1177 V - 0.1129 V = 4.7mV
+\end{equation}
+
+
+\noindent Por lo tanto, como la resolución del ADC es de 0.8mV, resulta suficiente para identificar el mínimo cambio de pendiente.
+
+
+
 
 
 

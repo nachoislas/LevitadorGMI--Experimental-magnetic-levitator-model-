@@ -263,9 +263,144 @@
 \noindent Por lo tanto, como la resolución del ADC es de 0.8mV, resulta suficiente para identificar el mínimo cambio de pendiente.
 
 
+\section{Acondicionamiento de señales para el ADC}
+
+\subsection{Referencia de posición}
+
+\noindent Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en el PCB (al igual que para el compensador analógico) e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Debido a que entrega una tensión entre 3.96V y 4.69V, se implementa un circuito de acondicionamiento para esta señal.
+
+\noindent A la señal de entrada se le resta el setpoint de 2.5 V, para lograr señales que van desde 1.42V a 2.2V. Luego dentro del microcontrolador se debe mapear el valor leído por el ADC con la posición deseada usando la ganancia del estimador analógico según la fórmula:
+
+\begin{equation} 
+	Y_{ref}\ =\frac{Vpo{s_{ref}}_{ADC}\ +\ 2.5V}{259.6}\ [m]
+\end{equation}
+
+\noindent Además se implementa un filtro anti-aliasing con frecuencia de corte en 9.9 kHz.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Circuito-ref-posicion.png}
+	\caption{Circuito acondicionador para componente alterna de corriente del electroimán.}
+	\label{fig:circuito-ref-posicion}
+\end{figure}
+
+\subsection{Componente  continua de corriente del electroimán}
+
+\noindent Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de 100Hz, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de 12 KHz, que actúa como filtro anti-aliasing. Luego la salida es amplificada con una ganancia de 50 veces (con el objetivo de mejorar la medición de la pendiente por el ADC) y montada sobre un set-point de 2.5V.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Componente-corriente-alterna.png}
+	\caption{ Circuito acondicionador para componente alterna de corriente del electroimán.
+	}
+	\label{fig:componente-corriente-alterna}
+\end{figure}
+
+\subsection{Componente  continua de corriente del electroimán}
+
+\noindent Para obtener la componente de contínua se utiliza un filtro pasa-bajos con frecuencia de corte en 106 Hz. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
 
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Componente-corriente-continua.png}
+	\caption{Circuito acondicionador para componente continua de corriente del electroimán.
+	}
+	\label{fig:componente-corriente-continua}
+\end{figure}
+
+\section{Acondicionamiento de señales para el DAC}
+
+\noindent Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utilizan los DAC del microcontrolador. La tensión entregada es afectada por una circuitería de filtrado, ganancia y protección como se muestra en las figuras \ref{fig:DAC-compensador} y \ref{}. Debido a que el DAC se actualiza con una frecuencia mínima de 3.5 KHz, se utilizan filtros con frecuencia de corte en 1.75KHz.
+
+\noindent Por otro lado, como el controlador de corriente funciona con tensiones de hasta 5 V en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de 0,66, mapeando así los 5 V a 3,3 V, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento.
+
+\noindent De esta forma, se logra convertir correctamente la señal digital en analógica.
 
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{DAC-compensador.png}
+	\caption{Circuito acondicionador para la salida del DAC correspondiente al compensador.}
+	\label{fig:DAC-compensador}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{DAC-estimador.png}
+	\caption{Circuito acondicionador para la salida del DAC correspondiente al estimador digital.}
+	\label{fig:DAC-estimador}
+\end{figure}
+
+\section{Transferencias de la planta y del controlador de corriente}
+
+\noindent Para el an\'{a}lisis del compensador digital, se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio anal\'{o}gico para una masa de 30 Kg.
+
+\begin{equation} 
+	\begin{aligned}
+	G_T(s)[30Kg]&=G_P(s)*G_{iL}(s)\\
+	G_T(s)[30Kg]&=\frac{245*{10}^{-6}}{{1-(\frac{s}{70})}^2}*\frac{6}{\frac{S}{12.17\ }+1\ }\\
+	G_T(s)[30Kg]&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
+	\end{aligned}
+\end{equation}
+
+\noindent Al aplicar la transformada z por invarianza al impulso, considerando una $f_s=3.5\ KHz$, se obtiene:
+
+\begin{equation} 
+	G_T(Z)[m=30\ Kg]\ \ =\frac{-3.4*10^{-10}(z+3.7)(z+0.3)}{\ (z-0.9965)\ (z+0.9802)\ (z+0.2677)}
+\end{equation}
+
+\noindent Luego, usando la transformada bilineal para volver al dominio anal\'{o}gico:
+\\
+ \colorbox{yellow}{----------------ver largo de ecuacion------}
+\begin{equation} 
+	G_T(w)[m=30\ Kg]\ \ =\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}
+\end{equation}
+
+
+\noindent Con las expresiones en [W], es posible dise\~{n}ar un controlador de manera anal\'{o}gica, para luego transformarlo al dominio digital.
+
+
+\section{Diseño de Compensador}
+
+\subsection{Análisis de estabilidad con masa de 30 Kg}
+
+\noindent Considerando que la ganancia de avance est\'{a} formada por la planta y el controlador de corriente y que el lazo de realimentaci\'{o}n es unitario, se procede a analizar la respuesta en frecuencia de ${GH}_T$ para una masa de 30 Kg y a dise\~{n}ar un compensador adecuado. Luego, se verifica la estabilidad para una masa de 1 Kg, que corresponde a la m\'{i}nima con la que trabaja el sistema.
+ 
+\begin{equation} \label{eq_TLC-lazo-abierto} 
+	G_T(w)*H(w)=\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)} 
+\end{equation} 
+
+
+\noindent Con la transferencia de la ecuación \ref{eq_TLC-lazo-abierto} se  grafica el diagrama de Bode y el diagrama de Nyquist que se muestran en las figuras \ref{fig:bode-lazo-abierto-digital} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Bode-lazo-abierto-digital.png}
+	\caption{Diagrama de Bode de lazo abierto GHT con M=30 Kg.}
+	\label{fig:bode-lazo-abierto-digital}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{Nyquist-lazo-abierto-digital.png}
+	\caption{Diagrama de Nyquist de GHT con M=30 Kg.}
+	\label{fig:nyquist-lazo-abierto-digital}
+\end{figure}
+
+\noindent Considerando que ${GH}_T$ tiene un polo en el semiplano derecho, a partir del Nyquist se puede determinar:
+
+\noindent Zona 1: Z=N+P=0+1=1 $\mathrm{\to}$ Inestable 
+
+\noindent Zona 2: Z=N+P=1+1=2 $\mathrm{\to}$ Inestable
+
+\noindent De esta forma, no es posible que el sistema sea estable. Para lograrlo se realimentar\'{a} positivamente y se generar\'{a} una zona en el diagrama de Nyquist donde N=-1. Para ello es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist deber\'{i}a tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-digital}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{Nyquist-deseado-digital.png}
+	\caption{Forma del diagrama de Nyquist deseado.}
+	\label{fig:nyquist-deseado-digital}
+\end{figure}
 
 

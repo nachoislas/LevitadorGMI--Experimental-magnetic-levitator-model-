@@ -499,6 +499,119 @@
 \end{figure}
 
 
+\noindent En el lazo de realimentaci\'{o}n interno act\'{u}a el compensador por adelanto de fase dise\~{n}ado previamente y, en el externo, un controlador del tipo integral. De esta forma, se logra suavizar la respuesta al escal\'{o}n del sistema y eliminar el error en r\'{e}gimen permanente.
+
+
+\noindent Para el an\'{a}lisis se considera como realimentaci\'{o}n: 
+
+\[H(w)=1\] 
+
+\noindent La cadena de avance con masa de 30 Kg es:
+
+\[G[m=30]=Tlc(W)[m=30]*G_{Integrador}\] 
+
+\noindent Se  plantea un compensador del tipo :
+
+\[Ginteg\ =\ kint\ *\ \frac{1}{w}\] 
+
+\noindent La ganancia del bloque de entrada (F) se establece igual a la ganancia del estimador (H) pero cambiada de signo, debido a que la transferencia de lazo cerrado tiene una inversi\'{o}n de fase. Por lo tanto, se toma $F=-H=-1$.
+
+\noindent Inicialmente se adopta kint = 1 para poder evaluar, por medio de lugar de ra\'{i}ces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador}, la estabilidad del sistema. Para este lazo de realimentaci\'{o}n externo tambi\'{e}n debe utilizarse realimentaci\'{o}n positiva, puesto que los polos de la TLC interna est\'{a}n en el semiplano izquierdo pero presenta una inversi\'{o}n de signo.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{Lugar-de-raices-con-integrador.png}
+	\caption{Lugar de raíces con el integrador.}
+	\label{fig:lugar-de-raices-con-integrador}
+\end{figure}
+
+
+\noindent En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int\ }$) debe ser menor a 115. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int\ }=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente 3 segundos. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{Respuesta-al-escalon-con-k-1-M-30.png}
+	\caption{Respuesta al escalón con integrador con $K_{int}$ =1 y M=30 Kg.}
+	\label{fig:respuesta-al-escalon-con-k-1-M-30}
+\end{figure}
+
+
+\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-20-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int\ }=20$ que resulta en un tiempo de establecimiento de 0.22 segundos y un overshoot de 4.41\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{Respuesta-al-escalon-con-k-20-M-30.png}
+	\caption{Respuesta al escalón con integrador para $K_{int}$ =20 y M = 30 Kg.}
+	\label{fig:respuesta-al-escalon-con-k-20-M-30}
+\end{figure}
+
+
+\noindent La respuesta al escal\'{o}n cuando la masa es de 1 Kg se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de 0.104s y el de establecimiento de 0.196s. Adem\'{a}s, es posible notar que no presenta sobrepicos.
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{Respuesta-al-escalon-con-k-20-M-1.png}
+	\caption{Respuesta al escalón con integrador para $K_{int}$ =20 y M = 1 Kg.}
+	\label{fig:respuesta-al-escalon-con-k-20-M-1}
+\end{figure}
+
+
+\section{Cálculo de los coeficientes del controlador}
+
+\noindent Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a las transferencias del compensador por adelanto de fase $C(W)$ y al integrador $G_{integ}(W)$.
+
+\noindent Por lo tanto, se obtiene:
+
+\begin{equation} \label{GrindEQ__5_6_} 
+	C(Z)=\ \ \frac{U(z)}{e(z)}=\frac{8.6896*10^5(z-0.9877)^2}{\ (z-0.7757)^2}\  
+\end{equation} 
+
+\begin{equation} \label{GrindEQ__5_7_} 
+	G_{integrador}(Z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0028(\ z\ +\ 1)}{\ (z\ -\ 1)} 
+\end{equation} 
+
+\noindent Considerando $H(z)=1$ se obtiene que:
+
+\begin{equation} \label{GrindEQ__5_39_} 
+	e(z)=e_f(Z)+Y(z) 
+\end{equation} 
+
+\begin{equation} \label{GrindEQ__5_40_} 
+	e_i(Z)=F*Vref+Y(z) 
+\end{equation} 
+
+
+\noindent Al aplicar la partir de las ecuaciones \ref{GrindEQ__5_6_} y \ref{GrindEQ__5_7_} se obtiene las expresiones a implementar en el microcontrolador:
+
+\begin{equation} 
+	\begin{aligned}\label{eq_U-coef}
+	U[n]=&8.651*10^5e[n]-\ 1.709*10^6e[n-1]+\ 0.843*10^6e[n-2]+\\
+		 &+1.5514\ U[n-1]-\ 0.60171U[n-2]\\ 
+	\end{aligned}
+\end{equation}
+
+\begin{equation} \label{eq_e-coef} 
+	e_f[n]=0.0028{\ *e}_i[n]\ +\ {0.0028*e}_i[n-1]+e_f[n-1] 
+\end{equation} 
+
+
+\noindent Luego, para dejar el algoritmo de control en funci\'{o}n de las entradas del sistema, se debe reemplazar en las ecuaciones \ref{eq_U-coef} y \ref{eq_e-coef} las expresiones mencionadas en las ecuaciones \ref{GrindEQ__5_10_} y \ref{GrindEQ__5_11_}
+
+\begin{equation} \label{GrindEQ__5_10_} 
+	e[n]=e_f[n]+Y[n] 
+\end{equation} 
+
+\begin{equation} \label{GrindEQ__5_11_} 
+	e_i[n]=F*Vref+Y[n] 
+\end{equation} 
+
+\subsection{Conexi\'{o}n entre el PCB y el microcontrolador}
+
+\noindent Se utiliza un conector tipo DB9 hembra como v\'{i}a de conexi\'{o}n para las distintas salidas y entradas digitales. Adem\'{a}s, en la placa se dispone de un led que se enciende cuando  se detecta una correcta conexi\'{o}n con el microcontrolador.
 
 
 

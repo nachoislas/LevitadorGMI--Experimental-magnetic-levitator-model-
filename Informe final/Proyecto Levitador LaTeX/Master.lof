@@ -2,22 +2,71 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Modelado físico.\relax }}{5}{figure.caption.5}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Toroide con gap de aire.\relax }}{7}{figure.caption.6}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagrama en bloques simplificado del controlador de corriente.\relax }}{10}{figure.caption.5}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Etapa de entrada.\relax }}{11}{figure.caption.6}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Comparador con histéresis.\relax }}{12}{figure.caption.7}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Puente H y sensor de efecto Hall.\relax }}{13}{figure.caption.8}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Resta del $V_{bias}$ al sensor de efecto Hall.\relax }}{13}{figure.caption.9}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Formas de onda de corriente en el electroimán y salida del comparador.\relax }}{14}{figure.caption.10}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Respuesta al escalón del circuito.\relax }}{15}{figure.caption.11}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Topología elemental del puente H.\relax }}{16}{figure.caption.12}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Configuración Bootstrap simplificada.\relax }}{18}{figure.caption.13}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Puente H.\relax }}{20}{figure.caption.14}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Forma de onda de la corriente en C1 y C2.\relax }}{25}{figure.caption.15}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Capacitores de la fuente.\relax }}{26}{figure.caption.16}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Circuito oscilador de frecuencia auxiliar.\relax }}{28}{figure.caption.17}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Simulación de corriente en el electroimán, salida del comparador, y conmutación auxiliar.\relax }}{29}{figure.caption.18}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagrama en bloques simplificado del controlador de corriente.\relax }}{10}{figure.caption.7}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Etapa de entrada.\relax }}{11}{figure.caption.8}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Comparador con histéresis.\relax }}{12}{figure.caption.9}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Puente H y sensor de efecto Hall.\relax }}{13}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Resta del $V_{bias}$ al sensor de efecto Hall.\relax }}{13}{figure.caption.11}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Formas de onda de corriente en el electroimán y salida del comparador.\relax }}{14}{figure.caption.12}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Respuesta al escalón del circuito.\relax }}{15}{figure.caption.13}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Topología elemental del puente H.\relax }}{16}{figure.caption.14}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Configuración Bootstrap simplificada.\relax }}{18}{figure.caption.15}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Puente H.\relax }}{20}{figure.caption.16}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Forma de onda de la corriente en C1 y C2.\relax }}{25}{figure.caption.17}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Capacitores de la fuente.\relax }}{26}{figure.caption.18}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Circuito oscilador de frecuencia auxiliar.\relax }}{28}{figure.caption.19}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Simulación de corriente en el electroimán, salida del comparador, y conmutación auxiliar.\relax }}{29}{figure.caption.20}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagrama en Bloques del Estimador.\relax }}{34}{figure.caption.22}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Circuito del electroimán con el driver de corriente.\relax }}{35}{figure.caption.23}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Circuito derivador.\relax }}{36}{figure.caption.24}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Circuito derivador compensado\relax }}{38}{figure.caption.26}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces GH del derivador compensado.png\relax }}{39}{figure.caption.27}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Transferencia de lazo cerrado\relax }}{40}{figure.caption.28}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Filtro para la entrada del derivador\relax }}{41}{figure.caption.29}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Respuesta en frecuencia del filtro activo\relax }}{42}{figure.caption.30}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Forma de onda luego de rectificar sin compensación IR.\relax }}{43}{figure.caption.31}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Esquema circuital del derivador.\relax }}{44}{figure.caption.32}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Generación de Vbias.\relax }}{45}{figure.caption.33}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Formas de onda obtenidas en la simulación\relax }}{46}{figure.caption.34}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Rectificador y restador.\relax }}{47}{figure.caption.35}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Restador.\relax }}{50}{figure.caption.36}%
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Esquema circuital del restador con una etapa de filtrado en $159.2\ Hz$.\relax }}{52}{figure.caption.37}%
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Circuito estimador de posición completo\relax }}{53}{figure.caption.38}%
+\contentsline {figure}{\numberline {5.17}{\ignorespaces Simulación final del estimador.\relax }}{54}{figure.caption.39}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Diagrama del sistema completo.\relax }}{57}{figure.caption.41}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Diseño circuital de una red de adelanto de fase.\relax }}{58}{figure.caption.42}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Etapa de ganancia del compensador.\relax }}{59}{figure.caption.43}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Implementación circuital del integrador.\relax }}{61}{figure.caption.44}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Diagrama en bloques final.\relax }}{62}{figure.caption.45}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Etapa de entrada.\relax }}{63}{figure.caption.47}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Diagrama en bloques de la implementación digital.\relax }}{66}{figure.caption.48}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Diagrama en bloques de la etapa digital simplificado.\relax }}{66}{figure.caption.49}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Diagrama de flujo del procesamiento de las muestras adquiridas.\relax }}{69}{figure.caption.51}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Variación de pendiente ante mínimo cambio de posición.\relax }}{74}{figure.caption.52}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Circuito acondicionador para componente alterna de corriente del electroimán.\relax }}{77}{figure.caption.53}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Circuito acondicionador para componente alterna de corriente del electroimán. \relax }}{78}{figure.caption.54}%
+\contentsline {figure}{\numberline {7.7}{\ignorespaces Circuito acondicionador para componente continua de corriente del electroimán. \relax }}{78}{figure.caption.55}%
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Circuito acondicionador para la salida del DAC correspondiente al compensador.\relax }}{79}{figure.caption.56}%
+\contentsline {figure}{\numberline {7.9}{\ignorespaces Circuito acondicionador para la salida del DAC correspondiente al estimador digital.\relax }}{80}{figure.caption.57}%
+\contentsline {figure}{\numberline {7.10}{\ignorespaces Diagrama de Bode de lazo abierto GHT con M=30 Kg.\relax }}{82}{figure.caption.58}%
+\contentsline {figure}{\numberline {7.11}{\ignorespaces Diagrama de Nyquist de GHT con M=30 Kg.\relax }}{82}{figure.caption.59}%
+\contentsline {figure}{\numberline {7.12}{\ignorespaces Forma del diagrama de Nyquist deseado.\relax }}{83}{figure.caption.60}%
+\contentsline {figure}{\numberline {7.13}{\ignorespaces Diagrama de Bode de GHT*GC para K=1 y M=30 Kg.\relax }}{85}{figure.caption.61}%
+\contentsline {figure}{\numberline {7.14}{\ignorespaces Diagrama de Bode de GHT*GC para K=2630 y M=30 Kg.\relax }}{86}{figure.caption.62}%
+\contentsline {figure}{\numberline {7.15}{\ignorespaces Diagrama de Nyquist de GHT*GC para K=2630 y M=30 Kg.\relax }}{87}{figure.caption.63}%
+\contentsline {figure}{\numberline {7.16}{\ignorespaces Respuesta al escalón para M=30 Kg.\relax }}{88}{figure.caption.64}%
+\contentsline {figure}{\numberline {7.17}{\ignorespaces Diagrama de Bode de $GH_T*G_C$ para M=1 Kg.\relax }}{89}{figure.caption.65}%
+\contentsline {figure}{\numberline {7.18}{\ignorespaces Diagrama de Nyquist de $GH_T*GC$ para M=1 Kg.\relax }}{89}{figure.caption.66}%
+\contentsline {figure}{\numberline {7.19}{\ignorespaces Respuesta al escalón para M=1 Kg.\relax }}{90}{figure.caption.67}%
+\contentsline {figure}{\numberline {7.20}{\ignorespaces Diagrama del sistema completo.\relax }}{90}{figure.caption.68}%
+\contentsline {figure}{\numberline {7.21}{\ignorespaces Lugar de raíces con el integrador.\relax }}{92}{figure.caption.69}%
+\contentsline {figure}{\numberline {7.22}{\ignorespaces Respuesta al escalón con integrador con $K_{int}$ =1 y M=30 Kg.\relax }}{93}{figure.caption.70}%
+\contentsline {figure}{\numberline {7.23}{\ignorespaces Respuesta al escalón con integrador para $K_{int}$ =20 y M = 30 Kg.\relax }}{94}{figure.caption.71}%
+\contentsline {figure}{\numberline {7.24}{\ignorespaces Respuesta al escalón con integrador para $K_{int}$ =20 y M = 1 Kg.\relax }}{95}{figure.caption.72}%
 \addvspace {10\p@ }

@@ -1,35 +1,7 @@
-\chapter{DescripcionDispositivo} \chapterlabel{DescripcionDispositivo} \label{cap:DescripcionDispositivo}
+\chapter{Descripción del dispositivo} \chapterlabel{Informe/2-DescripcionDispositivo} \label{cap:DescripcionDispositivo}
 
-\section{DescripcionDispositivo}
+\section{Descripción del dispositivo}
 
-El Levitador GMI es un dispositivo capaz de mantener un objeto en suspensión  mediante una fuerza electromagnética generada por un electroimán a una distancia Y0 variable entre 3 mm y 5 mm. La distancia de separación puede ser configurada por el usuario y el peso del objeto debe ser menor a 30 kg. 
-
-El producto consta de 2 partes principales: un electroimán y una placa de control. El electroimán consiste en dos piezas formadas por láminas de acero: una con forma de “E” que tiene un cable bobinado en su núcleo, y otra con forma de “I” que es atraída por la pieza en forma de “E” por medio de una fuerza electromagnética. Esto deja un espacio o “gap” de aire entre ambas de longitud Y0. Por otro lado, de la pieza en forma de “I” se puede colgar el objeto que se desea levantar.
-
-El control de la fuerza electromagnética es realizado por una placa de control con el objetivo de mantener fija la distancia Y0, a pesar de las perturbaciones externas que el sistema pueda recibir. 
-
-Es importante aclarar que este sistema sólo puede ejercer fuerza verticalmente, por lo tanto no puede controlar la posición horizontal.
-
-El sistema está conformado por los bloques que se muestran en la Figura 2.1. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decidirá cual de estas implementaciones ejercerá el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable. Además, el estimador de posición se encarga de  entregar una tensión proporcional al gap de aire real en función de  la corriente que circula por el electroimán.
-
-ACA VA IMAGEN
-
-El usuario puede modificar el gap de aire que desea mediante un potenciómetro presente en la placa de control, que entrega una tensión proporcional a la misma. Tanto la implementación analógica como la digital reciben como entrada esta tensión. Luego, es comparada con la estimación y se utiliza como entrada para el compensador.
-
-La función del compensador es garantizar la estabilidad del sistema. Esto lo logra al modificar la referencia del controlador de corriente mediante una acción de control. El controlador de corriente se encarga de proveer corriente al electroimán de forma tal que le permita generar la fuerza electromagnética necesaria para mantener el gap de aire. 
-
-Por otra parte, se utiliza un software de PC para modificar los coeficientes de la implementación digital.
-
-
-\section{DescripcionDispositivo parte 2}
-
-skere!
-
-\begin{itemize}
-	\item Los sistemas de automatización investigados, tanto los implementados en los establecimientos de nuestra ciudad como los ofrecidos por empresas radicadas en la ciudad de Buenos Aires, no poseen un sistema de reconocimiento de patentes ni un sistema de detección de tamaño estandarizado.
-	\item No se encontraron fabricantes de este tipo de sistemas en Mar del Plata. El desarrollo de un sistema en la ciudad permite abastecer a los establecimientos locales y proporcionarles un servicio de mantenimiento (actualmente dependen de empresas radicadas en Bs.As.).
-	\item El prototipo se encuentra desarrollado completamente mediante software libre. Esto evita el pago de licencias y, en el caso del software de reconocimiento de patentes, el pago de un servicio mensual.
-\end{itemize}
 
 
 

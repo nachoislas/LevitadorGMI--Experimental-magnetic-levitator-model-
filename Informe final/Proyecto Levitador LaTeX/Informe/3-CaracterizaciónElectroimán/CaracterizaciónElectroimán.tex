@@ -44,13 +44,41 @@ Como se ve en la figura \ref{fig:img_modelado-fisico}, el electroimán utilizado
 	\label{fig:img_toroide}
 \end{figure}
 
-Para el análisis se utiliza la ecuación qwf para modelar la reluctancia de un toroide sin gap de aire, con área transversal A y longitud del circuito magnético $l_{h}$. 
+Para el análisis se utiliza la ecuación \ref{eq_reluctancia} para modelar la reluctancia de un toroide sin gap de aire, con área transversal A, permeabilidad del material $\mu_{r}$ y longitud del circuito magnético $l_{h}$. 
 
 \begin{equation}\label{eq_reluctancia}
 	R_{m}=\frac{l_{h}}{\mu_{o}*\mu_{r}*A}
 \end{equation}
 
+Combinando las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_inductancia_flujo}, y \ref{eq_reluctancia}, se llega a la expresión de la inductancia del toroide:
+
+\begin{equation}\label{eq_inductancia}
+	L=\frac{N}{i}*\phi=\frac{N}{i}*\frac{N*i}{R_{m}}=\frac{N^	{2}*A*\mu_{o}*\mu_{r}}{l_{h}}
+\end{equation}
+
+
+Al agregar un gap de aire, se genera una discontinuidad en el medio magnético. Es decir, se genera una discontinuidad de distancia $l_{A}$ (longitud en el aire).
+
+Según Maxwell, las líneas de flujo magnético son todas continuas. Es decir, no hay carga magnética como tal, a diferencia de los campos electrostáticos que sí los hay. Por lo tanto, el mismo flujo que circula por el material ferromagnético, es el que  está en el aire. 
+
+Es posible que las líneas de flujo presentes en el gap de aire sufran de ensanchamiento provocando que las mismas no se mantengan constantes (efecto fringing). A efectos prácticos esto es despreciable ya que esta distancia es lo suficientemente pequeña dejando como sección transversal aproximada A.
+
+Considerando que al haber un gap de aire, la reluctancia del sistema aumenta, por lo que se debe sumar, en serie a $R_{m}$, la reluctancia en el aire $R_{a}$. Por otro lado, $l_{h}$ prácticamente no se ve modificada ya que es una pequeña incisión en el flujo magnético. De esta forma, se obtiene la ecuación \ref{eq_inductancia_con_gap}.
+
+\begin{equation}\label{eq_inductancia_con_gap}
+L=\frac{N^{2}}{R_{m}*R_{a}}=\frac{N^{2}}{\frac{l_{h}}{A*\mu_{o}*\mu_{r}}+\frac{l_{a}}{A*\mu_{o}}}=\frac{N^{2}*A*\mu_{o}}{l_{a}+\frac{l_{h}}{\mu_{r}}}
+\end{equation}
+
+Sabiendo que $l_{a}$ es el gap de aire, se debe reemplazar por la distancia de separación entre las dos piezas magnéticas, la cual está representada por la variable y. En el caso de nuestro electroimán, las líneas de fuerza atraviesan dos veces y, por lo tanto $l_{a}=2*y$.
+
+Además, considerando que en la ecuación \ref{eq_inductancia_con_gap} $\mu_{r}>>1$ entonces $2*y>>\frac{l_{h}}{\mu_{r}}$ y se obtiene la inductancia en función de la distancia del gap de aire y:
+
+\begin{equation}\label{eq_inductancia_vs_y}
+		L(y)=\frac{{N^{2}*A*\mu_{o}}}{2*y}
+\end{equation}
+
 a
+
 a
 a
 a

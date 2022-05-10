@@ -77,6 +77,31 @@ Además, considerando que en la ecuación \ref{eq_inductancia_con_gap} $\mu_{r}>
 		L(y)=\frac{{N^{2}*A*\mu_{o}}}{2*y}
 \end{equation}
 
+\section{Cálculo de la fuerza magnética}
+
+La fuerza magnética necesaria para mantener a un objeto en suspensión se puede encontrar a partir de la energía almacenada en un inductor y al considerar que esta es  igual al trabajo:
+
+\begin{equation}\label{eq_energia}
+	E(i,y)=W=\int{F_{m}*dy}=>F_{m}=\frac{\partial{E(i,y)}}{\partial{y}}
+\end{equation}
+
+Y sabiendo la expresión para obtener la energía que almacena un inductor en su campo magnético:
+
+\begin{equation}\label{eq_energia_2}
+	E(i,y)=\frac{L(i,y)*i^{2}}{2}
+\end{equation}
+
+Esto significa que la cantidad de energía que almacena el sistema es función del gap de aire. Combinando las ecuaciones \ref{eq_inductancia_vs_y}, \ref{eq_energia} y \ref{eq_energia_2}:
+
+\begin{equation}\label{eq_fuerza_magnetica}
+	\abs{F_{m}}=\frac{\partial{E(i,y)}}{\partial{y}}=\frac{i^{2}}{2}*\frac{\partial{\frac{{N^{2}*A*\mu_{o}}}{2*y}}}{\partial{y}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*y^{2}}
+\end{equation}
+
+Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (es decir, de la corriente), e inversamente proporcional al cuadrado de la variable que se desea controlar (es decir, de la distancia). Por lo tanto, el problema adquiere un comportamiento sumamente alineal.
+
+\section{Diseño del electroimán}
+
+Se debe determinar qué dimensiones debe tener el electroimán a utilizar para poder lograr levantar el peso deseado.
 a
 
 a

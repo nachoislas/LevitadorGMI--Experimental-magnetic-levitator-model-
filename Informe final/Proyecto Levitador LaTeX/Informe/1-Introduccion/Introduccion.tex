@@ -1,18 +1,21 @@
 \chapter{Introduccion} \chapterlabel{Informe/1-Introduccion} \label{cap:Introducción}
 
-\section{Introducción}
-
-\noindent El desarrollo de este proyecto surge de la necesidad de contar con un dispositivo que permita a los alumnos de la asignatura Sistemas de Control poner en práctica los conceptos aprendidos durante las clases, puesto que al ser del tipo integrador,  abarca varios temas de la materia.
-
-\noindent Durante la cursada del año 2019, los integrantes de este proyecto, realizaron una serie de pruebas y modificaciones sobre un sistema de levitación magnética basado en un electroimán de laminación normalizada con núcleo tipo “E” previamente desarrollado y construido por la cátedra de Sistemas de Control, el cual nunca había sido probado. Debido a que no fue posible obtener una versión funcional del prototipo al finalizar la cursada, se les propuso realizar un rediseño de todas las etapas que componen al sistema como proyecto final de grado. 
+\noindent El desarrollo de este sistema de levitación magnética surge como idea de los responsables de la cátedra Sistemas de Control, con el objetivo de disponer de una planta de control real para realizar prácticas en clase. Una primera versión de este dispositivo fue desarrollada y construída por la cátedra y los integrantes de este proyecto tuvieron la oportunidad de realizarle pruebas y modificaciones mientras cursaban la asignatura. Sin embargo, al finalizar la cursada, no se pudo lograr que el dispositivo funcionara correctamente. Por este motivo,  se propuso hacer un rediseño de todas las etapas que componen al sistema en el marco de un proyecto final.
 
 
 \section{Alcance del proyecto}
 
-\noindent El objetivo de este proyecto es modelar un electroimán de laminación normalizada con núcleo tipo “E'' y diseñar un control analógico y digital para un sistema de levitación magnética. El documento consta del modelado teórico de todas las etapas pertenecientes al sistema, junto con un diseño circuital, simulaciones correspondientes y un diseño integral de PCB.
+\noindent El objetivo de este proyecto es diseñar un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. Este sistema debe integrar las etapas de control de corrientes elevadas, estimación de distancia de levitación, y control de la planta. Estas dos últimas deben implementarse tanto en forma analógica como digital.
 
-\noindent Se espera que en el futuro pueda ser construido para que sirva como herramienta para los alumnos de la asignatura  Sistemas de Control, de forma tal que les permita experimentar y afianzar los conceptos teóricos adquiridos durante el transcurso de la cursada.
+\noindent Este documento registra las etapas de diseño y modelado de todas las etapas pertenecientes al sistema, junto con su implementación circuital y simulaciones. Por último se realiza el diseño del circuito impreso que integra todas las etapas.
+
 
 \section{Contexto del proyecto}
 
-\noindent El proyecto comenzó en Junio del 2020 con el objetivo de poder construir e implementar el prototipo. Sin embargo, debido a los retrasos ocasionados por la pandemia de COVID-19,  la escasez de componentes a nivel mundial y de presupuesto para la construcción del PCB, sumada a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al diseño teórico de todas las etapas y del PCB. 
+\noindent El proyecto comenzó en junio del 2020 con el objetivo de poder construir e implementar un prototipo funcional que le permita a los alumnos de la cátedra de Sistemas de Control realizar mediciones y observar el comportamiento de las distintas etapas que componen el sistema. Sin embargo, debido a los retrasos ocasionados por la pandemia de COVID-19,  la escasez de componentes a nivel mundial y de presupuesto para la construcción del circuito impreso, sumada a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al diseño teórico de todas las etapas y del circuito impreso.
+
+\noindent Por lo tanto, se espera que en el futuro pueda ser construido para que sirva como herramienta para los alumnos, de forma tal que les permita experimentar y afianzar los conceptos teóricos adquiridos durante el transcurso de la cursada.
+
+
+
+\section{Descripción del dispositivo}

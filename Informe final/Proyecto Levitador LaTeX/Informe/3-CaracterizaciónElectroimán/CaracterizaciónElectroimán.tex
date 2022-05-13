@@ -101,7 +101,45 @@ Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es pr
 
 \section{Diseño del electroimán}
 
-Se debe determinar qué dimensiones debe tener el electroimán a utilizar para poder lograr levantar el peso deseado.
+%¿sería conveniente hacer el diseño partiendo del electroimán que ya tenemos, y en base a eso determinar el peso que podemos levantar?
+Se debe determinar qué dimensiones debe tener el electroimán a utilizar para que sea capaz de ejercer la fuerza magnética necesaria para mantener levitando el peso deseado.
+
+Al analizar la ecuación \ref{eq_fuerza_magnetica} se puede observar que hay dos parámetros que son propios del electroimán: el área del núcleo A y la cantidad de vueltas del bobinado N. Para obtener una expresión de diseño, partimos de esta ecuación y la igualamos al fuerza ejercida por el peso que debe soportar ($\abs{F_{m}}=m*g$):
+
+\begin{equation}\label{eq_fuerza_peso}
+	m*g=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*y^{2}}
+\end{equation}
+
+De la ecuación \ref{eq_fuerza_peso} podemos despejar el producto $N*i$ que es la fuerza magnetomotriz:
+
+\begin{equation} \label{eq_n_por_i}
+	N*i=y*\sqrt{\frac{4*m*g}{\mu_{o}*A}}
+\end{equation}
+
+Partiendo de la ecuación \ref{eq_inductancia_flujo}, reemplazando $\phi=B*A$ y considerando el caso de máxima inducción magnética ($i_{max}$):
+
+\begin{equation}\label{eq_inductancia_densidad}
+	L*i_{max}=N*B_{max}*A
+\end{equation}
+
+Luego, relacionando la ecuación \ref{eq_inductancia_vs_y} y \ref{eq_inductancia_densidad}:
+
+\begin{equation} \label{eq_bmax}
+	B_{max}=\mu_{o}*\frac{N*i_{max}}{2*y}
+\end{equation}
+
+Combinando la ecuación \ref{eq_bmax} y \ref{eq_n_por_i}:
+
+\begin{equation}
+	B_{max}=\sqrt{\frac{m*g*\mu_{o}}{A}}
+\end{equation}
+
+Finalmente:
+
+\begin{equation} \label{eq_area}
+	A>=\frac{m*g*\mu_{o}}{B_{max}^{2}}
+\end{equation}
+
 a
 
 a

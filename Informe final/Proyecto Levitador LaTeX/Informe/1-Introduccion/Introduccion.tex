@@ -1,26 +1,29 @@
 \chapter{Introduccion} \chapterlabel{Informe/1-Introduccion} \label{cap:Introducción}
 
-\noindent El desarrollo de este sistema de levitación magnética surge como idea de los responsables de la cátedra Sistemas de Control, con el objetivo de disponer de una planta de control real para realizar prácticas en clase. Una primera versión de este dispositivo fue desarrollada y construída por la cátedra y los integrantes de este proyecto tuvieron la oportunidad de realizarle pruebas y modificaciones mientras cursaban la asignatura. Sin embargo, al finalizar la cursada, no se pudo lograr que el dispositivo funcionara correctamente. Por este motivo,  se propuso hacer un rediseño de todas las etapas que componen al sistema en el marco de un proyecto final.
+
+\noindent \colorbox{yellow}{Ver de poner una intro general de levitación magnetica y la importancia de los sistemas de control}
+
+\noindent El desarrollo de este sistema de levitación magnética surge como idea de los responsables de la cátedra Sistemas de Control de la carrera de Ingeniería Electrónica, con el objetivo de disponer de una planta de control para realizar prácticas en clase. Una primera versión de este dispositivo fue desarrollada y construída por la cátedra. Los integrantes de este proyecto tuvieron la oportunidad de realizarle pruebas y modificaciones durante el cursado de la asignatura. Sin embargo, no se pudo lograr que el dispositivo funcionara correctamente al finalizar la cursada. Por este motivo, se propuso hacer un rediseño de todas las etapas que componen al sistema en el marco de un proyecto final.
 
 
 \section{Alcance del proyecto}
 
-\noindent El objetivo de este proyecto es diseñar un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. Este sistema debe integrar las etapas de control de corrientes elevadas, estimación de distancia de levitación, y control de la planta. Estas dos últimas deben implementarse tanto en forma analógica como digital.
+\noindent El objetivo de este proyecto es diseñar un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. Este sistema debe integrar las etapas de driver de corriente de potencia, estimación de distancia de levitación, y control de la planta. Estas dos últimas deben implementarse tanto en forma analógica como digital.
 
-\noindent Este documento registra las etapas de diseño y modelado de todas las etapas pertenecientes al sistema, junto con su implementación circuital y simulaciones. Por último se realiza el diseño del circuito impreso que integra todas las etapas.
+\noindent Este documento contempla el proceso de diseño y modelado de todas las etapas pertenecientes al sistema, junto con su implementación circuital y simulaciones. Además, se realiza el diseño del circuito impreso de la placa de control..
 
 
 \section{Contexto del proyecto}
 
-\noindent El proyecto comenzó en junio del 2020 con el objetivo de poder construir e implementar un prototipo funcional que le permita a los alumnos de la cátedra de Sistemas de Control realizar mediciones y observar el comportamiento de las distintas etapas que componen el sistema. Sin embargo, debido a los retrasos ocasionados por la pandemia de COVID-19,  la escasez de componentes a nivel mundial y de presupuesto para la construcción del circuito impreso, sumada a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al diseño teórico de todas las etapas y del circuito impreso.
+\noindent El proyecto comenzó en junio del 2020. Inicialmente tenía como objetivo el diseño y la construcción de un prototipo funcional que permitiera a los alumnos de la asignatura de Sistemas de Control realizar mediciones y observar el comportamiento de las distintas etapas que componen el sistema. SIn embargo, debido a los retrasos ocasionados por la pandemia (COVID-19), los costos asociados a los componentes y a la fabricación de la placa de control, sumado a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al diseño teórico de todas las etapas y del circuito impreso.
 
-\noindent Por lo tanto, se espera que en el futuro pueda ser construido para que sirva como herramienta para los alumnos, de forma tal que les permita experimentar y afianzar los conceptos teóricos adquiridos durante el transcurso de la cursada.
+\noindent Se espera que en el futuro se pueda construir el sistema de levitación magnética para que sirva como herramienta para los alumnos, de forma tal que les permita experimentar y afianzar los conceptos teóricos adquiridos durante el transcurso de la cursada.
 
 
 
 \section{Descripción del dispositivo}
 
-\noindent El Levitador GMI es un dispositivo capaz de mantener un objeto en suspensi\'{o}n  mediante una fuerza electromagn\'{e}tica generada por un electroim\'{a}n a una distancia $Y_0$ variable entre 3 mm y 5 mm. La distancia de separaci\'{o}n puede ser configurada por el usuario y el peso del objeto debe ser menor a 30 kg. 
+\noindent El Levitador GMI es un dispositivo capaz de mantener en suspensión un objeto de hasta 30Kg sin contacto físico. La distancia de levitación puede ser configurable por el usuario entre 3 mm y 5 mm. 
 
 \noindent El producto consta de 2 partes principales: un electroim\'{a}n y una placa de control. El electroim\'{a}n consiste en dos piezas formadas por l\'{a}minas de acero: una con forma de ``E'' que tiene un cable bobinado en su n\'{u}cleo, y otra con forma de ``I'' que es atra\'{i}da por la pieza en forma de ``E'' por medio de una fuerza electromagn\'{e}tica. Esto deja un espacio o ``\textit{gap}'' de aire entre ambas de longitud $Y_0$. Por otro lado, de la pieza en forma de ``I'' se puede colgar el objeto que se desea levantar.
 

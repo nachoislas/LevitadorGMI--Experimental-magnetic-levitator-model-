@@ -1,11 +1,17 @@
 \chapter{Caracterización del  Electroimán} \chapterlabel{Informe/3-CaracterizaciónElectroimán} \label{cap:CaracterizaciónElectroimán}
 
-\section{Caracterización del Electroimán}
+Como ya se dispone de un electroimán para cumplir la función de actuador, se realizará un modelado físico de su funcionamiento y a partir de sus características constructivas, se determinarán otros parámetros del sistema de control (como masa máxima, corriente nominal de trabajo, etc)
 
-\noindent El actuador de este sistema de control es un electroimán. Se eligió construirlo utilizando un núcleo de acero al silicio con un bobinado en su interior. 
+
+\section{Modelado físico}
+
+
+%\section{Caracterización del Electroimán}
+
+%\noindent El actuador de este sistema de control es un electroimán. Se eligió construirlo utilizando un núcleo de acero al silicio con un bobinado en su interior. 
 %mejorar esto
 
-\noindent Se puede modelar el problema como un objeto de masa puntual que es sometido a dos fuerzas opuestas en el eje “Y” de la figura \ref{fig:img_modelado-fisico}: la de su propio peso hacia abajo, y una fuerza realizada por el electroimán en sentido contrario.
+\noindent Se puede modelar el problema como un objeto de masa puntual que es sometido a dos fuerzas opuestas en el eje “Y” de la figura \ref{fig:img_modelado-fisico}: la de su propio peso hacia abajo, y una fuerza realizada por el electroimán en sentido contrario. \colorbox{red}{MARCAR Yo EN LA IMAGEN}
 
 %capaz poner otra imagen
 \begin{figure}[H]
@@ -15,17 +21,17 @@
 	\label{fig:img_modelado-fisico}
 \end{figure}
 
-\noindent Se sabe que la fuerza correspondiente al peso del objeto es $F_{m}=m*g$. Por lo tanto, el electroimán debe generar una fuerza de igual módulo y sentido contrario para mantenerlo suspendido en estado de equilibrio. Esta fuerza se obtiene de la circulación de un flujo magnético entre el núcleo del electroimán y la pieza con forma de I. Para generar el flujo magnético se necesita una fuerza magnetomotriz.
+\noindent La fuerza correspondiente al peso del objeto es $P=m*g$, donde $m$ es la masa en kg y $g$ es la aceleración de la gravedad en $\frac{m}{s^{2}}$. Para mantenerlo levitando en estado de equilibrio, el electroimán debe generar una fuerza de igual módulo y sentido contrario. Esto lo logra a partir de la circulación de un flujo magnético entre su núcleo y la pieza con forma de I. Entre estas dos piezas se conforma lo que se conoce como circuito magnético, en el que la energía fluye impulsada por una fuerza magnetomotriz.
 
-%esto es otra cosa ya. hacer una intro de como se genera la fuerza magnética???
-\noindent La fuerza magnetomotriz generada en el núcleo del electroimán es proporcional a la corriente que circula por su bobinado, y su módulo está dado por la ecuación \ref{eq_fuerza-magnetomotriz}. Para poder modelarla se debe realizar un análisis físico del actuador. 
+%hacer una intro de como se genera la fuerza magnética???
+\noindent La fuerza magnetomotriz generada en el núcleo del electroimán es proporcional a la corriente que circula por su bobinado, y su módulo está dado por la ecuación \ref{eq_fuerza-magnetomotriz}, que también la relaciona con la reluctancia del circuito magnético y la magnitud del flujo magnético.
 
 \begin{equation} \label{eq_fuerza-magnetomotriz}
-	F_{mm}=R_{m}*\phi=N*i	
+	F_{mm}=N*i=R_{m}*\phi	
 \end{equation}
 
 %mejorar este parrafo
-\noindent En donde $R_{m}$ corresponde a la reluctancia del circuito magnético, $\phi$ indica la magnitud del flujo, es decir, la cantidad de campo magnético que atravies una superficie y $F_{mm}$ es la fuerza magnetomotriz (que es distinta a la fuerza magnética $F_{m}$). La ley de Hopkinson relaciona estos parámetros con la corriente que circula por el bobinado ($i$) y la cantidad de vueltas de su núcleo ($N$).
+\noindent $R_{m}$ corresponde a la reluctancia del circuito magnético, $\phi$ indica la magnitud del flujo, es decir, la cantidad de campo magnético que atraviesa una superficie y $F_{mm}$ es la fuerza magnetomotriz (que es distinta a la fuerza magnética $F_{m}$). La ley de Hopkinson relaciona estos parámetros con la corriente que circula por el bobinado ($i$) y la cantidad de vueltas de su núcleo ($N$).
 
 
 \noindent Por otro lado, la inductancia del bobinado está dada por la ecuación \ref{eq_inductancia_flujo}
@@ -35,7 +41,7 @@
 \end{equation}
 
 
-\noindent Como se ve en la figura \ref{fig:img_modelado-fisico}, el electroimán utilizado está compuesto por una pieza en forma de E y otra en forma de I, que se encuentran separadas por un espacio o gap de aire. Este circuito magnético se puede modelar como a un toroide con un corte o separación  de longitud $lA=2*y$, como se muestra en la figura \ref{fig:img_toroide}
+\noindent El electroimán utilizado (figura \ref{fig:img_modelado-fisico}) está compuesto por una pieza en forma de E y otra en forma de I, que se encuentran separadas por un espacio o gap de aire. Este circuito magnético se puede modelar como a un toroide con un corte o separación  de longitud $lA=2*y_{o}$, como se muestra en la figura \ref{fig:img_toroide}
 
 \begin{figure}[H]
 	\centering
@@ -44,37 +50,35 @@
 	\label{fig:img_toroide}
 \end{figure}
 
-\noindent Para el análisis se utiliza la ecuación \ref{eq_reluctancia} para modelar la reluctancia de un toroide sin gap de aire, con área transversal A, permeabilidad del material $\mu_{r}$ y longitud del circuito magnético $l_{h}$. 
+\noindent Partiendo del caso de un toroide sin gap de aire, se puede modelar su reluctancia con la ecuación \ref{eq_reluctancia}. En la que A es el área transversal, $\mu_{r}$ es la permeabilidad relativa del material, $\mu_{o}$ es la permeabilidad magnética en el vacio y $l_{h}$ es la longitud del circuito magnético. 
 
 \begin{equation}\label{eq_reluctancia}
 	R_{m}=\frac{l_{h}}{\mu_{o}*\mu_{r}*A}
 \end{equation}
 
-\noindent Combinando las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_inductancia_flujo}, y \ref{eq_reluctancia}, se llega a la expresión de la inductancia del toroide:
+\noindent Combinando las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_inductancia_flujo}, y \ref{eq_reluctancia}, se llega a la expresión de la inductancia del toroide sin gap de aire:
 
 \begin{equation}\label{eq_inductancia}
 	L=\frac{N}{i}*\phi=\frac{N}{i}*\frac{N*i}{R_{m}}=\frac{N^	{2}*A*\mu_{o}*\mu_{r}}{l_{h}}
 \end{equation}
 
 
-\noindent Al agregar un gap de aire, se genera una discontinuidad en el medio magnético. Es decir, se genera una discontinuidad de distancia $l_{A}$ (longitud en el aire).
+\noindent Al agregar un gap de aire, se genera una discontinuidad en el medio magnético de distancia $l_{A}$ (longitud en el aire).
 
-\noindent Según Maxwell, las líneas de flujo magnético son todas continuas. Es decir, no hay carga magnética como tal, a diferencia de los campos electrostáticos que sí los hay. Por lo tanto, el mismo flujo que circula por el material ferromagnético, es el que  está en el aire. 
+\noindent El flujo magnético atraviesa esta discontinuidad sin desviaciones (siempre que $l_{A}$ sea pequeña comparada con el área transversal A).
 
-\noindent Es posible que las líneas de flujo presentes en el gap de aire sufran de ensanchamiento provocando que las mismas no se mantengan constantes (efecto fringing). A efectos prácticos esto es despreciable ya que esta distancia es lo suficientemente pequeña dejando como sección transversal aproximada A.
-
-\noindent Considerando que al haber un gap de aire, la reluctancia del sistema aumenta, por lo que se debe sumar, en serie a $R_{m}$, la reluctancia en el aire $R_{a}$. Por otro lado, $l_{h}$ prácticamente no se ve modificada ya que es una pequeña incisión en el flujo magnético. De esta forma, se obtiene la ecuación \ref{eq_inductancia_con_gap}.
+\noindent Al haber un gap de aire la reluctancia del sistema aumenta, por lo que se debe sumar, en serie a $R_{m}$, la reluctancia en el aire $R_{a}$. Por otro lado, $l_{h}$ prácticamente no se ve modificada ya que es una pequeña incisión en el circuito magnético. De esta forma, se obtiene la ecuación \ref{eq_inductancia_con_gap}.
 
 \begin{equation}\label{eq_inductancia_con_gap}
 L=\frac{N^{2}}{R_{m}*R_{a}}=\frac{N^{2}}{\frac{l_{h}}{A*\mu_{o}*\mu_{r}}+\frac{l_{a}}{A*\mu_{o}}}=\frac{N^{2}*A*\mu_{o}}{l_{a}+\frac{l_{h}}{\mu_{r}}}
 \end{equation}
 
-\noindent Sabiendo que $l_{a}$ es el gap de aire, se debe reemplazar por la distancia de separación entre las dos piezas magnéticas, la cual está representada por la variable y. En el caso de nuestro electroimán, las líneas de fuerza atraviesan dos veces y, por lo tanto $l_{a}=2*y$.
+\noindent Debido a que $l_{a}$ es el gap de aire, se debe reemplazar por la distancia de separación entre las dos piezas magnéticas, que está representada por la variable $y_{o}$. En el caso de nuestro electroimán, las líneas de fuerza atraviesan dos veces y, por lo tanto $l_{a}=2*y_{o}$.
 
-\noindent Además, considerando que en la ecuación \ref{eq_inductancia_con_gap} $\mu_{r}>>1$ entonces $2*y>>\frac{l_{h}}{\mu_{r}}$ y se obtiene la inductancia en función de la distancia del gap de aire y:
+\noindent Además, en la ecuación \ref{eq_inductancia_con_gap} $\mu_{r}>>1$ entonces $2*y_{o}>>\frac{l_{h}}{\mu_{r}}$, se obtiene la inductancia en función de la distancia del gap de aire:
 
 \begin{equation}\label{eq_inductancia_vs_y}
-		L(y)=\frac{{N^{2}*A*\mu_{o}}}{2*y}
+		L(y)=\frac{{N^{2}*A*\mu_{o}}}{2*y_{o}}
 \end{equation}
 
 \section{Cálculo de la fuerza magnética}

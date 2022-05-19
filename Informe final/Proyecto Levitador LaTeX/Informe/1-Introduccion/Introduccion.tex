@@ -23,28 +23,33 @@
 
 \section{Descripción del dispositivo}
 
-\noindent El Levitador GMI es un dispositivo capaz de mantener en suspensión un objeto de hasta 30Kg sin contacto físico. La distancia de levitación puede ser configurable por el usuario entre 3 mm y 5 mm. 
-
-\noindent El producto consta de 2 partes principales: un electroim\'{a}n y una placa de control. El electroim\'{a}n consiste en dos piezas formadas por l\'{a}minas de acero: una con forma de ``E'' que tiene un cable bobinado en su n\'{u}cleo, y otra con forma de ``I'' que es atra\'{i}da por la pieza en forma de ``E'' por medio de una fuerza electromagn\'{e}tica. Esto deja un espacio o ``\textit{gap}'' de aire entre ambas de longitud $Y_0$. Por otro lado, de la pieza en forma de ``I'' se puede colgar el objeto que se desea levantar.
-
-\noindent El control de la fuerza electromagn\'{e}tica es realizado por una placa de control con el objetivo de mantener fija la distancia $Y_0$, a pesar de las perturbaciones externas que el sistema pueda recibir. 
-
-\noindent Es importante aclarar que este sistema s\'{o}lo puede ejercer fuerza verticalmente, por lo tanto no puede controlar la posici\'{o}n horizontal.
-
-
-\noindent El sistema est\'{a} conformado por los bloques que se muestran en la figura \ref{fig:img_modelo_bloques1}.. Se utilizan dos controladores distintos: uno anal\'{o}gico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posici\'{o}n.  El usuario decidir\'{a} cual de estas implementaciones ejercer\'{a} el control mediante la utilizaci\'{o}n de un \textit{switch}, por lo que solo una estar\'{a} activa al mismo tiempo. El sistema anal\'{o}gico est\'{a} formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital est\'{a} basado en un microcontrolador re-programable. Adem\'{a}s, el estimador de posici\'{o}n se encarga de  entregar una tensi\'{o}n proporcional al \textit{gap }de aire real en funci\'{o}n de  la corriente que circula por el electroim\'{a}n.
-
+\noindent El producto está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán, como se observa en la figura \ref{img_Esquema-del-producto}, tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central. y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación o “gap” de aire deseado entre ellas mientras el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. El sistema completo se muestra en la figura \ref{img_Esquema-del-producto}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{diagrama-en-bloques-del-sistema.png}
-	\caption{Diagrama en bloques del sistema}
-	\label{fig:img_modelo_bloques1}
+	\includegraphics[width=\textwidth]{esquema-del-producto.png}
+	\caption{Esquema del producto.}
+	\label{fig:img_Esquema-del-producto}
 \end{figure}
 
+\noindent La fuerza electromagnética es regulada por la placa de control con el objetivo de mantener fija la distancia $Y_{o}$, a pesar de las perturbaciones externas que el sistema pueda recibir. 
 
-\noindent El usuario puede modificar el gap de aire que desea mediante un potenci\'{o}metro presente en la placa de control, que entrega una tensi\'{o}n proporcional a la misma. Tanto la implementaci\'{o}n anal\'{o}gica como la digital reciben como entrada esta tensi\'{o}n. Luego, es comparada con la estimaci\'{o}n y se utiliza como entrada para el compensador.
 
-\noindent La funci\'{o}n del compensador es garantizar la estabilidad del sistema. Esto lo logra al modificar la referencia del controlador de corriente mediante una acci\'{o}n de control. El controlador de corriente se encarga de proveer corriente al electroim\'{a}n de forma tal que le permita generar la fuerza electromagn\'{e}tica necesaria para mantener el gap de aire. 
+\noindent El sistema solo ejerce control de posición en el eje Y, por lo tanto no puede responder ante perturbaciones horizontales sobre el objeto.
 
-\noindent Por otra parte, se utiliza un software de PC para modificar los coeficientes de la implementaci\'{o}n digital.
+
+\noindent El sistema está conformado por los bloques que se muestran en la Figura \ref{img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decidirá cual de estas implementaciones ejercerá el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{diagrama-en-bloques-del-sistema.png}
+	\caption{Diagrama en bloques del sistema.}
+	\label{fig:img_diagrama-en-bloques-del-sistema}
+\end{figure}
+
+\noindent El estimador de posición se encarga de entregar una tensión proporcional al gap de aire real en función de la corriente que circula por el electroimán. El usuario puede modificar el gap de aire que desea mediante un potenciómetro presente en la placa de control. Tanto la implementación analógica como la digital reciben como entrada esta tensión. Luego, es comparada con la estimación y se utiliza como entrada para el compensador.
+
+\noindent La función del compensador es garantizar la estabilidad del sistema. Esto lo logra al modificar la referencia del controlador de corriente mediante una acción de control. 
+
+\noindent Por otro lado, el controlador de corriente se encarga de proveer corriente al electroimán de forma tal que le permita generar la fuerza electromagnética necesaria para mantener el gap de aire.
+ 

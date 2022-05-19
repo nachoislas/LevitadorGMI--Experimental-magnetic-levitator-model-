@@ -6,11 +6,13 @@
 \noindent El desarrollo de este sistema de levitación magnética surge como idea de los responsables de la cátedra Sistemas de Control de la carrera de Ingeniería Electrónica, con el objetivo de disponer de una planta de control para realizar prácticas en clase. Una primera versión de este dispositivo fue desarrollada y construída por la cátedra. Los integrantes de este proyecto tuvieron la oportunidad de realizarle pruebas y modificaciones durante el cursado de la asignatura. Sin embargo, no se pudo lograr que el dispositivo funcionara correctamente al finalizar la cursada. Por este motivo, se propuso hacer un rediseño de todas las etapas que componen al sistema en el marco de un proyecto final.
 
 
+
 \section{Alcance del proyecto}
 
 \noindent El objetivo de este proyecto es diseñar un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. Este sistema debe integrar las etapas de driver de corriente de potencia, estimación de distancia de levitación, y control de la planta. Estas dos últimas deben implementarse tanto en forma analógica como digital.
 
-\noindent Este documento contempla el proceso de diseño y modelado de todas las etapas pertenecientes al sistema, junto con su implementación circuital y simulaciones. Además, se realiza el diseño del circuito impreso de la placa de control..
+\noindent Este documento contempla el proceso de diseño y modelado de todas las etapas pertenecientes al sistema, junto con su implementación circuital y simulaciones. Además, se realiza el diseño del circuito impreso de la placa de control.
+
 
 
 \section{Contexto del proyecto}
@@ -23,7 +25,9 @@
 
 \section{Descripción del dispositivo}
 
-\noindent El producto está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán, como se observa en la figura \ref{img_Esquema-del-producto}, tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central. y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación o “gap” de aire deseado entre ellas mientras el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. El sistema completo se muestra en la figura \ref{img_Esquema-del-producto}.
+\noindent El producto está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central. y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación o “gap” de aire deseado entre ellas mientras el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. El sistema completo se muestra en la figura \ref{fig:img_Esquema-del-producto}.
+
+\noindent \colorbox{yellow}{Cambiar imagen por la que va}
 
 \begin{figure}[H]
 	\centering
@@ -38,7 +42,7 @@
 \noindent El sistema solo ejerce control de posición en el eje Y, por lo tanto no puede responder ante perturbaciones horizontales sobre el objeto.
 
 
-\noindent El sistema está conformado por los bloques que se muestran en la Figura \ref{img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decidirá cual de estas implementaciones ejercerá el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
+\noindent El sistema está conformado por los bloques que se muestran en la Figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decidirá cual de estas implementaciones ejercerá el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
 
 \begin{figure}[H]
 	\centering

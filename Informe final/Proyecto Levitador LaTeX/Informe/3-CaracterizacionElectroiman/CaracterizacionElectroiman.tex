@@ -1,6 +1,6 @@
 \chapter{Caracterización del  Electroimán} \chapterlabel{Informe/3-CaracterizacionElectroiman} \label{cap:CaracterizacionElectroiman}
 
-El objetivo de este apartado es poder obtener un modelo físico del electroimán que se dispone. A partir de sus características constructivas, se determinarán otros parámetros del sistema de control (como masa máxima, corriente nominal de trabajo, etc) \cite{Noticia1}
+\noindent El objetivo de este apartado es poder obtener un modelo físico del electroimán que se dispone. A partir de sus características constructivas, se determinarán otros parámetros del sistema de control (como masa máxima, corriente nominal de trabajo, etc)
 
 
 \section{Modelado físico}
@@ -83,73 +83,25 @@ L=\frac{N^{2}}{R_{m}*R_{a}}=\frac{N^{2}}{\frac{l_{h}}{A*\mu_{o}*\mu_{r}}+\frac{l
 
 \section{Cálculo de la fuerza magnética}
 
-\noindent La fuerza magnética necesaria para mantener a un objeto en suspensión se puede encontrar a partir de la energía almacenada en un inductor y al considerar que esta es  igual al trabajo:
+\noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de I se puede modelar a partir de la energía almacenada en un inductor y al considerar que esta es igual al trabajo:
 
 \begin{equation}\label{eq_energia}
 	E(i,y)=W=\int{F_{m}*dy}=>F_{m}=\frac{\partial{E(i,y)}}{\partial{y}}
 \end{equation}
 
-\noindent Y sabiendo la expresión para obtener la energía que almacena un inductor en su campo magnético:
+\noindent Siendo $E(i,y)$ la energía que almacena un inductor en su campo magnético:
 
 \begin{equation}\label{eq_energia_2}
 	E(i,y)=\frac{L(i,y)*i^{2}}{2}
 \end{equation}
 
-\noindent Esto significa que la cantidad de energía que almacena el sistema es función del gap de aire. Combinando las ecuaciones \ref{eq_inductancia_vs_y}, \ref{eq_energia} y \ref{eq_energia_2}:
+\noindent La expresión anterior indica que la cantidad de energía que almacena el sistema es función del gap de aire ($y$) y de la corriente que circula por el electroimán ($i$). Combinando las ecuaciones \ref{eq_inductancia_vs_y}, \ref{eq_energia} y \ref{eq_energia_2}:
 
 \begin{equation}\label{eq_fuerza_magnetica}
 	\abs{F_{m}}=\frac{\partial{E(i,y)}}{\partial{y}}=\frac{i^{2}}{2}*\frac{\partial{\frac{{N^{2}*A*\mu_{o}}}{2*y}}}{\partial{y}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*y^{2}}
 \end{equation}
 
-\noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (es decir, de la corriente), e inversamente proporcional al cuadrado de la variable que se desea controlar (es decir, de la distancia). Por lo tanto, el problema adquiere un comportamiento sumamente alineal.
-
-\section{Diseño del electroimán}
-
-%¿sería conveniente hacer el diseño partiendo del electroimán que ya tenemos, y en base a eso determinar el peso que podemos levantar?
-\noindent Se debe determinar qué dimensiones debe tener el electroimán a utilizar para que sea capaz de ejercer la fuerza magnética necesaria para mantener levitando el peso deseado.
-
-\noindent Al analizar la ecuación \ref{eq_fuerza_magnetica} se puede observar que hay dos parámetros que son propios del electroimán: el área del núcleo A y la cantidad de vueltas del bobinado N. Para obtener una expresión de diseño, partimos de esta ecuación y la igualamos al fuerza ejercida por el peso que debe soportar ($\abs{F_{m}}=m*g$):
-
-\begin{equation}\label{eq_fuerza_peso}
-	m*g=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*y^{2}}
-\end{equation}
-
-\noindent De la ecuación \ref{eq_fuerza_peso} podemos despejar el producto $N*i$ que es la fuerza magnetomotriz:
-
-\begin{equation} \label{eq_n_por_i}
-	N*i=y*\sqrt{\frac{4*m*g}{\mu_{o}*A}}
-\end{equation}
-
-\noindent Partiendo de la ecuación \ref{eq_inductancia_flujo}, reemplazando $\phi=B*A$ y considerando el caso de máxima inducción magnética ($i_{max}$):
-
-\begin{equation}\label{eq_inductancia_densidad}
-	L*i_{max}=N*B_{max}*A
-\end{equation}
-
-\noindent Luego, relacionando la ecuación \ref{eq_inductancia_vs_y} y \ref{eq_inductancia_densidad}:
-
-\begin{equation} \label{eq_bmax}
-	B_{max}=\mu_{o}*\frac{N*i_{max}}{2*y}
-\end{equation}
-
-\noindent Combinando la ecuación \ref{eq_bmax} y \ref{eq_n_por_i}:
-
-\begin{equation}
-	B_{max}=\sqrt{\frac{m*g*\mu_{o}}{A}}
-\end{equation}
-
-\noindent Finalmente:
-
-\begin{equation} \label{eq_area}
-	A>=\frac{m*g*\mu_{o}}{B_{max}^{2}}
-\end{equation}
-
-\noindent Con el objetivo de evitar la saturación del núcleo del electroimán en el caso que circule la máxima corriente, el área transversal debe cumplir con la expresión \ref{eq_area}. Para el cálculo se utiliza $B_{max}=0.7$ Tesla, que corresponde con la inducción máxima del acero de silicio. \colorbox{red}{CHEQUEAR}. Finalmente se obtiene:
-
-\begin{equation}
-	A>=20 cm^{2}
-\end{equation}
-
+\noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (es decir, de la corriente), e inversamente proporcional al cuadrado de la variable que se desea controlar (es decir, de la distancia). Por lo tanto, el problema adquiere un comportamiento no lineal.
 
 \section{Diseño del electroimán}
 
@@ -158,18 +110,41 @@ L=\frac{N^{2}}{R_{m}*R_{a}}=\frac{N^{2}}{\frac{l_{h}}{A*\mu_{o}*\mu_{r}}+\frac{l
 
 Está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas E y I puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. \colorbox{red}{poner figura}
 
- Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. En su núcleo tiene un bobinado de 150 vueltas (N) de cobre esmaltado con un diámetro de $2.5$ mm. El núcleo es de sección cuadrada ya que esto maximiza el área mientras que disminuye el perímetro, reduciendo así la longitud media de las espiras y ahorrando material. 
+Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. En su núcleo tiene un bobinado de 150 vueltas (N) de cobre esmaltado con un diámetro de $2.5$ mm. El núcleo es de sección cuadrada ya que esto maximiza el área mientras que disminuye el perímetro, reduciendo así la longitud media de las espiras y ahorrando material. 
+
+\section{Análisis del electroimán}
+
+\noindent El electroimán del que se dispone tiene las siguientes características:
+asd
+asd
+qwe
 
 
-\section{Diseño del bobinado}
+\noindent En base a estos datos podemos determinar otras variables del sistema como son: masa máxima, distancia máxima de separación, corriente nominal de trabajo.
 
-\noindent Se desea dimensionar la cantidad de vueltas del bobinado y la corriente requerida para las condiciones del problema. Partiendo de la ecuación \ref{eq_n_por_i} y considerando un área transversal $A=25 cm^{2}$, y las condiciones de trabajo más exigentes ($y=5$ mm y $m=30$ kg):
+%\noindent Se debe determinar qué dimensiones debe tener el electroimán a utilizar para que sea capaz de ejercer la fuerza magnética necesaria para mantener levitando el peso deseado.
 
-\begin{equation}
-	N*i_{max}=3060.69 
+%\noindent Al analizar la ecuación \ref{eq_fuerza_magnetica} se puede observar que hay dos parámetros que son propios del electroimán: el área del núcleo A y la cantidad de vueltas del bobinado N. 
+
+\noindent Para obtener una expresión de diseño, partimos de la ecuación \ref{eq_fuerza_magnetica} y la igualamos a la fuerza ejercida por el peso del objeto que se debe hacer levitar ($\abs{F_{m}}=m*g$):
+
+\begin{equation}\label{eq_fuerza_peso}
+	m*g=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*y^{2}}
 \end{equation}
 
-\noindent Debido a que ya se dispone de un electroimán con $N=150$, según el resultado anterior, se impone una corriente máxima de $20.4$ A. Para poder tener cierto margen en la masa máxima soportada, se adopta una corriente máxima de $21$ A, lo que resulta en un $N*i_{max}=3150$.
+\noindent De la ecuación \ref{eq_fuerza_peso}, y a partir de las condiciones de diseño del problema, se puede determinar la corriente necesaria para mantener el objeto en suspensión:
+
+\begin{equation} \label{eq_corriente_peso}
+	i_{nom}=\sqrt{\frac{4*m*g*y^{2}}{N^{2}*\mu_{o}*A}}
+\end{equation}
+
+Considerando las condiciones mas exigentes para el sistema, con $m=m_{max}=30kg$ e $y=y_{max}=5mm$:
+
+\begin{equation}
+	i_{nom}=20.4A
+\end{equation}
+
+\noindent Aunque esta corriente es suficiente para mantener el objeto en estado de equilibrio, se necesita una corriente mayor para poder responder ante perturbaciones en la distancia de separación, por lo tanto se define la corriente máxima $i_{max}=30A$.
 
 
 
@@ -185,3 +160,100 @@ Está construido por una laminación normalizada sin desperdicio 600. Estas son 
 
 \colorbox{red}{esto iría acá??}
 
+\section{Modelo de estado de la planta}
+
+\noindent Al plantear un diagrama de cuerpo aislado del sistema \colorbox{red}{poner imagen} y plantear la sumatoria de fuerzas en el eje y:
+
+\begin{equation}\label{eq_sumatoria_fuerzas_y}
+	\sum F_{y}=m*a=>m*g-F_{m}=m*\ddot{y}
+\end{equation}
+
+\noindent De la ecuación \ref{eq_fuerza_magnetica} se convierte la ecuación \ref{eq_sumatoria_fuerzas_y} en:
+
+\begin{equation}\label{eq_sumatoria_fuerzas_y_2}
+	m*\ddot{y}=m*g-K*\frac{i(t)^{2}}{y(t)^{2}}
+\end{equation}
+
+\noindent Donde K es una constante de valor:
+
+\begin{equation}
+	K=\frac{N^{2}*\mu_{o}*A}{4}=1.77*10^{-5} [\frac{N*m^2}{A^2}]
+\end{equation}
+
+\noindent Teniendo en cuenta que $i(t)$ es la entrada a la planta, se puede plantear un modelo con las siguientes variables de estado:\newline
+\colorbox{red}{se puede poner mas grande??}
+\begin{equation}
+	x_{1}=y(t)
+\end{equation}
+\begin{equation}
+	x_{2}=\dot{x_{1}}
+\end{equation}
+\begin{equation}
+	u=i(t)
+\end{equation}
+
+\noindent Por lo tanto se obtienen dos ecuaciones de estado:
+
+\begin{equation}
+	\dot{x_{1}}=x_{2}
+\end{equation}
+\begin{equation}
+	\dot{x_{2}}=g-\frac{K}{m}*\frac{u^{2}}{x_{1}^{2}}
+\end{equation}
+
+El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema; por las condiciones del problema se define $x_{1o}=4mm$. El resto de los puntos de equilibrio se encuentrar igualando las derivadas a cero:
+\begin{equation}
+	x_{1o}=4mm
+\end{equation}
+\begin{equation}
+	x_{2o}=0
+\end{equation}
+\begin{equation}
+	u_{o}=\sqrt{\frac{m*g}{K}}*x_{1o}
+\end{equation}
+
+Por lo tanto las ecuaciones linealizadas quedan:
+
+\begin{equation}
+	\dot{x_{1}}=x_{2}
+\end{equation}
+
+\begin{equation}
+	\dot{x_{2}}=2*\frac{K*u_{o}^{2}}{m*x_{1o}^{3}}*x_{1}-2*\frac{K*u_{o}}{m*x_{1o}^{2}}*u
+\end{equation}
+
+Las matrices del modelo quedan:
+
+\begin{equation}
+	A=\begin{bmatrix}
+		0 & 1\\
+		\frac{2*g}{y_{o}} & 0
+	\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+	B=\begin{bmatrix}
+		0\\
+		-\frac{2}{y_{o}}*\sqrt{\frac{K*g}{m}}
+	\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+	C=\begin{bmatrix}
+		1 & 0\\
+	\end{bmatrix}
+\end{equation}
+
+\noindent Es posible obtener la función transferencia de la planta utilizando:
+
+\begin{equation}\label{eq_transferencia_planta}
+	G_{planta}=C*(S*I-A)^{-1}*B
+\end{equation}
+
+\noindent Finalmente, se obtiene para $m=30kg$ e $y_{o}=4mm$:
+
+\begin{equation}
+	G_{planta}=-\frac{2}{y_{o}}*\frac{\sqrt{\frac{K*g}{m}}}{S^2-\frac{2*g}{y_{o}}}=\frac{-1.201}{S^{2}-4900}
+\end{equation}
+
+\noindent La planta tiene dos autovalores en $+-\sqrt{\frac{2*g}{y_{o}}}=+-70[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho, lo que provoca que la planta sea inestable y se deba buscar una estrategia de control apropiada para controlarla.

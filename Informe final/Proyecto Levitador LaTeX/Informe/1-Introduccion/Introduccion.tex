@@ -3,13 +3,13 @@
 
 \noindent \colorbox{yellow}{Ver de poner una intro general de levitación magnetica y la importancia de los sistemas de control}
 
-\noindent El desarrollo de este sistema de levitación magnética surge como idea de los responsables de la cátedra Sistemas de Control de la carrera de Ingeniería Electrónica, con el objetivo de disponer de una planta de control para realizar prácticas en clase. Una primera versión de este dispositivo fue desarrollada y construída por la cátedra. Los integrantes de este proyecto tuvieron la oportunidad de realizarle pruebas y modificaciones durante el cursado de la asignatura. Sin embargo, no se pudo lograr que el dispositivo funcionara correctamente al finalizar la cursada. Por este motivo, se propuso hacer un rediseño de todas las etapas que componen al sistema en el marco de un proyecto final.
+\noindent El desarrollo de este sistema de levitación magnética surge como idea de los \colorbox{yellow}{responsables} de la cátedra Sistemas de Control de la carrera de Ingeniería Electrónica, con el objetivo de disponer de una planta de control para realizar prácticas en clase. Una primera versión de este dispositivo fue desarrollada y construída por la cátedra. Los integrantes de este proyecto tuvieron la oportunidad de realizarle pruebas y modificaciones durante el cursado de la asignatura. Sin embargo, no se pudo lograr que el dispositivo funcionara correctamente al finalizar la cursada. Por este motivo, se propuso hacer un rediseño de todas las etapas que componen al sistema en el marco de un proyecto final.
 
 
 
 \section{Alcance del proyecto}
 
-\noindent El objetivo de este proyecto es diseñar un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. Este sistema debe integrar las etapas de driver de corriente de potencia, estimación de distancia de levitación, y control de la planta. Estas dos últimas deben implementarse tanto en forma analógica como digital.
+\noindent El objetivo de este proyecto es diseñar un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. Este sistema integra las etapas de driver de corriente de potencia, estimación de distancia de levitación, y control de la planta. Estas dos últimas deben implementarse tanto en forma analógica como digital.
 
 \noindent Este documento contempla el proceso de diseño y modelado de todas las etapas pertenecientes al sistema, junto con su implementación circuital y simulaciones. Además, se realiza el diseño del circuito impreso de la placa de control.
 
@@ -17,7 +17,7 @@
 
 \section{Contexto del proyecto}
 
-\noindent El proyecto comenzó en junio del 2020. Inicialmente tenía como objetivo el diseño y la construcción de un prototipo funcional que permitiera a los alumnos de la asignatura de Sistemas de Control realizar mediciones y observar el comportamiento de las distintas etapas que componen el sistema. SIn embargo, debido a los retrasos ocasionados por la pandemia (COVID-19), los costos asociados a los componentes y a la fabricación de la placa de control, sumado a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al diseño teórico de todas las etapas y del circuito impreso.
+\noindent El proyecto comenzó en junio del 2020. Inicialmente tenía como objetivo el diseño y la construcción de un prototipo funcional que permitiera a los alumnos de la asignatura de Sistemas de Control realizar mediciones y observar el comportamiento de las distintas etapas que componen el sistema. Sin embargo, debido a los retrasos ocasionados por la pandemia (COVID-19), los costos asociados a los componentes y a la fabricación de la placa de control, sumado a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al diseño teórico de todas las etapas y del circuito impreso.
 
 \noindent Se espera que en el futuro se pueda construir el sistema de levitación magnética para que sirva como herramienta para los alumnos, de forma tal que les permita experimentar y afianzar los conceptos teóricos adquiridos durante el transcurso de la cursada.
 
@@ -37,10 +37,11 @@
 \noindent La fuerza electromagnética es regulada por la placa de control con el objetivo de mantener fija la distancia $Y_{o}$, a pesar de las perturbaciones externas que el sistema pueda recibir. 
 
 
-\noindent El sistema solo ejerce control de posición en el eje Y, por lo tanto no puede responder ante perturbaciones horizontales sobre el objeto.
+\noindent El sistema solo ejerce control de posición en el eje vertical, por lo tanto no puede responder ante perturbaciones horizontales sobre el objeto.
 
 
 \noindent El sistema está conformado por los bloques que se muestran en la Figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decidirá cual de estas implementaciones ejercerá el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
+\colorbox{yellow}{Ponerle un signo menos al restador de la figura 1.2}
 
 \begin{figure}[H]
 	\centering

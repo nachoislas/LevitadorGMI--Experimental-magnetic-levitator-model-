@@ -136,7 +136,7 @@
 
 \subsubsection{Dimensionamiento de capacitor de bootstrap}
 
-\noindent Para el dimensionamiento se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{Prueba123} y [2].
+\noindent Para el dimensionamiento se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
 
 \noindent Para encender un NMOS es necesario proveer corriente a su gate hasta cargar las capacidades parásitas entre gate-source y gate-drain. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el gate. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de bootstrap. 
 
@@ -151,7 +151,7 @@
 
 \noindent Por otro lado, el capacitor debe entregar corriente al diodo de bootstrap cuando este queda en inversa ($I_{DR}$ ), y también entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$ ). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
 
-\noindent Por lo tanto, para poder dimensionar correctamente el capacitor de bootstrap es necesario tener en cuenta todos estos efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena el capacitor bootstrap. Esta se obtiene como:
+\noindent Por lo tanto, para poder dimensionar correctamente el capacitor de bootstrap es necesario tener en cuenta todos estos efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena el capacitor bootstrap:
 
 \begin{equation} \label{eq_carga-cap-bootstrap}
 Q_B=C_B*V_B

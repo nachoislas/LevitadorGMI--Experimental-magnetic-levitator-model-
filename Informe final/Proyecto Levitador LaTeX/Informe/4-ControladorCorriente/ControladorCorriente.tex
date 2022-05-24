@@ -192,10 +192,15 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
 
 \noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de 50 kHz. 
 
-\colorbox{yellow}{------------------Ver de achicar esta ecuacion--------------------}
 \begin{equation} \label{eq_cap-bootstrap2}
-C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}>\frac{170 nC + 0.625nC + \frac{2 mA + 2.55 mA}{50 KHz}}{0.1 V} > 2.61 \mu F
+C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}>\frac{170 nC + 0.625nC + \frac{2 mA + 2.55 mA}{50 KHz}}{0.1 V} F
 \end{equation}
+
+\begin{equation} \label{eq_cap-bootstrap3}
+	C_{BS} > 2.61 \mu F
+\end{equation}
+
+
 
 \noindent Por lo tanto, una capacidad mayor a $2.61 \mu F$ resultará en una caída menor a 0.1 V en el capacitor de bootstrap durante el tiempo de encendido de los MOSFET. Podría usarse un capacitor más pequeño, a costa de permitir una mayor caída de tensión en el capacitor. 
 
@@ -247,7 +252,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}>\frac{170
 	\end{aligned}
 \end{equation}
 
-\noindent Considerando  $\Delta I_L=500 mA$ y $T=0.47ms$ que corresponde a $Y = 2 mm$ según la \colorbox{yellow}{Tabla 4.1.}
+\noindent Considerando  $\Delta I_L=500 mA$ y $T=0.47ms$ que corresponde a $Y = 2 mm$ según la tabla \ref{tab_mediciones}
 
 \begin{equation} 
 \Delta Q = 21A * \frac{0.47ms}{2} \approx 5mC
@@ -409,6 +414,6 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(y)}
 \noindent En la ecuación \ref{eq_TLC-cc} se muestra la transferencia linealizada del controlador de corriente.
 
 \begin{equation} \label{eq_TLC-cc}
-TLC_{CC} = \frac{64}{1+\frac{s}{\omega _{polo}}}
+TLC_{CC} = \frac{6}{1+\frac{s}{\omega _{polo}}}
 \end{equation}
 

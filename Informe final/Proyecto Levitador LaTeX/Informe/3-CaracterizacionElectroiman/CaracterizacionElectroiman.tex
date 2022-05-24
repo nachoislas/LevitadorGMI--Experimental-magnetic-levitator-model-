@@ -1,15 +1,37 @@
 \chapter{Caracterización del  Electroimán} \chapterlabel{Informe/3-CaracterizacionElectroiman} \label{cap:CaracterizacionElectroiman}
 
-\noindent El objetivo de este apartado es poder obtener un modelo físico del electroimán que se dispone. A partir de sus características constructivas, se determinarán otros parámetros del sistema de control (como masa máxima, corriente nominal de trabajo, etc)
+\noindent Para el desarrollo del proyecto se dispone ya de un electroimán que funcionará como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
 
+\section{Diseño del electroimán} \label{section_disenio_electroimán}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{plano_dimensiones.png}
+	\caption{Dimensiones del electroimán}
+	\label{fig:img_plano_dimensiones}
+\end{figure}
+
+\noindent El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5mm$ de espesor, cuyas dimensiones se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la E tiene sección cuadrada; lo que maximiza el área mientras que disminuye el perímetro.
+
+\noindent El bobinado está conformado por 150 vueltas de alambre de cobre esmaltado de $2.5mm$ de diámetro enrollado alrededor de un carrete de plástico (figura \ref{fig:img_carrete}) que luego se ubica en la rama central de la pieza E.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{carrete.png}
+	\caption{Carrete de plástico para el bobinado}
+	\label{fig:img_carrete}
+\end{figure}
+
+
+\noindent Se utiliza un apilado de láminas cuyo exterior está recubierto por una pintura esmaltada para aislarlas entre sí con el fin de minimizar las pérdidas de energía causadas por las corrientes eléctricas que se generan en el núcleo debidas al flujo magnético.
+.
+\noindent Está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas E y I puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
+\colorbox{red}{poner figura del electroimán real????}
+
+%\noindent Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. En su núcleo tiene un bobinado de 150 vueltas (N) de cobre esmaltado con un diámetro de $2.5$ mm. El núcleo es de sección cuadrada ya que esto maximiza el área mientras que disminuye el perímetro, reduciendo así la longitud media de las espiras y ahorrando material. 
 
 \section{Modelado físico}
 
-
-%\section{Caracterización del Electroimán}
-
-%\noindent El actuador de este sistema de control es un electroimán. Se eligió construirlo utilizando un núcleo de acero al silicio con un bobinado en su interior. 
-%mejorar esto
 
 \noindent Se puede modelar el sistema como un objeto de masa puntual que es sometido a dos fuerzas opuestas en el eje “Y” de la figura \ref{fig:img_modelado-fisico}: la de su propio peso hacia abajo, y una fuerza realizada por el electroimán en sentido contrario. \colorbox{red}{MARCAR Yo EN LA IMAGEN}
 
@@ -103,24 +125,11 @@ L=\frac{N^{2}}{R_{m}*R_{a}}=\frac{N^{2}}{\frac{l_{h}}{A*\mu_{o}*\mu_{r}}+\frac{l
 
 \noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (es decir, de la corriente), e inversamente proporcional al cuadrado de la variable que se desea controlar (es decir, de la distancia). Por lo tanto, el problema adquiere un comportamiento no lineal.
 
-\section{Diseño del electroimán}
-
-\noindent El electroimán está construido por un núcleo de acero laminado con forma de E, que tiene un cable bobinado en su rama central, y otra pieza con forma de I.\colorbox{red}{poner imagen con dimensiones}. 
-% 
-
-Está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas E y I puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. \colorbox{red}{poner figura}
-
-Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. En su núcleo tiene un bobinado de 150 vueltas (N) de cobre esmaltado con un diámetro de $2.5$ mm. El núcleo es de sección cuadrada ya que esto maximiza el área mientras que disminuye el perímetro, reduciendo así la longitud media de las espiras y ahorrando material. 
 
 \section{Análisis del electroimán}
 
-\noindent El electroimán del que se dispone tiene las siguientes características:
-asd
-asd
-qwe
-
-
-\noindent En base a estos datos podemos determinar otras variables del sistema como son: masa máxima, distancia máxima de separación, corriente nominal de trabajo.
+%\noindent Utilizando como referencia la figura \ref{fig:img_dimensiones}, el electroimán del que se dispone tiene las siguientes características:
+\noindent Utilizando los datos de construcción del electroimán mencionados en el apartado \ref{section_disenio_electroimán} se puede determinar qué corriente será necesaria para sostener el objeto del peso deseado.
 
 %\noindent Se debe determinar qué dimensiones debe tener el electroimán a utilizar para que sea capaz de ejercer la fuerza magnética necesaria para mantener levitando el peso deseado.
 
@@ -201,7 +210,7 @@ Considerando las condiciones mas exigentes para el sistema, con $m=m_{max}=30kg$
 	\dot{x_{2}}=g-\frac{K}{m}*\frac{u^{2}}{x_{1}^{2}}
 \end{equation}
 
-El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema; por las condiciones del problema se define $x_{1o}=4mm$. El resto de los puntos de equilibrio se encuentrar igualando las derivadas a cero:
+El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema; por las condiciones del problema se define $x_{1o}=4mm$. El resto de los puntos de equilibrio se encuentra igualando las derivadas a cero:
 \begin{equation}
 	x_{1o}=4mm
 \end{equation}
@@ -257,3 +266,11 @@ Las matrices del modelo quedan:
 \end{equation}
 
 \noindent La planta tiene dos autovalores en $+-\sqrt{\frac{2*g}{y_{o}}}=+-70[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho, lo que provoca que la planta sea inestable y se deba buscar una estrategia de control apropiada para controlarla.
+
+\noindent Al trabajar con una planta cuya masa es variable, conviene dejar $m$ como incógnita:
+
+\begin{equation} \label{eq_transferencia_planta_m}
+		G_{planta}(m)=-\sqrt{\frac{30}{m}}*\frac{1.201}{S^{2}-4900}
+\end{equation}
+
+\noindent De la transferencia de la planta en \ref{eq_transferencia_planta_m} se observa que la ganancia del sistema depende de la masa del objeto, pero no se modifica la ubicación de los polos. A menor masa, mayor es la ganancia del sistema; Se debe escoger una estrategia de control que tenga en cuenta los cambios que puede sufrir la ganancia del sistema.

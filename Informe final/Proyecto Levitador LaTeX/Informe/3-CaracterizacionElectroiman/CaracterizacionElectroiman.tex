@@ -130,7 +130,7 @@ L=\frac{N^{2}}{R_{m}*R_{a}}=\frac{N^{2}}{\frac{l_{h}}{A*\mu_{o}*\mu_{r}}+\frac{l
 
 %\noindent Utilizando como referencia la figura \ref{fig:img_dimensiones}, el electroimán del que se dispone tiene las siguientes características:
 \noindent Utilizando los datos de construcción del electroimán mencionados en el apartado \ref{section_disenio_electroimán} se puede determinar qué corriente será necesaria para sostener el objeto del peso deseado.
-
+	
 %\noindent Se debe determinar qué dimensiones debe tener el electroimán a utilizar para que sea capaz de ejercer la fuerza magnética necesaria para mantener levitando el peso deseado.
 
 %\noindent Al analizar la ecuación \ref{eq_fuerza_magnetica} se puede observar que hay dos parámetros que son propios del electroimán: el área del núcleo A y la cantidad de vueltas del bobinado N. 
@@ -167,7 +167,54 @@ Considerando las condiciones mas exigentes para el sistema, con $m=m_{max}=30kg$
 
 \section{Mediciones sobre el electroimán}
 
-\colorbox{red}{esto iría acá??}
+\noindent Se realizaron mediciones sobre el electroimán con el objetivo de utilizar los valores obtenidos para el resto del diseño del sistema.
+
+\subsection{Medición de resistencia del bobinado}
+
+\noindent Para medir la resistencia del bobinado se utilizó una fuente de alimentación de laboratorio y se realizó de la siguiente manera:
+
+\begin{itemize}
+	\item Se configuró la fuente para entregar una tensión continua de $5V$
+	\item Se configuró la protección de corto circuito en $1A$
+	\item Se conectaron los bornes del electroimán a los terminales de la fuente
+	\item Se habilitó la salida de tensión
+	\item Se tomó nota de los valores de tensión y corriente que entregaba la fuente
+\end{itemize}
+
+\noindent Al tener una resistencia serie baja, la fuente de tensión activó la protección de corto circuito, de tal manera que la corriente en el electroimán quedó constante en $1A$. Utilizando la medición de tensión entregada por la fuente, cuyo resultado fue \colorbox{red}{RESULTADO}, se puedo calcular la resistencia del electroimán utilizando la Ley de Ohm:
+
+\begin{equation}
+	R_{L}=\frac{V}{I}=\frac{0.2V}{1A}=0.2\Omega
+\end{equation}
+
+\subsection{Medición de inductancia}
+
+\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca \colorbox{red}{MARCA} y utilizando planchas de cartón de distinto espesor para mantener el gap de aire fijo. Para el caso en que no se utiliza la pieza I, se considera que la distancia es $\infty$, y lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
+
+\noindent Se obtuvieron los siguientes resultados:
+
+
+\begin{table} [H]
+	\begin{center}
+		\begin{tabular}{| c | c |}
+			\hline
+			Y[mm] & L(y)[mH]\\ \hline
+			$\inf$ & 8.89\\ \hline
+			0 & 76.45\\ \hline
+			1 & 33.42\\ \hline
+			2 & 22.64\\ \hline
+			3 & 18.8\\ \hline
+			4.4 & 15.5\\ \hline
+			5.2 & 14.7\\ \hline
+			6.5 & 14.4\\ \hline
+			8.23 & 12.4\\ \hline
+		\end{tabular}
+	\caption{Valores medidos en función del gap de aire.}
+	\label{tab_mediciones_inductancia}
+	\end{center}
+\end{table}
+
+\noindent \colorbox{red}{hacer imagen de la inductancia} A partir de estos resultados, se puede observar que la expresión de inductancia no varía linealmente con la distancia. Por lo tanto se realiza una aproximación lineal por mínimos cuadrados utilizando valores de distancia cercanos al rango de trabajo. \colorbox{red}{seguir acá}
 
 \section{Modelo de estado de la planta}
 

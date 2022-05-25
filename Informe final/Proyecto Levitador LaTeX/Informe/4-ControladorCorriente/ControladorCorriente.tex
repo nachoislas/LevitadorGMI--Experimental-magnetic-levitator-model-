@@ -180,9 +180,9 @@ Q_B > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
 C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
 \end{equation}
 
-\noindent Según la hoja de datos [5] del MOSFET IPB160N04, $Q_G$= 170 nC. Por lo tanto, adoptando una caída de tensión tolerable en el capacitor de $\Delta V_B$ = 0.1 V y considerando la información brindada por las hojas de datos, es posible dimensionar el capacitor para que este posea una carga suficiente para mantener siempre encendido al MOSFET utilizando la inecuación \ref{eq_cap-bootstrap} .
+\noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, $Q_G$= 170 nC. Por lo tanto, adoptando una caída de tensión tolerable en el capacitor de $\Delta V_B$ = 0.1 V y considerando la información brindada por las hojas de datos, es posible dimensionar el capacitor para que este posea una carga suficiente para mantener siempre encendido al MOSFET utilizando la inecuación \ref{eq_cap-bootstrap} .
 
-\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR, se obtiene a partir de [3] que  $I_R$ es igual a 0.1 A  y  el tiempo de recuperación de inversión es de 12.5 ns. Por lo tanto, la carga de recuperación resulta de 0.625 nC.
+\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR, se obtiene a partir de \cite{RSX205LAM30} que  $I_R$ es igual a 0.1 A  y  el tiempo de recuperación de inversión es de 12.5 ns. Por lo tanto, la carga de recuperación resulta de 0.625 nC.
 
 \noindent Para la corriente inversa de fuga del diodo de bootstrap se obtiene un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
 
@@ -221,7 +221,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}>\frac{170
 
 \noindent Para evitar generar un cortocircuito durante la conmutación de los transistores, el driver HIP4081A permite configurar un tiempo muerto que debe transcurrir desde que se apaga un transistor y se enciende el próximo. Esto se configura mediante dos resistencias conectadas a los pines LDEL y HDEL del HIP4081A.
 
-\noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un mosfet IPB160N04. De [5] se obtiene que este tiempo es 63 ns. Este valor se obtiene de tener en cuenta el $T_{OFF}$ y el $T_{FALL}$ de la hoja de datos . Por lo tanto se elige que el deadtime sea de 100 ns, para tener un margen, además de que esta aplicación específica no requiere un tiempo de encendido rápido de los mosfets.
+\noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un mosfet IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es 63 ns. Este valor se obtiene de tener en cuenta el $T_{OFF}$ y el $T_{FALL}$ de la hoja de datos . Por lo tanto se elige que el deadtime sea de 100 ns, para tener un margen, además de que esta aplicación específica no requiere un tiempo de encendido rápido de los mosfets.
 
 \noindent Según la hoja de datos del HIP4081A, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser 200 K$\Omega$.
 

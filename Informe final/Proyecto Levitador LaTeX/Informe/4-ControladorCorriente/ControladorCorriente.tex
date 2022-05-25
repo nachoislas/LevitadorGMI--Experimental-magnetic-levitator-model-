@@ -186,12 +186,12 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
 
 \noindent Para la corriente inversa de fuga del diodo de bootstrap se obtiene un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
 
-\noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de bootstrap ($V_B$=12V) dividido el valor de la resistencia gate-source. Esta resistencia es de 4.7 kOhm. Por lo tanto $I_{GS}$=2.55 mA. 
+\noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de bootstrap ($V_B$=12V) dividido el valor de la resistencia gate-source. Esta resistencia es de 4.7 kOhm, por lo tanto $I_{GS}$=2.55 mA. 
 
 \noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de 50 kHz. 
 
 \begin{equation} \label{eq_cap-bootstrap2}
-C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}>\frac{170 nC + 0.625nC + \frac{2 mA + 2.55 mA}{50 KHz}}{0.1 V} F
+C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}>\frac{170 nC + 0.625nC + \frac{2 mA + 2.55 mA}{50 KHz}}{0.1 V}
 \end{equation}
 
 \begin{equation} \label{eq_cap-bootstrap3}

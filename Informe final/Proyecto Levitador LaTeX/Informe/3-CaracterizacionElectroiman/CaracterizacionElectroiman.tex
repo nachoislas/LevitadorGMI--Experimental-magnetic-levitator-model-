@@ -1,8 +1,12 @@
 \chapter{Caracterización del  Electroimán} \chapterlabel{Informe/3-CaracterizacionElectroiman} \label{cap:CaracterizacionElectroiman}
 
-\noindent Para el desarrollo del proyecto se dispone ya de un electroimán que funcionará como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
+\noindent Para el desarrollo del proyecto se dispone \colorbox{red}{cambiar}ya de un electroimán que funcionará como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
 
 \section{Diseño del electroimán} \label{section_disenio_electroimán}
+
+
+
+\noindent El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor, cuyas dimensiones se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la E tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro.
 
 \begin{figure}[H]
 	\centering
@@ -11,29 +15,29 @@
 	\label{fig:img_plano_dimensiones}
 \end{figure}
 
-\noindent El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5mm$ de espesor, cuyas dimensiones se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la E tiene sección cuadrada; lo que maximiza el área mientras que disminuye el perímetro.
-
-\noindent El bobinado está conformado por 150 vueltas de alambre de cobre esmaltado de $2.5mm$ de diámetro enrollado alrededor de un carrete de plástico (figura \ref{fig:img_carrete}) que luego se ubica en la rama central de la pieza E.
+\noindent El bobinado está conformado por $150$ vueltas de alambre de cobre esmaltado de $2.5\:mm$ de diámetro enrollado alrededor de un carrete de plástico (figura \ref{fig:img_carrete}) que luego se ubica en la rama central de la pieza E.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{carrete.png}
+	\includegraphics[scale=0.4]{carrete.png}
 	\caption{Carrete de plástico para el bobinado}
 	\label{fig:img_carrete}
 \end{figure}
 
 
-\noindent Se utiliza un apilado de láminas cuyo exterior está recubierto por una pintura esmaltada para aislarlas entre sí con el fin de minimizar las pérdidas de energía causadas por las corrientes eléctricas que se generan en el núcleo debidas al flujo magnético.
-.
-\noindent Está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas E y I puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
+\noindent Se utiliza un apilado de láminas cuyo exterior está recubierto por una pintura esmaltada para aislarlas entre sí con el fin de minimizar las pérdidas de energía causadas por las corrientes eléctricas que se generan en el núcleo debidas al flujo magnético. 
+
+\noindent Está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas E e I puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
 \colorbox{red}{poner figura del electroimán real????}
 
+\noindent \colorbox{red}{para la foto} El electroimán en el que se basó el diseño del sistema se muestra en la figra
 %\noindent Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. En su núcleo tiene un bobinado de 150 vueltas (N) de cobre esmaltado con un diámetro de $2.5$ mm. El núcleo es de sección cuadrada ya que esto maximiza el área mientras que disminuye el perímetro, reduciendo así la longitud media de las espiras y ahorrando material. 
 
 \section{Modelado físico}
 
-
-\noindent Se puede modelar el sistema como un objeto de masa puntual que es sometido a dos fuerzas opuestas en el eje “Y” de la figura \ref{fig:img_modelado-fisico}: la de su propio peso hacia abajo, y una fuerza realizada por el electroimán en sentido contrario. \colorbox{red}{MARCAR Yo EN LA IMAGEN}
+\noindent Al analizar las fuerzas que actúan sobre la pieza I, de la cual se sujeta el objeto (figura x), se observan dos fuerzas opuestas en el eje vertical. Una es la fuerza magnética generada por el electroimán, y la otra es la generada por la acción de la gravedad sobre el objeto. 
+ 
+\noindent Se puede modelar el sistema como un objeto de masa puntual que es sometido a dos fuerzas opuestas en el eje vertical de la figura \ref{fig:img_modelado-fisico}: la de su propio peso hacia abajo, y una fuerza realizada por el electroimán en sentido contrario. \colorbox{red}{MARCAR Yo EN LA IMAGEN}
 
 %capaz poner otra imagen
 \begin{figure}[H]
@@ -43,17 +47,38 @@
 	\label{fig:img_modelado-fisico}
 \end{figure}
 
-\noindent La fuerza correspondiente al peso del objeto es $P=m*g$, donde $m$ es la masa en kg y $g$ es la aceleración de la gravedad en $\frac{m}{s^{2}}$. Para mantenerlo levitando en estado de equilibrio, el electroimán debe generar una fuerza de igual módulo y sentido contrario. Esto lo logra a partir de la circulación de un flujo magnético entre su núcleo y la pieza con forma de I. Entre estas dos piezas se conforma lo que se conoce como circuito magnético, en el que la energía fluye impulsada por una fuerza magnetomotriz.
+\noindent La fuerza correspondiente al peso del objeto es $P=m*g$, donde $m$ es la masa en kg y $g$ es la aceleración de la gravedad en $\frac{m}{s^{2}}$. Para que levite en estado de equilibrio, el electroimán debe generar una fuerza magnética ($F_{m}$) de igual módulo y sentido contrario.
 
-%hacer una intro de como se genera la fuerza magnética???
-\noindent La fuerza magnetomotriz generada en el núcleo del electroimán es proporcional a la corriente que circula por su bobinado, y su módulo está dado por la ecuación \ref{eq_fuerza-magnetomotriz}, que también la relaciona con la reluctancia del circuito magnético y la magnitud del flujo magnético.
+\noindent Para lograr generar esta fuerza, se hace circular una corriente eléctrica por el bobinado del electroimán y genera un flujo magnético entre las dos piezas que las atrae entre sí.
+
+\noindent De manera interna en el electroimán, la corriente genera una fuerza magnetomotriz que impulsa el flujo magnético a través de las piezas. Su módulo está dado por la ecuación \ref{eq_fuerza-magnetomotriz}.
+
+
+%\noindent Para que haya una fuerza que atraiga la pieza I hacia la E, se necesita que entre estas circule un flujo magnético. Este es generado a partir de una fuerza magnetomotriz ($F_{mm}$), cuyo módulo está dado por la ecuación \ref{eq_fuerza-magnetomotriz}.
+
+%\noindent Al haber una corriente circulando por el bobinado, se genera una fuerza magnetomotriz en el núcleo del electroimán, la que a su vez provoca la circulación de un flujo magnético entre las dos piezas. De esta manera se genera una fuerza magnética que las atrae.
+
+%La fuerza magnética e generada a partir del flujo magnético Para generar un flujo magnético se necesita una fuerza magnetomotriz.
+
+ %que es generada por la circulación de un flujo magnético entre las dos piezas. La fuerza magnetomotriz ($F_{mm}$) es la que hace posible el flujo de energía. Esta es generada por la corriente que circula en el bobinado. Su módulo está dado por la ecuación \ref{eq_fuerza-magnetomotriz}.
 
 \begin{equation} \label{eq_fuerza-magnetomotriz}
-	F_{mm}=N*i=R_{m}*\phi	
+	\abs{F_{mm}}=N*i=R_{m}*\phi	
 \end{equation}
 
+\noindent Donde: 
+\begin{itemize}
+	\item N: cantidad de vueltas del bobinado
+	\item i: corriente que circula por el bobinado
+	\item $R_{m}$: reluctancia del circuito magnético
+	\item $\phi$: flujo magnético
+\end{itemize}
+
+es igual al producto entre la corriente y la cantidad de vueltas de alambre que lo conforman. La ecuación , la relaciona con la reluctancia del circuito magnético ($R_{m}$) y con la magnitud del flujo magnético ($\phi$).
+
 %mejorar este parrafo
-\noindent $R_{m}$ corresponde a la reluctancia del circuito magnético, $\phi$ indica la magnitud del flujo, es decir, la cantidad de campo magnético que atraviesa una superficie y $F_{mm}$ es la fuerza magnetomotriz (que es distinta a la fuerza magnética $F_{m}$). La ley de Hopkinson relaciona estos parámetros con la corriente que circula por el bobinado ($i$) y la cantidad de vueltas de su núcleo ($N$).
+%\noindent Rm corresponde a la reluctancia del circuito magnético, phi indica la magnitud del flujo, es decir, la cantidad de campo magnético que atraviesa una superficie y $F_{mm}$ es la fuerza magnetomotriz (que es distinta a la fuerza magnética $F_{m}$). 
+\noindent Además, la ecuación \ref{eq_fuerza-magnetomotriz}  relaciona estos parámetros con la corriente que circula por el bobinado ($i$) y la cantidad de vueltas de su núcleo ($N$).
 
 
 \noindent Por otro lado, la inductancia del bobinado está dada por la ecuación \ref{eq_inductancia_flujo}
@@ -63,7 +88,7 @@
 \end{equation}
 
 
-\noindent El electroimán utilizado (figura \ref{fig:img_modelado-fisico}) está compuesto por una pieza en forma de E y otra en forma de I, que se encuentran separadas por un espacio o gap de aire. Este circuito magnético se puede modelar como a un toroide con un corte o separación  de longitud $lA=2*y_{o}$, como se muestra en la figura \ref{fig:img_toroide}
+\noindent El electroimán utilizado (figura \ref{fig:img_modelado-fisico}) está compuesto por una pieza en forma de E y otra en forma de I, que se encuentran separadas por un espacio o gap de aire. Este circuito magnético se puede modelar como a un toroide con un corte o separación  de longitud $l_{A}=2*y_{o}$, como se muestra en la figura \ref{fig:img_toroide}
 
 \begin{figure}[H]
 	\centering

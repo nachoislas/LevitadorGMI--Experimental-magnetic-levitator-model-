@@ -13,16 +13,15 @@
 
 \subsection{Análisis de estabilidad con masa de 30Kg}
 
-\noindent Para el análisis del compensador analogico se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 Kg, la del controlador de corriente $G_{iL}(s)$  y el lazo de realimentación H estim. A partir de ellas se obtiene  la transferencia a lazo abierto mostrado en la ecuación \ref{eq_GT2}.
+\noindent Para el análisis del compensador analogico se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 Kg, del controlador de corriente $G_{iL}(s)$  y del lazo de realimentación H estim. A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrado en la ecuación \ref{eq_GT2}.
 
 
-\begin{equation} \label{eq_GT1}
-	G_T(s)[30Kg]*H_{estim}=G_{p}(s)*
-	G_{iL}(s)*H_{estim} 
-\end{equation}
+\begin{equation*} \label{eq_GT1}
+	GH_T(s)=G_{p}(s)*G_{iL}(s)*H_{estim} 
+\end{equation*}
 
 \begin{equation} \label{eq_GT2}
-	G_T(s)[30Kg]*H_{estim}=\frac{0.38}{(1-(\frac{s}{70}))*(\frac{S}{12.17\ }+1)*(1+\frac{s}{1\ Krad/s})*{(1+\frac{s}{60\ Krad/s})}^2 }	
+		GH_T(s)=\frac{0.38}{(1-(\frac{s}{70}))(\frac{S}{12.17\ }+1)(1+\frac{s}{1\ Krad/s}){(1+\frac{s}{60\ Krad/s})}^2 }	
 \end{equation}
 
 \noindent A continuación se procede a analizar la respuesta en frecuencia de $GH_T$ y a diseñar un compensador adecuado. Luego, se verificará la estabilidad para una masa de 1 Kg, que corresponde a la mínima con la que trabaja el sistema.
@@ -88,7 +87,7 @@ En la figura \ref{fig:rlocus_m30kg} se puede observar el lugar de raíces de $GH
 
 \noindent Ecuaciones de dise\~{n}o:
 
-\begin{equation}
+\begin{equation*}
 	\begin{aligned}
 		W_0 &=200\ r/s\\
 		{\varphi }_{max} &=65\textrm{º}\\
@@ -96,7 +95,7 @@ En la figura \ref{fig:rlocus_m30kg} se puede observar el lugar de raíces de $GH
 		W_c &=\frac{W_0}{\sqrt{\alpha }}=\ 44.3\ r/s\\
 		W_p &=\sqrt{\alpha }*W_0=902.1\ r/s\\
 	\end{aligned}
-\end{equation} 
+\end{equation*} 
 \noindent Finalmente se llega a la transferencia del controlador:
 
 \begin{equation}  
@@ -108,8 +107,8 @@ En la figura \ref{fig:rlocus_m30kg} se puede observar el lugar de raíces de $GH
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Bode-k-1-M-30.png}
-	\caption{Diagrama de Bode de GHT*GC para K=1 y M=30 Kg.}
+	\includegraphics[scale=0.85]{Bode-k-1-M-30.png}
+	\caption{Diagrama de Bode de $GH_T*G_C$ para K=1 y M=30 kg.}
 	\label{fig:bode-analog-compensado-para-k-1}
 \end{figure}
 
@@ -117,14 +116,14 @@ En la figura \ref{fig:rlocus_m30kg} se puede observar el lugar de raíces de $GH
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Bode-k-10-M-30.png}
+	\includegraphics[scale=0.85]{Bode-k-10-M-30.png}
 	\caption{Diagrama de Bode de $GH_{T}*GC$ para K=10 y M=30 Kg.}
 	\label{fig:bode-analog-compensado-para-k-10}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Nyquist-k-10-M-30.png}
+	\includegraphics[scale=0.85]{Nyquist-k-10-M-30.png}
 	\caption{Diagrama de Nyquist de GHT*GC para K=10 y M=30 Kg.}
 	\label{fig:nyquist-analog-para-k-10}
 \end{figure}
@@ -133,7 +132,7 @@ En la figura \ref{fig:rlocus_m30kg} se puede observar el lugar de raíces de $GH
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Respuesta-al-escalon-K-10-M-30Kg.png}
+	\includegraphics[scale=0.85]{Respuesta-al-escalon-K-10-M-30Kg.png}
 	\caption{Respuesta al escalón para M=30 Kg.}
 	\label{fig:rta-escalon-k-10-m-30}
 \end{figure}
@@ -145,21 +144,21 @@ En la figura \ref{fig:rlocus_m30kg} se puede observar el lugar de raíces de $GH
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{bodecompensado1kg.png}
+	\includegraphics[scale=1]{bodecompensado1kg.png}
 	\caption{Diagrama de Bode de $GH_T*G_C$ para M=1 Kg.}
 	\label{fig:bode-analog-para-M-1Kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{nyquistcompensado1kg.png}
+	\includegraphics[scale=0.7]{nyquistcompensado1kg.png}
 	\caption{Diagrama de Nyquist de $GH_T*GC$ para M=1 Kg.}
 	\label{fig:nyquist-analog-para-M-1Kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.8]{rtaescaloncompensado1kg.png}
+	\includegraphics[scale=1]{rtaescaloncompensado1kg.png}
 	\caption{Respuesta al escalón para M=1 Kg.}
 	\label{fig:respuesta-analog-al-escalon-para-M-1Kg}
 \end{figure}
@@ -216,18 +215,20 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 
 \noindent Para este lazo de realimentación externo también debe utilizarse realimentación positiva, puesto que la TLC interna del sistema presenta una ganancia negativa.
 
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{rlocusconintegrador30kg.png}
+	\includegraphics[scale=0.4]{rlocusconintegrador30kg.png}
 	\caption{Lugar de raíces con el integrador.}
 	\label{fig:lugar-de-raices-con-integrador-analog}
 \end{figure}
+\noindent \colorbox{yellow}{Cambiar la imagen de arriba por una que se vea mejor}
 
 \noindent En la figura \ref{fig:lugar-de-raices-con-integrador-analog} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int\ }$) debe ser menor a 691. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int\ }=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente 3 segundos. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.8]{stepresponseintegradorkint_1_m_30.png}
+	\includegraphics[scale=0.85]{stepresponseintegradorkint_1_m_30.png}
 	\caption{Respuesta al escalón con integrador con $K_{int}$ =1 y M=30 Kg.}
 	\label{fig:respuesta-al-escalon-con-k-1-M-30-analog}
 \end{figure}
@@ -236,7 +237,7 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{stepresponseintegradorkint_50_m_30.png}
+	\includegraphics[scale=0.85]{stepresponseintegradorkint_50_m_30.png}
 	\caption{Respuesta al escalón con integrador para $K_{int}$ =50 y M = 30 Kg.}
 	\label{fig:respuesta-al-escalon-con-k-50-M-30}
 \end{figure}
@@ -245,7 +246,7 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{stepresponseintegradorkint_50_m_1.png}
+	\includegraphics[scale=0.85]{stepresponseintegradorkint_50_m_1.png}
 	\caption{Respuesta al escalón con integrador para $K_{int}$ =50 y M = 1 Kg.}
 	\label{fig:respuesta-al-escalon-con-k-50-M-1}
 \end{figure}

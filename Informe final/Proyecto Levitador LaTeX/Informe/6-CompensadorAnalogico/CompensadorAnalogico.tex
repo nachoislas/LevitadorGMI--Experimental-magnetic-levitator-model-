@@ -1,7 +1,7 @@
 \chapter{Compensador Analogico} \chapterlabel{Informe/6-CompensadorAnalogico} \label{cap:Compensador Analogico}
 
-\section{Diseño de lazo de realimentación Interno}
-
+\section{Lazo de realimentación Interno}
+\subsection{Diseño de la red de adelanto de fas}
 \noindent Se plantea una compensación como la que se muestra en la figura \ref{fig:diag-en-bloques-comp}. Está compuesta por un lazo de control interno con un controlador por adelanto de fase para lograr estabilizar el sistema, y un lazo de control externo con un integrador para eliminar el error en régimen permanente.
 
 \begin{figure}[H]
@@ -11,7 +11,7 @@
 	\label{fig:diag-en-bloques-comp}
 \end{figure}
 
-\subsection{Análisis de estabilidad con masa de 30Kg}
+\subsubsection{Análisis de estabilidad con masa de 30Kg}
 
 \noindent Para el análisis del compensador analógico se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 Kg, del controlador de corriente $G_{iL}(s)$  y del lazo de realimentación $H_{estim}$. A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrado en la ecuación \ref{eq_GT2}.
 
@@ -137,7 +137,7 @@ En la figura \ref{fig:rlocus_m30kg} se puede observar el lugar de raíces de $GH
 	\label{fig:rta-escalon-k-10-m-30}
 \end{figure}
 
-\subsection{Análisis de estabilidad con masa de 1 Kg}
+\subsubsection{Análisis de estabilidad con masa de 1 Kg}
 
 \noindent En esta secci\'{o}n se verifica la estabilidad del sistema  para el caso en que la masa sea de 1 Kg, utilizando el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-analog-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que efectivamente el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
 
@@ -163,7 +163,7 @@ En la figura \ref{fig:rlocus_m30kg} se puede observar el lugar de raíces de $GH
 	\label{fig:respuesta-analog-al-escalon-para-M-1Kg}
 \end{figure}
 
-\subsection{Diseño circuital de la red de adelanto de fase}
+\subsubsection{Implementación circuital de la red de adelanto de fase}
 
 \begin{figure}[H]
 	\centering
@@ -192,7 +192,8 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 	\label{fig:ganancia-compensador}
 \end{figure}
 
-\section{Diseño de lazo de realimentación externo}
+\section{Lazo de realimentación externo}
+\subsection{Diseño de Integrador}
 
 \noindent Se plantea un lazo de realimentaci\'{o}n externo como se muestra en la  figura \ref{fig:diag-en-bloques-comp}.
 
@@ -253,7 +254,7 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 
 
 
-\subsubsection{Implementación circuital del integrador}
+\subsection{Implementación circuital del integrador}
 
 \noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología y los valores utilizados en cada componente para el diseño del circuito integrador. 
 
@@ -305,7 +306,7 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 	\end{center}
 \end{table}
 
-\subsection{Implementación circuital del bloque de ganancia de entrada “F”}
+\subsection{Implementación circuital}
 
 \noindent Para poder modificar la distancia de separación se ingresa al sistema con una tensión variable, la cual corresponde a una posición de referencia. Para ello se utiliza el circuito mostrado en la figura \ref{fig:etapa-de-entrada}.
 

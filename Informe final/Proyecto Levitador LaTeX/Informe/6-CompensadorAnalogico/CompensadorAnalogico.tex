@@ -1,6 +1,6 @@
 \chapter{Compensador Analogico} \chapterlabel{Informe/6-CompensadorAnalogico} \label{cap:Compensador Analogico}
 
-\section{Compensador Analogico}
+\section{Diseño de lazo de realimentación Interno}
 
 \noindent Se plantea una compensación como la que se muestra en la figura \ref{fig:diag-en-bloques-comp}. Está compuesta por un lazo de control interno con un controlador por adelanto de fase para lograr estabilizar el sistema, y un lazo de control externo con un integrador para eliminar el error en régimen permanente.
 
@@ -13,7 +13,7 @@
 
 \subsection{Análisis de estabilidad con masa de 30Kg}
 
-\noindent Para el análisis del compensador analogico se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 Kg, del controlador de corriente $G_{iL}(s)$  y del lazo de realimentación H estim. A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrado en la ecuación \ref{eq_GT2}.
+\noindent Para el análisis del compensador analógico se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 Kg, del controlador de corriente $G_{iL}(s)$  y del lazo de realimentación $H_{estim}$. A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrado en la ecuación \ref{eq_GT2}.
 
 
 \begin{equation*} \label{eq_GT1}
@@ -263,8 +263,8 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 	\caption{Implementación circuital del integrador.}
 	\label{fig:circuito-integrador}
 	\end{figure}
-
-\subsubsection{Cálculo de ganancia de entrada}
+\section{Etapa de entrada}
+\subsection{Cálculo de ganancia de entrada}
 
 \noindent Tomando la TLC' que corresponde a la ganancia total de los bloques con el integrador ya incorporado, la ganancia resulta:
 
@@ -305,7 +305,7 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 	\end{center}
 \end{table}
 
-\subsubsection{Implementación circuital del bloque de ganancia de entrada “F”}
+\subsection{Implementación circuital del bloque de ganancia de entrada “F”}
 
 \noindent Para poder modificar la distancia de separación se ingresa al sistema con una tensión variable, la cual corresponde a una posición de referencia. Para ello se utiliza el circuito mostrado en la figura \ref{fig:etapa-de-entrada}.
 

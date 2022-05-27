@@ -67,12 +67,12 @@
 
 \subsubsection{Simulaciones de formas de onda}
 
-\noindent En la figura \ref{fig:img_formas-de-onda-corriente} se pueden observar dos formas de onda. La inferior  se corresponde con la salida del comparador con histéresis y la superior con la corriente en el electroimán. Para la simulación se utilizó una tensión de referencia de entrada de 1 V, por lo tanto el valor medio de la corriente en la salida es 6 A con un ripple de 500 mA.
+\noindent En la figura \ref{fig:img_formas-de-onda-corriente} se pueden observar dos formas de onda. La inferior  corresponde a la tensión de salida del comparador con histéresis y la superior a la corriente en el electroimán. Para la simulación se utilizó una tensión de referencia de entrada de 1 V, por lo tanto el valor medio de la corriente en la salida es 6 A con un ripple de 500 mA.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Formas-de-onda-corriente.png}
-	\caption{Formas de onda de corriente en el electroimán y salida del comparador.}
+	\caption{Formas de onda de corriente en el electroimán y tensión de salida del comparador.}
 	\label{fig:img_formas-de-onda-corriente}
 \end{figure}
 
@@ -92,9 +92,9 @@
 
 \subsubsection{Descripción general de la topología}
 
-\noindent La corriente que se desea controlar es la que circula por el electroimán y, debido a que el sistema va a trabajar con corrientes elevadas, es importante que la implementación del controlador de corriente sea eficiente. Por lo tanto, para disminuir la disipación de potencia del circuito se utiliza un controlador que funciona en conmutación. 
+\noindent Se desea controlar la corriente que circula por el electroimán y, debido a que el sistema va a trabajar con corrientes elevadas, es importante que la implementación del controlador de corriente sea eficiente. Por lo tanto, para disminuir la disipación de potencia del circuito se utiliza un controlador que funciona en conmutación. 
 
-\noindent Para lograr una corriente contínua en el electroimán utilizando una fuente conmutada se debe alternar la polaridad de la tensión aplicada en los bornes del inductor. Al hacer esto, la corriente crece y decrece (según la polaridad) con forma exponencial debido a la resistencia interna del electroimán. Sin embargo, como el intervalo de tiempo de esta conmutación es pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado a una recta. Por lo tanto se obtiene una corriente contínua con un ripple superpuesto de forma triangular. 
+\noindent Para lograr una corriente contínua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en los bornes del inductor. De esta forma, la corriente crece y decrece (según la polaridad) con forma exponencial debido a la resistencia interna del electroimán. Sin embargo, como el intervalo de tiempo de esta conmutación es pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado a una recta. Por lo tanto se obtiene una corriente contínua con un ripple superpuesto de forma triangular. 
 
 \noindent Para lograr alternar la polaridad de la fuente sobre el inductor se utiliza una topología en puente H con 4 MOSFET que funcionan con un ciclo de trabajo determinado (manejado por el controlador por histéresis) como se observa en la figura \ref{fig:img_topologia-puenteH}. Pueden diferenciarse dos semiciclos de trabajo: uno de estado ON y otro de estado OFF. El primero se define como el semiciclo durante el cual la corriente en el inductor crece (pendiente positiva), mientras que el segundo se da cuando la corriente decrece.
 
@@ -134,7 +134,7 @@
 
 \subsubsection{Dimensionamiento de capacitor de bootstrap}
 
-\noindent Para el dimensionamiento se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
+\noindent Para el dimensionamiento de los capacitores de bootstrap se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
 
 \noindent Para encender un NMOS es necesario proveer corriente a su gate hasta cargar las capacidades parásitas entre gate-source y gate-drain. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el gate. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de bootstrap. 
 

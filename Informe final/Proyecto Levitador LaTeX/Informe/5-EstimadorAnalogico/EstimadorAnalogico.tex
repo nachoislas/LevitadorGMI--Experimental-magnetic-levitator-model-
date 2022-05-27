@@ -463,13 +463,23 @@ Cuando D5 est\'{a} activo, $V^-=2.5\ V$ y cuando lo est\'{a} D6, $V^+\ $= 2.5 V
 \noindent Por otro lado, al considerar el polo aportado por la etapa de restado y filtrado situado en 10 Krad/s y considerar la inversi\'{o}n de signo que genera el rectificador, se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_2}
+	\resizebox{.8\hsize}{!}
+	{
+	$
 	{Tlc}_{estimador}=\frac{V_{estim}}{Vil}=\frac{0.025*s}{(1+\frac{s}{1\ Krad/s})*[1+(\frac{2*0.473}{94,5\ Krad/s})*s+(\frac{s}{94,5\ Krad/s})^2]}
+	$
+	}
 \end{equation}
 
 \noindent Para poder obtener la transferencia del diagrama en bloques: Vestim/Y:
 
 \begin{equation} \label{eq_TLC_deriv_3}
+	\resizebox{.8\hsize}{!}
+	{
+	$
 	{Tlc'}=\frac{V_{estim}}{s*Vil}=\frac{V_{estim}}{kh*s*I_L}=\frac{0.025}{(1+\frac{s}{1\ Krad/s})*[1+(\frac{2*0.473}{94,5\ Krad/s})*s+(\frac{s}{94,5\ Krad/s})^2]}
+	$
+	}
 \end{equation}
 
 \noindent Como $s*I_L\equiv \frac{dI}{dt}$, se puede usar la expresi\'{o}n linealizada:
@@ -489,7 +499,12 @@ Cuando D5 est\'{a} activo, $V^-=2.5\ V$ y cuando lo est\'{a} D6, $V^+\ $= 2.5 V
 \noindent Considerando la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\ KHz\ \simeq 60\ Krad/s$ se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_6}
+	\resizebox{.8\hsize}{!}
+	{
+		$
 	{Tlc'}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\ Krad/s})*{[(1+\frac{s}{60\ Krad/s})]}^2*[1+(\frac{2*0.473}{94,5\ Krad/s})*s+(\frac{s}{94,5\ Krad/s})^2]}
+	$
+	}
 \end{equation}
 
 \noindent Finalmente, despreciando los polos en alta frecuencia, la transferencia queda:

@@ -347,9 +347,7 @@
 
 \begin{equation} 
 	\begin{aligned}
-	G_T(s)[30Kg]&=G_P(s)*G_{iL}(s)\\
-	G_T(s)[30Kg]&=\frac{245*{10}^{-6}}{{1-(\frac{s}{70})}^2}*\frac{6}{\frac{S}{12.17\ }+1\ }\\
-	G_T(s)[30Kg]&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
+	G_T(s)[30Kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
 	\end{aligned}
 \end{equation}
 
@@ -376,20 +374,23 @@
 
 \subsection{Análisis de estabilidad con masa de 30 Kg}
 
-\noindent Considerando que la ganancia de avance est\'{a} formada por la planta y el controlador de corriente y que el lazo de realimentaci\'{o}n es unitario, se procede a analizar la respuesta en frecuencia de ${GH}_T$ para una masa de 30 Kg y a dise\~{n}ar un compensador adecuado. Luego, se verifica la estabilidad para una masa de 1 Kg, que corresponde a la m\'{i}nima con la que trabaja el sistema.
+\noindent Para el análisis del compensador digital se parte de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de 30Kg y de la del lazo de realimentación $H(w)$. A partir de ellas se obtiene la transferencia a lazo abierto total $G_{T}(w)*H(w)(s)$ mostrado en la ecuación \ref{eq:GtHW}.
  
-\begin{equation} \label{eq_TLC-lazo-abierto} 
+\begin{equation}
+	\label{eq:GtHW}  
 	G_T(w)*H(w)=\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)} 
 \end{equation} 
 
 
-\noindent Con la transferencia de la ecuación \ref{eq_TLC-lazo-abierto} se  grafica el diagrama de Bode y el diagrama de Nyquist que se muestran en las figuras \ref{fig:bode-lazo-abierto-digital} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
+\noindent A continuación se procede a analizar la respuesta en frecuencia de $GH_{T}(w)$ y a diseñar un compensador adecuado. Luego, al igual que para el compensador analógico, se verificará la estabilidad para la mínima masa  con la  que trabaja el sistema.
+
+\noindent A partir de la transferencia de la ecuación  \ref{eq:GtHW} se  grafica el lugar de raíces y el diagrama de Nyquist que se muestran en las Figuras \ref{fig:lugar-de-raices} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{Bode-lazo-abierto-digital.png}
+	\includegraphics[scale=0.6]{Lugar_de_raices.png}
 	\caption{Diagrama de Bode de lazo abierto GHT con M=30 Kg.}
-	\label{fig:bode-lazo-abierto-digital}
+	\label{fig:lugar-de-raices}
 \end{figure}
 
 \begin{figure}[H]
@@ -399,35 +400,16 @@
 	\label{fig:nyquist-lazo-abierto-digital}
 \end{figure}
 
-\noindent Considerando que ${GH}_T$ tiene un polo en el semiplano derecho, a partir del Nyquist se puede determinar:
+\noindent Dado que ${GH}_{T}(w)$ tiene un polo en el semiplano derecho, a partir del Nyquist se puede determinar:
 
 \noindent Zona 1: Z=N+P=0+1=1 $\mathrm{\to}$ Inestable 
 
 \noindent Zona 2: Z=N+P=1+1=2 $\mathrm{\to}$ Inestable
 
-\noindent De esta forma, no es posible que el sistema sea estable. Para lograrlo se realimentar\'{a} positivamente y se generar\'{a} una zona en el diagrama de Nyquist donde N=-1. Para ello es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist deber\'{i}a tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-digital}.
+\noindent Dada la similitud de la planta en [w] con la planta del compensador analógico, se decide utilizar la misma estrategia de compensación con la misma ubicación de polos y ceros del compensador.	
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.7]{Nyquist-deseado-digital.png}
-	\caption{Forma del diagrama de Nyquist deseado.}
-	\label{fig:nyquist-deseado-digital}
-\end{figure}
-
-\noindent Para poder lograr el aumento de fase mencionado se utiliza una red de adelanto de fase. Se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a 0 dB y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:bode-lazo-abierto-digital} se decide adelantar la fase 100º en aproximadamente 200 rad/s. Esto se logra usando dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
-
-\noindent Ecuaciones de dise\~{n}o:
-
-\begin{equation}
-	\begin{aligned}
-		W_0 &=200\ r/s\\
-		{\varphi }_{max} &=65\textrm{º}\\
-		\alpha &=\frac{1+sen{\varphi }_{max}}{1-sen{\varphi }_{max}}=20.346491\\
-		W_c &=\frac{W_0}{\sqrt{\alpha }}=\ 44.3\ r/s\\
-		W_p &=\sqrt{\alpha }*W_0=902.1\ r/s\\
-	\end{aligned}
-\end{equation} 
 \noindent Finalmente se llega a la transferencia del controlador:
+
 
  \begin{equation}  
  	G_c(s)=K*{[20.346*\frac{(s+44.3)}{(s+902.1)}]}^2

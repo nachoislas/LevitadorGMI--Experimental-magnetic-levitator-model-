@@ -17,7 +17,7 @@
 
 \section{Contexto del proyecto}
 
-\noindent El proyecto comenzó en junio del 2020. Inicialmente tenía como objetivo el diseño y la construcción de un prototipo funcional que permitiera a los alumnos de la asignatura de Sistemas de Control realizar mediciones y observar el comportamiento de las distintas etapas que componen el sistema. Sin embargo, debido a los retrasos ocasionados por la pandemia (COVID-19), los costos asociados a los componentes y a la fabricación de la placa de control, sumado a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al diseño teórico de todas las etapas y del circuito impreso.
+\noindent El proyecto comenzó en junio del 2020. Inicialmente tenía como objetivo el diseño y la construcción de un prototipo funcional que permitiera a los alumnos de la asignatura de Sistemas de Control realizar mediciones y observar el comportamiento de las distintas etapas que componen el sistema. Sin embargo, debido a los retrasos ocasionados por la pandemia (COVID-19), los costos asociados a la fabricación de la placa de control y sus componentes, sumado a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al diseño teórico de todas las etapas y del circuito impreso.
 
 \noindent Se espera que en el futuro se pueda construir el sistema de levitación magnética para que sirva como herramienta para los alumnos, de forma tal que les permita experimentar y afianzar los conceptos teóricos adquiridos durante el transcurso de la cursada.
 
@@ -25,7 +25,7 @@
 
 \section{Descripción del dispositivo}
 
-\noindent El producto está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central. y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación o “gap” de aire deseado entre ellas mientras el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. El sistema completo se muestra en la figura \ref{fig:img_Esquema-del-producto}.
+\noindent El producto está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central. y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación ($Y_0$) o “gap” de aire deseado entre ellas mientras el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. El sistema completo se muestra en la figura \ref{fig:img_Esquema-del-producto}.
 
 \begin{figure}[H]
 	\centering
@@ -33,15 +33,14 @@
 	\caption{Esquema del producto.}
 	\label{fig:img_Esquema-del-producto}
 \end{figure}
-\colorbox{red}{agregar fuerzas en la imgen}
-\noindent La fuerza electromagnética es regulada por la placa de control con el objetivo de mantener fija la distancia $Y_{o}$, a pesar de las perturbaciones externas que el sistema pueda recibir. 
+
+\noindent La fuerza electromagnética es regulada por la placa de control con el objetivo de mantener fija la distancia $Y_{o}$, a pesar de las perturbaciones externas \colorbox{yellow}{(e internas? podríamos mencionar la naturaleza inestable?)}que el sistema pueda recibir. 
 
 
 \noindent El sistema solo ejerce control de posición en el eje vertical, por lo tanto no puede responder ante perturbaciones horizontales sobre el objeto.
 
 
-\noindent El sistema está conformado por los bloques que se muestran en la Figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decidirá cual de estas implementaciones ejercerá el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
-\colorbox{yellow}{Ponerle un signo menos al restador de la figura 1.2}
+\noindent El sistema está conformado por los bloques que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decidirá cual de estas implementaciones ejercerá el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
 
 \begin{figure}[H]
 	\centering
@@ -50,7 +49,7 @@
 	\label{fig:img_diagrama-en-bloques-del-sistema}
 \end{figure}
 
-\noindent El estimador de posición se encarga de entregar una tensión proporcional al gap de aire real en función de la corriente que circula por el electroimán. El usuario puede modificar el gap de aire que desea mediante un potenciómetro presente en la placa de control. Tanto la implementación analógica como la digital reciben como entrada esta tensión. Luego, es comparada con la estimación y se utiliza como entrada para el compensador.
+\noindent El estimador de posición se encarga de entregar una tensión proporcional al gap de aire real a partir de la corriente que circula por el electroimán. El usuario puede modificar el gap de aire según desee mediante un potenciómetro presente en la placa de control. Tanto la implementación analógica como la digital reciben como entrada esta tensión. Luego, es comparada con la estimación y se utiliza como entrada para el compensador.
 
 \noindent La función del compensador es garantizar la estabilidad del sistema. Esto lo logra al modificar la referencia del controlador de corriente mediante una acción de control. 
 

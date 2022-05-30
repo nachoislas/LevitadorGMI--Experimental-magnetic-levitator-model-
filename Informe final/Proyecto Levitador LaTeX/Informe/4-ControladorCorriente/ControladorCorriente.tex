@@ -193,20 +193,15 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \colorbox{yellow}{Ver redacción de lo de las frecuencias de arriba}
 
-\noindent Al reemplazar los valores obtenidos en \ref{eq_cap-bootstrap}, se obtiene: \colorbox{yellow}{alinear}
+\noindent Al reemplazar los valores obtenidos en \ref{eq_cap-bootstrap}, se obtiene:
 
 \begin{equation*} 
-C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
+	\begin{aligned}
+		C_{BS} &> \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}\\	
+		 C_{BS} &> \frac{170 \:nC + 0.625\:nC + \frac{2 \:mA + 2.55 \:mA}{50 \:kHz}}{0.1 \:V}\\
+		 C_{BS} &> 2.61 \:\mu F\\	
+	\end{aligned}
 \end{equation*}
-
-\begin{equation*} 
-	C_{BS} > \frac{170 nC + 0.625nC + \frac{2 mA + 2.55 mA}{50 KHz}}{0.1 V}
-\end{equation*}
-
-\begin{equation*} 
-	C_{BS} > 2.61 \mu F
-\end{equation*}
-
 
 
 \noindent Por lo tanto, una capacidad mayor a $2.61 \:\mu F$ resultará en una caída menor a 0.1 V en el capacitor de bootstrap durante el tiempo de encendido de los MOSFET. Podría usarse un capacitor más pequeño, a costa de permitir una mayor caída de tensión en el capacitor. 
@@ -222,26 +217,26 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
 
 \subsubsubsection{Protección del gate}
 
-\noindent El gate de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm$20V. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión, pudiendo dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo en estos casos se coloca un diodo TVS entre el gate y source, de manera de limitar la tensión que se desarrolla en el gate a un valor seguro.
+\noindent El gate de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión, pudiendo dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el gate y source de cada transistor, de manera de limitar la tensión que se desarrolla en el gate a un valor seguro.
 
-\noindent Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm$15V. y se colocan entre el gate y source de cada transistor.
+\noindent Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.\colorbox{yellow}{ ..ponemos datasheet?}
 
 \subsubsubsection{Tiempo muerto}
 
 \noindent Para evitar generar un cortocircuito durante la conmutación de los transistores, el driver HIP4081A permite configurar un tiempo muerto que debe transcurrir desde que se apaga un transistor y se enciende el próximo. Esto se configura mediante dos resistencias conectadas a los pines LDEL y HDEL del HIP4081A.
 
-\noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un mosfet IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es 63 ns. Este valor se obtiene de tener en cuenta el $T_{OFF}$ y el $T_{FALL}$ de la hoja de datos . Por lo tanto se elige que el deadtime sea de 100 ns, para tener un margen, además de que esta aplicación específica no requiere un tiempo de encendido rápido de los mosfets.
+\noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un mosfet IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es 63 ns. Este valor se obtiene de tener en cuenta el $T_{OFF}$ y el $T_{FALL}$ de la hoja de datos . Por lo tanto, para tener un margen, se elige que el deadtime sea de 100 ns. \colorbox{yellow}{De todas formas, } esta aplicación específica no requiere un tiempo de encendido rápido de los mosfets.
 
 \noindent Según la hoja de datos del HIP4081A, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser 200 K$\Omega$.
 
 \subsubsection{Dimensionamiento de los capacitores de fuente}
 	
-\noindent Para reducir el consumo de potencia de la red se utilizan capacitores en paralelo a la fuente de +24V. Esto permite que, una vez que la fuente cargó inicialmente el inductor, en las conmutaciones sucesivas la carga del inductor pase a dichos capacitores en un semiciclo y viceversa en el otro ciclo de conmutación. Idealmente, esta transferencia de energía no tiene pérdidas. Por lo tanto, el consumo de potencia queda reducido a la perdida por disipación de los MOSFET y los demás componentes del controlador de corriente. 
+\noindent Para reducir el consumo de potencia de la red se utilizan capacitores en paralelo a la fuente de $+24\:V$. Esto permite que, una vez que la fuente cargó inicialmente el inductor, en las conmutaciones sucesivas la carga del inductor pase a dichos capacitores en un semiciclo y viceversa en el otro ciclo de conmutación. Idealmente, esta transferencia de energía no tiene pérdidas. Por lo tanto, el consumo de potencia queda reducido a la perdida por disipación de los MOSFET y los demás componentes del controlador de corriente. 
 
-\noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disipan mucha potencia en forma de calor y se acorta su vida útil. Además generan ripple en la tensión $V_{BUS}$.
+\noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan ripple en la tensión $V_{BUS}$. \colorbox{yellow}{..simulacion? mediciones?}
 
-\noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por C1 y C2. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores y hacia el electroimán por Q1 y Q4. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de Q2 y Q3. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurrirá en el semiciclo apagado, pero con valor medio $-I_L$.  Por lo tanto,  la corriente tendrá la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
-
+\noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por C1 y C2. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores y hacia el electroimán por Q1 y Q4. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de Q2 y Q3. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-I_L$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
+\colorbox{yellow}{No estaría mal la imagen? creo que la parte de abajo es al revés}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{Corriente-capacitores.png}
@@ -249,7 +244,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
 	\label{fig:img_ccorriente-capacitores}
 \end{figure}
 
-\noindent Sabiendo que por el electroimán circulará una corriente media de 21 A en condiciones normales de trabajo, la carga del capacitor se puede calcular como:
+\noindent Por el electroimán circula una corriente media de 21 A en condiciones normales de trabajo. Por lo tanto, la carga del capacitor se puede calcular como:
 
 \begin{equation} 
 	\begin{aligned}
@@ -259,20 +254,20 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
 	\end{aligned}
 \end{equation}
 
-\noindent Considerando  $\Delta I_L=500 mA$ y $T=0.47ms$ que corresponde a $Y = 2 mm$ según la tabla \ref{tab_mediciones}
+\noindent Con $\Delta I_L=500 \:mA$ y $T=0.47\:ms$ que corresponde a $Y = 2 \:mm$ según la tabla \ref{tab_mediciones}
 
 \begin{equation} 
-\Delta Q = 21A * \frac{0.47ms}{2} \approx 5mC
+\Delta Q = 21\:A * \frac{0.47\:ms}{2} \approx 5\:mC
 \end{equation}
 
-\noindent Al considerar que un ripple de V=500 mV es aceptable, se obtiene un valor de:
+\noindent Al considerar que un ripple de $\Delta V=500 \:mV$ es aceptable, se obtiene un valor de:
 
 \begin{equation} 
-	c = \frac{\Delta Q}{\Delta V} = 10 mF
+	c = \frac{\Delta Q}{\Delta V} = 10 \:mF
 \end{equation}
 
 \noindent Para obtener este valor de capacidad utilizamos varios capacitores en paralelo para disminuir la ESR, como se muestra en la figura \ref{fig:img_capacitores-fuente}. Esto es porque por los capacitores circula una corriente de hasta 21.25 A. Por lo tanto, al colocarlos en paralelo se reduce la corriente que circula (en partes iguales), por cada capacitor:
-
+\colorbox{yellow}{Tratar de redactar mejor}
 
 \begin{figure}[H]
 	\centering

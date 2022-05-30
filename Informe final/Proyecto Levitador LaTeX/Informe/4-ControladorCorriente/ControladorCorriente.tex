@@ -24,14 +24,14 @@
     \item Para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP, con una transconductancia de H(s) = 53.3 mV/A.
     \item Para la ganancia de entrada $K_{in}$ se utiliza un valor de 0.32 puesto que $V_{in}$ varía entre 0 V y 5 V y debe mapearse con una corriente variable entre 0 A y 30 A.
     \item Se adopta una variación de la corriente en torno a su valor medio (ripple) de 500 mA, por lo que resulta en un ancho de histéresis de 26.665 mV.
-    \item Según mediciones realizadas sobre el electroimán, la inductancia en el punto de equilibrio y0=4mm es de 16.44 mHy (considerando la inductancia de dispersión de 8.89 mHy) y la resistencia serie es de 0.2 $\Omega$.
+    \item Según mediciones realizadas sobre el electroimán, la inductancia en el punto de equilibrio $Y_0=\:4mm$ es de 16.44 mHy (considerando la inductancia de dispersión de 8.89 mHy) y la resistencia serie es de 0.2 $\Omega$.
     \item La tensión aplicada sobre el electroimán es +24 V para el estado ON y -24 V para el estado OFF.
     \item Se utiliza un driver de corriente que trabaja en conmutación mediante un puente H con 4 N-MOS. 
 \end{itemize}
 
 \subsection{Circuito del controlador de corriente}
 
-\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la realimentación. El objetivo es imponer una ganancia de entrada de 0.32, y que la salida de esta etapa tenga un punto de operación de 2.5V para poder utilizar una fuente de alimentación entre 0 y 5 V para los operacionales. Para lograr esto se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
+\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la realimentación. El objetivo es imponer una ganancia de entrada de 0.32, y que la salida de esta etapa tenga un punto de operación de $2.5\:V$ para poder utilizar una fuente de alimentación entre $0\:V$ y $5\:V$ para los operacionales. Para lograr esto se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
 
 \begin{figure}[H]
 	\centering
@@ -67,7 +67,7 @@
 
 \subsubsection{Simulaciones de formas de onda}
 
-\noindent En la figura \ref{fig:img_formas-de-onda-corriente} se pueden observar dos formas de onda. La inferior  corresponde a la tensión de salida del comparador con histéresis y la superior a la corriente en el electroimán. Para la simulación se utilizó una tensión de referencia de entrada de 1 V, por lo tanto el valor medio de la corriente en la salida es 6 A con un ripple de 500 mA.
+\noindent En la figura \ref{fig:img_formas-de-onda-corriente} se pueden observar dos formas de onda. La inferior  corresponde a la tensión de salida del comparador con histéresis y la superior a la corriente que circula por el electroimán. Para la simulación se utilizó una tensión de referencia de entrada de 1 V, por lo que el valor medio de la corriente en la salida es 6 A con un ripple de 500 mA.
 
 \begin{figure}[H]
 	\centering
@@ -108,11 +108,11 @@
 \noindent El electroimán se conecta entre los puntos medios de cada par de transistores. De esta manera se puede conmutar la polaridad de la tensión que se le aplica. Sólo se permite que dos transistores se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, Q1 y Q4 pueden estar encendidos, mientras que Q3 y Q2 están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada shoot-through. 
 
 
-\noindent Los 4 MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre gate y source sea mayor o igual a 7 V. Esto no es un problema para los dos MOS inferiores del puente H (Q2 y Q4), ya que la tensión en source está fijada en GND y el driver puede aplicar 12 V al gate (superando los 7 V entre gate y source). El problema radica en los transistores superiores del puente H, ya que la tensión en source varía entre 0 V y 24 V, por lo que en el gate debería haber, por lo menos, 31 V con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de 24 V. Para resolver este problema se utiliza un driver flotante con bootstrap.
+\noindent Los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre gate y source sea mayor o igual a 7 V. Esto no es un problema para los dos MOS inferiores del puente H (Q2 y Q4), ya que la tensión en source está fijada en GND y el driver puede aplicar 12 V al gate (superando los 7 V entre gate y source). El problema radica en los transistores superiores del puente H, ya que la tensión en source varía entre 0 V y 24 V, por lo que en el gate debería haber, por lo menos, 31 V con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de 24 V. Para resolver este problema se utiliza un driver flotante con bootstrap.
 
-\noindent Para controlar la conmutación se utiliza un mosfet driver HIP4081A que se encarga de encender y apagar los transistores según las entradas de control. Además permite la configuración de un tiempo muerto para evitar que se enciendan dos transistores de un lado a la vez. También provee la circuitería necesaria para implementar la fuente flotante que enciende los mosfet del lado superior para lo cual solo se debe agregar un diodo y un capacitor de manera externa. Para la implementación circuital se van a utilizar los MOSFET IPB160N04.
+\noindent Para controlar la conmutación se utiliza un mosfet driver HIP4081A \colorbox{yellow}{datasheet o algo?} que se encarga de encender y apagar los transistores según las entradas de control. Además permite la configuración de un tiempo muerto para evitar que se enciendan dos transistores de un lado a la vez. También provee la circuitería necesaria para implementar la fuente flotante que enciende los mosfet del lado superior para lo cual solo se debe agregar un diodo y un capacitor de manera externa. Para la implementación circuital se van a utilizar los MOSFET IPB160N04.\colorbox{yellow}{datasheet o algo?}
 
-\noindent En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el driver HIP4081A. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del driver bootstrap permite obtener en el gate del MOS superior, una tensión de 36 V respecto a GND, logrando así una diferencia de tensión mayor a 7 V entre gate y source. 
+\noindent En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el driver HIP4081A\colorbox{yellow}{aclaramos tomadas del datasheet?}. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del driver bootstrap permite obtener en el gate del MOS superior, una tensión de 36 V respecto a GND, logrando así una diferencia de tensión mayor a 7 V entre gate y source. 
 
 \begin{figure}[H]
 	\centering
@@ -121,7 +121,7 @@
 	\label{fig:img_bootstrap}
 \end{figure}
 
-\noindent El driver bootstrap consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del bootstrap, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender Q2 y Q4 durante un tiempo que se conoce como periodo de refresco de bootstrap. De esta forma, los capacitores de bootstrap de ambos lados quedan conectados a GND y se pueden cargar completamente. Durante este tiempo, las salidas a los gates AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de shoot-through durante el período nominal de refresco del bootstrap. Al final de este período las salidas responden normalmente al estado de las señales de entrada de control.
+\noindent El driver bootstrap consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del bootstrap, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender Q2 y Q4 durante un tiempo que se conoce como periodo de refresco de bootstrap. De esta forma, los capacitores de bootstrap de ambos lados quedan conectados a GND \colorbox{yellow}{(o entre GND y 12V..?)} y se pueden cargar completamente. Durante este tiempo, las salidas a los gates AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de shoot-through durante el período nominal de refresco del bootstrap. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
 
 \noindent Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte suponiendo que el sistema se encuentra funcionando: con el transistor Q2 encendido (ALO = $V_{CC}$), Q1 apagado (AHO = AHS = 0 V) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a 12 V, ya que en un terminal tiene la fuente de 12 V (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de Q2.
 
@@ -135,10 +135,11 @@
 \subsubsection{Dimensionamiento de capacitor de bootstrap}
 
 \noindent Para el dimensionamiento de los capacitores de bootstrap se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
+\colorbox{yellow}{Chequear si esto es cierto}	
 
 \noindent Para encender un NMOS es necesario proveer corriente a su gate hasta cargar las capacidades parásitas entre gate-source y gate-drain. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el gate. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de bootstrap. 
 
-\noindent En la implementación del puente H se decidió colocar resistencias entre gate y source. Estas aparecen como R1, R2, R3 y R4 en la figura \ref{fig:img_capacitores-puenteH}. Debido a la diferencia de tensión entre gate-source, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el  bootstrap.
+\noindent En la implementación del puente H se decidió colocar resistencias entre gate y source, que aparecen como R1, R2, R3 y R4 en la figura \ref{fig:img_capacitores-puenteH}, \colorbox{yellow}{cuyo propósito se explica en la sección [3.1.2.4.1]}. Debido a la diferencia de tensión entre gate-source, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el  bootstrap.
 
 \begin{figure}[H]
 	\centering
@@ -149,18 +150,18 @@
 
 \noindent Por otro lado, el capacitor debe entregar corriente al diodo de bootstrap cuando este queda en inversa ($I_{DR}$ ), y también entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$ ). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
 
-\noindent Por lo tanto, para poder dimensionar correctamente el capacitor de bootstrap es necesario tener en cuenta todos estos efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena el capacitor bootstrap:
+\noindent Por lo tanto, para poder dimensionar correctamente el capacitor de bootstrap es necesario tener en cuenta todos los efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena el capacitor bootstrap:
 
 \begin{equation} \label{eq_carga-cap-bootstrap}
-Q_B=C_B*V_B
+Q_{BS}=C_{BS}*\Delta V_{BS}
 \end{equation}
 
-\noindent En la ecuación \ref{eq_carga-cap-bootstrap}, $Q_B$ es la carga total del capacitor de bootstrap, $C_B$ su capacidad, y $V_B$ es la diferencia de  tensión entre sus terminales. 
+\noindent En la ecuación \ref{eq_carga-cap-bootstrap}, $Q_{BS}$ es la carga total del capacitor de bootstrap, $C_{BS}$ su capacidad, y $\Delta V_{BS}$ es la diferencia de  tensión entre sus terminales. 
 
-\noindent Para evitar sufrir una caída de tensión tal que afecte el encendido de los MOS, es necesario que $Q_B$ pueda abastecer también al gate, a la resistencia entre gate-source y al diodo en inversa. Por lo tanto:
+\noindent Para evitar sufrir una caída de tensión tal que afecte el encendido de los MOS, es necesario que $Q_{BS}$ pueda abastecer también al gate, al diodo en inversa y a la resistencia entre gate-source. Por lo tanto:
 
 \begin{equation} \label{eq_carga-cap-bootstrap2}
-Q_B > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
+Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
 \end{equation}
 
 \noindent Donde:
@@ -177,32 +178,40 @@ Q_B > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
 
 
 \begin{equation} \label{eq_cap-bootstrap}
-C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
+C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \end{equation}
 
-\noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, $Q_G$= 170 nC. Por lo tanto, adoptando una caída de tensión tolerable en el capacitor de $\Delta V_B$ = 0.1 V y considerando la información brindada por las hojas de datos, es posible dimensionar el capacitor para que este posea una carga suficiente para mantener siempre encendido al MOSFET utilizando la inecuación \ref{eq_cap-bootstrap} .
+\noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, $Q_G$= 170 nC. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS}$ = 0.1 V y con la información brindada por las hojas de datos, es posible dimensionar el capacitor para que este posea carga suficiente para mantener siempre encendido al MOSFET.
 
 \noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR, se obtiene a partir de \cite{RSX205LAM30} que  $I_R$ es igual a 0.1 A  y  el tiempo de recuperación de inversión es de 12.5 ns. Por lo tanto, la carga de recuperación resulta de 0.625 nC.
 
-\noindent Para la corriente inversa de fuga del diodo de bootstrap se obtiene un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
+\noindent Para la corriente inversa de fuga del diodo de bootstrap se obtiene \colorbox{yellow}{..del datasheet?} un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
 
-\noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de bootstrap ($V_B$=12V) dividido el valor de la resistencia gate-source. Esta resistencia es de 4.7 kOhm, por lo tanto $I_{GS}$=2.55 mA. 
+\noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de bootstrap ($V_B$=12V) dividido el valor de la resistencia gate-source, que es de 4.7 kOhm. Por lo tanto, $I_{GS}$=2.55 mA. 
 
-\noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de 50 kHz. 
+\noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de 50 kHz, lo que resulta en $f_{PWM}=50 \:kHz$. 
 
-\begin{equation} \label{eq_cap-bootstrap2}
-C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}>\frac{170 nC + 0.625nC + \frac{2 mA + 2.55 mA}{50 KHz}}{0.1 V}
-\end{equation}
+\colorbox{yellow}{Ver redacción de lo de las frecuencias de arriba}
 
-\begin{equation} \label{eq_cap-bootstrap3}
+\noindent Al reemplazar los valores obtenidos en \ref{eq_cap-bootstrap}, se obtiene: \colorbox{yellow}{alinear}
+
+\begin{equation*} 
+C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_B}
+\end{equation*}
+
+\begin{equation*} 
+	C_{BS} > \frac{170 nC + 0.625nC + \frac{2 mA + 2.55 mA}{50 KHz}}{0.1 V}
+\end{equation*}
+
+\begin{equation*} 
 	C_{BS} > 2.61 \mu F
-\end{equation}
+\end{equation*}
 
 
 
-\noindent Por lo tanto, una capacidad mayor a $2.61 \mu F$ resultará en una caída menor a 0.1 V en el capacitor de bootstrap durante el tiempo de encendido de los MOSFET. Podría usarse un capacitor más pequeño, a costa de permitir una mayor caída de tensión en el capacitor. 
+\noindent Por lo tanto, una capacidad mayor a $2.61 \:\mu F$ resultará en una caída menor a 0.1 V en el capacitor de bootstrap durante el tiempo de encendido de los MOSFET. Podría usarse un capacitor más pequeño, a costa de permitir una mayor caída de tensión en el capacitor. 
 
-\noindent Finalmente, se decidió utilizar 2 capacitores de bootstrap en paralelo de $5.6 \mu F$ cada uno con el objetivo de reducir la resistencia serie.
+\noindent Finalmente, se decidió utilizar 2 capacitores de bootstrap en paralelo de $5.6 \:\mu F$ cada uno con el objetivo de reducir la resistencia serie.
 
 
 \subsubsubsection{Resistencia entre gate y source}

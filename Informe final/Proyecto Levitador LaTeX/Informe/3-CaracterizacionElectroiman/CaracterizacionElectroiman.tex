@@ -2,6 +2,9 @@
 
 \noindent Para el desarrollo del proyecto se dispone \colorbox{red}{cambiar}ya de un electroimán que funcionará como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
 
+\noindent\colorbox{yellow}{podría ser así...}
+\noindent Para el desarrollo del proyecto se utiliza un electroimán disponible en la cátedra que funcionará como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
+
 \section{Diseño del electroimán} \label{section_disenio_electroimán}
 
 
@@ -35,19 +38,11 @@
 
 \section{Modelado físico}
 
-\noindent Al analizar las fuerzas que actúan sobre la pieza I, de la que se sujeta el objeto (\colorbox{red}{figura x}), se observan dos fuerzas opuestas en el eje vertical. Una es la fuerza magnética generada por el electroimán, y la otra es la generada por la acción de la gravedad sobre la masa del objeto. 
+\noindent Al analizar las fuerzas que actúan sobre la pieza "I", de la que se sujeta el objeto, surgen dos fuerzas opuestas en el eje vertical como se observa en la figura \ref{fig:img_Esquema-del-producto}. Una es la fuerza magnética generada por el electroimán, y la otra es la generada por la acción de la gravedad sobre la masa del objeto. 
  
 %\noindent Se puede modelar el sistema como un objeto de masa puntual que es sometido a dos fuerzas opuestas en el eje vertical de la figura \ref{fig:img_modelado-fisico}: la de su propio peso hacia abajo, y una fuerza realizada por el electroimán en sentido contrario. \colorbox{red}{MARCAR Yo EN LA IMAGEN}
 
-%capaz poner otra imagen
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{modelo-fisico.png}
-	\caption{Modelado físico.}
-	\label{fig:img_modelado-fisico}
-\end{figure}
-
-\noindent La fuerza correspondiente al peso del objeto es $P=m*g$, donde $m$ es la masa en kg y $g$ es la aceleración de la gravedad en $\frac{m}{s^{2}}$. Para mantenerlo levitando en estado de equilibrio, el electroimán debe generar una fuerza magnética ($F_{m}$) de igual módulo y sentido contrario.
+\noindent La fuerza correspondiente al peso del objeto es $P=M*g$, donde $M$ es la masa en kg y $g$ es la aceleración de la gravedad en $m/s^2$. Para que levite en estado de equilibrio, el electroimán debe generar una fuerza magnética ($F_{m}$) de igual módulo pero sentido contrario.
 
 \noindent La fuerza de atracción entre las dos piezas se logra al hacer circular un flujo magnético entre ellas. Este es generado por la corriente en el bobinado del electroimán.
 
@@ -75,7 +70,7 @@
 \end{itemize}
 
 
-\noindent Por otro lado, la inductancia del bobinado está dada por la ecuación \ref{eq_inductancia_flujo}
+\noindent Por otro lado, la inductancia del bobinado ($L$) está dada por la ecuación \ref{eq_inductancia_flujo}
 
 \begin{equation} \label{eq_inductancia_flujo}
 	L*i=N*\phi
@@ -83,7 +78,7 @@
 
 \subsubsection{Modelado de inductancia del electroimán}
 
-\noindent Las dos piezas del electroimán, junto con el gap de aire que las separa conforman un circuito magnético. Debido a la alta permeabilidad ($\mu_{r}$) del material por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas. El flujo magnético atraviesa esta discontinuidad sin desviaciones (siempre que $l_{A}$ sea pequeña comparada con el área transversal A). 
+\noindent Las dos piezas del electroimán, junto con el gap de aire que las separa conforman un circuito magnético. Debido a la alta permeabilidad ($\mu_{r}$) del material por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas. El flujo magnético atraviesa esta discontinuidad sin desviaciones (siempre que $l_{A}$ \colorbox{yellow}{acá hablamos de $l_{A}$ pero aún no explicamos qué es...} sea pequeña comparada con el área transversal A). 
 \noindent Debido a la simetría del electroimán, el flujo magnético total generado en su rama central se divide en dos para circular por cada rama lateral.
 
 \noindent La ley de ampere (ecuación \ref{eq_ampere}) relaciona la magnitud de la fuerza magnetomotríz con la integral de camino de la intensidad de campo magnético ($H$).
@@ -112,6 +107,8 @@ Donde:
 	\item $\mu_{o}$ es la permeabilidad magnética del vacio
 \end{itemize}
 
+\noindent \colorbox{yellow}{Podríamos ponerle los valores a las permiabilidades no?}
+
 \noindent De la ecuación \ref{eq_fuerza-magnetomotriz} se tiene que la reluctancia magnética es $R_{m}=\frac{N*i}{\phi}$. Además por definición de la densidad de campo magnético se tiene que $B=\frac{\phi}{A}$, siendo A el área que atraviesa el flujo magnético. Por lo tanto se llega a:
 
 \begin{equation}
@@ -136,16 +133,19 @@ Donde:
 	L=\frac{N^{2}*A*\mu_{o}}{l_{A}}
 \end{equation}
 
-\noindent \noindent Debido a que $l_{A}$ es el gap de aire, se debe reemplazar por la distancia de separación entre las dos piezas magnéticas, que está representada por la variable $y_{o}$. En el caso de nuestro electroimán, las líneas de fuerza atraviesan dos veces $y_{o}$, por lo tanto $l_{A}=2*y_{o}$.
+\noindent \noindent Debido a que $l_{A}$ es el gap de aire, se debe reemplazar por la distancia de separación entre las dos piezas magnéticas, que está representada por la variable $Y_{0}$. En el caso del electroimán utilizado, las líneas de fuerza atraviesan dos veces $Y_{0}$, por lo tanto $l_{A}=2*Y_{o}$.
 
 
 \begin{equation}\label{eq_inductancia_vs_y}
-		L(y)=\frac{{N^{2}*A*\mu_{o}}}{2*y_{o}}
+		L(y)=\frac{{N^{2}*A*\mu_{o}}}{2*Y_{0}}
 \end{equation}
 
 \section{Cálculo de la fuerza magnética}
 
 \noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de I se puede modelar a partir de la energía almacenada en un inductor y al considerar que esta es igual al trabajo:
+\colorbox{yellow}{¿En todas estas expresiones habría que dejarlo}
+\noindent
+ \colorbox{yellow}{en función de $Y_0$ en vez de y?}
 
 \begin{equation}\label{eq_energia}
 	E(i,y)=W=\int{F_{m}*dy}=>F_{m}=\frac{\partial{E(i,y)}}{\partial{y}}
@@ -170,24 +170,25 @@ Donde:
 
 %\noindent Utilizando como referencia la figura \ref{fig:img_dimensiones}, el electroimán del que se dispone tiene las siguientes características:
 \noindent Utilizando los datos de construcción del electroimán mencionados en el apartado \ref{section_disenio_electroimán} se puede determinar qué corriente será necesaria para sostener el objeto del peso deseado.
+\colorbox{yellow}{Nunca decimos que la distancai es entre 1y 3mm y el peso menor a 30Kg?}
 	
 %\noindent Se debe determinar qué dimensiones debe tener el electroimán a utilizar para que sea capaz de ejercer la fuerza magnética necesaria para mantener levitando el peso deseado.
 
 %\noindent Al analizar la ecuación \ref{eq_fuerza_magnetica} se puede observar que hay dos parámetros que son propios del electroimán: el área del núcleo A y la cantidad de vueltas del bobinado N. 
 
-\noindent Para obtener una expresión de diseño, partimos de la ecuación \ref{eq_fuerza_magnetica} y la igualamos a la fuerza ejercida por el peso del objeto que se debe hacer levitar ($\abs{F_{m}}=m*g$):
+\noindent Para obtener una expresión de diseño, partimos de la ecuación \ref{eq_fuerza_magnetica} y la igualamos a la fuerza ejercida por el peso del objeto que se debe hacer levitar ($\abs{F_{m}}=M*g$):
 
 \begin{equation}\label{eq_fuerza_peso}
-	m*g=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*y^{2}}
+	M*g=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*y^{2}}
 \end{equation}
 
-\noindent De la ecuación \ref{eq_fuerza_peso}, y a partir de las condiciones de diseño del problema, se puede determinar la corriente necesaria para mantener el objeto en suspensión:
+\noindent De la ecuación \ref{eq_fuerza_peso} y, a partir de las condiciones de diseño del problema, se puede determinar la corriente necesaria para mantener el objeto en suspensión:
 
 \begin{equation} \label{eq_corriente_peso}
-	i_{nom}=\sqrt{\frac{4*m*g*y^{2}}{N^{2}*\mu_{o}*A}}
+	i_{nom}=\sqrt{\frac{4*M*g*y^{2}}{N^{2}*\mu_{o}*A}}
 \end{equation}
 
-Considerando las condiciones mas exigentes para el sistema, con $m=m_{max}=30kg$ e $y=y_{max}=5mm$:
+Considerando las condiciones mas exigentes para el sistema, con $M=M_{max}=30kg$ e $y=y_{max}=5mm$:
 
 \begin{equation}
 	i_{nom}=20.4A
@@ -199,7 +200,7 @@ Considerando las condiciones mas exigentes para el sistema, con $m=m_{max}=30kg$
 
 \section{Expresión de inductancia linealizada}
 
-\noindent Volviendo a la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor y se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia se obtiene:
+\noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor y se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
 
 \begin{equation} \label{eq_inductancia_lineal_teorica}
 	L(y)[mH]=-2.2089*y[mm]+17.67 [mH]
@@ -229,7 +230,7 @@ Considerando las condiciones mas exigentes para el sistema, con $m=m_{max}=30kg$
 
 \subsection{Medición de inductancia}
 
-\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca \colorbox{red}{MARCA} y utilizando planchas de cartón de distinto espesor para mantener el gap de aire fijo. Para el caso en que no se utiliza la pieza I, se considera que la distancia es $\infty$, y lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
+\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca \colorbox{red}{MARCA} y planchas de cartón de distinto espesor para mantener el gap de aire fijo. Para el caso en que no se utiliza la pieza I, se considera que la distancia es infinita, y lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
 
 \noindent Se obtuvieron los siguientes resultados:
 
@@ -261,13 +262,13 @@ Considerando las condiciones mas exigentes para el sistema, con $m=m_{max}=30kg$
 \noindent Al plantear un diagrama de cuerpo aislado del sistema \colorbox{red}{poner imagen} y plantear la sumatoria de fuerzas en el eje y:
 
 \begin{equation}\label{eq_sumatoria_fuerzas_y}
-	\sum F_{y}=m*a=>m*g-F_{m}=m*\ddot{y}
+	\sum F_{y}=M*a=>M*g-F_{m}=M*\ddot{y}
 \end{equation}
 
 \noindent De la ecuación \ref{eq_fuerza_magnetica} se convierte la ecuación \ref{eq_sumatoria_fuerzas_y} en:
 
 \begin{equation}\label{eq_sumatoria_fuerzas_y_2}
-	m*\ddot{y}=m*g-K*\frac{i(t)^{2}}{y(t)^{2}}
+	M*\ddot{y}=M*g-K*\frac{i(t)^{2}}{y(t)^{2}}
 \end{equation}
 
 \noindent Donde K es una constante de valor:
@@ -276,7 +277,7 @@ Considerando las condiciones mas exigentes para el sistema, con $m=m_{max}=30kg$
 	K=\frac{N^{2}*\mu_{o}*A}{4}=1.77*10^{-5} [\frac{N*m^2}{A^2}]
 \end{equation}
 
-\noindent Teniendo en cuenta que $i(t)$ es la entrada a la planta, se puede plantear un modelo con las siguientes variables de estado:\newline
+\noindent Al considerar que $i(t)$ es la entrada a la planta, se puede plantear un modelo con las siguientes variables de estado:\newline
 \colorbox{red}{se puede poner mas grande??}
 \begin{equation}
 	x_{1}=y(t)
@@ -294,10 +295,10 @@ Considerando las condiciones mas exigentes para el sistema, con $m=m_{max}=30kg$
 	\dot{x_{1}}=x_{2}
 \end{equation}
 \begin{equation}
-	\dot{x_{2}}=g-\frac{K}{m}*\frac{u^{2}}{x_{1}^{2}}
+	\dot{x_{2}}=g-\frac{K}{M}*\frac{u^{2}}{x_{1}^{2}}
 \end{equation}
 
-El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema; por las condiciones del problema se define $x_{1o}=4mm$. El resto de los puntos de equilibrio se encuentra igualando las derivadas a cero:
+\noindent El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=4mm$. El resto de los puntos de equilibrio se encuentra igualando las derivadas a cero:
 \begin{equation}
 	x_{1o}=4mm
 \end{equation}
@@ -305,20 +306,20 @@ El modelo es no lineal, por lo tanto se utiliza el método de linealización por
 	x_{2o}=0
 \end{equation}
 \begin{equation}
-	u_{o}=\sqrt{\frac{m*g}{K}}*x_{1o}
+	u_{o}=\sqrt{\frac{M*g}{K}}*x_{1o}
 \end{equation}
 
-Por lo tanto las ecuaciones linealizadas quedan:
+\noindent Por lo tanto las ecuaciones linealizadas quedan:
 
 \begin{equation}
 	\dot{x_{1}}=x_{2}
 \end{equation}
 
 \begin{equation}
-	\dot{x_{2}}=2*\frac{K*u_{o}^{2}}{m*x_{1o}^{3}}*x_{1}-2*\frac{K*u_{o}}{m*x_{1o}^{2}}*u
+	\dot{x_{2}}=2*\frac{K*u_{o}^{2}}{M*x_{1o}^{3}}*x_{1}-2*\frac{K*u_{o}}{M*x_{1o}^{2}}*u
 \end{equation}
 
-Las matrices del modelo quedan:
+\noindent Las matrices del modelo quedan:
 
 \begin{equation}
 	A=\begin{bmatrix}
@@ -330,7 +331,7 @@ Las matrices del modelo quedan:
 \begin{equation}
 	B=\begin{bmatrix}
 		0\\
-		-\frac{2}{y_{o}}*\sqrt{\frac{K*g}{m}}
+		-\frac{2}{y_{o}}*\sqrt{\frac{K*g}{M}}
 	\end{bmatrix}
 \end{equation}
 
@@ -346,18 +347,18 @@ Las matrices del modelo quedan:
 	G_{P}=C*(S*I-A)^{-1}*B
 \end{equation}
 
-\noindent Finalmente, se obtiene para $m=30kg$ e $y_{o}=4mm$:
+\noindent Finalmente, se obtiene para $M=30kg$ e $y_{o}=4mm$:
 
 \begin{equation}
-	G_{P}=-\frac{2}{y_{o}}*\frac{\sqrt{\frac{K*g}{m}}}{S^2-\frac{2*g}{y_{o}}}=\frac{-1.201}{S^{2}-4900}
+	G_{P}=-\frac{2}{y_{o}}*\frac{\sqrt{\frac{K*g}{M}}}{S^2-\frac{2*g}{y_{o}}}=\frac{-1.201}{S^{2}-4900}
 \end{equation}
 
-\noindent La planta tiene dos autovalores en $+-\sqrt{\frac{2*g}{y_{o}}}=+-70[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho, lo que provoca que la planta sea inestable y se deba buscar una estrategia de control apropiada para controlarla.
+\noindent La planta tiene dos autovalores en $\pm\sqrt{\frac{2*g}{y_{o}}}=\pm70[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho, lo que provoca que la planta sea inestable y se deba buscar una estrategia de control apropiada para controlarla.
 
-\noindent Al trabajar con una planta cuya masa es variable, conviene dejar $m$ como incógnita:
+\noindent Al trabajar con una planta cuya masa es variable, conviene dejar la transferencia en función de $M$:
 
 \begin{equation} \label{eq_transferencia_planta_m}
-		G_{P}(m)=-\sqrt{\frac{30}{m}}*\frac{1.201}{S^{2}-4900}
+		G_{P}(M)=-\sqrt{\frac{30}{M}}*\frac{1.201}{S^{2}-4900}
 \end{equation}
 
-\noindent De la transferencia de la planta en \ref{eq_transferencia_planta_m} se observa que la ganancia del sistema depende de la masa del objeto, pero no se modifica la ubicación de los polos. A menor masa, mayor es la ganancia del sistema; Se debe escoger una estrategia de control que tenga en cuenta los cambios que puede sufrir la ganancia del sistema.
+\noindent Es posible observar en la expresión \ref{eq_transferencia_planta_m} que la ganancia del sistema depende de la masa del objeto, pero no se modifica la ubicación de los polos. Por lo tanto, se debe escoger una estrategia de control que tenga en cuenta los cambios en ganancia que pueda sufrir.

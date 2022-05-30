@@ -1,8 +1,36 @@
-\begin{thebibliography}{0}
+\begin{thebibliography}{5}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Renesas(2014)]{HIP4081A_AN9405}
+Renesas.
+\newblock {HIP4081A}, 80v {H}igh {F}requency {H}-{B}ridge {D}river. {AN9405}.
+  {R}ev 6.00.
+\newblock Dec 2014.
+
+\bibitem[Renesas(2015)]{HIP4081A_FN3659}
+Renesas.
+\newblock {HIP4081A} 80v/2.5{A} {P}eak, {H}igh {F}requency {F}ull {B}ridge
+  {FET} {D}river. {FN3659}. {R}ev 8.00.
+\newblock Sep 2015.
+
+\bibitem[Infineon(2010)]{IPB160N04}
+Infineon.
+\newblock {IPB160N04} {O}pti{MOS}® -{T}2{P}ower-{T}ransistor. {R}ev 1.0.
+\newblock Abr 2010.
+
+\bibitem[Semiconductor(2019)]{RSX205LAM30}
+Rohm Semiconductor.
+\newblock {RSX205LAM30} {S}chottky {B}arrier {D}iode. {FN3659}. {R}ev 2.00.
+\newblock May 2019.
+
+\bibitem[Chemi-Con(2021)]{EKY-350ELL222MM25S}
+Chemi-Con.
+\newblock {EKY-350ELL222MM25S} {M}iniature {A}luminum {E}lectrolytic
+  {C}apacitor. {FN3659}. {V}er 3.
+\newblock May 2021.
 
 \end{thebibliography}

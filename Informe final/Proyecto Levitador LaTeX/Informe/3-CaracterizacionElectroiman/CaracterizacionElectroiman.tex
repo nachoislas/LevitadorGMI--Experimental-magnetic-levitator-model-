@@ -1,9 +1,6 @@
 \chapter{Caracterización del  electroimán} \chapterlabel{Informe/3-CaracterizacionElectroiman} \label{cap:CaracterizacionElectroiman}
 
-\noindent Para el desarrollo del proyecto se dispone \colorbox{red}{cambiar}ya de un electroimán que funcionará como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
-
-\noindent\colorbox{yellow}{podría ser así...}
-\noindent Para el desarrollo del proyecto se utiliza un electroimán disponible en la cátedra que funcionará como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
+\noindent Para el desarrollo del proyecto se utiliza un electroimán previamente construido por la cátedra que funcionará como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
 
 \section{Diseño del electroimán} \label{section_disenio_electroimán}
 
@@ -104,11 +101,10 @@ Donde:
 \begin{itemize}
 	\item $l_{m}$ es la longitud del circuito magnético dentro del electroimán
 	\item $l_{A}$ es la longitud del circuito magnético en el gap de aire
-	\item $\mu_{r}$ es la permeabilidad magnética del material del electroimán
-	\item $\mu_{o}$ es la permeabilidad magnética del vacio
-\end{itemize}
+	\item $\mu_{o}$ es la permeabilidad magnética del vacio. Su valor es igual a $4 \pi * 10^{-7}\:Hy/m$
+	\item $\mu_{r}$ es la permeabilidad magnética relativa del material del electroimán. Es aproximadamente igual a $4000 * \mu_{o}$.
 
-\noindent \colorbox{yellow}{Podríamos ponerle los valores a las permiabilidades no?}
+\end{itemize}
 
 \noindent De la ecuación \ref{eq_fuerza-magnetomotriz} se tiene que la reluctancia magnética es $R_{m}=\frac{N*i}{\phi}$. Además por definición de la densidad de campo magnético se tiene que $B=\frac{\phi}{A}$, siendo A el área que atraviesa el flujo magnético. Por lo tanto se llega a:
 
@@ -144,7 +140,6 @@ Donde:
 \section{Cálculo de la fuerza magnética}
 
 \noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de I se puede modelar a partir de la energía almacenada en un inductor y al considerar que esta es igual a la integral del trabajo:
-\colorbox{yellow}{¿En todas estas expresiones habría que dejarlo}
 \noindent
  \colorbox{yellow}{en función de $Y_0$ en vez de y?}
 
@@ -171,7 +166,6 @@ Donde:
 
 %\noindent Utilizando como referencia la figura \ref{fig:img_dimensiones}, el electroimán del que se dispone tiene las siguientes características:
 \noindent Utilizando los datos de construcción del electroimán mencionados en el apartado \ref{section_disenio_electroimán} se puede determinar qué corriente será necesaria para sostener el objeto del peso deseado.
-\colorbox{yellow}{Nunca decimos que la distancai es entre 1y 3mm y el peso menor a 30Kg?}
 	
 %\noindent Se debe determinar qué dimensiones debe tener el electroimán a utilizar para que sea capaz de ejercer la fuerza magnética necesaria para mantener levitando el peso deseado.
 
@@ -283,10 +277,10 @@ Considerando las condiciones mas exigentes para el sistema, con $M=M_{max}=30kg$
 
 \section{Modelo de estado de la planta}
 
-\noindent Al plantear un diagrama de cuerpo aislado del sistema \colorbox{red}{poner imagen} y plantear la sumatoria de fuerzas en el eje y:
+\noindent Al observar las fuerzas que intervienen en el eje vertical sobre la pieza en forma de ``I'', como muestra la imagen \ref{fig:img_Esquema-del-producto}, es posible plantear la sumatoria de fuerzas:
 
 \begin{equation}\label{eq_sumatoria_fuerzas_y}
-	\sum F_{y}=M*a=>M*g-F_{m}=M*\ddot{y}
+	\sum F=M*a=>M*g-F_{m}=M*\ddot{y}
 \end{equation}
 
 \noindent De la ecuación \ref{eq_fuerza_magnetica} se convierte la ecuación \ref{eq_sumatoria_fuerzas_y} en:
@@ -385,8 +379,5 @@ Considerando las condiciones mas exigentes para el sistema, con $M=M_{max}=30kg$
 		G_{P}(M)=-\sqrt{\frac{30}{M}}*\frac{1.201}{S^{2}-4900}
 \end{equation}
 
-\noindent Es posible observar en la expresión \ref{eq_transferencia_planta_m} que la masa del objeto modifica la ganancia del sistema, pero no la ubicación de los polos. \colorbox{yellow}{Por lo tanto, se debe escoger}
- \colorbox{yellow}{una estrategia de control que tenga en cuenta los}
- \colorbox{yellow}{ cambios en ganancia que pueda sufrir.}
- \colorbox{red}{Creo que lo sacaría a lo amarillo}
+\noindent Es posible observar en la expresión \ref{eq_transferencia_planta_m} que la masa del objeto modifica la ganancia del sistema, pero no la ubicación de los polos. Esto es importante al momento de escoger una estrategia de control.
 

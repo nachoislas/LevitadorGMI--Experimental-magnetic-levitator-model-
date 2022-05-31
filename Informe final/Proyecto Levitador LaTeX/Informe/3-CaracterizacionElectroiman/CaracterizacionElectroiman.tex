@@ -1,12 +1,12 @@
 \chapter{Caracterización del  electroimán} \chapterlabel{Informe/3-CaracterizacionElectroiman} \label{cap:CaracterizacionElectroiman}
 
-\noindent Para el desarrollo del proyecto se utiliza un electroimán previamente construido por la cátedra que funcionará como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
+\noindent Para el desarrollo del proyecto se utiliza un electroimán previamente construido por la cátedra que funciona como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se podrán determinar otros parámetros del sistema de control.
 
 \section{Diseño del electroimán} \label{section_disenio_electroimán}
 
 
 
-\noindent El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor, cuyas dimensiones se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la E tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro.
+\noindent El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor, cuyas dimensiones se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la E tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
 
 \begin{figure}[H]
 	\centering
@@ -35,7 +35,7 @@
 
 \section{Modelado físico}
 
-\noindent Al analizar las fuerzas que actúan sobre la pieza "I", de la que se sujeta el objeto, surgen dos fuerzas opuestas en el eje vertical como se observa en la figura \ref{fig:img_Esquema-del-producto}. Una es la fuerza magnética generada por el electroimán, y la otra es la generada por la acción de la gravedad sobre la masa del objeto. 
+\noindent Al analizar las fuerzas que actúan sobre la pieza ``I'', de la que se sujeta el objeto, surgen dos fuerzas opuestas en el eje vertical como se observa en la figura \ref{fig:img_Esquema-del-producto}. Una es la fuerza magnética generada por el electroimán, y la otra es la generada por la acción de la gravedad sobre la masa del objeto. 
  
 %\noindent Se puede modelar el sistema como un objeto de masa puntual que es sometido a dos fuerzas opuestas en el eje vertical de la figura \ref{fig:img_modelado-fisico}: la de su propio peso hacia abajo, y una fuerza realizada por el electroimán en sentido contrario. \colorbox{red}{MARCAR Yo EN LA IMAGEN}
 
@@ -75,7 +75,7 @@
 
 \subsubsection{Modelado de inductancia del electroimán}
 
-\noindent Las dos piezas del electroimán, junto con el gap de aire que las separa conforman un circuito magnético. Debido a la alta permeabilidad ($\mu_{r}$) del material por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas. Lo hace sin desviaciones siempre que su longitud sea pequeña comparada con el área transversal A del electroimán.
+\noindent Las dos piezas del electroimán, junto con el gap de aire que las separa conforman un circuito magnético. Debido a la alta permeabilidad del material ($\mu_{r}$) por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas. Lo hace sin desviaciones siempre que su longitud sea pequeña comparada con el área transversal A del electroimán.
 
 \noindent Debido a la simetría del electroimán, el flujo magnético total generado en su rama central se divide en dos para circular por cada rama lateral.
 

@@ -25,7 +25,7 @@
 
 \section{Descripción del dispositivo}
 
-\noindent El producto está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación ($Y_0$) o “gap” de aire deseado entre ellas mientras el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. Dicha separación puede ser modificada por el usuario entre $3\:mm$ y $5\:mm$ y el peso del objeto debe ser menor a $30\:Kg$. El sistema completo se muestra en la figura \ref{fig:img_Esquema-del-producto}.
+\noindent El producto está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación ($d_y$) o “gap” de aire deseado entre ellas mientras el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. Dicha separación puede ser modificada por el usuario entre $3\:mm$ y $5\:mm$ y el peso del objeto debe ser menor a $30\:Kg$. El sistema completo se muestra en la figura \ref{fig:img_Esquema-del-producto}.
 
 \begin{figure}[H]
 	\centering
@@ -34,13 +34,13 @@
 	\label{fig:img_Esquema-del-producto}
 \end{figure}
 
-\noindent La fuerza electromagnética es regulada por la placa de control con el objetivo de mantener fija la distancia $Y_{0}$, a pesar de las perturbaciones que el sistema pueda recibir. 
+\noindent La fuerza electromagnética es regulada por la placa de control con el objetivo de mantener fija la distancia $d_{y}$, a pesar de las perturbaciones que el sistema pueda recibir. 
 
 
 \noindent El sistema solo ejerce control de posición en el eje vertical, por lo tanto no puede responder ante perturbaciones horizontales sobre el objeto.
 
 
-\noindent El sistema está conformado por los bloques que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decidirá cual de estas implementaciones ejercerá el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
+\noindent El sistema está conformado por los bloques que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decide cual de estas implementaciones ejerce el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
 
 \begin{figure}[H]
 	\centering

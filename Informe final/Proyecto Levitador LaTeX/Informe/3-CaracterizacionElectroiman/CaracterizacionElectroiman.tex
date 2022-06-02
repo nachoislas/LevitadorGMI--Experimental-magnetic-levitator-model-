@@ -153,15 +153,15 @@ Donde:
 	E(i,y)=\frac{L(i,y)*i^{2}}{2}
 \end{equation}
 
-\noindent La expresión anterior indica que la cantidad de energía que almacena el sistema es función del gap de aire ($y$) y de la corriente que circula por el electroimán ($i$). 
+\noindent La expresión anterior indica que la cantidad de energía que almacena el sistema es función del gap de aire ($Y_{g}$) y de la corriente que circula por el electroimán ($i$). 
 
 \noindent Al combinar las ecuaciones \ref{eq_inductancia_vs_y}, \ref{eq_energia} y \ref{eq_energia_2} se obtiene:
 
 \begin{equation}\label{eq_fuerza_magnetica}
-	\abs{F_{m}}=\frac{\partial{E(i,y)}}{\partial{y}}=\frac{i^{2}}{2}*\frac{\partial{\frac{{N^{2}*A*\mu_{o}}}{2*y}}}{\partial{y}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*y^{2}}
+	\abs{F_{m}}=\frac{\partial{E(i,y)}}{\partial{y}}=\frac{i^{2}}{2}*\frac{\partial{\frac{{N^{2}*A*\mu_{o}}}{2*Y_{g}}}}{\partial{y}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation}
 
-\noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (i), e inversamente proporcional al cuadrado de la variable que se desea controlar (y). Por lo tanto, el problema adquiere un comportamiento no lineal.
+\noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (i), e inversamente proporcional al cuadrado de la variable que se desea controlar ($Y_{g}$). Por lo tanto, el problema adquiere un comportamiento no lineal.
 
 
 \section{Análisis del electroimán}
@@ -176,16 +176,16 @@ Donde:
 \noindent Para obtener una expresión de diseño, se parte de la ecuación \ref{eq_fuerza_magnetica} y se iguala a la fuerza ejercida por el peso del objeto que se debe hacer levitar ($\abs{F_{m}}=M*g$):
 
 \begin{equation}\label{eq_fuerza_peso}
-	M*g=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*y^{2}}
+	M*g=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation}
 
 \noindent De la ecuación \ref{eq_fuerza_peso} y, a partir de las condiciones de diseño del problema, se puede determinar la corriente necesaria para mantener el objeto en suspensión:
 
 \begin{equation} \label{eq_corriente_peso}
-	i_{nom}=\sqrt{\frac{4*M*g*y^{2}}{N^{2}*\mu_{o}*A}}
+	i_{nom}=\sqrt{\frac{4*M*g*Y_{g}^{2}}{N^{2}*\mu_{o}*A}}
 \end{equation}
 
-Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30kg$ e $y=y_{max}=5mm$, se obtiene:
+Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30kg$ e $Y_{g}=y_{max}=5mm$, se obtiene:
 
 \begin{equation}
 	i_{nom}=20.4A
@@ -197,16 +197,16 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \section{Expresión de inductancia linealizada}
 
-\noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor (la linealización se realiza en torno al punto $Y_{0}=4mm$) y se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
+\noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor (la linealización se realiza en torno al punto $Y_{g}=Y_{0}=4mm$) y se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
 
 
 \begin{equation} \label{eq_inductancia_lineal_teorica}
-	L(y)=-2.2089*y+0.0177
+	L(y)=-2.2089*Y_{g}+0.0177
 \end{equation}
 
 \noindent Donde:
 \begin{itemize}
-	\item y: distancia del gap de aire en metros [m]
+	\item $Y_{g}$: distancia del gap de aire en metros [m]
 	\item L: inductancia resultante en Henry [Hy]
 \end{itemize}
 
@@ -259,12 +259,12 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 \noindent A partir de los resultados mostrados en la tabla \ref{tab_mediciones_inductancia}, se puede observar en la imagen \ref{fig:img_inductancia_medida} que la inductancia no varía linealmente con la distancia. Por lo tanto se realiza una aproximación lineal por mínimos cuadrados utilizando valores de distancia cercanos al rango de trabajo y se llega a la expresión de inductancia linealizada:
 
 \begin{equation}
-	L(y)=-2.56*y+0.027
+	L(y)=-2.56*Y_{g}+0.027
 \end{equation}
 
 \noindent Donde:
 \begin{itemize}
-	\item y: distancia del gap de aire en metros [m].
+	\item $Y_{g}$: distancia del gap de aire en metros [m].
 	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
 \colorbox{yellow}{Tenemos que aclarar si nos quedamos con la inductancia medida o la teórica y conclusión}

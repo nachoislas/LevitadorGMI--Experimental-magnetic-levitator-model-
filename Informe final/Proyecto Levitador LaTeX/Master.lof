@@ -5,7 +5,7 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Dimensiones del electroimán\relax }}{8}{figure.caption.7}%
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Carrete de plástico para el bobinado\relax }}{9}{figure.caption.8}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Inductancia medida en función del gap de aire.\relax }}{18}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Inductancia medida en función del gap de aire.\relax }}{17}{figure.caption.10}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Diagrama en bloques simplificado del controlador de corriente.\relax }}{24}{figure.caption.11}%
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Etapa de entrada.\relax }}{25}{figure.caption.12}%
@@ -26,14 +26,14 @@
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Circuito del electroimán con el driver de corriente.\relax }}{49}{figure.caption.27}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Circuito derivador.\relax }}{50}{figure.caption.28}%
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Circuito derivador compensado\relax }}{53}{figure.caption.30}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces GH del derivador compensado.png\relax }}{54}{figure.caption.31}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Transferencia de lazo cerrado\relax }}{55}{figure.caption.32}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Filtro para la entrada del derivador\relax }}{56}{figure.caption.33}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Respuesta en frecuencia del filtro activo\relax }}{57}{figure.caption.34}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Transferencia a lazo abierto del derivador compensado.\relax }}{54}{figure.caption.31}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Transferencia de lazo cerrado.\relax }}{55}{figure.caption.32}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Filtro para la entrada del derivador.\relax }}{56}{figure.caption.33}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Respuesta en frecuencia del filtro activo.\relax }}{57}{figure.caption.34}%
 \contentsline {figure}{\numberline {4.9}{\ignorespaces Forma de onda luego de rectificar sin compensación IR.\relax }}{58}{figure.caption.35}%
 \contentsline {figure}{\numberline {4.10}{\ignorespaces Esquema circuital del derivador.\relax }}{59}{figure.caption.36}%
 \contentsline {figure}{\numberline {4.11}{\ignorespaces Generación de Vbias.\relax }}{60}{figure.caption.37}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Formas de onda obtenidas en la simulación\relax }}{61}{figure.caption.38}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Formas de onda obtenidas en la simulación.\relax }}{61}{figure.caption.38}%
 \contentsline {figure}{\numberline {4.13}{\ignorespaces Rectificador y restador.\relax }}{62}{figure.caption.39}%
 \contentsline {figure}{\numberline {4.14}{\ignorespaces Restador.\relax }}{65}{figure.caption.40}%
 \contentsline {figure}{\numberline {4.15}{\ignorespaces Esquema circuital del restador con una etapa de filtrado en $159.2\ Hz$.\relax }}{67}{figure.caption.41}%
@@ -65,14 +65,14 @@
 \contentsline {figure}{\numberline {5.23}{\ignorespaces Etapa de entrada.\relax }}{98}{figure.caption.68}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {6.1}{\ignorespaces Diagrama en bloques de la implementación digital.\relax }}{102}{figure.caption.69}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Diagrama en bloques de la etapa digital simplificado.\relax }}{103}{figure.caption.70}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Diagrama en bloques de la etapa digital simplificado.\relax }}{102}{figure.caption.70}%
 \contentsline {figure}{\numberline {6.3}{\ignorespaces Diagrama de flujo del procesamiento de las muestras adquiridas.\relax }}{105}{figure.caption.72}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Variación de pendiente ante mínimo cambio de posición.\relax }}{111}{figure.caption.73}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Circuito acondicionador para componente alterna de corriente del electroimán.\relax }}{114}{figure.caption.74}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Circuito acondicionador para componente alterna de corriente del electroimán. \relax }}{115}{figure.caption.75}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Variación de pendiente ante mínimo cambio de posición.\relax }}{110}{figure.caption.73}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Circuito acondicionador para componente alterna de corriente del electroimán.\relax }}{113}{figure.caption.74}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Circuito acondicionador para componente alterna de corriente del electroimán. \relax }}{114}{figure.caption.75}%
 \contentsline {figure}{\numberline {6.7}{\ignorespaces Circuito acondicionador para componente continua de corriente del electroimán. \relax }}{115}{figure.caption.76}%
 \contentsline {figure}{\numberline {6.8}{\ignorespaces Circuito acondicionador para la salida del DAC correspondiente al compensador.\relax }}{116}{figure.caption.77}%
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Circuito acondicionador para la salida del DAC correspondiente al estimador digital.\relax }}{117}{figure.caption.78}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Circuito acondicionador para la salida del DAC correspondiente al estimador digital.\relax }}{116}{figure.caption.78}%
 \contentsline {figure}{\numberline {6.10}{\ignorespaces Diagrama de Bode de lazo abierto GHT con M=30 Kg.\relax }}{119}{figure.caption.79}%
 \contentsline {figure}{\numberline {6.11}{\ignorespaces Diagrama de Nyquist de GHT con M=30 Kg.\relax }}{119}{figure.caption.80}%
 \contentsline {figure}{\numberline {6.12}{\ignorespaces Diagrama de Bode de GHT*GC para K=1 y M=30 Kg.\relax }}{121}{figure.caption.81}%

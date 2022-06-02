@@ -238,34 +238,25 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \noindent Se obtuvieron los siguientes resultados:
 
-
 \begin{table} [H]
 	\begin{center}
-		\begin{tabular}{| c | c |}
-			\hline
-			Y[mm] & L(y)[mH]\\ \hline
-			0 & 76.45\\ \hline
-			1 & 33.42\\ \hline
-			2 & 22.64\\ \hline
-			3 & 18.8\\ \hline
-			4.4 & 15.5\\ \hline
-			5.2 & 14.7\\ \hline
-			6.5 & 14.4\\ \hline
-			8.23 & 12.4\\ \hline
-			$\inf$ & 8.89\\ \hline
+		\begin{tabular}{| c | c | c | c | c | c | c | c | c | c |}
+			\hline			
+			Y[mm] & 0 & 1 & 2 & 3 & 4.4 & 5.2 & 6.5 & 8.23 & $\inf$ \\ \hline
+			L(y)[mH] & 76.45 & 33.42 & 22.64 & 18.8 & 15.5 & 14.7 & 14.4 & 12.4 & 8.89\\ \hline
 		\end{tabular}
-	\caption{Valores de inductancia medidos en función del gap de aire.}
-	\label{tab_mediciones_inductancia}
+		\caption{Valores de inductancia medidos en función del gap de aire.}
+		\label{tab_mediciones_inductancia}
 	\end{center}
 \end{table}
 
 \begin{figure} [H]
 	\centering
-	\includegraphics[width=\textwidth]{inductancia.png}
+	\includegraphics[scale=0.65]{inductancia.png}
 	\caption{Inductancia medida en función del gap de aire.}
 	\label{fig:img_inductancia_medida}
 \end{figure}
-\noindent A partir de estos resultados, se puede observar en la imagen \ref{fig:img_inductancia_medida} que la inductancia no varía linealmente con la distancia. Por lo tanto se realiza una aproximación lineal por mínimos cuadrados utilizando valores de distancia cercanos al rango de trabajo y se llega a la expresión de inductancia linealizada:
+\noindent A partir de los resultados mostrados en la tabla \ref{tab_mediciones_inductancia}, se puede observar en la imagen \ref{fig:img_inductancia_medida} que la inductancia no varía linealmente con la distancia. Por lo tanto se realiza una aproximación lineal por mínimos cuadrados utilizando valores de distancia cercanos al rango de trabajo y se llega a la expresión de inductancia linealizada:
 
 \begin{equation}
 	L(y)=-2.56*y+0.027

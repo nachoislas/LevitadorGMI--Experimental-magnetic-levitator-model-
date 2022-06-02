@@ -15,7 +15,7 @@
 \contentsline {section}{\numberline {2.6}Mediciones sobre el electroimán}{16}{section.2.6}%
 \contentsline {subsection}{\numberline {2.6.1}Medición de resistencia del bobinado}{16}{subsection.2.6.1}%
 \contentsline {subsection}{\numberline {2.6.2}Medición de inductancia}{17}{subsection.2.6.2}%
-\contentsline {section}{\numberline {2.7}Modelo de estado de la planta}{19}{section.2.7}%
+\contentsline {section}{\numberline {2.7}Modelo de estado de la planta}{18}{section.2.7}%
 \contentsline {chapter}{\numberline {3}Controlador de corriente}{23}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Diseño y modelado}{23}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Características del sistema}{24}{subsection.3.1.1}%
@@ -64,14 +64,14 @@
 \contentsline {chapter}{\numberline {6}Implementacion Digital}{101}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Descripción general}{101}{section.6.1}%
 \contentsline {section}{\numberline {6.2}Determinación de la frecuencia de muestreo}{103}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Adquisición y procesamiento de las muestras}{105}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Estimación digital de la posición}{107}{section.6.4}%
+\contentsline {section}{\numberline {6.3}Adquisición y procesamiento de las muestras}{104}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Estimación digital de la posición}{106}{section.6.4}%
 \contentsline {section}{\numberline {6.5}Resolución en posición}{109}{section.6.5}%
 \contentsline {section}{\numberline {6.6}Acondicionamiento de señales para el ADC}{113}{section.6.6}%
 \contentsline {subsection}{\numberline {6.6.1}Referencia de posición}{113}{subsection.6.6.1}%
 \contentsline {subsection}{\numberline {6.6.2}Componente continua de corriente del electroimán}{114}{subsection.6.6.2}%
-\contentsline {subsection}{\numberline {6.6.3}Componente continua de corriente del electroimán}{115}{subsection.6.6.3}%
-\contentsline {section}{\numberline {6.7}Acondicionamiento de señales para el DAC}{116}{section.6.7}%
+\contentsline {subsection}{\numberline {6.6.3}Componente continua de corriente del electroimán}{114}{subsection.6.6.3}%
+\contentsline {section}{\numberline {6.7}Acondicionamiento de señales para el DAC}{115}{section.6.7}%
 \contentsline {section}{\numberline {6.8}Transferencias de la planta y del controlador de corriente}{117}{section.6.8}%
 \contentsline {section}{\numberline {6.9}Diseño de Compensador}{118}{section.6.9}%
 \contentsline {subsection}{\numberline {6.9.1}Análisis de estabilidad con masa de 30 Kg}{118}{subsection.6.9.1}%

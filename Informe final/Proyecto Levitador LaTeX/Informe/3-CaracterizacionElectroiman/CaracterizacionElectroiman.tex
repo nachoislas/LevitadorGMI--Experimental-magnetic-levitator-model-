@@ -76,7 +76,6 @@
 \subsubsection{Modelado de inductancia del electroimán}
 
 \noindent Las dos piezas del electroimán, junto con el gap de aire que las separa conforman un circuito magnético. Debido a la alta permeabilidad del material ($\mu_{r}$) por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas. Lo hace sin desviaciones siempre que la longitud de separación ($Y_{g}$) sea pequeña comparada con la raíz cuadrada área transversal (A) del electroimán.
-\colorbox{yellow}{Darle ok final}
 
 \noindent Debido a la simetría del electroimán, el flujo magnético total generado en su rama central se divide en dos para circular por cada rama lateral.
 
@@ -196,6 +195,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 
 \section{Expresión de inductancia linealizada}
+\label{secc_exp_ind_linealizada}
 
 \noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor (la linealización se realiza en torno al punto $Y_{g}=Y_{0}=4mm$) y se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
 
@@ -259,6 +259,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 \noindent A partir de los resultados mostrados en la tabla \ref{tab_mediciones_inductancia}, se puede observar en la imagen \ref{fig:img_inductancia_medida} que la inductancia no varía linealmente con la distancia. Por lo tanto se realiza una aproximación lineal por mínimos cuadrados utilizando valores de distancia cercanos al rango de trabajo y se llega a la expresión de inductancia linealizada:
 
 \begin{equation}
+	\label{eq_induct_practica}
 	L(y)=-2.56*Y_{g}+0.027
 \end{equation}
 
@@ -268,6 +269,8 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
 \colorbox{yellow}{Tenemos que aclarar si nos quedamos con la inductancia medida o la teórica y conclusión}
+
+\noindent Se puede ver que la ecuación obtenida no  difiere demasiado con la calculada en la sección \ref{secc_exp_ind_linealizada}. Las variaciones en los valores obtenidos con respecto a la calculada de forma teórica están dados por las características constructiva del electroimán. Se utilizara como aproximación de la inductancia a la calculada de forma practica (ecuación \ref{eq_induct_practica}).
 
 \section{Modelo de estado de la planta}
 

@@ -135,11 +135,10 @@
 \subsubsection{Dimensionamiento de capacitor de bootstrap}
 
 \noindent Para el dimensionamiento de los capacitores de bootstrap se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
-\colorbox{yellow}{Chequear si esto es cierto}	
 
 \noindent Para encender un NMOS es necesario proveer corriente a su gate hasta cargar las capacidades parásitas entre gate-source y gate-drain. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el gate. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de bootstrap. 
 
-\noindent En la implementación del puente H se decidió colocar resistencias entre gate y source, que aparecen como R1, R2, R3 y R4 en la figura \ref{fig:img_capacitores-puenteH}, \colorbox{yellow}{cuyo propósito se explica en la sección [3.1.2.4.1]}. Debido a la diferencia de tensión entre gate-source, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el  bootstrap.
+\noindent En la implementación del puente H se decidió colocar resistencias entre gate y source (ver apartado \ref{secc_res_gate_source}), que aparecen como R1, R2, R3 y R4 en la figura \ref{fig:img_capacitores-puenteH}. Debido a la diferencia de tensión entre gate-source, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el  bootstrap.
 
 \begin{figure}[H]
 	\centering
@@ -183,9 +182,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, $Q_G$= 170 nC. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS}$ = 0.1 V y con la información brindada por las hojas de datos, es posible dimensionar el capacitor para que este posea carga suficiente para mantener siempre encendido al MOSFET.
 
-\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR, se obtiene a partir de \cite{RSX205LAM30} que  $I_R$ es igual a 0.1 A  y  el tiempo de recuperación de inversión es de 12.5 ns. Por lo tanto, la carga de recuperación resulta de 0.625 nC.
-
-\noindent Para la corriente inversa de fuga del diodo de bootstrap se obtiene \colorbox{yellow}{..del datasheet?} un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
+\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR, se obtiene a partir de \cite{RSX205LAM30} que  $I_R$ es igual a 0.1 A  y  el tiempo de recuperación de inversión es de 12.5 ns. Por lo tanto, la carga de recuperación resulta de 0.625 nC. Ademas, la corriente inversa de fuga del diodo de bootstrap tiene un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
 
 \noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de bootstrap ($V_B$=12V) dividido el valor de la resistencia gate-source, que es de 4.7 kOhm. Por lo tanto, $I_{GS}$=2.55 mA. 
 
@@ -209,7 +206,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \noindent Finalmente, se decidió utilizar 2 capacitores de bootstrap en paralelo de $5.6 \:\mu F$ cada uno con el objetivo de reducir la resistencia serie.
 
 
-\subsubsubsection{Resistencia entre gate y source}
+\subsubsubsection{Resistencia entre gate y source} \label{secc_res_gate_source}
 
 \noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como R1, R2, R3, R4. Su propósito es evitar que el gate del mosfet se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además ayuda a evitar que se encienda el mosfet por ruido acoplado capacitivamente. 
 
@@ -219,7 +216,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \noindent El gate de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión, pudiendo dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el gate y source de cada transistor, de manera de limitar la tensión que se desarrolla en el gate a un valor seguro.
 
-\noindent Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.\colorbox{yellow}{ ..ponemos datasheet?}
+\noindent Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
 
 \subsubsubsection{Tiempo muerto}
 
@@ -233,7 +230,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 	
 \noindent Para reducir el consumo de potencia de la red se utilizan capacitores en paralelo a la fuente de $+24\:V$. Esto permite que, una vez que la fuente cargó inicialmente el inductor, en las conmutaciones sucesivas la carga del inductor pase a dichos capacitores en un semiciclo y viceversa en el otro ciclo de conmutación. Idealmente, esta transferencia de energía no tiene pérdidas. Por lo tanto, el consumo de potencia queda reducido a la perdida por disipación de los MOSFET y los demás componentes del controlador de corriente. 
 
-\noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan ripple en la tensión $V_{BUS}$. \colorbox{yellow}{..simulacion? mediciones?}
+\noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan ripple en la tensión $V_{BUS}$.
 
 \noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por C1 y C2. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores y hacia el electroimán por Q1 y Q4. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de Q2 y Q3. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-I_L$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
 

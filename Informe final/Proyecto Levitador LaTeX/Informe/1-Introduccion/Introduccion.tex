@@ -1,6 +1,6 @@
 \chapter{Introduccion} \chapterlabel{Informe/1-Introduccion} \label{cap:Introducción}
 
-\noindent En la actualidad se tiene gran interés en los sistemas que emplean levitación magnética. Estos reducen significativamente las pérdidas de energía ocasionadas por el roce comparadas con las que ocurren en sistemas mecánicos, además de que son más suaves y menos ruidosos. 
+\noindent En la actualidad se tiene gran interés en los sistemas que emplean levitación magnética debido a que reducen significativamente las pérdidas de energía ocasionadas por el roce comparadas con las que ocurren en sistemas mecánicos, además de que son más suaves y menos ruidosos. 
 
 \noindent Una de las aplicaciones  más importantes es en trenes que funcionan por medio de levitación magnética. Estos se mantienen suspendidos sobre la vía mediante una fuerza magnética de atracción generada por electroimanes en los costados de los vagones, como se  observa en la figura \ref{fig:img_tren}.
 
@@ -15,7 +15,8 @@
 
 \noindent El desarrollo del sistema de levitación magnética planteado para este proyecto surge como idea de la cátedra Sistemas de Control de la carrera de Ingeniería Electrónica, con el objetivo de disponer de una planta de control para realizar prácticas en clase. Una primera versión de este dispositivo fue desarrollada y construída por la cátedra. Los integrantes de este proyecto tuvieron la oportunidad de realizarle pruebas y modificaciones durante el cursado de la asignatura. Sin embargo, no se pudo lograr que el dispositivo funcionara correctamente al finalizar la cursada. Por este motivo, se propuso hacer un rediseño de todas las etapas que componen al sistema en el marco de un proyecto final.
 
-
+\colorbox{yellow}{ESTO ES UN INTENTO DE REDACTAR POR QUÉ ES IMPORTANTE ESTE SISTEMA PARA LA MATERIA}
+Desde el punto de vista de la asignatura Sistemas de Control, es de interés el estudio y experimentación con un sistema de levitación magnética ya que integra varios conceptos dictados durante la cursada. En principio se puede mencionar que este tipo de sistemas presentan un alto grado de inestabilidad, por lo que es necesario el diseño de un compensador adecuado. Además, la planta presenta un comportamiento no lineal con respecto a la variable de control. Por último, se implementa una fuente de corriente conmutada que permite trabajar con corrientes elevadas al mismo tiempo que se minimizan las pérdidas de energía.
 
 \section{Alcance del proyecto}
 
@@ -35,7 +36,7 @@
 
 \section{Descripción del dispositivo}
 
-\noindent El producto está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación ($Y_{g}$) o “gap” de aire deseado entre ellas mientras el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. Dicha separación puede ser modificada por el usuario entre $3\:mm$ y $5\:mm$ y el peso del objeto debe ser menor a $30\:Kg$. El sistema completo se muestra en la figura \ref{fig:img_Esquema-del-producto}.
+\noindent El producto está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación ($Y_{g}$) o “gap” de aire deseado entre ellas mientras el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. Dicha separación puede ser modificada por el usuario entre $3\:mm$ y $5\:mm$ y \colorbox{yellow}{ el peso del objeto debe ser menor a}el peso máximo que se puede hacer levitar es de $30\:kg$. El sistema completo se muestra en la figura \ref{fig:img_Esquema-del-producto}.
 
 \begin{figure}[H]
 	\centering
@@ -46,11 +47,13 @@
 
 \noindent La fuerza electromagnética es regulada por la placa de control con el objetivo de mantener fija la distancia $Y_{g}$, a pesar de las perturbaciones que el sistema pueda recibir. 
 
-
 \noindent El sistema solo ejerce control de posición en el eje vertical, por lo tanto no puede responder ante perturbaciones horizontales sobre el objeto.
 
+\colorbox{yellow}{otra version de lo de arriba}La placa de control actúa sobre la fuerza que ejerce el electroimán para compensar las perturbaciones que pueda recibir el sistema y mantener constante la separación $Y_{g}$. Solo puede ejercer control de la posición sobre el eje vertical, por lo tanto las desviaciones de posición en el eje horizontal no pueden ser controladas y pueden provocar un comportamiento no deseado.
 
-\noindent El sistema está conformado por los bloques que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decide cual de estas implementaciones ejerce el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
+\noindent El sistema de control está conformado por los bloques que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Se utilizan dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decide cual de estas implementaciones ejerce el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un conjunto de componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
+
+\colorbox{yellow}{otra version de lo de arriba}El sistema de control está conformado por las etapas que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Integra dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decide cual de estas implementaciones ejerce el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un circuito de  componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
 
 \begin{figure}[H]
 	\centering
@@ -59,9 +62,16 @@
 	\label{fig:img_diagrama-en-bloques-del-sistema}
 \end{figure}
 
+\colorbox{yellow}{esto podría ser intro de lo de abajo} Para que la placa de control pueda cumplir su función de mantener la distancia de separación $Y_{g}$, debe primero obtener una medida de ella para luego actuar en consecuencia. Aunque se podrían utilizar sensores que cumplan la función de medir la distancia de separación y entregar una tensión proporcional, para esta implementación se optó por estimar la distancia de separación de manera indirecta a partir de la medición de otra variable del sistema para aplicar otros conceptos aprendidos durante la carrera.
+ 
 \noindent El estimador de posición se encarga de entregar una tensión proporcional al gap de aire real a partir de la corriente que circula por el electroimán. El usuario puede modificar el gap de aire según desee mediante un potenciómetro presente en la placa de control. Tanto la implementación analógica como la digital reciben como entrada esta tensión. Luego, es comparada con la estimación y se utiliza como entrada para el compensador.
 
-\noindent La función del compensador es garantizar la estabilidad del sistema. Esto lo logra al modificar la referencia del controlador de corriente mediante una acción de control. 
+
+\noindent La función del compensador es garantizar la estabilidad del sistema. Esto lo logra al modificar la referencia del controlador de corriente mediante una acción de control.
+ 
+\colorbox{yellow}{otra version de arriba}La función del compensador es estabilizar el sistema. Debido a que la planta es naturalmente inestable, se utiliza un compensador adecuado para mantener la estabilidad. En su entrada recibe la comparación de la referencia de posición con la estimación y en base a ella modifica la corriente que ingresa al electroimán, y por ende la fuerza que este ejerce.
 
 \noindent Por otro lado, el controlador de corriente se encarga de proveer corriente al electroimán de forma tal que le permita generar la fuerza electromagnética necesaria para mantener fijo el gap de aire.
+
+\colorbox{yellow}{otra version de arriba}El controlador de corriente cumple la función de adaptar los niveles de tensión de salida del compensador a niveles de corriente aptos para que el electroimán genere la fuerza suficiente para sostener el objeto que se hace levitar. En su entrada recibe una tensión de referencia, y a su salida entrega una corriente proporcional a esta.
  

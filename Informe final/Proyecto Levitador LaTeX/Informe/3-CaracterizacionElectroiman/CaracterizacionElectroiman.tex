@@ -60,10 +60,10 @@
 
 \noindent Donde: 
 \begin{itemize}
-	\item N: cantidad de vueltas del bobinado
-	\item i: corriente que circula por el bobinado
-	\item $R_{m}$: reluctancia del circuito magnético
-	\item $\phi$: flujo magnético
+	\item N: cantidad de vueltas del bobinado.
+	\item i: corriente que circula por el bobinado.
+	\item $R_{m}$: reluctancia del circuito magnético.
+	\item $\phi$: flujo magnético.
 \end{itemize}
 
 
@@ -79,13 +79,13 @@
 
 \noindent Debido a la simetría del electroimán, el flujo magnético total generado en su rama central se divide en dos para circular por cada rama lateral.
 
-\noindent Para encontrar una expresión para la inductancia del electroimán, podemos partir de la Ley de Ampere (ecuación \ref{eq_ampere}). Esta relaciona la magnitud de la fuerza magnetomotríz con la integral de camino de la intensidad de campo magnético ($H$).
+\noindent Para encontrar una expresión para la inductancia del electroimán, se puede partir de la Ley de Ampere mostrada en la ecuación \ref{eq_ampere}. Esta relaciona la magnitud de la fuerza magnetomotríz con la integral de camino de la intensidad de campo magnético ($H$).
 
 \begin{equation} \label{eq_ampere}
 	F_{mm}=\oint{H*dl}=N*i
 \end{equation}
 
-\noindent La intensidad de campo magnético H depende del medio en el que se propague el flujo magnético. Por lo tanto, en el núcleo será distinta que en el gap de aire. Por ello es conveniente utilizar la densidad de flujo magnético (B), cuya relación es $H=\frac{B}{\mu}$. De esta forma, se puede separar la porción de integral dentro del material ferromagnético y en el gap de aire. Entonces la fuerza magnetomotriz queda:
+\noindent La intensidad de campo magnético depende del medio en el que se propague el flujo magnético. Por lo tanto, en el núcleo será distinta que en el gap de aire. Por ello es conveniente utilizar la densidad de flujo magnético (B), cuya relación es $H=\frac{B}{\mu}$. De esta forma, se puede separar la porción de integral dentro del material ferromagnético y en el gap de aire. Entonces la fuerza magnetomotriz queda:
 
 \begin{equation} 
 	F_{mm}=\oint{\frac{B}{\mu_{o}}*dl}+\oint{\frac{B}{\mu_{r}}*dl}=N*i
@@ -99,14 +99,14 @@
 
 Donde:
 \begin{itemize}
-	\item $l_{m}$: longitud del circuito magnético dentro del electroimán
-	\item $l_{A}$: longitud del circuito magnético en el gap de aire
-	\item $\mu_{o}$: permeabilidad magnética del vacio. Su valor es igual a $4 \pi * 10^{-7}\:Hy/m$
+	\item $l_{m}$: longitud del circuito magnético dentro del electroimán.
+	\item $l_{A}$: longitud del circuito magnético en el gap de aire.
+	\item $\mu_{o}$: permeabilidad magnética del vacio. Su valor es igual a $4 \pi * 10^{-7}\:Hy/m$.
 	\item $\mu_{r}$: permeabilidad magnética relativa del material del electroimán. Es aproximadamente igual a $4000 * \mu_{o}$.
 
 \end{itemize}
 
-\noindent De la ecuación \ref{eq_fuerza-magnetomotriz} se tiene que la reluctancia magnética es $R_{m}=\frac{N*i}{\phi}$. Además, por definición de la densidad de campo magnético, se tiene que $B=\frac{\phi}{A}$, siendo A el área que atraviesa el flujo magnético. Por lo tanto se llega a:
+\noindent De la ecuación \ref{eq_fuerza-magnetomotriz} se tiene que la reluctancia magnética es $R_{m}=\frac{N*i}{\phi}$. Además, por definición de la densidad de campo magnético, se tiene que $B=\frac{\phi}{A}$, \colorbox{yellow}{siendo} A el área que atraviesa el flujo magnético. Por lo tanto se llega a:
 
 \begin{equation}
 		R_{m}*\phi=\frac{\phi}{\mu_{r}*A}*l_{m}+\frac{\phi}{\mu_{o}*A}*l_{A}
@@ -139,9 +139,10 @@ Donde:
 
 \section{Cálculo de la fuerza magnética}
 
-\noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de I se puede modelar a partir de la energía almacenada en un inductor y al considerar que esta es igual a la integral del trabajo:
+\noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de ``I'' se puede modelar a partir de la energía almacenada en un inductor y al considerar que esta es igual a la integral del trabajo:
 \noindent
 
+\colorbox{yellow}{A la integral del trabajo? o al trabajo?}
 \begin{equation}\label{eq_energia}
 	E(i,y)=W=\int{F_{m}*dy}=>F_{m}=\frac{\partial{E(i,y)}}{\partial{y}}
 \end{equation}
@@ -152,7 +153,7 @@ Donde:
 	E(i,y)=\frac{L(i,y)*i^{2}}{2}
 \end{equation}
 
-\noindent La expresión anterior indica que la cantidad de energía que almacena el sistema es función del gap de aire ($Y_{g}$) y de la corriente que circula por el electroimán ($i$). 
+\noindent La expresión anterior indica que la cantidad de energía que almacena el sistema depende del gap de aire ($Y_{g}$) y de la corriente que circula por el electroimán ($i$). 
 
 \noindent Al combinar las ecuaciones \ref{eq_inductancia_vs_y}, \ref{eq_energia} y \ref{eq_energia_2} se obtiene:
 
@@ -184,13 +185,13 @@ Donde:
 	i_{nom}=\sqrt{\frac{4*M*g*Y_{g}^{2}}{N^{2}*\mu_{o}*A}}
 \end{equation}
 
-Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30kg$ e $Y_{g}=y_{max}=5mm$, se obtiene:
+Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30\:kg$ e $Y_{g}=y_{max}=5\:mm$, se obtiene:
 
 \begin{equation}
-	i_{nom}=20.4A
+	i_{nom}=20.4\:A
 \end{equation}
 
-\noindent Aunque esta corriente es suficiente para mantener el objeto en estado de equilibrio, se necesita una corriente mayor para poder responder ante perturbaciones en la distancia de separación. Por lo tanto, se define la corriente máxima $i_{max}=30A$.
+\noindent Aunque esta corriente es suficiente para mantener el objeto en estado de equilibrio, se necesita una corriente mayor para poder responder ante perturbaciones en la distancia de separación. Por lo tanto, se define la corriente máxima $i_{max}=30\:A$.
 
 
 
@@ -206,8 +207,8 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \noindent Donde:
 \begin{itemize}
-	\item $Y_{g}$: distancia del gap de aire en metros [m]
-	\item L: inductancia resultante en Henry [Hy]
+	\item $Y_{g}$: distancia del gap de aire en metros [m].
+	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
 
 \section{Mediciones sobre el electroimán}
@@ -234,7 +235,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \subsection{Medición de inductancia}
 
-\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca Instek y planchas de cartón de distinto espesor para mantener el gap de aire fijo. Para el caso en que no se utiliza la pieza I, se considera que la distancia es infinita, y lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
+\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca Instek y planchas de cartón de distinto espesor para mantener el gap de aire fijo. Para el caso en que no se utiliza la pieza ``I'', se considera que la distancia es infinita, y lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
 
 \noindent Se obtuvieron los siguientes resultados:
 
@@ -256,7 +257,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\caption{Inductancia medida en función del gap de aire.}
 	\label{fig:img_inductancia_medida}
 \end{figure}
-\noindent A partir de los resultados mostrados en la tabla \ref{tab_mediciones_inductancia}, se puede observar en la imagen \ref{fig:img_inductancia_medida} que la inductancia no varía linealmente con la distancia. Por lo tanto se realiza una aproximación lineal por mínimos cuadrados utilizando valores de distancia cercanos al rango de trabajo y se llega a la expresión de inductancia linealizada:
+\noindent A partir de los resultados mostrados en la tabla \ref{tab_mediciones_inductancia} y en la imagen \ref{fig:img_inductancia_medida} es posible notar que la inductancia no varía linealmente con la distancia. Por lo tanto se realiza una aproximación lineal por mínimos cuadrados para valores de distancia cercanos al rango de trabajo y se llega a la expresión de inductancia linealizada:
 
 \begin{equation}
 	\label{eq_induct_practica}
@@ -270,7 +271,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 \end{itemize}
 \colorbox{yellow}{Tenemos que aclarar si nos quedamos con la inductancia medida o la teórica y conclusión}
 
-\noindent Se puede ver que la ecuación obtenida no  difiere demasiado con la calculada en la sección \ref{secc_exp_ind_linealizada}. Las variaciones en los valores obtenidos con respecto a la calculada de forma teórica están dados por las características constructiva del electroimán. Se utilizara como aproximación de la inductancia a la calculada de forma practica (ecuación \ref{eq_induct_practica}).
+\noindent Se puede ver que la ecuación obtenida no  difiere demasiado con la calculada en la sección \ref{secc_exp_ind_linealizada}. Las variaciones en los valores obtenidos con respecto a la calculada de forma teórica están dados por las características constructiva del electroimán. Se utilizará como aproximación de la inductancia a la calculada de forma practica (ecuación \ref{eq_induct_practica}).
 
 \section{Modelo de estado de la planta}
 
@@ -286,7 +287,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	M*\ddot{y}=M*g-K*\frac{i(t)^{2}}{y(t)^{2}}
 \end{equation}
 
-\noindent Donde K es una constante de valor:
+\noindent En la expresión \ref{eq_sumatoria_fuerzas_y_2}, K es una constante de valor:
 
 \begin{equation}
 	K=\frac{N^{2}*\mu_{o}*A}{4}=1.77*10^{-5} [\frac{N*m^2}{A^2}]

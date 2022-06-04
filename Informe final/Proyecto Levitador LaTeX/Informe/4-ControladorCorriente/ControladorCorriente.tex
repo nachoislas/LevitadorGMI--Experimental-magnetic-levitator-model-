@@ -7,9 +7,9 @@
 \frac{1}{sL(y)\ +\ R_L}
 \end{equation}
 
-\noindent Para realizar este control se utiliza un sistema realimentado, como el que se muestra en la figura \ref{fig:img_diag-en-bloques}. Se puede ver que se ingresa con una tensión de referencia ($V_{in}$) proporcional a la corriente de salida deseada, que luego se multiplica por la ganancia de entrada ($K_{in}$). La corriente del electroimán se realimenta en forma de una tensión proporcional a ella ($V_{iF}$). Ambas tensiones son restadas y el resultado (e) ingresa al bloque de comparador con histéresis, que actúa en conmutación, por lo que su salida tiene dos estados posibles: $\pm$$V_L$.
+\noindent Para realizar este control se utiliza un sistema realimentado, como el que se muestra en la figura \ref{fig:img_diag-en-bloques}. Se puede ver que se ingresa con una tensión de referencia ($V_{iLRef}$) proporcional a la corriente de salida deseada, que luego se multiplica por la ganancia de entrada ($K_{in}$). La corriente del electroimán se realimenta en forma de una tensión proporcional a ella ($V_{iLF}$). Ambas tensiones son restadas y el resultado ($V_e$) ingresa al bloque de comparador con histéresis, que actúa en conmutación, por lo que su salida tiene dos estados posibles: $\pm$$V_L$.
 
-\noindent Al ser aplicadas al inductor se producirá una rampa de corriente: si la tensión es positiva, la rampa crece, y si es negativa decrece. De esta forma, debido a la conmutación del comparador se obtiene, a la salida, una forma de onda triangular $I_L$, cuyo valor medio es la corriente deseada y se corresponde a la tensión de referencia.
+\noindent Al ser aplicadas al inductor se produce una rampa de corriente: si la tensión es positiva, la rampa crece, y si es negativa decrece. De esta forma, debido a la conmutación del comparador se obtiene, a la salida, una forma de onda triangular $I_L$, cuyo valor medio es la corriente deseada y se corresponde a la tensión de referencia.
 
 \begin{figure}[H]
 	\centering
@@ -49,7 +49,7 @@
 	\label{fig:img_comp-con-hist}
 \end{figure}
 
-\noindent Para controlar la corriente en el electroimán se utiliza una topología en puente H, que permite conmutar la polaridad de la tensión aplicada a la bobina. Para medir la corriente se utiliza un sensor de efecto Hall, que es modelado en la simulación como  una fuente de tensión controlada por corriente, con una ganancia de 53.3 mV/A correspondiente a su transconductancia. Esta implementación puede observarse en la figura \ref{fig:img_puenteH}. A continuación, su salida es realimentada a la etapa de entrada luego de restarle la tensión de referencia  $V_{bias}$ de 2.5V, como se muestra en la figura \ref{fig:img_resta-Vbias}. 
+\noindent Para controlar la corriente en el electroimán se utiliza una topología en puente H, que permite conmutar la polaridad de la tensión aplicada a la bobina. Para medir la corriente se utiliza un sensor de efecto Hall, que es modelado en la simulación como  una fuente de tensión controlada por corriente, con una ganancia de 53.3 mV/A correspondiente a su transconductancia. Esta implementación puede observarse en la figura \ref{fig:img_puenteH}. A continuación, su salida es realimentada a la etapa de entrada luego de restarle la tensión de referencia  $V_{bias}$ de $2.5\:V$, como se muestra en la figura \ref{fig:img_resta-Vbias}. 
 
 \begin{figure}[H]
 	\centering
@@ -61,7 +61,7 @@
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=1]{Resta-Vbias.png}
-	\caption{Resta del $V_{bias}$ al sensor de efecto Hall.}
+	\caption{Resta de $V_{bias}$ al sensor de efecto Hall.}
 	\label{fig:img_resta-Vbias}
 \end{figure}
 
@@ -147,7 +147,7 @@
 	\label{fig:img_capacitores-puenteH}
 \end{figure}
 
-\noindent Por otro lado, el capacitor debe entregar corriente al diodo de bootstrap cuando este queda en inversa ($I_{DR}$ ), y también entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$ ). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
+\noindent Por otro lado, el capacitor debe entregar corriente al diodo de bootstrap cuando este queda en inversa ($I_{DR}$), y también entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
 
 \noindent Por lo tanto, para poder dimensionar correctamente el capacitor de bootstrap es necesario tener en cuenta todos los efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena el capacitor bootstrap:
 
@@ -167,9 +167,9 @@ Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
 \begin{itemize}
 \item $Q_G$= Carga total que se debe entregar al gate del MOS.
 \item $Q_{RR}$ = Carga entregada al diodo en inversa durante el tiempo de recovery (cuando pasa de modo conducción a inversa).
-\item $I_{DR}$ = Corriente de fuga del diodo en inversa
-\item $I_{GS}$ = Corriente que circula por la resistencia de gate-source
-\item $f_{PWM}$= frecuencia de conmutación
+\item $I_{DR}$ = Corriente de fuga del diodo en inversa.
+\item $I_{GS}$ = Corriente que circula por la resistencia de gate-source.
+\item $f_{PWM}$= frecuencia de conmutación.
 \end{itemize}
 
 
@@ -180,15 +180,13 @@ Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
 C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \end{equation}
 
-\noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, $Q_G$= 170 nC. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS}$ = 0.1 V y con la información brindada por las hojas de datos, es posible dimensionar el capacitor para que este posea carga suficiente para mantener siempre encendido al MOSFET.
+\noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, $Q_G$= 170 nC. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS}$ = 0.1 V, es posible dimensionar el capacitor para que este posea carga suficiente para mantener al MOSFET siempre encendido.
 
-\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR, se obtiene a partir de \cite{RSX205LAM30} que  $I_R$ es igual a 0.1 A  y  el tiempo de recuperación de inversión es de 12.5 ns. Por lo tanto, la carga de recuperación resulta de 0.625 nC. Ademas, la corriente inversa de fuga del diodo de bootstrap tiene un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
+\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR, se obtiene a partir de \cite{RSX205LAM30} que  $I_R$ es igual a 0.1 A  y  el tiempo de recuperación de inversión es de 12.5 ns. Por lo tanto, la carga de recuperación resulta de 0.625 nC. Además, la corriente inversa de fuga del diodo de bootstrap tiene un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
 
 \noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de bootstrap ($V_B$=12V) dividido el valor de la resistencia gate-source, que es de 4.7 kOhm. Por lo tanto, $I_{GS}$=2.55 mA. 
 
 \noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de 50 kHz, lo que resulta en $f_{PWM}=50 \:kHz$. 
-
-\colorbox{yellow}{Ver redacción de lo de las frecuencias de arriba}
 
 \noindent Al reemplazar los valores obtenidos en \ref{eq_cap-bootstrap}, se obtiene:
 
@@ -201,14 +199,14 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \end{equation*}
 
 
-\noindent Por lo tanto, una capacidad mayor a $2.61 \:\mu F$ resultará en una caída menor a 0.1 V en el capacitor de bootstrap durante el tiempo de encendido de los MOSFET. Podría usarse un capacitor más pequeño, a costa de permitir una mayor caída de tensión en el capacitor. 
+\noindent Por lo tanto, una capacidad mayor a $2.61 \:\mu F$ resulta en una caída menor a 0.1 V en el capacitor de bootstrap durante el tiempo de encendido de los MOSFET. Podría usarse un capacitor más pequeño, a costa de permitir una mayor caída de tensión en el capacitor. 
 
 \noindent Finalmente, se decidió utilizar 2 capacitores de bootstrap en paralelo de $5.6 \:\mu F$ cada uno con el objetivo de reducir la resistencia serie.
 
 
 \subsubsubsection{Resistencia entre gate y source} \label{secc_res_gate_source}
 
-\noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como R1, R2, R3, R4. Su propósito es evitar que el gate del mosfet se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además ayuda a evitar que se encienda el mosfet por ruido acoplado capacitivamente. 
+\noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como R1, R2, R3, R4. Su propósito es evitar que el gate del mosfet se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el mosfet por ruido acoplado capacitivamente. 
 
 \noindent Se utiliza una resistencia de 4.7 $k\Omega$ debido a que permite que el gate se descargue en un tiempo rápido, consumiendo solo 2.55 mA del capacitor de bootstrap.
 
@@ -225,6 +223,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un mosfet IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es 63 ns. Este valor se obtiene de tener en cuenta el $T_{OFF}$ y el $T_{FALL}$ de la hoja de datos . Por lo tanto, para tener un margen, se elige que el deadtime sea de 100 ns. De todas formas, esta aplicación específica no requiere un tiempo de encendido rápido de los mosfets.
 
 \noindent Según la hoja de datos del HIP4081A, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser 200 K$\Omega$.
+\colorbox{yellow}{podríamos volver a referenciarlo, no?}
 
 \subsubsection{Dimensionamiento de los capacitores de fuente}
 	
@@ -232,7 +231,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan ripple en la tensión $V_{BUS}$.
 
-\noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por C1 y C2. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores y hacia el electroimán por Q1 y Q4. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de Q2 y Q3. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-I_L$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
+\noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por C1 y C2. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores y hacia el electroimán por Q1 y Q4. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de Q2 y Q3. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-<I_L>$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
 
 \begin{figure}[H]
 	\centering
@@ -251,7 +250,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 	\end{aligned}
 \end{equation}
 
-\noindent Con $\Delta I_L=500 \:mA$ y $T=0.47\:ms$ que corresponde a $Y = 2 \:mm$ según la tabla \ref{tab_mediciones}
+\noindent Con $\Delta I_L=500 \:mA$ y $T=0.47\:ms$ que corresponde a $Y_g = 2 \:mm$ según la tabla \ref{tab_mediciones}
 
 \begin{equation} 
 \Delta Q = 21\:A * \frac{0.47\:ms}{2} \approx 5\:mC
@@ -287,14 +286,14 @@ R_T = \frac{R_{ESR}}{n}
 
 \noindent Por lo tanto reemplazando se puede calcular la potencia que disipan como:
 
-\begin{equation} 
+\begin{equation}\label{eq_potencia} 
 	P = I^2 * R_T = 21.25^2 * \frac{R_{ESR}}{n}
 \end{equation}
 
-\noindent Se decidió utilizar 6 capacitores  de 2200 uF/50V con una ESR de 17 $\Omega$ (datos obtenidos de \cite{EKY-350ELL222MM25S}) . Por lo tanto reemplazando en la ecuación 4.4 se obtiene que la potencia disipada es de: 
+\noindent Se decidió utilizar 6 capacitores  de $2200 \:uF/50\:V$ con una ESR de $17 \:\Omega$ (datos obtenidos de \cite{EKY-350ELL222MM25S}) . Por lo tanto, al reemplazar en la ecuación \ref{eq_potencia} se obtiene que la potencia disipada es de: 
 
 \begin{equation} 
-	P=1.28 W
+	P=1.28\:W
 \end{equation}
 
 
@@ -304,7 +303,7 @@ R_T = \frac{R_{ESR}}{n}
 
 \noindent Para poder asegurar un periodo de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al mosfet driver. De esta manera se producen conmutaciones en un intervalo regular y se cargan regularmente los capacitores de bootstrap. 
 
-\noindent Se adopta una frecuencia de conmutación auxiliar de 50KHz y se hace variar el ciclo de trabajo de la salida del comparador con histéresis entre dos valores. Durante la carga del inductor, el ciclo de trabajo será del 90\% mientras que durante la descarga será del 10\%.
+\noindent Se adopta una frecuencia de conmutación auxiliar de $50\:kHz$ y se hace variar el ciclo de trabajo de la salida del comparador con histéresis entre dos valores. Durante la carga del inductor, el ciclo de trabajo será del 90\% mientras que durante la descarga será del 10\%.
 
 \noindent Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de C1 como:
 
@@ -313,7 +312,7 @@ R_T = \frac{R_{ESR}}{n}
 \end{equation}
 
 
-\noindent Esta frecuencia debe ser mucho mayor a la fundamental de la corriente triangular para evitar problemas en el funcionamiento del sistema y, además, debe ser lo suficientemente alta para poder ser filtrada sin inconvenientes en la etapa de estimación de posición. Por lo tanto, al adoptar una frecuencia auxiliar de 50 KHz, resulta en C1= 900 pF.
+\noindent Esta frecuencia debe ser mucho mayor a la fundamental de la corriente triangular para evitar problemas en el funcionamiento del sistema y, además, debe ser lo suficientemente alta para poder ser filtrada sin inconvenientes en la etapa de estimación de posición. Por lo tanto, al adoptar una frecuencia auxiliar de $50\:kHz$, resulta en $C1= 900 \:pF$.
 
 \begin{figure}[H]
 	\centering
@@ -325,7 +324,7 @@ R_T = \frac{R_{ESR}}{n}
 
 \subsubsection{Simulación del sistema con oscilador auxiliar}
 
-\noindent En la figura \ref{fig:img_corriente-auxiliar} se muestran las formas de onda obtenidas considerando el oscilador auxiliar necesario para el funcionamiento del bootstrap. 
+\noindent En la figura \ref{fig:img_corriente-auxiliar} se muestran las formas de onda obtenidas con el oscilador auxiliar utilizado para el correcto funcionamiento del bootstrap. 
 
 \begin{figure}[H]
 	\centering
@@ -338,7 +337,7 @@ R_T = \frac{R_{ESR}}{n}
 
 \subsubsection{Corriente media del electroimán}
 
-\noindent Para saber la corriente media que habrá a la salida con cierta tensión de entrada, se utiliza la transferencia de lazo cerrado (sin considerar polos, y suponiendo una alta ganancia de lazo abierto):
+\noindent Para saber la corriente media que habrá a la salida al aplicarle cierta tensión en la entrada, se utiliza la transferencia de lazo cerrado (sin considerar polos, y suponiendo una alta ganancia de lazo abierto):
 
 \begin{equation} 
 	I_L = V_{i\_ref} * \frac{K_{in}}{H(s)} = V_{i\_ref} * 6 \frac{A}{V}
@@ -352,7 +351,7 @@ R_T = \frac{R_{ESR}}{n}
 f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(y)}
 \end{equation}
 
-\noindent Para $y = 4 mm $ se tiene una inductancia $L(4mm) = 16.44 mHy$ , lo cual resulta en una frecuencia $f_{SW }= 1460 Hz$ .
+\noindent Para $y = 4 \:mm $ se tiene una inductancia $L(4\:mm) = 16.44 \:mHy$ , lo cual resulta en una frecuencia $f_{SW }= 1460 \:Hz$ .
 
 \subsubsection{Ancho de banda del controlador}
 
@@ -368,20 +367,20 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(y)}
 	\omega _{polo} = \frac{1}{2\pi * L(y)}
 \end{equation}
 
-\noindent Tomando las condiciones del problema con Yo = 4mm, L = 7.55 mHy + 8.89 mHy, y Rl=0.2$\Omega$ el polo se ubica:
+\noindent Tomando las condiciones del problema con $Y:g = 4\:mm$, $L = 7.55 \:mHy + 8.89 \:mHy$, y $R_L=0.2\:\Omega$ el polo se ubica:
 
 \begin{equation} 
-	\omega _{polo} = \frac{0.2}{16.44 mHy} = 12.17 r/s
+	\omega _{polo} = \frac{0.2}{16.44 \:mHy} = 12.17 \:r/s
 \end{equation}
 
-\noindent La Tabla 4.2 muestra  entre qué valores de frecuencia se verá afectada la forma de onda al modificarse la distancia de separación.
+\noindent La tabla \colorbox{yellow}{3.1??} muestra  entre qué valores de frecuencia se verá afectada la forma de onda al modificarse la distancia de separación.
 
 \begin{equation} \label{eq_DeltaT}
 	\Delta T [s] = \frac{\Delta I_L * (L(y) + L_{\infty})}{V_{BUS}}
 \end{equation}
 
 
-\noindent Considerando Rl=0.2 $\Omega$ 
+\noindent Considerando $R_L=0.2 \:\Omega$ 
 
 \noindent En la ecuación \ref{eq_DeltaT}, $\Delta T$ representa el tiempo de crecimiento o de decrecimiento de la rampa de corriente (despreciando la resistencia del bobinado) en torno al valor nominal. El doble de este tiempo es igual al periodo de la corriente triangular $(2*T=\frac{1}{F_{SW}})$.
 

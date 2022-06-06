@@ -8,6 +8,12 @@
 
 \noindent Para estimar la distancia se hace la derivada de la corriente, puesto que las pendientes de crecimiento y decrecimiento var\'{i}an con la separaci\'{o}n. Es importante tener en cuenta que durante el dise\~{n}o de la etapa de controlador de corriente, se eligi\'{o} una topolog\'{i}a que mantiene el sistema conmutando cont\'{i}nuamente (incluso para corriente nula) para tener siempre una estimaci\'{o}n disponible.
 
+
+
+\noindent Se implementa un estimador compuesto por los bloques mostrados en la figura \ref{fig:img_Diagrama-Bloques-Estimador.png}. Se ingresa con una tensi\'{o}n triangular (ViL) que es la salida del sensor de efecto Hall. Para eliminar las componentes de alta frecuencia se aplica un filtro pasa bajos dejando pasar hasta la quinta arm\'{o}nica. Esta se\~{n}al filtrada conserva la forma triangular de la corriente. 
+
+\noindent Al ingresar al derivador con ViL, la forma de onda resultante a su salida es aproximadamente cuadrada, y sus valores de alto y bajo se corresponden con las pendientes de bajada y subida multiplicadas por una constante de tiempo del derivador. Estas pendientes deber\'{i}an ser sim\'{e}tricas alrededor del punto de operaci\'{o}n de 2.5V, pero no lo son debido a la resistencia interna del electroim\'{a}n, que provoca que la pendiente de bajada sea mayor (en m\'{o}dulo) que la de subida. Por ello, se implementa la compensaci\'{o}n I*R, cuya salida ingresa al derivador y logra mantener la simetr\'{i}a alrededor de 2.5V. Esta se\~{n}al ingresa al \'{u}ltimo bloque que rectifica y filtra la forma de onda, obteni\'{e}ndose una tensi\'{o}n continua (Vout) proporcional a la distancia de separaci\'{o}n del gap ($Y_{g}$).
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Diagrama-Bloques-Estimador.png}
@@ -15,16 +21,9 @@
 	\label{fig:img_Diagrama-Bloques-Estimador.png}
 \end{figure}
 
-\noindent Se implementa un estimador compuesto por los bloques mostrados en la figura \ref{fig:img_Diagrama-Bloques-Estimador.png}. A este le ingresa una tensi\'{o}n triangular (ViL) que es la salida del sensor de efecto Hall. Para eliminar las componentes de alta frecuencia se aplica un filtro pasa bajos dejando pasar hasta la quinta arm\'{o}nica. Esta se\~{n}al filtrada conserva la forma triangular de la corriente. 
-
-
-
-\noindent Al ingresar al derivador con ViL, la forma de onda resultante a su salida es aproximadamente cuadrada, y sus valores de alto y bajo se corresponden con las pendientes de bajada y subida multiplicadas por una constante de tiempo del derivador. Estas pendientes deber\'{i}an ser sim\'{e}tricas alrededor del punto de operaci\'{o}n de 2.5V, pero no lo son debido a la resistencia interna del electroim\'{a}n, que provoca que la pendiente de bajada sea mayor (en m\'{o}dulo) que la de subida. Por ello, se implementa la compensaci\'{o}n I*R, cuya salida ingresa al derivador y logra mantener la simetr\'{i}a alrededor de 2.5V. Esta se\~{n}al ingresa al \'{u}ltimo bloque que rectifica y filtra la forma de onda, obteni\'{e}ndose una tensi\'{o}n continua (Vout) proporcional a la distancia de separaci\'{o}n del gap ($Y_{g}$).
-
-
 \subsection{An\'{a}lisis de la estimaci\'{o}n}
 
-\noindent La ecuaci\'{o}n que gobierna la corriente en el electroim\'{a}n se puede calcular aplicando las leyes de Kirchoff correspondientes al circuito que se ve en la figura \ref{fig:img_Circuito-electroimán-con-driver-corriente.png}.
+\noindent La ecuaci\'{o}n que gobierna la corriente en el electroim\'{a}n se puede calcular con las leyes de Kirchoff correspondientes al circuito que se ve en la figura \ref{fig:img_Circuito-electroimán-con-driver-corriente.png} y la expresión de la inductancia \ref{eq_inductancia_vs_y}.
 
 \begin{figure}[H]
 	\centering
@@ -33,18 +32,13 @@
 	\label{fig:img_Circuito-electroimán-con-driver-corriente.png}
 \end{figure} 
 
-\noindent Sabiendo que$\ L(y)$ se puede aproximar como en la ecuación \ref{eq_inductancia_f(y)}, y que $L_{\infty }$(inductancia de dispersi\'{o}n) es la inductancia del electroim\'{a}n sin la pieza en forma de ``I'' :
-
-\begin{equation} \label{eq_inductancia_f(y)}
-	L(y)\ \approx \ \mu o\frac{N^2*A}{2Y} 
-\end{equation}
-
+\noindent Al resolver el circuito se obtiene:
 \begin{equation} \label{eq_VbusCondicion}
-	\pm V_{BUS}-\ L(y)*\left|\frac{{di}_L}{dt}\right|-L_{\infty }*\left|\frac{{di}_L}{dt}\right|-R_L*I_L=0
+	\pm V_{BUS}-\ L(Y_g)*\left|\frac{{di}_L}{dt}\right|-L_{\infty }*\left|\frac{{di}_L}{dt}\right|-R_L*I_L=0
 \end{equation}
 
 
-\noindent Asumiendo que:
+\noindent Se asume que:
 
 \begin{equation} \label{eq_Derivadadi-dt}
 	V_{BUS}>>i_L*R_L
@@ -53,10 +47,10 @@
 \noindent Se aproxima la derivada de la corriente como:
 
 \begin{equation} \label{eq_derivadaAproximacion}
-	\left|\frac{{di}_L}{dt}\right|\simeq \frac{V_{BUS}}{L(y)+L_{\infty }}=\frac{V_{BUS}}{L_T(y)}
+	\left|\frac{{di}_L}{dt}\right|\simeq \frac{V_{BUS}}{L(Y_g)+L_{\infty }}=\frac{V_{BUS}}{L_T(Y_g)}
 \end{equation}
 
-\noindent Seg\'{u}n mediciones realizadas, se tienen los valores de $L_T(y)$ correspondientes a cada posici\'{o}n. En base a ellos se hace una aproximaci\'{o}n lineal para obtener la expresi\'{o}n de la derivada de la ecuaci\'{o}n \ref{eq_derivadaAproximacion}.
+\noindent Seg\'{u}n mediciones realizadas, se tienen los valores de $L_T(Y_g)$ correspondientes a cada posici\'{o}n. En base a ellos se hace una aproximaci\'{o}n lineal para obtener la expresi\'{o}n de la derivada de la ecuaci\'{o}n \ref{eq_derivadaAproximacion}.
 
 \noindent 
 
@@ -82,7 +76,7 @@
 \end{equation}
 
 
-\noindent Considerando $V_L=K_h*i_L$, donde Kh es la constante del sensor de efecto Hall, se obtiene: 
+\noindent Al considerar que $V_L=K_h*i_L$, con $K_h$ como la constante del sensor de efecto Hall, se obtiene: 
 
 \begin{equation} \label{eq_vyf2}
 	V_{yf}(t)\ =2.5V\ -\frac{diL}{dt}*K_h*C_1*R_1
@@ -100,7 +94,7 @@
 	C_1*R_1<=\frac{2.5\ V\ *L_{min}}{V_{BUS}*K_h}
 \end{equation}
 
-\noindent Con $L_{min}=\ L_T(5\ mm)=\ 14.9\ mH$ (teniendo en cuenta la inductancia de dispersi\'{o}n) se obtiene: 
+\noindent Con $L_{min}= L_T(5\: mm)= 14.9\: mH$ (teniendo en cuenta la inductancia de dispersi\'{o}n) se obtiene: 
 
 \begin{equation} \label{eq_condicionC1-R1-2}
 	C_1*R_1<=\ 29.1\ ms
@@ -110,27 +104,26 @@
 
 \noindent Para los c\'{a}lculos se utiliz\'{o} $C_1*R_1=\ 25\ mS$, para dar un margen y evitar la saturaci\'{o}n del amplificador operacional.  
 
-\noindent Usando la ecuaci\'{o}n \ref{eq_di-dt_lineal} y \ref{eq_vyf3}, y considerando una variaci\'{o}n en torno a 2.5V se obtiene:
+\noindent Con la ecuaci\'{o}n \ref{eq_di-dt_lineal} y \ref{eq_vyf3}, y con una variaci\'{o}n en torno a 2.5V se obtiene:
 
-\noindent
 
 \begin{equation} \label{eq_Vyf-lineal}
-	Vyf(y)\ =\ |Kh*C_1*R_1*di/dt)|\ +2.5V=0.2595*y(mm)+3.4V
+	Vyf(Y_g)\ =\ |Kh*C_1*R_1*di/dt)|\ +2.5V=0.2595*Y_g(mm)+3.4V
 \end{equation}
 
-\noindent Se puede observar en la tabla \ref{tab_Vyf_vs_y} que para el rango de valores posibles en los que el electroim\'{a}n trabajar\'{a}, el estimador posee un rango de salida ${\mathit{\Delta}{Vyf}_{Lineal}}(5-2\ mm)=\ 0.78\ V$.
+\noindent Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores en los que el electroim\'{a}n trabajar\'{a}, el estimador posee un rango de salida ${\mathit{\Delta}{Vyf}_{Lineal}}(5-2\ mm)=\ 0.78\ V$.
 
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{| c | c |}
 			\hline
-			Y[mm] & ${Vyf(y)}_{Lineal}$\\ \hline
+			$Y_g[mm]$ & ${Vyf(Y_g)}_{Lineal}$\\ \hline
 			2 & 3.92 \\ \hline 
 			3 & 4.18 \\ \hline 
 			4 & 4.44 \\ \hline 
 			5 & 4.7 \\ \hline 
 		\end{tabular}
-		\caption{Vyf en función de la posición.}
+		\caption{$V_{yf}$ en función de la posición.}
 		\label{tab_Vyf_vs_y}
 	\end{center}
 \end{table}

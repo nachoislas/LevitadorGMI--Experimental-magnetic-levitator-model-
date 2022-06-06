@@ -93,6 +93,7 @@ wc=w0/sqrt(alpha);
 wp=sqrt(alpha)*w0;
 k=2630;
 CdigitalW=(1+s/wc)/(1+s/wp);
+CtotalW=k*CdigitalW*CdigitalW;
 gcompensado=k*Gtotalw*CdigitalW*CdigitalW;
 
 figure(9)

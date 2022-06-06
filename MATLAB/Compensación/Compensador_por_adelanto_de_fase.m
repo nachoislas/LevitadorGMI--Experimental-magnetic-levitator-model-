@@ -112,7 +112,7 @@ step(TlcDigitalSinIntegrador)
 
 
 %% Bloque Integrador Digital
-KintD=1;
+KintD=20;
 integradorDigital=KintD/(s);
 
 figure(14)

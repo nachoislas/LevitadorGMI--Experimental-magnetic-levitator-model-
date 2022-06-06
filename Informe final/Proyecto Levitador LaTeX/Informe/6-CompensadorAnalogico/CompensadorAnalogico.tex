@@ -212,7 +212,9 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 
 \[Ginteg\ =\ kint\ *\ \frac{1}{(1+(\frac{s}{p}))}\]
 
-\noindent Debido a que un integrador con polo en el origen tiene una ganancia infinita en contínua, no sería adecuado implementarlo de esta manera en el circuito. Por lo tanto se ubica el polo en 0.1 rad/s de forma tal que permita limitar dicha ganancia y ser de carácter integrativo para las frecuencias de la planta. Inicialmente se analiza la estabilidad del sistema con Kint = 1 por medio del lugar de raíces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador-analog}.
+\noindent Debido a que un integrador con polo en el origen tiene una ganancia infinita en contínua, no sería adecuado implementarlo de esta manera en el circuito. Por lo tanto se ubica el polo en 0.1 rad/s de forma tal que permita limitar dicha ganancia y ser de carácter integrativo para las frecuencias de la planta. Esta modificación provoca que la cancelación del error en regimen permanente no sea completa, pero de todas maneras sea pequeña en comparación con la distancia de separación.
+
+Inicialmente se analiza la estabilidad del sistema con Kint = 1 por medio del lugar de raíces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador-analog}.
 
 \noindent Para este lazo de realimentación externo también debe utilizarse realimentación positiva, puesto que la TLC interna del sistema presenta una ganancia negativa.
 

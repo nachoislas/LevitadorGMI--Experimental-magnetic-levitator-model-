@@ -193,8 +193,18 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \begin{equation*} 
 	\begin{aligned}
 		C_{BS} &> \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}\\	
-		 C_{BS} &> \frac{170 \:nC + 0.625\:nC + \frac{2 \:mA + 2.55 \:mA}{50 \:kHz}}{0.1 \:V}\\
-		 C_{BS} &> 2.61 \:\mu F\\	
+	\end{aligned}
+\end{equation*}
+
+\begin{equation*} 
+	\begin{aligned}
+		C_{BS} &> \frac{170 \:nC + 0.625\:nC + \frac{2 \:mA + 2.55 \:mA}{50 \:kHz}}{0.1 \:V}\\
+	\end{aligned}
+\end{equation*}
+
+\begin{equation*} 
+	\begin{aligned}
+		C_{BS} &> 2.61 \:\mu F\\	
 	\end{aligned}
 \end{equation*}
 
@@ -222,8 +232,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un mosfet IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es 63 ns. Este valor se obtiene de tener en cuenta el $T_{OFF}$ y el $T_{FALL}$ de la hoja de datos . Por lo tanto, para tener un margen, se elige que el deadtime sea de 100 ns. De todas formas, esta aplicación específica no requiere un tiempo de encendido rápido de los mosfets.
 
-\noindent Según la hoja de datos del HIP4081A, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser 200 K$\Omega$.
-\colorbox{yellow}{podríamos volver a referenciarlo, no?}
+\noindent Según la hoja de datos del HIP4081A\cite{HIP4081A_AN9405}, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser 200 K$\Omega$.
 
 \subsubsection{Dimensionamiento de los capacitores de fuente}
 	
@@ -245,8 +254,18 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \begin{equation} 
 	\begin{aligned}
    	\Delta Q &= \int I dt\\	
-	\Delta Q ^+ &= \frac{T_S}{2}*\Delta I_L * \frac{1}{2} + (<I_L> -\frac{\Delta I_L}{2})*\frac{T_S}{2}\\
-	\Delta Q ^+ &= <I_L> *\frac{T_S}{2}\\
+	\end{aligned}
+\end{equation}
+
+\begin{equation} 
+	\begin{aligned}
+		\Delta Q ^+ &= \frac{T_S}{2}*\Delta I_L * \frac{1}{2} + (<I_L> -\frac{\Delta I_L}{2})*\frac{T_S}{2}\\
+	\end{aligned}
+\end{equation}
+
+\begin{equation} 
+	\begin{aligned}
+		\Delta Q ^+ &= <I_L> *\frac{T_S}{2}\\
 	\end{aligned}
 \end{equation}
 
@@ -262,8 +281,8 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 	c = \frac{\Delta Q}{\Delta V} = 10 \:mF
 \end{equation}
 
-\noindent Para obtener este valor de capacidad utilizamos varios capacitores en paralelo para disminuir la ESR, como se muestra en la figura \ref{fig:img_capacitores-fuente}. Esto es porque por los capacitores circula una corriente de hasta 21.25 A. Por lo tanto, al colocarlos en paralelo se reduce la corriente que circula (en partes iguales), por cada capacitor:
-\colorbox{yellow}{Tratar de redactar mejor}
+\noindent Para obtener este valor de capacidad se utilizaron capacitores en paralelo de baja ESR. Dado que por los capacitores circula una corriente elevada ($21.25 A$) es recomendable disminuir la ESR total para disminuir la potencia disipada. Al colocarlos en paralelo, como se muestra en la figura \ref{fig:img_capacitores-fuente}, se reduce la corriente que circula (en partes iguales), por cada capacitor:
+
 
 \begin{figure}[H]
 	\centering
@@ -373,7 +392,7 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(y)}
 	\omega _{polo} = \frac{0.2}{16.44 \:mHy} = 12.17 \:r/s
 \end{equation}
 
-\noindent La tabla \colorbox{yellow}{3.1??} muestra  entre qué valores de frecuencia se verá afectada la forma de onda al modificarse la distancia de separación.
+\noindent La tabla \ref{tab_mediciones} muestra  entre qué valores de frecuencia se verá afectada la forma de onda al modificarse la distancia de separación.
 
 \begin{equation} \label{eq_DeltaT}
 	\Delta T [s] = \frac{\Delta I_L * (L(y) + L_{\infty})}{V_{BUS}}

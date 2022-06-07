@@ -15,7 +15,7 @@
 	\label{fig:img_plano_dimensiones}
 \end{figure}
 
-\noindent El bobinado está conformado por $150$ vueltas de alambre de cobre esmaltado de $2.5\:mm$ de diámetro enrollado alrededor de un carrete de plástico (figura \ref{fig:img_carrete}) que luego se ubica en la rama central de la pieza E.
+\noindent El bobinado está conformado por $150$ vueltas de alambre de cobre esmaltado de $2.5\:mm$ de diámetro enrollado alrededor de un carrete de plástico (figura \ref{fig:img_carrete}) que luego se ubica en la rama central de la pieza ``E''.
 
 \begin{figure}[H]
 	\centering
@@ -27,7 +27,7 @@
 
 \noindent Se utiliza un apilado de láminas cuyo exterior está recubierto por una pintura esmaltada para aislarlas entre sí con el fin de minimizar las pérdidas de energía causadas por las corrientes eléctricas que se generan en el núcleo debidas al flujo magnético. 
 
-\noindent Está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas E e I puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
+\noindent Está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas ``E'' e ``I'' puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
 \colorbox{red}{poner figura del electroimán real????}
 
 \noindent \colorbox{red}{para la foto} El electroimán en el que se basó el diseño del sistema se muestra en la figra
@@ -106,7 +106,13 @@ Donde:
 
 \end{itemize}
 
-\noindent De la ecuación \ref{eq_fuerza-magnetomotriz} se tiene que la reluctancia magnética es $R_{m}=\frac{N*i}{\phi}$. Además, por definición de la densidad de campo magnético, se tiene que $B=\frac{\phi}{A}$, \colorbox{yellow}{siendo} A el área que atraviesa el flujo magnético. Por lo tanto se llega a:
+\noindent Debido a la definición de campo magnético, se tiene:
+
+\begin{equation}\label{eq_definicion-camp-magn}
+	B=\frac{\phi}{A}
+\end{equation}
+
+Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz} y \ref{eq_definicion-camp-magn}, se obtiene:
 
 \begin{equation}
 		R_{m}*\phi=\frac{\phi}{\mu_{r}*A}*l_{m}+\frac{\phi}{\mu_{o}*A}*l_{A}
@@ -144,21 +150,21 @@ Donde:
 
 \colorbox{yellow}{A la integral del trabajo? o al trabajo?}
 \begin{equation}\label{eq_energia}
-	E(i,y)=W=\int{F_{m}*dy}=>F_{m}=\frac{\partial{E(i,y)}}{\partial{y}}
+	E(i,Y_g)=W=\int{F_{m}*dY_g}=>F_{m}=\frac{\partial{E(i,Y_g)}}{\partial{Y_g}}
 \end{equation}
 
 \noindent La energía que almacena un inductor en su campo magnético es:
 
 \begin{equation}\label{eq_energia_2}
-	E(i,y)=\frac{L(i,y)*i^{2}}{2}
+	E(i,Y_g)=\frac{L(i,Y_g)*i^{2}}{2}
 \end{equation}
 
-\noindent La expresión anterior indica que la cantidad de energía que almacena el sistema depende del gap de aire ($Y_{g}$) y de la corriente que circula por el electroimán ($i$). 
+\noindent La expresión \ref{eq_energia_2} indica que la cantidad de energía que almacena el sistema depende del gap de aire ($Y_{g}$) y de la corriente que circula por el electroimán ($i$). 
 
 \noindent Al combinar las ecuaciones \ref{eq_inductancia_vs_y}, \ref{eq_energia} y \ref{eq_energia_2} se obtiene:
 
 \begin{equation}\label{eq_fuerza_magnetica}
-	\abs{F_{m}}=\frac{\partial{E(i,y)}}{\partial{y}}=\frac{i^{2}}{2}*\frac{\partial{\frac{{N^{2}*A*\mu_{o}}}{2*Y_{g}}}}{\partial{y}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
+	\abs{F_{m}}=\frac{\partial{E(i,Y_g)}}{\partial{Y_g}}=\frac{i^{2}}{2}*\frac{\partial{\frac{{N^{2}*A*\mu_{o}}}{2*Y_{g}}}}{\partial{Y_g}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation}
 
 \noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (i), e inversamente proporcional al cuadrado de la variable que se desea controlar ($Y_{g}$). Por lo tanto, el problema adquiere un comportamiento no lineal.
@@ -191,14 +197,14 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	i_{nom}=20.4\:A
 \end{equation}
 
-\noindent Aunque esta corriente es suficiente para mantener el objeto en estado de equilibrio, se necesita una corriente mayor para poder responder ante perturbaciones en la distancia de separación. Por lo tanto, se define la corriente máxima $i_{max}=30\:A$.
+\noindent Si bien esta corriente es suficiente para mantener el objeto en estado de equilibrio, se necesita una corriente mayor para poder responder ante perturbaciones en la distancia de separación. Por lo tanto, se define la corriente máxima $i_{max}=30\:A$.
 
 
 
 \section{Expresión de inductancia linealizada}
 \label{secc_exp_ind_linealizada}
 
-\noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor (la linealización se realiza en torno al punto $Y_{g}=Y_{0}=4mm$) y se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
+\noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor linealizada en torno al punto $Y_{g}=Y_{0}=4mm$. Se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
 
 
 \begin{equation} \label{eq_inductancia_lineal_teorica}
@@ -244,7 +250,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 		\begin{tabular}{| c | c | c | c | c | c | c | c | c | c |}
 			\hline			
 			Y[mm] & 0 & 1 & 2 & 3 & 4.4 & 5.2 & 6.5 & 8.23 & $\inf$ \\ \hline
-			L(y)[mH] & 76.45 & 33.42 & 22.64 & 18.8 & 15.5 & 14.7 & 14.4 & 12.4 & 8.89\\ \hline
+			L($Y_g$)[mH] & 76.45 & 33.42 & 22.64 & 18.8 & 15.5 & 14.7 & 14.4 & 12.4 & 8.89\\ \hline
 		\end{tabular}
 		\caption{Valores de inductancia medidos en función del gap de aire.}
 		\label{tab_mediciones_inductancia}
@@ -269,7 +275,6 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\item $Y_{g}$: distancia del gap de aire en metros [m].
 	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
-\colorbox{yellow}{Tenemos que aclarar si nos quedamos con la inductancia medida o la teórica y conclusión}
 
 \noindent Se puede ver que la ecuación obtenida no  difiere demasiado con la calculada en la sección \ref{secc_exp_ind_linealizada}. Las variaciones en los valores obtenidos con respecto a la calculada de forma teórica están dados por las características constructiva del electroimán. Se utilizará como aproximación de la inductancia a la calculada de forma practica (ecuación \ref{eq_induct_practica}).
 

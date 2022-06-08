@@ -1,17 +1,15 @@
 \chapter{Estimador analógico} \chapterlabel{Informe/5-EstimadorAnalogico} \label{cap:Estimador Analogico}
 
 
- Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ debe, primero, obtener una medida de esta para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para esta implementación se optó por  medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logra aplicar conceptos como estimación de variables, aprendidos durante la carrera. 
+ Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario poder medirla para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para esta implementación se optó por  medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logra aplicar conceptos como estimación de variables, aprendidos durante la carrera. 
+ 
+ En este capítulo se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
 
 \section{Diseño y modelado}
 
 
-\noindent Para controlar la distancia de separaci\'{o}n del entrehierro del electroim\'{a}n es necesario conocer el gap de aire para poder realimentarlo en el lazo de control.  Para ello, se utiliza un estimador de posici\'{o}n que aprovecha la forma de onda triangular de la corriente que circula por el electroim\'{a}n. 
 
-
-
-\noindent Para estimar la distancia se hace la derivada de la corriente, puesto que las pendientes de crecimiento y decrecimiento var\'{i}an con la separaci\'{o}n. Es importante tener en cuenta que, durante el dise\~{n}o de la etapa de controlador de corriente, se eligi\'{o} una topolog\'{i}a que mantiene el sistema conmutando cont\'{i}nuamente (incluso para corriente nula) para tener siempre una estimaci\'{o}n disponible.
-
+Para estimar la distancia de separación se aprovecha la forma de onda triangular de la corriente del electroimán. A partir de ella se puede calcular la pendiente con la que crece y decrece. Ambas son dependientes de la inductancia del electroimán y, por ende, de la distancia de separación. Es importante tener en cuenta que, durante el diseño de la etapa de controlador de corriente, se eligió una topología que mantiene el sistema conmutando contínuamente (incluso para corriente nula) para tener siempre una estimación disponible y que el sistema de control no quede a lazo abierto.
 
 
 \noindent Se implementa un estimador compuesto por los bloques mostrados en la figura \ref{fig:img_Diagrama-Bloques-Estimador.png}. Se ingresa con una tensi\'{o}n triangular (ViL), correspondiente a la salida del sensor de efecto Hall. Para eliminar las componentes de alta frecuencia se aplica un filtro pasa bajosque deja pasar hasta la quinta arm\'{o}nica. Esta se\~{n}al filtrada conserva la forma triangular de la corriente. 

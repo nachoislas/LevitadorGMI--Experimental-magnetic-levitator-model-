@@ -1,9 +1,9 @@
-\chapter{Estimador analogico} \chapterlabel{Informe/5-EstimadorAnalogico} \label{cap:Estimador Analogico}
+\chapter{Estimador analógico} \chapterlabel{Informe/5-EstimadorAnalogico} \label{cap:Estimador Analogico}
 
 
- Para que la placa de control pueda cumplir su función de mantener la distancia de separación $Y_{g}$ debe, primero, obtener una medida de ella para luego actuar en consecuencia. Si bien se podrían utilizar sensores que cumplan la función de medir la distancia de separación y entregar una tensión proporcional, para esta implementación se optó por  medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se  logra aplicar conceptos, como estimación de variables, aprendidos durante la carrera. 
+ Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ debe, primero, obtener una medida de esta para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para esta implementación se optó por  medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logra aplicar conceptos como estimación de variables, aprendidos durante la carrera. 
 
-\section{Diseño y modelado del estimador analogico}
+\section{Diseño y modelado}
 
 
 \noindent Para controlar la distancia de separaci\'{o}n del entrehierro del electroim\'{a}n es necesario conocer el gap de aire para poder realimentarlo en el lazo de control.  Para ello, se utiliza un estimador de posici\'{o}n que aprovecha la forma de onda triangular de la corriente que circula por el electroim\'{a}n. 

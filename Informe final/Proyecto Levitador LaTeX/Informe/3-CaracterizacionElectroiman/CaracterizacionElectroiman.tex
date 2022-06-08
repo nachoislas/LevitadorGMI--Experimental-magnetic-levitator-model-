@@ -1,12 +1,14 @@
 \chapter{Caracterización del  electroimán} \chapterlabel{Informe/3-CaracterizacionElectroiman} \label{cap:CaracterizacionElectroiman}
 
-\noindent Para el desarrollo del proyecto se utiliza un electroimán previamente construido por la cátedra que funciona como actuador del sistema. A partir de sus características constructivas, y del modelo físico y dinámico del problema, se determinan \colorbox{yellow}{otros} parámetros del sistema de control.
+\noindent  En este capítulo se detallan las características de diseño que posee el electroimán. Además, se realiza un modelado físico del sistema para encontrar una expresión que relaciona la fuerza magnética ejercida en función de la variable de control y de la variable que se desea controlar. Luego, a partir de esto, se obtienen otros parámetros relevantes para el diseño del sistema de control.
+
+
 
 \section{Diseño del electroimán} \label{section_disenio_electroimán}
 
 
 
-\noindent El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor, cuyas dimensiones, expresadas en $mm$, se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la E tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
+\noindent Para el desarrollo del proyecto se utiliza un electroimán previamente construido por la cátedra que funciona como actuador del sistema. El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor, cuyas dimensiones, expresadas en $mm$, se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la E tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
 
 \begin{figure}[H]
 	\centering
@@ -28,9 +30,8 @@
 \noindent Se utiliza un apilado de láminas cuyo exterior está recubierto por una pintura esmaltada para aislarlas entre sí con el fin de minimizar las pérdidas de energía causadas por las corrientes eléctricas que se generan en el núcleo debidas al flujo magnético. 
 
 \noindent Está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas ``E'' e ``I'' puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
-\colorbox{red}{poner figura del electroimán real????}
 
-\noindent \colorbox{red}{para la foto} El electroimán en el que se basó el diseño del sistema se muestra en la figra
+
 %\noindent Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. En su núcleo tiene un bobinado de 150 vueltas (N) de cobre esmaltado con un diámetro de $2.5$ mm. El núcleo es de sección cuadrada ya que esto maximiza el área mientras que disminuye el perímetro, reduciendo así la longitud media de las espiras y ahorrando material. 
 
 \section{Modelado físico}
@@ -145,12 +146,10 @@ Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz} y \ref{eq_definicion-ca
 
 \section{Cálculo de la fuerza magnética}
 
-\noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de ``I'' se puede modelar a partir de la energía almacenada en un inductor y al considerar que esta es igual a la integral del trabajo:
-\noindent
+\noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de ``I'' se puede modelar a partir de la energía almacenada en un inductor. Al considerar que el trabajo ejercido por la fuerza magnética al mover el objeto desde una posición inicial $Y_{1}$ a otra posición $Y_{2}$, es igual a la variación de la energía almacenada en el inductor con respecto a la variable Y. Por lo tanto:
 
-\colorbox{yellow}{A la integral del trabajo? o al trabajo?}
 \begin{equation}\label{eq_energia}
-	E(i,Y_g)=W=\int{F_{m}*dY_g}=>F_{m}=\frac{\partial{E(i,Y_g)}}{\partial{Y_g}}
+	\triangle E(i,Y_g)=W=\int{F_{m}*dY_g}=>F_{m}=\frac{\partial{E(i,Y_g)}}{\partial{Y_g}}
 \end{equation}
 
 \noindent La energía que almacena un inductor en su campo magnético es:

@@ -18,23 +18,12 @@
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-\subsection{Características del sistema}
-
-\begin{itemize}
-    \item Para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP, con una transconductancia de H(s) = 53.3 mV/A.
-    \item Para la ganancia de entrada $K_{in}$ se utiliza un valor de 0.32 puesto que $V_{in}$ varía entre 0 V y 5 V y debe mapearse con una corriente variable entre 0 A y 30 A.
-    \item Se adopta una variación de la corriente en torno a su valor medio (ripple) de 500 mA, por lo que resulta en un ancho de histéresis de 26.665 mV.
-    \item Según mediciones realizadas sobre el electroimán, la inductancia en el punto de equilibrio $Y_0=\:4mm$ es de 16.44 mHy (considerando la inductancia de dispersión de 8.89 mHy) y la resistencia serie es de 0.2 $\Omega$.
-    \item La tensión aplicada sobre el electroimán es +24 V para el estado ON y -24 V para el estado OFF.
-    \item Se utiliza un driver de corriente que trabaja en conmutación mediante un puente H con 4 N-MOS. 
-\end{itemize}
-
 \subsection{Circuito del controlador de corriente}
 
 \noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es mapear una tensión de referencia en la entrada entre 0 y 5 V con una corriente de salida de 0 a 30 A (en valor medio).  Debido a que para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP cuya transconductancia es de H(s) = 53.3 mV/A, la ganancia de entrada se puede calcular como:
 
 \begin{equation}
-	K_{in}=D\frac{30*0.0533}{5}=0.32 
+	K_{in}=\frac{30\:A*0.0533\:mV/A}{5\:V}=0.32 
 \end{equation}
 
 
@@ -48,7 +37,7 @@ La salida de esta etapa se polariza en un punto de operación de $2.5\:V$ para p
 	\label{fig:img_etapa-de-entrada}
 \end{figure}
 
-\noindent Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se implementa un ancho de histéresis de 26.665 mV,  alrededor de un punto de operación de 2.5 V, como se muestra en la figura \ref{fig:img_comp-con-hist}.
+Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se desea que la corriente de salida del electroimán tenga un ripple de $500\:mA$. Por lo tanto, afectando este valor por la transconductancia del sensor de efecto Hall, se obtiene un ancho de histéresis de $26.665\:mV$, alrededor de un punto de operación de $2.5\:V$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -57,20 +46,25 @@ La salida de esta etapa se polariza en un punto de operación de $2.5\:V$ para p
 	\label{fig:img_comp-con-hist}
 \end{figure}
 
-\noindent Para controlar la corriente en el electroimán se utiliza una topología en puente H, que permite conmutar la polaridad de la tensión aplicada a la bobina. Para medir la corriente se utiliza un sensor de efecto Hall, que es modelado en la simulación como  una fuente de tensión controlada por corriente, con una ganancia de 53.3 mV/A correspondiente a su transconductancia. Esta implementación puede observarse en la figura \ref{fig:img_puenteH}. A continuación, su salida es realimentada a la etapa de entrada luego de restarle la tensión de referencia  $V_{bias}$ de $2.5\:V$, como se muestra en la figura \ref{fig:img_resta-Vbias}. 
+Para controlar la corriente se utiliza un driver que trabaja en conmutación con una topología en puente H con 4 N-MOS. Este permite conmutar la polaridad de la tensión aplicada al electroimán entre $+24\:V$ para el estado “ON” y $-24\:V$ para el “OFF”. 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{PuenteH.png}
-	\caption{Puente H y sensor de efecto Hall.}
-	\label{fig:img_puenteH}
-\end{figure}
+Para poder realizar simulaciones se modela al sensor de efecto Hall como una fuente de tensión controlada por corriente con una ganancia de $53.3\:mV/A$, cuya salida es realimentada a la etapa de entrada luego de restarle la tensión de referencia  $V_{bias}$ de $2.5\:V$, como se muestra en la figura \ref{fig:img_resta-Vbias}.
+
+La implementación circuital de estas dos etapas puede observarse en la figura \ref{fig:img_puenteH}. 
+
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=1]{Resta-Vbias.png}
 	\caption{Resta de $V_{bias}$ al sensor de efecto Hall.}
 	\label{fig:img_resta-Vbias}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{PuenteH.png}
+	\caption{Puente H y sensor de efecto Hall.}
+	\label{fig:img_puenteH}
 \end{figure}
 
 \subsubsection{Simulaciones de formas de onda}
@@ -319,8 +313,7 @@ R_T = \frac{R_{ESR}}{n}
 
 
 \subsubsection{Conmutación de alta frecuencia para el bootstrap}
-\colorbox{yellow}{me parece que esta sección se podría redactar mejor}
-\\
+
 \noindent Cuando el MOSFET driver recibe una entrada que activa un MOS del lado superior, este comienza a cargar el gate con ayuda de la tensión que brinda el capacitor de bootstrap asociado a ese MOS. El capacitor de bootstrap entrega energía durante la carga del gate y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el driver reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del driver de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
 \noindent Para poder asegurar un periodo de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET driver. De esta manera se producen conmutaciones en un intervalo regular y se cargan regularmente los capacitores de bootstrap. 

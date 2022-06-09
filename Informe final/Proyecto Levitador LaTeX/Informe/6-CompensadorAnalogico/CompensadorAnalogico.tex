@@ -1,5 +1,8 @@
 \chapter{Compensador analogico} \chapterlabel{Informe/6-CompensadorAnalogico} \label{cap:Compensador Analogico}
 
+En este capítulo se analiza la naturaleza de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. Debido a que la planta tiene polos en el semiplano derecho, se diseña un compensador por adelanto de fase que logra la estabilidad incluso para los casos extremos de funcionamiento del sistema. Por último, se diseña un lazo de realimentación con un integrador que permite eliminar el error en régimen permanente.
+
+
 \section{Lazo de realimentación interno}
 \subsection{Diseño de la red de adelanto de fase}
 \noindent Se plantea una compensación como la que se muestra en la figura \ref{fig:diag-en-bloques-comp}. Está compuesta por un lazo de control interno con un controlador por adelanto de fase para lograr estabilizar el sistema, y un lazo de control externo con un integrador para eliminar el error en régimen permanente.

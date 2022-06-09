@@ -8,7 +8,7 @@
 
 
 
-\noindent Para el desarrollo del proyecto se utiliza un electroimán previamente construido por la cátedra que funciona como actuador del sistema. El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor, cuyas dimensiones, expresadas en $mm$, se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la E tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
+\noindent Para el desarrollo del proyecto se utiliza un electroimán previamente construido por la cátedra que funciona como actuador del sistema. El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor, cuyas dimensiones, expresadas en $mm$, se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la “E” tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
 
 \begin{figure}[H]
 	\centering
@@ -146,7 +146,7 @@ Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz} y \ref{eq_definicion-ca
 
 \section{Cálculo de la fuerza magnética}
 
-\noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de ``I'' se puede modelar a partir de la energía almacenada en un inductor. Al considerar que el trabajo ejercido por la fuerza magnética al mover el objeto desde una posición inicial $Y_{1}$ a otra posición $Y_{2}$, es igual a la variación de la energía almacenada en el inductor con respecto a la variable Y. Por lo tanto:
+\noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de ``I'' se puede modelar a partir de la energía almacenada en un inductor. Al considerar que el trabajo ejercido por la fuerza magnética al mover el objeto desde una posición inicial $Y_{1}$ a otra posición $Y_{2}$, es igual a la variación de la energía almacenada en el inductor con respecto a la variable $Y_g$, se obtiene:
 
 \begin{equation}\label{eq_energia}
 	\triangle E(i,Y_g)=W=\int{F_{m}*dY_g}=>F_{m}=\frac{\partial{E(i,Y_g)}}{\partial{Y_g}}
@@ -178,7 +178,7 @@ Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz} y \ref{eq_definicion-ca
 
 %\noindent Al analizar la ecuación \ref{eq_fuerza_magnetica} se puede observar que hay dos parámetros que son propios del electroimán: el área del núcleo A y la cantidad de vueltas del bobinado N. 
 
-\noindent Para obtener una expresión de diseño, se parte de la ecuación \ref{eq_fuerza_magnetica} y se iguala a la fuerza ejercida por el peso del objeto que se debe hacer levitar ($\abs{F_{m}}=M*g$):
+\noindent Para obtener una expresión de diseño, se parte de la ecuación \ref{eq_fuerza_magnetica} y se iguala a la fuerza ejercida por el peso del objeto que se debe hacer levitar:
 
 \begin{equation}\label{eq_fuerza_peso}
 	M*g=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
@@ -202,7 +202,8 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \section{Expresión de inductancia linealizada}
 \label{secc_exp_ind_linealizada}
-
+\colorbox{yellow}{Capaz podríamos sacar esta sección. No aporta nada me parece..}\\
+\noindent 
 \noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor linealizada en torno al punto $Y_{g}=Y_{0}=4mm$. Se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
 
 
@@ -232,6 +233,8 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\item Se tomó nota de los valores de tensión y corriente que entregaba la fuente.
 \end{itemize}
 
+\colorbox{yellow}{Tal vez conviene ponerle 0.17V aprox y redondear a 0.2V}
+\\
 \noindent Al tener una resistencia serie baja, la fuente de tensión activó la protección de corto circuito, de tal manera que la corriente en el electroimán quedó constante en $1\:A$. Utilizando la medición de tensión entregada por la fuente, cuyo resultado fue de $0,2 V$, se puedo calcular la resistencia del electroimán mediante la Ley de Ohm:
 
 \begin{equation}
@@ -239,7 +242,10 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 \end{equation}
 
 \subsection{Medición de inductancia}
-
+\colorbox{yellow}{Aca no explicamos el procedimiento como con la resistencia?}
+\\
+\colorbox{yellow}{Capaz conviene borrar el procedimiento de la resistencia..}
+\\
 \noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca Instek y planchas de cartón de distinto espesor para mantener el gap de aire fijo. Para el caso en que no se utiliza la pieza ``I'', se considera que la distancia es infinita, y lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
 
 \noindent Se obtuvieron los siguientes resultados:
@@ -274,6 +280,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\item $Y_{g}$: distancia del gap de aire en metros [m].
 	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
+\colorbox{yellow}{Ver si esto vuela}
 
 \noindent Se puede ver que la ecuación obtenida no  difiere demasiado con la calculada en la sección \ref{secc_exp_ind_linealizada}. Las variaciones en los valores obtenidos con respecto a la calculada de forma teórica están dados por las características constructiva del electroimán. Se utilizará como aproximación de la inductancia a la calculada de forma practica (ecuación \ref{eq_induct_practica}).
 
@@ -285,7 +292,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\sum F=M*a=>M*g-F_{m}=M*\ddot{y}
 \end{equation}
 
-\noindent Al reemplazar la ecuación \ref{eq_fuerza_magnetica} sen la \ref{eq_sumatoria_fuerzas_y} se obtiene:
+\noindent Al reemplazar la ecuación \ref{eq_fuerza_magnetica} en la \ref{eq_sumatoria_fuerzas_y} se obtiene:
 
 \begin{equation}\label{eq_sumatoria_fuerzas_y_2}
 	M*\ddot{y}=M*g-K*\frac{i(t)^{2}}{y(t)^{2}}
@@ -381,5 +388,5 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 		G_{P}(M)=-\sqrt{\frac{30}{M}}*\frac{1.201}{S^{2}-4900}
 \end{equation}
 
-\noindent Es posible observar en la expresión \ref{eq_transferencia_planta_m} que la masa del objeto modifica la ganancia del sistema, pero no la ubicación de los polos. Esto es importante al momento de escoger la estrategia de control.
+\noindent Es posible observar en la expresión \ref{eq_transferencia_planta_m} que la masa del objeto modifica la ganancia del sistema, pero no la ubicación de los polos. Esto es importante tenerlo en cuenta al momento de escoger la estrategia de control.
 

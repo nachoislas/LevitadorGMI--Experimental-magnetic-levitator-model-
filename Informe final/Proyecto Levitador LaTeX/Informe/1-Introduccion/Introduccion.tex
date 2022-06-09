@@ -45,7 +45,7 @@ Desde el punto de vista de la asignatura Sistemas de Control, es de interés el 
 \end{figure}
 
 
-La placa de control actúa sobre la fuerza magnética que ejerce el electroimán para compensar las perturbaciones que pueda recibir el sistema y mantener constante la separación $Y_{g}$. Solo puede ejercer control de la posición sobre el eje vertical, por lo tanto las desviaciones de posición en el eje horizontal no pueden ser controladas y pueden provocar un comportamiento no deseado.
+La placa de control actúa sobre la fuerza magnética que ejerce el electroimán para compensar las perturbaciones que pueda recibir el sistema y mantener constante la separación $Y_{g}$. Solo puede ejercer control de la posición sobre el eje vertical, por lo que las desviaciones de posición en el eje horizontal no pueden ser controladas y pueden provocar un comportamiento no deseado.
 
 El sistema de control está conformado por las etapas que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Integra dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decide cual de estas implementaciones ejerce el control mediante la utilización de un switch, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un circuito de  componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
 

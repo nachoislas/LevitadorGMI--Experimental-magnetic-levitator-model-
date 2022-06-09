@@ -199,23 +199,21 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 \noindent Si bien esta corriente es suficiente para mantener el objeto en estado de equilibrio, se necesita una corriente mayor para poder responder ante perturbaciones en la distancia de separación. Por lo tanto, se define la corriente máxima $i_{max}=30\:A$.
 
 
-
-\section{Expresión de inductancia linealizada}
-\label{secc_exp_ind_linealizada}
-\colorbox{yellow}{Capaz podríamos sacar esta sección. No aporta nada me parece..}\\
-\noindent 
-\noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor linealizada en torno al punto $Y_{g}=Y_{0}=4mm$. Se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
+%\section{Expresión de inductancia linealizada}
+%\label{secc_exp_ind_linealizada}
+%\noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor linealizada en torno al punto $Y_{g}=Y_{0}=4mm$. Se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
 
 
-\begin{equation} \label{eq_inductancia_lineal_teorica}
-	L(y)=-2.2089*Y_{g}+0.0177
-\end{equation}
 
-\noindent Donde:
-\begin{itemize}
-	\item $Y_{g}$: distancia del gap de aire en metros [m].
-	\item L: inductancia resultante en Henry [Hy].
-\end{itemize}
+%\begin{equation} \label{eq_inductancia_lineal_teorica}
+%	L(y)=-2.2089*Y_{g}+0.0177
+%\end{equation}
+
+%\noindent Donde:
+%\begin{itemize}
+%	\item $Y_{g}$: distancia del gap de aire en metros [m].
+%	\item L: inductancia resultante en Henry [Hy].
+%\end{itemize}
 
 \section{Mediciones sobre el electroimán}
 
@@ -233,34 +231,31 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\item Se tomó nota de los valores de tensión y corriente que entregaba la fuente.
 \end{itemize}
 
-\colorbox{yellow}{Tal vez conviene ponerle 0.17V aprox y redondear a 0.2V}
-\\
-\noindent Al tener una resistencia serie baja, la fuente de tensión activó la protección de corto circuito, de tal manera que la corriente en el electroimán quedó constante en $1\:A$. Utilizando la medición de tensión entregada por la fuente, cuyo resultado fue de $0,2 V$, se puedo calcular la resistencia del electroimán mediante la Ley de Ohm:
+\noindent Al tener una resistencia serie baja, la fuente de tensión activó la protección de corto circuito, de tal manera que la corriente en el electroimán quedó constante en $1\:A$. Utilizando la medición de tensión entregada por la fuente, cuyo resultado fue de $0,17 V$, se puedo calcular la resistencia del electroimán mediante la Ley de Ohm:
 
 \begin{equation}
-	R_{L}=\frac{V}{I}=\frac{0.2\:V}{1\:A}=0.2\:\Omega
+	R_{L}=\frac{V}{I}=\frac{0.17\:V}{1\:A}	\approx0.2\:\Omega
 \end{equation}
 
 \subsection{Medición de inductancia}
-\colorbox{yellow}{Aca no explicamos el procedimiento como con la resistencia?}
-\\
-\colorbox{yellow}{Capaz conviene borrar el procedimiento de la resistencia..}
-\\
-\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca Instek y planchas de cartón de distinto espesor para mantener el gap de aire fijo. Para el caso en que no se utiliza la pieza ``I'', se considera que la distancia es infinita, y lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
 
-\noindent Se obtuvieron los siguientes resultados:
+\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca Instek y laminas de cartón de espesor conocido. La medición consta en ir apilando dichas laminas entre ambas piezas del electroimán, donde la suma total de los espesores de las laminas es $Y[mm]$ y luego tomar el valor de inductancia entregado por el medidor $(L(Y_{g})[mH])$. Siguiendo este procedimiento se obtuvieron los siguientes resultados:
 
 \begin{table} [H]
 	\begin{center}
 		\begin{tabular}{| c | c | c | c | c | c | c | c | c | c |}
 			\hline			
-			Y[mm] & 0 & 1 & 2 & 3 & 4.4 & 5.2 & 6.5 & 8.23 & $\inf$ \\ \hline
-			L($Y_g$)[mH] & 76.45 & 33.42 & 22.64 & 18.8 & 15.5 & 14.7 & 14.4 & 12.4 & 8.89\\ \hline
+			$Y[mm]$ & 0 & 1 & 2 & 3 & 4.4 & 5.2 & 6.5 & 8.23 & $\inf$ \\ \hline
+			$L(Y_{g})[mH]$ & 76.45 & 33.42 & 22.64 & 18.8 & 15.5 & 14.7 & 14.4 & 12.4 & 8.89\\ \hline
 		\end{tabular}
 		\caption{Valores de inductancia medidos en función del gap de aire.}
 		\label{tab_mediciones_inductancia}
 	\end{center}
 \end{table}
+
+\noindent Para el caso en que no se utiliza la pieza ``I'', se considera que la distancia es infinita, y lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
+
+
 
 \begin{figure} [H]
 	\centering
@@ -280,9 +275,11 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\item $Y_{g}$: distancia del gap de aire en metros [m].
 	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
-\colorbox{yellow}{Ver si esto vuela}
 
-\noindent Se puede ver que la ecuación obtenida no  difiere demasiado con la calculada en la sección \ref{secc_exp_ind_linealizada}. Las variaciones en los valores obtenidos con respecto a la calculada de forma teórica están dados por las características constructiva del electroimán. Se utilizará como aproximación de la inductancia a la calculada de forma practica (ecuación \ref{eq_induct_practica}).
+
+%\noindent Se puede ver que la ecuación obtenida no  difiere demasiado con la calculada en la sección \ref{secc_exp_ind_linealizada}. Las variaciones en los valores obtenidos con respecto a la calculada de forma teórica están dados por las características constructiva del electroimán. Se utilizará como aproximación de la inductancia a la calculada de forma practica (ecuación \ref{eq_induct_practica}).
+
+
 
 \section{Modelo de estado de la planta}
 

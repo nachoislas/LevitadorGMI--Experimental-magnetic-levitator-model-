@@ -31,7 +31,15 @@
 
 \subsection{Circuito del controlador de corriente}
 
-\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la realimentación. El objetivo es imponer una ganancia de entrada de 0.32, y que la salida de esta etapa tenga un punto de operación de $2.5\:V$ para poder utilizar una fuente de alimentación entre $0\:V$ y $5\:V$ para los operacionales. Para lograr esto se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
+\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es mapear una tensión de referencia en la entrada entre 0 y 5 V con una corriente de salida de 0 a 30 A (en valor medio).  Debido a que para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP cuya transconductancia es de H(s) = 53.3 mV/A, la ganancia de entrada se puede calcular como:
+
+\begin{equation}
+	K_{in}=D\frac{30*0.0533}{5}=0.32 
+\end{equation}
+
+
+La salida de esta etapa se polariza en un punto de operación de $2.5\:V$ para poder utilizar una fuente de alimentación entre $0\:V$ y $5\:V$ para los operacionales. Para lograr esto se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
+
 
 \begin{figure}[H]
 	\centering

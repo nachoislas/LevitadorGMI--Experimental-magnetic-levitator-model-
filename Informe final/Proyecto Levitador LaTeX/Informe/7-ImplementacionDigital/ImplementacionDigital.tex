@@ -1,5 +1,10 @@
 \chapter{Implementacion Digital} \chapterlabel{Informe/7-ImplementacionDigital} \label{cap:Implementacion digital}
 
+En este capítulo se realiza el diseño de un compensador y estimador en el dominio digital. Estos se implementan en un microcontrolador que se conecta de manera externa a la placa de control. Para el primero se sigue la misma estrategia que se utiliza en la etapa de compensación analógica, descrita en el capítulo asd, pero con las consideraciones necesarias para trabajar con sistemas discretos. Para el segundo, se diseña un algoritmo encargado de obtener el valor de la distancia de separación $Y_g$ a partir de los valores obtenidos al muestrear la tensión entregada por el sensor de efecto Hall.
+
+Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, reconstruir y adaptar los niveles de tensión de las señales que interactúan entre la placa de control y el microcontrolador.
+
+
 \section{Descripción general}
 
 \noindent La implementación digital consiste, básicamente, en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un ADC de 12 bits y 3.3V de referencia, un DAC 12 bits y 3.3V de referencia.

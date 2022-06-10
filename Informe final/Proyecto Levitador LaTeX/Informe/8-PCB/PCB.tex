@@ -1,24 +1,28 @@
-\chapter{PCB} \chapterlabel{Informe/8-PCB} \label{cap:PCB}
+\chapter{Diseño de circuito impreso} \chapterlabel{Informe/8-PCB} \label{cap:PCB}
 
-\section{PCB}
 
-\subsection{Fuentes de Alimentación}
+En este capítulo se muestran los esquemáticos y las imágenes del PCB desarrollados para la implementación de la placa de control. 
 
-\subsubsection{Fuente de alimentación externa de 24V}
+Por otra parte, se describen las consideraciones y circuitos utilizados para las fuentes de alimentación del sistema.
+
+
+\section{Fuentes de Alimentación}
+
+\subsection{Fuente de alimentación externa de 24V}
 
 \noindent La fuente externa se encarga de alimentar todo el circuito. Debe ser capaz de suministrar 24V y hasta 30A. Para ello se puede utilizar una fuente de laboratorio o baterías.
 
-\subsubsection{Fuente de alimentación interna de 12V}
+\subsection{Fuente de alimentación interna de 12V}
 
 \noindent La fuente de 12V se encarga de alimentar al regulador de 5V y al driver del puente H. Debido a los bajos consumos de potencia y bajo costo, se utiliza una fuente lineal. Por lo tanto, se decide utilizar el integrado L78M12CDT-TR.
 
-\subsubsection{Fuente de alimentación interna de 5V}
+\subsection{Fuente de alimentación interna de 5V}
 
 La fuente de 5V se encarga de alimentar los operacionales, el sensor de efecto hall, el inversor y el regulador de tensión de 2.5V. Debido a los bajos consumos de potencia y bajo costo, se utiliza una fuente lineal. Por lo tanto, se decide utilizar el integrado L78M05CDT.
 
-\subsection{Esquemáticos}
+\section{Esquemáticos}
 
-\subsubsection{Principal}
+\subsection{Principal}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.3]{main.png}
@@ -26,7 +30,7 @@ La fuente de 5V se encarga de alimentar los operacionales, el sensor de efecto h
 	\label{fig:main}
 \end{figure}
 
-\subsubsection{Controlador de corriente}
+\subsection{Controlador de corriente}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.32]{contCorrEsq.png}
@@ -34,7 +38,7 @@ La fuente de 5V se encarga de alimentar los operacionales, el sensor de efecto h
 	\label{fig:contCorrEsq}
 \end{figure}
 
-\subsubsection{Puente H}
+\subsection{Puente H}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.32]{PuenteH.png}
@@ -42,7 +46,7 @@ La fuente de 5V se encarga de alimentar los operacionales, el sensor de efecto h
 	\label{fig:PuenteH}
 \end{figure}
 
-\subsubsection{Compensador analógico}
+\subsection{Compensador analógico}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.32]{CompAnalog.png}
@@ -50,7 +54,7 @@ La fuente de 5V se encarga de alimentar los operacionales, el sensor de efecto h
 	\label{fig:CompAnalog}
 \end{figure}
 
-\subsubsection{Estimador analógico}
+\subsection{Estimador analógico}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.32]{EstimAnalog.png}
@@ -58,7 +62,7 @@ La fuente de 5V se encarga de alimentar los operacionales, el sensor de efecto h
 	\label{fig:EstimAnalog}
 \end{figure}
 
-\subsubsection{Interfaz con microcontrolador}
+\subsection{Interfaz con microcontrolador}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.32]{InterfazMic.png}
@@ -66,7 +70,7 @@ La fuente de 5V se encarga de alimentar los operacionales, el sensor de efecto h
 	\label{fig:InterfazMic}
 \end{figure}
 
-\subsubsection{Fuentes de alimentación}
+\subsection{Fuentes de alimentación}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.3]{FuentesAliment.png}
@@ -74,7 +78,7 @@ La fuente de 5V se encarga de alimentar los operacionales, el sensor de efecto h
 	\label{fig:FuentesAliment}
 \end{figure}
 
-\section{ECAD}
+\section{PCB}
 \subsection{Modelo 2D}
 \subsubsection{Vista Superior}
 \begin{figure}[H]

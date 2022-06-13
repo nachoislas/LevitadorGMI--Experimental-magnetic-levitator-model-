@@ -5,8 +5,7 @@
  
  En este capítulo se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
 
-\section{Diseño y modelado}
-
+\section{Descripción general}
 
 
 Para estimar la distancia de separación se aprovecha la forma de onda triangular de la corriente del electroimán. A partir de ella se puede calcular la pendiente con la que crece y decrece. Ambas son dependientes de la inductancia del electroimán y, por ende, de la distancia de separación. Es importante tener en cuenta que, durante el diseño de la etapa de controlador de corriente, se eligió una topología que mantiene el sistema conmutando contínuamente (incluso para corriente nula) para tener siempre una estimación disponible y que el sistema de control no quede a lazo abierto.
@@ -23,7 +22,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 	\label{fig:img_Diagrama-Bloques-Estimador.png}
 \end{figure}
 
-\subsection{An\'{a}lisis de la estimaci\'{o}n}
+\section{An\'{a}lisis de la estimaci\'{o}n}
 
 \noindent La ecuaci\'{o}n que gobierna la corriente en el electroim\'{a}n se puede calcular con las leyes de Kirchoff correspondientes al circuito que se ve en la figura \ref{fig:img_Circuito-electroimán-con-driver-corriente.png} y la expresión de la inductancia \ref{eq_inductancia_vs_y}.
 
@@ -60,7 +59,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 {\left|\frac{{di}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y[m]+676\ A/s
 \end{equation}
 
-\subsection{Modelo circuital del estimador de posici\'{o}n}
+\section{Modelo circuital del estimador de posici\'{o}n}
 
 \noindent Para poder obtener $\left|\frac{{di}_L}{dt}\right|$ se utiliza un circuito derivador con un amplificador operacional como se observa en la figura  \ref{fig:img_Circuito-derivador}.
 
@@ -130,7 +129,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 	\end{center}
 \end{table}
 
-\subsection{Circuito del derivador compensado}
+\section{Circuito del derivador compensado}
 
 \noindent Puesto que los circuitos derivadores pueden presentar inestabilidad a alta frecuencia, es necesario compensarlos agregando una resistencia en serie al capacitor, para que genere un cero en la transferencia de realimentaci\'{o}n (ecuación \ref{eq_Aw_2}), como se observa en la figura  \ref{fig:img_Circuito_derivador_compensado}.
 
@@ -175,7 +174,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 	{TLC}_{derivador}=\frac{V_{yf}}{Vil}=\frac{-0.025*s}{1+(\frac{2*0.473}{94,5\ krad/s})*s+(\frac{s}{94,5\ krad/s})^2}
 \end{equation} 
 
-\subsection{Dise\~{n}o del filtro pasa bajos}
+\section{Dise\~{n}o del filtro pasa bajos}
 
 \noindent Debido a que el derivador amplifica las se\~{n}ales de alta frecuencia es necesario agregar un filtro pasa bajos en su entrada. Como la se\~{n}al que ingresa al derivador es ViL, que es una onda triangular de frecuencia fundamental de $2\:KHz$, se dejar\'{a} pasar hasta la 5º arm\'{o}nica. Para su implementaci\'{o}n se utiliza un filtro activo Butterworth de orden 2, con una frecuencia de corte en $20\:KHz$. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el filtro utilizado y en la figura \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
 
@@ -193,7 +192,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 	\label{fig:img_Respuesta-en-frecuencia-del-filtro-activo}
 \end{figure}
 
-\subsection{Compensaci\'{o}n I*R}
+\section{Compensaci\'{o}n I*R}
 
 \noindent Al circular corriente siempre en el mismo sentido por el electroim\'{a}n, se produce una ca\'{i}da de tensi\'{o}n casi constante en la resistencia interna. Esto provoca que no siempre est\'{e}n aplicados $\pm 24V$ al electroim\'{a}n sino que durante el $T_{ON}$ se aplican $24V-I*R$ y durante el $T_{OFF}$ se aplican $-24V-I*R$. Esto genera que las pendientes sean distintas.
 
@@ -303,9 +302,9 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 
 \noindent La onda superior corresponde a la corriente en el electroim\'{a}n (verde), la onda que se encuentra al medio (amarilla) corresponde a la salida del derivador ${[V}_{bias}$$]$ y la inferior (roja) corresponde a la onda rectificada con la correcci\'{o}n de I*R.
 
-\subsection{Rectificador, Restador y Filtrado}
+\section{Rectificador, Restador y Filtrado}
 
-\subsubsection{Rectificador}
+\subsection{Rectificador}
 \colorbox{yellow}{Ver de acomodar los colores y las pistas como las otras imágenes de NL5}
 \begin{figure}[H]
 	\centering
@@ -344,7 +343,7 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ 2.5V, se puede encontrar:
 
 Cuando D5 est\'{a} activo, $V^-=2.5\ V$ y cuando lo est\'{a} D6, $V^+\ $= 2.5 V
 
-\subsubsection{Restador}
+\subsection{Restador}
 
 \noindent Se utiliza un amplificador operacional en modo diferencial como restador como se observa en la figura \ref{fig:img_Restador} y se obtiene lo siguiente.
 
@@ -375,7 +374,7 @@ Cuando D5 est\'{a} activo, $V^-=2.5\ V$ y cuando lo est\'{a} D6, $V^+\ $= 2.5 V
 	\label{fig:img_Restador}
 \end{figure}
 
-\subsubsection{Etapa de filtrado}
+\subsection{Etapa de filtrado}
 
 \noindent En el restador se implementa un filtrado adicional a la se\~{n}al de salida como se observa en la figura  \ref{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}. De esta \'{u}ltima etapa, considerando que $C_5=C_6=C\ $y $R_{33}=R_{31}=R$, se obtiene:
 
@@ -406,18 +405,18 @@ Cuando D5 est\'{a} activo, $V^-=2.5\ V$ y cuando lo est\'{a} D6, $V^+\ $= 2.5 V
 	\label{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}
 \end{figure}
 
-\subsection{Circuito completo}
+\section{Circuito completo}
 
 \noindent En la figura \ref{fig:img_Circuito_estimador_de_posición_completo} se puede observar el circuito completo utilizado para la implementaci\'{o}n del rectificador, restador y filtrado.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Circuito-estimador-de-posición-completo.png}
+	\includegraphics[scale=0.5]{Circuito-estimador-de-posición-completo.png}
 	\caption{Circuito estimador de posición completo}
 	\label{fig:img_Circuito_estimador_de_posición_completo}
 \end{figure}
 
-\subsection{Simulaci\'{o}n de estimador completo}
+\section{Simulaci\'{o}n de estimador completo}
 
 \noindent En la figura \ref{fig:img_Simulación_final_del_estimado} se pueden observar 3 formas de onda. La superior (verde) corresponde a la corriente del electroim\'{a}n, la del medio (amarilla) a la salida del derivador y la inferior (roja) es la salida Vestim. Utilizando cursores se midi\'{o} un ripple de 52.66mV en Vestim.
 
@@ -445,7 +444,7 @@ Cuando D5 est\'{a} activo, $V^-=2.5\ V$ y cuando lo est\'{a} D6, $V^+\ $= 2.5 V
 	\end{center}
 \end{table}
 
-\subsection{Transferencia final del estimador de posici\'{o}n:}
+\section{Transferencia final del estimador de posici\'{o}n:}
 
 \noindent Para la transferencia de lazo cerrado del derivador se obtiene:
 

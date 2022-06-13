@@ -1,5 +1,8 @@
 \chapter{Controlador de corriente} \chapterlabel{Informe/4-ControladorCorriente} \label{cap:ControladorCorriente}
-\section{Diseño y modelado}
+
+En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Debido a los altos valores de corriente con los que trabaja el sistema, se implementan estrategias de conmutación con el fin de reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un driver-bootstrap que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
+
+\section{Descripción general}
 
 \noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la impedancia de un inductor con una resistencia serie, cuya inductancia varía con el gap de aire:
 
@@ -18,7 +21,7 @@
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-\subsection{Circuito del controlador de corriente}
+\section{Circuito del controlador de corriente}
 
 \noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es mapear una tensión de referencia en la entrada entre 0 y 5 V con una corriente de salida de 0 a 30 A (en valor medio).  Debido a que para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP cuya transconductancia es de H(s) = 53.3 mV/A, la ganancia de entrada se puede calcular como:
 
@@ -67,7 +70,7 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 	\label{fig:img_puenteH}
 \end{figure}
 
-\subsubsection{Simulaciones de formas de onda}
+\subsection{Simulaciones de formas de onda}
 
 \noindent En la figura \ref{fig:img_formas-de-onda-corriente} se pueden observar dos formas de onda. La inferior  corresponde a la tensión de salida del comparador con histéresis y la superior a la corriente que circula por el electroimán. Para la simulación se utilizó una tensión de referencia de entrada de 1 V, por lo que el valor medio de la corriente en la salida es 6 A con un ripple de 500 mA.
 
@@ -80,7 +83,7 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 
 
 
-\subsubsection{Simulación de un escalón en la referencia de corriente}
+\subsection{Simulación de un escalón en la referencia de corriente}
 
 \noindent En la figura \ref{fig:img_respuesta-al-escalon} se muestra cómo cambia la corriente en el electroimán al aplicarle a la entrada del controlador un escalón de tensión entre 1 V y 3 V. Se puede observar cómo la conmutación del comparador se detiene para ajustar la corriente con la referencia.
 
@@ -92,7 +95,7 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 \end{figure}
 
 
-\subsubsection{Descripción general de la topología}
+\subsection{Descripción general de la topología}
 
 \noindent Se desea controlar la corriente que circula por el electroimán y, debido a que el sistema va a trabajar con corrientes elevadas, es importante que la implementación del controlador de corriente sea eficiente. Por lo tanto, para disminuir la disipación de potencia del circuito se utiliza un controlador que funciona en conmutación. 
 
@@ -134,7 +137,7 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 \noindent Para lograr un funcionamiento adecuado del Boostrap es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOS esté encendido.
 
 
-\subsubsection{Dimensionamiento de capacitor de bootstrap}
+\subsection{Dimensionamiento de capacitor de bootstrap}
 
 \noindent Para el dimensionamiento de los capacitores de bootstrap se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
 
@@ -210,19 +213,19 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \noindent Finalmente, se decidió utilizar 2 capacitores de bootstrap en paralelo de $5.6 \:\mu F$ cada uno con el objetivo de reducir la resistencia serie.
 
 
-\subsubsection{Resistencia entre gate y source} \label{secc_res_gate_source}
+\subsection{Resistencia entre gate y source} \label{secc_res_gate_source}
 
 \noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como R1, R2, R3, R4. Su propósito es evitar que el gate del mosfet se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el mosfet por ruido acoplado capacitivamente. 
 
 \noindent Se utiliza una resistencia de 4.7 $k\Omega$ debido a que permite que el gate se descargue en un tiempo rápido, consumiendo solo 2.55 mA del capacitor de bootstrap.
 
-\subsubsection{Protección del gate}
+\subsection{Protección del gate}
 
 \noindent El gate de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión, pudiendo dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el gate y source de cada transistor, de manera de limitar la tensión que se desarrolla en el gate a un valor seguro.
 
 \noindent Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
 
-\subsubsection{Tiempo muerto}
+\subsection{Tiempo muerto}
 
 \noindent Para evitar generar un cortocircuito durante la conmutación de los transistores, el driver HIP4081A permite configurar un tiempo muerto que debe transcurrir desde que se apaga un transistor y se enciende el próximo. Esto se configura mediante dos resistencias conectadas a sus pines LDEL y HDEL.
 
@@ -230,7 +233,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \noindent Según la hoja de datos del HIP4081A\cite{HIP4081A_AN9405}, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser 200 K$\Omega$.
 
-\subsubsection{Dimensionamiento de los capacitores de fuente}
+\subsection{Dimensionamiento de los capacitores de fuente}
 	
 \noindent Para reducir el consumo de potencia de la red se utilizan capacitores en paralelo a la fuente de $+24\:V$. Esto permite que, una vez que la fuente cargó inicialmente el inductor, en las conmutaciones sucesivas la carga del inductor pase a dichos capacitores en un semiciclo y viceversa en el otro ciclo de conmutación. Idealmente, esta transferencia de energía no tiene pérdidas. Por lo tanto, el consumo de potencia queda reducido a la perdida por disipación de los MOSFET y los demás componentes del controlador de corriente. 
 
@@ -312,7 +315,7 @@ R_T = \frac{R_{ESR}}{n}
 \end{equation}
 
 
-\subsubsection{Conmutación de alta frecuencia para el bootstrap}
+\subsection{Conmutación de alta frecuencia para el bootstrap}
 
 \noindent Cuando el MOSFET driver recibe una entrada que activa un MOS del lado superior, este comienza a cargar el gate con ayuda de la tensión que brinda el capacitor de bootstrap asociado a ese MOS. El capacitor de bootstrap entrega energía durante la carga del gate y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el driver reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del driver de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
@@ -337,7 +340,7 @@ R_T = \frac{R_{ESR}}{n}
 \end{figure}
 
 
-\subsubsection{Simulación del sistema con oscilador auxiliar}
+\subsection{Simulación del sistema con oscilador auxiliar}
 
 \noindent En la figura \ref{fig:img_corriente-auxiliar} se muestran las formas de onda obtenidas con el oscilador auxiliar utilizado para el correcto funcionamiento del bootstrap. 
 
@@ -348,9 +351,9 @@ R_T = \frac{R_{ESR}}{n}
 	\label{fig:img_corriente-auxiliar}
 \end{figure}
 
-\subsection{Características estáticas y dinámicas del controlador}
+\section{Características estáticas y dinámicas del controlador}
 
-\subsubsection{Corriente media del electroimán}
+\subsection{Corriente media del electroimán}
 
 \noindent Para saber la corriente media que habrá a la salida al aplicarle cierta tensión en la entrada, se utiliza la transferencia de lazo cerrado (sin considerar polos, y suponiendo alta ganancia de lazo abierto):
 
@@ -358,7 +361,7 @@ R_T = \frac{R_{ESR}}{n}
 	I_L = V_{i\_ref} * \frac{K_{in}}{H(s)} = V_{i\_ref} * 6 \frac{A}{V}
 \end{equation}
 
-\subsubsection{Frecuencia de conmutación de la corriente}
+\subsection{Frecuencia de conmutación de la corriente}
 
 \noindent La frecuencia de conmutación del sistema se obtiene con:
 
@@ -368,7 +371,7 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 
 \noindent Para $Y_g = 4 \:mm $ se tiene una inductancia $L(4\:mm) = 16.44 \:mHy$ , lo cual resulta en una frecuencia $f_{SW }= 1460 \:Hz$ .
 
-\subsubsection{Ancho de banda del controlador}
+\subsection{Ancho de banda del controlador}
 
 \noindent La dinámica del controlador, al depender de la inductancia, lo hace también del gap de aire. El ancho de banda (o velocidad con que responde) está limitado por la constante de tiempo del inductor con su resistencia serie. Juntas forman un sistema lineal de primer orden, con un polo en:
 

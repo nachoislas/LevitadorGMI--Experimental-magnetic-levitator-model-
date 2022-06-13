@@ -210,19 +210,19 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \noindent Finalmente, se decidió utilizar 2 capacitores de bootstrap en paralelo de $5.6 \:\mu F$ cada uno con el objetivo de reducir la resistencia serie.
 
 
-\subsubsubsection{Resistencia entre gate y source} \label{secc_res_gate_source}
+\subsubsection{Resistencia entre gate y source} \label{secc_res_gate_source}
 
 \noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como R1, R2, R3, R4. Su propósito es evitar que el gate del mosfet se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el mosfet por ruido acoplado capacitivamente. 
 
 \noindent Se utiliza una resistencia de 4.7 $k\Omega$ debido a que permite que el gate se descargue en un tiempo rápido, consumiendo solo 2.55 mA del capacitor de bootstrap.
 
-\subsubsubsection{Protección del gate}
+\subsubsection{Protección del gate}
 
 \noindent El gate de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión, pudiendo dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el gate y source de cada transistor, de manera de limitar la tensión que se desarrolla en el gate a un valor seguro.
 
 \noindent Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
 
-\subsubsubsection{Tiempo muerto}
+\subsubsection{Tiempo muerto}
 
 \noindent Para evitar generar un cortocircuito durante la conmutación de los transistores, el driver HIP4081A permite configurar un tiempo muerto que debe transcurrir desde que se apaga un transistor y se enciende el próximo. Esto se configura mediante dos resistencias conectadas a sus pines LDEL y HDEL.
 

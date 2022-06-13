@@ -13,7 +13,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 
 \noindent Se implementa un estimador compuesto por los bloques mostrados en la figura \ref{fig:img_Diagrama-Bloques-Estimador.png}. Se ingresa con una tensi\'{o}n triangular (ViL), correspondiente a la salida del sensor de efecto Hall. Para eliminar las componentes de alta frecuencia se aplica un filtro pasa bajosque deja pasar hasta la quinta arm\'{o}nica. Esta se\~{n}al filtrada conserva la forma triangular de la corriente. 
 
-\noindent Al ingresar al derivador con ViL, la forma de onda resultante a su salida es aproximadamente cuadrada, y sus valores de alto y bajo se corresponden con las pendientes de bajada y subida multiplicadas por una constante de tiempo del derivador. Estas pendientes deber\'{i}an ser sim\'{e}tricas alrededor del punto de operaci\'{o}n de 2.5V, pero no lo son debido a la resistencia interna del electroim\'{a}n, que provoca que la pendiente de bajada sea mayor (en m\'{o}dulo) que la de subida. Por ello, se implementa la compensaci\'{o}n I*R, cuya salida ingresa al derivador y logra mantener la simetr\'{i}a alrededor de 2.5V. Esta se\~{n}al ingresa al \'{u}ltimo bloque que rectifica y filtra la forma de onda, obteni\'{e}ndose una tensi\'{o}n continua (Vout) proporcional a la distancia de separaci\'{o}n del gap ($Y_{g}$).
+\noindent Al ingresar al derivador con ViL, la forma de onda resultante a su salida es aproximadamente cuadrada, y sus valores de alto y bajo se corresponden con las pendientes de bajada y subida multiplicadas por una constante de tiempo del derivador. Estas pendientes deber\'{i}an ser sim\'{e}tricas alrededor del punto de operaci\'{o}n de 2.5V, pero no lo son debido a la resistencia interna del electroim\'{a}n, que provoca que la pendiente de bajada sea mayor (en m\'{o}dulo) que la de subida. Por ello, se implementa la compensaci\'{o}n de la resistencia interna, cuya salida ingresa al derivador y logra mantener la simetr\'{i}a alrededor de 2.5V. Esta se\~{n}al ingresa al \'{u}ltimo bloque que rectifica y filtra la forma de onda, obteni\'{e}ndose una tensi\'{o}n continua (Vout) proporcional a la distancia de separaci\'{o}n del gap ($Y_{g}$).
 
 \begin{figure}[H]
 	\centering
@@ -192,7 +192,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 	\label{fig:img_Respuesta-en-frecuencia-del-filtro-activo}
 \end{figure}
 
-\section{Compensaci\'{o}n I*R}
+\section{Compensaci\'{o}n de resistencia interna}
 
 \noindent Al circular corriente siempre en el mismo sentido por el electroim\'{a}n, se produce una ca\'{i}da de tensi\'{o}n casi constante en la resistencia interna. Esto provoca que no siempre est\'{e}n aplicados $\pm 24V$ al electroim\'{a}n sino que durante el $T_{ON}$ se aplican $24V-I*R$ y durante el $T_{OFF}$ se aplican $-24V-I*R$. Esto genera que las pendientes sean distintas.
 
@@ -300,7 +300,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 	\label{fig:img_Formas_de_onda_obtenidas_en_la_simulación}
 \end{figure}
 
-\noindent La onda superior corresponde a la corriente en el electroim\'{a}n (verde), la onda que se encuentra al medio (amarilla) corresponde a la salida del derivador ${[V}_{bias}$$]$ y la inferior (roja) corresponde a la onda rectificada con la correcci\'{o}n de I*R.
+\noindent La onda superior corresponde a la corriente en el electroim\'{a}n (verde), la onda que se encuentra al medio (amarilla) corresponde a la salida del derivador ${[V}_{bias}$$]$ y la inferior (roja) corresponde a la onda rectificada con la correcci\'{o}n de la resistencia interna.
 
 \section{Rectificador, Restador y Filtrado}
 

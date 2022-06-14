@@ -1,13 +1,13 @@
 \chapter{Controlador de corriente} \chapterlabel{Informe/4-ControladorCorriente} \label{cap:ControladorCorriente}
 
-En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Debido a los altos valores de corriente con los que trabaja el sistema, se implementan estrategias de conmutación con el fin de reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un driver-bootstrap que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
+En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Debido a los altos valores de corriente con los que trabaja el sistema, se implementan estrategias de conmutación con el fin de reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un bootstrap-driver que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
 
 \section{Descripción general}
 
 \noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la impedancia de un inductor con una resistencia serie, cuya inductancia varía con el gap de aire:
 
 \begin{equation} \label{eq_admitancia}
-\frac{1}{sL(y)\ +\ R_L}
+\frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
 \noindent Para realizar este control se utiliza un sistema realimentado, como el que se muestra en la figura \ref{fig:img_diag-en-bloques}. Se puede ver que se ingresa con una tensión de referencia ($V_{iLRef}$) proporcional a la corriente de salida deseada, que luego se multiplica por la ganancia de entrada ($K_{in}$). La corriente del electroimán se realimenta en forma de una tensión proporcional a ella ($V_{iLF}$). Ambas tensiones son restadas y el resultado ($V_e$) ingresa al bloque de comparador con histéresis, que actúa en conmutación, por lo que su salida tiene dos estados posibles: $\pm$$V_L$.
@@ -23,7 +23,7 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Circuito del controlador de corriente}
 
-\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es mapear una tensión de referencia en la entrada entre 0 y 5 V con una corriente de salida de 0 a 30 A (en valor medio).  Debido a que para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP cuya transconductancia es de H(s) = 53.3 mV/A, la ganancia de entrada se puede calcular como:
+\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es mapear una tensión de referencia en la entrada entre 0 y 5 V con una corriente de salida de 0 a 30 A (en valor medio).  Debido a que para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP cuya transconductancia es de H(s) = 53.3 mV/A, la ganancia de entrada se calcula como:
 
 \begin{equation}
 	K_{in}=\frac{30\:A*0.0533\:mV/A}{5\:V}=0.32 
@@ -40,7 +40,7 @@ La salida de esta etapa se polariza en un punto de operación de $2.5\:V$ para p
 	\label{fig:img_etapa-de-entrada}
 \end{figure}
 
-Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se desea que la corriente de salida del electroimán tenga un ripple de $500\:mA$. Por lo tanto, afectando este valor por la transconductancia del sensor de efecto Hall, se obtiene un ancho de histéresis de $26.665\:mV$, alrededor de un punto de operación de $2.5\:V$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
+Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se desea que la corriente de salida del electroimán tenga un ripple de $500\:mA$. Por lo tanto, al afectar este valor por la transconductancia del sensor de efecto Hall, se obtiene un ancho de histéresis de $26.665\:mV$, alrededor de un punto de operación de $2.5\:V$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -102,6 +102,8 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 \noindent Para lograr una corriente contínua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en los bornes del inductor. De esta forma, la corriente crece y decrece (según la polaridad) con forma exponencial debido a la resistencia interna del electroimán. Sin embargo, como el intervalo de tiempo de esta conmutación es pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado a una recta. Por lo tanto se obtiene una corriente contínua con un ripple superpuesto de forma triangular. 
 
 \noindent Para lograr alternar la polaridad de la fuente sobre el inductor se utiliza una topología en puente H con 4 MOSFET que funcionan con un ciclo de trabajo determinado (manejado por el controlador por histéresis) como se observa en la figura \ref{fig:img_topologia-puenteH}. Pueden diferenciarse dos semiciclos de trabajo: uno de estado ON y otro de estado OFF. El primero se define como el semiciclo durante el cual la corriente en el inductor crece (pendiente positiva), mientras que el segundo se da cuando la corriente decrece.
+\\
+\colorbox{yellow}{Esto de estado OFF y ON ya se define arriba... unificar}
 
 \begin{figure}[H]
 	\centering
@@ -317,9 +319,9 @@ R_T = \frac{R_{ESR}}{n}
 
 \subsection{Conmutación de alta frecuencia para el bootstrap}
 
-\noindent Cuando el MOSFET driver recibe una entrada que activa un MOS del lado superior, este comienza a cargar el gate con ayuda de la tensión que brinda el capacitor de bootstrap asociado a ese MOS. El capacitor de bootstrap entrega energía durante la carga del gate y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el driver reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del driver de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
+\noindent Cuando el MOSFET driver \colorbox{yellow}{o podemos decir HIP4081A...}recibe una entrada que activa un MOS del lado superior, este comienza a cargar el gate con ayuda de la tensión que brinda el capacitor de bootstrap asociado a ese MOS. El capacitor de bootstrap entrega energía durante la carga del gate y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el driver reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del driver de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
-\noindent Para poder asegurar un periodo de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET driver. De esta manera se producen conmutaciones en un intervalo regular y se cargan regularmente los capacitores de bootstrap. 
+\noindent Para poder asegurar un periodo de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET driver. De esta manera se producen conmutaciones en un intervalo regular y se cargan \colorbox{yellow}{regularmente} los capacitores de bootstrap. 
 
 \noindent Se adopta una frecuencia de conmutación auxiliar de $50\:kHz$ y se hace variar el ciclo de trabajo de la salida del comparador con histéresis entre dos valores. Durante la carga del inductor, el ciclo de trabajo será del 90\% mientras que durante la descarga será del 10\%.
 
@@ -373,25 +375,25 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 
 \subsection{Ancho de banda del controlador}
 
-\noindent La dinámica del controlador, al depender de la inductancia, lo hace también del gap de aire. El ancho de banda (o velocidad con que responde) está limitado por la constante de tiempo del inductor con su resistencia serie. Juntas forman un sistema lineal de primer orden, con un polo en:
+\noindent La dinámica del controlador, al depender de la inductancia, lo hace también del gap de aire. El ancho de banda (o velocidad con que responde) está limitado por la constante de tiempo del inductor con su resistencia serie. Juntas forman un sistema lineal de primer orden, con un polo en: 
 
 \begin{equation} 
-	f_{polo} = \frac{1}{2\pi * L(y)}
+	f_{polo} = \frac{R_L}{2\pi * L(Y_g)}
 \end{equation}
 
 \noindent Al convertirlo a frecuencia angular:
 
 \begin{equation} \label{eq_frec-angular}
-	\omega _{polo} = \frac{1}{2\pi * L(y)}
+	\omega _{polo} = \frac{R_L}{L(Y_g)}
 \end{equation}
 
 \noindent Al tomar las condiciones del problema con $Y_g = 4\:mm$, $L = 7.55 \:mHy + 8.89 \:mHy$, y $R_L=0.2\:\Omega$ el polo se ubica:
 
 \begin{equation} 
-	\omega _{polo} = \frac{0.2}{16.44 \:mHy} = 12.17 \:r/s
+	\omega _{polo} = \frac{0.2\:\Omega}{16.44 \:mHy} = 12.17 \:r/s
 \end{equation}
 
-\noindent La tabla \ref{tab_mediciones} muestra  entre qué valores de frecuencia se verá afectada la forma de onda al modificarse la distancia de separación.
+\noindent La tabla \ref{tab_mediciones} muestra  entre qué valores de frecuencia se ve afectada la forma de onda al modificarse la distancia de separación.
 
 \begin{equation} \label{eq_DeltaT}
 	\Delta T [s] = \frac{\Delta I_L * (L(y) + L_{\infty})}{V_{BUS}}
@@ -411,10 +413,10 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 			1 & 33.42 & 0.70 & 718.13 & 5.98\\ \hline
 			2 & 22.64 &	0.47 & 1,060.07 & 8.83\\ \hline
 			3 &	18.8 & 0.39 & 1,276.60 & 10.64\\ \hline
-			4,4 & 15.5 & 0.32 & 1,548.39 & 12.90\\ \hline
-			5,2 & 14.7 & 0.31 & 1,632.65 & 13.61\\ \hline
-			6,5 & 14.4 & 0.30 & 1,666.67 & 13.89\\ \hline
-			8,23 & 12.4 & 0.26 & 1,935.48 & 16.13\\ \hline
+			4.4 & 15.5 & 0.32 & 1,548.39 & 12.90\\ \hline
+			5.2 & 14.7 & 0.31 & 1,632.65 & 13.61\\ \hline
+			6.5 & 14.4 & 0.30 & 1,666.67 & 13.89\\ \hline
+			8.23 & 12.4 & 0.26 & 1,935.48 & 16.13\\ \hline
 			inf & 8.89 & 0.19 & 2,699.66 & 22.5	\\ \hline
 		\end{tabular}
 		\caption{Valores calculados y medidos en función del Gap de aire.}

@@ -239,7 +239,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \subsection{Medición de inductancia}
 
-\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca Instek y laminas de cartón de espesor conocido. La medición consta en ir apilando dichas laminas entre ambas piezas del electroimán, donde la suma total de los espesores de las laminas es $Y[mm]$ y luego tomar el valor de inductancia entregado por el medidor $(L(Y_{g})[mH])$. Siguiendo este procedimiento se obtuvieron los siguientes resultados:
+\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca Instek y laminas de cartón de espesor conocido. La medición consta en apilar dichas laminas entre ambas piezas del electroimán, donde la suma total de los espesores de las laminas es $Y[mm]$ y luego tomar el valor de inductancia entregado por el medidor $(L(Y_{g})[mH])$. De esta forma, se obtuvieron los siguientes resultados:
 
 \begin{table} [H]
 	\begin{center}
@@ -267,7 +267,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \begin{equation}
 	\label{eq_induct_practica}
-	L(y)=-2.56*Y_{g}+0.027
+	L(Y_g)=-2.56*Y_{g}+0.027
 \end{equation}
 
 \noindent Donde:
@@ -322,9 +322,9 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\dot{x_{2}}=g-\frac{K}{M}*\frac{u^{2}}{x_{1}^{2}}
 \end{equation}
 
-\noindent El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=4mm$. El resto de los puntos de equilibrio se encuentra igualando las derivadas a cero:
+\noindent El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=\:4mm$. El resto de los puntos de equilibrio se encuentra igualando las derivadas a cero:
 \begin{equation}
-	x_{1o}=4mm
+	x_{1o}=4\:mm
 \end{equation}
 \begin{equation}
 	x_{2o}=0
@@ -371,13 +371,13 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	G_{P}=C*(S*I-A)^{-1}*B
 \end{equation}
 
-\noindent Finalmente, se obtiene para $M=30kg$ e $y_{o}=4mm$:
+\noindent Finalmente, se obtiene para $M=30\:kg$ e $y_{o}=4\:mm$:
 
 \begin{equation}
 	G_{P}=-\frac{2}{y_{o}}*\frac{\sqrt{\frac{K*g}{M}}}{S^2-\frac{2*g}{y_{o}}}=\frac{-1.201}{S^{2}-4900}
 \end{equation}
 
-\noindent La planta tiene dos autovalores en $\pm\sqrt{\frac{2*g}{y_{o}}}=\pm70[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho, lo que provoca que la planta sea de naturaleza inestable.
+\noindent La planta tiene dos autovalores en $\pm\sqrt{\frac{2*g}{y_{o}}}=\pm70\:[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho, lo que provoca que la planta sea de naturaleza inestable.
 
 \noindent Al trabajar con una planta cuya masa es variable, conviene dejar la transferencia en función de $M$:
 
@@ -385,5 +385,5 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 		G_{P}(M)=-\sqrt{\frac{30}{M}}*\frac{1.201}{S^{2}-4900}
 \end{equation}
 
-\noindent Es posible observar en la expresión \ref{eq_transferencia_planta_m} que la masa del objeto modifica la ganancia del sistema, pero no la ubicación de los polos. Esto es importante tenerlo en cuenta al momento de escoger la estrategia de control.
+\noindent Es posible observar en la expresión \ref{eq_transferencia_planta_m} que la masa del objeto modifica la ganancia del sistema, pero no la ubicación de los polos. Esto es importante tenerlo en cuenta al momento de diseñar el compensador.
 

@@ -1,11 +1,11 @@
-\chapter{Compensador analogico} \chapterlabel{Informe/6-CompensadorAnalogico} \label{cap:Compensador Analogico}
+\chapter{Compensador analógico} \chapterlabel{Informe/6-CompensadorAnalogico} \label{cap:Compensador Analogico}
 
-En este capítulo se analiza la naturaleza de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. Debido a que la planta tiene polos en el semiplano derecho, se diseña un compensador por adelanto de fase que logra la estabilidad incluso para los casos extremos de funcionamiento del sistema. Por último, se diseña un lazo de realimentación con un integrador que permite eliminar el error en régimen permanente.
+En este capítulo se analiza la naturaleza de la dinámica de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. Se diseña un compensador por adelanto de fase que logra la estabilidad incluso para los casos extremos de funcionamiento del sistema. Luego, se agrega un lazo de realimentación con un integrador que permite eliminar el error en régimen permanente.
 
 \section{Descripción general}
 
 
-\noindent Se plantea una compensación como la que se muestra en la figura \ref{fig:diag-en-bloques-comp}. Está compuesta por un lazo de control interno con un controlador por adelanto de fase para lograr estabilizar el sistema, y un lazo de control externo con un integrador para eliminar el error en régimen permanente.
+\noindent Se plantea una compensación compuesta por dos lazos de control como la que se muestra en la figura \ref{fig:diag-en-bloques-comp}. El lazo de control interno está basado en un controlador por adelanto de fase que cumple la función de estabilizar el sistema. El lazo de control externo contiene un integrador con el objetivo de eliminar el error de posición en régimen permanente.
 
 
 \begin{figure}[H]
@@ -17,9 +17,9 @@ En este capítulo se analiza la naturaleza de la planta y se utilizan distintas 
 
 \section{Lazo de realimentación interno}
 
-\subsection{Análisis de estabilidad con masa de 30Kg}
+\subsection{Análisis de estabilidad con masa de 30 kg}
 
-\noindent Para el análisis del compensador analógico se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 Kg, del controlador de corriente $G_{iL}(s)$  y del lazo de realimentación $H_{estim}$. A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrado en la ecuación \ref{eq_GT2}.
+\noindent Para realizar el análisis de estabilidad se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 kg (\ref{eq_transferencia_planta_30kg}), la del controlador de corriente $G_{iL}(s)$ (\ref{eq_TLC-cc}) y la del lazo de realimentación $H_{estim}(s)$ (\ref{eq_TLC_deriv_7}). A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrada en la expresión \ref{eq_GT2}.
 
 
 \begin{equation*} \label{eq_GT1}

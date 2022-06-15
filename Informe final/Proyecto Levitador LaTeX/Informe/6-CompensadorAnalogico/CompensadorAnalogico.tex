@@ -2,10 +2,11 @@
 
 En este capítulo se analiza la naturaleza de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. Debido a que la planta tiene polos en el semiplano derecho, se diseña un compensador por adelanto de fase que logra la estabilidad incluso para los casos extremos de funcionamiento del sistema. Por último, se diseña un lazo de realimentación con un integrador que permite eliminar el error en régimen permanente.
 
+\section{Descripción general}
 
-\section{Lazo de realimentación interno}
-\subsection{Diseño de la red de adelanto de fase}
+
 \noindent Se plantea una compensación como la que se muestra en la figura \ref{fig:diag-en-bloques-comp}. Está compuesta por un lazo de control interno con un controlador por adelanto de fase para lograr estabilizar el sistema, y un lazo de control externo con un integrador para eliminar el error en régimen permanente.
+
 
 \begin{figure}[H]
 	\centering
@@ -14,7 +15,9 @@ En este capítulo se analiza la naturaleza de la planta y se utilizan distintas 
 	\label{fig:diag-en-bloques-comp}
 \end{figure}
 
-\subsubsection{Análisis de estabilidad con masa de 30Kg}
+\section{Lazo de realimentación interno}
+
+\subsection{Análisis de estabilidad con masa de 30Kg}
 
 \noindent Para el análisis del compensador analógico se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 Kg, del controlador de corriente $G_{iL}(s)$  y del lazo de realimentación $H_{estim}$. A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrado en la ecuación \ref{eq_GT2}.
 
@@ -86,6 +89,8 @@ En este capítulo se analiza la naturaleza de la planta y se utilizan distintas 
 	\label{fig:nyquist-deseado-analog}
 \end{figure}
 
+\subsection{Diseño de la red de adelanto de fase}
+
 \noindent Para poder lograr el aumento de fase mencionado se utiliza una red de adelanto de fase. Se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a 0 dB y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente 200 rad/s. Esto se logra usando dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
 
 \noindent Ecuaciones de dise\~{n}o:
@@ -140,7 +145,7 @@ En este capítulo se analiza la naturaleza de la planta y se utilizan distintas 
 	\label{fig:rta-escalon-k-10-m-30}
 \end{figure}
 
-\subsubsection{Análisis de estabilidad con masa de 1 Kg}
+\subsection{Verificación de estabilidad con masa de 1 Kg}
 
 \noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de 1 Kg con el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-analog-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que efectivamente el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
 
@@ -166,7 +171,7 @@ En este capítulo se analiza la naturaleza de la planta y se utilizan distintas 
 	\label{fig:respuesta-analog-al-escalon-para-M-1Kg}
 \end{figure}
 
-\subsubsection{Implementación circuital}
+\subsection{Implementación circuital de la red de adelanto de fase}
 
 \begin{figure}[H]
 	\centering
@@ -196,7 +201,7 @@ Para ello, se utiliza un amplificador operacional como se muestra en la figura \
 \end{figure}
 
 \section{Lazo del realimentación externo}
-\subsection{Diseño de integrador}
+\subsection{Diseño del integrador}
 
 \noindent Se plantea un lazo de realimentaci\'{o}n externo como se muestra en la  figura \ref{fig:diag-en-bloques-comp}.
 

@@ -1,21 +1,23 @@
 \chapter{Estimador analógico} \chapterlabel{Informe/5-EstimadorAnalogico} \label{cap:Estimador Analogico}
 
 
- Para que la placa de control pueda mantener la distancia de separación $Y_{0}$ es necesario conocer el valor instantáneo para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
+ Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su \colorbox{yellow}{valor instantáneo} para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
  
- En este capítulo se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y respectivas simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
+ En este capítulo se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y sus respectivas simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
 
 \section{Descripción general}
 
-
 Para estimar la distancia de separación se aprovecha la forma de onda triangular de la corriente del electroimán. A partir de esta señal se puede calcular la pendiente de crecimiento y de decrecimiento de la misma. Ambas son dependientes de la inductancia del electroimán y, por ende, de la distancia de separación. Es importante tener en cuenta que la etapa de controlador de corriente posee una topología que mantiene el sistema conmutando continuamente (incluso para corriente nula) para tener siempre una estimación disponible y que el sistema de control no quede a lazo abierto.
 
+\colorbox{yellow}{No se si queda muy claro el párrafo de arriba, por ahí podría ser algo asi..}\\
+Para estimar la distancia de separación se aprovecha que la pendiente de crecimiento y de decrecimiento de la corriente que circula por el electroimán depende de la distancia de separación.
 
-\noindent Se implementa un estimador compuesto por los bloques mostrados en la figura \ref{fig:img_Diagrama-Bloques-Estimador.png}. Se ingresa con una tensión triangular $(V_{iL}])$, correspondiente a la salida del sensor de efecto Hall. Para eliminar las componentes de alta frecuencia se aplica un filtro pasa bajos que deja pasar hasta la quinta armónica. Esta señal filtrada conserva la forma triangular de la corriente. 
+Es importante tener en cuenta que la etapa del controlador de corriente posee una topología que mantiene el sistema conmutando continuamente (incluso para corriente nula) para tener siempre una estimación disponible y que el sistema de control no quede a lazo abierto.
+\colorbox{yellow}{Lo de abajo sigue igual..}
 
-\noindent Al ingresar al derivador con $V_{iL}$, la forma de onda resultante a su salida es aproximadamente cuadrada, y sus valores de alto y bajo se corresponden con las pendientes de bajada y subida multiplicadas por una constante de tiempo del propias del mismo circuito. Estas pendientes deben ser simétricas alrededor del punto de operación de $2.5\:V$, pero no lo son debido a la resistencia interna del electroimán, que provoca que la pendiente de bajada sea mayor (en módulo) que la de subida. Por ello, se implementa la compensación de la resistencia interna, cuya salida ingresa al derivador y logra mantener la simetría alrededor de 2.5V. Esta señal ingresa al último bloque que rectifica y filtra la forma de onda, obteniéndose una tensión continua $(V_{out})$ proporcional a la distancia de separación ($Y_{g}$).
+\noindent Se implementa un estimador compuesto por los bloques mostrados en la figura \ref{fig:img_Diagrama-Bloques-Estimador.png}. Se ingresa con una tensión triangular $(V_{iL})$, correspondiente a la salida del sensor de efecto Hall. Para eliminar las componentes de alta frecuencia se aplica un filtro pasa bajos que deja pasar hasta la quinta armónica. Esta señal filtrada conserva la forma triangular de la corriente. 
 
-\colorbox{yellow}{Cambiar el I*R en la imagen}
+\noindent Al ingresar al derivador con $V_{iL}$, la forma de onda resultante a su salida es aproximadamente cuadrada, y sus valores de alto y bajo se corresponden con las pendientes de bajada y subida multiplicadas por la constante de tiempo del derivador. Estas pendientes deben ser simétricas alrededor del punto de operación de $2.5\:V$, pero no lo son debido a la resistencia interna del electroimán, que provoca que la pendiente de bajada sea mayor (en módulo) que la de subida. Por ello, se implementa la compensación de la resistencia interna, cuya salida ingresa al derivador y logra mantener la simetría alrededor de $2.5\:V$. Esta señal ingresa al último bloque que rectifica y filtra la forma de onda, obteniéndose una tensión continua $(V_{out})$ proporcional a la distancia de separación ($Y_{g}$).
 
 \begin{figure}[H]
 	\centering
@@ -91,7 +93,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 	C_1*R_1<=\frac{2.5\ V\ *L_{min}}{V_{BUS}*K_h}
 \end{equation}
 
-\noindent Con $L_{min}= L_T(5\: mm)= 14.9\: mH$ (teniendo en cuenta la inductancia de dispersi\'{o}n) se obtiene: 
+\noindent Con $L_{min}= L_T(5\: mm)= 14.9\: mH$ (\colorbox{yellow}{teniendo} en cuenta la inductancia de dispersi\'{o}n) se obtiene: 
 
 \begin{equation} \label{eq_condicionC1-R1-2}
 	C_1*R_1<=\ 29.1\ ms
@@ -101,7 +103,7 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 
 \noindent Para los c\'{a}lculos se utiliz\'{o} $C_1*R_1= 25\: mS$, para dar un margen y evitar la saturaci\'{o}n del amplificador operacional.  
 
-\noindent Con la ecuaci\'{o}n \ref{eq_di-dt_lineal} y \ref{eq_vyf2}, y con una variaci\'{o}n en torno a 2.5V se obtiene:
+\noindent Con la ecuaci\'{o}n \ref{eq_di-dt_lineal} y \ref{eq_vyf2}, y con una variaci\'{o}n en torno a $2.5\:V$ se obtiene:
 
 
 \begin{equation} \label{eq_Vyf-lineal}
@@ -136,8 +138,6 @@ Para estimar la distancia de separación se aprovecha la forma de onda triangula
 	\caption{Circuito derivador compensado}
 	\label{fig:img_Circuito_derivador_compensado}
 \end{figure}
-
-\colorbox{yellow}{La entrada en la imagen sería ViL creo}
 
 \noindent El operacional es internamente compensado, por lo que todos sus otros polos los tiene luego del cruce por $0\:dB$ de la ganancia. Para simplificar el an\'{a}lisis estos no se tienen en cuenta, ya que est\'{a}n fuera de la zona de inter\'{e}s.
 

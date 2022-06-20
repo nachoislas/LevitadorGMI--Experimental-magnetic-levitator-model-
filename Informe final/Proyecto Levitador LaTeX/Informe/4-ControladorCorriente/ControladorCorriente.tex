@@ -1,6 +1,6 @@
 \chapter{Controlador de corriente} \chapterlabel{Informe/4-ControladorCorriente} \label{cap:ControladorCorriente}
 
-En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Debido a los altos valores de corriente con los que trabaja el sistema, se implementan estrategias de conmutación con el fin de reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un bootstrap-driver que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
+En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Debido a los altos valores de corriente con los que trabaja el sistema, se implementan estrategias de conmutación con el fin de reducir las pérdidas de energía. Para ello se utiliza una topología de \colorbox{yellow}{puente ``H''} con cuatro MOSFET y un bootstrap-driver que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
 
 \section{Descripción general}
 
@@ -10,7 +10,7 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 \frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
-\noindent Para realizar este control se utiliza un sistema realimentado, como el que se muestra en la figura \ref{fig:img_diag-en-bloques}. Se puede ver que se ingresa con una tensión de referencia ($V_{iLRef}$) proporcional a la corriente de salida deseada, que luego se multiplica por la ganancia de entrada ($K_{in}$). La corriente del electroimán se realimenta en forma de una tensión proporcional a ella ($V_{iLF}$). Ambas tensiones son restadas y el resultado ($V_e$) ingresa al bloque de comparador con histéresis, que actúa en conmutación, por lo que su salida tiene dos estados posibles: $\pm$$V_L$.
+\noindent Para realizar este control se utiliza un sistema realimentado, como el que se muestra en la figura \ref{fig:img_diag-en-bloques}. Se puede ver que se ingresa con una tensión de referencia ($V_{iLRef}$) proporcional a la corriente de salida deseada, que luego se multiplica por la ganancia de entrada ($K_{in}$). La corriente del electroimán se realimenta en forma de una tensión proporcional a ella ($V_{iLF}$). Ambas tensiones son restadas y el resultado ($V_e$) ingresa al bloque del comparador con histéresis, que actúa en conmutación, por lo que su salida tiene dos estados posibles: $\pm$$V_L$.
 
 \noindent Al ser aplicadas al inductor se produce una rampa de corriente: si la tensión es positiva, la rampa crece, y si es negativa decrece. De esta forma, debido a la conmutación del comparador se obtiene, a la salida, una forma de onda triangular $I_L$, cuyo valor medio es la corriente deseada y se corresponde a la tensión de referencia.
 
@@ -23,14 +23,14 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Circuito del controlador de corriente}
 
-\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es mapear una tensión de referencia en la entrada entre 0 y 5 V con una corriente de salida de 0 a 30 A (en valor medio).  Debido a que para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP cuya transconductancia es de H(s) = 53.3 mV/A, la ganancia de entrada se calcula como:
+\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es mapear una tensión de referencia en la entrada entre 0 y 5 V con una corriente de salida entre 0 y 30 A (en valor medio).  Debido a que, para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP cuya transconductancia es de H(s) = 53.3 mV/A, la ganancia de entrada se calcula como:
 
 \begin{equation}
 	K_{in}=\frac{30\:A*0.0533\:mV/A}{5\:V}=0.32 
 \end{equation}
 
 
-La salida de esta etapa se polariza en un punto de operación de $2.5\:V$ para poder utilizar una fuente de alimentación entre $0\:V$ y $5\:V$ para los operacionales. Para lograr esto se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
+La salida de esta etapa se polariza en un punto de operación de $2.5\:V$ para poder utilizar una fuente de alimentación entre $0\:V$ y $5\:V$ para los operacionales. Para lograrlo se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
 
 
 \begin{figure}[H]
@@ -101,10 +101,8 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 
 \noindent Para lograr una corriente contínua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en los bornes del inductor. De esta forma, la corriente crece y decrece (según la polaridad) con forma exponencial debido a la resistencia interna del electroimán. Sin embargo, como el intervalo de tiempo de esta conmutación es pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado a una recta. Por lo tanto se obtiene una corriente contínua con un ripple superpuesto de forma triangular. 
 
-\noindent Para lograr alternar la polaridad de la fuente sobre el inductor se utiliza una topología en puente H con 4 MOSFET que funcionan con un ciclo de trabajo determinado (manejado por el controlador por histéresis) como se observa en la figura \ref{fig:img_topologia-puenteH}. Pueden diferenciarse dos semiciclos de trabajo: uno de estado ON y otro de estado OFF. El primero se define como el semiciclo durante el cual la corriente en el inductor crece (pendiente positiva), mientras que el segundo se da cuando la corriente decrece.
+\noindent Para lograr alternar la polaridad de la fuente sobre el inductor se utiliza una topología en puente H con 4 MOSFET que funcionan con un ciclo de trabajo determinado \colorbox{yellow}{(¿No sería la frecuencia en vez de el ciclo de trabajo?)} (manejado por el controlador por histéresis) como se observa en la figura \ref{fig:img_topologia-puenteH}. Pueden diferenciarse dos semiciclos de trabajo: uno de estado ON y otro de estado OFF. El primero se define como el semiciclo durante el cual la corriente en el inductor crece (pendiente positiva), mientras que el segundo se da cuando la corriente decrece.
 \\
-\colorbox{yellow}{Esto de estado OFF y ON ya se define arriba... unificar}
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{Topologia-puenteH.png}
@@ -130,11 +128,11 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 
 \noindent El driver bootstrap consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del bootstrap, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender Q2 y Q4 durante un tiempo que se conoce como periodo de refresco de bootstrap. De esta forma, los capacitores de bootstrap de ambos lados quedan conectados entre $12 \:V$ y GND y se pueden cargar completamente. Durante este tiempo, las salidas a los gates AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de shoot-through durante el período nominal de refresco del bootstrap. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
 
-\noindent Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte suponiendo que el sistema se encuentra funcionando: con el transistor Q2 encendido (ALO = $V_{CC}$), Q1 apagado (AHO = AHS = 0 V) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a 12 V, ya que en un terminal tiene la fuente de 12 V (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de Q2.
+\noindent Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra funcionando: con el transistor Q2 encendido (ALO = $V_{CC}$), Q1 apagado (AHO = AHS = 0 V) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a 12 V, ya que en un terminal tiene la fuente de 12 V (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de Q2.
 
-\noindent Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Teniendo en cuenta que la carga es inductiva, el valor medio de la corriente mantiene su sentido circulando por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el source del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de Q2. 
+\noindent Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el source del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de Q2. 
 
-\noindent Una vez finalizado el tiempo muerto, se enciende el MOS Q1. Para encenderlo, la señal AHO se pone en nivel alto. Durante el tiempo que Q1 pasa de estar apagado a encendido, la tensión en el source cambia de $-V_d$ a $V_{bus}$ de manera gradual mientras se carga el gate, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de bootstrap sumada a la tensión en el source de Q1. De esta manera se logra una tensión de 36 V con respecto a GND en el gate y genera una diferencia entre gate y source de 12 V.
+\noindent Una vez finalizado el tiempo muerto, se enciende el MOS Q1. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que Q1 pasa de estar apagado a encendido, la tensión en el source cambia de $-V_d$ a $V_{bus}$ de manera gradual mientras se carga el gate, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de bootstrap sumada a la tensión en el source de Q1. De esta manera se logra una tensión de 36 V con respecto a GND en el gate y genera una diferencia entre gate y source de 12 V.
 
 \noindent Para lograr un funcionamiento adecuado del Boostrap es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOS esté encendido.
 

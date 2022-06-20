@@ -13,7 +13,7 @@
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{plano_dimensiones.png}
-	\caption{Dimensiones del electroimán}
+	\caption{Dimensiones del electroimán [mm].}
 	\label{fig:img_plano_dimensiones}
 \end{figure}
 
@@ -22,7 +22,7 @@
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{carrete.png}
-	\caption{Carrete de plástico para el bobinado}
+	\caption{Carrete de plástico para el bobinado.}
 	\label{fig:img_carrete}
 \end{figure}
 
@@ -76,7 +76,7 @@
 
 \subsection{Modelado de inductancia del electroimán}
 
-\noindent Las dos piezas del electroimán, junto con el gap de aire que las separa conforman un circuito magnético. Debido a la alta permeabilidad del material ($\mu_{r}$) por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas. Lo hace sin desviaciones siempre que la longitud de separación ($Y_{g}$) sea pequeña comparada con la raíz cuadrada área transversal (A) del electroimán.
+\noindent Las dos piezas del electroimán, junto con el gap de aire que las separa, conforman un circuito magnético. Debido a la alta permeabilidad del material ($\mu_{r}$) por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas. Lo hace sin desviaciones siempre que la longitud de separación ($Y_{g}$) sea pequeña comparada con \colorbox{yellow}{la raíz cuadrada} del área transversal (A) del electroimán.
 
 \noindent Debido a la simetría del electroimán, el flujo magnético total generado en su rama central se divide en dos para circular por cada rama lateral.
 
@@ -94,7 +94,7 @@
 
 \noindent Para cada camino que recorre el flujo magnético, la intensidad de campo magnético es constante, por lo tanto se resuelven las integrales:
 
-\begin{equation}
+\begin{equation}\label{eq_fuerza-mm}
 	F_{mm}=\frac{B}{\mu_{r}}*l_{m}+\frac{B}{\mu_{o}*}*l_{A}=N*i
 \end{equation}
 
@@ -113,7 +113,7 @@ Donde:
 	B=\frac{\phi}{A}
 \end{equation}
 
-Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz} y \ref{eq_definicion-camp-magn}, se obtiene:
+Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_fuerza-mm} y \ref{eq_definicion-camp-magn}, se obtiene:
 
 \begin{equation}
 		R_{m}*\phi=\frac{\phi}{\mu_{r}*A}*l_{m}+\frac{\phi}{\mu_{o}*A}*l_{A}
@@ -231,7 +231,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\item Se tomó nota de los valores de tensión y corriente que entregaba la fuente.
 \end{itemize}
 
-\noindent Al tener una resistencia serie baja, la fuente de tensión activó la protección de corto circuito, de tal manera que la corriente en el electroimán quedó constante en $1\:A$. Utilizando la medición de tensión entregada por la fuente, cuyo resultado fue de $0,17 V$, se puedo calcular la resistencia del electroimán mediante la Ley de Ohm:
+\noindent Al tener una resistencia serie baja, la fuente de tensión activó la protección de corto circuito, de tal manera que la corriente en el electroimán quedó constante en $1\:A$. Utilizando la medición de tensión entregada por la fuente, cuyo resultado fue de $0,17 V$, se pudo calcular la resistencia del electroimán mediante la Ley de Ohm:
 
 \begin{equation}
 	R_{L}=\frac{V}{I}=\frac{0.17\:V}{1\:A}	\approx0.2\:\Omega
@@ -239,13 +239,13 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \subsection{Medición de inductancia}
 
-\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR marca Instek y laminas de cartón de espesor conocido. La medición consta en apilar dichas laminas entre ambas piezas del electroimán, donde la suma total de los espesores de las laminas es $Y[mm]$ y luego tomar el valor de inductancia entregado por el medidor $(L(Y_{g})[mH])$. De esta forma, se obtuvieron los siguientes resultados:
+\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR \colorbox{yellow}{(no se si vale la pena decir la marca..)} marca Instek y laminas de cartón de espesor conocido. La medición consta en apilar dichas laminas entre ambas piezas del electroimán, donde la suma total de los espesores de las laminas es $Y[mm]$ y luego tomar el valor de inductancia entregado por el medidor $(L(Y_{g})[mH])$. De esta forma, se obtuvieron los siguientes resultados:
 
 \begin{table} [H]
 	\begin{center}
 		\begin{tabular}{| c | c | c | c | c | c | c | c | c | c |}
 			\hline			
-			$Y[mm]$ & 0 & 1 & 2 & 3 & 4.4 & 5.2 & 6.5 & 8.23 & $\inf$ \\ \hline
+			$Y[mm]$ & 0 & 1 & 2 & 3 & 4.4 & 5.2 & 6.5 & 8.23 & $\infty$ \\ \hline
 			$L(Y_{g})[mH]$ & 76.45 & 33.42 & 22.64 & 18.8 & 15.5 & 14.7 & 14.4 & 12.4 & 8.89\\ \hline
 		\end{tabular}
 		\caption{Valores de inductancia medidos en función del gap de aire.}
@@ -378,7 +378,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \noindent La planta tiene dos autovalores en $\pm\sqrt{\frac{2*g}{y_{o}}}=\pm70\:[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho, lo que provoca que la planta sea de naturaleza inestable.
 
-\noindent Al trabajar con una planta cuya masa es variable, conviene dejar la transferencia en función de $M$:
+\noindent Al trabajar con una planta cuya masa es variable se deja la transferencia en función de $M$:
 
 \begin{equation} \label{eq_transferencia_planta_m}
 		G_{P}(M)=-\sqrt{\frac{30}{M}}*\frac{1.201}{S^{2}-4900}

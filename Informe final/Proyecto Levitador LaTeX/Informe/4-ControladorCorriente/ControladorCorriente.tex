@@ -307,7 +307,7 @@ R_T = \frac{R_{ESR}}{n}
 	P = I^2 * R_T = 21.25^2 * \frac{R_{ESR}}{n}
 \end{equation}
 
-\noindent Se decidió utilizar 6 capacitores  de $2200 \:uF/50\:V$ con una ESR de $17 \:\Omega$ (datos obtenidos de \cite{EKY-350ELL222MM25S}) . De esta forma, al reemplazar en la ecuación \ref{eq_potencia} se obtiene que la potencia disipada es de: 
+\noindent Se decidió utilizar 6 capacitores  de $2200 \:uF$ con un rating de tensión de $50\:V$ y una ESR de $17 \:\Omega$ (datos obtenidos de \cite{EKY-350ELL222MM25S}) . De esta forma, al reemplazar en la ecuación \ref{eq_potencia} se obtiene que la potencia disipada es de: 
 
 \begin{equation} 
 	P=1.28\:W
@@ -319,18 +319,18 @@ R_T = \frac{R_{ESR}}{n}
 
 \noindent Cuando el MOSFET driver \colorbox{yellow}{o podemos decir HIP4081A...}recibe una entrada que activa un MOS del lado superior, este comienza a cargar el gate con ayuda de la tensión que brinda el capacitor de bootstrap asociado a ese MOS. El capacitor de bootstrap entrega energía durante la carga del gate y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el driver reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del driver de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
-\noindent Para poder asegurar un periodo de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET driver. De esta manera se producen conmutaciones en un intervalo regular y se cargan \colorbox{yellow}{regularmente} los capacitores de bootstrap. 
+\noindent Para poder asegurar un periodo de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET driver. De esta manera se producen conmutaciones en un intervalo regular que permiten la carga de los capacitores de bootstrap. 
 
-\noindent Se adopta una frecuencia de conmutación auxiliar de $50\:kHz$ y se hace variar el ciclo de trabajo de la salida del comparador con histéresis entre dos valores. Durante la carga del inductor, el ciclo de trabajo será del 90\% mientras que durante la descarga será del 10\%.
-
-\noindent Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de C1 como:
+\noindent Se adopta una frecuencia de conmutación auxiliar de $50\:kHz$ y se hace variar el ciclo de trabajo de la salida del comparador con histéresis entre dos valores. Durante la carga del inductor, el ciclo de trabajo es del 90\% mientras que durante la descarga es del 10\%.
+\colorbox{yellow}{¿Como se ajusta el ciclo de trabajo?}\\
+\noindent Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:
 
 \begin{equation} 
 	F_{aux} = \frac{4.5*10^{-5}}{C1} [Hz]
 \end{equation}
 
 
-\noindent Esta frecuencia debe ser mucho mayor a la fundamental de la corriente triangular para evitar problemas en el funcionamiento del sistema y, además, debe ser lo suficientemente alta para poder ser filtrada sin inconvenientes en la etapa de estimación de posición. Por lo tanto, al adoptar una frecuencia auxiliar de $50\:kHz$, resulta en $C1= 900 \:pF$.
+\noindent Esta frecuencia debe ser mucho mayor a la fundamental de la corriente triangular para evitar problemas en el funcionamiento del sistema y, además, debe ser lo suficientemente alta para poder ser filtrada sin inconvenientes en la etapa de estimación de posición. Por lo tanto, al adoptar una frecuencia auxiliar de $50\:kHz$, resulta en $C_1= 900\:pF$.
 
 \begin{figure}[H]
 	\centering
@@ -355,7 +355,7 @@ R_T = \frac{R_{ESR}}{n}
 
 \subsection{Corriente media del electroimán}
 
-\noindent Para saber la corriente media que habrá a la salida al aplicarle cierta tensión en la entrada, se utiliza la transferencia de lazo cerrado (sin considerar polos, y suponiendo alta ganancia de lazo abierto):
+\noindent Para saber la corriente media que hay a la salida al aplicarle cierta tensión en la entrada, se utiliza la transferencia de lazo cerrado (sin considerar polos, y suponiendo alta ganancia de lazo abierto):
 
 \begin{equation} 
 	I_L = V_{i\_ref} * \frac{K_{in}}{H(s)} = V_{i\_ref} * 6 \frac{A}{V}
@@ -385,7 +385,7 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 	\omega _{polo} = \frac{R_L}{L(Y_g)}
 \end{equation}
 
-\noindent Al tomar las condiciones del problema en el punto de linealización con $Y_{g}=4\: mm$, resulta una inductancia $L = 7.55 \:mHy + 8.89 \: mHy$, y la resistencia del bobinado $R_L=0.2\:\Omega$ el polo se ubica en:
+\noindent Al tomar las condiciones del problema en el punto de linealización con $Y_{0}=4\:mm$, resulta una inductancia $L = 7.55 \:mHy + 8.89 \:mHy$. Luego, al considerar la resistencia del bobinado $R_L=0.2\:\Omega$, se calcula la ubicación del polo:
 
 \begin{equation} 
 	\omega _{polo} = \frac{0.2\:\Omega}{16.44 \:mHy} = 12.17 \:r/s
@@ -415,7 +415,7 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 			5.2 & 14.7 & 0.31 & 1632.65 & 13.61\\ \hline
 			6.5 & 14.4 & 0.30 & 1666.67 & 13.89\\ \hline
 			8.23 & 12.4 & 0.26 & 1935.48 & 16.13\\ \hline
-			inf & 8.89 & 0.19 & 2699.66 & 22.5	\\ \hline
+			$\infty$ & 8.89 & 0.19 & 2699.66 & 22.5	\\ \hline
 		\end{tabular}
 		\caption{Valores calculados y medidos en función del Gap de aire.}
 		\label{tab_mediciones}
@@ -424,7 +424,7 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 
 \subsection{Transferencia lineal del controlador de corriente}
 
-\noindent En la ecuación \ref{eq_TLC-cc} se muestra la transferencia linealizada del controlador de corriente para una distancia de separación de $y_{0}=4\:mm$.
+\noindent En la ecuación \ref{eq_TLC-cc} se muestra la transferencia linealizada del controlador de corriente para una distancia de separación de $Y_{0}=4\:mm$.
 
 \begin{equation} \label{eq_TLC-cc}
 TLC_{CC} = \frac{6}{1+\frac{s}{12.17}}

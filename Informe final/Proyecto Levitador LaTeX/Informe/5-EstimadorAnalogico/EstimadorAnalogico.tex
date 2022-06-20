@@ -133,7 +133,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 
 \section{Circuito del derivador compensado}
 
-\noindent Puesto que los circuitos derivadores pueden presentar inestabilidad a alta frecuencia, es necesario compensarlos agregando una resistencia en serie al capacitor, para que genere un cero en la transferencia de realimentaci\'{o}n (ecuación \ref{eq_Aw_2}), como se observa en la figura  \ref{fig:img_Circuito_derivador_compensado}.
+\noindent Puesto que los circuitos derivadores pueden presentar inestabilidad a alta frecuencia, es necesario compensarlos mediante el agregado de una resistencia en serie al capacitor, para que genere un cero en la transferencia de realimentaci\'{o}n (ecuación \ref{eq_Aw_2}), como se observa en la figura  \ref{fig:img_Circuito_derivador_compensado}.
 
 \begin{figure}[H]
 	\centering
@@ -152,7 +152,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	\frac{1}{H(w)}=\frac{1+s*C_1*(R_1+R_2)}{1+s*C_1*R_2}\simeq \frac{1+s*C_1*R_1}{1+s*C_1*R_2}
 \end{equation}
 
-\noindent Para compensar el circuito se coloca un polo en $16 \:kHz$, dando como resultado $R2=10\:\Omega$, $C1=1\:uF$ y $R1=25\: k\Omega$ y un margen de fase de $\phi =49.6{}^\circ $, como se puede observar en la figura \ref{fig:img_GH del derivador compensado}.
+\noindent Para compensar el circuito se coloca un polo en $16 \:kHz$, que dá como resultado $R2=10\:\Omega$, $C1=1\:uF$ y $R1=25\: k\Omega$ y un margen de fase de $\phi =49.6{}^\circ $, como se puede observar en la figura \ref{fig:img_GH del derivador compensado}.
 
 \begin{figure}[H]
 	\centering
@@ -231,7 +231,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	\label{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR}
 \end{figure}
 
-\noindent Se busca corregir esto en la estimaci\'{o}n variando el setpoint de la salida del derivador. Para lograrlo se debe cambiar la tensi\'{o}n en la entrada no inversora ($V_{bias}$) como se muestra en la figura \ref{fig:img_Esquema-circuital-del-derivador}. 
+\noindent Se busca corregir esto en la estimaci\'{o}n al variar el setpoint de la salida del derivador. Para lograrlo se debe cambiar la tensi\'{o}n en la entrada no inversora ($V_{bias}$) como se muestra en la figura \ref{fig:img_Esquema-circuital-del-derivador}. 
 
 \begin{figure}[H]
 	\centering
@@ -317,7 +317,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 
 \noindent Para poder tener finalmente la estimaci\'{o}n de la posici\'{o}n, se debe rectificar la salida del derivador alrededor de $2.5\:V$. Esto se hace para hacer coincidir la pendiente positiva de la corriente triangular, con la pendiente negativa, y tener a la salida del estimador una se\~{n}al aproximadamente continua.
 
-\noindent Para entender el funcionamiento de este rectificador, se comienza analizando \'{u}nicamente la etapa del primer amplificador operacional. Se parte de la suposici\'{o}n de que en un amplificador ideal, la tensi\'{o}n diferencial ($V_d$) es igual a cero. Por lo tanto, como la entrada no inversora est\'{a} fijada en $2.5\:V$, la misma tensi\'{o}n se encuentra en la entrada inversora.
+\noindent Para entender el funcionamiento de este rectificador, se comienza con el análisis de la etapa del primer amplificador operacional. Se parte de la suposici\'{o}n de que en un amplificador ideal, la tensi\'{o}n diferencial ($V_d$) es igual a cero. Por lo tanto, como la entrada no inversora est\'{a} fijada en $2.5\:V$, la misma tensi\'{o}n se encuentra en la entrada inversora.
 
 \noindent Al analizar la corriente en la resistencia $R_{25}$ (se adpota el sentido positivo hacia la izquierda) en funci\'{o}n de $V_{deriv}$, resulta:
 
@@ -361,7 +361,7 @@ Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
 	{Vestim=V}^+-\ V^-+2.5V=\ 2.5V\ -\ (5V-\ V_{deriv})+\ 2.5V=\ \ V_{deriv}\ 
 \end{equation}
 
-\noindent Si tomamos a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2,5\: V$, reemplazando en los dos casos se obtiene lo siguiente:
+\noindent Si se toma a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2,5\: V$, al reemplazar en los dos casos se obtiene:
 
 \begin{equation} \label{eq_rest_3}
 	Vestim=\ 2,5\ V\ +\ |\mathit{\Delta}V_{deriv}|
@@ -378,8 +378,14 @@ Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
 
 \noindent En el restador se implementa un filtrado adicional a la se\~{n}al de salida como se observa en la figura  \ref{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}. De esta \'{u}ltima etapa, si se asigna a $C_5=C_6=C\ $y $R_{33}=R_{31}=R$, se obtiene:
 
+
+
+\begin{equation}
+	{Vestim}=\frac{1}{1+S*C*R}*{(V}^+-V^-\ +\ 2.5\:V)
+\end{equation}
+
 \begin{equation} \label{eq_Vestim_1}
-	{Vestim}=\frac{1}{1+S*C*R}*{(V}^+-V^-\ +\ 2.5\:V)\ =\ \frac{1}{1+S*C*R}*(2,5\: V\ +\ |\mathit{\Delta}V_{deriv}|)
+	{Vestim}=\frac{1}{1+S*C*R}*(2,5\: V\ +\ |\mathit{\Delta}V_{deriv}|)
 \end{equation}
 
 \begin{equation} \label{eq_Vestim_2}
@@ -418,7 +424,7 @@ Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
 
 \section{Simulaci\'{o}n de estimador completo}
 
-\noindent En la figura \ref{fig:img_Simulación_final_del_estimado} se pueden observar 3 formas de onda. La superior (verde) corresponde a la corriente del electroim\'{a}n, la del medio (amarilla) a la salida del derivador y la inferior (roja) es la salida Vestim. Utilizando cursores se midi\'{o} un ripple de $52.66\:mV $ en Vestim.
+\noindent En la figura \ref{fig:img_Simulación_final_del_estimado} se pueden observar 3 formas de onda. La superior corresponde a la corriente del electroim\'{a}n, la del medio a la salida del derivador y la inferior a la salida Vestim. Con el uso de los cursores se midi\'{o} un ripple de $52.66\:mV $ en Vestim.
 
 \begin{figure}[H]
 	\centering
@@ -490,7 +496,7 @@ Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
 	{Tlc'}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\ Krad/s})*[1+(\frac{2*0.473}{94,5\: Krad/s})*s+(\frac{s}{94,5\: Krad/s})^2]}
 \end{equation}
 
-\noindent Considerando la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\: \:{kHz}\ \simeq 60\: \:{Krad/s}/s$ se obtiene:
+\noindent Al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\: \:{kHz}\ \simeq 60\: \:{Krad/s}/s$ se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_6}
 	\resizebox{.8\hsize}{!}
@@ -501,7 +507,7 @@ Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
 	}
 \end{equation}
 
-\noindent Finalmente, despreciando los polos en alta frecuencia, la transferencia queda:
+\noindent Finalmente, al despreciar los polos en alta frecuencia, la transferencia queda:
 
 \begin{equation} \label{eq_TLC_deriv_7}
 	{Tlc'}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\: Krad/s})*{(1+\frac{s}{60\: Krad/s})}^2}

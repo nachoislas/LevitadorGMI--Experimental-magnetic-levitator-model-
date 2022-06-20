@@ -1,6 +1,6 @@
 \chapter{Controlador de corriente} \chapterlabel{Informe/4-ControladorCorriente} \label{cap:ControladorCorriente}
 
-En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Debido a los altos valores de corriente con los que trabaja el sistema, se implementan estrategias de conmutación con el fin de reducir las pérdidas de energía. Para ello se utiliza una topología de \colorbox{yellow}{puente ``H''} con cuatro MOSFET y un bootstrap-driver que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
+En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Debido a los altos valores de corriente con los que trabaja el sistema, se implementan estrategias de conmutación con el fin de reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un bootstrap-driver que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
 
 \section{Descripción general}
 
@@ -115,20 +115,20 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 
 \noindent Los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre gate y source sea mayor o igual a 7 V. Esto no es un problema para los dos MOS inferiores del puente H (Q2 y Q4), ya que la tensión en source está fijada en GND y el driver puede aplicar 12 V al gate (superando los 7 V entre gate y source). El problema radica en los transistores superiores del puente H, ya que la tensión en source varía entre 0 V y 24 V, por lo que en el gate debería haber, por lo menos, 31 V con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de 24 V. Para resolver este problema se utiliza un driver flotante con bootstrap.
 
-\noindent Para controlar la conmutación se utiliza un mosfet driver HIP4081A  que se encarga de encender y apagar los transistores según las entradas de control. Además permite la configuración de un tiempo muerto para evitar que se enciendan dos transistores de un lado a la vez. También provee la circuitería necesaria para implementar la fuente flotante que enciende los mosfet del lado superior para lo cual solo se debe agregar un diodo y un capacitor de manera externa. Para la implementación circuital se van a utilizar los MOSFET IPB160N04.
+\noindent Para controlar la conmutación se utiliza un MOSFET driver HIP4081A  que se encarga de encender y apagar los transistores según las entradas de control. Además permite la configuración de un tiempo muerto para evitar que se enciendan dos transistores de un lado a la vez. También provee la circuitería necesaria para implementar la fuente flotante que enciende los MOSFET del lado superior para lo cual solo se debe agregar un diodo y un capacitor de manera externa. Para la implementación circuital se van a utilizar los MOSFET IPB160N04.
 
 \noindent En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el driver HIP4081A. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del driver bootstrap permite obtener en el gate del MOS superior, una tensión de 36 V respecto a GND, logrando así una diferencia de tensión mayor a 7 V entre gate y source. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{Bootstrap.png}
-	\caption{Configuración Bootstrap simplificada.}
+	\caption{Configuración bootstrap simplificada.}
 	\label{fig:img_bootstrap}
 \end{figure}
 
 \noindent El driver bootstrap consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del bootstrap, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender Q2 y Q4 durante un tiempo que se conoce como periodo de refresco de bootstrap. De esta forma, los capacitores de bootstrap de ambos lados quedan conectados entre $12 \:V$ y GND y se pueden cargar completamente. Durante este tiempo, las salidas a los gates AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de shoot-through durante el período nominal de refresco del bootstrap. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
 
-\noindent Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra funcionando: con el transistor Q2 encendido (ALO = $V_{CC}$), Q1 apagado (AHO = AHS = 0 V) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a 12 V, ya que en un terminal tiene la fuente de 12 V (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de Q2.
+\noindent Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra funcionando: con el transistor Q2 encendido (ALO = $V_{CC}$), Q1 apagado (AHO = AHS = 0 V) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a $12\:V$, ya que en un terminal tiene la fuente de $12\:V$ (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de Q2.
 
 \noindent Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el source del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de Q2. 
 
@@ -185,43 +185,43 @@ Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
 C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \end{equation}
 
-\noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, $Q_G$= 170 nC. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS}$ = 0.1 V, es posible dimensionar el capacitor para que este posea carga suficiente para mantener al MOSFET siempre encendido.
+\noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, $Q_G= 170\:nC$. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS} = 0.1\:V$, es posible dimensionarlo para que posea carga suficiente para mantener al MOSFET siempre encendido.
 
-\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR, se obtiene a partir de \cite{RSX205LAM30} que  $I_R$ es igual a 0.1 A  y  el tiempo de recuperación de inversión es de 12.5 ns. Por lo tanto, la carga de recuperación resulta de 0.625 nC. Además, la corriente inversa de fuga del diodo de bootstrap tiene un valor de $I_{DR}$=2 mA (@ T=75°, VR= 24V).
+\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR se obtiene, a partir de \cite{RSX205LAM30}, que  $I_R$ es igual a $0.1\:A$  y  el tiempo de recuperación de inversión es de $12.5\:ns$. Por lo tanto, la carga de recuperación resulta de $0.625\:nC$. Además, la corriente inversa de fuga del diodo de bootstrap tiene un valor de $I_{DR} =2 \:mA\:(@\: T=75^{\circ}\:C, V_R= 24\:V)$.
 
-\noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de bootstrap ($V_B$=12V) dividido el valor de la resistencia gate-source, que es de 4.7 kOhm. Por lo tanto, $I_{GS}$=2.55 mA. 
+\noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de bootstrap ($V_B=12\:V$) dividido el valor de la resistencia gate-source, que es de $4.7\:k\Omega$. Por lo tanto, $I_{GS}=2.55 \:mA$. 
 
-\noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de 50 kHz, lo que resulta en $f_{PWM}=50 \:kHz$. 
+\noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de $50\:kHz$ (como se explica en el apartado \ref{secc_conmutacion-auxiliar}), lo que resulta en $f_{PWM}=50 \:kHz$. 
 
 \noindent Al reemplazar los valores obtenidos en \ref{eq_cap-bootstrap}, se obtiene:
 
-\begin{equation*} 
+\begin{equation} 
 	\begin{aligned}
 		C_{BS} &> \frac{170 \:nC + 0.625\:nC + \frac{2 \:mA + 2.55 \:mA}{50 \:kHz}}{0.1 \:V}\\
 	\end{aligned}
-\end{equation*}
+\end{equation}
 
-\begin{equation*} 
+\begin{equation} 
 	\begin{aligned}
 		C_{BS} &> 2.61 \:\mu F\\	
 	\end{aligned}
-\end{equation*}
+\end{equation}
 
 
 \noindent Por lo tanto, una capacidad mayor a $2.61 \:\mu F$ resulta en una caída menor a 0.1 V en el capacitor de bootstrap durante el tiempo de encendido de los MOSFET. Podría usarse un capacitor más pequeño, a costa de permitir una mayor caída de tensión en el capacitor. 
 
-\noindent Finalmente, se decidió utilizar 2 capacitores de bootstrap en paralelo de $5.6 \:\mu F$ cada uno con el objetivo de reducir la resistencia serie.
+\noindent Finalmente, se decidió utilizar 2 capacitores de bootstrap en paralelo de $5.6 \:\mu F$ cada uno, con el objetivo de reducir la resistencia serie.
 
 
 \subsection{Resistencia entre gate y source} \label{secc_res_gate_source}
 
-\noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como R1, R2, R3, R4. Su propósito es evitar que el gate del mosfet se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el mosfet por ruido acoplado capacitivamente. 
+\noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como R1, R2, R3, R4. Su propósito es evitar que el gate del MOSFET se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
 
 \noindent Se utiliza una resistencia de 4.7 $k\Omega$ debido a que permite que el gate se descargue en un tiempo rápido, consumiendo solo 2.55 mA del capacitor de bootstrap.
 
 \subsection{Protección del gate}
 
-\noindent El gate de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión, pudiendo dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el gate y source de cada transistor, de manera de limitar la tensión que se desarrolla en el gate a un valor seguro.
+\noindent El gate de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el gate y source de cada transistor, de manera de limitar la tensión que se desarrolla en el gate a un valor seguro.
 
 \noindent Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
 
@@ -229,9 +229,9 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \noindent Para evitar generar un cortocircuito durante la conmutación de los transistores, el driver HIP4081A permite configurar un tiempo muerto que debe transcurrir desde que se apaga un transistor y se enciende el próximo. Esto se configura mediante dos resistencias conectadas a sus pines LDEL y HDEL.
 
-\noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un mosfet IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es 63 ns. Este valor se obtiene de tener en cuenta el $T_{OFF}$ y el $T_{FALL}$ de la hoja de datos . Por lo tanto, para tener un margen, se elige que el deadtime sea de 100 ns. De todas formas, esta aplicación específica no requiere un tiempo de encendido rápido de los mosfets.
+\noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un MOSFET IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es de $63\:ns$ (teniendo en cuenta el $T_{OFF}$ y el $T_{FALL}$). Por lo tanto, al considerar que esta aplicación espcífica no requiere un tiempo de encendido rápido de los MOSFET, se elige que el tiempo muerto sea de $100\:ns$.
 
-\noindent Según la hoja de datos del HIP4081A\cite{HIP4081A_AN9405}, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser 200 K$\Omega$.
+\noindent Según la hoja de datos del HIP4081A\cite{HIP4081A_AN9405}, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser $200\:k\Omega$.
 
 \subsection{Dimensionamiento de los capacitores de fuente}
 	
@@ -239,12 +239,12 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan ripple en la tensión $V_{BUS}$. \colorbox{yellow}{¿Por?}
 
-\noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por $C_1$ y $C_2$. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores y hacia el electroimán por $Q_1$ y $Q_4$. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de $Q_2$ y $Q_3$. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-<I_L>$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
+\noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por $C_1$ y $C_2$. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores hacia el electroimán por $Q_1$ y $Q_4$. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de $Q_2$ y $Q_3$. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-<I_L>$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Corriente-capacitores.png}
-	\caption{Forma de onda de la corriente en C1 y C2.}
+	\caption{Forma de onda de la corriente en $C_1$ y $C_2$.}
 	\label{fig:img_ccorriente-capacitores}
 \end{figure}
 
@@ -268,7 +268,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 	\end{aligned}
 \end{equation}
 
-\noindent Con $\Delta I_L=500 \:mA$ y $T=0.47\:ms$ que corresponde a $Y_g = 2 \:mm$ según la tabla \ref{tab_mediciones}
+\noindent Con $\Delta I_L=500 \:mA$ y $T=0.47\:ms$ que corresponde a $Y_g = 2 \:mm$ según la tabla \ref{tab_mediciones}.
 
 \begin{equation} 
 \Delta Q = 21\:A * \frac{0.47\:ms}{2} \approx 5\:mC
@@ -280,8 +280,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 	c = \frac{\Delta Q}{\Delta V} = 10 \:mF
 \end{equation}
 
-\noindent Para obtener este valor de capacidad se utilizaron capacitores en paralelo de baja ESR. Dado que por los capacitores circula una corriente elevada ($21.25 A$) es recomendable disminuir la ESR total para disminuir la potencia disipada. Al colocarlos en paralelo, como se muestra en la figura \ref{fig:img_capacitores-fuente}, se reduce la corriente que circula (en partes iguales), por cada capacitor:
-
+\noindent Dado que por los capacitores circula una corriente elevada ($21.25 A$) es recomendable disminuir la ESR total para minimizar la potencia disipada. Por lo tanto, se colocan capacitores en paralelo de baja ESR, como se muestra en la figura \ref{fig:img_capacitores-fuente}.
 
 \begin{figure}[H]
 	\centering
@@ -296,7 +295,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 \end{equation}
 
 
-\noindent Si todos los valores de ESR son iguales obtenemos
+\noindent Si todos los valores de ESR son iguales se obtiene:
 
 \begin{equation} 
 R_T = \frac{R_{ESR}}{n}
@@ -316,6 +315,7 @@ R_T = \frac{R_{ESR}}{n}
 
 
 \subsection{Conmutación de alta frecuencia para el bootstrap}
+\label{secc_conmutacion-auxiliar}
 
 \noindent Cuando el MOSFET driver \colorbox{yellow}{o podemos decir HIP4081A...}recibe una entrada que activa un MOS del lado superior, este comienza a cargar el gate con ayuda de la tensión que brinda el capacitor de bootstrap asociado a ese MOS. El capacitor de bootstrap entrega energía durante la carga del gate y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el driver reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del driver de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
@@ -397,9 +397,9 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 	\Delta T [s] = \frac{\Delta I_L * (L(y) + L_{\infty})}{V_{BUS}}
 \end{equation}
 
-\noindent En la ecuación \ref{eq_DeltaT}, $\Delta T$ representa el tiempo de crecimiento o de decrecimiento de la rampa de corriente (despreciando la resistencia del bobinado) en torno al valor nominal. El doble de este tiempo es igual al periodo de la corriente triangular $(2*T=\frac{1}{F_{SW}})$.
+\noindent En la ecuación \ref{eq_DeltaT}, $\Delta T$ representa el tiempo de crecimiento o de decrecimiento de la rampa de corriente (sin considerar la resistencia del bobinado) en torno al valor nominal. El doble de este tiempo es igual al periodo de la corriente triangular $(2*T=\frac{1}{F_{SW}})$.
 
-\noindent Según las mediciones de inductancia realizadas y aplicando las ecuaciones \ref{eq_frec-sw}, \ref{eq_frec-angular} y \ref{eq_DeltaT} se obtuvo la tabla \ref{tab_mediciones}.
+\noindent Según las mediciones de inductancia realizadas y, al aplicar las ecuaciones \ref{eq_frec-sw}, \ref{eq_frec-angular} y \ref{eq_DeltaT}, se obtuvo la tabla \ref{tab_mediciones}.
 
 
 \begin{table}[H]

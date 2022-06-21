@@ -492,7 +492,7 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 	\resizebox{.8\hsize}{!}
 	{
 	$
-	{Tlc'}=\frac{V_{estim}}{s*Vil}=\frac{V_{estim}}{kh*s*I_L}=\frac{0.025}{(1+\frac{s}{1\: Krad/s})*[1+(\frac{2*0.473}{94,5\: Krad/s})*s+(\frac{s}{94,5\: Krad/s})^2]}
+	H_{estim}=\frac{V_{estim}}{s*Vil}=\frac{V_{estim}}{kh*s*I_L}=\frac{0.025}{(1+\frac{s}{1\: Krad/s})*[1+(\frac{2*0.473}{94,5\: Krad/s})*s+(\frac{s}{94,5\: Krad/s})^2]}
 	$
 	}
 \end{equation}
@@ -502,7 +502,7 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 \noindent Al reemplazar se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_5}
-	{Tlc'}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\ Krad/s})*[1+(\frac{2*0.473}{94,5\: Krad/s})*s+(\frac{s}{94,5\: Krad/s})^2]}
+	H_{estim}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\ Krad/s})*[1+(\frac{2*0.473}{94,5\: Krad/s})*s+(\frac{s}{94,5\: Krad/s})^2]}
 \end{equation}
 
 \noindent Al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\: \:{kHz}\ \simeq 60\: \:{Krad/s}/s$ se obtiene:
@@ -511,7 +511,7 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 	\resizebox{.8\hsize}{!}
 	{
 		$
-	{Tlc'}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\: Krad/s})*{[(1+\frac{s}{60\: Krad/s})]}^2*[1+(\frac{2*0.473}{94,5\: Krad/s})*s+(\frac{s}{94,5\: Krad/s})^2]}
+	H_{estim}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\: Krad/s})*{[(1+\frac{s}{60\: Krad/s})]}^2*[1+(\frac{2*0.473}{94,5\: Krad/s})*s+(\frac{s}{94,5\: Krad/s})^2]}
 	$
 	}
 \end{equation}
@@ -519,5 +519,5 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 \noindent Finalmente, al despreciar los polos en alta frecuencia, la transferencia queda:
 
 \begin{equation} \label{eq_TLC_deriv_7}
-	{Tlc'}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\: Krad/s})*{(1+\frac{s}{60\: Krad/s})}^2}
+	H_{estim}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\: Krad/s})*{(1+\frac{s}{60\: Krad/s})}^2}
 \end{equation}

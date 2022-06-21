@@ -1,4 +1,4 @@
-\chapter{Implementacion Digital} \chapterlabel{Informe/7-ImplementacionDigital} \label{cap:Implementacion digital}
+\chapter{Implementación Digital} \chapterlabel{Informe/7-ImplementacionDigital} \label{cap:Implementacion digital}
 
 En este capítulo se realiza el diseño de un compensador y estimador en el dominio digital. Estos se implementan en un microcontrolador que se conecta de manera externa a la placa de control. Para el primero se sigue la misma estrategia que se utiliza en la etapa de compensación analógica, descrita en el capítulo asd, pero con las consideraciones necesarias para trabajar con sistemas discretos. Para el segundo, se diseña un algoritmo encargado de obtener el valor de la distancia de separación $Y_g$ a partir de los valores obtenidos al muestrear la tensión entregada por el sensor de efecto Hall.
 
@@ -298,7 +298,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\label{fig:circuito-ref-posicion}
 \end{figure}
 
-\subsection{Componente  continua de corriente del electroimán}
+\subsection{Componente  alterna de corriente del electroimán}
 
 \noindent Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de 100Hz, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de 12 KHz, que actúa como filtro anti-aliasing. Luego la salida es amplificada con una ganancia de 50 veces (con el objetivo de mejorar la medición de la pendiente por el ADC) y montada sobre un set-point de 2.5V.
 
@@ -310,7 +310,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\label{fig:componente-corriente-alterna}
 \end{figure}
 
-\subsection{Componente  continua de corriente del electroimán}
+\subsection{Componente  contínua de corriente del electroimán}
 
 \noindent Para obtener la componente de contínua se utiliza un filtro pasa-bajos con frecuencia de corte en 106 Hz. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
 

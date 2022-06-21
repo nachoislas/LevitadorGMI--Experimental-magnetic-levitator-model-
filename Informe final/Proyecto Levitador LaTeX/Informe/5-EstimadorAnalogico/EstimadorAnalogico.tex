@@ -53,7 +53,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	\left|\frac{{di}_L}{dt}\right|\simeq \frac{V_{BUS}}{L(Y_g)+L_{\infty }}=\frac{V_{BUS}}{L_T(Y_g)}
 \end{equation}
 
-\noindent Según mediciones realizadas (Ver tabla \ref{tab_mediciones}), se tienen los valores de $L_T(Y_g)$ correspondientes a cada posici\'{o}n. En base a ellos se hace una aproximaci\'{o}n lineal para obtener la expresi\'{o}n de la derivada de la ecuaci\'{o}n \ref{eq_di-dt_lineal}.
+\noindent Según mediciones realizadas (ver tabla \ref{tab_mediciones}), se tienen los valores de $L_T(Y_g)$ correspondientes a cada posici\'{o}n. En base a ellos se hace una aproximaci\'{o}n lineal para obtener la expresi\'{o}n de la derivada de la ecuaci\'{o}n \ref{eq_di-dt_lineal}.
 
 \noindent 
 
@@ -72,7 +72,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	\label{fig:img_Circuito-derivador}
 \end{figure}
 
-\noindent La salida del circuito, $V_{yf}(t)$, ante una entrada $V_L$ es:
+\noindent La salida del circuito $V_{yf}(t)$, ante una entrada $V_L$ es:
 
 \begin{equation} \label{eq_vyf1}
 	V_{yf}(t)\ =\ 2.5V\ -\ \frac{dV_L}{dt}*C_1*R_1
@@ -82,28 +82,28 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 \noindent Al considerar que $V_L=K_h*i_L$, con $K_h$ como la constante del sensor de efecto Hall, se obtiene: 
 
 \begin{equation} \label{eq_vyf2}
-	V_{yf}(t)\ =2.5\:V\ -\frac{diL}{dt}*K_h*C_1*R_1
+	V_{yf}(t)\ =2.5\:V\ -\frac{di_L}{dt}*K_h*C_1*R_1
 \end{equation}
 
 \noindent $V_{yf}(t)$ tiene variaciones alrededor del setpoint de $2.5\:V$. Por lo tanto, para evitar la saturaci\'{o}n del derivador se debe cumplir que:
 
 \begin{equation} \label{eq_vyf3}
-	\left|-\frac{diL}{dt}*K_h*C_1*R_1\right|\ \le 2.5\:V
+	\left|-\frac{di_L}{dt}*K_h*C_1*R_1\right|\ \le 2.5\:V
 \end{equation}
 
 \noindent Por lo tanto, con la ecuaci\'{o}n \ref{eq_derivadaAproximacion} y \ref{eq_vyf3}:
 
 \begin{equation} \label{eq_condicionC1-R1}
-	C_1*R_1<=\frac{2.5\ \:V\ *L_{min}}{V_{BUS}*K_h}
+	C_1*R_1\le\frac{2.5\ \:V\ *L_{min}}{V_{BUS}*K_h}
 \end{equation}
 
-\noindent Con $L_{min}= L_T(5\: mm)= 14.9\: mH$ (con $L_{T}=L(Y_g)+L_{\infty }$) se obtiene: 
+\noindent Con $L_{min}= L(5\: mm) + L_{\infty}= 14.9\: mH$ se obtiene: 
 
 \begin{equation} \label{eq_condicionC1-R1-2}
-	C_1*R_1<=\ 29.1\ ms
+	C_1*R_1\le\ 29.1\ ms
 \end{equation}
 
-\noindent El derivador tendr\'{a} como salida una onda pulsada, cuyo flanco superior  es proporcional a la pendiente de bajada de la corriente en el electroim\'{a}n, y el flanco inferior es proporcional a la pendiente de subida de la corriente. 
+\noindent El derivador tiene como salida una onda pulsada, cuyo flanco superior  es proporcional a la pendiente de bajada de la corriente en el electroim\'{a}n, y el flanco inferior es proporcional a la pendiente de subida. 
 
 \noindent Para los c\'{a}lculos se utiliz\'{o} $C_1*R_1= 25\: mS$, para dar un margen y evitar la saturaci\'{o}n del amplificador operacional.  
 
@@ -111,10 +111,10 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 
 
 \begin{equation} \label{eq_Vyf-lineal}
-	Vyf(Y_g)\ =\ |Kh*C_1*R_1*di/dt)|\ +2.5\:V=0.2595*Y_g(\:mm)+3.4\:V
+	Vyf(Y_g)\ =\ |Kh*C_1*R_1*di/dt)|\ +2.5\:V=0.2595*Y_g+3.4\:V
 \end{equation}
 
-\noindent Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores en los que el electroim\'{a}n trabaja, el estimador posee un rango de salida ${\mathit{\Delta}{Vyf}_{Lineal}}(5-2\ \:mm)=\ 0.78\ \:V$.
+\noindent Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores en los que el electroim\'{a}n trabaja, el estimador posee un rango de salida ${\mathit{\Delta}{Vyf}_{Lineal}}(5\:mm-2\:mm)= 0.78\:V$.
 
 \begin{table}[H]
 	\begin{center}
@@ -154,6 +154,8 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 
 \noindent Para compensar el circuito se coloca un polo en $16 \:kHz$, que dá como resultado $R2=10\:\Omega$, $C1=1\:uF$ y $R1=25\: k\Omega$ y un margen de fase de $\phi =49.6{}^\circ $, como se puede observar en la figura \ref{fig:img_GH del derivador compensado}.
 
+\colorbox{yellow}{La imagen de abajo no tiene ningun marcador..}\
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{GH-del-derivador-compensado.png}
@@ -178,25 +180,25 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 
 \section{Dise\~{n}o del filtro pasa bajos}
 
-\noindent Debido a que el derivador amplifica las se\~{n}ales de alta frecuencia es necesario agregar un filtro pasa bajos en su entrada. Como la se\~{n}al que ingresa al derivador es $V_{iL}$, que es una onda triangular de frecuencia fundamental de $2\:kHz$, se permitirá el paso de sus componentes hasta la 5º arm\'{o}nica. Para su implementaci\'{o}n se utiliza un filtro activo Butterworth de orden 2, con una frecuencia de corte en $20\:kHz$. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el filtro utilizado y en la figura \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
+\noindent Debido a que el derivador amplifica las se\~{n}ales de alta frecuencia es necesario agregar un filtro pasa bajos en su entrada. Como la se\~{n}al que ingresa al derivador es $V_{iL}$, que es una onda triangular de frecuencia fundamental de $2\:kHz$, se permite el paso de sus componentes hasta la 5º arm\'{o}nica. Para su implementaci\'{o}n se utiliza un filtro activo Butterworth de segundo orden, con una frecuencia de corte en $20\:kHz$. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el filtro utilizado y en la figura \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.8]{Filtro-para-la-entrada-del-derivador.png}
+	\includegraphics[scale=0.70]{Filtro-para-la-entrada-del-derivador.png}
 	\caption{Filtro para la entrada del derivador.}
 	\label{fig:img_Filtro-para-la-entrada-del-derivador}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{Respuesta-en-frecuencia-del-filtro-activo.png}
+	\includegraphics[scale=0.45]{Respuesta-en-frecuencia-del-filtro-activo.png}
 	\caption{Respuesta en frecuencia del filtro activo.}
 	\label{fig:img_Respuesta-en-frecuencia-del-filtro-activo}
 \end{figure}
 
 \section{Compensaci\'{o}n de resistencia interna}
 
-\noindent Al circular corriente siempre en el mismo sentido por el electroim\'{a}n, se produce una ca\'{i}da de tensi\'{o}n casi constante en su resistencia interna. Esto provoca que no siempre est\'{e}n aplicados $\pm 24\:V$ al electroim\'{a}n ,sino que, durante el $T_{ON}$ se aplican $24\:V-I*R$ y durante el $T_{OFF}$ se aplican $-24\:V-I*R$. Esto genera que las pendientes sean distintas.
+\noindent Al circular corriente siempre en el mismo sentido por el electroim\'{a}n, se produce una ca\'{i}da de tensi\'{o}n casi constante en su resistencia interna. Esto provoca que no siempre est\'{e}n aplicados $\pm 24\:V$ al electroim\'{a}n sino que, durante el $T_{ON}$ se aplican $+24\:V-I*R$ y durante el $T_{OFF}$ se aplican $-24\:V-I*R$. Esto genera que las pendientes sean distintas.
 
 \begin{equation} \label{eq_Vbus-didt-RL}
 \pm V_{BUS}-L(y)*\left|\frac{{di}_L}{dt}\right|-L_{\infty }*\left|\frac{{di}_L}{dt}\right|-R_L*I_L=0
@@ -231,7 +233,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	\label{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR}
 \end{figure}
 
-\noindent Se busca corregir esto en la estimaci\'{o}n al variar el setpoint de la salida del derivador. Para lograrlo se debe cambiar la tensi\'{o}n en la entrada no inversora ($V_{bias}$) como se muestra en la figura \ref{fig:img_Esquema-circuital-del-derivador}. 
+\noindent Para corregir este problema, se varía setpoint de la salida del derivador. Para lograrlo se debe cambiar la tensi\'{o}n en la entrada no inversora ($V_{bias}$) como se muestra en la figura \ref{fig:img_Esquema-circuital-del-derivador}. 
 
 \begin{figure}[H]
 	\centering
@@ -266,9 +268,9 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	V_{bias}\ =2.5\ \:V -\ Kh\ *Il*\ \tau *\frac{\ R}{L}
 \end{equation}
 
-\noindent Se tiene $Kh\ =\ 53,3\ \frac{\:mV}{\:A},\ R\ =\ 0.2\ \mathit{\Omega},\ \tau \ =\ 25\ \:ms$. En cuanto a la inductancia, se utiliza:  $L_T(y)\ =\ 16,44\; mHy$ (para $Y_{o} = 4\:mm$).
+\noindent Se tiene $Kh = 53,3\:\frac{mV}{A},\; R = 0.2\:\Omega,\; \tau  = 25 \:ms$. En cuanto a la inductancia, se utiliza:  $L_T(4\:mm) = 16,44\:mHy$.
 
-\noindent $V_{iL}$ es la tensi\'{o}n de salida del sensor de efecto Hall menos un setpoint de $2.5\:V$. Sin embargo, debido al offset agregado al sensor para llevar su valor medio a $2.6\:V$, al restarle $2.5\:V$ no se produce una cancelaci\'{o}n completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuaci\'{o}n  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este circuito compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
+\noindent $V_{iL}$ es la tensi\'{o}n de salida del sensor de efecto Hall menos un setpoint de $2.5\:V$. Sin embargo, debido al offset agregado al sensor para llevar su valor medio a $2.6\:V$ \colorbox{yellow}{mencionar apartado en el que se explica}, al restarle $2.5\:V$ no se produce una cancelaci\'{o}n completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuaci\'{o}n  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este circuito compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
 
 \begin{figure}[H]
 	\centering
@@ -302,12 +304,14 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	\label{fig:img_Formas_de_onda_obtenidas_en_la_simulación}
 \end{figure}
 
-\noindent La onda superior corresponde a la corriente en el electroim\'{a}n, la onda que se encuentra al medio corresponde a la salida del derivador ${[V}_{bias}$$]$ y la inferior  corresponde a la onda rectificada con la correcci\'{o}n de la resistencia interna.
+\noindent La onda superior corresponde a la corriente en el electroim\'{a}n, la onda que se encuentra al medio, a la salida del derivador ${[V}_{bias}$$]$ y la inferior, a la onda rectificada con la correcci\'{o}n de la resistencia interna.
+
+\colorbox{yellow}{¿Por qué sigue teniendo error la rectificación?}\\
 
 \section{Rectificador, Restador y Filtrado}
 
 \subsection{Rectificador}
-\colorbox{yellow}{Ver de acomodar los colores y las pistas como las otras imágenes de NL5}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{Rectificador-y-restador.png}
@@ -325,7 +329,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	I_{R25}=\frac{2.5\:V\ -\ V_{deriv}}{R_{25}}
 \end{equation}
 
-\noindent En el caso de que $V_{deriv}$ $\mathrm{<}$ $2.5\:V$, la corriente ser\'{a} positiva. Esta misma corriente proviene desde la salida del operacional, a trav\'{e}s del diodo D5 y por la resistencia $R_{26}$. Si se desprecia la tensi\'{o}n del diodo en directa, se obtiene que la salida del operacional es igual a V+, y esta es igual a:
+\noindent En el caso de que $V_{deriv}$ $\mathrm{<}$ $2.5\:V$, la corriente ser\'{a} positiva. Esta misma corriente proviene desde la salida del operacional, a trav\'{e}s del diodo $D_5$ y por la resistencia $R_{26}$. Si se desprecia la tensi\'{o}n del diodo en directa, se obtiene que la salida del operacional es igual a V+, y esta es igual a:
 
 \begin{equation} \label{eq_V+}
 	V^+=I_{R25}*R_{26}+2.5\:V=\frac{2.5\:V-V_{deriv}\ }{R25}*R_{26}+2.5\:V\ 
@@ -336,33 +340,44 @@ Como $R_{25}=R_{26}$
 \begin{equation} \label{eq_V+_2}
 	V^+\ =\ 2.5\:V\ -\ V_{deriv}\ +2.5\:V\ =\ 5\:V\ -\ V_{deriv}\ 
 \end{equation}
+\colorbox{yellow}{¿$V^-$ es igual a 2.5V por eso, no?}\\
+Además, dado que el  diodo $D_6$ queda polarizado en inversa, $V^- = 2.5\:V$.
 
 An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 
 \begin{equation} \label{eq_V+_3}
-	V^-\ =\ {5\:V\ -V}_{deriv}\ 
+	V^- =5\:V-V_{deriv} 
 \end{equation}
 
-Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
+\begin{equation} 
+	V^+ = 2.5\:V
+\end{equation}
+
 
 \subsection{Restador}
 
-\noindent Se utiliza un amplificador operacional en modo diferencial como restador como se observa en la figura \ref{fig:img_Restador} y se obtiene lo siguiente.
+\noindent Se utiliza un amplificador operacional en modo diferencial como restador. El circuito utilizado se observa en la figura \ref{fig:img_Restador} y se obtiene lo siguiente:
 
 \noindent Cuando $V_{deriv}$ $\mathrm{<}$ $2.5\:V$:
+\begin{equation*} 
+	\begin{aligned}
+		V_{estim}&=V^+-\ V^-\ +2.5\:V\\ 
+		V_{estim}&=(5\:V -\ V_{deriv})-(2.5\: V)+2.5\:V\\
+		V_{estim}&=5\: V\ -\ V_{deriv}\\ 
+	\end{aligned}
+\end{equation*}
 
-\begin{equation} \label{eq_rest_1}
-	Vestim=V^+-\ V^-\ +2.5\:V= (5\:V -\ V_{deriv})-(2.5\: V)+2.5\:V=5\: V\ -\ V_{deriv}\  
-\end{equation}
 
 \noindent Cuando $V_{deriv}$ $\mathrm{>}$ $2.5\:V$: 
-
-\begin{equation} \label{eq_rest_2}
-	{Vestim=V}^+-\ V^-+2.5V=\ 2.5V\ -\ (5V-\ V_{deriv})+\ 2.5V=\ \ V_{deriv}\ 
-\end{equation}
+\begin{equation*} 
+	\begin{aligned}
+		V_{estim}&=V^+-\ V^-+2.5V\\ 
+		V_{estim}&=2.5V\ -\ (5V-\ V_{deriv})+\ 2.5V\\
+		V_{estim}&=V_{deriv}\\
+	\end{aligned}
+\end{equation*}
 
 \noindent Si se toma a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2,5\: V$, al reemplazar en los dos casos se obtiene:
-
 \begin{equation} \label{eq_rest_3}
 	Vestim=\ 2,5\ V\ +\ |\mathit{\Delta}V_{deriv}|
 \end{equation}
@@ -376,25 +391,25 @@ Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
 
 \subsection{Etapa de filtrado}
 
-\noindent En el restador se implementa un filtrado adicional a la se\~{n}al de salida como se observa en la figura  \ref{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}. De esta \'{u}ltima etapa, si se asigna a $C_5=C_6=C\ $y $R_{33}=R_{31}=R$, se obtiene:
+\noindent En el restador se implementa un filtrado adicional a la se\~{n}al de salida como se observa en la figura  \ref{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}. De esta \'{u}ltima etapa, si se considera $C_5=C_6=C\ $y $R_{33}=R_{31}=R$, se obtiene:
 
 
 
 \begin{equation}
-	{Vestim}=\frac{1}{1+S*C*R}*{(V}^+-V^-\ +\ 2.5\:V)
+	V_{estim}=\frac{1}{1+S*C*R}*{(V}^+-V^-\ +\ 2.5\:V)
 \end{equation}
 
 \begin{equation} \label{eq_Vestim_1}
-	{Vestim}=\frac{1}{1+S*C*R}*(2,5\: V\ +\ |\mathit{\Delta}V_{deriv}|)
+	V_{estim}=\frac{1}{1+S*C*R}*(2.5\: V\ +\ |\mathit{\Delta}V_{deriv}|)
 \end{equation}
 
 \begin{equation} \label{eq_Vestim_2}
-	Vestim\ =\ \frac{1}{1+S*C*R}*\ |\mathit{\Delta}V_{deriv}|\ +2.5\:V
+	V_{estim} \approx \frac{1}{1+S*C*R}*\ |\mathit{\Delta}V_{deriv}|\ +2.5\:V
 \end{equation}
 
 
 
-\noindent Puesto que la salida Vestim debe ser una continua, es importante eliminar cualquier posible ripple permitiendo solo el paso de continua. Por ello, se escogen los siguientes valores para los componentes:
+\noindent Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar cualquier posible ripple permitiendo solo el paso de continua. Por ello, se escogen los siguientes valores para los componentes:
 
 \begin{enumerate}
 	\item  $C=10\: nF$
@@ -418,13 +433,13 @@ Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Circuito-estimador-de-posición-completo.png}
-	\caption{Circuito estimador de posición completo}
+	\caption{Circuito estimador de posición completo.}
 	\label{fig:img_Circuito_estimador_de_posición_completo}
 \end{figure}
 
 \section{Simulaci\'{o}n de estimador completo}
 
-\noindent En la figura \ref{fig:img_Simulación_final_del_estimado} se pueden observar 3 formas de onda. La superior corresponde a la corriente del electroim\'{a}n, la del medio a la salida del derivador y la inferior a la salida Vestim. Con el uso de los cursores se midi\'{o} un ripple de $52.66\:mV $ en Vestim.
+\noindent En la figura \ref{fig:img_Simulación_final_del_estimado} se pueden observar 3 formas de onda. La superior corresponde a la corriente del electroim\'{a}n, la del medio a la salida del derivador y la inferior a la salida $V_{estim}$. Con el uso de los cursores se midi\'{o} un ripple de $52.66\:mV $ en $V_{estim}$.
 
 \begin{figure}[H]
 	\centering
@@ -458,20 +473,20 @@ Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
 	{Tlc}_{derivador}=\frac{V_{deriv}}{Vil}=\frac{-0.025*s}{1+(\frac{2*0.473}{94,5\ krad/s})*s+(\frac{s}{94,5\ krad/s})^2}
 \end{equation}
 
-\noindent De esta forma, se obtiene un sistema con un cero en el origen y dos polos complejos conjugados con una $W_n=2\pi *15000 \:Hz$ y un $\xi =0.473$.
+\noindent De esta forma, se obtiene un sistema con un cero en el origen y dos polos complejos conjugados con $W_n=2\pi *15000 \:Hz$ y  $\xi =0.473$.
 
-\noindent Por otro lado, al considerar el polo aportado por la etapa de restado y filtrado situado en $10 \:{Krad/s}$ y considerar la inversi\'{o}n de signo que genera el rectificador, se obtiene:
+\noindent Por otro lado, al considerar el polo aportado por la etapa de restado y filtrado situado en $10 \:{krad/s}$ \colorbox{yellow}{¿No sería 1 kHz?} y la inversi\'{o}n de signo que genera el rectificador\colorbox{yellow}{¿O derivador..?}, se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_2}
 	\resizebox{.8\hsize}{!}
 	{
 	$
-	{Tlc}_{estimador}=\frac{V_{estim}}{Vil}=\frac{0.025*s}{(1+\frac{s}{1\ \:{Krad/s}})*[1+(\frac{2*0.473}{94,5\ \:{Krad/s}})*s+(\frac{s}{94,5\ \:{Krad/s}})^2]}
+	{Tlc}_{estimador}=\frac{V_{estim}}{Vil}=\frac{0.025*s}{(1+\frac{s}{1 \:{Krad/s}})*[1+(\frac{2*0.473}{94,5 \:{Krad/s}})*s+(\frac{s}{94,5 \:{Krad/s}})^2]}
 	$
 	}
 \end{equation}
 
-\noindent Para poder obtener la transferencia del diagrama en bloques: $V_{estim}/Y$:
+\noindent Para poder obtener la transferencia del diagrama en bloques: $V_{estim}/Y$, se calcula:
 
 \begin{equation} \label{eq_TLC_deriv_3}
 	\resizebox{.8\hsize}{!}
@@ -482,13 +497,7 @@ Cuando D5 est\'{a} activo, $V^-=2.5\:V$ y cuando lo est\'{a} D6, $V^+\ = 2.5\:V$
 	}
 \end{equation}
 
-\noindent Como $s*I_L\equiv \frac{dI}{dt}$, se puede usar la expresi\'{o}n linealizada:
-
-\begin{equation} \label{eq_TLC_deriv_4}
-	{\left|\frac{{di}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y[m]+676\: A/s
-\end{equation}
-
-\noindent De esta forma,  $s*I_L\equiv 194690*Y$ (sin considerar la componente de continua)
+\noindent Como $s*I_L\equiv \frac{dI}{dt}$, se puede utilizar la expresi\'{o}n linealizada \ref{eq_di-dt_lineal}. De esta forma,  $s*I_L\equiv 194690*Y$ (sin considerar la componente de continua)
 
 \noindent Al reemplazar se obtiene:
 

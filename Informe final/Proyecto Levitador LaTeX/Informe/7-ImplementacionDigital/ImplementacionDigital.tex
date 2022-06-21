@@ -231,7 +231,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \noindent Este resultado indica que al usar un ADC de 12 bits, se necesitaría una tensión de referencia $V_{ref} = 0.393216\:V$. Sin embargo, este valor resulta demasiado bajo y no sirve si se quiere medir la salida del sensor de efecto Hall de manera directa. Por lo tanto, se decide diseñar un circuito que permita realizar la estimación manteniendo la tensión de referencia en 3.3V
 
-\noindent La corriente que circula por el electroimán presenta una componente de continua y otra de alterna. La primera excursiona entre 0A y 30A mientras que la segunda varía entre $\pm 250 mA$ en torno al valor medio, con forma de onda triangular. Es posible hacer una adquisición separada de ambas componentes con el ADC para que luego sean procesadas. La señal que ingresa al circuito corresponde a la tensión de salida del sensor de efecto Hall sin el set point de 2.5V.
+\noindent La corriente que circula por el electroimán presenta una componente de continua y otra de alterna. La primera excursiona entre 0A y 30A mientras que la segunda varía entre $\pm 250 mA$ en torno al valor medio, con forma de onda triangular. Es posible hacer una adquisición separada de ambas componentes con el ADC para que luego sean procesadas. La señal que ingresa al circuito corresponde a la tensión de salida del sensor de efecto Hall sin el set-point de 2.5V.
 
 \noindent Si se tiene en cuenta la ganancia del sensor de efecto Hall, a su salida se obtiene una señal cuyo valor medio varía entre 0 y 1.6 V, y un valor de alterna de $26.7 mV_{pp}$.
 
@@ -283,7 +283,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \noindent Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en el PCB (al igual que para el compensador analógico) e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Debido a que entrega una tensión entre 3.96V y 4.69V, se implementa un circuito de acondicionamiento para esta señal.
 
-\noindent A la señal de entrada se le resta el setpoint de 2.5 V, para lograr señales que van desde 1.42V a 2.2V. Luego dentro del microcontrolador se debe mapear el valor leído por el ADC con la posición deseada usando la ganancia del estimador analógico según la fórmula:
+\noindent A la señal de entrada se le resta el set-point de 2.5 V, para lograr señales que van desde 1.42V a 2.2V. Luego dentro del microcontrolador se debe mapear el valor leído por el ADC con la posición deseada usando la ganancia del estimador analógico según la fórmula:
 
 \begin{equation} 
 	Y_{ref}\ =\frac{Vpo{s_{ref}}_{ADC}\ +\ 2.5V}{259.6}\ [m]

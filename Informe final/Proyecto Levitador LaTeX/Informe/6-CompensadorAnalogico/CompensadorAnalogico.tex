@@ -202,26 +202,22 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 \section{Lazo del realimentación externo}
 \subsection{Diseño del integrador}
 
-\noindent Se plantea un lazo de realimentaci\'{o}n externo como se muestra en la  figura \ref{fig:diag-en-bloques-comp}.
-
-\noindent En el lazo de realimentaci\'{o}n interno act\'{u}a el compensador por adelanto de fase dise\~{n}ado previamente y, en el externo, un controlador del tipo integral. De esta forma, se logra suavizar la respuesta al escal\'{o}n del sistema y eliminar el error en r\'{e}gimen permanente.
+\noindent Se plantea un lazo de realimentaci\'{o}n externo como se muestra en la  figura \ref{fig:diag-en-bloques-comp}. En el lazo de realimentaci\'{o}n interno act\'{u}a el compensador por adelanto de fase dise\~{n}ado previamente y, en el externo, un controlador del tipo integral. De esta forma, se logra suavizar la respuesta al escal\'{o}n del sistema y eliminar el error en r\'{e}gimen permanente.
 
 
 \noindent Para el an\'{a}lisis se considera como realimentaci\'{o}n: 
-
-\colorbox{yellow}{Ver los nombres de las transferencias..}
 
 \[H_{estim}=\frac{V_{estim}}{Y[m]}= - \frac{259.6}{(1 + \frac{s}{1Kr/s})*(1+\frac{s}{60Kr/s})^2}\] 
 
 \noindent La cadena de avance con masa de $30\:kg$ es:
 
-\[G[m=30]=Tlc_{interna}(s)[m=30]*G_{Integrador}\] 
+\[G[m=30]=Tlc_{interna}(s)[m=30]*G_{integ}\] 
 
 \noindent Se  plantea un compensador del tipo :
 
-\[Ginteg\ =\ kint\ *\ \frac{1}{(1+(\frac{s}{p}))}\]
+\[G_{integ}\ =\ k_{int}\ *\ \frac{1}{(1+(\frac{s}{p_{int}}))}\]
 
-\noindent Debido a que un integrador con polo en el origen tiene una ganancia infinita en contínua, no sería adecuado implementarlo de esta manera en el circuito. Por lo tanto se ubica el polo en $0.1\:rad/s$ de forma tal que permita limitar dicha ganancia y ser de carácter integrativo para las frecuencias de la planta. Esta modificación provoca que la cancelación del error en regimen permanente no sea completa.
+\noindent Debido a que un integrador con polo en el origen tiene una ganancia infinita en contínua, no sería adecuado implementarlo de esta manera en el circuito. Por lo tanto se ubica el polo en $0.1\:rad/s$ de forma tal que permita limitar dicha ganancia y ser de carácter integrativo para las frecuencias de la planta. Sin embargo, esta modificación provoca que la cancelación del error en régimen permanente no sea completa.
 %, pero de todas maneras sea pequeña en comparación con la distancia de separación.
 
 %Debido a que no usamos un integrador ideal, la respuesta al escalón presentará un cierto error.
@@ -238,7 +234,7 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 	\label{fig:lugar-de-raices-con-integrador-analog}
 \end{figure}
 
-\noindent En la figura \ref{fig:lugar-de-raices-con-integrador-analog} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 669. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int\ }=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente 3 segundos. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
+\noindent En la figura \ref{fig:lugar-de-raices-con-integrador-analog} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 669. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int\ }=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $16.6 \:s$ \colorbox{yellow}{Chequear, antes decía 3 seg pero creo que estaba mal}. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
 
 \begin{figure}[H]
 	\centering
@@ -247,7 +243,7 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 	\label{fig:respuesta-al-escalon-con-k-1-M-30-analog}
 \end{figure}
 
-\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-50-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int\ }=50$ que resulta en un tiempo de establecimiento de $0.6\:s$ y un overshoot de 0\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
+\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-50-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int}=50$ que resulta en un tiempo de establecimiento de $0.6\:s$ y un overshoot de 0\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
 
 \begin{figure}[H]
 	\centering
@@ -256,7 +252,7 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 	\label{fig:respuesta-al-escalon-con-k-50-M-30}
 \end{figure}
 
-\noindent La respuesta al escal\'{o}n cuando la masa es de $1 \:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-50-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de $0.74\:s$ y el de establecimiento de $1.4\:s$. Adem\'{a}s, es posible notar que no presenta sobrepicos.
+\noindent La respuesta al escal\'{o}n cuando la masa es de $1 \:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-50-M-1}. All\'{i} se puede observar que el tiempo de establecimiento es de $0.74\:s$ y que no presenta sobrepicos.
 
 \begin{figure}[H]
 	\centering
@@ -280,10 +276,10 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 \section{Etapa de entrada}
 \subsection{Cálculo de ganancia de entrada}
 
-\noindent La ganancia de la TLC' correspondiente a la ganancia total de los bloques con el integrador ya incorporado, resulta:
+\noindent La ganancia de la TLC correspondiente a la ganancia total de los bloques con el integrador ya incorporado, resulta:
 
 \begin{equation} 
-	Ganancia_{TLC'} \simeq \frac{1}{H_{estim}} = - \frac{1}{260}
+	G_{TLC_{final}} \simeq \frac{1}{H_{estim}} = - \frac{1}{260}
 \end{equation}
 
 \begin{figure}[H]
@@ -293,13 +289,13 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 	\label{fig:diag-bloques-compensador}
 \end{figure}
 
-\noindent Por lo tanto, con $F=-1$ y los rangos de posición de $1\:mm$ a $5\:mm$ como mínimo y máximo respectivamente se llega a lo siguiente:
+\noindent Por lo tanto, con $F=-1$ y los rangos de posición de $2\:mm$ a $5\:mm$ como mínimo y máximo respectivamente se llega a lo siguiente:
 
 \begin{equation} 
 	Y[m] = F * (-\frac{1}{260})*V_{in} =\frac{1}{260}*V_{in} 
 \end{equation}
 
-\noindent La realimentación tiene un set-point de $3.4\:V$ por lo tanto se le suma a Vin el mismo valor.
+\noindent La realimentación tiene un set-point de $3.4\:V$ por lo tanto se le suma a $V_{in}$ el mismo valor.
 
 \noindent Los valores finales son:
 
@@ -311,7 +307,7 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 			Y[mm] & $V_{in}[V]$\\ \hline
 			5 & 4.7\\ \hline
 			4 & 4.44 \\ \hline
-			3 & 4.78\\ \hline
+			3 & 4.18\\ \hline
 			2 &	3.92 \\ \hline		
 		\end{tabular}
 		\caption{Tensión de referencia $[V_{in}]$ Vs separación deseada [Y].}
@@ -331,13 +327,9 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 \end{figure}
 
  
- \noindent Se utiliza una resistencia variable de 1K y dos fijas. Para poder excursionar la tensión de referencia entre $3.92\:V$ y $4.7\:V$, los valores de las resistencias $R_1$ y $R_3$ deben ser de $4911\:\Omega$ y $313.5\:\Omega$ respectivamente. 
+ \noindent Se utiliza una resistencia variable de $1\:k\Omega$ y dos fijas. Para poder excursionar la tensión de referencia entre $3.92\:V$ y $4.7\:V$, los valores de las resistencias $R_1$ y $R_3$ deben ser de $4911\:\Omega$ y $313.5\:\Omega$ respectivamente. 
  
-\noindent Por lo tanto, al adoptar un valor comercial para ellas, resulta:\\
-\noindent $R_1 = 316 \:\Omega$\\
-\noindent $R_3 = 4990 \:\Omega$
+\noindent Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:\Omega$ y en $R_3 = 4990 \:\Omega$.
  
-\noindent De esta forma, los valores de tensión para la referencia de posición quedan:\\
-\noindent Tensión máxima = $4.69\:V$\\
-\noindent Tensión mínima = $3.96\:V$
+\noindent De esta forma, el valor de tensión máximo para la referencia de posición queda en $4.69\:V$ y el mínimo en $3.96\:V$.
  

@@ -85,7 +85,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	V_{yf}(t)\ =2.5\:V\ -\frac{di_L}{dt}*K_h*C_1*R_1
 \end{equation}
 
-\noindent $V_{yf}(t)$ tiene variaciones alrededor del setpoint de $2.5\:V$. Por lo tanto, para evitar la saturaci\'{o}n del derivador se debe cumplir que:
+\noindent $V_{yf}(t)$ tiene variaciones alrededor del set-point de $2.5\:V$. Por lo tanto, para evitar la saturaci\'{o}n del derivador se debe cumplir que:
 
 \begin{equation} \label{eq_vyf3}
 	\left|-\frac{di_L}{dt}*K_h*C_1*R_1\right|\ \le 2.5\:V
@@ -233,7 +233,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	\label{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR}
 \end{figure}
 
-\noindent Para corregir este problema, se varía setpoint de la salida del derivador. Para lograrlo se debe cambiar la tensi\'{o}n en la entrada no inversora ($V_{bias}$) como se muestra en la figura \ref{fig:img_Esquema-circuital-del-derivador}. 
+\noindent Para corregir este problema, se varía set-point de la salida del derivador. Para lograrlo se debe cambiar la tensi\'{o}n en la entrada no inversora ($V_{bias}$) como se muestra en la figura \ref{fig:img_Esquema-circuital-del-derivador}. 
 
 \begin{figure}[H]
 	\centering
@@ -242,7 +242,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 	\label{fig:img_Esquema-circuital-del-derivador}
 \end{figure}
 
-\noindent Se tiene que la pendiente de bajada de la onda triangular, en m\'{o}dulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversi\'{o}n de signo), esta queda por encima del setpoint, y la pendiente de subida, por debajo. Por ello, se debe compensar el setpoint para que la forma de onda sea sim\'{e}trica alrededor de $2.5\:V$. 
+\noindent Se tiene que la pendiente de bajada de la onda triangular, en m\'{o}dulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversi\'{o}n de signo), esta queda por encima del set-point, y la pendiente de subida, por debajo. Por ello, se debe compensar el set-point para que la forma de onda sea sim\'{e}trica alrededor de $2.5\:V$. 
 
 \noindent Para la pendiente de bajada, la salida del derivador es:
 
@@ -270,7 +270,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 
 \noindent Se tiene $Kh = 53,3\:\frac{mV}{A},\; R = 0.2\:\Omega,\; \tau  = 25 \:ms$. En cuanto a la inductancia, se utiliza:  $L_T(4\:mm) = 16,44\:mHy$.
 
-\noindent $V_{iL}$ es la tensi\'{o}n de salida del sensor de efecto Hall menos un setpoint de $2.5\:V$. Sin embargo, debido al offset agregado al sensor para llevar su valor medio a $2.6\:V$ \colorbox{yellow}{mencionar apartado en el que se explica}, al restarle $2.5\:V$ no se produce una cancelaci\'{o}n completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuaci\'{o}n  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este circuito compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
+\noindent $V_{iL}$ es la tensi\'{o}n de salida del sensor de efecto Hall menos un set-point de $2.5\:V$. Sin embargo, debido al offset agregado al sensor para llevar su valor medio a $2.6\:V$ \colorbox{yellow}{mencionar apartado en el que se explica}, al restarle $2.5\:V$ no se produce una cancelaci\'{o}n completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuaci\'{o}n  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este circuito compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
 
 \begin{figure}[H]
 	\centering

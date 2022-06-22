@@ -79,7 +79,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \section{Adquisición y procesamiento de las muestras}
 
-\noindent Al considerar el caso de máxima frecuencia, en el que solo se podrán tomar 7 muestras durante el tiempo de crecimiento o decrecimiento, se describe el procedimiento para determinar la posición estimada.
+\noindent Al considerar el caso de máxima frecuencia, en el que solo se pueden tomar 7 muestras durante el tiempo de crecimiento o decrecimiento, se describe el procedimiento para determinar la posición estimada.
 
 
 \begin{figure}[H]
@@ -90,31 +90,25 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \end{figure}
 
 
-\noindent Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada del sensor de efecto hall, se almacena en un buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. El hecho de poder discernir entre pendientes positivas y negativas, permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
+\noindent Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada del sensor de efecto hall, se almacena en un buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
 
 \noindent Cada vez que el buffer se complete, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
 
-\noindent En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobreescribiendo los valores de mayor vejez. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados sin importar su vejez y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza “N” períodos de muestreo luego de la última actualización, donde “N” representa la cantidad de muestras que se almacenaron en el buffer incompleto.
+\noindent En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobreescribiendo los valores de mayor vejez. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados sin importar su vejez y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en “N” períodos luego de la última actualización, siendo “N” la cantidad de muestras que se almacenaron en el buffer incompleto.
 
 \noindent Luego de cada actualización, el proceso vuelve a iniciar con el buffer vacío.
 
-\noindent Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se podría decir que se tiene un estimador de posición con frecuencia de actualización variable. Esto es importante al momento de diseñar un compensador digital para el sistema. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor, por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de 25/7 KHz = 3.5 KHz.
+\noindent Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de posición con frecuencia de actualización variable. Esto es importante al momento de diseñar un compensador digital para el sistema. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor, por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de 25/7 kHz = 3.5 kHz.
 
 \section{Estimación digital de la posición}
 
-\noindent De las mediciones realizadas se llegó a la expresión que relaciona la distancia de separación con la pendiente de la corriente en el electroimán:
+A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de separación con la pendiente de la corriente en el electroimán, se despeja la posición ($Y_g$) y se obtiene:
 
 \begin{equation} 
-	|\frac{di_L}{dt}[A/s]| = 194690 * Y[m] + 676 [A/s]
+	Y_g = 5.136*10^{-6}*|\frac{di_L}{dt}|- 3.472*10^{-3} [m]
 \end{equation}
 
-\noindent Por lo tanto, la posición en metros puede despejarse como:
-
-\begin{equation} 
-	Y = 5.136*10^{-6}*|\frac{di_L}{dt}|- 3.472*10^{-3} [m]
-\end{equation}
-
-\noindent Es importante notar que la resistencia interna (R) del electroimán genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que el de bajada, generando que la onda triangular tenga diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC.
+\noindent Es importante notar que la resistencia interna ($R_L$) del electroimán genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que el de bajada, generando que la onda triangular tenga diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC.
 
 \noindent Es decir:
 

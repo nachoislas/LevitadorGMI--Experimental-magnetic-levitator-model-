@@ -1,13 +1,13 @@
 \chapter{Implementación Digital} \chapterlabel{Informe/7-ImplementacionDigital} \label{cap:Implementacion digital}
 
-En este capítulo se realiza el diseño de un compensador y estimador en el dominio digital. Estos se implementan en un microcontrolador que se conecta de manera externa a la placa de control. Para el primero se sigue la misma estrategia que se utiliza en la etapa de compensación analógica, descrita en el capítulo asd, pero con las consideraciones necesarias para trabajar con sistemas discretos. Para el segundo, se diseña un algoritmo encargado de obtener el valor de la distancia de separación $Y_g$ a partir de los valores obtenidos al muestrear la tensión entregada por el sensor de efecto Hall.
+En este capítulo se realiza el diseño de un compensador y estimador en el dominio digital para ser implementados en un microcontrolador que se conecta de manera externa a la placa de control. Para el primero se sigue la misma estrategia que se utiliza en la etapa de compensación analógica, descripta en el capítulo \ref{cap:Compensador Analogico}, pero con las consideraciones necesarias para trabajar con sistemas discretos. Para el segundo, se diseña un algoritmo encargado de obtener el valor de la distancia de separación $Y_g$ a partir de los valores obtenidos al muestrear la tensión entregada por el sensor de efecto Hall.
 
 Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, reconstruir y adaptar los niveles de tensión de las señales que interactúan entre la placa de control y el microcontrolador.
 
 
 \section{Descripción general}
 
-\noindent La implementación digital consiste, básicamente, en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un ADC de 12 bits y 3.3V de referencia, un DAC 12 bits y 3.3V de referencia.
+\noindent La implementación digital consiste, básicamente, en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un ADC de 12 bits y 3.3V de referencia, un DAC 12 bits y 3.3V de referencia. \colorbox{yellow}{esto del ADC y DAC se podria juntar..}\\
 
 \noindent En la figura \ref{fig:diag-en-bloques-digital} se muestra un diagrama en bloques general de la implementación digital del sistema. Es posible observar que se ingresa al microcontrolador a través de un ADC, con una tensión de referencia ($V_{ref}$) proporcional a la distancia de separación deseada. Esa posición de referencia es comparada con la posición estimada Y(z) y el resultado e(z) es afectado por el compensador digital C(z). Por medio de un DAC, la salida del compensador ingresa al controlador de corriente $G_{iL}(s)$, el cual actúa sobre la planta $G_P(s)$, y modifica la distancia de separación.
 
@@ -21,7 +21,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\label{fig:diag-en-bloques-digital}
 \end{figure}
 
-\noindent Abstrayéndose de la matemática que se realiza dentro del micro para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
+\noindent Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
 
 \begin{equation} 
 	G_T(s) = G_P(s) * G_{iL}(s).
@@ -39,13 +39,16 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \noindent Se desea realizar una estimación de la posición del electroimán Y(z)  a partir de las muestras tomadas por el ADC de la tensión de salida del sensor de efecto HALL.
 
-\noindent La forma de onda de la salida del sensor es triangular y presenta una frecuencia variable en función de la inductancia del electroimán, la que, depende de la distancia de separación. Se puede calcular como:
+\noindent La forma de onda de la salida del sensor es triangular y presenta una frecuencia variable en función de la distancia de separación. Se puede calcular como:
 
 \begin{equation} \label{eq_frecuencia-de-muestreo}
-	F_{SW}=\frac{V_{BUS}}{2 * L(y) * \Delta I_H}
+	F_{SW}(Y_g)=\frac{V_{BUS}}{2 * L(Y_g) * \Delta I_H}
 \end{equation}
 
-\noindent Dadas las mediciones realizadas sobre el electroimán, se obtuvieron los valores de inductancia al variar la distancia de separación del entrehierro. Al aplicar en la ecuación 5.1 los valores de inductancia obtenidos en la medición (L[mHy]), se calcula la frecuencia de conmutación  $(F_{SW}[Hz])$. Los resultados se muestran en la tabla \ref{frecuencias-calculadas}.
+
+
+ Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de inductancia ($L[mHy]$) obtenidos en las mediciones realizadas sobre el electroimán (ver tabla \ref{tab_mediciones_inductancia}), se calcula la frecuencia de conmutación  $(F_{SW}[Hz])$. Los resultados se muestran en la tabla \ref{frecuencias-calculadas}.
+
 
 
 \begin{table}[H]
@@ -65,14 +68,13 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \end{table}
 
 
-\noindent Para la estimación de la posición es necesario medir la pendiente de la onda triangular. Por lo que, para reconstruir su forma de onda es necesario muestrear la señal con cierta cantidad de armónicos para no afectar demasiado la pendiente. Se determinó que la frecuencia de muestreo del ADC debe ser al menos el doble de la frecuencia de la 5º armónica para el caso de la mayor frecuencia. Por lo tanto, se adopta 2.5 veces. Es decir:
-
+\noindent Para la estimación de la posición es necesario medir la pendiente de la onda triangular. Por lo tanto, para reconstruir su forma de onda es necesario que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5º armónica para el caso de la mayor frecuencia. Por lo tanto, se adopta 2.5 veces. Es decir:
 
 \begin{equation} 
 	F_S \geq 2.5 * 5 * f_{max} \Rightarrow  F_S \geq 2.5 * 5 * 1666 Hz \Rightarrow F_S \geq 20825 Hz
 \end{equation}
 
-\noindent De esta forma, se adopta una frecuencia de muestreo para el ADC de  25 kHz. Por lo tanto, es posible obtener 15 muestras en un período de la triangular para el caso de la frecuencia máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la frecuencia mínima, se pueden tomar 23 muestras en un ciclo, lo cual se traduce en 11 muestras para la pendiente de subida o bajada. 
+\noindent De esta forma, se adopta una frecuencia de muestreo para el ADC de  25 kHz. Por lo tanto, es posible obtener 15 muestras en un período de la triangular para el caso de la frecuencia máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la frecuencia mínima, se pueden tomar 23 muestras en un ciclo, que se traduce en 11 muestras para la pendiente de subida o bajada. 
 
 
 \section{Adquisición y procesamiento de las muestras}
@@ -82,13 +84,13 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.3]{Procesamiento-muestras-adquiridas.png}
+	\includegraphics[scale=0.55]{Procesamiento-muestras-adquiridas.png}
 	\caption{ Diagrama de flujo del procesamiento de las muestras adquiridas.}
 	\label{fig:procesamiento-muestras-adquiridas}
 \end{figure}
 
 
-\noindent Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada del sensor de efecto hall, se almacena en un buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. El hecho de poder discernir entre pendientes positivas y negativas, permite aplicar la compensación I*R al igual que se realiza en el estimador analógico. 
+\noindent Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada del sensor de efecto hall, se almacena en un buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. El hecho de poder discernir entre pendientes positivas y negativas, permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
 
 \noindent Cada vez que el buffer se complete, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
 
@@ -375,7 +377,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \noindent Con las expresiones en [W], es posible dise\~{n}ar un controlador de manera anal\'{o}gica, para luego transformarlo al dominio digital.
 
 
-\section{Diseño de Compensador}
+\section{Diseño del compensador}
 
 \subsection{Análisis de estabilidad con masa de 30 Kg}
 

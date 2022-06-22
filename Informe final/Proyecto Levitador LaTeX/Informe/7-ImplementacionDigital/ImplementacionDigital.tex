@@ -108,22 +108,22 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 	Y_g = 5.136*10^{-6}*|\frac{di_L}{dt}|- 3.472*10^{-3} [m]
 \end{equation}
 
-\noindent Es importante notar que la resistencia interna ($R_L$) del electroimán genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que el de bajada, generando que la onda triangular tenga diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC.
+\noindent Es importante notar que la resistencia interna del electroimán ($R_L$) genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que para el de bajada. De esta forma, la onda triangular presenta diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC.
 
 \noindent Es decir:
 
 \begin{equation} 
-	(\frac{di_L}{dt})_{Real}=(\frac{di_L}{dt})_{Teorica}-\frac{R*I_L}{L(y)}
+	(\frac{di_L}{dt})_{Real}=(\frac{di_L}{dt})_{Teorica}-\frac{R_L*I_L}{L(Y_g)}
 \end{equation}
 
-\noindent Al aproximar la derivada real como la resta entre la muestra en un instante menos el anterior sobre el período de muestreo y compensando el error que introduce la resistencia interna, se obtiene:
+\noindent Al aproximar la derivada real como la resta entre la muestra en un instante menos el anterior sobre el período de muestreo y al compensar el error que introduce la resistencia interna, se obtiene:
 
 \begin{equation} 
-	Y = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-1]}{T_S}+\frac{R*i_L}{L(y)}| - 3.472*10^{-3} [m]
+	Y_g = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-1]}{T_S}+\frac{R*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
 \end{equation}
 
 
-\noindent Al considerar a $V_h$ como la tensión entregada por el sensor de efecto hall, proporcional a la corriente que circula por el electroimán multiplicada por una ganancia $K_h$ de 53.3mV/A, donde  ($\hat{V_h}$)  corresponde a la componente alterna de tensión y ($\bar{V_h}$) la continua, resulta:
+\noindent Al considerar a $V_h$ como la tensión entregada por el sensor de efecto Hall, proporcional a la corriente que circula por el electroimán multiplicada por una ganancia $K_h$ de $53.3\:mV/A$, con  ($\hat{V_h}$)  correspondiente a la componente alterna de tensión y ($\bar{V_h}$) a la continua, resulta:
 
 
 \begin{equation} 
@@ -133,23 +133,23 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \noindent Para la estimación de la posición se utiliza el término de alterna mientras que para compensar el error introducido por la resistencia interna del electroimán se utiliza el de continua. Por lo tanto, se obtiene:
 
 \begin{equation}
-	Y = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{K_h*T_S} + \frac{R*\bar{V_h}[n]}{K_h*L(y)[n-1]}|-3.472*10^{-3}[m]
+	Y_g[n] = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{K_h*T_S} + \frac{R_L*\bar{V_h}[n]}{K_h*L(Y_g)[n-1]}|-3.472*10^{-3}[m]
 \end{equation}
 
-\noindent El valor de corriente $\bar{V_h}[n]$ se obtiene de sensar el valor medio de tensión entregado por el sensor de efecto Hall mediante otro canal del ADC.
+\noindent El término $\bar{V_h}[n]$ se obtiene de sensar el valor medio de tensión entregado por el sensor de efecto Hall mediante un canal del ADC.
 
-\noindent Por otro lado, el valor de L(y)[n-1] se obtiene de aplicar el valor anterior estimado de posición en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtiene a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
+\noindent Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtiene a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
 
 \begin{equation} \label{eq_inductancia}
-	L(y)[n-1] = -2.56*Y[n-1]+0.0271 Hy
+	L(Y_g)[n-1] = -2.56*Y_g[n-1]+0.0271\:Hy
 \end{equation}
 
-\noindent Por lo tanto la ecuación correspondiente en el tiempo discreto:
+\noindent Por lo tanto la ecuación correspondiente en el tiempo discreto resulta:
 
 \begin{equation}
 	\resizebox{.8\hsize}{!}
 	{
-	$Y = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{K_h*T_S} + \frac{R*\bar{V_h}[n]}{K_h*(2.56*Y[n-1]+0.0271)}|-3.472*10^{-3}[m]$
+	$Y_g[n] = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{K_h*T_S} + \frac{R_L*\bar{V_h}[n]}{K_h*(2.56*Y_g[n-1]+0.0271)}|-3.472*10^{-3}\:[m]$
 	}
 \end{equation}
 
@@ -157,32 +157,29 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 	\resizebox{.8\hsize}{!}
 	{
 	$
-	Y = 96.3*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{T_S} + \frac{R*\bar{V_h}[n]}{(2.56*Y[n-1]+0.0271)}|-3.472*10^{-3}[m]
+	Y_g[n] = 96.3*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{T_S} + \frac{R_L*\bar{V_h}[n]}{(2.56*Y_g[n-1]+0.0271)}|-3.472*10^{-3}\:[m]
 	$
 	}
 \end{equation}
 
 
-\noindent Donde n representa el número de muestras. Es decir, $V_h[n]$ se refiere a la muestra más reciente en el buffer y $V_h[n-1]$ a la más vieja.
+\noindent El número de muestras está representado por ``n''. Es decir, $V_h[n]$ se refiere a la muestra más reciente en el buffer y $V_h[n-1]$ a la más vieja.
+
+\colorbox{yellow}{No me queda claro el parrafo de abajo, no me acuerdo bien que quisimos decir..}
 
 \noindent Es importante notar que los coeficientes deben calcularse antes de actualizar el compensador en función de la cantidad de períodos de muestreo transcurridos desde la última actualización. Estos deben calcularse en ese momento puesto que el compensador digital presenta una frecuencia de actualización variable y los coeficientes del estimador dependen de ella.
 
-\noindent Por otro lado, el bloque K mostrado en la Figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
+\noindent Por otro lado, el bloque K mostrado en la figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
 
-\section{Resolución en posición}
+\section{Resoluc1ión en posición}
 
-\noindent Una variación de posición ($\Delta Y$) produce un cambio de inductancia ($\Delta L[y]$) que se traduce en un cambio de frecuencia ($\Delta f$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
+\noindent Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L[Y_g]$) que se traduce en un cambio de frecuencia ($\Delta f$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
 
-\noindent A partir de los valores de inductancia  obtenidos con las mediciones, es posible realizar una aproximación lineal como se muestra en la ecuación \ref{eq_inductancia-linealizada}.
 
-\begin{equation} \label{eq_inductancia-linealizada}
-	L[Hy] = -2.56 * Y[m] + 0.0271 Hy
-\end{equation}
-
-\noindent Al aplicar la expresión linealizada de la inductancia y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de Y=2.1mm. Este resulta de $f_{SW}[2.1mm] = 1104.8 Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $f_{SW}[2mm] = 1060 Hz$, es posible obtener la variación de frecuencia para un Y mínimo de $0.1\:mm$. Este valor puede obtenerse como:
+\noindent A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y=2.1\:mm$. Esta resulta en $f_{SW}[2.1\:mm] = 1104.8\:Hz$. De: esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $f_{SW}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un Y mínimo de $0.1\:mm$. Este valor puede obtenerse como:
 
 \begin{equation} 
-	\Delta F_{SW}(Teorico) = f_{SW}[2.1mm] - f_{SW}[2mm] = 44.8 Hz
+	\Delta F_{SW}(Teorico) = f_{SW}[2.1\:mm] - f_{SW}[2\:mm] = 44.8\:Hz
 \end{equation}
 
 \noindent Las pendientes para el peor caso se da con la menor variación de tensión entre muestras. Es decir, para el caso de frecuencia mínima. En la ecuación \ref{eq_pendiente} se muestra el cálculo de la pendiente de la onda triangular en función de la frecuencia de conmutación.
@@ -195,8 +192,8 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \begin{equation} 
 	\begin{aligned}
-		P(f_{SW_{min}}) &= 56.49 [V/s] \\
-		P(f_{SW_{min}} + \Delta f_{SW}) &= 58.89 [V/s] \\
+		P(f_{SW_{min}}) &= 56.49\:[V/s] \\
+		P(f_{SW_{min}} + \Delta f_{SW}) &= 58.89\:[V/s] \\
 	\end{aligned}
 \end{equation}
 
@@ -217,31 +214,31 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 	\end{aligned}
 \end{equation}
 
-\noindent Al considerar $T_s = 125 kHz$:
+\noindent Al considerar $T_s = 125\:kHz$:
 
 \begin{equation} 
-	\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta f_{SW}) - P(f_{SW_{min}})] = 96 \mu V
+	\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta f_{SW}) - P(f_{SW_{min}})] = 96\:\mu V
 \end{equation}
 
 
 
-\noindent Este resultado indica que al usar un ADC de 12 bits, se necesitaría una tensión de referencia $V_{ref} = 0.393216\:V$. Sin embargo, este valor resulta demasiado bajo y no sirve si se quiere medir la salida del sensor de efecto Hall de manera directa. Por lo tanto, se decide diseñar un circuito que permita realizar la estimación manteniendo la tensión de referencia en 3.3V
+\noindent Este resultado indica que al usar un ADC de 12 bits, se necesitaría una tensión de referencia $V_{ref} = 0.393216\:V$. Sin embargo, este valor resulta demasiado bajo y no sirve si se quiere medir la salida del sensor de efecto Hall de manera directa. Por lo tanto, se decide diseñar un circuito que permita realizar la estimación manteniendo la tensión de referencia en $3.3\:V$
 
-\noindent La corriente que circula por el electroimán presenta una componente de continua y otra de alterna. La primera excursiona entre 0A y 30A mientras que la segunda varía entre $\pm 250 mA$ en torno al valor medio, con forma de onda triangular. Es posible hacer una adquisición separada de ambas componentes con el ADC para que luego sean procesadas. La señal que ingresa al circuito corresponde a la tensión de salida del sensor de efecto Hall sin el set-point de 2.5V.
+\noindent La corriente que circula por el electroimán presenta una componente de continua y otra de alterna. La primera excursiona entre $0\:A$ y $30\:A$ mientras que la segunda varía entre $\pm 250\:mA$ en torno al valor medio, con forma de onda triangular. Es posible hacer una adquisición separada de ambas componentes con el ADC para que luego sean procesadas. La señal que ingresa al circuito corresponde a la tensión de salida del sensor de efecto Hall sin el set-point de $2.5\:V$.
 
-\noindent Si se tiene en cuenta la ganancia del sensor de efecto Hall, a su salida se obtiene una señal cuyo valor medio varía entre 0 y 1.6 V, y un valor de alterna de $26.7 mV_{pp}$.
+\noindent Si se tiene en cuenta la ganancia del sensor de efecto Hall, a su salida se obtiene una señal cuyo valor medio varía entre 0 y 1.6 V, y un valor de alterna de $26.7\:mV_{pp}$.
 
-\noindent Debido a que el ADC permite una excursión entre 0V y 3.3V, la máxima ganancia posible es de 60 veces para la señal de alterna. Por otro lado, para medir con la resolución en posición deseada de 0.1 mm se debe amplificar la señal triangular 9 veces como mínimo.
+\noindent Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima ganancia posible es de 60 veces para la señal de alterna. Por otro lado, para medir con la resolución en posición deseada de 0.1 mm se debe amplificar la señal triangular 9 veces como mínimo.
 
-\noindent Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de 3.17V (0.67V sobre el set-point).
+\noindent Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de $3.17\:V$ (es decir, $0.67\:V$ sobre el set-point).
 
 \noindent Las características del circuito son:
 
 \begin{itemize}
 	\item Ganancia: 50
-	\item Set-point de 2.5V 
-	\item Frecuencia de corte inferior: 100 Hz
-	\item Frecuencia de corte superior: 12,5 kHz
+	\item Set-point de $2.5\:V$
+	\item Frecuencia de corte inferior: $100\:Hz$
+	\item Frecuencia de corte superior: $12,5\:kHz$
 \end{itemize}
 
 \noindent Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
@@ -254,38 +251,38 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \begin{equation} 
 	\begin{aligned}
-		P(f_{SW_{min}} &= 2824.9 \ [\frac{V}{s}]\\
-		P(f_{SW_{min}} + \Delta f_{SW}) &= 2944.29 \ [\frac{V}{s}]\\		 
+		P(f_{SW_{min}} &= 2824.9 \: [\frac{V}{s}]\\
+		P(f_{SW_{min}} + \Delta f_{SW}) &= 2944.29 \: [\frac{V}{s}]\\		 
 	\end{aligned}
 \end{equation}
 
-\noindent Entonces, 
+\noindent Por lo tanto, 
 
 
 \begin{equation} 
 	\resizebox{.8\hsize}{!}
 	{
-	$\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta f_{SW}) - P(f_{SW_{min}})] = 0.1177 V - 0.1129 V = 4.7mV$
+	$\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta f_{SW}) - P(f_{SW_{min}})] = 0.1177\:V - 0.1129\:V = 4.7\:mV$
 	}
 \end{equation}
 
 
-\noindent Por lo tanto, como la resolución del ADC es de 0.8mV, resulta suficiente para identificar el mínimo cambio de pendiente.
+\noindent Por lo tanto, como la resolución del ADC es de $0.8\:mV$, resulta suficiente para identificar el mínimo cambio de pendiente.
 
 
 \section{Acondicionamiento de señales para el ADC}
 
 \subsection{Referencia de posición}
 
-\noindent Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en el PCB (al igual que para el compensador analógico) e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Debido a que entrega una tensión entre 3.96V y 4.69V, se implementa un circuito de acondicionamiento para esta señal.
+\noindent Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en el PCB (al igual que para el compensador analógico) e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Debido a que entrega una tensión entre $3.96\:V$ y $4.69\:V$, se implementa un circuito de acondicionamiento para esta señal.
 
-\noindent A la señal de entrada se le resta el set-point de 2.5 V, para lograr señales que van desde 1.42V a 2.2V. Luego dentro del microcontrolador se debe mapear el valor leído por el ADC con la posición deseada usando la ganancia del estimador analógico según la fórmula:
+\noindent A la señal de entrada se le resta el set-point de $2.5\:V$, para lograr señales que van desde $1.42\:V$ a $2.2\:V$. Luego dentro del microcontrolador se debe mapear el valor leído por el ADC con la posición deseada usando la ganancia del estimador analógico según la fórmula:
 
 \begin{equation} 
-	Y_{ref}\ =\frac{Vpo{s_{ref}}_{ADC}\ +\ 2.5V}{259.6}\ [m]
+	Y_{ref}\ =\frac{Vpo{s_{ref}}_{ADC}\ +\ 2.5\:V}{259.6}\:[m]
 \end{equation}
 
-\noindent Además se implementa un filtro anti-aliasing con frecuencia de corte en 9.9 kHz.
+\noindent Además se implementa un filtro anti-aliasing con frecuencia de corte en $9.9\:kHz$.
 
 \begin{figure}[H]
 	\centering
@@ -296,7 +293,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \subsection{Componente  alterna de corriente del electroimán}
 
-\noindent Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de 100Hz, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de 12 KHz, que actúa como filtro anti-aliasing. Luego la salida es amplificada con una ganancia de 50 veces (con el objetivo de mejorar la medición de la pendiente por el ADC) y montada sobre un set-point de 2.5V.
+\noindent Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de 100Hz, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12 \:kHz$, que actúa como filtro anti-aliasing. Luego la salida es amplificada con una ganancia de 50 veces (con el objetivo de mejorar la medición de la pendiente por el ADC) y montada sobre un set-point de $2.5\:V$.
 
 \begin{figure}[H]
 	\centering
@@ -308,7 +305,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \subsection{Componente  contínua de corriente del electroimán}
 
-\noindent Para obtener la componente de contínua se utiliza un filtro pasa-bajos con frecuencia de corte en 106 Hz. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
+\noindent Para obtener la componente de contínua se utiliza un filtro pasa-bajos con frecuencia de corte en $106\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
 
 
 \begin{figure}[H]
@@ -344,7 +341,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \section{Transferencias de la planta y del controlador de corriente}
 
-\noindent Para el an\'{a}lisis del compensador digital, se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio anal\'{o}gico para una masa de 30 Kg.
+\noindent Para el an\'{a}lisis del compensador digital, se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio anal\'{o}gico para una masa de $30 \:kg$.
 
 \begin{equation} 
 	\begin{aligned}
@@ -352,7 +349,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 	\end{aligned}
 \end{equation}
 
-\noindent Al aplicar la transformada z por invarianza al impulso, con una $f_s=3.5\ KHz$, se obtiene:
+\noindent Al aplicar la transformada z por invarianza al impulso, con una $f_s=3.5\:kHz$, se obtiene:
 
 \begin{equation} 
 	G_T(Z)[m=30\ Kg]\ \ =\frac{-3.4*10^{-10}(z+3.7)(z+0.3)}{\ (z-0.9965)\ (z+0.9802)\ (z+0.2677)}
@@ -363,7 +360,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \begin{equation}
 	\resizebox{.8\hsize}{!}
 	{
-	$G_T(w)[m=30\ Kg]\ \ =\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}$
+	$G_T(w)[m=30\:kg]\ \ =\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}$
 	}
 \end{equation}
 
@@ -385,7 +382,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \noindent A continuación se procede a analizar la respuesta en frecuencia de $GH_{T}(w)$ y a diseñar un compensador adecuado. Luego, al igual que para el compensador analógico, se verificará la estabilidad para la mínima masa  con la  que trabaja el sistema.
 
-\noindent A partir de la transferencia de la ecuación  \ref{eq:GtHW} se  grafica el lugar de raíces y el diagrama de Nyquist que se muestran en las Figuras \ref{fig:lugar-de-raices} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
+\noindent A partir de la transferencia de la ecuación  \ref{eq:GtHW} se  grafica el lugar de raíces y el diagrama de Nyquist que se muestran en las figuras \ref{fig:lugar-de-raices} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
 
 \begin{figure}[H]
 	\centering
@@ -397,15 +394,15 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{Nyquist-lazo-abierto-digital.png}
-	\caption{Diagrama de Nyquist de GHT con M=30 Kg.}
+	\caption{Diagrama de Nyquist de GHT con $M=30\:kg$.}
 	\label{fig:nyquist-lazo-abierto-digital}
 \end{figure}
 
 \noindent Dado que ${GH}_{T}(w)$ tiene un polo en el semiplano derecho, a partir del Nyquist se puede determinar:
 
-\noindent Zona 1: Z=N+P=0+1=1 $\mathrm{\to}$ Inestable 
+\noindent Zona 1: $Z=N+P=0+1=1$ $\mathrm{\to}$ Inestable 
 
-\noindent Zona 2: Z=N+P=1+1=2 $\mathrm{\to}$ Inestable
+\noindent Zona 2: $Z=N+P=1+1=2$ $\mathrm{\to}$ Inestable
 
 \noindent Dada la similitud de la planta en [w] con la planta del compensador analógico, se decide utilizar la misma estrategia de compensación con la misma ubicación de polos y ceros del compensador.	
 
@@ -418,13 +415,13 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
  
 
 
-\noindent En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_C$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde 64 dB hasta 89.5 dB. Al considerar que el sistema debe soportar una masa variable entre 1 kg y 30 kg, y que la ganancia de la transferencia de la planta para 1 kg es de 5.5 veces (14 dB) mayor que para 30 kg, se puede adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de 64 dB y la m\'{a}xima es de 89.5 dB - 14 dB = 75.5 dB. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en 88 rad/s, lo que significa que $K=68.4dB\ \equiv \ 2630\ veces$.
+\noindent En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_C$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde 64 dB hasta $89.5\:dB$. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se puede adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $64\:dB$ y la m\'{a}xima es de $85\:dB - 4\:dB = 75.5\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=68.4\:dB\ \equiv \ 2630\:veces$.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Bode-compensado-para-k-1.png}
-	\caption{Diagrama de Bode de GHT*GC para K=1 y M=30 Kg.}
+	\caption{Diagrama de Bode de $GH_T*G_C$ para $K=1$ y $M=30\:kg$.}
 	\label{fig:bode-compensado-para-k-1}
 \end{figure}
 
@@ -434,50 +431,50 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{Bode-compensado-para-k-2630.png}
-	\caption{Diagrama de Bode de GHT*GC para K=2630 y M=30 Kg.}
+	\caption{Diagrama de Bode de GHT*GC para $K=2630$ y $M=30\:kg$.}
 	\label{fig:bode-compensado-para-k-2630}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Nyquist-para-k-2630.png}
-	\caption{Diagrama de Nyquist de GHT*GC para K=2630 y M=30 Kg.}
+	\caption{Diagrama de Nyquist de GHT*GC para $K=2630$ y $M=30\:kg$.}
 	\label{fig:nyquist-para-k-2630}
 \end{figure}
 
-\noindent En la figura \ref{fig:respuesta-al-escalon-para-M-30} se puede observar la respuesta al escal\'{o}n del sistema con masa de 30 Kg.
+\noindent En la figura \ref{fig:respuesta-al-escalon-para-M-30} se puede observar la respuesta al escal\'{o}n del sistema con masa de $30\:kg$.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.9]{Respuesta-al-escalon-para-M-30.png}
-	\caption{Respuesta al escalón para M=30 Kg.}
+	\caption{Respuesta al escalón para $M=30\:Kg$.}
 	\label{fig:respuesta-al-escalon-para-M-30}
 \end{figure}
 
-\subsection{Análisis de estabilidad con masa de 1 Kg}
+\subsection{Análisis de estabilidad con masa de $1\:kg$}
 
-\noindent En esta secci\'{o}n se verifica la estabilidad del sistema  para el caso en que la masa sea de 1 Kg, utilizando el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-para-M-1Kg} y \ref{fig:nyquist-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que efectivamente el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
+\noindent En esta secci\'{o}n se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$, utilizando el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-para-M-1Kg} y \ref{fig:nyquist-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que efectivamente el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Bode-para-M-1Kg.png}
-	\caption{Diagrama de Bode de $GH_T*G_C$ para M=1 Kg.}
+	\caption{Diagrama de Bode de $GH_T*G_C$ para $M=1\:Kg$.}
 	\label{fig:bode-para-M-1Kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Nyquist-para-M-1Kg.png}
-	\caption{Diagrama de Nyquist de $GH_T*GC$ para M=1 Kg.}
+	\caption{Diagrama de Nyquist de $GH_T*G_C$ para $M=1\:Kg$.}
 	\label{fig:nyquist-para-M-1Kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{Respuesta-al-escalon-para-M-1Kg.png}
-	\caption{Respuesta al escalón para M=1 Kg.}
+	\caption{Respuesta al escalón para $M=1\:Kg$.}
 	\label{fig:respuesta-al-escalon-para-M-1Kg}
 \end{figure}
 
@@ -500,7 +497,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \[H(w)=1\] 
 
-\noindent La cadena de avance con masa de 30 Kg es:
+\noindent La cadena de avance con masa de $30\:Kg$ es:
 
 \[G[m=30]=Tlc(W)[m=30]*G_{Integrador}\] 
 
@@ -510,7 +507,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \noindent La ganancia del bloque de entrada (F) se establece igual a la ganancia del estimador (H) pero cambiada de signo, debido a que la transferencia de lazo cerrado tiene una inversi\'{o}n de fase. Por lo tanto, se toma $F=-H=-1$.
 
-\noindent Inicialmente se adopta kint = 1 para poder evaluar, por medio de lugar de ra\'{i}ces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador}, la estabilidad del sistema. Para este lazo de realimentaci\'{o}n externo tambi\'{e}n debe utilizarse realimentaci\'{o}n positiva, puesto que los polos de la TLC interna est\'{a}n en el semiplano izquierdo pero presenta una inversi\'{o}n de signo.
+\noindent Inicialmente se adopta $k_{int} = 1$ para poder evaluar, por medio de lugar de ra\'{i}ces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador}, la estabilidad del sistema. Para este lazo de realimentaci\'{o}n externo tambi\'{e}n debe utilizarse realimentaci\'{o}n positiva, puesto que los polos de la TLC interna est\'{a}n en el semiplano izquierdo pero presenta una inversi\'{o}n de signo.
 
 
 \begin{figure}[H]
@@ -521,35 +518,35 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \end{figure}
 
 
-\noindent En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int\ }$) debe ser menor a 115. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int\ }=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente 3 segundos. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
+\noindent En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 115. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int}=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $3\:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Respuesta-al-escalon-con-k-1-M-30.png}
-	\caption{Respuesta al escalón con integrador con $K_{int}$ =1 y M=30 Kg.}
+	\caption{Respuesta al escalón con integrador con $K_{int} =1$ y $M=30\:Kg$.}
 	\label{fig:respuesta-al-escalon-con-k-1-M-30}
 \end{figure}
 
 
-\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-20-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int\ }=20$ que resulta en un tiempo de establecimiento de 0.22 segundos y un overshoot de 4.41\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
+\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-20-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int}=20$ que resulta en un tiempo de establecimiento de $0.22\:s$ y un overshoot de 4.41\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Respuesta-al-escalon-con-k-20-M-30.png}
-	\caption{Respuesta al escalón con integrador para $K_{int}$ =20 y M = 30 Kg.}
+	\caption{Respuesta al escalón con integrador para $K_{int} =20$ y $M = 30\:kg$.}
 	\label{fig:respuesta-al-escalon-con-k-20-M-30}
 \end{figure}
 
 
-\noindent La respuesta al escal\'{o}n cuando la masa es de 1 Kg se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de 0.104s y el de establecimiento de 0.196s. Adem\'{a}s, es posible notar que no presenta sobrepicos.
+\noindent La respuesta al escal\'{o}n cuando la masa es de 1 Kg se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de $0.104\:s$ y el de establecimiento de $0.196\:s$. Adem\'{a}s, es posible notar que no presenta sobrepicos.
 
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Respuesta-al-escalon-con-k-20-M-1.png}
-	\caption{Respuesta al escalón con integrador para $K_{int}$ =20 y M = 1 Kg.}
+	\caption{Respuesta al escalón con integrador para $K_{int} =20$ y $M=1\:Kg$.}
 	\label{fig:respuesta-al-escalon-con-k-20-M-1}
 \end{figure}
 

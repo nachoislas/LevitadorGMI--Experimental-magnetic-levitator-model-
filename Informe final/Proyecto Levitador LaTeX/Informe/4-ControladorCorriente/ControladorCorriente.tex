@@ -317,12 +317,12 @@ R_T = \frac{R_{ESR}}{n}
 \subsection{Conmutación de alta frecuencia para el bootstrap}
 \label{secc_conmutacion-auxiliar}
 
-\noindent Cuando el MOSFET driver \colorbox{yellow}{o podemos decir HIP4081A...}recibe una entrada que activa un MOS del lado superior, este comienza a cargar el gate con ayuda de la tensión que brinda el capacitor de bootstrap asociado a ese MOS. El capacitor de bootstrap entrega energía durante la carga del gate y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el driver reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del driver de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
+\noindent Cuando el MOSFET driver recibe una entrada que activa un MOS del lado superior, este comienza a cargar el gate con ayuda de la tensión que brinda el capacitor de bootstrap asociado a ese MOS. El capacitor de bootstrap entrega energía durante la carga del gate y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el driver reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del driver de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
 \noindent Para poder asegurar un periodo de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET driver. De esta manera se producen conmutaciones en un intervalo regular que permiten la carga de los capacitores de bootstrap. 
 
-\noindent Se adopta una frecuencia de conmutación auxiliar de $50\:kHz$ y se hace variar el ciclo de trabajo de la salida del comparador con histéresis entre dos valores. Durante la carga del inductor, el ciclo de trabajo es del 90\% mientras que durante la descarga es del 10\%.
-\colorbox{yellow}{¿Como se ajusta el ciclo de trabajo?}\\
+\noindent Se adopta una frecuencia de conmutación auxiliar de $50\:kHz$ y se hace variar el ciclo de trabajo de la salida del comparador con histéresis entre dos valores. Para la carga del inductor se definió que el ciclo de trabajo sea del 90\% mientras que para la descarga sea del 10\%.
+
 \noindent Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:
 
 \begin{equation} 

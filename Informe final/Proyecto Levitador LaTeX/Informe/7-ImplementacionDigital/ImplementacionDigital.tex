@@ -292,7 +292,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \subsection{Componente  alterna de corriente del electroimán}
 
-\noindent Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de 100Hz, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12 \:kHz$, que actúa como filtro anti-aliasing. Luego la salida es amplificada con una ganancia de 50 veces (con el objetivo de mejorar la medición de la pendiente por el ADC) y montada sobre un set-point de $2.5\:V$.
+\noindent Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de 100Hz, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12 \:kHz$, que actúa como filtro anti-aliasing. Luego la salida es amplificada con una ganancia de 50 veces (con el objetivo de mejorar la medición de la pendiente por el ADC) y se agrega un set-point de $2.5\:V$.
 
 \begin{figure}[H]
 	\centering
@@ -319,7 +319,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \noindent Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utilizan los DAC del microcontrolador. La tensión entregada es afectada por una circuitería de filtrado, ganancia y protección como se muestra en las figuras \ref{fig:DAC-compensador} y \ref{fig:DAC-estimador}. Debido a que el DAC se actualiza con una frecuencia mínima de $3.5\:kHz$, se utilizan filtros con frecuencia de corte en $1.75\:kHz$.
 
-\noindent Por otro lado, como el controlador de corriente funciona con tensiones de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de 0,66, mapeando así los $5\:V$ a $3,3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento.
+\noindent Por otro lado, como el controlador de corriente funciona con tensiones de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0,66$, mapeando así los $5\:V$ a $3,3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento.
 
 \noindent De esta forma, se logra convertir correctamente la señal digital en analógica.
 
@@ -340,7 +340,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \section{Transferencias de la planta y del controlador de corriente}
 
-\noindent Para el an\'{a}lisis del compensador digital, se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio anal\'{o}gico para una masa de $30 \:kg$.
+\noindent Para el an\'{a}lisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio anal\'{o}gico para una masa de $30 \:kg$.
 
 \begin{equation} 
 	\begin{aligned}
@@ -364,7 +364,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \end{equation}
 
 
-\noindent Con las expresiones en [W], es posible dise\~{n}ar un controlador de manera anal\'{o}gica, para luego transformarlo al dominio digital.
+\noindent Con las expresiones en $[W]$ es posible diseñar un controlador de manera anal\'{o}gica y luego transformarlo al dominio digital.
 
 
 \section{Diseño del compensador}

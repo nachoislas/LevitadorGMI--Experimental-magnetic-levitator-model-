@@ -344,14 +344,14 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \begin{equation} 
 	\begin{aligned}
-	G_T(s)[30Kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
+	G_T(s)[M=30Kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
 	\end{aligned}
 \end{equation}
 
 \noindent Al aplicar la transformada z por invarianza al impulso, con una $f_s=3.5\:kHz$, se obtiene:
 
 \begin{equation} 
-	G_T(Z)[m=30\ Kg]\ \ =\frac{-3.4*10^{-10}(z+3.7)(z+0.3)}{\ (z-0.9965)\ (z+0.9802)\ (z+0.2677)}
+	G_T(Z)[M=30\:Kg] =\frac{-3.4*10^{-10}(z+3.7)(z+0.3)}{(z-0.9965)(z+0.9802) (z+0.2677)}
 \end{equation}
 
 \noindent Luego, al usar la transformada bilineal para volver al dominio anal\'{o}gico:
@@ -359,7 +359,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \begin{equation}
 	\resizebox{.8\hsize}{!}
 	{
-	$G_T(w)[m=30\:kg]\ \ =\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}$
+	$G_T(w)[M=30\:kg]\ \ =\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}$
 	}
 \end{equation}
 
@@ -369,13 +369,13 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \section{Diseño del compensador}
 
-\subsection{Análisis de estabilidad con masa de 30 Kg}
+\subsection{Análisis de estabilidad con masa de $30\:kg$}
 
-\noindent Para el análisis del compensador digital se parte de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de 30Kg y de la del lazo de realimentación $H(w)$. A partir de ellas se obtiene la transferencia a lazo abierto total $G_{T}(w)*H(w)(s)$ mostrado en la ecuación \ref{eq:GtHW}.
+\noindent Para el análisis del compensador digital se parte de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ y de la del lazo de realimentación $H(w)$. A partir de ellas se obtiene la transferencia a lazo abierto total $GH_{T}(w)=G_{T}(w)*H(w)$ mostrado en la ecuación \ref{eq:GtHW}.
  
 \begin{equation}
 	\label{eq:GtHW}  
-	G_T(w)*H(w)=\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)} 
+	GH_{T}(w)=\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)} 
 \end{equation} 
 
 
@@ -386,14 +386,14 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Lugar_de_raices.png}
-	\caption{Diagrama de Bode de lazo abierto GHT con M=30 Kg.}
+	\caption{Diagrama de Bode de lazo abierto $GH_{T}(w)$ con $M=30\:Kg$.}
 	\label{fig:lugar-de-raices}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{Nyquist-lazo-abierto-digital.png}
-	\caption{Diagrama de Nyquist de GHT con $M=30\:kg$.}
+	\caption{Diagrama de Nyquist de $GH_{T}(w)$ con $M=30\:kg$.}
 	\label{fig:nyquist-lazo-abierto-digital}
 \end{figure}
 
@@ -409,28 +409,28 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 
  \begin{equation}  
- 	G_c(s)=K*{[20.346*\frac{(s+44.3)}{(s+902.1)}]}^2
+ 	G_c(w)=K*{[20.346*\frac{(w+44.3)}{(w+902.1)}]}^2
  \end{equation} 
  
 
 
-\noindent En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_C$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde 64 dB hasta $89.5\:dB$. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se puede adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $64\:dB$ y la m\'{a}xima es de $85\:dB - 4\:dB = 75.5\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=68.4\:dB\ \equiv \ 2630\:veces$.
+\noindent En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T(w)*G_C(w)$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $64\:dB$ hasta $88.6\:dB$. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se puede adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $64\:dB$ y la m\'{a}xima es de $88.6\:dB - 14\:dB = 74.6\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=68.4\:dB\ \equiv \ 2630\:veces$.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Bode-compensado-para-k-1.png}
-	\caption{Diagrama de Bode de $GH_T*G_C$ para $K=1$ y $M=30\:kg$.}
+	\caption{Diagrama de Bode de $GH_T(w)*G_C(w)$ para $K=1$ y $M=30\:kg$.}
 	\label{fig:bode-compensado-para-k-1}
 \end{figure}
 
 
-\noindent En la figura \ref{fig:bode-compensado-para-k-2630} se muestra el diagrama de Bode considerando la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad, puesto que en el primer cruce por 0º, la magnitud es mayor a 0 dB y en el segundo cruce, menor. Adem\'{a}s, en la figura \ref{fig:nyquist-para-k-2630} se puede ver que la forma del diagrama de Nyquist es como la deseada.
+\noindent En la figura \ref{fig:bode-compensado-para-k-2630} se muestra el diagrama de Bode considerando la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad puesto que, en el primer cruce por 0º, la magnitud es mayor a $0\:dB$ y en el segundo cruce, menor. Adem\'{a}s, en la figura \ref{fig:nyquist-para-k-2630} se puede ver que la forma del diagrama de Nyquist es como la deseada.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{Bode-compensado-para-k-2630.png}
-	\caption{Diagrama de Bode de GHT*GC para $K=2630$ y $M=30\:kg$.}
+	\caption{Diagrama de Bode de $GH_T(w)*G_C(w)$ para $K=2630$ y $M=30\:kg$.}
 	\label{fig:bode-compensado-para-k-2630}
 \end{figure}
 
@@ -459,14 +459,14 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Bode-para-M-1Kg.png}
-	\caption{Diagrama de Bode de $GH_T*G_C$ para $M=1\:Kg$.}
+	\caption{Diagrama de Bode de $GH_T(w)*G_C(w)$ para $M=1\:Kg$.}
 	\label{fig:bode-para-M-1Kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Nyquist-para-M-1Kg.png}
-	\caption{Diagrama de Nyquist de $GH_T*G_C$ para $M=1\:Kg$.}
+	\caption{Diagrama de Nyquist de $GH_T(w)*G_C(w)$ para $M=1\:Kg$.}
 	\label{fig:nyquist-para-M-1Kg}
 \end{figure}
 
@@ -492,13 +492,9 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \noindent En el lazo de realimentaci\'{o}n interno act\'{u}a el compensador por adelanto de fase dise\~{n}ado previamente y, en el externo, un controlador del tipo integral. De esta forma, se logra suavizar la respuesta al escal\'{o}n del sistema y eliminar el error en r\'{e}gimen permanente.
 
 
-\noindent Para el an\'{a}lisis se considera como realimentaci\'{o}n: 
+\noindent Para el an\'{a}lisis se considera $H(w)=1$ como realimentaci\'{o}n. La cadena de avance con masa de $30\:Kg$ es:
 
-\[H(w)=1\] 
-
-\noindent La cadena de avance con masa de $30\:Kg$ es:
-
-\[G[m=30]=Tlc(W)[m=30]*G_{Integrador}\] 
+\[G(W)[M=30]=Tlc(W)[M=30]*G_{Integ}\] 
 
 \noindent Se  plantea un compensador del tipo :
 
@@ -506,7 +502,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \noindent La ganancia del bloque de entrada (F) se establece igual a la ganancia del estimador (H) pero cambiada de signo, debido a que la transferencia de lazo cerrado tiene una inversi\'{o}n de fase. Por lo tanto, se toma $F=-H=-1$.
 
-\noindent Inicialmente se adopta $k_{int} = 1$ para poder evaluar, por medio de lugar de ra\'{i}ces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador}, la estabilidad del sistema. Para este lazo de realimentaci\'{o}n externo tambi\'{e}n debe utilizarse realimentaci\'{o}n positiva, puesto que los polos de la TLC interna est\'{a}n en el semiplano izquierdo pero presenta una inversi\'{o}n de signo.
+\noindent Inicialmente se adopta $k_{int} = 1$ para poder evaluar, por medio de lugar de ra\'{i}ces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador}, la estabilidad del sistema. Para este lazo de realimentaci\'{o}n externo tambi\'{e}n debe utilizarse realimentaci\'{o}n positiva puesto que los polos de la TLC interna est\'{a}n en el semiplano izquierdo pero presenta una inversi\'{o}n de signo.
 
 
 \begin{figure}[H]
@@ -517,7 +513,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \end{figure}
 
 
-\noindent En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 115. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int}=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $3\:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
+\noindent En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 115. Por lo tanto, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int}=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $3\:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
 
 
 \begin{figure}[H]
@@ -538,7 +534,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \end{figure}
 
 
-\noindent La respuesta al escal\'{o}n cuando la masa es de 1 Kg se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de $0.104\:s$ y el de establecimiento de $0.196\:s$. Adem\'{a}s, es posible notar que no presenta sobrepicos.
+\noindent La respuesta al escal\'{o}n cuando la masa es de $1\:Kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de $0.104\:s$ y el de establecimiento de $0.196\:s$. Adem\'{a}s, es posible notar que no presenta sobrepicos.
 
 
 
@@ -561,7 +557,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \end{equation} 
 
 \begin{equation} \label{GrindEQ__5_7_} 
-	G_{integrador}(Z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0028(\ z\ +\ 1)}{\ (z\ -\ 1)} 
+	G_{integ}(Z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0028(\ z\ +\ 1)}{\ (z\ -\ 1)} 
 \end{equation} 
 
 \noindent Si se considera $H(z)=1$ se obtiene que:

@@ -171,15 +171,15 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \noindent Por otro lado, el bloque K mostrado en la figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
 
-\section{Resoluc1ión en posición}
+\section{Resolución en posición}
 
-\noindent Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L[Y_g]$) que se traduce en un cambio de frecuencia ($\Delta f$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
+\noindent Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L[Y_g]$) que se traduce en un cambio de frecuencia ($\Delta f_{SW}$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
 
 
-\noindent A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y=2.1\:mm$. Esta resulta en $f_{SW}[2.1\:mm] = 1104.8\:Hz$. De: esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $f_{SW}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un Y mínimo de $0.1\:mm$. Este valor puede obtenerse como:
+\noindent A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y_g=2.1\:mm$. Esta resulta en $f_{SW}[2.1\:mm] = 1104.8\:Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $f_{SW}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un ($\Delta Y_g$) mínimo de  $0.1\:mm$. Este valor puede obtenerse como:
 
 \begin{equation} 
-	\Delta F_{SW}(Teorico) = f_{SW}[2.1\:mm] - f_{SW}[2\:mm] = 44.8\:Hz
+	\Delta F_{SW} = f_{SW}[2.1\:mm] - f_{SW}[2\:mm] = 44.8\:Hz
 \end{equation}
 
 \noindent Las pendientes para el peor caso se da con la menor variación de tensión entre muestras. Es decir, para el caso de frecuencia mínima. En la ecuación \ref{eq_pendiente} se muestra el cálculo de la pendiente de la onda triangular en función de la frecuencia de conmutación.
@@ -188,7 +188,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 	P(f_{SW}) = \frac{\Delta V}{T_{SW}/2} = 2*K_H*\Delta i_L*f_{SW} = 2 * 0.0533 * 0.5 * f_{SW}
 \end{equation}
 
-\noindent A partir de la ecuación \ref{eq_pendiente} es posible obtener el valor de la pendiente para la frecuencia mínima de conmutación y la de su incremento correspondiente a una variación en la posición de 0.1mm. Esta situación se representa en la figura \ref{fig:variacion-de-pendiente}.
+\noindent A partir de la ecuación \ref{eq_pendiente} es posible obtener el valor de la pendiente para la mínima frecuencia de conmutación y la de su incremento correspondiente a una variación en la posición de $0.1\:mm$. Esta situación se representa en la figura \ref{fig:variacion-de-pendiente}.
 
 \begin{equation} 
 	\begin{aligned}
@@ -197,6 +197,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 	\end{aligned}
 \end{equation}
 
+\colorbox{yellow}{Ver si se puede poner bien el delta..}
 
 \begin{figure}[H]
 	\centering
@@ -228,9 +229,9 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \noindent Si se tiene en cuenta la ganancia del sensor de efecto Hall, a su salida se obtiene una señal cuyo valor medio varía entre 0 y 1.6 V, y un valor de alterna de $26.7\:mV_{pp}$.
 
-\noindent Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima ganancia posible es de 60 veces para la señal de alterna. Por otro lado, para medir con la resolución en posición deseada de 0.1 mm se debe amplificar la señal triangular 9 veces como mínimo.
+\noindent Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima ganancia posible es de 60 veces para la señal de alterna \colorbox{yellow}{¿No debería ser de 120 veces? 26.7 es pico pico..}. Por otro lado, para medir con la resolución en posición deseada de $0.1\:mm$ se debe amplificar la señal triangular 9 veces como mínimo.
 
-\noindent Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de $3.17\:V$ (es decir, $0.67\:V$ sobre el set-point).
+\noindent Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de $3.17\:V$ (es decir, $0.67\:V$ sobre el set-point). \colorbox{yellow}{Ver si esta bien calculado el 3.17, pq los 26.7 son pico pico..}
 
 \noindent Las características del circuito son:
 
@@ -251,7 +252,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \begin{equation} 
 	\begin{aligned}
-		P(f_{SW_{min}} &= 2824.9 \: [\frac{V}{s}]\\
+		P(f_{SW_{min}}) &= 2824.9 \: [\frac{V}{s}]\\
 		P(f_{SW_{min}} + \Delta f_{SW}) &= 2944.29 \: [\frac{V}{s}]\\		 
 	\end{aligned}
 \end{equation}
@@ -274,15 +275,13 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \subsection{Referencia de posición}
 
-\noindent Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en el PCB (al igual que para el compensador analógico) e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Debido a que entrega una tensión entre $3.96\:V$ y $4.69\:V$, se implementa un circuito de acondicionamiento para esta señal.
+\noindent Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en la placa de control  e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Esta señal de referencia es también utilizada por el compensador analógico. Debido a que entrega una tensión entre $3.96\:V$ y $4.69\:V$, se implementa un circuito de acondicionamiento.
 
-\noindent A la señal de entrada se le resta el set-point de $2.5\:V$, para lograr señales que van desde $1.42\:V$ a $2.2\:V$. Luego dentro del microcontrolador se debe mapear el valor leído por el ADC con la posición deseada usando la ganancia del estimador analógico según la fórmula:
+\noindent A la señal de entrada se le resta el set-point de $2.5\:V$, para lograr señales que van desde $1.42\:V$ a $2.2\:V$. Luego, dentro del microcontrolador, se debe mapear el valor leído por el ADC con la posición deseada usando la ganancia del estimador analógico según la fórmula \ref{eq_y-ref-dig}. Además se implementa un filtro anti-aliasing con frecuencia de corte en $9.9\:kHz$.
 
-\begin{equation} 
+\begin{equation} \label{eq_y-ref-dig}
 	Y_{ref}\ =\frac{Vpo{s_{ref}}_{ADC}\ +\ 2.5\:V}{259.6}\:[m]
 \end{equation}
-
-\noindent Además se implementa un filtro anti-aliasing con frecuencia de corte en $9.9\:kHz$.
 
 \begin{figure}[H]
 	\centering

@@ -30,7 +30,7 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 \end{equation}
 
 
-La salida de esta etapa se polariza en un punto de operación de $2.5\:V$ para poder utilizar una fuente de alimentación entre $0\:V$ y $5\:V$ para los operacionales. Para lograrlo se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
+La salida de esta etapa se polariza en un punto de operación de $2.6\:V$ (el motivo por el cual se utiliza este valor se explica e la sección \ref{seccionXD}) para poder utilizar una fuente de alimentación entre $0\:V$ y $5\:V$ para los operacionales. Para lograrlo se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
 
 
 \begin{figure}[H]
@@ -51,7 +51,7 @@ Para la implementación del comparador con histéresis se utiliza un amplificado
 
 Para controlar la corriente se utiliza un driver que trabaja en conmutación con una topología en puente H con 4 N-MOS. Este permite conmutar la polaridad de la tensión aplicada al electroimán entre $+24\:V$ para el estado “ON” y $-24\:V$ para el “OFF”. 
 
-Para poder realizar simulaciones se modela al sensor de efecto Hall como una fuente de tensión controlada por corriente con una ganancia de $53.3\:mV/A$, cuya salida es realimentada a la etapa de entrada luego de restarle la tensión de referencia  $V_{bias}$ de $2.5\:V$, como se muestra en la figura \ref{fig:img_resta-Vbias}.
+Para poder realizar simulaciones se modela al sensor de efecto Hall como una fuente de tensión controlada por corriente con una ganancia de $53.3\:mV/A$, cuya salida es realimentada a la etapa de entrada luego de restarle la tensión de referencia  $V_{bias}$ de $2.6\:V$, como se muestra en la figura \ref{fig:img_resta-Vbias}.
 
 La implementación circuital de estas dos etapas puede observarse en la figura \ref{fig:img_puenteH}. 
 

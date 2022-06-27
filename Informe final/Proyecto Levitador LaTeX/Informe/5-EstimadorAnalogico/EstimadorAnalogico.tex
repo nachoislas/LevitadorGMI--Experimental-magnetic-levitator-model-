@@ -1,7 +1,7 @@
 \chapter{Estimador analógico} \chapterlabel{Informe/5-EstimadorAnalogico} \label{cap:Estimador Analogico}
 
 
- Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su \colorbox{yellow}{valor instantáneo} para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
+ Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor  para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
  
  En este capítulo se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y sus respectivas simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
 
@@ -154,8 +154,6 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 
 \noindent Para compensar el circuito se coloca un polo en $16 \:kHz$, que dá como resultado $R2=10\:\Omega$, $C1=1\:uF$ y $R1=25\: k\Omega$ y un margen de fase de $\phi =49.6{}^\circ $, como se puede observar en la figura \ref{fig:img_GH del derivador compensado}.
 
-\colorbox{yellow}{La imagen de abajo no tiene ningun marcador..}\
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{GH-del-derivador-compensado.png}
@@ -270,7 +268,7 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 
 \noindent Se tiene $Kh = 53,3\:\frac{mV}{A},\; R = 0.2\:\Omega,\; \tau  = 25 \:ms$. En cuanto a la inductancia, se utiliza:  $L_T(4\:mm) = 16,44\:mHy$.
 
-\noindent $V_{iL}$ es la tensi\'{o}n de salida del sensor de efecto Hall menos un set-point de $2.5\:V$. Sin embargo, debido al offset agregado al sensor para llevar su valor medio a $2.6\:V$ \colorbox{yellow}{mencionar apartado en el que se explica}, al restarle $2.5\:V$ no se produce una cancelaci\'{o}n completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuaci\'{o}n  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este circuito compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
+\noindent $V_{iL}$ es la tensi\'{o}n de salida del sensor de efecto Hall menos un set-point de $2.5\:V$. Sin embargo, debido al offset agregado al sensor para llevar su valor medio a $2.6\:V$, al restarle $2.5\:V$ no se produce una cancelaci\'{o}n completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuaci\'{o}n  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este circuito compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
 
 \begin{figure}[H]
 	\centering
@@ -305,8 +303,6 @@ Como se vio en el capitulo anterior, el circuito donde esta corriente circula re
 \end{figure}
 
 \noindent La onda superior corresponde a la corriente en el electroim\'{a}n, la onda que se encuentra al medio, a la salida del derivador ${[V}_{bias}$$]$ y la inferior, a la onda rectificada con la correcci\'{o}n de la resistencia interna.
-
-\colorbox{yellow}{¿Por qué sigue teniendo error la rectificación?}\\
 
 \section{Rectificador, Restador y Filtrado}
 

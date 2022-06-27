@@ -30,7 +30,7 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 \end{equation}
 
 
-La salida de esta etapa se polariza en un punto de operación de $2.5\:V$ para poder utilizar una fuente de alimentación entre $0\:V$ y $5\:V$ para los operacionales. Para lograrlo se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
+La salida de esta etapa junto con la tensión de salida del sensor de efecto Hall se polarizan en un punto de operación de $2.6\:V$ (como se explica en la sección \ref{secc_justificación-puente-H}). Para lograrlo se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
 
 
 \begin{figure}[H]
@@ -72,7 +72,7 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 
 \subsection{Simulaciones de formas de onda}
 
-\noindent En la figura \ref{fig:img_formas-de-onda-corriente} se pueden observar dos formas de onda. La inferior  corresponde a la tensión de salida del comparador con histéresis y la superior a la corriente que circula por el electroimán. Para la simulación se utilizó una tensión de referencia de entrada de 1 V, por lo que el valor medio de la corriente en la salida es 6 A con un ripple de 500 mA.
+\noindent En la figura \ref{fig:img_formas-de-onda-corriente} se pueden observar dos formas de onda. La inferior  corresponde a la tensión de salida del comparador con histéresis y la superior a la corriente que circula por el electroimán. Para la simulación se utilizó una tensión de referencia de entrada de $1\:V$, por lo que el valor medio de la corriente en la salida es $6\:A$ con un ripple de $500\:mA$.
 
 \begin{figure}[H]
 	\centering
@@ -85,7 +85,7 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 
 \subsection{Simulación de un escalón en la referencia de corriente}
 
-\noindent En la figura \ref{fig:img_respuesta-al-escalon} se muestra cómo cambia la corriente en el electroimán al aplicarle a la entrada del controlador un escalón de tensión entre 1 V y 3 V. Se puede observar cómo la conmutación del comparador se detiene para ajustar la corriente con la referencia.
+\noindent En la figura \ref{fig:img_respuesta-al-escalon} se muestra cómo cambia la corriente en el electroimán al aplicarle a la entrada del controlador un escalón de tensión entre $1\:V$ y $3\:V$. Se puede observar cómo la conmutación del comparador se detiene para ajustar la corriente con la referencia.
 
 \begin{figure}[H]
 	\centering
@@ -110,14 +110,14 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 	\label{fig:img_topologia-puenteH}
 \end{figure}
 
-\noindent El electroimán se conecta entre los puntos medios de cada par de transistores. De esta manera se puede conmutar la polaridad de la tensión que se le aplica. Sólo se permite que dos transistores se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, Q1 y Q4 pueden estar encendidos, mientras que Q3 y Q2 están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada shoot-through. 
+\noindent El electroimán se conecta entre los puntos medios de cada par de transistores. De esta manera se puede conmutar la polaridad de la tensión que se le aplica. Sólo se permite que dos transistores se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada shoot-through. 
 
 
-\noindent Los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre gate y source sea mayor o igual a 7 V. Esto no es un problema para los dos MOS inferiores del puente H (Q2 y Q4), ya que la tensión en source está fijada en GND y el driver puede aplicar 12 V al gate (superando los 7 V entre gate y source). El problema radica en los transistores superiores del puente H, ya que la tensión en source varía entre 0 V y 24 V, por lo que en el gate debería haber, por lo menos, 31 V con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de 24 V. Para resolver este problema se utiliza un driver flotante con bootstrap.
+\noindent Los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre gate y source sea mayor o igual a $7\:V$. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en source está fijada en GND y el driver puede aplicar $12\:V$ al gate (superando los $7\:V$ entre gate y source). El problema radica en los transistores superiores del puente H, ya que la tensión en source varía entre $0\:V$ y $24\:V$, por lo que en el gate debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se utiliza un driver flotante con bootstrap.
 
 \noindent Para controlar la conmutación se utiliza un MOSFET driver HIP4081A  que se encarga de encender y apagar los transistores según las entradas de control. Además permite la configuración de un tiempo muerto para evitar que se enciendan dos transistores de un lado a la vez. También provee la circuitería necesaria para implementar la fuente flotante que enciende los MOSFET del lado superior para lo cual solo se debe agregar un diodo y un capacitor de manera externa. Para la implementación circuital se van a utilizar los MOSFET IPB160N04.
 
-\noindent En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el driver HIP4081A. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del driver bootstrap permite obtener en el gate del MOS superior, una tensión de 36 V respecto a GND, logrando así una diferencia de tensión mayor a 7 V entre gate y source. 
+\noindent En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el driver HIP4081A. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del driver bootstrap permite obtener en el gate del MOS superior, una tensión de $36\:V$ respecto a GND, logrando así una diferencia de tensión mayor a $7\:V$ entre gate y source. 
 
 \begin{figure}[H]
 	\centering
@@ -126,13 +126,13 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 	\label{fig:img_bootstrap}
 \end{figure}
 
-\noindent El driver bootstrap consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del bootstrap, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender Q2 y Q4 durante un tiempo que se conoce como periodo de refresco de bootstrap. De esta forma, los capacitores de bootstrap de ambos lados quedan conectados entre $12 \:V$ y GND y se pueden cargar completamente. Durante este tiempo, las salidas a los gates AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de shoot-through durante el período nominal de refresco del bootstrap. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
+\noindent El driver bootstrap consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del bootstrap, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender $Q_2$ y $Q_4$ durante un tiempo que se conoce como periodo de refresco de bootstrap. De esta forma, los capacitores de bootstrap de ambos lados quedan conectados entre $12\:V$ y GND y se pueden cargar completamente. Durante este tiempo, las salidas a los gates AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de shoot-through durante el período nominal de refresco del bootstrap. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
 
-\noindent Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra funcionando: con el transistor Q2 encendido (ALO = $V_{CC}$), Q1 apagado (AHO = AHS = 0 V) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a $12\:V$, ya que en un terminal tiene la fuente de $12\:V$ (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de Q2.
+\noindent Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra funcionando: con el transistor $Q_2$ encendido (ALO = $V_{CC}$), $Q_1$ apagado (AHO = AHS = $0\:V$) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a $12\:V$, ya que en un terminal tiene la fuente de $12\:V$ (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de $Q_2$.
 
-\noindent Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el source del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de Q2. 
+\noindent Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el source del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de $Q_2$. 
 
-\noindent Una vez finalizado el tiempo muerto, se enciende el MOS Q1. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que Q1 pasa de estar apagado a encendido, la tensión en el source cambia de $-V_d$ a $V_{bus}$ de manera gradual mientras se carga el gate, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de bootstrap sumada a la tensión en el source de Q1. De esta manera se logra una tensión de 36 V con respecto a GND en el gate y genera una diferencia entre gate y source de 12 V.
+\noindent Una vez finalizado el tiempo muerto, se enciende el MOS $Q_1$. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que $Q_1$ pasa de estar apagado a encendido, la tensión en el source cambia de $-V_d$ a $V_{bus}$ de manera gradual mientras se carga el gate, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de bootstrap sumada a la tensión en el source de $Q_1$. De esta manera se logra una tensión de $36\:V$ con respecto a GND en el gate y genera una diferencia entre gate y source de $12\:V$.
 
 \noindent Para lograr un funcionamiento adecuado del Boostrap es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOS esté encendido.
 
@@ -143,7 +143,7 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 
 \noindent Para encender un NMOS es necesario proveer corriente a su gate hasta cargar las capacidades parásitas entre gate-source y gate-drain. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el gate. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de bootstrap. 
 
-\noindent En la implementación del puente H se decidió colocar resistencias entre gate y source (ver apartado \ref{secc_res_gate_source}), que aparecen como R1, R2, R3 y R4 en la figura \ref{fig:img_capacitores-puenteH}. Debido a la diferencia de tensión entre gate-source, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el  bootstrap.
+\noindent En la implementación del puente H se decidió colocar resistencias entre gate y source (ver apartado \ref{secc_res_gate_source}), que aparecen como $R_1$, $R_2$, $R_3$ y $R_4$ en la figura \ref{fig:img_capacitores-puenteH}. Debido a la diferencia de tensión entre gate-source, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el  bootstrap.
 
 \begin{figure}[H]
 	\centering
@@ -210,14 +210,14 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \noindent Por lo tanto, una capacidad mayor a $2.61 \:\mu F$ resulta en una caída menor a 0.1 V en el capacitor de bootstrap durante el tiempo de encendido de los MOSFET. Podría usarse un capacitor más pequeño, a costa de permitir una mayor caída de tensión en el capacitor. 
 
-\noindent Finalmente, se decidió utilizar 2 capacitores de bootstrap en paralelo de $5.6 \:\mu F$ cada uno, con el objetivo de reducir la resistencia serie.
+\noindent Finalmente, se decidió utilizar dos capacitores de bootstrap en paralelo de $5.6 \:\mu F$ cada uno, con el objetivo de reducir la resistencia serie.
 
 
 \subsection{Resistencia entre gate y source} \label{secc_res_gate_source}
 
-\noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como R1, R2, R3, R4. Su propósito es evitar que el gate del MOSFET se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
+\noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como $R_1$, $R_2$, $R_3$, $R_4$. Su propósito es evitar que el gate del MOSFET se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
 
-\noindent Se utiliza una resistencia de 4.7 $k\Omega$ debido a que permite que el gate se descargue en un tiempo rápido, consumiendo solo 2.55 mA del capacitor de bootstrap.
+\noindent Se utiliza una resistencia de $4.7 \:k\Omega$ debido a que permite que el gate se descargue en un tiempo rápido, consumiendo solo $2.55\:mA$ del capacitor de bootstrap.
 
 \subsection{Protección del gate}
 
@@ -352,6 +352,7 @@ R_T = \frac{R_{ESR}}{n}
 \end{figure}
 
 \section{Justificación de la utilización de la topología de puente H}
+\label{secc_justificación-puente-H}
 
 \noindent Es necesario que el controlador presente una corriente media unidireccional, ya que una corriente media negativa es indistinguible de la positiva puesto que tiene el mismo efecto en la fuerza del electroimán, pero el signo del controlador hace inestable el lazo de control. Sin embargo, puede darse el caso que la corriente en el electroimán sea negativa de manera instantánea con valor medio positivo. En ese caso, es necesario que se conserve la forma de onda triangular ya que de lo contrario traería problemas en la estimación de la posición(como se explica en el capítulo \ref{cap:Estimador Analogico}). Por lo tanto, para evitar que la misma sea recortada, es necesario que el controlador permita excursiones negativas sin perder la forma de onda. Esta situación puede darse en los siguientes casos:
 
@@ -366,9 +367,9 @@ R_T = \frac{R_{ESR}}{n}
 
 \subsection{Ajuste para evitar lazo abierto con corriente instantánea negativa}
 
-\noindent El sensor de efecto Hall entrega una tensión proporcional a la corriente que circula por el electroimán con un offset de $2.5 \:V$. Es decir, para corrientes positivas, la salida será mayor a $2.5 \:V$, y para corrientes negativas, menor.
+\noindent El sensor de efecto Hall entrega una tensión proporcional a la corriente que circula por el electroimán con un offset de $2.5\:V$. Es decir, para corrientes positivas, la salida será mayor a $2.5\:V$, y para corrientes negativas, menor.
 
-\noindent La salida de este sensor se realimenta hacia la entrada del controlador de corriente mediante un operacional, quitándole el offset de $2.5 \:V$. Debido a que se utiliza una fuente simple para la alimentación, el circuito encargado de realimentar solo permite excursiones positivas de la corriente mientras que las negativas son recortadas. Esto presenta un problema ya que si ocurre el caso de que la corriente del electroimán se haga negativa instantáneamente la tensión de salida del sensor de efecto Hall será menor a $2.5 \:V$, por lo que la salida del operacional será recortada, y por lo tanto el sistema quedará a lazo abierto.
+\noindent La salida de este sensor se realimenta hacia la entrada del controlador de corriente mediante un operacional, quitándole el offset de $2.5\:V$. Debido a que se utiliza una fuente simple para la alimentación, el circuito encargado de realimentar solo permite excursiones positivas de la corriente mientras que las negativas son recortadas. Esto presenta un problema ya que si ocurre el caso de que la corriente del electroimán se haga negativa instantáneamente la tensión de salida del sensor de efecto Hall será menor a $2.5\:V$, por lo que la salida del operacional será recortada, y por lo tanto el sistema quedará a lazo abierto.
 
 \noindent Para solucionar este problema se analizaron dos alternativas:
 
@@ -380,7 +381,7 @@ R_T = \frac{R_{ESR}}{n}
 
 \noindent Entre estas se eligió la alternativa $1$, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el offset del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente.
 
-\noindent Para saber qué valor utilizar para el offset  se debe calcular el mínimo de tensión entregada por el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0 \:V$, con lo cual la corriente media del electroimán será $0 \:A$ con una excursión de $±250 \:mA$. Lo que significa una tensión de salida del sensor de efecto Hall de $13.3 \:mV$ por encima y debajo del offset. Para tomar un margen se incrementa el offset a $2.6 \:V$. 
+\noindent Para saber qué valor utilizar para el offset  se debe calcular el mínimo de tensión entregada por el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo cual la corriente media del electroimán será $0 \:A$ con una excursión de $±250\:mA$. Lo que significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del offset. Para tomar un margen se incrementa el offset a $2.6\:V$. 
 
 
 

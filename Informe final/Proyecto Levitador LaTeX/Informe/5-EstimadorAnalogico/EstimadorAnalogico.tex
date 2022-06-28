@@ -463,6 +463,26 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 
 \section{Transferencia final del estimador de posici\'{o}n:}
 
+El funcionamiento del circuito estimador no es lineal.  Por lo tanto, para poder modelar una función transferencia, se deben tomar ciertas consideraciones. La parte del derivador es lineal, por lo que se puede modelar su transferencia como:
+\begin{equation}
+	V_{estim}=-0.025*\frac{dViL}{dt} 
+\end{equation}
+
+Esto significa que además de realizar la derivada, introduce una inversión de signo. De esta forma, una pendiente positiva a la entrada resulta en valores menores a $2.5\:V$ a la salida, mientras que una pendiente negativa produce una tensión mayor a $2.5\:V$.
+
+Luego, el bloque rectificador y restador se encarga de calcular el valor absoluto de esta señal (en torno a los $2.5\:V$). Al considerar que la pendiente aumenta a medida que lo hace la distancia de separación, se puede concluir que el bloque estimador no produce inversión de signo. Por lo tanto, se debe considerar solamente la ganancia del derivador y el polo que introduce la etapa de restador. Finalmente, para poder obtener una estimación de la posición, se utiliza la expresión linealizada \ref{eq_di-dt_lineal} que relaciona dIL/dt = 194690 * Yg. Y considerando que dIL/dt = dVil/dt / 0.05333.
+
+Finalmente se obtiene que:
+
+\begin{equation}
+ V_{estim}=\frac{0.025*194690}{0.05333} * \frac{Yg}{1 + \frac{s}{1\:krad/seg}}=259.6*\frac{Yg}{1 + \frac{s}{1\:krad/seg}}	
+\end{equation}
+
+
+\colorbox{red}{falta agregar el polo del filtro de la entrada}
+
+
+
 \noindent Para la transferencia de lazo cerrado del derivador se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_1}

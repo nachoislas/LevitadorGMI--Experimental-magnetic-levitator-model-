@@ -223,13 +223,14 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 
 \noindent Este resultado indica que al usar un ADC de 12 bits, se necesitaría una tensión de referencia $V_{ref} = 0.393216\:V$. Sin embargo, este valor resulta demasiado bajo y no sirve si se quiere medir la salida del sensor de efecto Hall de manera directa. Por lo tanto, se decide diseñar un circuito que permita realizar la estimación manteniendo la tensión de referencia en $3.3\:V$
 
-\noindent La corriente que circula por el electroimán presenta una componente de continua y otra de alterna. La primera excursiona entre $0\:A$ y $30\:A$ mientras que la segunda varía entre $\pm 250\:mA$ en torno al valor medio, con forma de onda triangular. Es posible hacer una adquisición separada de ambas componentes con el ADC para que luego sean procesadas. La señal que ingresa al circuito corresponde a la tensión de salida del sensor de efecto Hall sin el set-point de $2.5\:V$.
+\noindent La corriente que circula por el electroimán presenta una componente de continua y otra de alterna. La primera excursiona entre $0\:A$ y $30\:A$ mientras que la segunda varía entre $\pm 250\:mA$ en torno al valor medio, con forma de onda triangular. Por lo tanto, se realiza una adquisición separada de ambas componentes de la tensión de salida del sensor de efecto Hall, sin el set-point de $2.5\:V$, con el ADC para que luego sean procesadas.
 
-\noindent Si se tiene en cuenta la ganancia del sensor de efecto Hall, a su salida se obtiene una señal cuyo valor medio varía entre 0 y 1.6 V, y un valor de alterna de $26.7\:mV_{pp}$.
+\noindent A la  salida del sensor de efecto Hall se obtiene una señal cuyo valor medio varía entre $0\:V$ y $1.6\:V$, y un valor de alterna de $26.7\:mV_{pp}$.
 
-\noindent Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima ganancia posible es de 60 veces para la señal de alterna \colorbox{yellow}{¿No debería ser de 120 veces? 26.7 es pico pico..}. Por otro lado, para medir con la resolución en posición deseada de $0.1\:mm$ se debe amplificar la señal triangular 9 veces como mínimo.
+\noindent Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima ganancia posible es de 60 veces para la componente de alterna. Por otro lado, para medir con la resolución en posición deseada de $0.1\:mm$ se debe amplificar la señal triangular 9 veces como mínimo.
 
-\noindent Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de $3.17\:V$ (es decir, $0.67\:V$ sobre el set-point). \colorbox{yellow}{Ver si esta bien calculado el 3.17, pq los 26.7 son pico pico..}
+\noindent Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de $3.17\:V$ (es decir, $0.67\:V$ sobre el set-point).
+
 
 \noindent Las características del circuito son:
 

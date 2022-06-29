@@ -1,12 +1,12 @@
-\chapter{Diseño de circuito impreso} \chapterlabel{Informe/8-PCB} \label{cap:PCB}
+\chapter{Diseño del circuito impreso} \chapterlabel{Informe/8-PCB} \label{cap:PCB}
 
-
-En este capítulo se muestran los esquemáticos y las imágenes del PCB desarrollados para la implementación de la placa de control. 
+En este capítulo se mencionan los criterios tenidos en cuenta para el diseño del circuito impreso. Además, se muestran los esquemáticos y las imágenes del PCB desarrollados para la implementación de la placa de control mediante el uso del software Altium Designer. 
 
 Por otra parte, se describen las consideraciones y circuitos utilizados para las fuentes de alimentación del sistema.
 
 
-\section{Fuentes de Alimentación}
+
+\section{Fuentes de alimentación}
 
 \subsection{Fuente de alimentación externa de $24\:V$}
 
@@ -79,6 +79,31 @@ La fuente de $5\:V$ se encarga de alimentar los operacionales, el sensor de efec
 \end{figure}
 
 \section{PCB}
+\subsection{Consideraciones para el diseño del PCB}
+Para el diseño del PCB se tuvieron en cuenta las siguientes consideraciones:
+
+\begin{itemize}
+	\item Se utilizó un plano de masa para la etapa de potencia y otro para el resto del circuito. Se intentó reducir al mínimo las conexiones entre ambos planos con el objetivo de disminuir el ruido inducido por la etapa de potencia.
+	\item Se mantuvo separada la etapa de potencia con las de pequeña señal.
+	\item Se intentó reducir al mínimo la longitud de las pistas de las señales críticas como la tensión de salida del sensor de efecto Hall.
+	\item Se utilizaron pistas gruesas y polígonos para la etapa de potencia que deben soportar la circulación de corrientes elevadas.
+	\item Se pusieron vías en toda la placa para ayudar a la disipación de potencia y a la disminución del ruido. 
+	\item Se ``acostaron'' los MOSFET sobre la placa para ayudar a su disipación de potencia.
+	\item Se realizó el diseño en una placa de 2 capas para reducir el costo de fabricación.
+	\item Para optimizar el tamaño de la placa, se rutearon las pistas de manera organizada. Para ello, se intentó que las pistas verticales se realicen en la capa superior mientras que las horizontales, en la inferior.
+	\item Se siguieron las reglas de diseño estándar de PCBWay.
+	
+\end{itemize}
+
+
+
+ 
+
+
+
+
+
+
 \subsection{Modelo 2D}
 \subsubsection{Vista Superior}
 \begin{figure}[H]

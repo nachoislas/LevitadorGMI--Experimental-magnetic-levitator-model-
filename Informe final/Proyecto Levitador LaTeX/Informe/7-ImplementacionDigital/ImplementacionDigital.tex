@@ -7,7 +7,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \section{Descripción general}
 
-\noindent La implementación digital consiste, básicamente, en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un ADC de 12 bits y $3.3\:V$ de referencia, un DAC 12 bits y $3.3\:V$ de referencia. \colorbox{yellow}{esto del ADC y DAC se podria juntar..}\\
+\noindent La implementación digital consiste, básicamente, en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un DAC y un ADC, ambos de 12 bits y $3.3\:V$ de referencia. 
 
 \noindent En la figura \ref{fig:diag-en-bloques-digital} se muestra un diagrama en bloques general de la implementación digital del sistema. Es posible observar que se ingresa al microcontrolador a través de un ADC, con una tensión de referencia ($V_{ref}$) proporcional a la distancia de separación deseada. Esa posición de referencia es comparada con la posición estimada $Y(z)$ y el resultado $e(z)$ es afectado por el compensador digital $C(z)$. Por medio de un DAC, la salida del compensador ingresa al controlador de corriente $G_{iL}(s)$, el cual actúa sobre la planta $G_P(s)$, y modifica la distancia de separación.
 

@@ -351,7 +351,7 @@ R_T = \frac{R_{ESR}}{n}
 	\label{fig:img_corriente-auxiliar}
 \end{figure}
 
-\section{Justificación de la utilización de la topología de puente H}
+\section{Criterio de utilización de la topología de puente H}
 \label{secc_justificación-puente-H}
 
 \noindent Es necesario que el controlador presente una corriente media unidireccional, ya que una corriente media negativa es indistinguible de la positiva puesto que tiene el mismo efecto en la fuerza del electroimán, pero el signo del controlador hace inestable el lazo de control. Sin embargo, puede darse el caso que la corriente en el electroimán sea negativa de manera instantánea con valor medio positivo. En ese caso, es necesario que se conserve la forma de onda triangular ya que de lo contrario traería problemas en la estimación de la posición(como se explica en el capítulo \ref{cap:Estimador Analogico}). Por lo tanto, para evitar que la misma sea recortada, es necesario que el controlador permita excursiones negativas sin perder la forma de onda. Esta situación puede darse en los siguientes casos:

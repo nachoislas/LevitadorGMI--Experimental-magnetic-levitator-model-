@@ -9,9 +9,7 @@
 
 %Para estimar la distancia de separación se aprovecha la forma de onda triangular de la corriente del electroimán. A partir de esta señal se puede calcular la pendiente de crecimiento y de decrecimiento de la misma. Ambas son dependientes de la inductancia del electroimán y, por ende, de la distancia de separación. Es importante tener en cuenta que la etapa de controlador de corriente posee una topología que mantiene el sistema conmutando continuamente (incluso para corriente nula) para tener siempre una estimación disponible y que el sistema de control no quede a lazo abierto.%
 
-Dado que existe una relación entre la inductancia del electroimán y la distancia de separación , es posible estimar esta ultima a partir de la forma de onda triangular de la corriente del electroimán. 
-
-Como se vio en el capitulo anterior, el circuito donde esta corriente circula resulta ser del tipo RL dominante (ver sección \ref{esccion_AB_Controlador}) y debido a que se esta conmutando a una frecuencia mayor que el polo dominante del circuito se puede extraer información del valor de la inductancia conociendo el valor de las pendientes de crecimiento y de decrecimiento de la forma de onda de la corriente.
+Dado que existe una relación entre la inductancia del electroimán y la distancia de separación, es posible estimar esta última a partir de la forma de onda triangular de su corriente. Como se vio en el capítulo \ref{cap:ControladorCorriente}, el circuito equivalente del electroimán es del tipo RL serie. Por lo tanto, al conmutar la polaridad del inductor a una frecuencia mayor que su ancho de banda, se logra que la corriente crezca y decrezca de manera aproximadamente lineal (sin llegar a verse la forma exponencial). Por lo tanto se puede extraer información del valor de la inductancia conociendo el valor de dichas pendientes
 
 %\colorbox{yellow}{No se si queda muy claro el párrafo de arriba, por ahí podría ser algo asi..}\\
 %Para estimar la distancia de separación se aprovecha que la pendiente de crecimiento y de decrecimiento de la corriente que circula por el electroimán depende de la distancia de separación.

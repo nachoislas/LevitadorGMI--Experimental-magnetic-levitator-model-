@@ -475,70 +475,11 @@ Luego, el bloque rectificador y restador se encarga de calcular el valor absolut
 Finalmente se obtiene que:
 
 \begin{equation}
- V_{estim}=\frac{0.025*194690}{0.05333} * \frac{Yg}{1 + \frac{s}{1\:krad/seg}}=259.6*\frac{Yg}{1 + \frac{s}{1\:krad/seg}}	
+ V_{estim}=\frac{0.025*194690}{0.05333} * \frac{Y_{g}}{1 + \frac{s}{1\:krad/seg}}=259.6*\frac{Y_{g}}{1 + \frac{s}{1\:krad/seg}}	
 \end{equation}
 
 \noindent Al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\: \:{kHz}\ \simeq 60\: \:{Krad/s}/s$ se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_7}
-	H_{estim}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\: krad/s})*{(1+\frac{s}{60\: krad/s})}^2}
-\end{equation}
-
-\colorbox{red}{Lo de abajo no va chequear y borrar}
-
-
-
-\noindent Para la transferencia de lazo cerrado del derivador se obtiene:
-
-\begin{equation} \label{eq_TLC_deriv_1}
-	{Tlc}_{derivador}=\frac{V_{deriv}}{ViL}=\frac{-0.025*s}{1+(\frac{2*0.473}{94,5\ krad/s})*s+(\frac{s}{94,5\ krad/s})^2}
-\end{equation}
-
-\noindent De esta forma, se obtiene un sistema con un cero en el origen y dos polos complejos conjugados con $W_n=2\pi *15000 \:Hz$ y  $\xi =0.473$.
-
-\noindent Por otro lado, al considerar el polo aportado por la etapa de restado y filtrado situado en $1 \:{krad/s}$ y la inversi\'{o}n de signo que genera el rectificador\colorbox{yellow}{Modulo es lo mismo que inversion de signo?}, se obtiene:
-
-\begin{equation} \label{eq_TLC_deriv_2}
-	\resizebox{.8\hsize}{!}
-	{
-	$
-	{Tlc}_{estimador}=\frac{V_{estim}}{Vil}=\frac{0.025*s}{(1+\frac{s}{1 \:{krad/s}})*[1+(\frac{2*0.473}{94,5 \:{krad/s}})*s+(\frac{s}{94,5 \:{krad/s}})^2]}
-	$
-	}
-\end{equation}
-
-\noindent Para poder obtener la transferencia del diagrama en bloques: $V_{estim}/Y$, se calcula:
-
-\begin{equation} \label{eq_TLC_deriv_3}
-	\resizebox{.8\hsize}{!}
-	{
-	$
-	H_{estim}=\frac{V_{estim}}{s*Vil}=\frac{V_{estim}}{kh*s*I_L}=\frac{0.025}{(1+\frac{s}{1\: krad/s})*[1+(\frac{2*0.473}{94,5\: krad/s})*s+(\frac{s}{94,5\: krad/s})^2]}
-	$
-	}
-\end{equation}
-
-\noindent Como $s*I_L\equiv \frac{dI}{dt}$, se puede utilizar la expresi\'{o}n linealizada \ref{eq_di-dt_lineal}. De esta forma,  $s*I_L\equiv 194690*Y$ (sin considerar la componente de continua)
-
-\noindent Al reemplazar se obtiene:
-
-\begin{equation} \label{eq_TLC_deriv_5}
-	H_{estim}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\ krad/s})*[1+(\frac{2*0.473}{94,5\: krad/s})*s+(\frac{s}{94,5\: krad/s})^2]}
-\end{equation}
-
-\noindent Al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\: \:{kHz}\ \simeq 60\: \:{Krad/s}/s$ se obtiene:
-
-\begin{equation} \label{eq_TLC_deriv_6}
-	\resizebox{.8\hsize}{!}
-	{
-		$
-	H_{estim}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\: krad/s})*{[(1+\frac{s}{60\: krad/s})]}^2*[1+(\frac{2*0.473}{94,5\: krad/s})*s+(\frac{s}{94,5\: krad/s})^2]}
-	$
-	}
-\end{equation}
-
-\noindent Finalmente, al despreciar los polos en alta frecuencia, la transferencia queda:
-
-\begin{equation} \label{eq_TLC_deriv_7}
-	H_{estim}=\frac{V_{estim}}{Y[m]}=\frac{259.6}{(1+\frac{s}{1\: krad/s})*{(1+\frac{s}{60\: krad/s})}^2}
+	H_{estim}=\frac{V_{estim}}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\: krad/s})*{(1+\frac{s}{60\: krad/s})}^2}
 \end{equation}

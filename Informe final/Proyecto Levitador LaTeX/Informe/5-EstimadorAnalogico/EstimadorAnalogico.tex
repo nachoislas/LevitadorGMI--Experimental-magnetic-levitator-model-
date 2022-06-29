@@ -470,15 +470,15 @@ El funcionamiento del circuito estimador no es lineal.  Por lo tanto, para poder
 
 Esto significa que además de realizar la derivada, introduce una inversión de signo. De esta forma, una pendiente positiva a la entrada resulta en valores menores a $2.5\:V$ a la salida, mientras que una pendiente negativa produce una tensión mayor a $2.5\:V$.
 
-Luego, el bloque rectificador y restador se encarga de calcular el valor absoluto de esta señal (en torno a los $2.5\:V$). Al considerar que la pendiente aumenta a medida que lo hace la distancia de separación, se puede concluir que el bloque estimador no produce inversión de signo. Por lo tanto, se debe considerar solamente la ganancia del derivador y el polo que introduce la etapa de restador. Finalmente, para poder obtener una estimación de la posición, se utiliza la expresión linealizada \ref{eq_di-dt_lineal} que relaciona $dI_{L}/dt = 194690 * Y_{g}$. Y considerando que $dI_{L}/dt = \frac{dVi_{L}/dt}{0.05333}$.
+Luego, el bloque rectificador y restador se encarga de calcular el valor absoluto de esta señal (en torno a los $2.5\:V$). Al considerar que la pendiente aumenta a medida que lo hace la distancia de separación, se puede concluir que el bloque estimador no produce inversión de signo. Por lo tanto, se debe considerar solamente la ganancia del derivador y el polo que introduce la etapa de restador. Finalmente, para poder obtener una estimación de la posición, se utiliza la expresión linealizada \ref{eq_di-dt_lineal} que relaciona $\frac{dI_{L}}{dt} = 194690 * Y_{g}$. Considerando que $\frac{dI_{L}}{dt} =\frac{dvi_{L}}{dt}*\frac{1}{0.0533}$, se obtiene que $\frac{dvi_{L}}{dt} = 0.0533*194690*Y_{g}$. 
 
 Finalmente se obtiene que:
 
 \begin{equation}
- V_{estim}=\frac{0.025*194690}{0.05333} * \frac{Y_{g}}{1 + \frac{s}{1\:krad/seg}}=259.6*\frac{Y_{g}}{1 + \frac{s}{1\:krad/seg}}	
+ V_{estim}=0.025*194690*0.0533 * \frac{Y_{g}}{1 + \frac{s}{1\:krad/seg}}=259.6*\frac{Y_{g}}{1 + \frac{s}{1\:krad/seg}}	
 \end{equation}
 
-\noindent Al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\: \:{kHz}\ \simeq 60\: \:{Krad/s}/s$ se obtiene:
+\noindent Al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\: \:{kHz}\ \simeq 60\: \:{krad/s}$ se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_7}
 	H_{estim}=\frac{V_{estim}}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\: krad/s})*{(1+\frac{s}{60\: krad/s})}^2}

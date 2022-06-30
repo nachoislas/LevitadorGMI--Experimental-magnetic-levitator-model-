@@ -37,7 +37,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \section{Determinación de la frecuencia de muestreo}
 
-\noindent Se desea realizar una estimación de la posición del electroimán $Y(z)$  a partir de las muestras tomadas por el ADC de la tensión de salida del sensor de efecto HALL.
+\noindent Se desea realizar una estimación de la posición del electroimán $Y(z)$  a partir de las muestras tomadas por el ADC de la tensión de salida del sensor de efecto Hall.
 
 \noindent La forma de onda de la salida del sensor es triangular y presenta una frecuencia variable en función de la distancia de separación. Se puede calcular como:
 
@@ -90,7 +90,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \end{figure}
 
 
-\noindent Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada del sensor de efecto hall, se almacena en un buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
+\noindent Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada del sensor de efecto Hall, se almacena en un buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
 
 \noindent Cada vez que el buffer se complete, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
 

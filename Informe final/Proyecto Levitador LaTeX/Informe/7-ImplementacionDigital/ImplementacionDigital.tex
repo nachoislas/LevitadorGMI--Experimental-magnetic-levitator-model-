@@ -97,6 +97,9 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \noindent En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobreescribiendo los valores de mayor vejez. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados sin importar su vejez y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en “N” períodos luego de la última actualización, siendo “N” la cantidad de muestras que se almacenaron en el buffer incompleto.
 
 \noindent Luego de cada actualización, el proceso vuelve a iniciar con el buffer vacío.
+\colorbox{yellow}{Creo que lo de arriba debería ser asi: es asi:}
+Luego de detectar un cambio de pendiente, el
+proceso vuelve a iniciar con el buffer vacío.
 
 \noindent Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de posición con frecuencia de actualización variable. Esto es importante al momento de diseñar un compensador digital para el sistema. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor, por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $25/7 \:kHz = 3.5\:kHz$.
 
@@ -131,6 +134,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \end{equation}
 
 \noindent Para la estimación de la posición se utiliza el término de alterna mientras que para compensar el error introducido por la resistencia interna del electroimán se utiliza el de continua. Por lo tanto, se obtiene:
+\colorbox{yellow}{Tratar de que entre bien la ecuación...}
 
 \begin{equation}
 	Y_g[n] = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{K_h*T_S} + \frac{R_L*\bar{V_h}[n]}{K_h*L(Y_g)[n-1]}|-3.472*10^{-3}[m]

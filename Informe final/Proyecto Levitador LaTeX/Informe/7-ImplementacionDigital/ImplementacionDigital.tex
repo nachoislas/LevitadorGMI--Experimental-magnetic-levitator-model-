@@ -94,11 +94,9 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \noindent Cada vez que el buffer se complete, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
 
-\noindent En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobreescribiendo los valores de mayor vejez. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados \colorbox{red}{sin importar su vejez} y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido \colorbox{green}{entre actualizaciones}. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en “N” períodos luego de la última actualización, siendo “N” la cantidad de muestras que se almacenaron en el buffer incompleto.
+\noindent En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores de mayor vejez. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados, es decir el valor mas viejo y el mas nuevo disponibles en el buffer \colorbox{red}{sin importar su vejez}, y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido \colorbox{green}{entre actualizaciones}. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en “N” períodos luego de la última actualización, siendo “N” la cantidad de muestras que se almacenaron en el buffer incompleto.
 
-\noindent Luego de cada actualización, el proceso vuelve a iniciar con el buffer vacío.
-\colorbox{yellow}{Creo que lo de arriba debería ser así:}
-Luego de detectar un cambio de pendiente, el
+\noindent Luego de detectar un cambio de pendiente, el
 proceso vuelve a iniciar con el buffer vacío.
 
 \noindent Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de posición con frecuencia de actualización variable. Esto es importante al momento de diseñar un compensador digital para el sistema. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor, por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $25/7 \:kHz = 3.5\:kHz$.
@@ -114,7 +112,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \noindent Es importante notar que la resistencia interna del electroimán ($R_L$) genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que para el de bajada. De esta forma, la onda triangular presenta diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC.
 
 \noindent Es decir:
-\colorbox{yellow}{Esta expresión está bien?}
+\colorbox{yellow}{Esta expresión está bien? Para mi si XD}
 
 \begin{equation} 
 	(\frac{di_L}{dt})_{Real}=(\frac{di_L}{dt})_{Teorica}-\frac{R_L*I_L}{L(Y_g)}
@@ -135,16 +133,18 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \end{equation}
 
 \noindent Para la estimación de la posición se utiliza el término de alterna mientras que para compensar el error introducido por la resistencia interna del electroimán se utiliza el de continua. Por lo tanto, se obtiene:
-\colorbox{yellow}{Tratar de que entre bien la ecuación...}
 
 \begin{equation}
-	Y_g[n] = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{K_h*T_S} + \frac{R_L*\bar{V_h}[n]}{K_h*L(Y_g)[n-1]}|-3.472*10^{-3}[m]
+	\resizebox{.8\hsize}{!}
+	{
+	$Y_g[n] = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-1]}{K_h*T_S} + \frac{R_L*\bar{V_h}[n]}{K_h*L(Y_g)[n-1]}|-3.472*10^{-3}[m]$
+	}
 \end{equation}
 
 \noindent El término $\bar{V_h}[n]$ se obtiene de sensar el valor medio de tensión entregado por el sensor de efecto Hall mediante un canal del ADC.
 
 \noindent Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtiene a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
-\colorbox{yellow}{Yg no debeia ser Yg[n-2]?}
+
 
 \begin{equation} \label{eq_inductancia}
 	L(Y_g)[n-1] = -2.56*Y_g[n-1]+0.0271\:Hy
@@ -172,9 +172,12 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 \noindent El número de muestras está representado por ``n''. Es decir, $V_h[n]$ se refiere a la muestra más reciente en el buffer y $V_h[n-1]$ a la más vieja.
 
 \colorbox{yellow}{No me queda claro el parrafo de abajo, no me acuerdo bien que quisimos decir..}
-\colorbox{green}{los coeficientes serían los coeficientes del compensador digital, no?}
+\colorbox{green}{los coeficientes serían los coeficientes del compensador digital, no?} 
+\colorbox{violet}{yo borraria al carajo}a 
+\colorbox{violet}{creo que los coeficientes se refiere en realidad a la salida de cada etapa}
+b
 \colorbox{yellow}{esos coeficientes serían los de la ecuación 6.32 y 6.33?}
-\noindent Es importante notar que los coeficientes deben calcularse antes de actualizar el compensador en función de la cantidad de períodos de muestreo transcurridos desde la última actualización. Estos deben calcularse en ese momento puesto que el compensador digital presenta una frecuencia de actualización variable y los coeficientes del estimador dependen de ella.
+\noindent Es importante notar que los coeficientes del estimador deben calcularse antes de actualizar el compensador en función de la cantidad de períodos de muestreo transcurridos desde la última actualización. Estos deben calcularse en ese momento puesto que el compensador digital presenta una frecuencia de actualización variable y los coeficientes del estimador dependen de ella.
 
 \noindent Por otro lado, el bloque K mostrado en la figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
 

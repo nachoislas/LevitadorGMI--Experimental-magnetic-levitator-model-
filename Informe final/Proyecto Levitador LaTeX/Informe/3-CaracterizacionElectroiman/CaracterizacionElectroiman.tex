@@ -1,14 +1,14 @@
 \chapter{Caracterización del  electroimán} \chapterlabel{Informe/3-CaracterizacionElectroiman} \label{cap:CaracterizacionElectroiman}
 
-\noindent  En este capítulo se detallan las características de diseño que posee el electroimán. Además, se realiza un modelado físico del sistema para encontrar una expresión que relaciona la fuerza magnética ejercida en función de la variable de control y de la variable que se desea controlar. Luego, a partir de esto, se obtienen otros parámetros relevantes para el diseño del sistema de control.
+\noindent  En este capítulo se detallan las características constructivas que posee el electroimán. Además, se realiza un modelado físico del sistema para encontrar una expresión que relaciona la fuerza magnética ejercida en función de la variable de control y de la variable que se desea controlar. Luego, a partir de esto, se obtienen otros parámetros relevantes para el diseño del sistema de control.
 
 
 
-\section{Diseño del electroimán} \label{section_disenio_electroimán}
+\section{Características constructivas del electroimán} \label{section_disenio_electroimán}
 
 
 
-\noindent Para el desarrollo del proyecto se utiliza un electroimán previamente construido por la cátedra que funciona como actuador del sistema. El electroimán está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor, cuyas dimensiones, expresadas en $mm$, se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la “E” tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
+\noindent Para el desarrollo del proyecto se utiliza un electroimán previamente construido por la cátedra que funciona como actuador del sistema. Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor cuyas dimensiones (expresadas en $mm$) se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la “E” tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
 
 \begin{figure}[H]
 	\centering
@@ -29,7 +29,7 @@
 
 \noindent Se utiliza un apilado de láminas cuyo exterior está recubierto por una pintura esmaltada para aislarlas entre sí con el fin de minimizar las pérdidas de energía causadas por las corrientes eléctricas que se generan en el núcleo debidas al flujo magnético. 
 
-\noindent Está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas ``E'' e ``I'' puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
+\noindent El electroimám está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas ``E'' e ``I'' puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
 
 
 %\noindent Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. En su núcleo tiene un bobinado de 150 vueltas (N) de cobre esmaltado con un diámetro de $2.5$ mm. El núcleo es de sección cuadrada ya que esto maximiza el área mientras que disminuye el perímetro, reduciendo así la longitud media de las espiras y ahorrando material. 
@@ -40,7 +40,7 @@
  
 %\noindent Se puede modelar el sistema como un objeto de masa puntual que es sometido a dos fuerzas opuestas en el eje vertical de la figura \ref{fig:img_modelado-fisico}: la de su propio peso hacia abajo, y una fuerza realizada por el electroimán en sentido contrario. \colorbox{red}{MARCAR Yo EN LA IMAGEN}
 
-\noindent La fuerza correspondiente al peso del objeto es $P=M*g$, donde $M$ es la masa en kg y $g$ es la aceleración de la gravedad en $m/s^2$. Para que levite en estado de equilibrio, el electroimán debe generar una fuerza magnética ($F_{m}$) de igual módulo pero sentido contrario.
+\noindent La fuerza correspondiente al peso del objeto es $P=M*g$, donde $M$ es la masa en kg y $g$ es la aceleración de la gravedad en $m/s^2$. Para que se mantenga levitando en estado de equilibrio, el electroimán debe generar una fuerza magnética ($F_{m}$) de igual módulo pero sentido contrario.
 
 \noindent La fuerza de atracción entre las dos piezas se logra al hacer circular un flujo magnético entre ellas. Este es generado por la corriente en el bobinado del electroimán.
 
@@ -69,7 +69,7 @@
 \end{itemize}
 
 
-\noindent Por otro lado, la inductancia del bobinado ($L$) está dada por la ecuación \ref{eq_inductancia_flujo}
+\noindent Por otro lado, la inductancia del bobinado ($L$) está dada por la ecuación \ref{eq_inductancia_flujo}.
 
 \begin{equation} \label{eq_inductancia_flujo}
 	L*i=N*\phi
@@ -77,17 +77,17 @@
 
 \subsection{Modelado de inductancia del electroimán}
 
-\noindent Las dos piezas del electroimán, junto con el gap de aire que las separa, conforman un circuito magnético. Debido a la alta permeabilidad del material ($\mu_{r}$) por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas. Para el análisis físico se puede considerar que el área que atraviesa el flujo magnético no se ensancha debido al efecto fringing, ya que la longitud de separación es pequeña.
+\noindent Las dos piezas del electroimán, junto con el \textsl{gap} de aire que las separa, conforman un circuito magnético. Debido a la alta permeabilidad del material ($\mu_{r}$) por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas. Para el análisis físico se puede considerar que el área que atraviesa el flujo magnético no se ensancha debido al efecto fringing, ya que la longitud de separación es pequeña.
 
 \noindent Debido a la simetría del electroimán, el flujo magnético total generado en su rama central se divide en dos para circular por cada rama lateral.
 
-\noindent Para encontrar una expresión para la inductancia del electroimán, se puede partir de la Ley de Ampere mostrada en la ecuación \ref{eq_ampere}. Esta relaciona la magnitud de la fuerza magnetomotríz con la integral de camino de la intensidad de campo magnético ($H$).
+\noindent Para encontrar una expresión de la inductancia del electroimán, se parte de la Ley de Ampere mostrada en la ecuación \ref{eq_ampere}. Esta relaciona la magnitud de la fuerza magnetomotríz con la integral de camino de la intensidad de campo magnético ($H$).
 
 \begin{equation} \label{eq_ampere}
 	F_{mm}=\oint{H*dl}=N*i
 \end{equation}
 
-\noindent La intensidad de campo magnético depende del medio en el que se propague el flujo magnético. Por lo tanto, en el núcleo será distinta que en el gap de aire. Por ello es conveniente utilizar la densidad de flujo magnético (B), cuya relación es $H=\frac{B}{\mu}$. De esta forma, se puede separar la porción de integral dentro del material ferromagnético y en el gap de aire. Entonces la fuerza magnetomotriz queda:
+\noindent La intensidad de campo magnético depende del medio en el que se propague el flujo magnético. Por lo tanto, en el núcleo será distinta que en el \textsl{gap} de aire. Por ello es conveniente utilizar la densidad de flujo magnético (B), cuya relación es $H=\frac{B}{\mu}$. De esta forma, se puede separar la porción de integral dentro del material ferromagnético y en el \textsl{gap} de aire. Entonces la fuerza magnetomotriz queda:
 
 \begin{equation} 
 	F_{mm}=\oint{\frac{B}{\mu_{o}}*dl}+\oint{\frac{B}{\mu_{r}}*dl}=N*i
@@ -96,23 +96,25 @@
 \noindent Para cada camino que recorre el flujo magnético, la intensidad de campo magnético es constante, por lo tanto se resuelven las integrales:
 
 \begin{equation}\label{eq_fuerza-mm}
-	F_{mm}=\frac{B}{\mu_{r}}*l_{m}+\frac{B}{\mu_{o}*}*l_{A}=N*i
+	F_{mm}=\frac{B}{\mu_{r}}*l_{m}+\frac{B}{\mu_{o}}*l_{A}=N*i
 \end{equation}
 
 Donde:
 \begin{itemize}
 	\item $l_{m}$: longitud del circuito magnético dentro del electroimán.
-	\item $l_{A}$: longitud del circuito magnético en el gap de aire.
+	\item $l_{A}$: longitud del circuito magnético en el \textsl{gap} de aire.
 	\item $\mu_{o}$: permeabilidad magnética del vacio. Su valor es igual a $4 \pi * 10^{-7}\:Hy/m$.
 	\item $\mu_{r}$: permeabilidad magnética relativa del material del electroimán. Es aproximadamente igual a $4000 * \mu_{o}$.
 
 \end{itemize}
 
-\noindent Debido a la definición de campo magnético, se tiene:
+\noindent Debido a la definición de  densidad de flujo magnético, se tiene:
 
 \begin{equation}\label{eq_definicion-camp-magn}
 	B=\frac{\phi}{A}
 \end{equation}
+
+En la expresión \ref{eq_definicion-camp-magn} $A$ representa el área transversal que atraviesa el flujo magnético.
 
 Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_fuerza-mm} y \ref{eq_definicion-camp-magn}, se obtiene:
 
@@ -120,7 +122,7 @@ Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_fuerza-mm} y \
 		R_{m}*\phi=\frac{\phi}{\mu_{r}*A}*l_{m}+\frac{\phi}{\mu_{o}*A}*l_{A}
 \end{equation}
 
-\noindent Finalmente:
+Por lo tanto, la reluctancia del circuito magnético resulta:
 
 \begin{equation} \label{eq_reluctancia}
 	R_{m}=\frac{\frac{l_{m}}{\mu_{r}}+\frac{l_{A}}{\mu_{o}}}{A}
@@ -132,13 +134,13 @@ Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_fuerza-mm} y \
 	L=\frac{N}{i}*\phi=\frac{N}{i}*\frac{N*i}{R_{m}}=\frac{N^{2}*A}{\frac{l_{A}}{\mu_{o}}+\frac{l_{m}}{\mu_{r}}}
 \end{equation}
 
-\noindent Si se considera que $\mu_{r}$ es mucho mayor que $\mu_{o}$, se puede simplificar a:
+\noindent Debido a que $\mu_{r}$ es mucho mayor que $\mu_{o}$, se puede simplificar a:
 
 \begin{equation} \label{eq_inductancia_gap}
 	L\approx\frac{N^{2}*A*\mu_{o}}{l_{A}}
 \end{equation}
 
-\noindent \noindent Debido a que $l_{A}$ es el gap de aire, se debe reemplazar por la distancia de separación entre las dos piezas magnéticas, que está representada por la variable $Y_{g}$. En el caso del electroimán utilizado, las líneas de fuerza atraviesan dos veces $Y_{g}$, por lo tanto $l_{A}=2*Y_{g}$.
+\noindent \noindent Puesto que $l_{A}$ es el \textsl{gap} de aire, se debe reemplazar por la distancia de separación entre las dos piezas magnéticas, que está representada por la variable $Y_{g}$. En el caso del electroimán utilizado, las líneas de fuerza atraviesan dos veces $Y_{g}$, por lo tanto $l_{A}=2*Y_{g}$.
 
 
 \begin{equation}\label{eq_inductancia_vs_y}
@@ -147,7 +149,7 @@ Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_fuerza-mm} y \
 
 \subsection{Cálculo de la fuerza magnética}
 
-\noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de ``I'' se puede modelar a partir de la energía almacenada en un inductor. Al considerar que el trabajo ejercido por la fuerza magnética al mover el objeto desde una posición inicial $Y_{1}$ a otra posición $Y_{2}$, es igual a la variación de la energía almacenada en el inductor con respecto a la variable $Y_g$, se obtiene:
+\noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de ``I'' se puede modelar a partir de considerar que el trabajo ejercido por esta fuerza, al mover el objeto desde una posición inicial a otra, es igual a la variación de la energía almacenada en el inductor con respecto a la variable $Y_g$. Por lo tanto, se obtiene:
 
 \begin{equation}\label{eq_energia}
 	\triangle E(i,Y_g)=W=\int{F_{m}*dY_g}=>F_{m}=\frac{\partial{E(i,Y_g)}}{\partial{Y_g}}
@@ -156,10 +158,10 @@ Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_fuerza-mm} y \
 \noindent La energía que almacena un inductor en su campo magnético es:
 
 \begin{equation}\label{eq_energia_2}
-	E(i,Y_g)=\frac{L(i,Y_g)*i^{2}}{2}
+	E(i,Y_g)=\frac{L(Y_g)*i^{2}}{2}
 \end{equation}
 
-\noindent La expresión \ref{eq_energia_2} indica que la cantidad de energía que almacena el sistema depende del gap de aire ($Y_{g}$) y de la corriente que circula por el electroimán ($i$). 
+\noindent La expresión \ref{eq_energia_2} indica que la cantidad de energía que almacena el sistema depende del \textsl{gap} de aire ($Y_{g}$) y de la corriente que circula por el electroimán ($i$). 
 
 \noindent Al combinar las ecuaciones \ref{eq_inductancia_vs_y}, \ref{eq_energia} y \ref{eq_energia_2} se obtiene:
 
@@ -167,7 +169,7 @@ Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_fuerza-mm} y \
 	\abs{F_{m}}=\frac{\partial{E(i,Y_g)}}{\partial{Y_g}}=\frac{i^{2}}{2}*\frac{\partial{\frac{{N^{2}*A*\mu_{o}}}{2*Y_{g}}}}{\partial{Y_g}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation}
 
-\noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (i), e inversamente proporcional al cuadrado de la variable que se desea controlar ($Y_{g}$). Por lo tanto, el problema adquiere un comportamiento no lineal.
+\noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (i), e inversamente proporcional al cuadrado de la variable que se desea controlar ($Y_{g}$). Por lo tanto, se puede observar que el comportamiento del sistema es no lineal.
 
 
 \subsection{Cálculo de la corriente nominal del sistema}
@@ -191,13 +193,13 @@ Al combinar las ecuaciones \ref{eq_fuerza-magnetomotriz}, \ref{eq_fuerza-mm} y \
 	i_{nom}=\sqrt{\frac{4*M*g*Y_{g}^{2}}{N^{2}*\mu_{o}*A}}
 \end{equation}
 
-Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30\:kg$ e $Y_{g}=y_{max}=5\:mm$, se obtiene:
+Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e $Y_{g}=5\:mm$, se obtiene:
 
 \begin{equation}
 	i_{nom}=20.4\:A
 \end{equation}
 
-\noindent Si bien esta corriente es suficiente para mantener el objeto en estado de equilibrio, se necesita una corriente mayor para poder responder ante perturbaciones en la distancia de separación. Por lo tanto, se define la corriente máxima $i_{max}=30\:A$.
+\noindent Si bien esta corriente es suficiente para mantener el objeto en estado de equilibrio, se necesita una corriente mayor para poder responder ante perturbaciones en la distancia de separación. Por lo tanto, se define como corriente máxima: $i_{max}=30\:A$.
 
 
 %\section{Expresión de inductancia linealizada}
@@ -232,15 +234,15 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	\item Se tomó nota de los valores de tensión y corriente que entregaba la fuente.
 \end{itemize}
 
-\noindent Al tener una resistencia serie baja, la fuente de tensión activó la protección de corto circuito, de tal manera que la corriente en el electroimán quedó constante en $1\:A$. Al utilizar la medición de tensión entregada por la fuente, cuyo resultado fue de $0,17 V$, se pudo calcular la resistencia del electroimán mediante la Ley de Ohm:
+\noindent Al tener una resistencia serie baja, la fuente de tensión activó la protección de corto circuito de forma tal que la corriente en el electroimán quedó constante en $1\:A$. Al utilizar la medición de tensión entregada por la fuente, cuyo resultado fue de $0.19\:V$, se pudo calcular la resistencia del electroimán mediante la Ley de Ohm:
 
 \begin{equation}
-	R_{L}=\frac{V}{I}=\frac{0.17\:V}{1\:A}	\approx0.2\:\Omega
+	R_{L}=\frac{V}{I}=\frac{0.19\:V}{1\:A}	\approx0.2\:\Omega
 \end{equation}
 
 \subsection{Medición de inductancia}
 
-\noindent Se realizó una caracterización de la inductancia en función del gap de aire. Para realizarlo se utilizó un medidor LCR y laminas de cartón de espesor conocido. La medición consta en apilar dichas laminas entre ambas piezas del electroimán, donde la suma total de los espesores de las laminas es $Y[mm]$ y luego tomar el valor de inductancia entregado por el medidor $(L(Y_{g})[mH])$. De esta forma, se obtuvieron los siguientes resultados:
+\noindent Se realizó una caracterización de la inductancia en función del \textsl{gap} de aire. Para realizarlo se utilizó un medidor LCR y láminas de cartón de espesor conocido. La medición consistió en apilar dichas láminas entre ambas piezas del electroimán, donde la suma total de los espesores de las láminas es $Y[mm]$ y luego tomar el valor de inductancia entregado por el medidor $(L(Y_{g})[mH])$. De esta forma, se obtuvieron los siguientes resultados:
 
 \begin{table} [H]
 	\begin{center}
@@ -249,22 +251,22 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 			$Y[mm]$ & 0 & 1 & 2 & 3 & 4.4 & 5.2 & 6.5 & 8.23 & $\infty$ \\ \hline
 			$L(Y_{g})[mH]$ & 76.45 & 33.42 & 22.64 & 18.8 & 15.5 & 14.7 & 14.4 & 12.4 & 8.89\\ \hline
 		\end{tabular}
-		\caption{Valores de inductancia medidos en función del gap de aire.}
+		\caption{Valores de inductancia medidos en función del \textsl{gap} de aire.}
 		\label{tab_mediciones_inductancia}
 	\end{center}
 \end{table}
 
-\noindent Para el caso en que no se utiliza la pieza ``I'', se considera que la distancia es infinita, y lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
+\noindent Para el caso en que no se utiliza la pieza ``I'', se considera que la distancia es infinita. De esta forma, lo que se mide es la inductancia de dispersión, que son las líneas de campo que se cierran a través del bobinado y no contribuyen a la fuerza magnética para hacer levitar el objeto.
 
 
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.65]{inductancia.png}
-	\caption{Inductancia medida en función del gap de aire.}
+	\caption{Inductancia medida en función del \textsl{gap} de aire.}
 	\label{fig:img_inductancia_medida}
 \end{figure}
-\noindent A partir de los resultados mostrados en la tabla \ref{tab_mediciones_inductancia} y en la imagen \ref{fig:img_inductancia_medida} es posible notar que la inductancia no varía linealmente con la distancia. Por lo tanto se realiza una aproximación lineal por mínimos cuadrados para valores de distancia cercanos al rango de trabajo y se llega a la expresión de inductancia linealizada:
+\noindent A partir de los resultados mostrados en la tabla \ref{tab_mediciones_inductancia} y en la imagen \ref{fig:img_inductancia_medida} es posible notar que la inductancia no varía linealmente con la distancia. Por lo tanto se realiza una aproximación lineal por mínimos cuadrados para valores de distancia cercanos al rango de trabajo y se llega a la expresión de inductancia linealizada 	\ref{eq_induct_practica}.
 
 \begin{equation}
 	\label{eq_induct_practica}
@@ -273,7 +275,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 
 \noindent Donde:
 \begin{itemize}
-	\item $Y_{g}$: distancia del gap de aire en metros [m].
+	\item $Y_{g}$: distancia del \textsl{gap} de aire en metros [m].
 	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
 
@@ -286,13 +288,13 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 \noindent Al observar las fuerzas que intervienen en el eje vertical sobre la pieza en forma de ``I'', como muestra la imagen \ref{fig:img_Esquema-del-producto}, es posible plantear la sumatoria de fuerzas:
 
 \begin{equation}\label{eq_sumatoria_fuerzas_y}
-	\sum F=M*a=>M*g-F_{m}=M*\ddot{y}
+	\sum F=M*a=>M*g-F_{m}=M*\ddot{Y_g}
 \end{equation}
 
 \noindent Al reemplazar la ecuación \ref{eq_fuerza_magnetica} en la \ref{eq_sumatoria_fuerzas_y} se obtiene:
 
 \begin{equation}\label{eq_sumatoria_fuerzas_y_2}
-	M*\ddot{y}=M*g-K*\frac{i(t)^{2}}{y(t)^{2}}
+	M*\ddot{Y_g}=M*g-K*\frac{i(t)^{2}}{Y_g(t)^{2}}
 \end{equation}
 
 \noindent En la expresión \ref{eq_sumatoria_fuerzas_y_2}, K es una constante de valor:
@@ -301,69 +303,63 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	K=\frac{N^{2}*\mu_{o}*A}{4}=1.77*10^{-5} [\frac{N*m^2}{A^2}]
 \end{equation}
 
-\noindent Al considerar que $i(t)$ es la entrada a la planta, se puede plantear un modelo con las siguientes variables de estado:\newline
+\noindent Al considerar que $i(t)$ es la entrada a la planta, se puede plantear un modelo con las siguientes variables de estado:
 
-\begin{equation}
-	x_{1}=y(t)
-\end{equation}
-\begin{equation}
-	x_{2}=\dot{x_{1}}
-\end{equation}
-\begin{equation}
-	u=i(t)
-\end{equation}
+
+\begin{equation*} 
+	\begin{aligned}
+	&x_{1}=Y_g(t)\\
+	&x_{2}=\dot{x_{1}}\\
+	&u=i(t)\\
+	\end{aligned}
+\end{equation*}
 
 \noindent Por lo tanto se obtienen dos ecuaciones de estado:
 
-\begin{equation}
-	\dot{x_{1}}=x_{2}
-\end{equation}
-\begin{equation}
-	\dot{x_{2}}=g-\frac{K}{M}*\frac{u^{2}}{x_{1}^{2}}
-\end{equation}
+\begin{equation*} 
+	\begin{aligned}
+		&\dot{x_{1}}=x_{2}\\
+		&\dot{x_{2}}=g-\frac{K}{M}*\frac{u^{2}}{x_{1}^{2}}\\
+	\end{aligned}
+\end{equation*}
 
-\noindent El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=\:4mm$. El resto de los puntos de equilibrio se encuentran al igualar las derivadas a cero:
-\begin{equation}
-	x_{1o}=4\:mm
-\end{equation}
-\begin{equation}
-	x_{2o}=0
-\end{equation}
-\begin{equation}
-	u_{o}=\sqrt{\frac{M*g}{K}}*x_{1o}
-\end{equation}
+
+\noindent El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=4\:mm$. El resto de los puntos de equilibrio se encuentran al igualar las derivadas a cero:
+
+\begin{equation*} 
+	\begin{aligned}
+		&x_{1o}=4\:mm\\
+		&x_{2o}=0\\
+		&u_{o}=\sqrt{\frac{M*g}{K}}*x_{1o}\\
+	\end{aligned}
+\end{equation*}
 
 \noindent Por lo tanto las ecuaciones linealizadas quedan:
 
-\begin{equation}
-	\dot{x_{1}}=x_{2}
-\end{equation}
-
-\begin{equation}
-	\dot{x_{2}}=2*\frac{K*u_{o}^{2}}{M*x_{1o}^{3}}*x_{1}-2*\frac{K*u_{o}}{M*x_{1o}^{2}}*u
-\end{equation}
+\begin{equation*} 
+	\begin{aligned}
+		&\dot{x_{1}}=x_{2}\\
+		&\dot{x_{2}}=2*\frac{K*u_{o}^{2}}{M*x_{1o}^{3}}*x_{1}-2*\frac{K*u_{o}}{M*x_{1o}^{2}}*u
+	\end{aligned}
+\end{equation*}
 
 \noindent Las matrices del modelo quedan:
 
-\begin{equation}
-	A=\begin{bmatrix}
+\begin{equation*}
+	\begin{aligned}
+	&A=\begin{bmatrix}
 		0 & 1\\
 		\frac{2*g}{y_{o}} & 0
-	\end{bmatrix}
-\end{equation}
-
-\begin{equation}
-	B=\begin{bmatrix}
-		0\\
-		-\frac{2}{y_{o}}*\sqrt{\frac{K*g}{M}}
-	\end{bmatrix}
-\end{equation}
-
-\begin{equation}
-	C=\begin{bmatrix}
-		1 & 0\\
-	\end{bmatrix}
-\end{equation}
+	\end{bmatrix}\\
+	&B=\begin{bmatrix}
+	0\\
+	-\frac{2}{y_{o}}*\sqrt{\frac{K*g}{M}}
+	\end{bmatrix}\\
+	&C=\begin{bmatrix}
+	1 & 0\\
+	\end{bmatrix}\\
+	\end{aligned}
+\end{equation*}
 
 \noindent Es posible obtener la función transferencia de la planta mediante:
 
@@ -371,19 +367,13 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=M_{max}=30
 	G_{P}=C*(s*I-A)^{-1}*B
 \end{equation}
 
-\noindent Finalmente, se obtiene para $M=30\:kg$ e $y_{o}=4\:mm$:
+\noindent \noindent Al trabajar con una planta cuya masa es variable es conveniente expresar la transferencia en función de $M$. Finalmente, se obtiene para $y_{o}=4\:mm$:
 
-\begin{equation} \label{eq_transferencia_planta_30kg}
-	G_{P}=-\frac{2}{y_{o}}*\frac{\sqrt{\frac{K*g}{M}}}{s^2-\frac{2*g}{y_{o}}}=\frac{-1.201}{s^{2}-4900}
+\begin{equation} \label{eq_transferencia_planta_m}
+	G_{P}(M)=-\sqrt{\frac{30}{M}}*\frac{1.201}{s^{2}-4900}
 \end{equation}
 
 \noindent La planta tiene dos autovalores en $\pm\sqrt{\frac{2*g}{y_{o}}}=\pm70\:[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho, lo que provoca que la planta sea de naturaleza inestable.
-
-\noindent Al trabajar con una planta cuya masa es variable es conveniente expresar la transferencia en función de $M$:
-
-\begin{equation} \label{eq_transferencia_planta_m}
-		G_{P}(M)=-\sqrt{\frac{30}{M}}*\frac{1.201}{s^{2}-4900}
-\end{equation}
 
 \noindent Es posible observar en la expresión \ref{eq_transferencia_planta_m} que la masa del objeto modifica la ganancia del sistema, pero no la ubicación de los polos. Esto es importante tenerlo en cuenta al momento de diseñar el compensador.
 

@@ -1,18 +1,18 @@
 \chapter{Controlador de corriente} \chapterlabel{Informe/4-ControladorCorriente} \label{cap:ControladorCorriente}
 
-En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Debido a los altos valores de corriente con los que trabaja el sistema, se implementan estrategias de conmutación con el fin de reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un bootstrap-driver que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
+En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Debido a que el sistema trabaja con corrientes elevadas se implementan estrategias de conmutación con el fin de reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un \textsl{bootstrap-driver} que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
 
 \section{Descripción general}
 
-\noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la impedancia de un inductor con una resistencia serie, cuya inductancia varía con el gap de aire:
+\noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la admitancia de un circuito RL serie, cuya inductancia varía con el \textsl{gap} de aire como se observa en la expresión \ref{eq_admitancia}.
 
 \begin{equation} \label{eq_admitancia}
 \frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
-\noindent Para realizar este control se utiliza un sistema realimentado, como el que se muestra en la figura \ref{fig:img_diag-en-bloques}. Se puede ver que se ingresa con una tensión de referencia ($V_{iLRef}$) proporcional a la corriente de salida deseada, que luego se multiplica por la ganancia de entrada ($K_{in}$). La corriente del electroimán se realimenta en forma de una tensión proporcional a ella ($V_{iLF}$). Ambas tensiones son restadas y el resultado ($V_e$) ingresa al bloque del comparador con histéresis, que actúa en conmutación, por lo que su salida tiene dos estados posibles: $\pm$$V_L$.
+\noindent Para realizar este control se utiliza un sistema realimentado, como el que se muestra en la figura \ref{fig:img_diag-en-bloques}. La entrada al sistema es una tensión de referencia ($V_{iLRef}$) proporcional a la corriente de salida deseada, que luego se multiplica por la ganancia de entrada ($K_{in}$). La corriente del electroimán se realimenta en forma de una tensión proporcional a ella ($V_{iLF}$). Ambas tensiones son restadas y el resultado ($V_e$) ingresa al bloque del comparador con histéresis, que actúa en conmutación, por lo que su salida tiene dos estados posibles: $\pm$$V_L$.
 
-\noindent Al ser aplicadas al inductor se produce una rampa de corriente: si la tensión es positiva, la rampa crece, y si es negativa decrece. De esta forma, debido a la conmutación del comparador se obtiene, a la salida, una forma de onda triangular $I_L$, cuyo valor medio es la corriente deseada y se corresponde a la tensión de referencia.
+\noindent Al ser aplicadas al inductor se produce una rampa de corriente: si la tensión es positiva, la rampa crece, y si es negativa decrece. De esta forma, debido a la conmutación del comparador se obtiene, a la salida, una forma de onda triangular $I_L$, cuyo valor medio es la corriente deseada y es proporcional a la tensión de referencia.
 
 \begin{figure}[H]
 	\centering
@@ -23,14 +23,14 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Circuito del controlador de corriente}
 
-\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es mapear una tensión de referencia en la entrada entre 0 y 5 V con una corriente de salida entre 0 y 30 A (en valor medio).  Debido a que, para sensar la corriente se utiliza un sensor de efecto Hall HO 15-NP cuya transconductancia es de H(s) = 53.3 mV/A, la ganancia de entrada se calcula como:
+\noindent Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Para sensar la corriente se eligió utilizar un sensor de efecto Hall HO 15-NP \cite{HO15-NP} cuya transconductancia es de $H(s) = 53.3\:mV/A$. De esta manera la ganancia de entrada se calcula como:
 
 \begin{equation}
-	K_{in}=\frac{30\:A*0.0533\:mV/A}{5\:V}=0.32 
+	K_{in}=\frac{30\:A*53.3\:mV/A}{5\:V}=0.32 
 \end{equation}
 
 
-La salida de esta etapa junto con la tensión de salida del sensor de efecto Hall se polarizan en un punto de operación de $2.6\:V$ (como se explica en la sección \ref{secc_justificación-puente-H}). Para lograrlo se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
+La salida de esta etapa al igual que la tensión de salida del sensor de efecto Hall se polarizan en un punto de operación de $2.6\:V$ (ver sección \ref{secc_justificación-puente-H}). Para lograrlo se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
 
 
 \begin{figure}[H]
@@ -40,7 +40,7 @@ La salida de esta etapa junto con la tensión de salida del sensor de efecto Hal
 	\label{fig:img_etapa-de-entrada}
 \end{figure}
 
-Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se desea que la corriente de salida del electroimán tenga un ripple de $500\:mA$. Por lo tanto, al afectar este valor por la transconductancia del sensor de efecto Hall, se obtiene un ancho de histéresis de $26.665\:mV$, alrededor de un punto de operación de $2.5\:V$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
+Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se eligió que la corriente de salida del electroimán tenga un ripple de $500\:mA$. Por lo tanto, al afectar este valor por la transconductancia del sensor de efecto Hall, se obtiene un ancho de histéresis de $26.665\:mV$, alrededor de un punto de operación de $2.5\:V$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -115,9 +115,9 @@ La implementación circuital de estas dos etapas puede observarse en la figura \
 
 \noindent Los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre gate y source sea mayor o igual a $7\:V$. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en source está fijada en GND y el driver puede aplicar $12\:V$ al gate (superando los $7\:V$ entre gate y source). El problema radica en los transistores superiores del puente H, ya que la tensión en source varía entre $0\:V$ y $24\:V$, por lo que en el gate debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se utiliza un driver flotante con bootstrap.
 
-\noindent Para controlar la conmutación se utiliza un MOSFET driver HIP4081A  que se encarga de encender y apagar los transistores según las entradas de control. Además permite la configuración de un tiempo muerto para evitar que se enciendan dos transistores de un lado a la vez. También provee la circuitería necesaria para implementar la fuente flotante que enciende los MOSFET del lado superior para lo cual solo se debe agregar un diodo y un capacitor de manera externa. Para la implementación circuital se van a utilizar los MOSFET IPB160N04.
+\noindent Para controlar la conmutación se utiliza un MOSFET driver HIP4081A \cite{HIP4081A_FN3659} que se encarga de encender y apagar los transistores según las entradas de control. Además permite la configuración de un tiempo muerto para evitar que se enciendan dos transistores de un lado a la vez. También provee la circuitería necesaria para implementar la fuente flotante que enciende los MOSFET del lado superior para lo cual solo se debe agregar un diodo y un capacitor de manera externa. Para la implementación circuital se van a utilizar los MOSFET IPB160N04 \cite{IPB160N04}.
 
-\noindent En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el driver HIP4081A. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del driver bootstrap permite obtener en el gate del MOS superior, una tensión de $36\:V$ respecto a GND, logrando así una diferencia de tensión mayor a $7\:V$ entre gate y source. 
+\noindent En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el driver HIP4081A. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del driver bootstrap permite obtener en el gate del MOS superior, una tensión de $36\:V$ respecto a GND, de manera que se logra una diferencia de tensión mayor a $7\:V$ entre gate y source. 
 
 \begin{figure}[H]
 	\centering
@@ -215,7 +215,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \subsection{Resistencia entre gate y source} \label{secc_res_gate_source}
 
-\noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como $R_1$, $R_2$, $R_3$, $R_4$. Su propósito es evitar que el gate del MOSFET se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
+\noindent Se colocan resistencias que conectan el gate y el source de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como $R_1$, $R_2$, $R_3$ y $R_4$. Su propósito es evitar que el gate del MOSFET se encuentre cargado cuando el circuito se enciende y el driver de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
 
 \noindent Se utiliza una resistencia de $4.7 \:k\Omega$ debido a que permite que el gate se descargue en un tiempo rápido, consumiendo solo $2.55\:mA$ del capacitor de bootstrap.
 
@@ -231,7 +231,7 @@ C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
 
 \noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un MOSFET IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es de $63\:ns$ (teniendo en cuenta el $T_{OFF}$ y el $T_{FALL}$). Por lo tanto, al considerar que esta aplicación espcífica no requiere un tiempo de encendido rápido de los MOSFET, se elige que el tiempo muerto sea de $100\:ns$.
 
-\noindent Según la hoja de datos del HIP4081A\cite{HIP4081A_AN9405}, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser $200\:k\Omega$.
+\noindent Según la hoja de datos del HIP4081A, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser $200\:k\Omega$.
 
 \subsection{Dimensionamiento de los capacitores de fuente}
 	
@@ -354,13 +354,13 @@ R_T = \frac{R_{ESR}}{n}
 \section{Criterio de utilización de la topología de puente H}
 \label{secc_justificación-puente-H}
 
-\noindent Es necesario que el controlador presente una corriente media unidireccional, ya que una corriente media negativa es indistinguible de la positiva puesto que tiene el mismo efecto en la fuerza del electroimán, pero el signo del controlador hace inestable el lazo de control. Sin embargo, puede darse el caso que la corriente en el electroimán sea negativa de manera instantánea con valor medio positivo. En ese caso, es necesario que se conserve la forma de onda triangular ya que de lo contrario traería problemas en la estimación de la posición(como se explica en el capítulo \ref{cap:Estimador Analogico}). Por lo tanto, para evitar que la misma sea recortada, es necesario que el controlador permita excursiones negativas sin perder la forma de onda. Esta situación puede darse en los siguientes casos:
+\noindent Es necesario que el controlador presente una corriente media unidireccional, ya que una corriente media negativa es indistinguible de la positiva puesto que tiene el mismo efecto en la fuerza del electroimán, pero el signo del controlador hace inestable el lazo de control. Sin embargo, puede darse el caso que la corriente en el electroimán sea negativa de manera instantánea con valor medio positivo. En ese caso, es necesario que se conserve la forma de onda triangular ya que de lo contrario traería problemas en la estimación de la posición (como se explica en el capítulo \ref{cap:Estimador Analogico}). Por lo tanto, para evitar que la misma sea recortada, es necesario que el controlador permita excursiones negativas sin perder la forma de onda. Esta situación puede darse en los siguientes casos:
 
 
 \begin{itemize} 
 	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio de corriente supera la mitad del ripple de corriente $(\Delta I_{L})$.
 	
-	\item Cuando el gap de aire es pequeño y se trabaja con peso reducido la corriente media puede llegar a ser menor que el ripple $\Delta I_{L}$.
+	\item Cuando el \textsl{gap} de aire es pequeño y se trabaja con peso reducido la corriente media puede llegar a ser menor que el ripple $\Delta I_{L}$.
 \end{itemize}
 
 \noindent Por estos motivos se debe utilizar una topología de puente completo, puesto que permite la excursión negativa de la corriente mientras que mantiene en funcionamiento al estimador de posición.
@@ -369,7 +369,7 @@ R_T = \frac{R_{ESR}}{n}
 
 \noindent El sensor de efecto Hall entrega una tensión proporcional a la corriente que circula por el electroimán con un offset de $2.5\:V$. Es decir, para corrientes positivas, la salida será mayor a $2.5\:V$, y para corrientes negativas, menor.
 
-\noindent La salida de este sensor se realimenta hacia la entrada del controlador de corriente mediante un operacional, quitándole el offset de $2.5\:V$. Debido a que se utiliza una fuente simple para la alimentación, el circuito encargado de realimentar solo permite excursiones positivas de la corriente mientras que las negativas son recortadas. Esto presenta un problema ya que si ocurre el caso de que la corriente del electroimán se haga negativa instantáneamente la tensión de salida del sensor de efecto Hall será menor a $2.5\:V$, por lo que la salida del operacional será recortada, y por lo tanto el sistema quedará a lazo abierto.
+\noindent La salida de este sensor se realimenta hacia la entrada del controlador de corriente mediante un operacional, quitándole el offset de $2.5\:V$. Debido a que se utiliza una fuente simple para la alimentación, el circuito encargado de realimentar solo permite excursiones positivas de la corriente mientras que las negativas son recortadas. Esto presenta un problema ya que si ocurre el caso de que la corriente del electroimán se haga negativa instantáneamente, la tensión de salida del sensor de efecto Hall será menor a $2.5\:V$, por lo que la salida del operacional será recortada, y por lo tanto el sistema quedará a lazo abierto.
 
 \noindent Para solucionar este problema se analizaron dos alternativas:
 
@@ -379,7 +379,7 @@ R_T = \frac{R_{ESR}}{n}
 	\item Utilizar una alimentación bipolar para el operacional de realimentación.
 \end{itemize}
 
-\noindent Entre estas se eligió la alternativa $1$, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el offset del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente.
+\noindent Entre estas se eligió la primer alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el offset del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente.
 
 \noindent Para saber qué valor utilizar para el offset  se debe calcular el mínimo de tensión entregada por el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo cual la corriente media del electroimán será $0 \:A$ con una excursión de $±250\:mA$. Lo que significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del offset. Para tomar un margen se incrementa el offset a $2.6\:V$. 
 
@@ -392,7 +392,7 @@ R_T = \frac{R_{ESR}}{n}
 \noindent Para saber la corriente media que hay a la salida al aplicarle cierta tensión en la entrada, se utiliza la transferencia de lazo cerrado (sin considerar polos, y suponiendo alta ganancia de lazo abierto):
 
 \begin{equation} 
-	I_L = V_{i\_ref} * \frac{K_{in}}{H(s)} = V_{i\_ref} * 6 \frac{A}{V}
+	I_L = V_{iLRef} * \frac{K_{in}}{H(s)} = V_{iLRef} * 6 \frac{A}{V}
 \end{equation}
 
 \subsection{Frecuencia de conmutación de la corriente}
@@ -407,13 +407,7 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 
 \subsection{Ancho de banda del controlador}\label{esccion_AB_Controlador} 
 
-\noindent La dinámica del controlador, al depender de la inductancia, lo hace también del gap de aire. El ancho de banda (o velocidad con que responde) está limitado por la constante de tiempo del inductor con su resistencia serie. Juntas forman un sistema lineal de primer orden, con un polo en: 
-
-\begin{equation} 
-	f_{polo} = \frac{R_L}{2\pi * L(Y_g)}
-\end{equation}
-
-\noindent Al convertirlo a frecuencia angular:
+\noindent La dinámica del controlador, al depender de la inductancia, lo hace también del \textsl{gap} de aire. El ancho de banda (o velocidad con que responde) está limitado por la constante de tiempo del inductor con su resistencia serie. Juntas forman un sistema lineal de primer orden, con un polo en: 
 
 \begin{equation} \label{eq_frec-angular}
 	\omega _{polo} = \frac{R_L}{L(Y_g)}
@@ -451,7 +445,7 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 			8.23 & 12.4 & 0.26 & 1935.48 & 16.13\\ \hline
 			$\infty$ & 8.89 & 0.19 & 2699.66 & 22.5	\\ \hline
 		\end{tabular}
-		\caption{Valores calculados y medidos en función del gap de aire.}
+		\caption{Valores calculados y medidos en función del \textsl{gap} de aire.}
 		\label{tab_mediciones}
 	\end{center}
 \end{table}

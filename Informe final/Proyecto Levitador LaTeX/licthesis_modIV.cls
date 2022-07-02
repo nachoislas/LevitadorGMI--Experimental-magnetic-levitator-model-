@@ -396,8 +396,8 @@ Documentation:
         \pagenumbering{roman}
         \pagestyle{plain}
         \titlep
-        \affiliationp
-        \dedicationp
+      %  \affiliationp
+      %\dedicationp
         \tableofcontents
         \newpage
         \iftablespage

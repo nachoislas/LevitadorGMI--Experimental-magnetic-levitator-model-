@@ -14,7 +14,7 @@ Por otra parte, se describen las consideraciones y circuitos utilizados para las
 
 \subsection{Fuente de alimentación interna de 12 V}
 
-\noindent La fuente de $12\:V$ se encarga de alimentar al regulador de $5\:V$ y al driver del puente H. Debido a los bajos consumos de potencia y bajo costo, se utiliza una fuente lineal. Por lo tanto, se decide utilizar el integrado L78M12CDT-TR.
+\noindent La fuente de $12\:V$ se encarga de alimentar al regulador de $5\:V$ y al \textsl{driver} del puente H. Debido a los bajos consumos de potencia y bajo costo, se utiliza una fuente lineal. Por lo tanto, se decide utilizar el integrado L78M12CDT-TR.
 
 \subsection{Fuente de alimentación interna de 5 V}
 
@@ -92,7 +92,7 @@ Para el diseño del PCB se tuvieron en cuenta los siguientes aspectos:
 	\item Se ``acostaron'' los MOSFET sobre la placa para ayudar a su disipación de potencia.
 	\item Se realizó el diseño en una placa de 2 capas para reducir el costo de fabricación.
 	\item Para optimizar el tamaño de la placa, se rutearon las pistas de manera organizada. Para ello, se intentó que las pistas verticales se realicen en la capa superior mientras que las horizontales, en la inferior.
-	\item El proyecto se dividió en 7 esquemáticos. Cada uno de ellos se asocia a una etapa en específico. Por ejemplo uno de ellos está destinado a la etapa de compensación analógica, otro al estimador analógico, etc. A su vez, los componentes de cada esquemático tiene asociado un rango de valores determinados para los ``designators''. Es decir, todos los componentes con ``designators'' entre 0 y 99 pertenecen al primer esquemático, los de 100 a 199 al segundo, y así sucesivamente.  De esta forma, con solo ver el ``designators'' en el PCB es posible determinar, fácilmente, a qué etapa pertenece.  
+	\item El proyecto se dividió en 7 esquemáticos. Cada uno de ellos se asocia a una etapa en específico. Por ejemplo uno de ellos está destinado a la etapa de compensación analógica, otro al estimador analógico, etc. A su vez, los componentes de cada esquemático tiene asociado un rango de valores determinados para los \textsl{designators}. Es decir, todos los componentes con \textsl{designators} entre 0 y 99 pertenecen al primer esquemático, los de 100 a 199 al segundo, y así sucesivamente.  De esta forma, con solo ver el ``designators'' en el PCB es posible determinar, fácilmente, a qué etapa pertenece.  
 	\item Se siguieron las reglas de diseño estándar de PCBWay.
 	
 \end{itemize}

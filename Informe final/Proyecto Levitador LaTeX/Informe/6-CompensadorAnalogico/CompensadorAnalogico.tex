@@ -19,7 +19,7 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 
 \subsection{Análisis de estabilidad con masa de 30 kg}
 
-\noindent Para realizar el análisis de estabilidad se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 kg (\ref{eq_transferencia_planta_30kg}), de la del controlador de corriente $G_{iL}(s)$ (\ref{eq_TLC-cc}) y de la del lazo de realimentación $H_{estim}(s)$ (\ref{eq_TLC_deriv_7}). A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrada en la expresión \ref{eq_GT2}.
+\noindent Para realizar el análisis de estabilidad se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 kg (\ref{eq_transferencia_planta_m}), de la del controlador de corriente $G_{iL}(s)$ (\ref{eq_TLC-cc}) y de la del lazo de realimentación $H_{estim}(s)$ (\ref{eq_TLC_deriv_7}). A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrada en la expresión \ref{eq_GT2}.
 
 \begin{equation*} \label{eq_GT1}
 	GH_T(s)=G_{p}(s)*G_{iL}(s)*H_{estim} 
@@ -61,19 +61,19 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{rlocus_planta_30kg.png}
+	\includegraphics[scale=0.45]{rlocus_planta_30kg.png}
 	\caption{Lugar de raíces de $GH_{T}$ con $M=30\:kg$.}
 	\label{fig:rlocus_m30kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{rlocus_planta_30kg_zoom.png}
+	\includegraphics[scale=0.45]{rlocus_planta_30kg_zoom.png}
 	\caption{Zoom del lugar de raíces de $GH_T$ con $M=30\:kg$.}
 	\label{fig:rlocus_m30kg_zoom}
 \end{figure}
 
-\noindent Como se observa en la figura \ref{fig:rlocus_m30kg_zoom}, $GH_{T}$ tiene un polo en el semiplano derecho. Por lo tanto, a partir del Nyquist se puede determinar:
+\noindent Como se observa en la figura \ref{fig:rlocus_m30kg_zoom}, $GH_{T}$ tiene un polo en el semiplano derecho. A partir del Nyquist se puede determinar:
 
 \noindent Zona 1: Z=N+P=0+1=1 $\mathrm{\to}$ Inestable 
 
@@ -83,7 +83,7 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Nyquist-deseado-analog.png}
+	\includegraphics[scale=0.6]{Nyquist-deseado-analog.png}
 	\caption{Forma del diagrama de Nyquist deseado.}
 	\label{fig:nyquist-deseado-analog}
 \end{figure}
@@ -92,15 +92,15 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 
 \noindent Para poder lograr el aumento de fase mencionado se utiliza una red de adelanto de fase. Se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a 0 dB y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente 200 rad/s. Esto se logra mediante el uso de dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
 
-\noindent Ecuaciones de dise\~{n}o:
+\noindent De esta forma, las ecuaciones de dise\~{n}o resultan:
 
 \begin{equation*}
 	\begin{aligned}
-		W_0 &=200\ r/s\\
-		{\varphi }_{max} &=65\textrm{º}\\
-		\alpha &=\frac{1+sen{\varphi }_{max}}{1-sen{\varphi }_{max}}=20.346491\\
-		W_c &=\frac{W_0}{\sqrt{\alpha }}=\ 44.3\ r/s\\
-		W_p &=\sqrt{\alpha }*W_0=902.1\ r/s\\
+		&W_0 =200\ r/s\\
+		&{\varphi }_{max} =65\textrm{º}\\
+		&\alpha =\frac{1+sen{\varphi }_{max}}{1-sen{\varphi }_{max}}=20.346491\\
+		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\ r/s\\
+		&W_p =\sqrt{\alpha }*W_0=902.1\ r/s\\
 	\end{aligned}
 \end{equation*} 
 \noindent Finalmente se llega a la transferencia del controlador:
@@ -109,7 +109,7 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 	G_c(s)=K*{[20.346*\frac{(s+44.3)}{(s+902.1)}]}^2
 \end{equation} 
 
-\noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_C$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $15.6\:dB$ hasta $35\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se puede adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $15.6\:dB$ y la m\'{a}xima es de $35\:dB - 14\:dB = 21\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$.
+\noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_C$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $15.6\:dB$ hasta $35\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $15.6\:dB$ y la m\'{a}xima es de $35\:dB - 14\:dB = 21\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$.
 
 
 \begin{figure}[H]
@@ -123,14 +123,14 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.85]{Bode-k-10-M-30.png}
+	\includegraphics[scale=0.8]{Bode-k-10-M-30.png}
 	\caption{Diagrama de Bode de $GH_{T}*G_C$ para K=10 y M=30 kg.}
 	\label{fig:bode-analog-compensado-para-k-10}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.85]{Nyquist-k-10-M-30.png}
+	\includegraphics[scale=0.8]{Nyquist-k-10-M-30.png}
 	\caption{Diagrama de Nyquist de $GH_T*G_C$ para K=10 y M=30 kg.}
 	\label{fig:nyquist-analog-para-k-10}
 \end{figure}
@@ -139,7 +139,7 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.85]{Respuesta-al-escalon-K-10-M-30Kg.png}
+	\includegraphics[scale=0.80]{Respuesta-al-escalon-K-10-M-30Kg.png}
 	\caption{Respuesta al escalón para $M=30\:kg$.}
 	\label{fig:rta-escalon-k-10-m-30}
 \end{figure}
@@ -151,21 +151,21 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{bodecompensado1kg.png}
+	\includegraphics[scale=0.80]{bodecompensado1kg.png}
 	\caption{Diagrama de Bode de $GH_T*G_C$ para $M=1\:kg$.}
 	\label{fig:bode-analog-para-M-1Kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{nyquistcompensado1kg.png}
+	\includegraphics[scale=0.55]{nyquistcompensado1kg.png}
 	\caption{Diagrama de Nyquist de $GH_T*G_C$ para $M=1\:kg$.}
 	\label{fig:nyquist-analog-para-M-1Kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{rtaescaloncompensado1kg.png}
+	\includegraphics[scale=0.80]{rtaescaloncompensado1kg.png}
 	\caption{Respuesta al escalón para $M=1\:kg$.}
 	\label{fig:respuesta-analog-al-escalon-para-M-1Kg}
 \end{figure}
@@ -174,21 +174,21 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{Red-adelanto-fase.png}
+	\includegraphics[scale=0.55]{Red-adelanto-fase.png}
 	\caption{Diseño circuital de una red de adelanto de fase.}
 	\label{fig:red-adelanto-fase}
 \end{figure}
 
 
-\noindent Para cada etapa del compensador por adelanto, se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Consiste en  un polo y cero con ganancia unitaria (si Ra = Rb). Luego se agrega la ganancia como una etapa separada.
+\noindent Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Consiste en  un polo y un cero con ganancia unitaria (si Ra = Rb). Luego, se agrega la ganancia como una etapa separada.
 
 \noindent La transferencia de lazo cerrado de esta etapa es:
 
 \begin{equation} 
-	\frac{V_{out}}{V_{in}}= - \frac{R_a}{R_b}*\frac{1+sC(R_x+R1)}{1+sCR_x}
+	\frac{V_{out}}{V_{in}}= - \frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}
 \end{equation}
 
-\noindent Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. Luego, la ganancia del compensador se obtiene con una etapa amplificadora.
+\noindent Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. Luego, la ganancia del compensador se obtiene con una etapa amplificadora.
 Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compensador}. Para lograr una ganancia de K=10 se utiliza $R_{322} = 1\:k\Omega$ y $R_{323} = 10\:k\Omega$.
 
 
@@ -217,7 +217,7 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 
 \[G_{integ}\ =\ k_{int}\ *\ \frac{1}{(1+(\frac{s}{p_{int}}))}\]
 
-\noindent Debido a que un integrador con polo en el origen tiene una ganancia infinita en contínua, no sería adecuado implementarlo de esta manera en el circuito. Por lo tanto se ubica el polo en $0.1\:rad/s$ de forma tal que permita limitar dicha ganancia y ser de carácter integrativo para las frecuencias de la planta. Sin embargo, esta modificación provoca que la cancelación del error en régimen permanente no sea completa.
+\noindent Debido a que un integrador con polo en el origen tiene una ganancia infinita en contínua, no sería adecuado implementarlo de esta manera en el circuito. Por lo tanto, se ubica el polo en $0.1\:rad/s$ de forma tal que permita limitar dicha ganancia y ser de carácter integrativo para las frecuencias de la planta. Sin embargo, esta modificación provoca que la cancelación del error en régimen permanente no sea completa.
 %, pero de todas maneras sea pequeña en comparación con la distancia de separación.
 
 %Debido a que no usamos un integrador ideal, la respuesta al escalón presentará un cierto error.
@@ -327,7 +327,7 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 \end{figure}
 
  
- \noindent Se utiliza una resistencia variable de $1\:k\Omega$ y dos fijas. Para poder excursionar la tensión de referencia entre $3.92\:V$ y $4.7\:V$, los valores de las resistencias $R_1$ y $R_3$ deben ser de $4911\:\Omega$ y $313.5\:\Omega$ respectivamente. 
+ \noindent Se utiliza una resistencia variable de $1\:k\Omega$ y dos con valores fijos. Para poder excursionar la tensión de referencia entre $3.92\:V$ y $4.7\:V$, los valores de las resistencias $R_1$ y $R_3$ deben ser de $4911\:\Omega$ y $313.5\:\Omega$ respectivamente. 
  
 \noindent Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:\Omega$ y en $R_3 = 4990 \:\Omega$.
  

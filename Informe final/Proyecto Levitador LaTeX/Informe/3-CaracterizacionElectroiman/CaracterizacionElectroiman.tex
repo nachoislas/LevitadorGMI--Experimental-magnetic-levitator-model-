@@ -305,61 +305,79 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e 
 
 \noindent Al considerar que $i(t)$ es la entrada a la planta, se puede plantear un modelo con las siguientes variables de estado:
 
-
-\begin{equation*} 
-	\begin{aligned}
+\begin{equation*}
+	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
 	&x_{1}=Y_g(t)\\
 	&x_{2}=\dot{x_{1}}\\
 	&u=i(t)\\
-	\end{aligned}
+	\end{bmatrix}
 \end{equation*}
 
 \noindent Por lo tanto se obtienen dos ecuaciones de estado:
 
-\begin{equation*} 
-	\begin{aligned}
-		&\dot{x_{1}}=x_{2}\\
-		&\dot{x_{2}}=g-\frac{K}{M}*\frac{u^{2}}{x_{1}^{2}}\\
-	\end{aligned}
+\begin{equation*}
+	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
+		&\dot{x_{1}}\\
+		&\dot{x_{2}}\\
+	\end{bmatrix}
+=
+	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
+		&x_{2}\\
+		&g-\frac{K}{M}*\frac{u^{2}}{x_{1}^{2}}\\
+	\end{bmatrix}
 \end{equation*}
 
 
 \noindent El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=4\:mm$. El resto de los puntos de equilibrio se encuentran al igualar las derivadas a cero:
 
-\begin{equation*} 
-	\begin{aligned}
-		&x_{1o}=4\:mm\\
-		&x_{2o}=0\\
-		&u_{o}=\sqrt{\frac{M*g}{K}}*x_{1o}\\
-	\end{aligned}
+\begin{equation*}
+\begin{bmatrix}
+		&x_{1o}\\
+		&x_{2o}\\
+		&u_{o}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+	&4\:mm\\
+	&0\\
+	&\sqrt{\frac{M*g}{K}}*x_{1o}\\
+\end{bmatrix}
 \end{equation*}
 
 \noindent Por lo tanto las ecuaciones linealizadas quedan:
 
 \begin{equation*} 
-	\begin{aligned}
-		&\dot{x_{1}}=x_{2}\\
-		&\dot{x_{2}}=2*\frac{K*u_{o}^{2}}{M*x_{1o}^{3}}*x_{1}-2*\frac{K*u_{o}}{M*x_{1o}^{2}}*u
-	\end{aligned}
+	\begin{bmatrix}
+		&\dot{x_{1}}\\
+		&\dot{x_{2}}
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		&x_{2}\\
+		&2*\frac{K*u_{o}^{2}}{M*x_{1o}^{3}}*x_{1}-2*\frac{K*u_{o}}{M*x_{1o}^{2}}*u
+	\end{bmatrix}
 \end{equation*}
 
 \noindent Las matrices del modelo quedan:
 
 \begin{equation*}
-	\begin{aligned}
-	&A=\begin{bmatrix}
+	A=
+	\begin{bmatrix}
 		0 & 1\\
 		\frac{2*g}{y_{o}} & 0
 	\end{bmatrix}\\
-	&B=\begin{bmatrix}
+	  B=
+	\begin{bmatrix}
 	0\\
 	-\frac{2}{y_{o}}*\sqrt{\frac{K*g}{M}}
 	\end{bmatrix}\\
-	&C=\begin{bmatrix}
+	  C=
+	\begin{bmatrix}
 	1 & 0\\
 	\end{bmatrix}\\
-	\end{aligned}
 \end{equation*}
+
+
 
 \noindent Es posible obtener la función transferencia de la planta mediante:
 

@@ -126,7 +126,7 @@ Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_
 \noindent Al aproximar la derivada real como la resta entre la muestra de corriente en un instante menos el anterior sobre el período de muestreo y al utilizar \ref{eq_derivada_teorica} en \ref{eq_yg_vs_derivada}, se obtiene:
 
 \begin{equation} 
-	Y_g[n] = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-K]}{K*T_S}+\frac{R_L*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
+	Y_g[n] = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-K]}{K*T_S}+\frac{R_LDD*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
 \end{equation}
 
 \noindent Al considerar a $V_h$ como la tensión entregada por el sensor de efecto Hall, proporcional a la corriente que circula por el electroimán multiplicada por una ganancia $K_h$ de $53.3\:mV/A$, con  ($\hat{V_h}$)  correspondiente a la componente alterna de tensión y ($\bar{V_h}$) a la continua, resulta:
@@ -326,7 +326,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 \noindent Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utiliza el DAC del microcontrolador. La tensión entregada es afectada por una circuitería de filtrado, ganancia y protección como se muestra en las figuras \ref{fig:DAC-compensador} y \ref{fig:DAC-estimador}. Debido a que el DAC se actualiza con una frecuencia mínima de $3.5\:kHz$, se utilizan filtros con frecuencia de corte en $1.75\:kHz$.
 
-\noindent Por otro lado, como el controlador de corriente funciona con tensiones de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0,66$, mapeando así los $5\:V$ a $3,3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento.
+\noindent Por otro lado, como el controlador de corriente funciona con tensiones de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0.66$, mapeando así los $5\:V$ a $3.3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento.
 
 \noindent De esta forma, se logra convertir correctamente la señal digital en analógica.
 
@@ -351,14 +351,14 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 \begin{equation} 
 	\begin{aligned}
-	G_T(s)[M=30Kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
+	G_T(s)[M=30kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
 	\end{aligned}
 \end{equation}
 
 \noindent Al aplicar la transformada z por invarianza al impulso, con una $f_s=3.5\:kHz$, se obtiene:
 
 \begin{equation} 
-	G_T(Z)[M=30\:Kg] =\frac{-3.4*10^{-10}(z+3.7)(z+0.3)}{(z-0.9965)(z+0.9802) (z+0.2677)}
+	G_T(Z)[M=30\:kg] =\frac{-3.4*10^{-10}(z+3.7)(z+0.3)}{(z-0.9965)(z+0.9802) (z+0.2677)}
 \end{equation}
 
 \noindent Luego, al usar la transformada bilineal para volver al dominio anal\'{o}gico:
@@ -371,7 +371,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \end{equation}
 
 
-\noindent Con las expresiones en $[W]$ es posible diseñar un controlador de manera anal\'{o}gica y luego transformarlo al dominio digital.
+\noindent Con las expresiones en $[w]$ es posible diseñar un controlador de manera anal\'{o}gica y luego transformarlo al dominio digital.
 
 
 \section{Diseño del compensador}
@@ -393,7 +393,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.75]{Lugar_de_raices.png}
-	\caption{Diagrama de Bode de lazo abierto $GH_{T}(w)$ con $M=30\:Kg$.}
+	\caption{Diagrama de Bode de lazo abierto $GH_{T}(w)$ con $M=30\:kg$.}
 	\label{fig:lugar-de-raices}
 \end{figure}
 
@@ -466,14 +466,14 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Bode-para-M-1Kg.png}
-	\caption{Diagrama de Bode de $GH_T(w)*G_C(w)$ para $M=1\:Kg$.}
+	\caption{Diagrama de Bode de $GH_T(w)*G_C(w)$ para $M=1\:kg$.}
 	\label{fig:bode-para-M-1Kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Nyquist-para-M-1Kg.png}
-	\caption{Diagrama de Nyquist de $GH_T(w)*G_C(w)$ para $M=1\:Kg$.}
+	\caption{Diagrama de Nyquist de $GH_T(w)*G_C(w)$ para $M=1\:kg$.}
 	\label{fig:nyquist-para-M-1Kg}
 \end{figure}
 
@@ -526,7 +526,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Respuesta-al-escalon-con-k-1-M-30.png}
-	\caption{Respuesta al escalón con integrador con $K_{int} =1$ y $M=30\:Kg$.}
+	\caption{Respuesta al escalón con integrador con $K_{int} =1$ y $M=30\:kg$.}
 	\label{fig:respuesta-al-escalon-con-k-1-M-30}
 \end{figure}
 
@@ -541,30 +541,30 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \end{figure}
 
 
-\noindent La respuesta al escal\'{o}n cuando la masa es de $1\:Kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de $0.104\:s$ y el de establecimiento de $0.196\:s$. Adem\'{a}s, es posible notar que no presenta sobrepicos.
+\noindent La respuesta al escal\'{o}n cuando la masa es de $1\:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de $0.104\:s$ y el de establecimiento de $0.196\:s$. Adem\'{a}s, es posible notar que no presenta sobrepicos.
 
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Respuesta-al-escalon-con-k-20-M-1.png}
-	\caption{Respuesta al escalón con integrador para $K_{int} =20$ y $M=1\:Kg$.}
+	\caption{Respuesta al escalón con integrador para $K_{int} =20$ y $M=1\:kg$.}
 	\label{fig:respuesta-al-escalon-con-k-20-M-1}
 \end{figure}
 
 
 \section{Cálculo de los coeficientes del controlador}
 
-\noindent Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a las transferencias del compensador por adelanto de fase $C(W)$ y al integrador $G_{integ}(W)$.
+\noindent Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a las transferencias del compensador por adelanto de fase $C(w)$ y al integrador $G_{integ}(w)$.
 
 \noindent Por lo tanto, se obtiene:
 
 \begin{equation} \label{GrindEQ__5_6_} 
-	C(Z)=\ \ \frac{U(z)}{e(z)}=\frac{8.6896*10^5(z-0.9877)^2}{\ (z-0.7757)^2}\  
+	C(z)=\ \ \frac{U(z)}{e(z)}=\frac{8.6896*10^5(z-0.9877)^2}{\ (z-0.7757)^2}\  
 \end{equation} 
 
 \begin{equation} \label{GrindEQ__5_7_} 
-	G_{integ}(Z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0028(\ z\ +\ 1)}{\ (z\ -\ 1)} 
+	G_{integ}(z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0028(\ z\ +\ 1)}{\ (z\ -\ 1)} 
 \end{equation} 
 
 \noindent Si se considera $H(z)=1$ se obtiene que:
@@ -574,7 +574,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \end{equation} 
 
 \begin{equation} \label{GrindEQ__5_40_} 
-	e_i(Z)=F*Vref+Y(z) 
+	e_i(z)=F*Vref+Y(z) 
 \end{equation} 
 
 
@@ -588,7 +588,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \end{equation}
 
 \begin{equation} \label{eq_e-coef} 
-	e_f[n]=0.0028{\ *e}_i[n]\ +\ {0.0028*e}_i[n-1]+e_f[n-1] 
+	e_f[n]=0.0028*e_i[n]\ +\ {0.0028*e}_i[n-1]+e_f[n-1] 
 \end{equation} 
 
 

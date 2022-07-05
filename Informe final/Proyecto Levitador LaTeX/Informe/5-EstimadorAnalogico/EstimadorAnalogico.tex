@@ -171,7 +171,7 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 \noindent A continuaci\'{o}n se muestra la TLC del circuito derivador:
  
 \begin{equation} \label{eq_Vyf-lineal}
-	{TLC}_{derivador}=\frac{V_{yf}}{V_{iL}}=\frac{-0.025*s}{1+(\frac{2*0.473}{94.5\ krad/s})*s+(\frac{s}{94.5\ krad/s})^2}
+	{TLC}_{derivador}=\frac{V_{yf}}{V_{iL}}=\frac{-0.025*s}{1+(\frac{2*0.473}{94.5\: k})*s+(\frac{s}{94.5\:k})^2}
 \end{equation} 
 
 \section{Dise\~{n}o del filtro pasa bajos}
@@ -261,10 +261,10 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 \noindent Si se despeja $V_{bias}$ se llega a:
 
 \begin{equation} \label{eq_Vyf-Vbias4}
-	V_{bias}\ =2.5\ \:V -\ K_h\ *I_L*\ \tau *\frac{\ R}{L}
+	V_{bias}\ =2.5\ \:V -\ K_h\ *I_L*\ \tau *\frac{\ R_L}{L}
 \end{equation}
 
-\noindent Se tiene $K_h = 53.3\:\frac{mV}{A},\; R_L = 0.2\:\Omega$ y $\tau  = 25 \:ms$. En cuanto a la inductancia, se utiliza:  $L_T(4\:mm) = 16,44\:mHy$.
+\noindent Se tiene $K_h = 53.3\:\frac{mV}{A},\; R_L = 0.2\:\Omega$ y $\tau  = 25 \:ms$. En cuanto a la inductancia, se utiliza:  $L_T(4\:mm) = 16.44\:mHy$.
 
 \noindent $V_{iL}$ es la tensi\'{o}n de salida del sensor de efecto Hall menos un \textsl{set-point} de $2.5\:V$. Sin embargo, debido al \textsl{offset} agregado al sensor para llevar su valor medio a $2.6\:V$, al restarle $2.5\:V$ no se produce una cancelaci\'{o}n completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuaci\'{o}n  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este circuito compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
 
@@ -300,8 +300,7 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 	\label{fig:img_Formas_de_onda_obtenidas_en_la_simulación}
 \end{figure}
 
-\colorbox{yellow}{Que quisimos decir con $V_bias$ en el párrafo de abajo?}\\
-\noindent La onda superior corresponde a la corriente en el electroim\'{a}n, la que se encuentra al medio, a la salida del derivador ${[V}_{bias}$$]$ y la inferior, a la onda rectificada con la correcci\'{o}n de la resistencia interna.
+\noindent La onda superior corresponde a la corriente en el electroim\'{a}n, la que se encuentra al medio, a la salida del derivador y la inferior, a la onda rectificada con la correcci\'{o}n de la resistencia interna.
 
 \section{Rectificador, Restador y Filtrado}
 
@@ -346,7 +345,7 @@ Como $R_{25}=R_{26}$
 	V^+\ =\ 2.5\:V\ -\ V_{deriv}\ +2.5\:V\ =\ 5\:V\ -\ V_{deriv}\ 
 \end{equation}
 
-Además, dado que el diodo $D_6$ queda polarizado en inversa y la caída de tensión en $R_{26}$ es despreciable \colorbox{yellow}{¿En R26?}, se obtiene que $V^- = 2.5\:V$.
+Además, dado que el diodo $D_6$ queda polarizado en inversa y la caída de tensión en $R_{27}$ es despreciable, se obtiene que $V^- = 2.5\:V$.
 
 An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 
@@ -401,15 +400,15 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 
 
 \begin{equation}
-	V_{estim}=\frac{1}{1+S*C*R}*{(V}^+-V^-\ +\ 2.5\:V)
+	V_{estim}=\frac{1}{1+s*C*R}*{(V}^+-V^-\ +\ 2.5\:V)
 \end{equation}
 
 \begin{equation} \label{eq_Vestim_1}
-	V_{estim}=\frac{1}{1+S*C*R}*(2.5\: V\ +\ |\mathit{\Delta}V_{deriv}|)
+	V_{estim}=\frac{1}{1+s*C*R}*(2.5\: V\ +\ |\mathit{\Delta}V_{deriv}|)
 \end{equation}
 
 \begin{equation} \label{eq_Vestim_2}
-	V_{estim} \approx \frac{1}{1+S*C*R}*\ |\mathit{\Delta}V_{deriv}|\ +2.5\:V
+	V_{estim} \approx \frac{1}{1+s*C*R}*\ |\mathit{\Delta}V_{deriv}|\ +2.5\:V
 \end{equation}
 
 
@@ -442,7 +441,7 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 	\label{fig:img_Simulación_final_del_estimado}
 \end{figure}
 
-\noindent En la figura \ref{tab_Resultados_de_simulación_del_estimador} se muestran valores medidos de Vestim en funci\'{o}n de la posici\'{o}n.
+\noindent En la figura \ref{tab_Resultados_de_simulación_del_estimador} se muestran valores medidos de $V_{estim}$ en funci\'{o}n de la posici\'{o}n.
 
 \begin{table}[H]
 	\begin{center}
@@ -473,11 +472,11 @@ Luego, el bloque rectificador y restador se encarga de calcular el valor absolut
 Por lo tanto, se obtiene:
 
 \begin{equation}
- V_{estim}=0.025*194690*0.0533 * \frac{Y_{g}}{1 + \frac{s}{1\:krad/seg}}=259.6*\frac{Y_{g}}{1 + \frac{s}{1\:krad/seg}}	
+ V_{estim}=0.025*194690*0.0533 * \frac{Y_{g}}{1 + \frac{s}{1\:k}}=259.6*\frac{Y_{g}}{1 + \frac{s}{1\:k}}	
 \end{equation}
 
 \noindent Finalmente, al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\: \:{kHz}\ \simeq 60\: \:{krad/s}$ se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_7}
-	H_{estim}=\frac{V_{estim}}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\: krad/s})*{(1+\frac{s}{60\: krad/s})}^2}
+	H_{estim}=\frac{V_{estim}}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\:k})*{(1+\frac{s}{60\: k})}^2}
 \end{equation}

@@ -1,6 +1,6 @@
 \chapter{Compensador analógico} \chapterlabel{Informe/6-CompensadorAnalogico} \label{cap:Compensador Analogico}
 
-En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de la planta} y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. Se diseña un compensador por adelanto de fase que logra la estabilidad incluso para los casos extremos de funcionamiento del sistema. Luego, se agrega un lazo de realimentación con un integrador que permite eliminar el error en régimen permanente.
+En este capítulo se analiza la dinámica de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. Se diseña un compensador por adelanto de fase que logra la estabilidad incluso para los casos extremos de funcionamiento del sistema. Luego, se agrega un lazo de realimentación con un integrador que permite eliminar el error en régimen permanente.
 
 \section{Descripción general}
 
@@ -26,7 +26,7 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 \end{equation*}
 
 \begin{equation} \label{eq_GT2}
-		GH_T(s)=\frac{0.38}{(1-(\frac{s}{70})^2)(\frac{s}{12.17\ }+1)(1+\frac{s}{1\ Krad/s}){(1+\frac{s}{60\ Krad/s})}^2 }	
+		GH_T(s)=\frac{0.38}{(1-(\frac{s}{70})^2)(\frac{s}{12.17\ }+1)(1+\frac{s}{1\:k}){(1+\frac{s}{60\:k})}^2 }	
 \end{equation}
 
 \noindent A continuación se procede a analizar la respuesta en frecuencia de $GH_T$ y a diseñar un compensador adecuado. Luego, se verificará la estabilidad para una masa de $1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
@@ -90,17 +90,17 @@ En este capítulo se analiza la \colorbox{yellow}{naturaleza de la dinámica de 
 
 \subsection{Diseño de la red de adelanto de fase}
 
-\noindent Para poder lograr el aumento de fase mencionado se utiliza una red de adelanto de fase. Se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a 0 dB y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente 200 rad/s. Esto se logra mediante el uso de dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
+\noindent Para poder lograr el aumento de fase mencionado se utiliza una red de adelanto de fase. Se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a 0 dB y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente $200\:rad/s$. Esto se logra mediante el uso de dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
 
 \noindent De esta forma, las ecuaciones de dise\~{n}o resultan:
 
 \begin{equation*}
 	\begin{aligned}
-		&W_0 =200\ r/s\\
+		&W_0 =200\:rad/s\\
 		&{\varphi }_{max} =65\textrm{º}\\
 		&\alpha =\frac{1+sen{\varphi }_{max}}{1-sen{\varphi }_{max}}=20.346491\\
-		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\ r/s\\
-		&W_p =\sqrt{\alpha }*W_0=902.1\ r/s\\
+		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\:rad/s\\
+		&W_p =\sqrt{\alpha }*W_0=902.1\: rad/s\\
 	\end{aligned}
 \end{equation*} 
 \noindent Finalmente se llega a la transferencia del controlador:
@@ -207,7 +207,7 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 
 \noindent Para el an\'{a}lisis se considera como realimentaci\'{o}n: 
 
-\[H_{estim}=\frac{V_{estim}}{Y[m]}= - \frac{259.6}{(1 + \frac{s}{1Kr/s})*(1+\frac{s}{60Kr/s})^2}\] 
+\[H_{estim}=\frac{V_{estim}}{Y[m]}= - \frac{259.6}{(1 + \frac{s}{1\:k})*(1+\frac{s}{60\:k})^2}\] 
 
 \noindent La cadena de avance con masa de $30\:kg$ es:
 

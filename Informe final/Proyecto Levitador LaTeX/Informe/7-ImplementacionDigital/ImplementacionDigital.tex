@@ -126,7 +126,7 @@ Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_
 \noindent Al aproximar la derivada real como la resta entre la muestra de corriente en un instante menos el anterior sobre el período de muestreo y al utilizar \ref{eq_derivada_teorica} en \ref{eq_yg_vs_derivada}, se obtiene:
 
 \begin{equation} 
-	Y_g[n] = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-K]}{K*T_S}+\frac{R*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
+	Y_g[n] = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-K]}{K*T_S}+\frac{R_L*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
 \end{equation}
 
 \noindent Al considerar a $V_h$ como la tensión entregada por el sensor de efecto Hall, proporcional a la corriente que circula por el electroimán multiplicada por una ganancia $K_h$ de $53.3\:mV/A$, con  ($\hat{V_h}$)  correspondiente a la componente alterna de tensión y ($\bar{V_h}$) a la continua, resulta:

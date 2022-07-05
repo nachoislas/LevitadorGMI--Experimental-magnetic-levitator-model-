@@ -105,26 +105,29 @@ proceso vuelve a iniciar con el buffer vacío.
 
 A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de separación con la pendiente de la corriente en el electroimán, se despeja la posición ($Y_g$) y se obtiene:
 
-\begin{equation} 
+\begin{equation} \label{eq_yg_vs_derivada}
 	Y_g = 5.136*10^{-6}*|\frac{di_L}{dt}|- 3.472*10^{-3} [m]
 \end{equation}
 
-\noindent Es importante notar que la resistencia interna del electroimán ($R_L$) genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que para el de bajada. De esta forma, la onda triangular presenta diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC.
-
-\noindent Es decir:
+\noindent Es importante notar que la resistencia interna del electroimán ($R_L$) genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que para el de bajada. De esta forma, la onda triangular presenta diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC. Es decir:
 
 
-\begin{equation} 
+\begin{equation} \label{eq_derivada_real}
 	(\frac{di_L}{dt})_{Real}=(\frac{di_L}{dt})_{Teorica}-\frac{R_L*I_L}{L(Y_g)}
 \end{equation}
 
-\noindent Al aproximar la derivada real como la resta entre la muestra en un instante menos el anterior sobre el período de muestreo y al compensar el error que introduce la resistencia interna, se obtiene:
+Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_real} se obtiene:
+
+\begin{equation} \label{eq_derivada_teorica}
+	(\frac{di_L}{dt})_{Teorica}=(\frac{di_L}{dt})_{Real}+\frac{R_L*I_L}{L(Y_g)}
+\end{equation}
+
+
+\noindent Al aproximar la derivada real como la resta entre la muestra de corriente en un instante menos el anterior sobre el período de muestreo y al utilizar \ref{eq_derivada_teorica} en \ref{eq_yg_vs_derivada}, se obtiene:
 
 \begin{equation} 
 	Y_g[n] = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-K]}{K*T_S}+\frac{R*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
 \end{equation}
-
-\colorbox{yellow}{Pq es el modulo de la suma y no de la resta?}
 
 \noindent Al considerar a $V_h$ como la tensión entregada por el sensor de efecto Hall, proporcional a la corriente que circula por el electroimán multiplicada por una ganancia $K_h$ de $53.3\:mV/A$, con  ($\hat{V_h}$)  correspondiente a la componente alterna de tensión y ($\bar{V_h}$) a la continua, resulta:
 

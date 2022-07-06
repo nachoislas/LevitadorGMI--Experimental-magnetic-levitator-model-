@@ -109,7 +109,7 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 
 
 \begin{equation} \label{eq_Vyf-lineal}
-	Vyf(Y_g)\ =\ |Kh*C_1*R_1*dI_L/dt)|\ +2.5\:V=0.2595*Y_g+3.4\:V
+	Vyf(Y_g)\ =\ |K_h*C_1*R_1*dI_L/dt)|\ +2.5\:V=0.2595*Y_g+3.4\:V
 \end{equation}
 
 \noindent Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores en los que el electroim\'{a}n trabaja, el estimador posee un rango de salida ${\mathit{\Delta}{Vyf}_{Lineal}}(5\:mm-2\:mm)= 0.78\:V$.
@@ -243,13 +243,13 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 \noindent Para la pendiente de bajada, la salida del derivador es:
 
 \begin{equation} \label{eq_Vyf-Vbias}
-	{Vyf}_{off}\ =\ V_{bias}+K_h\ *\ \tau *\frac{V_{BUS}\ +\ I_L*R_L}{L}\ 
+	{Vyf}_{off}\ =\ V_{bias}+K_h\ *\ \tau *\frac{\abs{V_{BUS}}\ +\ I_L*R_L}{L}\ 
 \end{equation}
 
 \noindent Para la pendiente de subida se tiene:
 
 \begin{equation} \label{eq_Vyf-Vbias2}
-	{Vyf}_{on}\ =\ V_{bias}\ -\ K_h\ *\ \tau *\frac{V_{BUS} -\ I_L*R_L}{L}
+	{Vyf}_{on}\ =\ V_{bias}\ -\ K_h\ *\ \tau *\frac{\abs{V_{BUS}} -\ I_L*R_L}{L}
 \end{equation}
 
 \noindent Se desea que se cumpla:
@@ -302,11 +302,11 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 
 \noindent La onda superior corresponde a la corriente en el electroim\'{a}n, la que se encuentra al medio, a la salida del derivador y la inferior, a la onda rectificada con la correcci\'{o}n de la resistencia interna.
 
-\section{Rectificador, Restador y Filtrado}
+\section{Rectificación y suavizado}
 
 \noindent Para poder tener finalmente la estimaci\'{o}n de la posici\'{o}n, se debe rectificar la salida del derivador alrededor de $2.5\:V$. Esto se hace para que la pendiente positiva de la corriente triangular coincida con la pendiente negativa, y tener a la salida del estimador una se\~{n}al aproximadamente continua.
 
-\noindent En la figura \ref{fig:img_Circuito_estimador_de_posición_completo} se puede observar el circuito completo utilizado para la implementaci\'{o}n del rectificador, restador y filtrado. Para facilitar la comprensión de esta última parte del estimador, se realiza un análisis de cada una de estas etapas por separado.
+\noindent En la figura \ref{fig:img_Circuito_estimador_de_posición_completo} se puede observar el circuito completo utilizado para la implementaci\'{o}n de la rectificación y filtrado. Para facilitar la comprensión de esta última parte del estimador, se realiza un análisis de cada una de estas etapas por separado.
 
 \begin{figure}[H]
 	\centering

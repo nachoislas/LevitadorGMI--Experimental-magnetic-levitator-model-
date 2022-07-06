@@ -9,7 +9,7 @@
 
 %Para estimar la distancia de separación se aprovecha la forma de onda triangular de la corriente del electroimán. A partir de esta señal se puede calcular la pendiente de crecimiento y de decrecimiento de la misma. Ambas son dependientes de la inductancia del electroimán y, por ende, de la distancia de separación. Es importante tener en cuenta que la etapa de controlador de corriente posee una topología que mantiene el sistema conmutando continuamente (incluso para corriente nula) para tener siempre una estimación disponible y que el sistema de control no quede a lazo abierto.%
 
-Dado que existe una relación entre la inductancia del electroimán y la distancia de separación, es posible estimar esta última a partir de la forma de onda triangular de su corriente. Como se vio en el capítulo \ref{cap:ControladorCorriente}, el circuito equivalente del electroimán es del tipo RL serie. Por lo tanto, al conmutar la polaridad del inductor a una frecuencia mayor que su ancho de banda, se logra que la corriente crezca y decrezca de manera aproximadamente lineal (sin llegar a verse la forma exponencial). Por lo tanto se puede extraer información del valor de la inductancia conociendo el valor de dichas pendientes
+Dado que existe una relación entre la inductancia del electroimán y la distancia de separación, es posible estimar esta última a partir de la forma de onda triangular de su corriente. Como se vio en el capítulo \ref{cap:ControladorCorriente}, el circuito equivalente del electroimán es del tipo RL serie. Por lo tanto, al conmutar la polaridad del inductor a una frecuencia mayor que su ancho de banda, se logra que la corriente crezca y decrezca de manera aproximadamente lineal (sin llegar a verse la forma exponencial). Por lo tanto, se puede extraer información del valor de la inductancia conociendo el valor de dichas pendientes
 
 %\colorbox{yellow}{No se si queda muy claro el párrafo de arriba, por ahí podría ser algo asi..}\\
 %Para estimar la distancia de separación se aprovecha que la pendiente de crecimiento y de decrecimiento de la corriente que circula por el electroimán depende de la distancia de separación.
@@ -220,7 +220,7 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 
 \noindent Por lo tanto, sobre el electroim\'{a}n se aplican dos tensiones distintas, en valor absoluto, durante la carga y descarga. Esto provoca que la rampa de corriente sea asim\'{e}trica.
 
-\noindent Puesto que luego se utilizar\'{a} un rectificador de onda completa, se desea que la rectificaci\'{o}n de cada una de estas pendientes resulte en el mismo valor. En la figura \ref{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR} se muestra el efecto luego de la rectificaci\'{o}n sin realizar ninguna compensaci\'{o}n:
+\noindent Debido a que luego se utilizar\'{a} un rectificador de onda completa, se desea que la rectificaci\'{o}n de cada una de estas pendientes resulte en el mismo valor. En la figura \ref{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR} se muestra el efecto luego de la rectificaci\'{o}n sin realizar ninguna compensaci\'{o}n.
 
 \begin{figure}[H]
 	\centering
@@ -238,7 +238,7 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 	\label{fig:img_Esquema-circuital-del-derivador}
 \end{figure}
 
-\noindent Se tiene que la pendiente de bajada de la onda triangular, en m\'{o}dulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversi\'{o}n de signo), esta queda por encima del \textsl{set-point}, y la pendiente de subida, por debajo. Por ello, se debe compensar el \textsl{set-point} para que la forma de onda sea sim\'{e}trica alrededor de $2.5\:V$. 
+\noindent Se tiene que la pendiente de bajada de la onda triangular, en m\'{o}dulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversi\'{o}n de signo), queda por encima del \textsl{set-point}, y la pendiente de subida, por debajo. Por ello, se debe compensar el \textsl{set-point} para que la forma de onda sea sim\'{e}trica alrededor de $2.5\:V$. 
 
 \noindent Para la pendiente de bajada, la salida del derivador es:
 
@@ -271,22 +271,22 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Generación-de-Vbias.png}
-	\caption{Generación de Vbias.}
+	\caption{Generación de $V_{bias}$.}
 	\label{fig:img_Generación_de_Vbias}
 \end{figure}
 
 \noindent A partir del circuito de la figura \ref{fig:img_Generación_de_Vbias} se obtiene:
 
 \begin{equation} \label{eq_Vyf-Vbias3}
-	V_{bias}\ =-\frac{R_4}{R_3}(K_hI_L+\ 0.1\:V)+V_{Ref_{bias}}(1+\frac{\ R_4}{R_3})*(\frac{R_1}{R_1+R_2})
+	V_{bias} =-\frac{R_4}{R_3}(K_hI_L+ 0.1\:V)+V_{Ref_{bias}}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2})
 \end{equation}
 
 \noindent Para poder llegar a la expresi\'{o}n de la ecuaci\'{o}n \ref{eq_Vbus-didt-RL-2} se debe cumplir que:
 
 \begin{enumerate}
-	\item  $-\frac{R_4}{R_3}=-\ \tau *\frac{R_L}{L}=\ -0.304$  
+	\item  $-\frac{R_4}{R_3}=- \tau *\frac{R_L}{L}= -0.304$  
 	
-	\item  $-\frac{R_4}{R_3}(\ 0.1V)+V_{Ref_{bias}}(1+\frac{\ R_4}{R_3})*(\frac{R_1}{R_1+R_2})\ =\ 2.5V$     
+	\item  $-\frac{R_4}{R_3}(0.1V)+V_{Ref_{bias}}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2}) = 2.5V$     
 \end{enumerate}
 
 \noindent Por lo tanto, al resolver la condici\'{o}n 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, al resolver la condici\'{o}n 2) con $V_{Ref_{bias}}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$.
@@ -333,7 +333,7 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 	I_{R25}=\frac{2.5\:V\ -\ V_{deriv}}{R_{25}}
 \end{equation}
 
-\noindent En el caso de que $V_{deriv}$ $\mathrm{<}$ $2.5\:V$, la corriente ser\'{a} positiva. Esta misma corriente proviene desde la salida del operacional, a trav\'{e}s del diodo $D_5$ y por la resistencia $R_{26}$. Si se desprecia la tensi\'{o}n del diodo en directa, se obtiene que la salida del operacional es igual a $V^+$:
+\noindent En el caso de que $V_{deriv}$ $\mathrm{<}$ $2.5\:V$, la corriente ser\'{a} positiva. Esta misma corriente proviene desde la salida del operacional, a trav\'{e}s del diodo $D_5$ y la resistencia $R_{26}$. Si se desprecia la tensi\'{o}n del diodo en directa se obtiene que la salida del operacional es igual a $V^+$:
 
 \begin{equation} \label{eq_V+}
 	V^+=I_{R25}*R_{26}+2.5\:V=\frac{2.5\:V-V_{deriv}\ }{R25}*R_{26}+2.5\:V\ 
@@ -381,7 +381,7 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 	\end{aligned}
 \end{equation*}
 
-\noindent Si se toma a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2,5\: V$, al reemplazar en los dos casos se obtiene:
+\noindent Si se toma a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2.5\: V$, al reemplazar en los dos casos se obtiene:
 \begin{equation} \label{eq_rest_3}
 	V_{estim}= 2.5\:V + |\mathit{\Delta}V_{deriv}|
 \end{equation}
@@ -413,7 +413,7 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 
 
 
-\noindent Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar cualquier posible ripple permitiendo solo el paso de continua. Por ello, se escogen los siguientes valores para los componentes:
+\noindent Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar cualquier posible ripple. Por ello, se escogen los siguientes valores para los componentes:
 
 \begin{enumerate}
 	\item  $C=10\: nF$

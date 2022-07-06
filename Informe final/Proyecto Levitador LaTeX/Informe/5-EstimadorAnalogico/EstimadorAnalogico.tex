@@ -95,7 +95,7 @@ Dado que existe una relación entre la inductancia del electroimán y la distanc
 	C_1*R_1\le\frac{2.5\ \:V\ *L_{min}}{V_{BUS}*K_h}
 \end{equation}
 
-\noindent Con $L_{min}= L(5\: mm) + L_{\infty}= 14.9\: mH$ se obtiene: 
+\noindent Con $L_{min}= L(5\: mm) + L_{\infty}= 14.9\: mHy$ se obtiene: 
 
 \begin{equation} \label{eq_condicionC1-R1-2}
 	C_1*R_1\le\ 29.1\ ms
@@ -447,7 +447,7 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 	\begin{center}
 		\begin{tabular}{| c | c | c |}
 			\hline
-		$Y_g\:[mm]$ & $L(Y_g)\:[mH]$ & $V_{estim}\:[V]$ \\ \hline 
+		$Y_g\:[mm]$ & $L(Y_g)\:[mHy]$ & $V_{estim}\:[V]$ \\ \hline 
 		2 & 22.64 & 3.86 \\ \hline 
 		3 & 18.8 & 4.13 \\ \hline 
 		4 & 16.44 & 4.36 \\ \hline 
@@ -462,7 +462,7 @@ An\'{a}logamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 
 El funcionamiento del circuito estimador no es lineal.  Por lo tanto, para poder modelar una función transferencia, se deben tomar ciertas consideraciones. La parte del derivador es lineal, por lo que se puede modelar su transferencia como:
 \begin{equation}\label{eq_v-estim}
-	V_{estim}=-0.025*\frac{dViL}{dt} 
+	V_{estim}=-0.025*\frac{dVi_L}{dt} 
 \end{equation}
 
 A partir de la expresión \ref{eq_v-estim} se puede determinar que, además de realizarse la derivada, se introduce una inversión de signo. De esta forma, una pendiente positiva a la entrada resulta en valores menores a $2.5\:V$ a la salida, mientras que una pendiente negativa produce una tensión mayor a $2.5\:V$.
@@ -477,13 +477,13 @@ Luego, el bloque rectificador y restador se encarga de calcular el valor absolut
 Al considerar la ganancia que tiene el sensor de efecto Hall sobre la corriente:
 
 \begin{equation} \label{eq_dil_dvil}
-	\frac{dI_{L}}{dt} =\frac{dvi_{L}}{dt}*\frac{1}{0.0533}
+	\frac{dI_{L}}{dt} =\frac{dVi_{L}}{dt}*\frac{1}{0.0533}
 \end{equation}
 
 Por lo tanto al utilizar \ref{eq_dvil_yg} en \ref{eq_dil_yg} se obtiene \ref{eq_dvil_yg}.
 
 \begin{equation} \label{eq_dvil_yg}
-	\frac{dvi_{L}}{dt} = 0.0533*194690*Y_{g}
+	\frac{dVi_{L}}{dt} = 0.0533*194690*Y_{g}
 \end{equation}
 
 

@@ -56,7 +56,7 @@ El sistema de control está conformado por las etapas que se muestran en la figu
 
 \noindent El estimador de posición se encarga de entregar una tensión proporcional al \textsl{gap} de aire real a partir de la corriente que circula por el electroimán. El usuario puede modificar el \textsl{gap} según desee al variar la tensión entregada por un potenciómetro presente en la placa de control. Tanto la implementación analógica como la digital reciben esta entrada que es comparada con la estimación y luego, su resultado, es utilizado como entrada para el compensador.
 
-Debido a que la planta es naturalmente inestable, se utiliza un compensador adecuado para lograr la estabilidad y la distancia de separación deseada. En su entrada recibe la comparación de la referencia de posición con la estimación y en base a ella modifica la corriente que ingresa al electroimán, y por ende la fuerza que este ejerce.
+Debido a que la planta es naturalmente inestable, se utiliza un compensador para lograr la estabilidad y la distancia de separación deseada. En su entrada recibe la comparación de la referencia de posición con la estimación y en base a ella modifica la corriente que ingresa al electroimán, y por ende la fuerza que este ejerce.
 
 El controlador de corriente cumple la función de adaptar los niveles de tensión de salida del compensador a niveles de corriente aptos para que el electroimán genere la fuerza suficiente para sostener el objeto que se hace levitar.
  

@@ -5,7 +5,7 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 \section{Descripción general}
 
 
-\noindent Se plantea una compensación compuesta por dos lazos de control como la que se muestra en la figura \ref{fig:diag-en-bloques-comp}. El lazo de control interno está basado en un controlador por adelanto de fase que cumple la función de estabilizar el sistema. El lazo de control externo contiene un integrador con el objetivo de eliminar el error de posición en régimen permanente.
+\noindent Se plantea una compensación compuesta por dos lazos de control como se muestra en la figura \ref{fig:diag-en-bloques-comp}. El lazo de control interno está basado en un controlador por adelanto de fase que cumple la función de estabilizar el sistema. El lazo de control externo contiene un integrador con el objetivo de eliminar el error de posición en régimen permanente.
 
 
 \begin{figure}[H]
@@ -75,11 +75,11 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 
 \noindent Como se observa en la figura \ref{fig:rlocus_m30kg_zoom}, $GH_{T}$ tiene un polo en el semiplano derecho. A partir del Nyquist se puede determinar:
 
-\noindent Zona 1: Z=N+P=0+1=1 $\mathrm{\to}$ Inestable 
+\noindent Zona 1: $Z=N+P=0+1=1$ $\mathrm{\to}$ Inestable 
 
-\noindent Zona 2: Z=N+P=1+1=2 $\mathrm{\to}$ Inestable
+\noindent Zona 2: $Z=N+P=1+1=2$ $\mathrm{\to}$ Inestable
 
-\noindent Por lo tanto, no es posible que el sistema sea estable. Para lograrlo se realimentar\'{a} positivamente y se generar\'{a} una zona en el diagrama de Nyquist donde $N=-1$. Para ello es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist deber\'{i}a tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
+\noindent Por lo tanto, no es posible que el sistema sea estable. Para lograrlo se debe realimentar positivamente y generar una zona en el diagrama de Nyquist donde $N=-1$. Para ello es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist debe tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
 
 \begin{figure}[H]
 	\centering
@@ -90,7 +90,7 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 
 \subsection{Diseño de la red de adelanto de fase}
 
-\noindent Para poder lograr el aumento de fase mencionado se utiliza una red de adelanto de fase. Se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a 0 dB y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente $200\:rad/s$. Esto se logra mediante el uso de dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
+\noindent Para poder lograr el aumento de fase mencionado se utiliza una red de adelanto de fase. Se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente $200\:rad/s$. Esto se logra mediante el uso de dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
 
 \noindent De esta forma, las ecuaciones de dise\~{n}o resultan:
 
@@ -98,12 +98,12 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 	\begin{aligned}
 		&W_0 =200\:rad/s\\
 		&{\varphi }_{max} =65\textrm{º}\\
-		&\alpha =\frac{1+sen{\varphi }_{max}}{1-sen{\varphi }_{max}}=20.346491\\
+		&\alpha =\frac{1+sen({\varphi }_{max})}{1-sen{(\varphi }_{max})}=20.346491\\
 		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\:rad/s\\
 		&W_p =\sqrt{\alpha }*W_0=902.1\: rad/s\\
 	\end{aligned}
 \end{equation*} 
-\noindent Finalmente se llega a la transferencia del controlador:
+\noindent Finalmente, se llega a la transferencia del controlador:
 
 \begin{equation}  
 	G_c(s)=K*{[20.346*\frac{(s+44.3)}{(s+902.1)}]}^2
@@ -172,15 +172,14 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 
 \subsection{Implementación circuital de la red de adelanto de fase}
 
+\noindent Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Consiste en  un polo y un cero con ganancia unitaria (si Ra = Rb). Luego, se agrega la ganancia como una etapa separada.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.55]{Red-adelanto-fase.png}
 	\caption{Diseño circuital de una red de adelanto de fase.}
 	\label{fig:red-adelanto-fase}
 \end{figure}
-
-
-\noindent Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Consiste en  un polo y un cero con ganancia unitaria (si Ra = Rb). Luego, se agrega la ganancia como una etapa separada.
 
 \noindent La transferencia de lazo cerrado de esta etapa es:
 
@@ -189,7 +188,7 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 \end{equation}
 
 \noindent Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. Luego, la ganancia del compensador se obtiene con una etapa amplificadora.
-Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compensador}. Para lograr una ganancia de K=10 se utiliza $R_{322} = 1\:k\Omega$ y $R_{323} = 10\:k\Omega$.
+Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compensador}. Para lograr una ganancia de $K=10$ se utiliza $R_{322} = 1\:k\Omega$ y $R_{323} = 10\:k\Omega$.
 
 
 \begin{figure}[H]
@@ -243,7 +242,7 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 	\label{fig:respuesta-al-escalon-con-k-1-M-30-analog}
 \end{figure}
 
-\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-50-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int}=50$ que resulta en un tiempo de establecimiento de $0.6\:s$ y un overshoot de 0\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
+\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-50-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int}=50$ que resulta en un tiempo de establecimiento de $0.6\:s$ y un \textsl{overshoot} de 0\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
 
 \begin{figure}[H]
 	\centering
@@ -295,7 +294,7 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 	Y[m] = F * (-\frac{1}{260})*V_{in} =\frac{1}{260}*V_{in} 
 \end{equation}
 
-\noindent La realimentación tiene un \textsl{set-point} de $3.4\:V$ por lo tanto se le suma a $V_{in}$ el mismo valor.
+\noindent La realimentación tiene un \textsl{set-point} de $3.4\:V$. Por lo tanto, se le suma a $V_{in}$ el mismo valor.
 
 \noindent Los valores finales son:
 

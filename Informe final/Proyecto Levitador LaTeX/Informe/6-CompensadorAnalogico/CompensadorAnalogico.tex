@@ -210,7 +210,7 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 
 \noindent La cadena de avance con masa de $30\:kg$ es:
 
-\[G[m=30]=Tlc_{interna}(s)[m=30]*G_{integ}\] 
+\[G[m=30]=TLC_{interna}(s)[m=30]*G_{integ}\] 
 
 \noindent Se  plantea un compensador del tipo :
 
@@ -275,10 +275,10 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 \section{Etapa de entrada}
 \subsection{Cálculo de ganancia de entrada}
 
-\noindent La ganancia de la TLC correspondiente a la ganancia total de los bloques con el integrador ya incorporado, resulta:
+\noindent La ganancia de la TLC correspondiente a la ganancia de contínua total de los bloques con el integrador ya incorporado, resulta:
 
 \begin{equation} 
-	G_{TLC_{final}} \simeq \frac{1}{H_{estim}} = - \frac{1}{260}
+	G_{TLC_{final}} \simeq \frac{1}{H_{estim}} = - \frac{1}{259.6}
 \end{equation}
 
 \begin{figure}[H]
@@ -291,7 +291,7 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 \noindent Por lo tanto, con $F=-1$ y los rangos de posición de $2\:mm$ a $5\:mm$ como mínimo y máximo respectivamente se llega a lo siguiente:
 
 \begin{equation} 
-	Y[m] = F * (-\frac{1}{260})*V_{in} =\frac{1}{260}*V_{in} 
+	Y_g[m] = F * (-\frac{1}{259.6})*V_{in} =\frac{1}{259.6}*V_{in} 
 \end{equation}
 
 \noindent La realimentación tiene un \textsl{set-point} de $3.4\:V$. Por lo tanto, se le suma a $V_{in}$ el mismo valor.
@@ -303,13 +303,13 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 	\begin{center}
 		\begin{tabular}{| c | c |}
 			\hline
-			Y[mm] & $V_{in}[V]$\\ \hline
+			$Y_g\:[mm]$ & $V_{in}[V]$\\ \hline
 			5 & 4.7\\ \hline
 			4 & 4.44 \\ \hline
 			3 & 4.18\\ \hline
 			2 &	3.92 \\ \hline		
 		\end{tabular}
-		\caption{Tensión de referencia $[V_{in}]$ Vs separación deseada [Y].}
+		\caption{Tensión de referencia $[V_{in}]$ Vs separación deseada [$Y_g$].}
 		\label{tension-ref-vs-separacion-deseada}
 	\end{center}
 \end{table}

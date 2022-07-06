@@ -467,9 +467,29 @@ El funcionamiento del circuito estimador no es lineal.  Por lo tanto, para poder
 
 A partir de la expresión \ref{eq_v-estim} se puede determinar que, además de realizarse la derivada, se introduce una inversión de signo. De esta forma, una pendiente positiva a la entrada resulta en valores menores a $2.5\:V$ a la salida, mientras que una pendiente negativa produce una tensión mayor a $2.5\:V$.
 
-Luego, el bloque rectificador y restador se encarga de calcular el valor absoluto de esta señal (en torno a los $2.5\:V$). Al considerar que la pendiente aumenta a medida que lo hace la distancia de separación, se puede concluir que el bloque estimador no produce inversión de signo. Por lo tanto, se debe considerar solamente la ganancia del derivador y el polo que introduce la etapa de restador. Finalmente, para poder obtener una estimación de la posición, se utiliza la expresión linealizada \ref{eq_di-dt_lineal} que relaciona $\frac{dI_{L}}{dt} = 194690 * Y_{g}$. Al considerar que $\frac{dI_{L}}{dt} =\frac{dvi_{L}}{dt}*\frac{1}{0.0533}$, se obtiene que $\frac{dvi_{L}}{dt} = 0.0533*194690*Y_{g}$. 
+Luego, el bloque rectificador y restador se encarga de calcular el valor absoluto de esta señal (en torno a los $2.5\:V$). Al considerar que la pendiente aumenta a medida que lo hace la distancia de separación, se puede concluir que el bloque estimador no produce inversión de signo. Por lo tanto, se debe considerar solamente la ganancia del derivador y el polo que introduce la etapa de restador. Finalmente, para poder obtener una estimación de la posición, se utiliza la expresión linealizada \ref{eq_di-dt_lineal} que relaciona la derivada de la corriente con el \textsl{gap} de aire:
 
-Por lo tanto, se obtiene:
+\begin{equation} \label{eq_dil_yg}
+	\frac{dI_{L}}{dt} = 194690 * Y_{g}
+\end{equation}
+
+
+Al considerar la ganancia que tiene el sensor de efecto Hall sobre la corriente:
+
+\begin{equation} \label{eq_dil_dvil}
+	\frac{dI_{L}}{dt} =\frac{dvi_{L}}{dt}*\frac{1}{0.0533}
+\end{equation}
+
+Por lo tanto al utilizar \ref{eq_dvil_yg} en \ref{eq_dil_yg} se obtiene \ref{eq_dvil_yg}.
+
+\begin{equation} \label{eq_dvil_yg}
+	\frac{dvi_{L}}{dt} = 0.0533*194690*Y_{g}
+\end{equation}
+
+
+En base al resultado anterior, se llega a:
+
+
 
 \begin{equation}
  V_{estim}=0.025*194690*0.0533 * \frac{Y_{g}}{1 + \frac{s}{1\:k}}=259.6*\frac{Y_{g}}{1 + \frac{s}{1\:k}}	

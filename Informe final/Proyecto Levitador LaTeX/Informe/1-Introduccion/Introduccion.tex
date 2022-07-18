@@ -17,24 +17,15 @@ Los sistemas que emplean levitación magnética son de gran interés debido a qu
 	\label{fig:img_tren}
 \end{figure}
 
+\section{Contexto del proyecto}
+
 \noindent El desarrollo del sistema de levitación magnética planteado para este proyecto surge como idea de la cátedra Sistemas de Control de la carrera de Ingeniería Electrónica. Su objetivo es disponer de una planta de control con la  que se puedan realizar prácticas en clase. Una primera versión de este dispositivo fue diseñada y construida por la cátedra. Los desarrolladores de este proyecto tuvieron la oportunidad de realizarle pruebas y modificaciones durante el cursado de la asignatura. Sin embargo, no se pudo lograr que funcionara correctamente al finalizar la cursada. Por este motivo, se propuso hacer una revisión y rediseño de todas las etapas que componen al sistema en el marco de un proyecto final.
 
 Desde el punto de vista de la asignatura Sistemas de Control, es de interés el estudio y experimentación con un sistema de levitación magnética ya que integra varios conceptos dictados durante la cursada y otros aprendidos en el transcurso de la carrera. En principio se puede mencionar que este tipo de sistemas presentan un alto grado de inestabilidad, por lo que es necesario el diseño de un compensador adecuado. La planta presenta un comportamiento no lineal con respecto a la variable de control y a la variable que se desea controlar. Además, se implementa una fuente de corriente conmutada que permite trabajar con corrientes elevadas al mismo tiempo que se minimizan las pérdidas de energía.
 
-\section{Alcance del proyecto}
-
-\noindent El objetivo de este proyecto es realizar un modelado teórico de un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. Este integra las etapas de \textsl{driver} de corriente de potencia, estimación de distancia de levitación, y control de la planta. Estas dos últimas se implementan tanto en forma analógica como digital.
-
-\noindent Este documento contempla el proceso de diseño y modelado de todas las etapas pertenecientes al sistema, junto con su implementación circuital y simulaciones. Además, se realiza el diseño del circuito impreso de la placa de control.
-
-
-
-\section{Contexto del proyecto}
-
 \noindent El proyecto comenzó a desarrollarse en junio del 2020. Inicialmente tenía como objetivo el diseño y la construcción de un prototipo funcional que permitiera a los alumnos de la asignatura de Sistemas de Control realizar mediciones y observar el comportamiento de las distintas etapas que componen el sistema. Sin embargo, debido a los retrasos ocasionados por la pandemia (COVID-19), los costos asociados a la fabricación de la placa de control y sus componentes, sumado a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al modelado teórico de todas las etapas y al diseño del circuito impreso.
 
 \noindent Se espera que en el futuro se pueda construir el sistema de levitación magnética para que sirva como herramienta para los alumnos, de forma tal que les permita experimentar y afianzar los conceptos teóricos adquiridos durante el transcurso de la cursada.
-
 
 
 \section{Descripción del dispositivo}
@@ -65,4 +56,15 @@ El sistema de control está conformado por las etapas que se muestran en la figu
 Debido a que la planta es naturalmente inestable, se utiliza un compensador para lograr la estabilidad y la distancia de separación deseada. En su entrada recibe la comparación de la referencia de posición con la estimación y en base a ella modifica la corriente que ingresa al electroimán, y por ende la fuerza que este ejerce.
 
 El controlador de corriente cumple la función de adaptar los niveles de tensión de salida del compensador a niveles de corriente aptos para que el electroimán genere la fuerza suficiente para sostener el objeto que se hace levitar.
+
+
+\section{Alcance del proyecto}
+
+\noindent El objetivo de este proyecto es realizar un modelado teórico de un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. Este integra las etapas de \textsl{driver} de corriente de potencia, estimación de distancia de levitación, y control de la planta. Estas dos últimas se implementan tanto en forma analógica como digital.
+
+\noindent Este documento contempla el proceso de diseño y modelado de todas las etapas pertenecientes al sistema, junto con su implementación circuital y simulaciones. Además, se realiza el diseño del circuito impreso de la placa de control.
+
+\section{Organización del informe}
+
+asdasdad
  

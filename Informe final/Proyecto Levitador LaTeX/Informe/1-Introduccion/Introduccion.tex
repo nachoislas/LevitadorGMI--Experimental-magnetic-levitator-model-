@@ -28,8 +28,7 @@ Se espera que en el futuro se pueda construir el sistema de levitación magnéti
 
 
 \section{Descripción del dispositivo}
-
-\noindent El dispositivo está compuesto por dos partes principales: un electroimán y una placa de control. El electroimán tiene dos piezas formadas por láminas de acero apiladas: una con forma de “E”, que tiene un cable bobinado en su rama central y otra con forma de “I” que es atraída por la primera mediante una fuerza electromagnética. Esta fuerza es regulada por la placa de control, que mantiene la distancia de separación ($Y_{g}$) o \textsl{gap} de aire deseado entre ellas mientras que el objeto que se desea hacer levitar se sujeta de la pieza en forma de “I”. Dicha separación puede ser modificada por el usuario entre $3\:mm$ y $5\:mm$ y el peso máximo que se puede hacer levitar es de $30\:kg$. El sistema completo se muestra en la figura \ref{fig:img_Esquema-del-producto}.
+El sistema de control de levitación magnética que se desarrolla en este proyecto tiene la finalidad de mantener en estado de levitación un objeto por medio de la utilización de un electroimán y una placa de control. El primero consta de dos piezas formadas por láminas de acero apiladas: una con forma de “E” , que se encuentra fijada desde arriba y tiene un bobinado de cobre en su rama central. Esta es la encargada de generar la fuerza magnética. La otra pieza tiene forma de “I” , la cual se mueve libremente sobre el eje vertical y es atraída por la primera mediante su campo magnético. De esta forma, para hacer levitar el objeto se lo sujeta de esta última pieza, como se muestra en la figura \ref{fig:img_Esquema-del-producto}. La distancia de separación entre ambas piezas del electroimán se denomina  \textsl{gap} de aire ($Y_{g}$).
 
 \begin{figure}[H]
 	\centering
@@ -38,8 +37,13 @@ Se espera que en el futuro se pueda construir el sistema de levitación magnéti
 	\label{fig:img_Esquema-del-producto}
 \end{figure}
 
+La circulación de corriente por la bobina genera líneas de campo magnético que recorren la pieza “E” y se cierran a través del aire, de manera similar a un imán permanente. De esta forma, al colocar la pieza “I” en cercanías de este campo se genera una fuerza de atracción entre ambas, cuyo módulo depende de la intensidad de corriente en el bobinado y de la distancia que las separa.
 
-La placa de control actúa sobre la fuerza magnética que ejerce el electroimán para compensar las perturbaciones que pueda recibir el sistema y mantener constante la separación $Y_{g}$. Solo puede ejercer control de la posición sobre el eje vertical, por lo que las desviaciones de posición en el eje horizontal no pueden ser controladas y pueden provocar un comportamiento no deseado.
+Al hacer circular una corriente constante por el bobinado del electroimán se genera una fuerza proporcional a ella. Es posible encontrar un valor de corriente determinado en el que la fuerza magnética sea igual en módulo a la del peso del objeto, pero con sentido contrario. En este caso, es posible mantener al objeto en estado de levitación. Sin embargo, ante mínimas perturbaciones en la distancia de separación o en la intensidad de la corriente, haría que la fuerza cambie en módulo y que la cancelación de fuerzas deje de ser exacta, provocando que ambos se peguen o que la pieza con forma de “I”, junto con el objeto, se caigan. 
+
+Como se desea mantener fija la distancia de separación entre las piezas que componen al electroimán, es necesario poder compensar las perturbaciones mencionadas anteriormente.   Esto se logra midiendo y realimentando dicha distancia de manera de poder ajustar la fuerza magnética ejercida. Para ello, se actúa sobre la intensidad de la corriente que circula por su bobinado de forma tal que, si el objeto se aleja, la corriente aumentará para acercarlo y evitar que este caiga. De lo contrario, si el objeto se acerca, la corriente disminuirá, para evitar que se pegue al electroimán. 
+
+Es importante destacar que el dispositivo solo puede ejercer control de la posición sobre el eje vertical, por lo que las desviaciones de posición en el eje horizontal no pueden ser controladas y pueden provocar un comportamiento no deseado.
 
 El sistema de control está conformado por las etapas que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Integra dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición.  El usuario decide cual de estas implementaciones ejerce el control mediante la utilización de un \textsl{switch}, por lo que solo una estará activa al mismo tiempo. El sistema analógico está formado por un circuito de  componentes pasivos y amplificadores operacionales, mientras que el digital está basado en un microcontrolador re-programable.
 
@@ -50,9 +54,9 @@ El sistema de control está conformado por las etapas que se muestran en la figu
 	\label{fig:img_diagrama-en-bloques-del-sistema}
 \end{figure}
 
-\noindent El estimador de posición se encarga de entregar una tensión proporcional al \textsl{gap} de aire real a partir de la corriente que circula por el electroimán. El usuario puede modificar el \textsl{gap} según desee al variar la tensión entregada por un potenciómetro presente en la placa de control. Tanto la implementación analógica como la digital reciben esta entrada que es comparada con la estimación y luego, su resultado, es utilizado como entrada para el compensador.
+El estimador de posición se encarga de entregar una tensión proporcional al \textsl{gap} de aire real a partir de la corriente que circula por el electroimán. El usuario puede modificar el \textsl{gap} según desee al variar la tensión entregada por un potenciómetro presente en la placa de control. Tanto la implementación analógica como la digital reciben esta entrada que es comparada con la estimación y luego, su resultado, es utilizado como entrada para el compensador.
 
-Debido a que la planta es naturalmente inestable, se utiliza un compensador para lograr la estabilidad y la distancia de separación deseada. En su entrada recibe la comparación de la referencia de posición con la estimación y en base a ella modifica la corriente que ingresa al electroimán, y por ende la fuerza que este ejerce.
+Debido a que la planta es naturalmente inestable, como se analizará en el capítulo \ref{cap:CaracterizacionElectroiman}, se utiliza un compensador para lograr la estabilidad y la distancia de separación deseada. En su entrada recibe la comparación de la referencia de posición con la estimación y en base a ella modifica la corriente que ingresa al electroimán, y por ende la fuerza que este ejerce.
 
 El controlador de corriente cumple la función de adaptar los niveles de tensión de salida del compensador a niveles de corriente aptos para que el electroimán genere la fuerza suficiente para sostener el objeto que se hace levitar.
 

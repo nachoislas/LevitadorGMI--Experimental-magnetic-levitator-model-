@@ -63,9 +63,18 @@ El controlador de corriente cumple la función de adaptar los niveles de tensió
 
 \section{Alcance del proyecto}
 
-\noindent El objetivo de este proyecto es realizar un modelado teórico de un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. Este integra las etapas de \textsl{driver} de corriente de potencia, estimación de distancia de levitación, y control de la planta. Estas dos últimas se implementan tanto en forma analógica como digital.
+El objetivo de este proyecto es realizar un diseño teórico de un sistema de levitación magnética a partir de un electroimán de laminación normalizada con núcleo tipo “E''. La pieza con forma de ”I” que sujeta al objeto debe mantenerse en estado de levitación mediante el control de la fuerza magnética generada por la pieza en forma de “E”.
 
-\noindent Este documento contempla el proceso de diseño y modelado de todas las etapas pertenecientes al sistema, junto con su implementación circuital y simulaciones. Además, se realiza el diseño del circuito impreso de la placa de control.
+El sistema de levitación debe ser capaz de: \colorbox{red}{Los requerimientos del proyecto son:}
+
+\begin{itemize}
+\item Permitir que la distancia de separación $Y_{g}$ entre ambas piezas del electroimán sea ajustable entre $3\:mm$ y $5\:mm$.
+\item Mantener en estado de levitación objetos con peso entre $1\:kg$ y $30\:kg$ para todo el rango de distancias de separación.
+\item Regular la fuerza electromagnética mediante un sistema de control analógico y otro digital. Solo una de estas implementaciones debe estar  activa al mismo tiempo y el usuario debe poder decidir cuál de ellas ejercerá el control.  Cada sistema debe incluir una etapa de compensación y otra de estimación de la distancia de separación.
+\item Realizar la implementación digital mediante un microcontrolador.
+\item Diseñar el circuito impreso del sistema de control.
+\end{itemize}
+
 
 \section{Organización del informe}
 

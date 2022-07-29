@@ -20,8 +20,6 @@ Una de las aplicaciones más importantes y conocidas que tienen los sistemas EMS
 
 El desarrollo del sistema de levitación magnética planteado para este proyecto surge como idea de la cátedra Sistemas de Control de la carrera de Ingeniería Electrónica. Su objetivo es disponer de una planta de control con la  que se puedan realizar prácticas en clase. Una primera versión de este dispositivo fue diseñada y construida por la cátedra. Los desarrolladores de este proyecto tuvieron la oportunidad de realizar pruebas y modificaciones durante el cursado de la asignatura. Sin embargo, no se pudo lograr que funcionara correctamente al finalizar la cursada. Por este motivo, se propuso hacer una revisión y rediseño de todas las etapas que componen al sistema en el marco de un proyecto final.
 
-Para la asignatura Sistemas de Control resulta de interés el estudio y experimentación con un sistema de levitación magnética ya que integra varios conceptos dictados durante la cursada y otros aprendidos en el transcurso de la carrera. 
-
 El proyecto comenzó a desarrollarse en junio del 2020. Inicialmente tenía como objetivo el diseño y la construcción de un prototipo funcional que permitiera a los alumnos de la asignatura de Sistemas de Control realizar mediciones y observar el comportamiento de las distintas etapas que componen el sistema. Sin embargo, debido a los retrasos ocasionados por la pandemia (COVID-19), los costos asociados a la fabricación de la placa de control y sus componentes, sumado a la  necesidad de no extender indefinidamente el proyecto, se optó por acotar el alcance sólo al modelado teórico de todas las etapas y al diseño del circuito impreso.
 
 Se espera que en el futuro se pueda construir el sistema de levitación magnética para que sirva como herramienta para los alumnos, de forma tal que les permita experimentar y afianzar los conceptos teóricos adquiridos durante el transcurso de la cursada.
@@ -32,24 +30,24 @@ El sistema de control de levitación magnética que se desarrolla en este proyec
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{esquema-del-producto.png}
+	\includegraphics[scale = 0.70]{esquema-del-producto.png}
 	\caption{Esquema del dispositivo.}
 	\label{fig:img_Esquema-del-producto}
 \end{figure}
 
 La circulación de corriente por la bobina genera líneas de campo magnético que recorren la pieza “E” y se cierran a través del aire, de manera similar a un imán permanente. De esta forma, al colocar la pieza “I” en cercanías de este campo se genera una fuerza de atracción entre ambas, cuyo módulo depende de la intensidad de corriente en el bobinado y de la distancia que las separa.
 
-Al hacer circular una corriente constante por el bobinado del electroimán se genera una fuerza proporcional a ella. Es posible encontrar un valor de corriente determinado en el que la fuerza magnética sea igual en módulo a la del peso del objeto, pero con sentido contrario. En este caso, es posible mantener al objeto en estado de levitación. Sin embargo, ante mínimas perturbaciones en la distancia de separación o en la intensidad de la corriente, haría que la fuerza cambie en módulo y que la cancelación de fuerzas deje de ser exacta, provocando que ambos se peguen o que la pieza con forma de “I”, junto con el objeto, se caigan. 
+Al hacer circular una corriente constante por el bobinado del electroimán se genera una fuerza proporcional a ella. Es posible encontrar un valor de corriente determinado en el que la fuerza magnética sea igual en módulo a la del peso del objeto, pero con sentido contrario. En este caso, es posible mantener al objeto en estado de levitación. Sin embargo, ante mínimas perturbaciones en la distancia de separación o en la intensidad de la corriente,  la fuerza cambia en módulo y la cancelación de fuerzas deja de ser exacta, provocando que ambos se peguen o que la pieza con forma de “I”, junto con el objeto, se caigan. 
 
 Como se desea mantener fija la distancia de separación entre las piezas que componen al electroimán, es necesario poder compensar las perturbaciones mencionadas anteriormente.   Esto se logra midiendo y realimentando dicha distancia de manera de poder ajustar la fuerza magnética ejercida. Para ello, se actúa sobre la intensidad de la corriente que circula por su bobinado de forma tal que, si el objeto se aleja, la corriente aumentará para acercarlo y evitar que este caiga. De lo contrario, si el objeto se acerca, la corriente disminuirá, para evitar que se pegue al electroimán. 
 
 Es importante destacar que el dispositivo solo puede ejercer control de la posición sobre el eje vertical, por lo que las desviaciones de posición en el eje horizontal no pueden ser controladas y pueden provocar un comportamiento no deseado.
 
-El sistema de control está conformado por las etapas que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Integra dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición. El usuario decide cual de estas implementaciones ejerce el control mediante la utilización de un \textsl{switch}, por lo que solo una estará activa al mismo tiempo. El sistema digital está implementado en un microcontrolador.
+El sistema de control está conformado por las etapas que se muestran en la figura \ref{fig:img_diagrama-en-bloques-del-sistema}. Integra dos controladores distintos: uno analógico y otro digital. Cada uno de ellos se compone de un compensador y un estimador de posición. El usuario decide cual de estas implementaciones ejerce el control mediante la utilización de un \textsl{switch}, por lo que solo una estará activa al mismo tiempo. El sistema digital se implementa en un microcontrolador.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{diagrama-en-bloques-del-sistema.png}
+	\includegraphics[scale = 0.75]{diagrama-en-bloques-del-sistema.png}
 	\caption{Diagrama en bloques del sistema.}
 	\label{fig:img_diagrama-en-bloques-del-sistema}
 \end{figure}
@@ -80,6 +78,6 @@ Los requerimientos del proyecto son:
 
 El informe está dividido en 8 capítulos. En ellos se aborda el diseño teórico y circuital de cada una de las etapas mostradas en la figura \ref{fig:img_diagrama-en-bloques-del-sistema} junto con sus respectivas simulaciones.
 
-En este capítulo se hizo una breve introducción al fenómeno de levitación magnética, y se describió el dispositivo que se diseñará en este trabajo, con sus respectivas especificaciones. En el capítulo 2 se detallan las características constructivas que posee el electroimán y se realiza un modelado físico del fenómeno de levitación para obtener expresiones útiles para el posterior diseño de cada etapa y determinar el comportamiento dinámico del sistema. En el capítulo 3 se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. En el capítulo 4 se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán. En el capítulo 5 se analiza la dinámica de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. En este capítulo 6 se realiza el diseño de un compensador y estimador en el dominio digital para ser implementados en un microcontrolador. En el capítulo 7 se mencionan los criterios tenidos en cuenta para el diseño del circuito impreso y se muestran los esquemáticos e imágenes del PCB desarrollado. Finalmente, en el capítulo 8, se mencionan las conclusiones y aprendizajes obtenidos en el transcurso del proyecto.
+En este capítulo se hizo una breve introducción al fenómeno de levitación magnética, y se describió el dispositivo que se diseñará en este trabajo, con sus respectivas especificaciones. En el capítulo \ref{cap:CaracterizacionElectroiman} se detallan las características constructivas que posee el electroimán y se realiza un modelado físico del fenómeno de levitación para obtener expresiones útiles para el posterior diseño de cada etapa y determinar el comportamiento dinámico del sistema. En el capítulo \ref{cap:ControladorCorriente} se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. En el capítulo \ref{cap:Estimador Analogico} se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán. En el capítulo \ref{cap:Compensador Analogico} se analiza la dinámica de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. En este capítulo \ref{cap:Implementacion digital} se realiza el diseño de un compensador y estimador en el dominio digital para ser implementados en un microcontrolador. En el capítulo \ref{cap:PCB} se mencionan los criterios tenidos en cuenta para el diseño del circuito impreso y se muestran los esquemáticos e imágenes del PCB desarrollado. Finalmente, en el capítulo \ref{cap:Conclusión}, se mencionan las conclusiones y aprendizajes obtenidos en el transcurso del proyecto.
 
  

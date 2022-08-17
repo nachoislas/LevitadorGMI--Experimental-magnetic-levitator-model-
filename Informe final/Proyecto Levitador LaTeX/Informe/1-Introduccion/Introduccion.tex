@@ -26,7 +26,7 @@ Se espera que en el futuro se pueda construir el sistema de levitación magnéti
 
 
 \section{Descripción del dispositivo}
-El sistema de control de levitación magnética que se desarrolla en este proyecto tiene la finalidad de mantener en estado de levitación a un objeto por medio de la utilización de un electroimán y una placa de control. El primero consta de dos piezas formadas por láminas de acero apiladas: una con forma de “E” , que se encuentra fijada desde arriba y tiene un bobinado de cobre en su rama central. Esta es la encargada de generar la fuerza magnética. La otra pieza tiene forma de “I”, la cual se mueve libremente sobre el eje vertical y es atraída por la primera mediante su campo magnético. De esta forma, para hacer levitar el objeto se lo sujeta de esta última pieza, como se muestra en la figura \ref{fig:img_Esquema-del-producto}. La distancia de separación entre ambas piezas del electroimán se denomina  \textsl{gap} de aire ($Y_{g}$).
+El sistema de control de levitación magnética que se desarrolla en este proyecto tiene la finalidad de mantener en estado de levitación a un objeto por medio de la utilización de un electroimán y una placa de control. El primero consta de dos piezas formadas por láminas de acero apiladas: una con forma de “E” , que se encuentra fijada desde arriba y tiene un bobinado de cobre en su rama central. Esta es la encargada de generar la fuerza magnética. La otra pieza tiene forma de “I”, la cual se mueve libremente sobre el eje vertical y es atraída por la primera mediante su campo magnético. De esta forma, para hacer levitar el objeto se lo sujeta de esta última pieza, como se muestra en la figura \ref{fig:img_Esquema-del-producto}. La distancia de separación entre ambas piezas del electroimán se denomina entrehierro ($Y_{g}$).
 
 \begin{figure}[H]
 	\centering
@@ -52,7 +52,7 @@ El sistema de control está conformado por las etapas que se muestran en la figu
 	\label{fig:img_diagrama-en-bloques-del-sistema}
 \end{figure}
 
-El estimador de posición se encarga de entregar una tensión proporcional al \textsl{gap} de aire real a partir de la corriente que circula por el electroimán. El usuario puede modificar el \textsl{gap} según desee al variar la tensión entregada por un potenciómetro presente en la placa de control. Tanto la implementación analógica como la digital reciben esta entrada que es comparada con la estimación y luego, su resultado, es utilizado como entrada para el compensador.
+El estimador de posición se encarga de entregar una tensión proporcional al entrehierro real a partir de la corriente que circula por el electroimán. El usuario puede modificar el entrehierro según desee al variar la tensión entregada por un potenciómetro presente en la placa de control. Tanto la implementación analógica como la digital reciben esta entrada que es comparada con la estimación y luego, su resultado, es utilizado como entrada para el compensador.
 
 Debido a que la planta es naturalmente inestable, como se analizará en el capítulo \ref{cap:CaracterizacionElectroiman}, se utiliza un compensador para lograr la estabilidad y la distancia de separación deseada. En su entrada recibe la comparación de la referencia de posición con la estimación y en base a ella modifica la corriente que ingresa al electroimán, y por ende la fuerza que este ejerce.
 

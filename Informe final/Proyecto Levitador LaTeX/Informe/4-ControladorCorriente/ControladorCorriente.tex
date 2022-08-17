@@ -4,7 +4,7 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}
 
-\noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la admitancia de un circuito RL serie, cuya inductancia varía con el \textsl{gap} de aire como se observa en la expresión \ref{eq_admitancia}.
+\noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la admitancia de un circuito RL serie, cuya inductancia varía con el entrehierro como se observa en la expresión \ref{eq_admitancia}.
 
 \begin{equation} \label{eq_admitancia}
 \frac{1}{sL(Y_g)\ +\ R_L}
@@ -360,7 +360,7 @@ R_T = \frac{R_{ESR}}{n}
 \begin{itemize} 
 	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio de corriente supera la mitad del ripple de corriente $(\Delta I_{L})$.
 	
-	\item Cuando el \textsl{gap} de aire es pequeño y se trabaja con peso reducido la corriente media puede llegar a ser menor que el ripple $\Delta I_{L}$.
+	\item Cuando el entrehierro es pequeño y se trabaja con peso reducido la corriente media puede llegar a ser menor que el ripple $\Delta I_{L}$.
 \end{itemize}
 
 \noindent Por estos motivos se debe utilizar una topología de puente completo, puesto que permite la excursión negativa de la corriente mientras que mantiene en funcionamiento al estimador de posición.
@@ -407,7 +407,7 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 
 \subsection{Ancho de banda del controlador}\label{esccion_AB_Controlador} 
 
-\noindent La dinámica del controlador, al depender de la inductancia, lo hace también del \textsl{gap} de aire. El ancho de banda (o velocidad con que responde) está limitado por la constante de tiempo del inductor con su resistencia serie. Juntas forman un sistema lineal de primer orden, con un polo en: 
+\noindent La dinámica del controlador, al depender de la inductancia, lo hace también del entrehierro. El ancho de banda (o velocidad con que responde) está limitado por la constante de tiempo del inductor con su resistencia serie. Juntas forman un sistema lineal de primer orden, con un polo en: 
 
 \begin{equation} \label{eq_frec-angular}
 	\omega _{polo} = \frac{R_L}{L(Y_g)}
@@ -445,7 +445,7 @@ f_{SW} = \frac{V_{BUS}}{2*\Delta I_L * L(Y_g)}
 			8.23 & 12.4 & 0.26 & 1935.48 & 16.13\\ \hline
 			$\infty$ & 8.89 & 0.19 & 2699.66 & 22.5	\\ \hline
 		\end{tabular}
-		\caption{Valores calculados y medidos en función del \textsl{gap} de aire.}
+		\caption{Valores calculados y medidos en función del entrehierro.}
 		\label{tab_mediciones}
 	\end{center}
 \end{table}

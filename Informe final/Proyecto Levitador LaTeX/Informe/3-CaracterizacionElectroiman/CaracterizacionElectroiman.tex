@@ -143,6 +143,37 @@ Por lo tanto, la reluctancia del circuito magnético resulta:
 
 \noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (i), e inversamente proporcional al cuadrado de la variable que se desea controlar ($Y_{g}$). Por lo tanto, se puede observar que el comportamiento del sistema es no lineal.
 
+\section{Características del electroimán} \label{section_disenio_electroimán}
+
+En esta sección se hará una descripción de cómo esta construido el electroimán junto con sus dimensiones. Además, se obtendrá una expresión para calcular la corriente nominal del sistema y se hará una aproximación lineal de la inductancia del electroimán.
+ 
+\subsection{Características constructivas}
+
+\noindent Para el desarrollo del proyecto se utiliza un electroimán compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor cuyas dimensiones (expresadas en $mm$) se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la “E” tiene una sección cuadrada (A) de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{plano_dimensiones.png}
+	\caption{Dimensiones del electroimán [mm].}
+	\label{fig:img_plano_dimensiones}
+\end{figure}
+
+\noindent El bobinado está conformado por $150$ vueltas de alambre de cobre esmaltado de $2.5\:mm$ de diámetro enrollado alrededor de un carrete de plástico (figura \ref{fig:img_carrete}) que luego se ubica en la rama central de la pieza ``E''.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{carrete.png}
+	\caption{Carrete de plástico para el bobinado.}
+	\label{fig:img_carrete}
+\end{figure}
+
+
+\noindent Se utiliza un apilado de láminas cuyo exterior está recubierto por una pintura esmaltada para aislarlas entre sí con el fin de minimizar las pérdidas de energía causadas por las corrientes eléctricas que se generan en el núcleo debidas al flujo magnético. 
+
+\noindent El electroimám está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas ``E'' e ``I'' puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
+
+
+%\noindent Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. En su núcleo tiene un bobinado de 150 vueltas (N) de cobre esmaltado con un diámetro de $2.5$ mm. El núcleo es de sección cuadrada ya que esto maximiza el área mientras que disminuye el perímetro, reduciendo así la longitud media de las espiras y ahorrando material.
 
 \subsection{Corriente nominal del sistema}
 
@@ -174,49 +205,13 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e 
 \noindent Si bien esta corriente es suficiente para mantener el objeto en estado de equilibrio, se necesita una corriente mayor para poder responder ante perturbaciones en la distancia de separación. Por lo tanto, se define como corriente máxima: $i_{max}=30\:A$.
 
 
-%\section{Expresión de inductancia linealizada}
-%\label{secc_exp_ind_linealizada}
-%\noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor linealizada en torno al punto $Y_{g}=Y_{0}=4mm$. Se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
+\subsection{Expresión de inductancia linealizada}
+\label{secc_exp_ind_linealizada}
+\noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor linealizada en torno al punto $Y_{g}=Y_{0}=4\:mm$. Se desprecian los términos de orden mayor o igual a 2, con el objetivo de llegar a una expresión lineal para la inductancia. Se obtiene:
 
-
-
-%\begin{equation} \label{eq_inductancia_lineal_teorica}
-%	L(y)=-2.2089*Y_{g}+0.0177
-%\end{equation}
-
-%\noindent Donde:
-%\begin{itemize}
-%	\item $Y_{g}$: distancia del gap de aire en metros [m].
-%	\item L: inductancia resultante en Henry [Hy].
-%\end{itemize}
-
-\section{Características constructivas del electroimán} \label{section_disenio_electroimán}
-
-\noindent Para el desarrollo del proyecto se utiliza un electroimán compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor cuyas dimensiones (expresadas en $mm$) se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la “E” tiene una sección cuadrada de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{plano_dimensiones.png}
-	\caption{Dimensiones del electroimán [mm].}
-	\label{fig:img_plano_dimensiones}
-\end{figure}
-
-\noindent El bobinado está conformado por $150$ vueltas de alambre de cobre esmaltado de $2.5\:mm$ de diámetro enrollado alrededor de un carrete de plástico (figura \ref{fig:img_carrete}) que luego se ubica en la rama central de la pieza ``E''.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.35]{carrete.png}
-	\caption{Carrete de plástico para el bobinado.}
-	\label{fig:img_carrete}
-\end{figure}
-
-
-\noindent Se utiliza un apilado de láminas cuyo exterior está recubierto por una pintura esmaltada para aislarlas entre sí con el fin de minimizar las pérdidas de energía causadas por las corrientes eléctricas que se generan en el núcleo debidas al flujo magnético. 
-
-\noindent El electroimám está construido por una laminación normalizada sin desperdicio 600. Estas son útiles ya que cada par de laminas ``E'' e ``I'' puede fabricarse a partir de una lámina de acero rectangular, de manera de que no se desperdicia material durante la fabricación. 
-
-
-%\noindent Está compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. En su núcleo tiene un bobinado de 150 vueltas (N) de cobre esmaltado con un diámetro de $2.5$ mm. El núcleo es de sección cuadrada ya que esto maximiza el área mientras que disminuye el perímetro, reduciendo así la longitud media de las espiras y ahorrando material. 
+\begin{equation} \label{eq_inductancia_lineal_teorica}
+	L(y)=-2.2089*Y_{g}+0.0177
+\end{equation}
 
 \section{Mediciones sobre el electroimán}
 

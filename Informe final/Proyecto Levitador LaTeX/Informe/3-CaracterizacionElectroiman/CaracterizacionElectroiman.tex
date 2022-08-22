@@ -272,7 +272,11 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e 
 	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
 
-Se puede ver que la ecuación obtenida no difiere demasiado con la calculada en la sección \ref{secc_exp_ind_linealizada}. Las variaciones en los valores obtenidos con respecto a la calculada de forma teórica están dados por las desviaciones en los materiales utilizados para construir el electroimán. Se utilizará como aproximación de la inductancia a la calculada de forma practica (ecuación \ref{eq_induct_practica}).
+Se puede observar que la expresión obtenida tiene una pendiente similar a la teórica (\ref{eq_inductancia_vs_y}), pero con un valor en el término independiente mayor. Una de las razones es no haber considerado la inductancia de dispersión en el electroimán al momento del modelado. Es decir, no haber tenido en cuenta a las líneas de flujo magnético que se cierran dentro de la pieza en forma de ”E”, y no llegan a atravesar la pieza ”I”. 
+
+Por otro lado, debe tenerse en cuenta que al realizar una aproximación lineal en base a los resultados de las mediciones, el rango de valores de distancia de entrehierro que se utilice afecta el resultado de la aproximación. 
+
+La expresión obtenida a partir de las mediciones (\ref{eq_induct_practica}) se acerca más al comportamiento real de la inductancia, por lo tanto será utilizada para el diseño del resto de las etapas del sistema. 
 
 
 

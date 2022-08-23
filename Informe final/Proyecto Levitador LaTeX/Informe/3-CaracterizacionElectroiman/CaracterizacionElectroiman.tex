@@ -336,7 +336,7 @@ La ecuación \ref{eq_fuerza_magnetica} muestra que la fuerza magnética depende 
 \end{equation*}
 
 
-\noindent El modelo es no lineal, por lo tanto se utiliza el método de linealización por serie de Taylor. En primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=4\:mm$. El resto de los puntos de equilibrio se encuentran al igualar las derivadas a cero:
+\noindent El modelo obtenido no es lineal debido a que depende del cuadrado de la variable de control y al cuadrado de la inversa de la variable que se desea controlar. Debido a que se desea poder aplicar técnicas de control de sistemas lineales, se utiliza el método de linealización por serie de Taylor. Para aplicarlo, en primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=4\:mm$. El resto de los puntos de equilibrio se encuentran al igualar las derivadas a cero:
 
 \begin{equation*}
 \begin{bmatrix}

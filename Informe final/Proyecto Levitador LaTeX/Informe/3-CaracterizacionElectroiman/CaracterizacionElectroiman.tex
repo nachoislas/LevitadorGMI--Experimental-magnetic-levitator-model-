@@ -1,6 +1,6 @@
 \chapter{Caracterización y modelado de la planta} \chapterlabel{Informe/3-CaracterizacionElectroiman} \label{cap:CaracterizacionElectroiman}
 
-En este capítulo se realiza un modelado físico del sistema para encontrar una expresión que relaciona la fuerza magnética ejercida en función de la variable de control. Además, se detallan las características constructivas que posee el electroimán y las mediciones realizadas. Luego, se realiza el modelo de estados de la planta y se obtienen otros parámetros relevantes para el diseño del sistema de control.
+En este capítulo se realiza un modelado físico del sistema para encontrar una expresión de la fuerza magnética ejercida en función de la variable de control. Además, se detallan las características constructivas que posee el electroimán y las mediciones realizadas. Luego, se realiza el modelo de estados de la planta y se obtienen otros parámetros relevantes para el diseño del sistema de control.
 
 \section{Modelado matemático del electroimán}
 
@@ -14,7 +14,7 @@ Como se mencionó previamente, para el desarrollo del proyecto se utiliza un ele
 
 \noindent La fuerza de atracción entre las dos piezas se logra al hacer circular un flujo magnético entre ellas. Este es generado por la corriente en el bobinado del electroimán.
 
-\noindent En el núcleo se genera una fuerza magnetomotriz, debido a la corriente del bobinado, y es la responsable de la circulación del flujo magnético. La ecuación \ref{eq_fuerza-magnetomotriz} da una relación de estos parámetros.	
+\noindent En el núcleo se genera una fuerza magnetomotriz ($F_{mm}$) debido a la corriente del bobinado, y es la responsable de la circulación del flujo magnético. La ecuación \ref{eq_fuerza-magnetomotriz} da una relación de estos parámetros.	
 
 
 %\noindent Para que haya una fuerza que atraiga la pieza I hacia la E, se necesita que entre estas circule un flujo magnético. Este es generado a partir de una fuerza magnetomotriz ($F_{mm}$), cuyo módulo está dado por la ecuación \ref{eq_fuerza-magnetomotriz}.
@@ -145,9 +145,9 @@ Por lo tanto, la reluctancia del circuito magnético resulta:
 
 En esta sección se hará una descripción de cómo esta construido el electroimán junto con sus dimensiones. Además, se obtendrá una expresión para calcular la corriente nominal del sistema y se hará una aproximación lineal de la inductancia del electroimán.
  
-\subsection{Características constructivas}
+\subsection{Características constructivas}\label{section_caract_constructivas}
 
-\noindent Para el desarrollo del proyecto se utiliza un electroimán compuesto por dos piezas: una con forma de “E” y otra con forma de “I”. Estas se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor cuyas dimensiones (expresadas en $mm$) se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la “E” tiene una sección cuadrada (A) de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
+\noindent Las dos piezas que conforman al electroimán se construyen a partir del apilado de láminas de acero al silicio de $0.5\:mm$ de espesor cuyas dimensiones (expresadas en $mm$) se muestran en la figura \ref{fig:img_plano_dimensiones}. El apilado de las láminas es tal que la rama central de la “E” tiene una sección cuadrada (A) de $25\:cm^{2}$ lo que maximiza el área mientras que disminuye el perímetro. Esto permite que el largo de las espiras que la envuelven sea óptimo y se ahorre material.
 
 \begin{figure}[H]
 	\centering
@@ -176,7 +176,7 @@ En esta sección se hará una descripción de cómo esta construido el electroim
 \subsection{Corriente nominal del sistema}
 
 %\noindent Utilizando como referencia la figura \ref{fig:img_dimensiones}, el electroimán del que se dispone tiene las siguientes características:
-\noindent Al utilizar los datos de construcción del electroimán mencionados en el apartado \ref{section_disenio_electroimán} se puede determinar el valor de corriente necesaria para sostener el objeto del peso deseado.
+\noindent Al utilizar los datos de construcción del electroimán mencionados en el apartado \ref{section_caract_constructivas} se puede determinar el valor de corriente necesaria para sostener el objeto del peso deseado.
 
 %\noindent Se debe determinar qué dimensiones debe tener el electroimán a utilizar para que sea capaz de ejercer la fuerza magnética necesaria para mantener levitando el peso deseado.
 
@@ -278,9 +278,9 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e 
 	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
 
-Se puede observar que la expresión obtenida tiene una pendiente similar a la teórica (\ref{eq_inductancia_vs_y}), pero con un valor en el término independiente mayor. Una de las razones es no haber considerado la inductancia de dispersión en el electroimán al momento del modelado. Es decir, no haber tenido en cuenta a las líneas de flujo magnético que se cierran dentro de la pieza en forma de ”E”, y no llegan a atravesar la pieza ”I”. 
+Se puede observar que la expresión obtenida tiene una pendiente similar a la teórica (\ref{eq_inductancia_vs_y}), pero con un valor en el término independiente mayor. Una de las razones de ello es no haber considerado la inductancia de dispersión en el electroimán al momento del modelado. Es decir, no haber tenido en cuenta a las líneas de flujo magnético que se cierran dentro de la pieza en forma de ”E”, y no llegan a atravesar la pieza ”I”. 
 
-Por otro lado, debe tenerse en cuenta que al realizar una aproximación lineal en base a los resultados de las mediciones, el rango de valores de distancia de entrehierro que se utilice afecta el resultado de la aproximación. 
+Por otro lado, debe tenerse en cuenta que al realizar una aproximación lineal en base a los resultados de las mediciones, el rango de valores de distancia de entrehierro utilizado para el cálculo afecta el resultado de la aproximación. 
 
 La expresión obtenida a partir de las mediciones (\ref{eq_induct_practica}) se acerca más al comportamiento real de la inductancia, por lo tanto será utilizada para el diseño del resto de las etapas del sistema. 
 

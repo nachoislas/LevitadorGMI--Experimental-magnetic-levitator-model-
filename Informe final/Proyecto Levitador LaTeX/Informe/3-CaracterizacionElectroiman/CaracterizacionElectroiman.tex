@@ -139,7 +139,7 @@ Por lo tanto, la reluctancia del circuito magnético resulta:
 	\abs{F_{m}}=\frac{\partial{E(i,Y_g)}}{\partial{Y_g}}=\frac{i^{2}}{2}*\frac{\partial{\frac{{N^{2}*A*\mu_{o}}}{2*Y_{g}}}}{\partial{Y_g}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation}
 
-\noindent Como se puede apreciar en la ecuación \ref{eq_fuerza_magnetica} la fuerza es proporcional al cuadrado de la acción de control (i), e inversamente proporcional al cuadrado de la variable que se desea controlar ($Y_{g}$). Por lo tanto, se puede observar que el comportamiento del sistema es no lineal.
+Debido a que se desea controlar la distancia de separación $Y_g$, es necesario actuar sobre la fuerza magnética que ejerce el electroimán. Por lo tanto, al analizar la expresión \ref{eq_fuerza_magnetica}, se puede ver que la fuerza depende de la corriente, de la distancia de separación y de términos constantes. Por ello, se decide utilizar la corriente como variable de control. Sin embargo, es importante notar que el módulo de la fuerza es proporcional al cuadrado de la variable de control e inversamente proporcional al cuadrado de la variable que se desea controlar, por lo que el comportamiento del sistema es alineal.
 
 \section{Características del electroimán} \label{section_disenio_electroimán}
 
@@ -288,10 +288,11 @@ La expresión obtenida a partir de las mediciones (\ref{eq_induct_practica}) se 
 
 \section{Modelo de estado de la planta}
 
-Se desea diseñar un sistema de control para mantener una levitación de manera estable. Para ello, primero se debe poder caracterizar el comportamiento dinámico de la planta. Dentro de las distintas formas de realizar esta caracterización se encuentra el modelo de estados. Este proporciona una representación matemática de un sistema físico, en función de sus entradas, salidas y variables de estado, que se encuentran relacionadas por ecuaciones diferenciales de primer orden. 
+Se desea diseñar un sistema de control para mantener una levitación de manera estable. Para ello, primero se debe poder caracterizar el comportamiento dinámico de la planta.
 
-La ecuación \ref{eq_fuerza_magnetica} muestra que la fuerza magnética depende del cuadrado de la corriente y del cuadrado de la inversa de la distancia del entrehierro, por lo tanto se trata de un fenómeno no lineal. La desventaja de que se trate de un sistema no lineal es que se dificulta su modelado y el diseño de un compensador en el dominio analógico. Para aplicar un modelo de estados se debe cumplir que el sistema que se desea caracterizar presente un comportamiento lineal y que sea invariante en el tiempo. Para solucionar esta limitación se puede obtener un modelo lineal equivalente por medio de la representación en serie de Taylor. Utilizando este método se puede obtener un modelo de estados representativo del sistema acotado a variaciones en torno de un punto de operación con la hipótesis de que el comportamiento de la planta es lineal en ese rango de variación. 
+La ecuación \ref{eq_fuerza_magnetica} muestra que la fuerza magnética depende del cuadrado de la corriente y del cuadrado de la inversa de la distancia del entrehierro, por lo tanto se trata de un fenómeno no lineal. La desventaja de que se trate de un sistema no lineal es que se dificulta su modelado y el diseño de un compensador adecuado.
 
+Por lo tanto, para poder aplicar técnicas de compensación lineales, es necesario obtener un modelo lineal e invariante en el tiempo de la planta. Para ello se utiliza el método de linealización por representación en serie de Taylor y se encuentra el modelo de estados. Este proporciona una representación matemática de un sistema físico, en función de sus entradas, salidas y variables de estado, que se encuentran relacionadas por ecuaciones diferenciales de primer orden. Este modelo de estados lineal es representativo de la planta siempre que las variaciones de distancia del entrehierro estén limitadas a un rango de operación en el que se mantenga un comportamiento lineal.
 
 \noindent Al observar las fuerzas que intervienen en el eje vertical sobre la pieza en forma de ``I'', como muestra la imagen \ref{fig:img_Esquema-del-producto}, es posible plantear la sumatoria de fuerzas:
 

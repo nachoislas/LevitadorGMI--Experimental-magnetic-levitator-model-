@@ -344,7 +344,9 @@ Por lo tanto, para poder aplicar técnicas de compensación lineales, es necesar
 \end{equation*}
 
 
-\noindent El modelo obtenido no es lineal debido a que depende del cuadrado de la variable de control y al cuadrado de la inversa de la variable que se desea controlar. Debido a que se desea poder aplicar técnicas de control de sistemas lineales, se utiliza el método de linealización por serie de Taylor. Para aplicarlo, en primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=4\:mm$. El resto de los puntos de equilibrio se encuentran al igualar las derivadas a cero:
+Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y para trabajar con él se realiza una aproximación por serie de Taylor conservando sólo el término independiente y el lineal. Al tratarse de una función de dos variables independientes, la aproximación se realiza primero para la corriente, considerando la otra variable como constante, y luego para la distancia de entrehierro considerando la corriente como constante. El resultado final se corresponde con la suma de ambas linealizaciones.
+Para aplicarlo, en primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=4\:mm$. El resto de los puntos de equilibrio se encuentran al igualar las derivadas a cero:
+
 
 \begin{equation*}
 \begin{bmatrix}

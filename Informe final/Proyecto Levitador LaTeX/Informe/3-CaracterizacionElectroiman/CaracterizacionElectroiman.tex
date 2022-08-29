@@ -319,7 +319,8 @@ Por lo tanto, para poder aplicar técnicas de compensación lineales, es necesar
 	K=\frac{N^{2}*\mu_{o}*A}{4}=1.77*10^{-5} [\frac{N*m^2}{A^2}]
 \end{equation}
 
-\noindent Al considerar que $i(t)$ es la entrada a la planta, se puede plantear un modelo con las siguientes variables de estado:
+A partir de la expresión \ref{eq_sumatoria_fuerzas_y_2} se puede obtener un modelo de estados de segundo orden en el que una variable de estado ($x_1$) es la distancia $Y_g$, otra variable ($x_2$) es su derivada (velocidad) y la entrada al sistema (u) es la corriente i. 
+
 
 \begin{equation*}
 	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
@@ -338,6 +339,11 @@ Por lo tanto, para poder aplicar técnicas de compensación lineales, es necesar
 	\end{bmatrix}
 =
 	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
+	&f_1(x_1,x_2,u)\\
+	&f_2(x_1,x_2,u)\\
+\end{bmatrix}
+=
+	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
 		&x_{2}\\
 		&g-\frac{K}{M}*\frac{u^{2}}{x_{1}^{2}}\\
 	\end{bmatrix}
@@ -346,7 +352,6 @@ Por lo tanto, para poder aplicar técnicas de compensación lineales, es necesar
 
 Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y para trabajar con él se realiza una aproximación por serie de Taylor conservando sólo el término independiente y el lineal. Al tratarse de una función de dos variables independientes, la aproximación se realiza primero para la corriente, considerando la otra variable como constante, y luego para la distancia de entrehierro considerando la corriente como constante. El resultado final se corresponde con la suma de ambas linealizaciones.
 Para aplicarlo, en primer lugar se deben encontrar los puntos de equilibrio del sistema. Por las condiciones del problema se define $x_{1o}=4\:mm$. El resto de los puntos de equilibrio se encuentran al igualar las derivadas a cero:
-
 
 \begin{equation*}
 \begin{bmatrix}

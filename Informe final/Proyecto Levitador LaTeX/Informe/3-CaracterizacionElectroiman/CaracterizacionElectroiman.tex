@@ -356,7 +356,7 @@ Para aplicar este método de linealización se deben encontrar los puntos de equ
 
 La serie de Taylor para un sistema con dos variables de estado y una entrada hasta el factor de primer orden queda definida como:
 
-\begin{equation}
+\begin{equation} \label{eq_taylor}
 	\dot{x_{2}}=f_2(x_{1o}, x_{2o}, u_{o})+J_1*(x_1-x_{1o})+J_2*(x_2-x_{2o})+J_3*(u-u_o)
 \end{equation}
 
@@ -394,7 +394,8 @@ Dado que el objetivo de este sistema en particular es mantener la pieza en forma
 \end{bmatrix}
 \end{equation*}
 
-\noindent Por lo tanto las ecuaciones linealizadas quedan:
+En la ecuación \ref{eq_taylor} el primer término correspondiente a la función $f_2(x_{1o},x_{2o},u_o)$ es igual a cero, ya que es la función en el punto de equilibrio. Luego el coeficiente $J_2$ también es nulo ya que la variable $x_2$ no interviene en la función $f_2$. Finalmente el sistema linealizado queda: 
+
 
 \begin{equation*} 
 	\begin{bmatrix}

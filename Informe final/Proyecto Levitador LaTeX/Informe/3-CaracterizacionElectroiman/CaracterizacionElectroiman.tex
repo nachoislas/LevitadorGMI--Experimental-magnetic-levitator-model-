@@ -310,7 +310,7 @@ Por lo tanto, para poder aplicar técnicas de compensación lineales, es necesar
 \noindent Al reemplazar la ecuación \ref{eq_fuerza_magnetica} en la \ref{eq_sumatoria_fuerzas_y} se obtiene:
 
 \begin{equation}\label{eq_sumatoria_fuerzas_y_2}
-	M*\ddot{Y_g}=M*g-K*\frac{i(t)^{2}}{Y_g(t)^{2}}
+	\ddot{Y_g}=g-\frac{K}{M}*\frac{i(t)^{2}}{Y_g(t)^{2}}
 \end{equation}
 
 \noindent En la expresión \ref{eq_sumatoria_fuerzas_y_2}, K es una constante de valor:
@@ -350,15 +350,15 @@ A partir de la expresión \ref{eq_sumatoria_fuerzas_y_2} se puede obtener un mod
 \end{equation}
 
 
-Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y se realiza una aproximación por serie de Taylor de primer orden para obtener un modelo lineal. Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se puede linealizar esta función.
+Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y se realiza una aproximación por serie de Taylor de primer orden para obtener un modelo lineal. Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se procede a linealizar esta función.
 
 Para aplicar este método de linealización se deben encontrar los puntos de equilibrio del sistema. Esto es, si se mantiene una entrada constante $u_o$ al sistema, se obtiene un vector de estados $X_o$ constante, por lo tanto sus derivadas son iguales a 0. 
 
 La serie de Taylor para un sistema con dos variables de estado y una entrada hasta el factor de primer orden queda definida como:
 
-\begin{multline}
+\begin{equation}
 	\dot{x_{2}}=f_2(x_{1o}, x_{2o}, u_{o})+J_1*(x_1-x_{1o})+J_2*(x_2-x_{2o})+J_3*(u-u_o)
-\end{multline}
+\end{equation}
 
 Donde:
 
@@ -376,7 +376,7 @@ Donde:
 	\end{bmatrix}
 \end{equation}
 
-Dado que el objetivo de este sistema en particular es mantener la pieza en forma de “I”  suspendida a una distancia determinada, se podría considerar la linealización en torno a ese punto de equilibrio. Debido a que el sistema va a trabajar entre 3 y 5mm, se elige como punto de equilibrio $X_o=4\:mm$
+Dado que el objetivo de este sistema en particular es mantener la pieza en forma de “I”  suspendida a una distancia determinada, se puede considerar la linealización en torno a ese punto de equilibrio. Debido a que el sistema va a trabajar entre 3 y 5mm, se elige como punto de equilibrio $x_{1o}=4\:mm$.
 
 
 
@@ -408,18 +408,18 @@ Dado que el objetivo de este sistema en particular es mantener la pieza en forma
 	\end{bmatrix}
 \end{equation*}
 
-\noindent Las matrices del modelo quedan:
+\noindent Las matrices del modelo resultan:
 
 \begin{equation*}
 	A=
 	\begin{bmatrix}
 		0 & 1\\
-		\frac{2*g}{y_{o}} & 0
+		\frac{2*g}{x_{1o}} & 0
 	\end{bmatrix}\\
 	  B=
 	\begin{bmatrix}
 	0\\
-	-\frac{2}{y_{o}}*\sqrt{\frac{K*g}{M}}
+	-\frac{2}{x_{1o}}*\sqrt{\frac{K*g}{M}}
 	\end{bmatrix}\\
 	  C=
 	\begin{bmatrix}
@@ -435,13 +435,13 @@ Dado que el objetivo de este sistema en particular es mantener la pieza en forma
 	G_{P}=C*(s*I-A)^{-1}*B
 \end{equation}
 
-\noindent \noindent Al trabajar con una planta cuya masa es variable es conveniente expresar la transferencia en función de $M$. Finalmente, se obtiene para $y_{o}=4\:mm$:
+\noindent \noindent Al trabajar con una planta cuya masa es variable es conveniente expresar la transferencia en función de $M$. Finalmente, se obtiene para $x_{1o}=4\:mm$:
 
 \begin{equation} \label{eq_transferencia_planta_m}
 	G_{P}(M)=-\sqrt{\frac{30}{M}}*\frac{1.201}{s^{2}-4900}
 \end{equation}
 
-\noindent La planta tiene dos polos en $\pm\sqrt{\frac{2*g}{y_{o}}}=\pm70\:[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho. Es por este motivo que el fenómeno de levitación magnética es inestable.
+\noindent La planta tiene dos polos en $\pm\sqrt{\frac{2*g}{x_{1o}}}=\pm70\:[\frac{rad}{s}]$. Es decir, uno en el semiplano izquierdo y otro en el derecho. Es por este motivo que el fenómeno de levitación magnética es inestable.
 
 \noindent En la expresión \ref{eq_transferencia_planta_m} se observa que la masa del objeto modifica la ganancia del sistema, pero no la ubicación de los polos. Esto es importante para tener en cuenta al momento de diseñar el compensador.
 

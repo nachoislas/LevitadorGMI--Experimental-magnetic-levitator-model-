@@ -352,12 +352,29 @@ A partir de la expresión \ref{eq_sumatoria_fuerzas_y_2} se puede obtener un mod
 
 Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y se realiza una aproximación por serie de Taylor de primer orden para obtener un modelo lineal. Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se procede a linealizar esta función.
 
-Para aplicar este método de linealización se deben encontrar los puntos de equilibrio del sistema. Esto es, si se mantiene una entrada constante $u_o$ al sistema, se obtiene un vector de estados $X_o$ constante, por lo tanto sus derivadas son iguales a 0. 
+Para aplicar este método de linealización se deben encontrar los puntos de equilibrio del sistema. Esto es, si se mantiene una entrada constante $u_o$ al sistema, se obtiene un vector de estados $X_o$ constante, por lo tanto sus derivadas son iguales a 0. Se adoptan nuevas variables de estado equivalentes a las anteriores pero desplazadas por sus puntos de equilibrio:
+
+
+\begin{equation*}
+	\begin{bmatrix}
+		&x_1^*\\
+		&x_2^*\\
+		&u^*\\
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		&x_1-x_{1o}\\
+		&x_2-x_{2o}\\
+		&u-u_o\\
+	\end{bmatrix}
+\end{equation*}
+
+Como $x_{1o}$, $x_{2o}$, $u_o$ son constantes, las derivadas de las nuevas variables son iguales a las originales.
 
 La serie de Taylor para un sistema con dos variables de estado y una entrada hasta el factor de primer orden queda definida como:
 
 \begin{equation} \label{eq_taylor}
-	\dot{x_{2}}=f_2(x_{1o}, x_{2o}, u_{o})+J_1*(x_1-x_{1o})+J_2*(x_2-x_{2o})+J_3*(u-u_o)
+	\dot{x_{2}}=f_2(x_{1o}, x_{2o}, u_{o})+J_1*x_1^*+J_2*x_2^*+J_3*u^*
 \end{equation}
 
 Donde:
@@ -375,23 +392,6 @@ Donde:
 		&\frac{\partial{f_2(x_1,x_2,u)}}{\partial{u}}\Biggr|_{x_{1o},x_{2o},u_o}\\
 	\end{bmatrix}
 \end{equation}
-
-Además se adoptan nuevas variables de estado equivalentes a las anteriores pero desplazadas por sus puntos de equilibrio:
-
-
-\begin{equation*}
-	\begin{bmatrix}
-		&x_1^*\\
-		&x_2^*\\
-		&u^*\\
-	\end{bmatrix}
-	=
-	\begin{bmatrix}
-		&x_1-x_{1o}\\
-		&x_2-x_{2o}\\
-		&u-u_o\\
-	\end{bmatrix}
-\end{equation*}
 
 Dado que el objetivo de este sistema en particular es mantener la pieza en forma de “I”  suspendida a una distancia determinada, se puede considerar la linealización en torno a ese punto de equilibrio. Debido a que el sistema va a trabajar entre 3 y 5mm, se elige como punto de equilibrio $x_{1o}=4\:mm$.
 

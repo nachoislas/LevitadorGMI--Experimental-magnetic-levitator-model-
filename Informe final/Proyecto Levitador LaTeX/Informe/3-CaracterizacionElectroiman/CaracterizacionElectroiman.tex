@@ -350,7 +350,7 @@ A partir de la expresión \ref{eq_sumatoria_fuerzas_y_2} se puede obtener un mod
 \end{equation}
 
 
-Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y se realiza una aproximación por serie de Taylor de primer orden para obtener un modelo lineal. Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se puede linealizar esta en función de las variables $x_1$ y u (ya que no aparece $x_2$).
+Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y se realiza una aproximación por serie de Taylor de primer orden para obtener un modelo lineal. Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se puede linealizar esta función.
 
 Para aplicar este método de linealización se deben encontrar los puntos de equilibrio del sistema. Esto es, si se mantiene una entrada constante $u_o$ al sistema, se obtiene un vector de estados $X_o$ constante, por lo tanto sus derivadas son iguales a 0. 
 
@@ -370,9 +370,9 @@ Donde:
 	\end{bmatrix}
 	=
 	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
-		&\frac{\delta{f_2(x_1,x_2,u)}}{\delta{x_1}}\Biggr|_{x_{1o},x_{2o},u_o}\\
-		&\frac{\delta{f_2(x_1,x_2,u)}}{\delta{x_2}}\Biggr|_{x_{1o},x_{2o},u_o}\\
-		&\frac{\delta{f_2(x_1,x_2,u)}}{\delta{u}}\Biggr|_{x_{1o},x_{2o},u_o}\\
+		&\frac{\partial{f_2(x_1,x_2,u)}}{\partial{x_1}}\Biggr|_{x_{1o},x_{2o},u_o}\\
+		&\frac{\partial{f_2(x_1,x_2,u)}}{\partial{x_2}}\Biggr|_{x_{1o},x_{2o},u_o}\\
+		&\frac{\partial{f_2(x_1,x_2,u)}}{\partial{u}}\Biggr|_{x_{1o},x_{2o},u_o}\\
 	\end{bmatrix}
 \end{equation}
 

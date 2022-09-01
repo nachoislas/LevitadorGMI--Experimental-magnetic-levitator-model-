@@ -226,7 +226,7 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e 
 
 \section{Mediciones sobre el electroimán}
 
-\noindent Se realizaron mediciones sobre el electroimán con el objetivo de utilizar los valores obtenidos para el diseño de las demás etapas del sistema.
+\noindent Se realizaron mediciones sobre la inductancia y la resistencia interna del electroimán con el objetivo de utilizar los valores obtenidos para el diseño de las demás etapas del sistema.
 
 \subsection{Medición de resistencia del bobinado}
 
@@ -285,12 +285,11 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e 
 	\item L: inductancia resultante en Henry [Hy].
 \end{itemize}
 
-Se puede observar que la expresión obtenida tiene una pendiente similar a la teórica (\ref{eq_inductancia_vs_y}), pero con un valor en el término independiente mayor. Una de las razones de ello es no haber considerado la inductancia de dispersión en el electroimán al momento del modelado. Es decir, no haber tenido en cuenta a las líneas de flujo magnético que se cierran dentro de la pieza en forma de ”E”, y no llegan a atravesar la pieza ”I”. 
+Se puede observar que la expresión obtenida tiene una pendiente similar a la teórica (\ref{eq_inductancia_vs_y}), pero con un valor en el término independiente mayor. Una de las razones de ello es no haber considerado la inductancia de dispersión en el electroimán al momento del modelado. Es decir, no haber tenido en cuenta a las líneas de flujo magnético que se cierran dentro de la pieza en forma de ”E”, y no llegan a atravesar la pieza ”I”.  
 
-Por otro lado, debe tenerse en cuenta que al realizar una aproximación lineal en base a los resultados de las mediciones, el rango de valores de distancia de entrehierro utilizado para el cálculo afecta el resultado de la aproximación. 
+Por otro lado, debe tenerse en cuenta que al realizar una aproximación lineal en base a las mediciones, el resultado de la aproximación depende del rango de valores de distancia de entrehierro utilizado para el cálculo. 
 
-La expresión obtenida a partir de las mediciones (\ref{eq_induct_practica}) se acerca más al comportamiento real de la inductancia, por lo tanto será utilizada para el diseño del resto de las etapas del sistema. 
-
+La expresión \ref{eq_induct_practica}, obtenida a partir de las mediciones, se acerca más al comportamiento real de la inductancia. Por lo tanto, se utilizará esta expresión para el diseño del resto de las etapas del sistema. 
 
 
 \section{Modelo de estado de la planta}
@@ -350,9 +349,11 @@ A partir de la expresión \ref{eq_sumatoria_fuerzas_y_2} se puede obtener un mod
 \end{equation}
 
 
-Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y se realiza una aproximación por serie de Taylor de primer orden para obtener un modelo lineal. Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se procede a linealizar esta función.
+Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y se realiza una aproximación por serie de Taylor de primer orden para obtener un modelo lineal. 
 
-Para aplicar este método de linealización se deben encontrar los puntos de equilibrio del sistema. Esto es, si se mantiene una entrada constante $u_o$ al sistema, se obtiene un vector de estados $X_o$ constante, por lo tanto sus derivadas son iguales a 0. Se adoptan nuevas variables de estado equivalentes a las anteriores pero desplazadas por sus puntos de equilibrio:
+Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se procede a su linealización. Para ello, se deben encontrar los puntos de equilibrio del sistema. Esto es, si se mantiene una entrada constante $u_o$ al sistema, se obtiene un vector de estados $X_o$ constante, por lo tanto sus derivadas son iguales a 0.
+
+Se adoptan nuevas variables de estado equivalentes a las anteriores pero desplazadas por sus puntos de equilibrio:
 
 
 \begin{equation*}
@@ -369,7 +370,7 @@ Para aplicar este método de linealización se deben encontrar los puntos de equ
 	\end{bmatrix}
 \end{equation*}
 
-Como $x_{1o}$, $x_{2o}$, $u_o$ son constantes, las derivadas de las nuevas variables son iguales a las originales.
+Como $x_{1o}$, $x_{2o}$ y $u_o$ son constantes, las derivadas de las nuevas variables son iguales a las originales.
 
 La serie de Taylor para un sistema con dos variables de estado y una entrada hasta el factor de primer orden queda definida como:
 
@@ -393,7 +394,7 @@ Donde:
 	\end{bmatrix}
 \end{equation}
 
-Dado que el objetivo de este sistema en particular es mantener la pieza en forma de “I”  suspendida a una distancia determinada, se puede considerar la linealización en torno a ese punto de equilibrio. Debido a que el sistema va a trabajar entre 3 y 5mm, se elige como punto de equilibrio $x_{1o}=4\:mm$.
+Dado que el objetivo del sistema es mantener la pieza en forma de “I”  suspendida a una distancia determinada, se puede considerar la linealización en torno a ese punto de equilibrio. Debido a que el sistema va a trabajar entre 3 y 5mm, se elige como punto de equilibrio $x_{1o}=4\:mm$.
 
 \begin{equation*}
 \begin{bmatrix}

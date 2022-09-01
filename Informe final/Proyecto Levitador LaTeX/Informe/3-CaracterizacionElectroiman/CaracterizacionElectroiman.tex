@@ -294,11 +294,13 @@ La expresión \ref{eq_induct_practica}, obtenida a partir de las mediciones, se 
 
 \section{Modelo de estado de la planta}
 
-Se desea diseñar un sistema de control para mantener una levitación de manera estable. Para ello, primero se debe poder caracterizar el comportamiento dinámico de la planta.
+Se desea diseñar un sistema de control para mantener una levitación de manera estable. Para ello, primero se debe caracterizar el comportamiento dinámico de la planta.
 
-La ecuación \ref{eq_fuerza_magnetica} muestra que la fuerza magnética depende del cuadrado de la corriente y del cuadrado de la inversa de la distancia del entrehierro, por lo tanto se trata de un fenómeno no lineal. La desventaja de que se trate de un sistema no lineal es que se dificulta su modelado y el diseño de un compensador adecuado.
+La ecuación \ref{eq_fuerza_magnetica} muestra que la fuerza magnética depende del cuadrado de la corriente y del cuadrado de la inversa de la distancia del entrehierro. Es decir, se trata de un fenómeno no lineal. La desventaja que esto conlleva es que se dificulta su modelado y el diseño de un compensador adecuado.
 
 Por lo tanto, para poder aplicar técnicas de compensación lineales, es necesario obtener un modelo lineal e invariante en el tiempo de la planta. Para ello se utiliza el método de linealización por representación en serie de Taylor y se encuentra el modelo de estados. Este proporciona una representación matemática de un sistema físico, en función de sus entradas, salidas y variables de estado, que se encuentran relacionadas por ecuaciones diferenciales de primer orden. Este modelo de estados lineal es representativo de la planta siempre que las variaciones de distancia del entrehierro estén limitadas a un rango de operación en el que se mantenga un comportamiento lineal.
+
+
 
 \noindent Al observar las fuerzas que intervienen en el eje vertical sobre la pieza en forma de ``I'', como muestra la imagen \ref{fig:img_Esquema-del-producto}, es posible plantear la sumatoria de fuerzas:
 

@@ -124,7 +124,7 @@ Por lo tanto, la reluctancia del circuito magnético resulta:
 	L(Y_g)\approx\frac{{N^{2}*A*\mu_{o}}}{2*Y_{g}}
 \end{equation}
 
-\subsection{Cálculo de la fuerza magnética}
+\subsection{Cálculo de la fuerza magnética}\label{sec:fuerza_magnetica}
 
 \noindent La fuerza magnética de atracción que ejerce el electroimán sobre la pieza en forma de ``I'' se puede modelar a partir de considerar que el trabajo ejercido por esta fuerza, al mover el objeto desde una posición inicial a otra, es igual a la variación de la energía almacenada en el inductor con respecto a la variable $Y_g$. Por lo tanto, se obtiene:
 
@@ -294,13 +294,11 @@ La expresión \ref{eq_induct_practica}, obtenida a partir de las mediciones, se 
 
 \section{Modelo de estado de la planta}
 
-Se desea mantener una levitación de manera estable. Por lo tanto, es necesario diseñar un sistema de control. Para ello, primero se debe caracterizar el comportamiento dinámico de la planta.
+Se desea diseñar un sistema de control que mantenga una levitación de manera estable. Para ello, primero se necesita caracterizar el comportamiento de la planta en función de sus entradas y salidas. Como se analizó en la sección \ref{sec:fuerza_magnetica}, el fenómeno de levitación presenta un comportamiento alineal. Sin embargo, como el sistema va a trabajar en un rango de distancia de entrehierro acotado, su dinámica puede ser aproximada a un comportamiento lineal dentro de ese rango. Esto trae la ventaja de que permite aplicar técnicas de modelado y diseño de compensadores para sistemas lineales.
 
-La ecuación \ref{eq_fuerza_magnetica} muestra que la fuerza magnética depende del cuadrado de la corriente y del cuadrado de la inversa de la distancia del entrehierro. Es decir, se trata de un fenómeno no lineal. La desventaja que esto conlleva es que resulta complejo el diseño de un compensador adecuado. Sin embargo, es posible aplicar técnicas de compensación lineales si se considera que el comportamiento de la planta es aproximadamente lineal en un cierto rango de operación.
+Una forma de caracterizar la dinámica de un sistema lineal es mediante el modelo de estados. Esto es una representación matemática del comportamiento físico de la planta en función de sus entradas, salidas y variables de estado. A partir de este modelo, se obtiene una función transferencia de la planta para ser luego utilizada en el diseño del compensador.
 
-Por lo tanto, para poder aplicar este tipo de técnicas de compensación, es necesario obtener un modelo lineal e invariante en el tiempo de la planta. Para ello se utiliza el método de linealización por representación en serie de Taylor y se encuentra el modelo de estados. Este proporciona una representación matemática de un sistema físico, en función de sus entradas, salidas y variables de estado, que se encuentran relacionadas por ecuaciones diferenciales de primer orden. Este modelo de estados lineal es representativo de la planta siempre que las variaciones de distancia del entrehierro estén limitadas a un rango de operación en el que se mantenga un comportamiento lineal.
-
-\noindent Al observar las fuerzas que intervienen en el eje vertical sobre la pieza en forma de ``I'', como muestra la imagen \ref{fig:img_Esquema-del-producto}, es posible plantear la sumatoria de fuerzas:
+Para obtener este modelo, en primer lugar, se realiza un análisis físico de las fuerzas que gobiernan el movimiento de la pieza ‘’I’’ con el objetivo de llegar a una ecuación diferencial que describa la dinámica del sistema. Para ello, observando la imagen \ref{fig:img_Esquema-del-producto} se plantea la sumatoria de fuerzas:
 
 \begin{equation}\label{eq_sumatoria_fuerzas_y}
 	\sum F=M*a=>M*g-F_{m}=M*\ddot{Y_g}
@@ -323,9 +321,9 @@ A partir de la expresión \ref{eq_sumatoria_fuerzas_y_2} se puede obtener un mod
 
 \begin{equation*}
 	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
-	&x_{1}=Y_g(t)\\
-	&x_{2}=\dot{x_{1}}\\
-	&u=i(t)\\
+		&x_{1}=Y_g(t)\\
+		&x_{2}=\dot{x_{1}}\\
+		&u=i(t)\\
 	\end{bmatrix}
 \end{equation*}
 
@@ -336,46 +334,59 @@ A partir de la expresión \ref{eq_sumatoria_fuerzas_y_2} se puede obtener un mod
 		&\dot{x_{1}}\\
 		&\dot{x_{2}}\\
 	\end{bmatrix}
-=
+	=
 	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
-	&f_1(x_1,x_2,u)\\
-	&f_2(x_1,x_2,u)\\
-\end{bmatrix}
-=
+		&f_1(x_1,x_2,u)\\
+		&f_2(x_1,x_2,u)\\
+	\end{bmatrix}
+	=
 	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
 		&x_{2}\\
 		&g-\frac{K}{M}*\frac{u^{2}}{x_{1}^{2}}\\
 	\end{bmatrix}
 \end{equation}
 
+Para obtener un modelo lineal a partir de la expresión \ref{eq_modelo_estados} se utiliza el método de linealización por serie de Taylor en torno al punto de operación de cada variable de estado y entrada al sistema. Este punto de operación se conoce como punto de equilibrio y tiene la particularidad de que ante una entrada constante, las variables de estado también se mantienen constantes, es decir sus derivadas se anulan. El punto de equilibrio correspondiente a la variable $x_1$ se puede definir como el valor medio del rango de variación de distancia de entrehierro, por lo tanto se define $x_{1o}=4\:mm$. Los demás puntos de equilibrio se obtienen a partir de resolver el sistema de ecuaciones \ref{eq_puntos_equilibrio}.
 
-Como se mencionó en la introducción de esta sección, el fenómeno de levitación es no lineal y se realiza una aproximación por serie de Taylor de primer orden para obtener un modelo lineal. 
+\begin{equation} \label{eq_puntos_equilibrio}
+	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
+		&\dot{x_{1}}\\
+		&\dot{x_{2}}\\
+	\end{bmatrix}
+	=
+	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
+		&0\\
+		&0\\
+	\end{bmatrix}
+	=
+	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
+		&x_{2o}\\
+		&g-\frac{K}{M}*\frac{u_o^{2}}{x_{1o}^{2}}\\
+	\end{bmatrix}
+\end{equation}
 
-Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se procede a su linealización. Para ello, se deben encontrar los puntos de equilibrio del sistema. Esto es, si se mantiene una entrada constante $u_o$ al sistema, se obtiene un vector de estados $X_o$ constante, por lo tanto sus derivadas son iguales a 0.
+Finalmente, los puntos de equilibrio del sistema resultan:
 
-Se adoptan nuevas variables de estado equivalentes a las anteriores pero desplazadas por sus puntos de equilibrio:
-
-
-\begin{equation*}
+\begin{equation}\label{eq_puntos_equil}
 	\begin{bmatrix}
-		&x_1^*\\
-		&x_2^*\\
-		&u^*\\
+		&x_{1o}\\
+		&x_{2o}\\
+		&u_{o}\\
 	\end{bmatrix}
 	=
 	\begin{bmatrix}
-		&x_1-x_{1o}\\
-		&x_2-x_{2o}\\
-		&u-u_o\\
+		&4\:mm\\
+		&0\\
+		&\sqrt{\frac{M*g}{K}}*x_{1o}\\
 	\end{bmatrix}
-\end{equation*}
+\end{equation}
 
-Como $x_{1o}$, $x_{2o}$ y $u_o$ son constantes, las derivadas de las nuevas variables son iguales a las originales.
 
-La serie de Taylor para un sistema con dos variables de estado y una entrada hasta el factor de primer orden queda definida como:
+
+Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se procede a su linealización en torno a los puntos de equilibrio \ref{eq_puntos_equil}. La serie de Taylor para un sistema con dos variables de estado y una entrada hasta el factor de primer orden queda definida como:
 
 \begin{equation} \label{eq_taylor}
-	\dot{x_{2}^*}=f_2(x_{1o}, x_{2o}, u_{o})+J_1*x_1^*+J_2*x_2^*+J_3*u^*
+	\dot{x_{2}}=f_2(x_{1o}, x_{2o}, u_{o})+J_1*(x_1-x_{1o})+J_2*(x_2-x_{2o})+J_3*(u-u_o)
 \end{equation}
 
 Donde:
@@ -394,34 +405,78 @@ Donde:
 	\end{bmatrix}
 \end{equation}
 
-Dado que el objetivo del sistema es mantener la pieza en forma de “I”  suspendida a una distancia determinada, se puede considerar la linealización en torno a ese punto de equilibrio. Debido a que el sistema va a trabajar entre 3 y 5mm, se elige como punto de equilibrio $x_{1o}=4\:mm$.
+Se adoptan nuevas variables de estado equivalentes a las anteriores pero desplazadas por sus puntos de equilibrio:
 
-\begin{equation*}
-\begin{bmatrix}
-		&x_{1o}\\
-		&x_{2o}\\
-		&u_{o}\\
-\end{bmatrix}
-=
-\begin{bmatrix}
-	&4\:mm\\
-	&0\\
-	&\sqrt{\frac{M*g}{K}}*x_{1o}\\
-\end{bmatrix}
-\end{equation*}
-
-En la ecuación \ref{eq_taylor} el primer término correspondiente a la función $f_2(x_{1o},x_{2o},u_o)$ es igual a cero, ya que es la función en el punto de equilibrio. Luego el coeficiente $J_2$ también es nulo ya que la variable $x_2$ no interviene en la función $f_2$. Finalmente el sistema linealizado queda: 
+ \begin{equation*}
+ 	\begin{bmatrix}
+ 		&x_1^*\\
+ 		&x_2^*\\
+ 		&u^*\\
+ 	\end{bmatrix}
+ 	=
+ 	\begin{bmatrix}
+ 		&x_1-x_{1o}\\
+ 		&x_2-x_{2o}\\
+ 		&u-u_o\\
+ 	\end{bmatrix}
+ \end{equation*}
 
 
-\begin{equation*} 
+
+En la ecuación \ref{eq_taylor} el primer término correspondiente a la función $f_2(x_{1o},x_{2o},u_o)$ es igual a cero, ya que es la función en el punto de equilibrio. Además, el coeficiente $J_2$ es nulo ya que la variable $x_2$ no interviene en la función $f_2$. Finalmente el sistema linealizado queda: 
+
+
+\begin{equation} \label{eq_estados}
 	\begin{bmatrix}
-		&\dot{x_{1}}\\
-		&\dot{x_{2}}
+		&\dot{x_{1}^*}\\
+		&\dot{x_{2}^*}
 	\end{bmatrix}
 	=
 	\begin{bmatrix}
-		&x_{2}\\
+		&x_{2}^*\\
 		&2*\frac{K*u_{o}^{2}}{M*x_{1o}^{3}}*x_1^*-2*\frac{K*u_{o}}{M*x_{1o}^{2}}*u^*
+	\end{bmatrix}
+\end{equation}
+
+Para obtener el modelo de estado se necesitan dos ecuaciones matriciales: la de estados (\ref{eq_estados} ) y la de salida. Esta última debe expresarse en función de las variables de estado y de las entradas al sistema. Por lo tanto, se obtiene:
+
+\begin{equation} \label{eq_salida}
+	Y=
+	\begin{bmatrix}
+		&x_{1}^*	
+	\end{bmatrix}
+\end{equation}
+
+A partir de las expresiones \ref{eq_estados} y \ref{eq_salida} se obtiene el modelo de estado en forma matricial:
+
+\begin{equation*} 
+	\begin{bmatrix}
+		&\dot{x_{1}^*}\\
+		&\dot{x_{2}^*}
+	\end{bmatrix}
+	=
+	A*
+	\begin{bmatrix}
+		&x_{1}^*\\
+		&x_{2}^*
+	\end{bmatrix}
+	+ B* 
+	\begin{bmatrix}		
+		&u^*
+	\end{bmatrix}
+\end{equation*}
+
+\begin{equation*} 
+	Y
+	=
+	C*
+	\begin{bmatrix}
+		&x_{1}^*\\
+		&x_{2}^*
+	\end{bmatrix}
+	+ D* 
+	\begin{bmatrix}		
+		&u^*
 	\end{bmatrix}
 \end{equation*}
 
@@ -442,6 +497,10 @@ En la ecuación \ref{eq_taylor} el primer término correspondiente a la función
 	\begin{bmatrix}
 	1 & 0\\
 	\end{bmatrix}\\
+	  D=
+	\begin{bmatrix}
+	0\\
+	\end{bmatrix}\\
 \end{equation*}
 
 
@@ -449,7 +508,7 @@ En la ecuación \ref{eq_taylor} el primer término correspondiente a la función
 \noindent Es posible obtener la función transferencia de la planta mediante la expresión \ref{eq_transferencia_planta}.
 
 \begin{equation}\label{eq_transferencia_planta}
-	G_{P}=C*(s*I-A)^{-1}*B=-\sqrt{\frac{K}{g*M}}*\frac{1}{{\frac{s}{\sqrt{\frac{2*g}{x_{1o}}}}^2-1}}
+	G_{P}=C*(s*I-A)^{-1}*B=-\sqrt{\frac{K}{g*M}}*\frac{1}{{(\frac{s}{\sqrt{\frac{2*g}{x_{1o}}}})^2-1}}
 \end{equation}
 
 \noindent \noindent Al trabajar con una planta cuya masa es variable es conveniente expresar la transferencia en función de $M$. Finalmente, se obtiene para $x_{1o}=4\:mm$:

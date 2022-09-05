@@ -58,7 +58,7 @@ Como se mencionó previamente, para el desarrollo del proyecto se utiliza un ele
 	\label{fig:img_flujo}
 \end{figure}
 
-\noindent Para encontrar una expresión de la inductancia del electroimán, se parte de la Ley de Ampere mostrada en la ecuación \ref{eq_ampere}. Esta relaciona la magnitud de la fuerza magnetomotríz con la integral de camino de la intensidad de campo magnético ($H$).
+\noindent Para encontrar una expresión de la inductancia del electroimán se utiliza de la Ley de Ampere mostrada en la ecuación \ref{eq_ampere}. Esta relaciona la magnitud de la fuerza magnetomotriz con la integral de camino de la intensidad de campo magnético ($H$).
 
 \begin{equation} \label{eq_ampere}
 	F_{mm}=\oint{H*dl}=N*i
@@ -85,7 +85,7 @@ Donde:
 	
 \end{itemize}
 
-\noindent Debido a la definición de  densidad de flujo magnético, se tiene:
+\noindent Debido a la definición de  densidad de flujo magnético se tiene:
 
 \begin{equation}\label{eq_definicion-camp-magn}
 	B=\frac{\phi}{A}
@@ -296,7 +296,7 @@ La expresión \ref{eq_induct_practica}, obtenida a partir de las mediciones, se 
 
 Se desea diseñar un sistema de control que mantenga una levitación de manera estable. Para ello, primero se necesita caracterizar el comportamiento de la planta en función de sus entradas y salidas. Como se analizó en la sección \ref{sec:fuerza_magnetica}, el fenómeno de levitación presenta un comportamiento alineal. Sin embargo, como el sistema va a trabajar en un rango de distancia de entrehierro acotado, su dinámica puede ser aproximada a un comportamiento lineal dentro de ese rango. Esto trae la ventaja de que permite aplicar técnicas de modelado y diseño de compensadores para sistemas lineales.
 
-Una forma de caracterizar la dinámica de un sistema lineal es mediante el modelo de estados. Esto es una representación matemática del comportamiento físico de la planta en función de sus entradas, salidas y variables de estado. A partir de este modelo, se obtiene una función transferencia de la planta para ser luego utilizada en el diseño del compensador.
+Una forma de caracterizar la dinámica de un sistema lineal es mediante el modelo de estados. Esto es una representación matemática del comportamiento físico de la planta en función de sus entradas, salidas y variables de estado. Por lo tanto, se decide aplicar este modelo para obtener una función transferencia de la planta que luego será utilizada en el diseño del compensador.
 
 Para obtener este modelo, en primer lugar, se realiza un análisis físico de las fuerzas que gobiernan el movimiento de la pieza ‘’I’’ con el objetivo de llegar a una ecuación diferencial que describa la dinámica del sistema. Para ello, observando la imagen \ref{fig:img_Esquema-del-producto} se plantea la sumatoria de fuerzas:
 
@@ -346,7 +346,7 @@ A partir de la expresión \ref{eq_sumatoria_fuerzas_y_2} se puede obtener un mod
 	\end{bmatrix}
 \end{equation}
 
-Para obtener un modelo lineal a partir de la expresión \ref{eq_modelo_estados} se utiliza el método de linealización por serie de Taylor en torno al punto de operación de cada variable de estado y entrada al sistema. Este punto de operación se conoce como punto de equilibrio y tiene la particularidad de que ante una entrada constante, las variables de estado también se mantienen constantes, es decir sus derivadas se anulan. El punto de equilibrio correspondiente a la variable $x_1$ se puede definir como el valor medio del rango de variación de distancia de entrehierro, por lo tanto se define $x_{1o}=4\:mm$. Los demás puntos de equilibrio se obtienen a partir de resolver el sistema de ecuaciones \ref{eq_puntos_equilibrio}.
+Para obtener un modelo lineal a partir de la expresión \ref{eq_modelo_estados} se utiliza el método de linealización por serie de Taylor en torno al punto de operación de cada variable de estado y entrada al sistema. Este punto de operación se conoce como punto de equilibrio y tiene la particularidad de que ante una entrada constante, las variables de estado también se mantienen constantes, por lo que sus derivadas se anulan. El punto de equilibrio correspondiente a la variable $x_1$ se puede definir como el valor medio del rango de variación de distancia de entrehierro, por lo tanto resulta $x_{1o}=4\:mm$. Los demás puntos de equilibrio se obtienen a partir de resolver el sistema de ecuaciones \ref{eq_puntos_equilibrio}.
 
 \begin{equation} \label{eq_puntos_equilibrio}
 	\begin{bmatrix} % El entorno bmatrix puede generar vectores tambien, en ese caso uno de 1 x 3
@@ -383,7 +383,7 @@ Finalmente, los puntos de equilibrio del sistema resultan:
 
 
 
-Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se procede a su linealización en torno a los puntos de equilibrio \ref{eq_puntos_equil}. La serie de Taylor para un sistema con dos variables de estado y una entrada hasta el factor de primer orden queda definida como:
+Como se observa en el sistema de ecuaciones \ref{eq_modelo_estados}, únicamente la función $f_2(x_1,x_2,u)$ es no lineal. Por lo tanto se procede a su linealización en torno a los puntos de equilibrio de la expresión \ref{eq_puntos_equil}. La serie de Taylor desarrollada hasta el factor de primer orden, para un sistema con dos variables de estado y una entrada, queda definida como:
 
 \begin{equation} \label{eq_taylor}
 	\dot{x_{2}}=f_2(x_{1o}, x_{2o}, u_{o})+J_1*(x_1-x_{1o})+J_2*(x_2-x_{2o})+J_3*(u-u_o)
@@ -423,7 +423,7 @@ Se adoptan nuevas variables de estado equivalentes a las anteriores pero desplaz
 
 
 
-En la ecuación \ref{eq_taylor} el primer término correspondiente a la función $f_2(x_{1o},x_{2o},u_o)$ es igual a cero, ya que es la función en el punto de equilibrio. Además, el coeficiente $J_2$ es nulo ya que la variable $x_2$ no interviene en la función $f_2$. Finalmente el sistema linealizado queda: 
+En la ecuación \ref{eq_taylor}, el primer término correspondiente a la función $f_2(x_{1o},x_{2o},u_o)$ es igual a cero, ya que es la función en el punto de equilibrio. Además, el coeficiente $J_2$ es nulo puesto que la variable $x_2$ no interviene en la función $f_2$. Finalmente el sistema linealizado queda: 
 
 
 \begin{equation} \label{eq_estados}
@@ -438,7 +438,7 @@ En la ecuación \ref{eq_taylor} el primer término correspondiente a la función
 	\end{bmatrix}
 \end{equation}
 
-Para obtener el modelo de estado se necesitan dos ecuaciones matriciales: la de estados (\ref{eq_estados} ) y la de salida. Esta última debe expresarse en función de las variables de estado y de las entradas al sistema. Por lo tanto, se obtiene:
+Para obtener el modelo de estado se necesitan dos ecuaciones matriciales: la de estados (\ref{eq_estados}) y la de salida. Esta última debe expresarse en función de las variables de estado y de las entradas al sistema. Por lo tanto, se obtiene:
 
 \begin{equation} \label{eq_salida}
 	Y=

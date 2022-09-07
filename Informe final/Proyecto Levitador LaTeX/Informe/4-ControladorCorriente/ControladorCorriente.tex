@@ -1,14 +1,17 @@
 \chapter{Controlador de corriente} \chapterlabel{Informe/4-ControladorCorriente} \label{cap:ControladorCorriente}
 
-En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Como se vio en el capítulo anterior, El sistema trabaja con corrientes elevadas se implementan estrategias de conmutación para reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un \textsl{driver} que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
+En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Como se vio en el capítulo anterior, el sistema trabaja con corrientes elevadas por lo que se implementan estrategias de conmutación para reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un \textsl{driver} que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
 
 \section{Descripción general}
 
-\noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la admitancia de un circuito RL serie. En el capítulo \ref{cap:CaracterizacionElectroiman} se determinó que la inductancia varía con el entrehierro. Por lo tanto, la expresión resulta: \colorbox{red}{deberíamos poner que la admitancia es Y??}
+Para regular la fuerza electromagnética generada por el electroimán se debe modificar la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que permita proveer la corriente necesaria en cada momento para mantener en suspensión a la pieza móvil. 
 
-\begin{equation} \label{eq_admitancia}
-	\frac{1}{sL(Y_g)\ +\ R_L}
+Para diseñar la fuente de alimentación se debe conocer el comportamiento eléctrico de la planta. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia variable con una resistencia serie. Es decir, es un circuito RL serie cuya corriente depende de la tensión aplicada y  se muestra en la expresión \ref{eq_corriente}.
+
+\begin{equation} \label{eq_corriente}
+	I_L=\frac{V_L}{sL(Y_g)\ +\ R_L}
 \end{equation}
+
 
 \noindent Se desea controlar la corriente que circula por el electroimán y, debido a que el sistema va a trabajar con corrientes elevadas, es importante que la implementación del controlador de corriente sea eficiente. Por lo tanto, para disminuir la disipación de potencia del circuito se utiliza un controlador que funciona en conmutación.
 

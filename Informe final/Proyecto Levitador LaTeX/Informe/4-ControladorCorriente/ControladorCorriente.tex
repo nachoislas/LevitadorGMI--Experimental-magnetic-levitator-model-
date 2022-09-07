@@ -4,25 +4,49 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}
 
-\noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la admitancia de un circuito RL serie. En el capítulo \ref{cap:CaracterizacionElectroiman} se determinó que la inductancia varía con el entrehierro. Por lo tanto, la expresión resulta: 
+\noindent Para regular la fuerza ejercida por el electroimán es necesario controlar la corriente que circula por él. Para ello, se modela a la planta como la admitancia de un circuito RL serie. En el capítulo \ref{cap:CaracterizacionElectroiman} se determinó que la inductancia varía con el entrehierro. Por lo tanto, la expresión resulta: \colorbox{red}{deberíamos poner que la admitancia es Y??}
 
 \begin{equation} \label{eq_admitancia}
 	\frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
-\noindent Se desea controlar la corriente que circula por el electroimán y, debido a que el sistema va a trabajar con corrientes elevadas, es importante que la implementación del controlador de corriente sea eficiente. Por lo tanto, para disminuir la disipación de potencia del circuito se utiliza un controlador que funciona en conmutación. 
+\noindent Se desea controlar la corriente que circula por el electroimán y, debido a que el sistema va a trabajar con corrientes elevadas, es importante que la implementación del controlador de corriente sea eficiente. Por lo tanto, para disminuir la disipación de potencia del circuito se utiliza un controlador que funciona en conmutación.
 
-\noindent Para lograr una corriente contínua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en los bornes del inductor. De esta forma, la corriente crece y decrece (según la polaridad de tensión aplicada) con forma exponencial debido a la resistencia interna del electroimán. Sin embargo, como el intervalo de tiempo de esta conmutación es pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado a una recta. Por lo tanto, se obtiene una corriente contínua con un ripple superpuesto de forma triangular, como la que se muestra en la figura \ref{fig:img_corriente_triangular}. 
+\colorbox{red}{lo escribiría como:}
+Se desea entonces diseñar un circuito que le brinde al electroimán la alimentación adecuada para que por su bobinado circule una corriente contínua de un valor que pueda ser controlado de manera externa (mediante una tensión de referencia).
+
+De la ecuación \ref{eq_admitancia} se puede observar que la corriente en el electroimán sufre un transitorio en forma de exponencial creciente para luego estabilizarse en un valor V/R en régimen permanente. La solución mas simple que se podría idear es la de utilizar un circuito que varíe la alimentación del electroimán. ¿como se logra esto? Si se tiene una fuente de alimentación fija para todo el circuito y se desea obtener una tensión variable en el bobinado, se podría implementar un circuito con un transistor funcionando en zona lineal y variar su tensión colector-emisor. \colorbox{red}{poner figura ejemplo}
+
+Este circuito podría funcionar pero tiene la desventaja de que debido a que el sistema trabaja con corrientes elevadas se producen grandes pérdidas de energía en el transistor. 
+
+Debido a que el sistema va a funcionar con corrientes elevadas, es importante minimizar las pérdidas de energía que puedan ocurrir en la circuitería del controlador de corriente. Por lo tanto, se debería implementar un controlador que trabaje en conmutación.  En este tipo de controladores se aprovecha el transitorio de corriente en el electroimán de manera que al alternar la polaridad de la tensión aplicada se puede hacer que la corriente crezca o decrezca alrededor de un valor medio. \colorbox{red}{cambiar figura}. Si se eligen tiempos de conmutación pequeños comparados con la constante de tiempo de la planta, la corriente tendrá una forma triangular.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{corriente_triangular.PNG}
+	\includegraphics[scale=0.5]{triangular.png}
 	\caption{Forma de onda de corriente.}
 	\label{fig:img_corriente_triangular}
 \end{figure}
 
 
-\noindent Para lograr alternar la polaridad de la fuente sobre el inductor se utiliza una topología en puente H con cuatro llaves como se  muestra en la figura.\colorbox{red}{HACER IMAGEN CON LLAVES} 
+\noindent Para lograr una corriente contínua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en los bornes del inductor. De esta forma, la corriente crece y decrece (según la polaridad de tensión aplicada) con forma exponencial debido a la resistencia interna del electroimán. Sin embargo, como el intervalo de tiempo de esta conmutación es pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado a una recta. Por lo tanto, se obtiene una corriente contínua con un ripple superpuesto de forma triangular, como la que se muestra en la figura \ref{fig:img_corriente_triangular_2}. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{corriente_triangular.PNG}
+	\caption{Forma de onda de corriente.}
+	\label{fig:img_corriente_triangular_2}
+\end{figure}
+
+
+\noindent Para lograr alternar la polaridad de la fuente sobre el inductor se utiliza una topología en puente H con cuatro llaves como se  muestra en la figura.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{puente_con_llaves.png}
+	\caption{Topología simplificada.}
+	\label{fig:img_topologia_simplificada}
+\end{figure} 
 
 El electroimán se conecta entre los puntos medios de cada par de llaves. De esta manera se puede conmutar la polaridad de la tensión que se le aplica. Sólo se permite que dos llaves se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada \textsl{shoot-through}.
 

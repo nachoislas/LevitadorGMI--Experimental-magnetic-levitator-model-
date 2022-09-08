@@ -36,6 +36,45 @@ Del análisis anterior se deduce que si la tensión aplicada en el inductor es c
 
 \section{Diseño de topología}
 
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán, con el objetivo de que su corriente siga de manera proporcional a una tensión de referencia que entra al controlador.
+
+Como se mencionó previamente, al trabajar con circuitos RL, la corriente depende de la integral de la tensión aplicada. Para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. La desventaja de esto es que la tensión sobre el inductor es nula (corriente constate), por lo tanto, la potencia disipada cae completamente sobre el transistor. La potencia sobre el transistor es de 
+
+Ptransistor= imax*Valimentacion 30 A * Valimentacion
+IMAGEN DE TRANSISTOR CON INDUCTOR
+
+Como se puede, para pequeños valores de tensión de alimentación (5V,10V,15) el valor de potencia que se obtiene es muy elevado y pone en riesgo la vida útil de los componentes.
+
+Otra forma de controlar la corriente sobre un inductor es la de conmutar sobre sus bornes la tensión de alimentación. De esta forma se puede lograr una forma de onda triangular de corriente con un valor medio como se muestra en la figura XD. Ademas,
+
+VL=L*di/dt
+PotenciaConmutacion=V*Imax=Lmax*imax*(DIL/DT)=30*0.03*(500 mA/x mSeg)=bajo se puede chamiyar con algo ais
+
+
+IMAGEN DE ONDA TRIANGULAR CON VALOR MEDIO Capaz q otra mas piola.
+
+Como se puede ver en la imagen xd, el incremento y decremento de la corriente está definido por los tiempos de conmutación. Por lo tanto al actuar sobre estos tiempos se pueden ajustar el valor medio y el ripple que tendrá la corriente de la forma que se desea. Para lograr esto se debe tener conocimiento de que estado tiene la corriente, por lo tanto se plantea un diagrama en bloques con un bloque principal de conmutación, la planta, y agrega una realimentación de la corriente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Diagrama-en-bloques-basico.png}
+	\caption{Diagrama en bloques básico del controlador. YO PONDRIA SISTEMA DE CONMUTACION O ALGO ASI EN VEZ DE CONTROLADOR}
+	\label{fig:img_diagrama_bloques_basico}
+\end{figure}
+
+Para generar la corriente deseada en el inductor se puede proceder de la siguiente manera:
+
+\begin{itemize}
+\item En primer lugar, se inicia con corriente nula en el inductor. Se conecta alimentación sobre el inductor en sentido positivo y la corriente comienza a crecer con forma de rampa.
+\item Se debe tomar medición de esta corriente, para que al superar el valor medio deseado + ripple/2, se debe invertir la polaridad de la alimentación.
+\item La corriente comienza a decrecer. Cuando llega al valor medio deseado - ripple/2, se vuelve a invertir la polaridad y la corriente vuelve a crecer. De manera que se repite el ciclo y se obtiene una forma de onda triangular.
+\end{itemize}
+
+Para lograr esto se realimenta la corriente del electroimán a un comparador. Este circuito compara dos señales V1 con V2 y dependiendo del resultado de dicha comparación se obtiene una salida. Al realimentar la corriente se puede determinar si el circuito 
+Se dice que el comparador tiene histéresis porque
+
+
+
 Se desea diseñar un sistema de control que modifique la alimentación del electroimán, con el objetivo de que su corriente siga de manera proporcional a una tensión de referencia que entra al controlador. Es decir, se quiere un diagrama en bloques como: 
 
 \begin{figure}[H]

@@ -6,12 +6,54 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 Para regular la fuerza electromagnética generada por el electroimán se debe modificar la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que permita proveer la corriente necesaria en cada momento para mantener en suspensión a la pieza móvil. 
 
-Para diseñar la fuente de alimentación se debe conocer el comportamiento eléctrico de la planta. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia variable con una resistencia serie. Es decir, es un circuito RL serie cuya corriente depende de la tensión aplicada y  se muestra en la expresión \ref{eq_corriente}.
+Para diseñar la fuente de alimentación se debe conocer el comportamiento eléctrico de la planta. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia variable con una resistencia serie. Es decir, es un circuito RL serie cuya corriente depende de la tensión aplicada. La expresión \ref{eq_corriente} muestra la dinámica que tiene el comportamiento de este circuito.
 
 \begin{equation} \label{eq_corriente}
 	I_L=\frac{V_L}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
+A partir de la expresión \ref{eq_corriente}, y realizando la transformada inversa de laplace, se puede obtener la respuesta temporal de la corriente a un escalón de tensión de amplitud ``$v$'' en la entrada: 
+
+\begin{equation} \label{eq_corriente_temporal}
+	i_L(t)=\frac{v}{R_L}*(1-\frac{1}{L(Y_g)}*e^{-\frac{R_L}{L(Y_g)}*t})
+\end{equation}
+
+En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{corriente_escalon.png}
+	\caption{Respuesta a entrada en escalón. En la parte superior se observa la tensión de entrada, y en la parte inferior la corriente del electroimán}
+	\label{fig:img_respuesta_escalon}
+\end{figure}
+
+
+Del análisis anterior se deduce que si la tensión aplicada en el inductor es continua, la corriente se estabilizará en un valor continuo dado por:
+
+\begin{equation} \label{eq_corriente_ss}
+	i_{L_{ss}}=\frac{v}{R_L}
+\end{equation}
+
+\section{Diseño de topología}
+
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán, con el objetivo de que su corriente siga de manera proporcional a una tensión de referencia que entra al controlador. Es decir, se quiere un diagrama en bloques como: 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Diagrama-en-bloques-basico.png}
+	\caption{Diagrama en bloques básico del controlador. IGUAL YA ESTAMOS SPOILEANDO QUE SE REALIMENTA}
+	\label{fig:img_diagrama_bloques_basico}
+\end{figure}
+
+
+
+
+
+Con el resultado de la descripción general se podría pensar en que para obtener un valor de corriente deseado, se debería controlar la tensión de alimentación del electroimán... ACÁ QUERÍA DECIR QUE SE PODRÍA HACER UN CONTROLADOR LINEAL CON UN TRANSISTOR PERO QUE ES MALA IDEA POR LA DISIPACIÓN 
+
+
+
+\colorbox{red}{hasta acá hice}
 
 \noindent Se desea controlar la corriente que circula por el electroimán y, debido a que el sistema va a trabajar con corrientes elevadas, es importante que la implementación del controlador de corriente sea eficiente. Por lo tanto, para disminuir la disipación de potencia del circuito se utiliza un controlador que funciona en conmutación.
 

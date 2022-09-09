@@ -34,24 +34,43 @@ Del análisis anterior se deduce que si la tensión aplicada en el inductor es c
 	i_{L_{ss}}=\frac{v}{R_L}
 \end{equation}
 
+
+
 \section{Diseño de topología}
 
 Se desea diseñar un sistema de control que modifique la alimentación del electroimán, con el objetivo de que su corriente siga de manera proporcional a una tensión de referencia que entra al controlador.
 
 Como se mencionó previamente, al trabajar con circuitos RL, la corriente depende de la integral de la tensión aplicada. Para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. La desventaja de esto es que la tensión sobre el inductor es nula (corriente constate), por lo tanto, la potencia disipada cae completamente sobre el transistor. La potencia sobre el transistor es de 
 
-Ptransistor= imax*Valimentacion 30 A * Valimentacion
+\begin{equation}
+Potencia_{transistor} = i_{max}*V_{alimentacion} = 30 A * V_{alimentacion}=
+\end{equation}
 IMAGEN DE TRANSISTOR CON INDUCTOR
 
-Como se puede, para pequeños valores de tensión de alimentación (5V,10V,15) el valor de potencia que se obtiene es muy elevado y pone en riesgo la vida útil de los componentes.
+Como se puede, para pequeños valores de tensión de alimentación $(5V,10V,15)$ el valor de potencia que se obtiene es muy elevado y pone en riesgo la vida útil de los componentes.
 
 Otra forma de controlar la corriente sobre un inductor es la de conmutar sobre sus bornes la tensión de alimentación. De esta forma se puede lograr una forma de onda triangular de corriente con un valor medio como se muestra en la figura XD. Ademas,
 
-VL=L*di/dt
-PotenciaConmutacion=V*Imax=Lmax*imax*(DIL/DT)=30*0.03*(500 mA/x mSeg)=bajo se puede chamiyar con algo ais
-
-
 IMAGEN DE ONDA TRIANGULAR CON VALOR MEDIO Capaz q otra mas piola.
+
+
+\begin{equation}
+V_{L} =L*\frac{di}{dt}
+\end{equation}
+
+\begin{equation}
+i =\frac{1}{L}\int{V(x)*dx}+i(0) , i(0)=0
+\end{equation}
+
+\begin{equation}
+Potencia_{inductor} = V*I_{max}=RL*I_{max}^2=\frac{RL}{L}*(\int{V(x)*dx})^2=\frac{RL}{L}*\frac{T*V_{conm}}{4*L}
+\end{equation}
+
+\begin{equation}
+Potencia_{inductor} = V*I_{max}=L_{max}*i_{max}*\frac{di}{dt}
+\end{equation}
+
+NOSE SI ESTAN BIEN LAS EQ, Pero si estan se podria decir algo como que si se eligen bien ciertos parametros(Tiempo de conmutacion[T] y Vconmutacion) se puede reducir el consumo de potencia xq hay cosas como L, RL e imax que ya sabemos cuanto valen
 
 Como se puede ver en la imagen xd, el incremento y decremento de la corriente está definido por los tiempos de conmutación. Por lo tanto al actuar sobre estos tiempos se pueden ajustar el valor medio y el ripple que tendrá la corriente de la forma que se desea. Para lograr esto se debe tener conocimiento de que estado tiene la corriente, por lo tanto se plantea un diagrama en bloques con un bloque principal de conmutación, la planta, y agrega una realimentación de la corriente.
 
@@ -84,13 +103,7 @@ Se desea diseñar un sistema de control que modifique la alimentación del elect
 	\label{fig:img_diagrama_bloques_basico}
 \end{figure}
 
-
-
-
-
 Con el resultado de la descripción general se podría pensar en que para obtener un valor de corriente deseado, se debería controlar la tensión de alimentación del electroimán... ACÁ QUERÍA DECIR QUE SE PODRÍA HACER UN CONTROLADOR LINEAL CON UN TRANSISTOR PERO QUE ES MALA IDEA POR LA DISIPACIÓN 
-
-
 
 \colorbox{red}{hasta acá hice}
 
@@ -135,8 +148,6 @@ Debido a que el sistema va a funcionar con corrientes elevadas, es importante mi
 El electroimán se conecta entre los puntos medios de cada par de llaves. De esta manera se puede conmutar la polaridad de la tensión que se le aplica. Sólo se permite que dos llaves se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada \textsl{shoot-through}.
 
 Para poder generar una corriente triangular con un valor medio deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para poder controlar dicha polaridad, se debe actuar sobre las llaves en función de si se desea aumentar o disminuir el valor medio de la corriente.  Una manera de hacerlo es mediante un comparador con histéresis, cuya salida determina que llaves se encienden en función de comparar la corriente de referencia con la que está circulando por el electroimán. En caso de que esta última sea menor qeu la referencia, la polaridad de tensión aplicada al electroimán será positiva y, por ende, la corriente aumentara hasta alcanzar la referencia. Una vez superada la referencia, se volverá a cambiar la polaridad en el electoimán, pero esta vez será negativa, haciendo que el valor medio de la corriente disminuya. De esta forma, se puede observar que va a haber un riple en torno al valor medio de corriente deseado.  Este riple debe ser...
-
-
 
 permanecen encendidas las llaves en 
 Al controlar el tiempo de activación de las llaves, se podría obtener una forma de onda triangular con un valor medio determinado. Una manera de controlar las llaves es mediante un controlador con histéresis

@@ -4,15 +4,15 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}
 
-Para regular la fuerza electromagnética generada por el electroimán se debe modificar la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que permita proveer la corriente necesaria en cada momento para mantener en suspensión a la pieza móvil. 
+Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente que requiere el electroimán.
 
-Para diseñar la fuente de alimentación se debe conocer el comportamiento eléctrico de la planta. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia variable con una resistencia serie. Es decir, es un circuito RL serie cuya corriente depende de la tensión aplicada. La expresión \ref{eq_corriente} muestra la dinámica que tiene el comportamiento de este circuito.
+Para diseñar la fuente de alimentación se debe conocer el comportamiento eléctrico de la planta. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia variable con una resistencia serie. Es decir, es un circuito RL serie cuya corriente ($I_L$) depende de la tensión aplicada ($V_L$). La expresión \ref{eq_corriente} muestra la relación entre estos parámetros.
 
 \begin{equation} \label{eq_corriente}
-	I_L=\frac{V_L}{sL(Y_g)\ +\ R_L}
+\frac{I_L}{V_L}(s)=\frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
-A partir de la expresión \ref{eq_corriente}, y realizando la transformada inversa de laplace, se puede obtener la respuesta temporal de la corriente a un escalón de tensión de amplitud ``$v$'' en la entrada: 
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente a un escalón de tensión de amplitud ``$v$'' en la entrada:
 
 \begin{equation} \label{eq_corriente_temporal}
 	i_L(t)=\frac{v}{R_L}*(1-\frac{1}{L(Y_g)}*e^{-\frac{R_L}{L(Y_g)}*t})

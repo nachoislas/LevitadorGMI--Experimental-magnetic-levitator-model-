@@ -1,104 +1,90 @@
 \babel@toc {spanish}{}\relax 
-\contentsline {chapter}{\'{I}ndice de tablas}{\es@scroman {xi}}{chapter*.2}%
-\contentsline {chapter}{\'{I}ndice de figuras}{\es@scroman {xiii}}{chapter*.3}%
+\contentsline {chapter}{\'{I}ndice de tablas}{\es@scroman {ix}}{chapter*.2}%
+\contentsline {chapter}{\'{I}ndice de figuras}{\es@scroman {xi}}{chapter*.3}%
 \contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Alcance del proyecto}{3}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Contexto del proyecto}{3}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Descripción del dispositivo}{4}{section.1.3}%
-\contentsline {chapter}{\numberline {2}Caracterización del electroimán}{9}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Diseño del electroimán}{9}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Modelado físico}{11}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Modelado de inductancia del electroimán}{13}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Cálculo de la fuerza magnética}{15}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Cálculo de la corriente nominal del sistema}{16}{subsection.2.2.3}%
-\contentsline {section}{\numberline {2.3}Mediciones sobre el electroimán}{17}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Medición de resistencia del bobinado}{17}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Medición de inductancia}{18}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}Modelo de estado de la planta}{20}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Controlador de corriente}{23}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Descripción general}{23}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Circuito del controlador de corriente}{25}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Simulaciones de formas de onda}{29}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Simulación de un escalón en la referencia de corriente}{29}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Descripción general de la topología}{30}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Dimensionamiento de capacitor de bootstrap}{34}{subsection.3.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Resistencia entre gate y source}{38}{subsection.3.2.5}%
-\contentsline {subsection}{\numberline {3.2.6}Protección del gate}{38}{subsection.3.2.6}%
-\contentsline {subsection}{\numberline {3.2.7}Tiempo muerto}{39}{subsection.3.2.7}%
-\contentsline {subsection}{\numberline {3.2.8}Dimensionamiento de los capacitores de fuente}{39}{subsection.3.2.8}%
-\contentsline {subsection}{\numberline {3.2.9}Conmutación de alta frecuencia para el bootstrap}{43}{subsection.3.2.9}%
-\contentsline {subsection}{\numberline {3.2.10}Simulación del sistema con oscilador auxiliar}{44}{subsection.3.2.10}%
-\contentsline {section}{\numberline {3.3}Justificación de la utilización de la topología de puente H}{45}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Ajuste para evitar lazo abierto con corriente instantánea negativa}{46}{subsection.3.3.1}%
-\contentsline {section}{\numberline {3.4}Características estáticas y dinámicas del controlador}{47}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Corriente media del electroimán}{47}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Frecuencia de conmutación de la corriente}{47}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Ancho de banda del controlador}{48}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}Transferencia lineal del controlador de corriente}{49}{subsection.3.4.4}%
-\contentsline {chapter}{\numberline {4}Estimador analógico}{51}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Descripción general}{52}{section.4.1}%
-\contentsline {section}{\numberline {4.2}An\'{a}lisis de la estimaci\'{o}n}{53}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Modelo circuital del estimador de posici\'{o}n}{54}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Circuito del derivador compensado}{56}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Dise\~{n}o del filtro pasa bajos}{59}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Compensaci\'{o}n de resistencia interna}{61}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Rectificador, Restador y Filtrado}{66}{section.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}Rectificador}{66}{subsection.4.7.1}%
-\contentsline {subsection}{\numberline {4.7.2}Restador}{68}{subsection.4.7.2}%
-\contentsline {subsection}{\numberline {4.7.3}Etapa de filtrado}{69}{subsection.4.7.3}%
-\contentsline {section}{\numberline {4.8}Circuito completo}{70}{section.4.8}%
-\contentsline {section}{\numberline {4.9}Simulaci\'{o}n de estimador completo}{71}{section.4.9}%
-\contentsline {section}{\numberline {4.10}Transferencia final del estimador de posici\'{o}n:}{72}{section.4.10}%
-\contentsline {chapter}{\numberline {5}Compensador analógico}{75}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Descripción general}{75}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Lazo de realimentación interno}{76}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Análisis de estabilidad con masa de 30 kg}{76}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Diseño de la red de adelanto de fase}{82}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Verificación de estabilidad con masa de 1 Kg}{87}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Implementación circuital de la red de adelanto de fase}{91}{subsection.5.2.4}%
-\contentsline {section}{\numberline {5.3}Lazo del realimentación externo}{92}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Diseño del integrador}{92}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Implementación circuital del integrador}{97}{subsection.5.3.2}%
-\contentsline {section}{\numberline {5.4}Etapa de entrada}{98}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Cálculo de ganancia de entrada}{98}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Implementación circuital}{100}{subsection.5.4.2}%
-\contentsline {chapter}{\numberline {6}Implementación Digital}{103}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Descripción general}{104}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Determinación de la frecuencia de muestreo}{105}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Adquisición y procesamiento de las muestras}{107}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Estimación digital de la posición}{109}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Resolución en posición}{111}{section.6.5}%
-\contentsline {section}{\numberline {6.6}Acondicionamiento de señales para el ADC}{115}{section.6.6}%
-\contentsline {subsection}{\numberline {6.6.1}Referencia de posición}{115}{subsection.6.6.1}%
-\contentsline {subsection}{\numberline {6.6.2}Componente alterna de corriente del electroimán}{116}{subsection.6.6.2}%
-\contentsline {subsection}{\numberline {6.6.3}Componente contínua de corriente del electroimán}{117}{subsection.6.6.3}%
-\contentsline {section}{\numberline {6.7}Acondicionamiento de señales para el DAC}{118}{section.6.7}%
-\contentsline {section}{\numberline {6.8}Transferencias de la planta y del controlador de corriente}{119}{section.6.8}%
-\contentsline {section}{\numberline {6.9}Diseño del compensador}{120}{section.6.9}%
-\contentsline {subsection}{\numberline {6.9.1}Análisis de estabilidad con masa de $30\:kg$}{120}{subsection.6.9.1}%
-\contentsline {subsection}{\numberline {6.9.2}Análisis de estabilidad con masa de $1\:kg$}{126}{subsection.6.9.2}%
-\contentsline {section}{\numberline {6.10}Diseño de lazo de realimentación externo}{128}{section.6.10}%
-\contentsline {section}{\numberline {6.11}Cálculo de los coeficientes del controlador}{133}{section.6.11}%
-\contentsline {subsection}{\numberline {6.11.1}Conexi\'{o}n entre el PCB y el microcontrolador}{135}{subsection.6.11.1}%
-\contentsline {chapter}{\numberline {7}Diseño de circuito impreso}{137}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Fuentes de Alimentación}{137}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Fuente de alimentación externa de $24\:V$}{137}{subsection.7.1.1}%
-\contentsline {subsection}{\numberline {7.1.2}Fuente de alimentación interna de $12\:V$}{138}{subsection.7.1.2}%
-\contentsline {subsection}{\numberline {7.1.3}Fuente de alimentación interna de $5\:V$}{138}{subsection.7.1.3}%
-\contentsline {section}{\numberline {7.2}Esquemáticos}{140}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Principal}{140}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Controlador de corriente}{141}{subsection.7.2.2}%
-\contentsline {subsection}{\numberline {7.2.3}Puente H}{142}{subsection.7.2.3}%
-\contentsline {subsection}{\numberline {7.2.4}Compensador analógico}{144}{subsection.7.2.4}%
-\contentsline {subsection}{\numberline {7.2.5}Estimador analógico}{145}{subsection.7.2.5}%
-\contentsline {subsection}{\numberline {7.2.6}Interfaz con microcontrolador}{146}{subsection.7.2.6}%
-\contentsline {subsection}{\numberline {7.2.7}Fuentes de alimentación}{147}{subsection.7.2.7}%
-\contentsline {section}{\numberline {7.3}PCB}{148}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Modelo 2D}{148}{subsection.7.3.1}%
-\contentsline {subsubsection}{\numberline {7.3.1.1}Vista Superior}{148}{subsubsection.7.3.1.1}%
-\contentsline {subsubsection}{\numberline {7.3.1.2}Vista Inferior}{149}{subsubsection.7.3.1.2}%
-\contentsline {subsection}{\numberline {7.3.2}Modelo 3D}{150}{subsection.7.3.2}%
-\contentsline {subsubsection}{\numberline {7.3.2.1}Vista Superior}{150}{subsubsection.7.3.2.1}%
-\contentsline {subsubsection}{\numberline {7.3.2.2}Vista Inferior}{151}{subsubsection.7.3.2.2}%
-\contentsline {chapter}{\numberline {8}Conclusión}{153}{chapter.8}%
-\contentsline {chapter}{\numberline {9}Bibliograf\'{\i }a}{155}{chapter.9}%
+\contentsline {section}{\numberline {1.1}Contexto del proyecto}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Descripción del dispositivo}{4}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Alcance del proyecto}{7}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Organización del informe}{8}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Caracterización y modelado de la planta}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Modelado matemático del electroimán}{9}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Modelado de inductancia del electroimán}{11}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Cálculo de la fuerza magnética}{14}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Características del electroimán}{15}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Características constructivas}{15}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Corriente nominal del sistema}{17}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Expresión de inductancia linealizada}{18}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Mediciones sobre el electroimán}{19}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Medición de resistencia del bobinado}{19}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Medición de inductancia}{20}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Modelo de estado de la planta}{22}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Controlador de corriente}{29}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Descripción general}{29}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Diseño de topología}{31}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Estimador analógico}{41}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Descripción general}{42}{section.4.1}%
+\contentsline {section}{\numberline {4.2}An\'{a}lisis de la estimaci\'{o}n}{43}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Modelo circuital del estimador de posici\'{o}n}{44}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Circuito del derivador compensado}{46}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Dise\~{n}o del filtro pasa bajos}{49}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Compensaci\'{o}n de resistencia interna}{51}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Rectificación y suavizado}{55}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Rectificador}{56}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}Restador}{58}{subsection.4.7.2}%
+\contentsline {subsection}{\numberline {4.7.3}Filtrado}{59}{subsection.4.7.3}%
+\contentsline {section}{\numberline {4.8}Simulaci\'{o}n del estimador completo}{61}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Transferencia final del estimador de posici\'{o}n}{62}{section.4.9}%
+\contentsline {chapter}{\numberline {5}Compensador analógico}{65}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Descripción general}{65}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Lazo de realimentación interno}{66}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Análisis de estabilidad con masa de 30 kg}{66}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Diseño de la red de adelanto de fase}{72}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Verificación de estabilidad con masa de 1 kg}{75}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Implementación circuital de la red de adelanto de fase}{77}{subsection.5.2.4}%
+\contentsline {section}{\numberline {5.3}Lazo del realimentación externo}{79}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Diseño del integrador}{79}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Implementación circuital del integrador}{84}{subsection.5.3.2}%
+\contentsline {section}{\numberline {5.4}Etapa de entrada}{85}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Cálculo de ganancia de entrada}{85}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Implementación circuital}{87}{subsection.5.4.2}%
+\contentsline {chapter}{\numberline {6}Implementación digital}{89}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Descripción general}{90}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Determinación de la frecuencia de muestreo}{91}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Adquisición y procesamiento de las muestras}{93}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Estimación digital de la posición}{95}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Resolución en posición}{97}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Acondicionamiento de señales para el ADC}{101}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Referencia de posición}{101}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Componente alterna de corriente del electroimán}{102}{subsection.6.6.2}%
+\contentsline {subsection}{\numberline {6.6.3}Componente contínua de corriente del electroimán}{103}{subsection.6.6.3}%
+\contentsline {section}{\numberline {6.7}Acondicionamiento de señales para el DAC}{104}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Transferencias de la planta y del controlador de corriente}{105}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Diseño del compensador}{106}{section.6.9}%
+\contentsline {subsection}{\numberline {6.9.1}Análisis de estabilidad con masa de 30 kg}{106}{subsection.6.9.1}%
+\contentsline {subsection}{\numberline {6.9.2}Análisis de estabilidad con masa de 1 kg}{111}{subsection.6.9.2}%
+\contentsline {section}{\numberline {6.10}Diseño de lazo de realimentación externo}{113}{section.6.10}%
+\contentsline {section}{\numberline {6.11}Cálculo de los coeficientes del controlador}{118}{section.6.11}%
+\contentsline {section}{\numberline {6.12}Conexi\'{o}n entre el PCB y el microcontrolador}{120}{section.6.12}%
+\contentsline {chapter}{\numberline {7}Diseño del circuito impreso}{121}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Fuentes de alimentación}{121}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Fuente de alimentación externa de 24 V}{121}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Fuente de alimentación interna de 12 V}{122}{subsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.1.3}Fuente de alimentación interna de 5 V}{122}{subsection.7.1.3}%
+\contentsline {section}{\numberline {7.2}Esquemáticos}{124}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Principal}{124}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Controlador de corriente}{125}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Puente H}{126}{subsection.7.2.3}%
+\contentsline {subsection}{\numberline {7.2.4}Compensador analógico}{127}{subsection.7.2.4}%
+\contentsline {subsection}{\numberline {7.2.5}Estimador analógico}{128}{subsection.7.2.5}%
+\contentsline {subsection}{\numberline {7.2.6}Interfaz con microcontrolador}{129}{subsection.7.2.6}%
+\contentsline {subsection}{\numberline {7.2.7}Fuentes de alimentación}{130}{subsection.7.2.7}%
+\contentsline {section}{\numberline {7.3}PCB}{131}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Consideraciones para el diseño del PCB}{131}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Modelo 2D}{133}{subsection.7.3.2}%
+\contentsline {subsubsection}{\numberline {7.3.2.1}Vista superior}{133}{subsubsection.7.3.2.1}%
+\contentsline {subsubsection}{\numberline {7.3.2.2}Vista inferior}{134}{subsubsection.7.3.2.2}%
+\contentsline {subsection}{\numberline {7.3.3}Modelo 3D}{135}{subsection.7.3.3}%
+\contentsline {subsubsection}{\numberline {7.3.3.1}Vista superior}{135}{subsubsection.7.3.3.1}%
+\contentsline {subsubsection}{\numberline {7.3.3.2}Vista inferior}{136}{subsubsection.7.3.3.2}%
+\contentsline {chapter}{\numberline {8}Conclusión}{137}{chapter.8}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{139}{chapter*.97}%

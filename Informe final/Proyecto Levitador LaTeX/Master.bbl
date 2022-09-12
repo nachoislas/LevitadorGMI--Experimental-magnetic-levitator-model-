@@ -1,15 +1,14 @@
-\begin{thebibliography}{5}
+\begin{thebibliography}{6}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Renesas(2014)]{HIP4081A_AN9405}
-Renesas.
-\newblock {HIP4081A}, 80v {H}igh {F}requency {H}-{B}ridge {D}river. {AN9405}.
-  {R}ev 6.00.
-\newblock Dec 2014.
+\bibitem[LEM(2018)]{HO15-NP}
+LEM.
+\newblock {C}urrent {T}ransducer {HO-NP} series. {R}ev 7.00.
+\newblock Jun 2018.
 
 \bibitem[Renesas(2015)]{HIP4081A_FN3659}
 Renesas.
@@ -21,6 +20,12 @@ Renesas.
 Infineon.
 \newblock {IPB160N04} {O}pti{MOS}® -{T}2{P}ower-{T}ransistor. {R}ev 1.0.
 \newblock Abr 2010.
+
+\bibitem[Renesas(2014)]{HIP4081A_AN9405}
+Renesas.
+\newblock {HIP4081A}, 80v {H}igh {F}requency {H}-{B}ridge {D}river. {AN9405}.
+  {R}ev 6.00.
+\newblock Dec 2014.
 
 \bibitem[Semiconductor(2019)]{RSX205LAM30}
 Rohm Semiconductor.

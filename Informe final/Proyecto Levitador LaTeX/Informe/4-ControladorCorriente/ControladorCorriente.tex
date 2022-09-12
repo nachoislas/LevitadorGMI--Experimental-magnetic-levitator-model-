@@ -4,14 +4,130 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}
 
-Para regular la fuerza electromagnética generada por el electroimán se debe modificar la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que permita proveer la corriente necesaria en cada momento para mantener en suspensión a la pieza móvil. 
+Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente que requiere el electroimán.
 
-Para diseñar la fuente de alimentación se debe conocer el comportamiento eléctrico de la planta. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia variable con una resistencia serie. Es decir, es un circuito RL serie cuya corriente depende de la tensión aplicada y  se muestra en la expresión \ref{eq_corriente}.
+Para diseñar la fuente de alimentación se debe conocer el comportamiento eléctrico de la planta. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia variable con una resistencia serie. Es decir, es un circuito RL serie cuya corriente ($I_L$) depende de la tensión aplicada ($V_L$). La expresión \ref{eq_corriente} muestra la relación entre estos parámetros.
 
 \begin{equation} \label{eq_corriente}
-	I_L=\frac{V_L}{sL(Y_g)\ +\ R_L}
+\frac{I_L}{V_L}(s)=\frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente a un escalón de tensión de amplitud ``$v$'' en la entrada:
+
+\begin{equation} \label{eq_corriente_temporal}
+	i_L(t)=\frac{v}{R_L}*(1-\frac{1}{L(Y_g)}*e^{-\frac{R_L}{L(Y_g)}*t})
+\end{equation}
+
+En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{corriente_escalon.png}
+	\caption{Respuesta a entrada en escalón. En la parte superior se observa la tensión de entrada, y en la parte inferior la corriente del electroimán}
+	\label{fig:img_respuesta_escalon}
+\end{figure}
+
+
+Del análisis anterior se deduce que si la tensión aplicada en el inductor es continua, la corriente se estabilizará en un valor continuo dado por:
+
+\begin{equation} \label{eq_corriente_ss}
+	i_{L_{ss}}=\frac{v}{R_L}
+\end{equation}
+
+
+
+\section{Diseño de topología}
+
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán, con el objetivo de que su corriente siga de manera proporcional a una tensión de referencia que entra al controlador.
+
+Como se mencionó previamente, al trabajar con circuitos RL, la corriente depende de la integral de la tensión aplicada. Para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. En este modo de funcionamiento la tensión colector-emisor se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. La desventaja de esto es que la tensión sobre el inductor es casi nula (corriente constate, pérdidas en resistencia interna), por lo tanto, la mayor parte de la potencia disipada cae sobre el transistor. Esta puede cuantificarse con la fórmula: 
+
+\begin{equation}
+	P_{transistor} = I_L*V_{CE}
+\end{equation}
+
+Teniendo en cuenta que la corriente depende de la alimentación y la resistencia interna:
+
+\begin{equation}
+	I_L=\frac{V_{alimentacion}-V_{CE}}{R_L}
+\end{equation}
+
+Finalmente:
+
+\begin{equation}
+	P_{transistor}=\frac{V_{alimentacion}*V_{CE}-V_{CE}^2}{R_L}
+\end{equation}
+
+Esta función llega a un máximo cuando $V_{CE}=\frac{V_{alimentacion}}{2}$
+
+
+\begin{equation}
+	P_{transistor_{max}}=\frac{V_{alimentacion}^2}{4*R_L}
+\end{equation}
+
+IMAGEN DE TRANSISTOR CON INDUCTOR
+
+Aunque aún no se define con qué tensión se alimentará el sistema, se puede probar con valores utilizados comunmente para obtener una aproximación de la potencia disipada por el transistor. Por ejemplo, para valores de tensión de alimentación $(5\:V,10\:V,15\:V)$ el valor de potencia que se obtiene varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor, haciendo que sea necesario el agregado de un gran disipador de calor y pone en riesgo la vida útil de los componentes.
+
+\colorbox{red}{HACER UN MEJOR ENGANCHE}
+
+Otra forma de controlar la corriente sobre un inductor es la de conmutar sobre sus bornes la tensión de alimentación. De esta forma se puede lograr una forma de onda triangular de corriente con un valor medio como se muestra en la figura XD. Ademas,
+
+IMAGEN DE ONDA TRIANGULAR CON VALOR MEDIO Capaz q otra mas piola.
+
+
+\begin{equation}
+V_{L} =L*\frac{di}{dt}
+\end{equation}
+
+\begin{equation}
+i =\frac{1}{L}\int{V(x)*dx}+i(0) , i(0)=0
+\end{equation}
+
+\begin{equation}
+Potencia_{inductor} = V*I_{max}=RL*I_{max}^2=\frac{RL}{L}*(\int{V(x)*dx})^2=\frac{RL}{L}*\frac{T*V_{conm}}{4*L}
+\end{equation}
+
+\begin{equation}
+Potencia_{inductor} = V*I_{max}=L_{max}*i_{max}*\frac{di}{dt}
+\end{equation}
+
+NOSE SI ESTAN BIEN LAS EQ, Pero si estan se podria decir algo como que si se eligen bien ciertos parametros(Tiempo de conmutacion[T] y Vconmutacion) se puede reducir el consumo de potencia xq hay cosas como L, RL e imax que ya sabemos cuanto valen
+
+Como se puede ver en la imagen xd, el incremento y decremento de la corriente está definido por los tiempos de conmutación. Por lo tanto al actuar sobre estos tiempos se pueden ajustar el valor medio y el ripple que tendrá la corriente de la forma que se desea. Para lograr esto se debe tener conocimiento de que estado tiene la corriente, por lo tanto se plantea un diagrama en bloques con un bloque principal de conmutación, la planta, y agrega una realimentación de la corriente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Diagrama-en-bloques-basico.png}
+	\caption{Diagrama en bloques básico del controlador. YO PONDRIA SISTEMA DE CONMUTACION O ALGO ASI EN VEZ DE CONTROLADOR}
+	\label{fig:img_diagrama_bloques_basico}
+\end{figure}
+
+Para generar la corriente deseada en el inductor se puede proceder de la siguiente manera:
+
+\begin{itemize}
+\item En primer lugar, se inicia con corriente nula en el inductor. Se conecta alimentación sobre el inductor en sentido positivo y la corriente comienza a crecer con forma de rampa.
+\item Se debe tomar medición de esta corriente, para que al superar el valor medio deseado + ripple/2, se debe invertir la polaridad de la alimentación.
+\item La corriente comienza a decrecer. Cuando llega al valor medio deseado - ripple/2, se vuelve a invertir la polaridad y la corriente vuelve a crecer. De manera que se repite el ciclo y se obtiene una forma de onda triangular.
+\end{itemize}
+
+Para lograr esto se realimenta la corriente del electroimán a un comparador. Este circuito compara dos señales V1 con V2 y dependiendo del resultado de dicha comparación se obtiene una salida. Al realimentar la corriente se puede determinar si el circuito 
+Se dice que el comparador tiene histéresis porque
+
+
+
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán, con el objetivo de que su corriente siga de manera proporcional a una tensión de referencia que entra al controlador. Es decir, se quiere un diagrama en bloques como: 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Diagrama-en-bloques-basico.png}
+	\caption{Diagrama en bloques básico del controlador. IGUAL YA ESTAMOS SPOILEANDO QUE SE REALIMENTA}
+	\label{fig:img_diagrama_bloques_basico}
+\end{figure}
+
+Con el resultado de la descripción general se podría pensar en que para obtener un valor de corriente deseado, se debería controlar la tensión de alimentación del electroimán... ACÁ QUERÍA DECIR QUE SE PODRÍA HACER UN CONTROLADOR LINEAL CON UN TRANSISTOR PERO QUE ES MALA IDEA POR LA DISIPACIÓN 
+
+\colorbox{red}{hasta acá hice}
 
 \noindent Se desea controlar la corriente que circula por el electroimán y, debido a que el sistema va a trabajar con corrientes elevadas, es importante que la implementación del controlador de corriente sea eficiente. Por lo tanto, para disminuir la disipación de potencia del circuito se utiliza un controlador que funciona en conmutación.
 
@@ -54,8 +170,6 @@ Debido a que el sistema va a funcionar con corrientes elevadas, es importante mi
 El electroimán se conecta entre los puntos medios de cada par de llaves. De esta manera se puede conmutar la polaridad de la tensión que se le aplica. Sólo se permite que dos llaves se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada \textsl{shoot-through}.
 
 Para poder generar una corriente triangular con un valor medio deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para poder controlar dicha polaridad, se debe actuar sobre las llaves en función de si se desea aumentar o disminuir el valor medio de la corriente.  Una manera de hacerlo es mediante un comparador con histéresis, cuya salida determina que llaves se encienden en función de comparar la corriente de referencia con la que está circulando por el electroimán. En caso de que esta última sea menor qeu la referencia, la polaridad de tensión aplicada al electroimán será positiva y, por ende, la corriente aumentara hasta alcanzar la referencia. Una vez superada la referencia, se volverá a cambiar la polaridad en el electoimán, pero esta vez será negativa, haciendo que el valor medio de la corriente disminuya. De esta forma, se puede observar que va a haber un riple en torno al valor medio de corriente deseado.  Este riple debe ser...
-
-
 
 permanecen encendidas las llaves en 
 Al controlar el tiempo de activación de las llaves, se podría obtener una forma de onda triangular con un valor medio determinado. Una manera de controlar las llaves es mediante un controlador con histéresis

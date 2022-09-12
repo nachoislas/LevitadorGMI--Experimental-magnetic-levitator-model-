@@ -40,7 +40,7 @@ Del análisis anterior se deduce que si la tensión aplicada en el inductor es c
 
 Se desea diseñar un sistema de control que modifique la alimentación del electroimán, con el objetivo de que su corriente siga de manera proporcional a una tensión de referencia que entra al controlador.
 
-Como se mencionó previamente, al trabajar con circuitos RL, la corriente depende de la integral de la tensión aplicada. Para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. La desventaja de esto es que la tensión sobre el inductor es nula (corriente constate), por lo tanto, la potencia disipada cae completamente sobre el transistor. La potencia sobre el transistor es de 
+Como se mencionó previamente, al trabajar con circuitos RL, la corriente depende de la integral de la tensión aplicada. Para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. En este modo de funcionamiento la tensión colector-emisor se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. La desventaja de esto es que la tensión sobre el inductor es casi nula (corriente constate, pérdidas en resistencia interna), por lo tanto, la mayor parte de la potencia disipada cae sobre el transistor. Esta puede cuantificarse con la fórmula: 
 
 \begin{equation}
 Potencia_{transistor} = i_{max}*V_{alimentacion} = 30 A * V_{alimentacion}=

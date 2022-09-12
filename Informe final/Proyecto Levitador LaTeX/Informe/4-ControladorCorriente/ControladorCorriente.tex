@@ -12,35 +12,56 @@ Para diseñar la fuente de alimentación se debe conocer el comportamiento eléc
 \frac{I_L}{V_L}(s)=\frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
-Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente a un escalón de tensión de amplitud ``$v$'' en la entrada:
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente a un escalón de tensión de amplitud ``$v_L$'' en la entrada:
 
 \begin{equation} \label{eq_corriente_temporal}
-	i_L(t)=\frac{v}{R_L}*(1-\frac{1}{L(Y_g)}*e^{-\frac{R_L}{L(Y_g)}*t})
+	i_L(t)=\frac{v_L}{R_L}*(1-\frac{1}{L(Y_g)}*e^{-\frac{R_L}{L(Y_g)}*t})
 \end{equation}
 
-En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}
+En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior de la figura se observa la tensión de entrada, y en la parte inferior la corriente del electroimán.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{corriente_escalon.png}
-	\caption{Respuesta a entrada en escalón. En la parte superior se observa la tensión de entrada, y en la parte inferior la corriente del electroimán}
+	\caption{Respuesta a entrada en escalón.}
 	\label{fig:img_respuesta_escalon}
 \end{figure}
 
-
-Del análisis anterior se deduce que si la tensión aplicada en el inductor es continua, la corriente se estabilizará en un valor continuo dado por:
-
-\begin{equation} \label{eq_corriente_ss}
-	i_{L_{ss}}=\frac{v}{R_L}
-\end{equation}
-
-
+Este análisis  resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
 
 \section{Diseño de topología}
 
-Se desea diseñar un sistema de control que modifique la alimentación del electroimán, con el objetivo de que su corriente siga de manera proporcional a una tensión de referencia que entra al controlador.
 
-Como se mencionó previamente, al trabajar con circuitos RL, la corriente depende de la integral de la tensión aplicada. Para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. En este modo de funcionamiento la tensión colector-emisor se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. La desventaja de esto es que la tensión sobre el inductor es casi nula (corriente constate, pérdidas en resistencia interna), por lo tanto, la mayor parte de la potencia disipada cae sobre el transistor. Esta puede cuantificarse con la fórmula: 
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente específica por su bobinado.  Para ello, se implementa un sistema realimentado que compara la corriente que circula por el electroimán con una de referencia, que es la que se desea que circule por el electroimán. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra el diagrama en bloques inicial del sistema.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Diagrama-en-bloques-basico.png}
+	\caption{Diagrama en bloques básico del controlador de corriente.}
+	\label{fig:img_diagrama_bloques_basico}
+\end{figure}
+
+\subsection{Estrategia de control de corriente en modo lineal}
+
+Como se vio en la introducción del capítulo, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. 
+
+Para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. Una posible implementación circuital se muestra en la figura \ref{fig:img_controlador-lineal}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{controlador_lineal.png}
+	\caption{Control de corriente mediante transistor en modo lineal.}
+	\label{fig:img_controlador-lineal}
+\end{figure}
+
+En este modo de funcionamiento la tensión colector-emisor se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. Es decir, en régimen permanente se obtiene:
+ 
+ \begin{equation} \label{eq_corriente_temporal}
+ 	I_L=\frac{V_{CC}-V_{CE}}{R_L}
+ \end{equation}
+ 
+La desventaja de esto es que al circular una corriente constante, la caída de tensión sobre el inductor es prácticamente nula (solo lo correspondiente a la resistencia interna). Por lo tanto, la mayor parte de la potencia disipada cae sobre el transistor. Esta puede cuantificarse con la fórmula: 
 
 \begin{equation}
 	P_{transistor} = I_L*V_{CE}
@@ -49,27 +70,28 @@ Como se mencionó previamente, al trabajar con circuitos RL, la corriente depend
 Teniendo en cuenta que la corriente depende de la alimentación y la resistencia interna:
 
 \begin{equation}
-	I_L=\frac{V_{alimentacion}-V_{CE}}{R_L}
+	I_L=\frac{V_{CC}-V_{CE}}{R_L}
 \end{equation}
 
 Finalmente:
 
 \begin{equation}
-	P_{transistor}=\frac{V_{alimentacion}*V_{CE}-V_{CE}^2}{R_L}
+	P_{transistor}=\frac{V_{CC}*V_{CE}-V_{CE}^2}{R_L}
 \end{equation}
 
-Esta función llega a un máximo cuando $V_{CE}=\frac{V_{alimentacion}}{2}$
+Esta función llega a un máximo cuando $V_{CE}=\frac{V_{CC}}{2}$
 
 
 \begin{equation}
-	P_{transistor_{max}}=\frac{V_{alimentacion}^2}{4*R_L}
+	P_{transistor_{max}}=\frac{V_{CC}^2}{4*R_L}
 \end{equation}
 
-IMAGEN DE TRANSISTOR CON INDUCTOR
 
 Aunque aún no se define con qué tensión se alimentará el sistema, se puede probar con valores utilizados comunmente para obtener una aproximación de la potencia disipada por el transistor. Por ejemplo, para valores de tensión de alimentación $(5\:V,10\:V,15\:V)$ el valor de potencia que se obtiene varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor, haciendo que sea necesario el agregado de un gran disipador de calor y pone en riesgo la vida útil de los componentes.
 
 \colorbox{red}{HACER UN MEJOR ENGANCHE}
+
+\subsection{Estrategia de control de corriente mediante conmutación}
 
 Otra forma de controlar la corriente sobre un inductor es la de conmutar sobre sus bornes la tensión de alimentación. De esta forma se puede lograr una forma de onda triangular de corriente con un valor medio como se muestra en la figura XD. Ademas,
 
@@ -96,12 +118,7 @@ NOSE SI ESTAN BIEN LAS EQ, Pero si estan se podria decir algo como que si se eli
 
 Como se puede ver en la imagen xd, el incremento y decremento de la corriente está definido por los tiempos de conmutación. Por lo tanto al actuar sobre estos tiempos se pueden ajustar el valor medio y el ripple que tendrá la corriente de la forma que se desea. Para lograr esto se debe tener conocimiento de que estado tiene la corriente, por lo tanto se plantea un diagrama en bloques con un bloque principal de conmutación, la planta, y agrega una realimentación de la corriente.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=1]{Diagrama-en-bloques-basico.png}
-	\caption{Diagrama en bloques básico del controlador. YO PONDRIA SISTEMA DE CONMUTACION O ALGO ASI EN VEZ DE CONTROLADOR}
-	\label{fig:img_diagrama_bloques_basico}
-\end{figure}
+
 
 Para generar la corriente deseada en el inductor se puede proceder de la siguiente manera:
 

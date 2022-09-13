@@ -4,7 +4,7 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}
 
-Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente que requiere el electroimán.
+Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida.
 
 Para diseñar la fuente de alimentación se debe conocer el comportamiento eléctrico de la planta. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia variable con una resistencia serie. Es decir, es un circuito RL serie cuya corriente ($I_L$) depende de la tensión aplicada ($V_L$). La expresión \ref{eq_corriente} muestra la relación entre estos parámetros.
 
@@ -12,27 +12,27 @@ Para diseñar la fuente de alimentación se debe conocer el comportamiento eléc
 \frac{I_L}{V_L}(s)=\frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
-Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente a un escalón de tensión de amplitud ``$v_L$'' en la entrada:
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente ante un escalón de tensión de amplitud ``$v_L$'' en la entrada:
 
 \begin{equation} \label{eq_corriente_temporal}
 	i_L(t)=\frac{v_L}{R_L}*(1-\frac{1}{L(Y_g)}*e^{-\frac{R_L}{L(Y_g)}*t})
 \end{equation}
 
-En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior de la figura se observa la tensión de entrada, y en la parte inferior la corriente del electroimán.
+En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior de la figura se observa la tensión de entrada, y en la parte inferior la corriente del electroimán. Este análisis resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
+
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{corriente_escalon.png}
-	\caption{Respuesta a entrada en escalón.}
+	\caption{Respuesta ante una entrada en escalón.}
 	\label{fig:img_respuesta_escalon}
 \end{figure}
 
-Este análisis  resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
 
 \section{Diseño de topología}
 
 
-Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente específica por su bobinado.  Para ello, se implementa un sistema realimentado que compara la corriente que circula por el electroimán con una de referencia, que es la que se desea que circule por el electroimán. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra el diagrama en bloques inicial del sistema.
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente específica por su bobinado.  Para ello, se implementa un sistema realimentado que compara la corriente que circula por el electroimán con una de referencia, que es la que se desea que circule por el electroimán. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra un diagrama en bloques inicial del sistema.
 
 
 \begin{figure}[H]
@@ -42,9 +42,9 @@ Se desea diseñar un sistema de control que modifique la alimentación del elect
 	\label{fig:img_diagrama_bloques_basico}
 \end{figure}
 
-\subsection{Estrategia de control de corriente en modo lineal}
+\subsection{Control de corriente mediante transistor en modo lineal}
 
-Como se vio en la introducción del capítulo, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. 
+Como se vio en la introducción del capítulo, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. Por lo tanto, 
 
 Para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. Una posible implementación circuital se muestra en la figura \ref{fig:img_controlador-lineal}.
 
@@ -61,7 +61,7 @@ En este modo de funcionamiento la tensión colector-emisor se controla de manera
  	I_L=\frac{V_{CC}-V_{CE}}{R_L}
  \end{equation}
  
-La desventaja de esto es que al circular una corriente constante, la caída de tensión sobre el inductor es prácticamente nula (solo lo correspondiente a la resistencia interna). Por lo tanto, la mayor parte de la potencia disipada cae sobre el transistor. Esta puede cuantificarse con la fórmula: 
+La desventaja de esto es que al circular una corriente constante, la caída de tensión sobre el inductor es prácticamente nula (solo lo correspondiente a la resistencia interna). Por lo tanto, la mayor parte de la potencia disipada cae sobre el transistor. Esta puede calcularse como: 
 
 \begin{equation}
 	P_{transistor} = I_L*V_{CE}
@@ -91,7 +91,7 @@ Aunque aún no se define con qué tensión se alimentará el sistema, se puede p
 
 \colorbox{red}{HACER UN MEJOR ENGANCHE}
 
-\subsection{Estrategia de control de corriente mediante conmutación}
+\subsection{Control de corriente mediante conmutación}
 
 Otra forma de controlar la corriente sobre un inductor es la de conmutar sobre sus bornes la tensión de alimentación. De esta forma se puede lograr una forma de onda triangular de corriente con un valor medio como se muestra en la figura XD. Ademas,
 

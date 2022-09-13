@@ -42,6 +42,8 @@ Se desea diseñar un sistema de control que modifique la alimentación del elect
 	\label{fig:img_diagrama_bloques_basico}
 \end{figure}
 
+\colorbox{red}{Acá estaría bueno proponer} que vamos a analizar dos manera de controlar la corriente. o alguna intro similar
+
 \subsection{Control de corriente mediante transistor en modo lineal}
 
 Como se vio en la introducción del capítulo, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. Por lo tanto, 
@@ -55,7 +57,7 @@ Para mantener una corriente constante controlada se podría utilizar un transist
 	\label{fig:img_controlador-lineal}
 \end{figure}
 
-En este modo de funcionamiento la tensión colector-emisor se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. Es decir, en régimen permanente se obtiene:
+En este modo de funcionamiento la tensión colector-emisor ($V_CE$) se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. Es decir, en régimen permanente se obtiene:
  
  \begin{equation} \label{eq_corriente_temporal}
  	I_L=\frac{V_{CC}-V_{CE}}{R_L}

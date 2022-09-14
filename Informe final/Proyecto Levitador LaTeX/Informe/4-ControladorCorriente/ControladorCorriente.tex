@@ -18,7 +18,7 @@ Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente
 	i_L(t)=\frac{v_L}{R_L}*(1-\frac{1}{L(Y_g)}*e^{-\frac{R_L}{L(Y_g)}*t})
 \end{equation}
 
-En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior de la figura se observa la tensión de entrada, y en la parte inferior la corriente del electroimán. Este análisis resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
+\colorbox{red}{revisar lo de arriba}En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior de la figura se observa la tensión de entrada, y en la parte inferior la corriente del electroimán. Este análisis resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
 
 
 \begin{figure}[H]
@@ -101,6 +101,16 @@ Aunque aún no se define con qué tensión se alimentará el sistema, se puede p
 \colorbox{red}{HACER UN MEJOR ENGANCHE}
 
 \subsection{Control de corriente mediante conmutación}
+
+Como se analizó en la sección anterior, al trabajar con corrientes elevadas, no es eficiente utilizar un transistor que trabaje en su zona lineal puesto que el consumo de energía es elevado. Se propone entonces utilizar una fuente conmutada, como las que se estudiaron durante la cursada. Para lograr tener una corriente contìnua en este tipo de fuentes, se aprovecha el transitorio que sufre la corriente, como se muestra 	MAS ARRIBA	 . çde esta manera. 
+en este tipo de fuentes, la manera de lograr una corriente continua en un inductor es generando una onda triangular cuyo valor medio sea el valor de contìnua deseado, y que tenga una variaciòn pequeña alrededor de este. 
++
+PONEMOS IMAGEN TRIANGULAR
+Se desea controlar el valor medio de la corriente que circula por el bobinado del electoimán. Sabiendo que al aplicar una tensión constante en sus terminales la magnitud de la corrietne crece, se propone diseñar una fuente conmutada, de forma tal qeu una vez alcanzada el valor medio de corriente deseado, se pueda alternar la polaridad 
+
+Otra estrategia es trabajar en conmutación como se muestra en la figura dasd.
+
+Esta topología permite alternar...
 
 Otra forma de controlar la corriente sobre un inductor es la de conmutar sobre sus bornes la tensión de alimentación. De esta forma se puede lograr una forma de onda triangular de corriente con un valor medio como se muestra en la figura XD. Ademas,
 

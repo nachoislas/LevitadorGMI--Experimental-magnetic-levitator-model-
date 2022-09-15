@@ -57,7 +57,7 @@ Para mantener una corriente constante controlada se podría utilizar un transist
 	\label{fig:img_controlador-lineal}
 \end{figure}
 
-En este modo de funcionamiento la tensión colector-emisor ($V_CE$) se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. Es decir, en régimen permanente se obtiene:
+En este modo de funcionamiento la tensión colector-emisor ($V_{CE}$) se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. Es decir, en régimen permanente se obtiene:
  
  \begin{equation} \label{eq_corriente_temporal}
  	I_L=\frac{V_{CC}-V_{CE}}{R_L}
@@ -81,7 +81,7 @@ Finalmente:
 	P_{transistor}=V_{CC}*I_L-I_L^2*R_L
 \end{equation}
 
-Esta función llega a un máximo cuando $V_{CE}=\frac{V_{CC}}{2}$
+Esta función llega a un máximo cuando $I_L=\frac{V_{CC}}{2*R_L}$
 
 
 \begin{equation}\label{eq_pot_transistor_lineal_final}

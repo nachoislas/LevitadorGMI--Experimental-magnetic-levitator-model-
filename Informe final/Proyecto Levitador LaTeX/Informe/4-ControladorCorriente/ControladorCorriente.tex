@@ -106,13 +106,13 @@ Aunque aún no se define con qué tensión se alimentará el sistema, se puede p
 
 Como se analizó en la sección anterior, al trabajar con corrientes elevadas, no es eficiente utilizar un transistor que trabaje en su zona lineal puesto que el consumo de energía es elevado. Se propone entonces utilizar una fuente conmutada.
 
-\noindent Para lograr una corriente contínua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en los bornes del inductor. De esta forma, la corriente crece y decrece (según la polaridad de tensión aplicada) en torno al valor medio deseado con forma exponencial debido a la resistencia interna del electroimán. Sin embargo, como el intervalo de tiempo de esta conmutación es pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado a una recta. Por lo tanto, se obtiene una corriente contínua con un ripple superpuesto de forma triangular, como la que se muestra en la figura \ref{fig:img_corriente_triangular_2}. 
+\noindent Para lograr una corriente continua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en sus bornes. De esta forma, se aprovecha el transitorio mostrado en la figura \ref{fig:img_respuesta_escalon} para hacer crecer la corriente hasta llegar a un cierto valor (denominado límite superior), y luego se conmuta la polaridad de la alimentación para que decrezca. Nuevamente, al llegar a un cierto valor (denominado límite inferior), se vuelve a conmutar. Este proceso se repite, y se logra que la corriente oscile en torno al valor medio entre los dos límites, que es el valor de corriente continua deseado. Aunque en la figura \ref{fig:img_respuesta_escalon} el crecimiento de la corriente tiene forma exponencial negativa, si se elige que el intervalo de tiempo de la conmutación sea pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado como una rampa. Por lo tanto, se obtiene una corriente continua con un ripple \colorbox{red}{PONEMOS RIPPLE O EN ESPAÑOL??}superpuesto de forma triangular, como la que se muestra en la figura \ref{fig:img_corriente_triangular}. 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{corriente_triangular.PNG}
-	\caption{Forma de onda de corriente.}
-	\label{fig:img_corriente_triangular_2}
+	\includegraphics[scale=0.5]{triangular.png}
+	\caption{Forma de onda de corriente. CAPAZ HABRÍA QUE PONER UNA IMAGEN HECHA POR NOSOTROS}
+	\label{fig:img_corriente_triangular}
 \end{figure}
 
 
@@ -212,12 +212,12 @@ Este circuito podría funcionar pero tiene la desventaja de que debido a que el 
 
 Debido a que el sistema va a funcionar con corrientes elevadas, es importante minimizar las pérdidas de energía que puedan ocurrir en la circuitería del controlador de corriente. Por lo tanto, se debería implementar un controlador que trabaje en conmutación.  En este tipo de controladores se aprovecha el transitorio de corriente en el electroimán de manera que al alternar la polaridad de la tensión aplicada se puede hacer que la corriente crezca o decrezca alrededor de un valor medio. \colorbox{red}{cambiar figura}. Si se eligen tiempos de conmutación pequeños comparados con la constante de tiempo de la planta, la corriente tendrá una forma triangular.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{triangular.png}
-	\caption{Forma de onda de corriente.}
-	\label{fig:img_corriente_triangular}
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{triangular.png}
+%	\caption{Forma de onda de corriente.}
+%	\label{fig:img_corriente_triangular}
+%\end{figure}
 
 
 ----------------------------------

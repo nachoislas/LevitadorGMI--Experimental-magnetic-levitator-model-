@@ -106,13 +106,23 @@ Aunque aún no se define con qué tensión se alimentará el sistema, se puede p
 
 Como se analizó en la sección anterior, al trabajar con corrientes elevadas, no es eficiente utilizar un transistor que trabaje en su zona lineal puesto que el consumo de energía es elevado. Se propone entonces utilizar una fuente conmutada.
 
-\noindent Para lograr una corriente continua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en sus bornes. De esta forma, se aprovecha el transitorio mostrado en la figura \ref{fig:img_respuesta_escalon} para hacer crecer la corriente hasta llegar a un cierto valor (denominado límite superior), y luego se conmuta la polaridad de la alimentación para que decrezca. Nuevamente, al llegar a un cierto valor (denominado límite inferior), se vuelve a conmutar. Este proceso se repite, y se logra que la corriente oscile en torno al valor medio entre los dos límites, que es el valor de corriente continua deseado. Aunque en la figura \ref{fig:img_respuesta_escalon} el crecimiento de la corriente tiene forma exponencial negativa, si se elige que el intervalo de tiempo de la conmutación sea pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado como una rampa. Por lo tanto, se obtiene una corriente continua con un ripple \colorbox{red}{PONEMOS RIPPLE O EN ESPAÑOL??}superpuesto de forma triangular, como la que se muestra en la figura \ref{fig:img_corriente_triangular}. 
+\noindent Para lograr una corriente continua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en sus bornes. De esta forma, se aprovecha el transitorio mostrado en la figura \ref{fig:img_respuesta_escalon} para hacer crecer la corriente hasta llegar a un cierto valor (denominado límite superior), y luego se conmuta la polaridad de la alimentación para que decrezca. Nuevamente, al llegar a un cierto valor (denominado límite inferior), se vuelve a conmutar. Este proceso se repite, y se logra que la corriente oscile en torno al valor medio entre los dos límites, que es el valor de corriente continua deseado. 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{triangular.png}
-	\caption{Forma de onda de corriente. CAPAZ HABRÍA QUE PONER UNA IMAGEN HECHA POR NOSOTROS}
-	\label{fig:img_corriente_triangular}
+	\includegraphics[scale=0.5]{forma-de-onda-corriente-exponencial.png}
+	\caption{Forma de onda de corriente.}
+	\label{fig:img_corriente_exponencial}
+\end{figure}
+
+
+Aunque en la figura \ref{fig:img_corriente_exponencial} el crecimiento de la corriente tiene forma exponencial negativa, si se elige que el intervalo de tiempo de la conmutación sea pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado como una rampa. Por lo tanto, se obtiene una corriente continua con un ripple \colorbox{red}{PONEMOS RIPPLE O EN ESPAÑOL??}superpuesto de forma triangular, como la que se muestra en la figura \ref{fig:img_corriente_triangular}\label{fig:img_corriente_lineal}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{forma-de-onda-corriente-lineal.png}
+	\caption{Forma de onda de corriente al disminuir el período de conmutación.}
+	\label{fig:img_corriente_lineal}
 \end{figure}
 
 Entonces, se desea diseñar un circuito que permita poder alternar la polaridad de la tensión aplicada al electroimán y controlar el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, una que tiene la capacidad de alimentar su carga en ambos sentidos es la topología de puente completo con 4 llaves. Esta se muestra en la figura \ref{fig:img_topologia_simplificada}. Cada llave puede ser controlada de manera independiente mediante señales eléctricas.

@@ -96,7 +96,7 @@ Teniendo en cuenta que la corriente maxima que se requiere es de aproximadamente
 
 En el mercado las fuentes de tension capaces de entregar 30 A mas comunes en el mercado comienzan con valores minimos de 12 V. Si se reemplaza este valor en la ecuacion  \ref{eq_pot_transistor_lineal_final} se obtiene un valor minimo de 180 Watt, esto elevaria demasiado la temperatura del transistor, haciendo que sea necesario el agregado de un gran disipador de calor y pone en riesgo la vida útil de los componentes.
   
-En la ecuaicion \ref{eq_pot_transistor_lineal_fina} se puede ver que para valores de tension normalmente utilizados $(5\:V,10\:V,15\:V)$ la potencia disipada por el transistor varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor, haciendo que sea necesario el agregado de un gran disipador de calor y pone en riesgo la vida útil de los componentes.
+En la ecuación \ref{eq_pot_transistor_lineal_fina} se puede ver que para valores de tension normalmente utilizados $(5\:V,10\:V,15\:V)$ la potencia disipada por el transistor varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor, haciendo que sea necesario el agregado de un gran disipador de calor y pone en riesgo la vida útil de los componentes.
 
 Aunque aún no se define con qué tensión se alimentará el sistema, se puede probar con valores utilizados comunmente para obtener una aproximación de la potencia disipada por el transistor. Por ejemplo, para valores de tensión de alimentación $(5\:V,10\:V,15\:V)$ el valor de potencia que se obtiene varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor, haciendo que sea necesario el agregado de un gran disipador de calor y pone en riesgo la vida útil de los componentes.
 
@@ -106,7 +106,9 @@ Aunque aún no se define con qué tensión se alimentará el sistema, se puede p
 
 Como se analizó en la sección anterior, al trabajar con corrientes elevadas, no es eficiente utilizar un transistor que trabaje en su zona lineal puesto que el consumo de energía es elevado. Se propone entonces utilizar una fuente conmutada.
 
-\noindent Para lograr una corriente continua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en sus bornes. De esta forma, se aprovecha el transitorio mostrado en la figura \ref{fig:img_respuesta_escalon} para hacer crecer la corriente hasta llegar a un cierto valor (denominado límite superior), y luego se conmuta la polaridad de la alimentación para que decrezca. Nuevamente, al llegar a un cierto valor (denominado límite inferior), se vuelve a conmutar. Este proceso se repite, y se logra que la corriente oscile en torno al valor medio entre los dos límites, que es el valor de corriente continua deseado. 
+%\noindent Para lograr una corriente continua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en sus bornes. De esta forma, se aprovecha el transitorio mostrado en la figura \ref{fig:img_respuesta_escalon} para hacer crecer la corriente hasta llegar a un cierto valor (denominado límite superior), y luego se conmuta la polaridad de la alimentación para que decrezca. Nuevamente, al llegar a un cierto valor (denominado límite inferior), se vuelve a conmutar. Este proceso se repite, y se logra que la corriente oscile en torno al valor medio entre los dos límites, que es el valor de corriente continua deseado. 
+
+Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente aumentará en forma exponencial. Si se desea que la corriente que circule por su bobinado sea aproximadamente continua, es necesario alternar la polaridad de la tensión aplicada de forma que la corriente oscile en torno al valor medio deseado. La forma de onda resultante se puede observar en la figura \ref{fig:img_corriente_exponencial}.
 
 \begin{figure}[H]
 	\centering
@@ -115,17 +117,16 @@ Como se analizó en la sección anterior, al trabajar con corrientes elevadas, n
 	\label{fig:img_corriente_exponencial}
 \end{figure}
 
+%En la figura \ref{fig:img_corriente_exponencial} se puede ver que la corriente crece y decrece en forma exponencial dentro de cada ciclo de conmutación. Sin embargo, si se elige un intervalo de tiempo de la conmutación pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado como una rampa. Por lo tanto, se obtiene una corriente continua con un ripple superpuesto de forma triangular, como la que se muestra en la figura \label{fig:img_corriente_lineal}.
 
-Aunque en la figura \ref{fig:img_corriente_exponencial} el crecimiento de la corriente tiene forma exponencial negativa, si se elige que el intervalo de tiempo de la conmutación sea pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado como una rampa. Por lo tanto, se obtiene una corriente continua con un ripple \colorbox{red}{PONEMOS RIPPLE O EN ESPAÑOL??}superpuesto de forma triangular, como la que se muestra en la figura \ref{fig:img_corriente_triangular}\label{fig:img_corriente_lineal}.
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{forma-de-onda-corriente-lineal.png}
+%	\caption{Forma de onda de corriente al disminuir el período de conmutación.}
+%	\label{fig:img_corriente_lineal}
+%\end{figure}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{forma-de-onda-corriente-lineal.png}
-	\caption{Forma de onda de corriente al disminuir el período de conmutación.}
-	\label{fig:img_corriente_lineal}
-\end{figure}
-
-Entonces, se desea diseñar un circuito que permita poder alternar la polaridad de la tensión aplicada al electroimán y controlar el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, una que tiene la capacidad de alimentar su carga en ambos sentidos es la topología de puente completo con 4 llaves. Esta se muestra en la figura \ref{fig:img_topologia_simplificada}. Cada llave puede ser controlada de manera independiente mediante señales eléctricas.
+Por lo tanto, se desea diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, una que tiene la capacidad de alimentar su carga en ambos sentidos es la topología de puente completo con 4 llaves. Esta se muestra en la figura \ref{fig:img_topologia_simplificada}. Cada llave puede ser controlada de manera independiente mediante señales eléctricas.
 
 \begin{figure}[H]
 	\centering
@@ -134,9 +135,11 @@ Entonces, se desea diseñar un circuito que permita poder alternar la polaridad 
 	\label{fig:img_topologia_simplificada}
 \end{figure} 
 
-El electroimán se conecta entre los puntos medios de cada par de llaves. De esta manera se puede hacer circular corriente en ambos sentidos, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente del electroimán. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha.
 
-Para que una corriente circule en el sentido adoptado, se deben cerrar a la vez las llaves $Q_1$ y $Q_4$. La corriente comenzará a crecer como se explicó anteriormente. Luego, para generar el periodo de decrecimiento, se abren estas llaves y se cierran $Q_2$ y $Q_3$. La corriente seguirá circulando en el mismo sentido, pero la alimentación del electroimán alternó su polaridad, por lo tanto la corriente tendrá una pendiente negativa. \colorbox{red}{se puede exxplicar mejor}
+
+El electroimán se conecta entre los puntos medios de cada par de llaves. De esta manera, la corriente puede circular en ambos sentidos, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente del electroimán. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha.
+
+Para que la corriente circule en el sentido adoptado, se deben cerrar a la vez las llaves $Q_1$ y $Q_4$. La corriente comenzará a crecer como se muestra en la figura \ref{fig:img_corriente_exponencial}. Luego, para generar el periodo de decrecimiento, se abren estas llaves y se cierran $Q_2$ y $Q_3$. La corriente seguirá circulando en el mismo sentido, pero la alimentación del electroimán alternó su polaridad, por lo tanto la corriente tendrá una pendiente negativa. \colorbox{red}{se puede exxplicar mejor}
 Es importante tener en cuenta que sólo se permite que dos llaves se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada \textsl{shoot-through}. Esto debe ser tenido en cuenta al momento de diseñar el circuito.
 
 Para poder generar una corriente triangular con un valor medio deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para poder controlar dicha polaridad, se debe actuar sobre las llaves en función de si se desea aumentar o disminuir el valor medio de la corriente. 

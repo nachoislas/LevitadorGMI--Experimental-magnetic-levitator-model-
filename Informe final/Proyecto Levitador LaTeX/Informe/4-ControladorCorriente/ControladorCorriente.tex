@@ -141,18 +141,18 @@ El electroimán se conecta entre los puntos medios de cada par de llaves. Median
 Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente 0, se debe controlar el estado de las llaves de la siguiente manera:
 
 \begin{itemize}
-	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, de manera que se genera un circuito entre $V_{cc}$, el electroimán y GND como indican las flechas negras.
+	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, de manera que se genera un circuito entre $V_{cc}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}.
 	\item La corriente comienza a crecer con forma de exponencial negativa. 
-	\item Al llegar al límite superior, el controlador conmuta el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejan de conducir, y conducen $Q_2$ y $Q_3$.
+	\item Al llegar al límite superior ($I_{L_{MAX}}$), el controlador conmuta el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejan de conducir, y conducen $Q_2$ y $Q_3$.
 	\item La corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo tanto esta comienza a decrecer.
-	\item Una vez alcanzado el límite inferior, el controlador vuelve a conmutar el estado de las llaves para que la corriente tenga pendiente positiva.
+	\item Una vez alcanzado el límite inferior ($I_{L_{MIN}}$), el controlador vuelve a conmutar el estado de las llaves para que la corriente tenga pendiente positiva.
 \end{itemize}
 
 Este ciclo se repite en régimen permanente. De esta manera el valor deseado de corriente se obtiene a través del promedio de la forma de onda oscilante.
 
 Es importante tener en cuenta que sólo se permite que dos llaves se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente elevada que puede dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito.
 
-Como se menciono previamente, para poder generar una corriente triangular con un valor medio deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para poder controlar dicha polaridad, se debe actuar sobre las llaves en función de si se desea aumentar o disminuir el valor medio de la corriente. 
+Como se mencionó previamente, para poder generar una corriente con el valor medio deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para poder controlar dicha polaridad, se debe actuar sobre las llaves en función de si se desea aumentar o disminuir el valor medio de la corriente. 
 
 Una manera de hacerlo es mediante un circuito que compare la corriente de referencia con la corriente que está circulando por el electroimán. De esta forma, si la corriente es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán, será positiva. En cambio, si resulta mayor, será negativa. De esta forma, la corriente aumenta y disminuye respectivamente. Por lo tanto se plantea el siguiente diagrama \ref{fig:img_diag-en-bloques-comparador-sin-hist}:
 

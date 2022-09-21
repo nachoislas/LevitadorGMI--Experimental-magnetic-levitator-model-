@@ -32,8 +32,7 @@ Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente
 \section{Diseño de topología}
 
 
-Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente específica por su bobinado.  Para ello, se implementa un sistema realimentado que compara la corriente que circula por el electroimán con una de referencia, que es la que se desea que circule por el electroimán. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra un diagrama en bloques inicial del sistema.
-
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente continua deseada por su bobinado.  Para ello, se propone implementar un sistema realimentado que compare la corriente que circula por el electroimán con una de referencia, que es la que se desea que circule. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra un diagrama en bloques simplificado del sistema.
 
 \begin{figure}[H]
 	\centering
@@ -43,6 +42,14 @@ Se desea diseñar un sistema de control que modifique la alimentación del elect
 \end{figure}
 
 \colorbox{red}{Acá estaría bueno proponer} que vamos a analizar dos manera de controlar la corriente. o alguna intro similar
+
+De este diagrama surgen dos necesidades:
+\begin{itemize}
+	\item Diseñar un controlador que modifique la alimentación del electroimán según sus entradas.
+	\item Medir la corriente que circula en el electroimán para poder utilizarla como entrada al controlador.
+\end{itemize}
+
+A continuación se analizan distintas alternativas para satisfacer estas necesidades.
 
 \subsection{Control de corriente mediante transistor en modo lineal}
 

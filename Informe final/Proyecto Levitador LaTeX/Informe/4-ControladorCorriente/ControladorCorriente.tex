@@ -112,7 +112,7 @@ Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{forma-de-onda-corriente-exponencial.png}
+	\includegraphics[scale=0.5]{Forma-de-onda-corriente-exponencial.png}
 	\caption{Forma de onda de corriente.}
 	\label{fig:img_corriente_exponencial}
 \end{figure}
@@ -140,11 +140,11 @@ Por lo tanto, se desea diseñar un circuito que permita alternar la polaridad de
 El electroimán se conecta entre los puntos medios de cada par de llaves. De esta manera, la corriente puede circular en ambos sentidos, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente del electroimán. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha.
 
 Para que la corriente circule en el sentido adoptado, se deben cerrar a la vez las llaves $Q_1$ y $Q_4$. La corriente comenzará a crecer como se muestra en la figura \ref{fig:img_corriente_exponencial}. Luego, para generar el periodo de decrecimiento, se abren estas llaves y se cierran $Q_2$ y $Q_3$. La corriente seguirá circulando en el mismo sentido, pero la alimentación del electroimán alternó su polaridad, por lo tanto la corriente tendrá una pendiente negativa. \colorbox{red}{se puede exxplicar mejor}
-Es importante tener en cuenta que sólo se permite que dos llaves se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada \textsl{shoot-through}. Esto debe ser tenido en cuenta al momento de diseñar el circuito.
+Es importante tener en cuenta que sólo se permite que dos llaves se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada \textsl{shoot-through}. Esto debe ser tenido en cuenta al momento de diseñar el circuito.
 
 Como se menciono previamente, para poder generar una corriente triangular con un valor medio deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para poder controlar dicha polaridad, se debe actuar sobre las llaves en función de si se desea aumentar o disminuir el valor medio de la corriente. 
 
-Una manera de hacerlo es mediante un circuito que compare la corriente de referencia q con la corriente que está circulando por el electroimán. De esta forma, si la corriente es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán, será positiva. En cambio, si resulta mayor, será negativa. De esta forma, la corriente aumenta y disminuye respectivamente. Por lo tanto se plantea el siguiente diagrama\ref{fig:img_diag-en-bloques-comparador-sin-hist}:
+Una manera de hacerlo es mediante un circuito que compare la corriente de referencia con la corriente que está circulando por el electroimán. De esta forma, si la corriente es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán, será positiva. En cambio, si resulta mayor, será negativa. De esta forma, la corriente aumenta y disminuye respectivamente. Por lo tanto se plantea el siguiente diagrama \ref{fig:img_diag-en-bloques-comparador-sin-hist}:
 
 \begin{figure}[H]
 	\centering
@@ -153,7 +153,7 @@ Una manera de hacerlo es mediante un circuito que compare la corriente de refere
 	\label{fig:img_diag-en-bloques-comparador-sin-hist}
 \end{figure}
 
-Con el circuito planteado hasta ahora, una vez que la corriente del electroimán(IL(s)) supere infinitesimalmente a la referencia, se produciría una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucedería cuando sea infinitesimalmetne menor. Esto produciría conmutaciones extremadamente rápidas en torno al valor medio y sería necesario alta velocidad en conmutación. Por lo tanto, para evitar esas oscilaciones, es necesario agregar un retraso de tiempo para evitar que la fuente conmute de forma indeseada.
+Con el circuito planteado hasta ahora, una vez que la corriente del electroimán (IL(s)) supere infinitesimalmente a la referencia, se produciría una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucedería cuando sea infinitesimalmetne menor. Esto produciría conmutaciones extremadamente rápidas en torno al valor medio y sería necesario alta velocidad en conmutación. Por lo tanto, para evitar esas oscilaciones, es necesario agregar un retraso de tiempo para evitar que la fuente conmute de forma indeseada.
 
 Una manera de hacerlo es mediante un comparador con histéresis. Este bloque compara la corriente de referencia con la que está circulando por el electroimán y permite definir un ancho de histeresis. De esta forma en caso de que esta última sea menor que la referencia, la polaridad de tensión aplicada al electroimán será positiva y, por ende, la corriente aumentara hasta alcanzar la referencia. Una vez superada la referencia, se volverá a cambiar la polaridad en el electoimán, pero esta vez será negativa, haciendo que el valor medio de la corriente disminuya. Debido a que lo unico que cambia es el valor de tension en modulo con el que se exita al electroiman la constante de tiempo del circuito no cambia. Esto da como resultado a que la corriente oscile sobre un valor medio de forma triangular. El valor de el ripple de corriente esta determinado por el periodo de conmutacion de la fuentes. Estos parametros pueden ser definidos ajustando el ancho de histeresis. 
 

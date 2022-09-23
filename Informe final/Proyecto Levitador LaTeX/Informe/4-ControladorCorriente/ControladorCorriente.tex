@@ -113,7 +113,7 @@ Como se analizó en la sección anterior, al trabajar con corrientes elevadas, n
 
 %\noindent Para lograr una corriente continua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en sus bornes. De esta forma, se aprovecha el transitorio mostrado en la figura \ref{fig:img_respuesta_escalon} para hacer crecer la corriente hasta llegar a un cierto valor (denominado límite superior), y luego se conmuta la polaridad de la alimentación para que decrezca. Nuevamente, al llegar a un cierto valor (denominado límite inferior), se vuelve a conmutar. Este proceso se repite, y se logra que la corriente oscile en torno al valor medio entre los dos límites, que es el valor de corriente continua deseado. 
 
-Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente aumentará en forma exponencial. Si se desea que la corriente que circule por su bobinado sea aproximadamente continua, es necesario alternar la polaridad de la tensión aplicada de forma que la corriente oscile en torno al valor medio deseado como se observa en la figura \ref{fig:img_corriente_exponencial}.
+Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente aumentará en forma exponencial. Si se desea que la corriente que circule por su bobinado sea aproximadamente continua, es necesario alternar la polaridad de la tensión aplicada ($\pm V_L$) de forma que la corriente oscile en torno al valor medio deseado ($<I_L>$) como se observa en la figura \ref{fig:img_corriente_exponencial}.
 
 \begin{figure}[H]
 	\centering
@@ -131,7 +131,7 @@ Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente 
 %	\label{fig:img_corriente_lineal}
 %\end{figure}
 
-Por lo tanto, se desea diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, una que tiene la capacidad de alimentar su carga en ambos sentidos es la topología de puente completo con 4 llaves. Esta se muestra en la figura \ref{fig:img_topologia_simplificada}. Cada llave puede ser controlada de manera independiente mediante señales eléctricas.
+Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, una que tiene la capacidad de alimentar su carga en ambos sentidos es la topología de puente completo con 4 llaves. Esta se muestra en la figura \ref{fig:img_topologia_simplificada}. Cada llave puede ser controlada de manera independiente mediante señales eléctricas.
 
 \begin{figure}[H]
 	\centering
@@ -141,23 +141,33 @@ Por lo tanto, se desea diseñar un circuito que permita alternar la polaridad de
 \end{figure} 
 
 
-El electroimán se conecta entre los puntos medios de cada par de llaves. Mediante la combinación correcta de llaves se puede controlar la polaridad de la alimentación y el sentido de circulación de la corriente, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha.
+El electroimán se conecta entre los puntos medios de cada par de llaves. Mediante la combinación correcta de estas se puede controlar la polaridad de la alimentación y el sentido de circulación de la corriente, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}.
 
 Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente 0, se debe controlar el estado de las llaves de la siguiente manera:
 
 \begin{itemize}
-	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, de manera que se genera un circuito entre $V_{cc}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, La corriente comienza a crecer con forma de exponencial negativa. 
-	\item Al llegar al límite superior ($I_{L_{MAX}}$), el controlador conmuta el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejan de conducir, y comienzan a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo tanto esta comienza a decrecer.
-	\item Una vez alcanzado el límite inferior ($I_{L_{MIN}}$), el controlador vuelve a conmutar el estado de las llaves para que la corriente tenga pendiente positiva.
+	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, generando un circuito entre $V_{cc}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa. 
+	\item Al llegar al límite superior ($I_{MAX}$), el controlador conmuta el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejan de conducir, y comienzan a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo tanto esta comienza a decrecer.
+	\item Una vez alcanzado el límite inferior ($I_{MIN}$), el controlador vuelve a conmutar el estado de las llaves para que la corriente tenga pendiente positiva.
 \end{itemize}
 
-Este ciclo se repite en régimen permanente para obtener la corriente deseada. Si se elige un tiempo de conmutación pequeño comparado a la constante de tiempo de la planta, la fuerza magnética producida por esta corriente oscilante podrá ser filtrada, quedando únicamente el valor medio. Es decir, no habrá variaciones significativas en la fuerza ejercida.
+Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
 
-Es importante tener en cuenta que sólo dos llaves pueden ser encendidas a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
+Este ciclo se repite en régimen permanente para obtener la corriente deseada. Si se elige un tiempo de conmutación pequeño comparado a la constante de tiempo de la planta, la fuerza magnética producida por esta corriente oscilante podrá ser filtrada, quedando únicamente su valor medio. Es decir, no habrá variaciones significativas en la fuerza ejercida.
+
+Por otro lado, al considerar que el tiempo de conmutación es pequeño comparado a la constante de tiempo de la planta, la forma de onda de la corriente en régimen permanente será triangular puesto que no llegará a tomar forma exponencial. Además, como la tensión aplicada a los bornes del electroimán en cada semiciclo de conmutación es igual en magnitud y el circuito de carga y descarga del electroimán es el mismo, la onda triangular tendrá pendientes simétricas. La forma de onda resultante se puede observar en rojo en la figura \ref{fig:img_corriente_triangular}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Forma-de-onda-corriente-lineal.png}
+	\caption{Forma de onda de corriente triangular}
+	\label{fig:img_corriente_triangular}
+\end{figure} 
+
 
 Como se mencionó previamente, para poder generar una corriente con el valor medio deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para poder controlar dicha polaridad, se debe actuar sobre las llaves en función de si se desea aumentar o disminuir el valor medio de la corriente. 
 
-Una manera de hacerlo es mediante un circuito que compare la corriente de referencia con la corriente que está circulando por el electroimán. De esta forma, si la corriente es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán, será positiva. En cambio, si resulta mayor, será negativa. De esta forma, la corriente aumenta y disminuye respectivamente. Por lo tanto, se plantea el  diagrama en bloques mostrado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist}.
+Una manera de lograrlo es mediante un circuito que compare la corriente de referencia con la corriente que está circulando por el electroimán. De esta forma, si la corriente es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán, será positiva. En cambio, si resulta mayor, será negativa. De esta forma, la corriente aumenta y disminuye respectivamente. Por lo tanto, se plantea el  diagrama en bloques mostrado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -166,7 +176,9 @@ Una manera de hacerlo es mediante un circuito que compare la corriente de refere
 	\label{fig:img_diag-en-bloques-comparador-sin-hist}
 \end{figure}
 
-Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} se puede observar que, una vez que la corriente del electroimán (IL(s)) supere infinitesimalmente a la referencia, se produciría una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucedería cuando sea infinitesimalmente menor. Esto produciría conmutaciones extremadamente rápidas en torno al valor medio y sería necesario alta velocidad en conmutación. Por lo tanto, para evitar esas oscilaciones, resulta conveniente implementar un comparador con histéresis como se muestra en la figura \ref{fig:img_diag-en-bloques}. 
+Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán (IL(s)) supere infinitesimalmente a la referencia, se produce una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. Esto produciría conmutaciones extremadamente rápidas en torno al valor medio y sería necesario alta velocidad en conmutación. Por lo tanto, para evitar esas oscilaciones, resulta conveniente implementar un comparador con histéresis como se muestra en la figura \ref{fig:img_diag-en-bloques}. 
+
+\colorbox{red}{Tal vez estaría bueno mencionar qeu no se puede lograr error nulo, entonces se producirian conmutaciones todo el tiempo...}
 
 
 Una manera de hacerlo es mediante un comparador con histéresis. Este bloque compara la corriente de referencia con la que está circulando por el electroimán y permite definir un ancho de histeresis. De esta forma en caso de que esta última sea menor que la referencia, la polaridad de tensión aplicada al electroimán será positiva y, por ende, la corriente aumentara hasta alcanzar la referencia. Una vez superada la referencia, se volverá a cambiar la polaridad en el electoimán, pero esta vez será negativa, haciendo que el valor medio de la corriente disminuya. Debido a que lo unico que cambia es el valor de tension en modulo con el que se exita al electroiman la constante de tiempo del circuito no cambia. Esto da como resultado a que la corriente oscile sobre un valor medio de forma triangular. El valor de el ripple de corriente esta determinado por el periodo de conmutacion de la fuentes. Estos parametros pueden ser definidos ajustando el ancho de histeresis. 

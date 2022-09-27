@@ -189,3 +189,93 @@ Debido a que lo único que cambia es el valor de tensión en modulo con el que s
 
 
 Como se mencionó, la forma de onda tendrá un ripple en torno a un valor medio. La elección del ancho de este ripple determinará la velocidad de respuesta que el comprador pueda tener. Esto quiere decir que el error ($I_{e}$(cambiar desp a Ie en la figura)) aumentará hasta cierto valor definido para luego ser corregido. Si $I_{e}$ alcanza un valor demasiado grande la pieza que se desea mantener levitando caerá debido a que el sistema no conmutó lo suficientemente rápido, caso contrario, si la conmutación es muy rápida traerá los problemas ya mencionados anteriormente.
+
+
+
+
+
+\section{Elección de tensión de alimentación}
+\colorbox{red}{Esto no iria acá, pero lo pongo para que ya quede y después lo movemos}
+
+Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta.... y nose que mas
+
+analizando la forma de corriente de la FIGURA 3.6, se observan tres secciones de tiempo diferenciadas: desde t= 0 hasta t1, desde t1 hasta t2,  y desde t2 hasta t3. \colorbox{red}{marcar en la imagen}
+
+Se puede encontrar la expresión teórica de la corriente para cada uno de esos instantes de tiempo... Se utiliza la formula:
+
+\begin{equation}
+	I_L(t)=\frac{V}{R_L} + (I_o-\frac{V}{R_L})*e^{-\frac{t}{\tau}}
+\end{equation} 
+
+Donde:
+\begin{itemize}
+	\item V es la tensión de alimentación, que puede tomar valores $+V_{cc}$ y $-V_{cc}$.
+	\item $I_o$ es la corriente inicial en cada tramo de la imagen.
+	\item $\tau$ es la constante de tiempo del electroimán.
+\end{itemize}
+
+Como el ancho del ripple de corriente es fijo y conocido (SE SUPONE QUE YA LO DEFINIMOS???) nos interesa NOSE QUE NOS INTERESA...
+
+
+
+Para encontrar expresiones del tiempo que tarda en realizarse cada tramo, se reemplaza $I_o$ por la correspondiente y se obtiene el tiempo que tarda en llegar a la corriente final...
+
+
+\begin{equation}
+		T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}})
+\end{equation}
+
+
+\colorbox{red}{Con esta} podemos ver cuánto tardaríamos de pasar de corriente 0 a corriente máxima, y podemos decir que queremos tardar menos de cierto tiempo.
+
+
+Por ejemplo usando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caida libre una altura $\Delta Y$:
+
+\begin{equation}
+	T=\sqrt{\frac{2*\Delta Y}{g}}
+\end{equation}
+
+Considerando $\Delta Y=1.5\:mm$, se llega a que $T=17.5\:ms$. Por lo tanto se desea que $T1<T$.
+finalmente se obtiene: $Vcc=20.9\:V$.
+
+
+
+----------------------------------------------------------------
+SEPARADOR
+------------------------------------------------
+
+
+Otra forma de calcular la tensión de alimentación que se necesita sería considerando que se desea que los tiempos de crecimiento sean lo mas parecidos posible a los de decrecimiento. Esta diferencia se hace mas pronunciada a medida que aumenta el valor medio de la corriente del electroimán.
+
+\begin{equation}
+	T2-T1=-\tau*ln(\frac{I_{min}+\frac{V_{cc}}{R}}{I_{max}+\frac{V_{cc}}{R}})
+\end{equation}
+
+\begin{equation}
+	T3-T2=-\tau*ln(\frac{I_{max}-\frac{V_{cc}}{R}}{I_{min}-\frac{V_{cc}}{R}})
+\end{equation}
+
+
+Podemos poner todo en función de $I_{min}$ utilizando la relación $I_{max}=I_{min}+\delta I_L$
+
+\begin{equation}
+	T2-T1=-\tau*ln(\frac{1}{1+\frac{\Delta I_L}{I_{min}+\frac{V_{cc}}{R}}})
+\end{equation}
+
+\begin{equation}
+	T3-T2=-\tau*ln(1+\frac{\Delta I_L}{I_{min}-\frac{V_{cc}}{R}})
+\end{equation}
+
+
+Podemos decir que queremos que estos tiempos sean lo mas parecidos posible, dentro de todo el rango de trabajo de la corriente. Para ello consideramos que T3 no debe hacerse mucho mayor que T2 en el caso de que la corriente sea la máxima (30 A). Por elegir un número, considero que T3 debe ser menor a $2*T2$ \colorbox{red}{tuve que elegir que sea menor al doble así me quedaba bien el} cruce de las figuras.  planteamos una inecuación y la resolvemos con un grafico:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{tiempos_conmutacion_vs_fuente.png}
+	\caption{Tiempos de conmutación vs tensión de alimentación.}
+	\label{fig:img_tiempos_conmutacion}
+\end{figure}
+
+El punto en que ambas figuras se cruzan es con $Vcc=18\:V$, por lo tanto se eligen una tensión de alimentación de $24\:V$.
+
+ 

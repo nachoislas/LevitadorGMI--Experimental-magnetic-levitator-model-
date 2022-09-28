@@ -192,22 +192,31 @@ Como se mencionó, la forma de onda tendrá un ripple en torno a un valor medio.
 
 Sensado de corriente
 
-Como se puede ver en el diagrama en bloques anterior, para poder realizar la comparación es necesario realimentar la corriente del electroimán para que el comprador pueda actuar en función al error (Ie).
+Como se puede ver en el diagrama en bloques anterior, para poder realizar la comparación es necesario realimentar la corriente del electroimán para que el comprador pueda actuar en función al error ($I_{e}$).
 
 Para hacer esto se debe utilizar un sensor que permita una medición de corriente mayor a 31 amperes y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema. Además lo de la conmutación q dijo el gusti…
 
-Los sensores de corriente trabajan en transresistencia, por lo tanto, se agrega el bloque H en el lazo de realimentación figura XXDD. Ahora ViL=iL*rm. De esta forma ahora se está trabajando con tensiones por lo tanto la corriente de referencia se afecta por el bloque Kin para obtener su equivalente en tensión. El bloque resultante es el siguiente:
+Los sensores de corriente trabajan en transresistencia, por lo tanto, se agrega el bloque H en el lazo de realimentación figura \ref{fig:img_diag-en-bloques-conH-y-Kin}. Ahora $V_{iL}=i_{L}*rm$. De esta forma ahora se está trabajando con tensiones por lo tanto la corriente de referencia se afecta por el bloque $K_{in}$ para obtener su equivalente en tensión. El bloque resultante es el siguiente:
 
-BLOQUE CON KIN Y H. CAMBIAR Iref por VREF y IL por ViL y ie por Ve.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin.png}
+	\caption{Diagrama en bloques del controlador de corriente completo.}
+	\label{fig:img_diag-en-bloques-conH-y-Kin}
+\end{figure}
 
-Se puede expresar al error que introduce el sensor de efecto hall como VerrHall. Entonces la expresion del error queda: 
+Se puede expresar al error que introduce el sensor de efecto hall como $V_{errSensor}$. Entonces la expresion de error $V_{e}$ resulta: 
 
-	Ve= Kin*Iref-H*iL+-VerrHall=deltaI+-VerrHall
+\begin{equation}\label{eq_error_ve}
+	V_{e}= K_{in}*I_{ref}-H*iL\pm V_{errSensor}=\triangle I \pm V_{errSensor}
+\end{equation}
 
-De esta forma, tomando el  caso extremo Kin*Iref=H*iL el error obtenido Ve=+-VerrHall.
+	
+
+De esta forma, tomando el  caso extremo $K_{in}*I_{ref}=H*i_{L}$ el error obtenido $V_{e}=\pm V_{errSensor}$.
 Es decir que el error es el propio error del sensor. Si se toma un ancho de histéresis mucho mayor al error máximo introducido por el sensor, este error no afectaría al sistema ya que seria despreciable a comparación del valor que deltaI debería alcanzar para que el comparador cambie de estado.
 
-El error que introduce el sensor de efecto hall VerrHall debe ser mucho menor al ancho de histéresis del comparador.
+El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
 
 
 

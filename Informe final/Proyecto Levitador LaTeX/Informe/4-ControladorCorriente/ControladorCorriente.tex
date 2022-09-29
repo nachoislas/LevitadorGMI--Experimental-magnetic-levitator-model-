@@ -12,11 +12,19 @@ Para diseñar la fuente de alimentación se debe conocer el comportamiento eléc
 \frac{I_L}{V_L}(s)=\frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
-Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente ante un escalón de tensión de amplitud ``$v_L$'' en la entrada:
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente ante un escalón de tensión de amplitud ``$v_L$'' en la entrada considerando condiciones iniciales $I_o$:
+
+\begin{equation} \label{eq_corriente_temporal_cond_iniciales}
+	i_L(t)=\frac{v_L}{R_L} + (I_o-\frac{v_L}{R_L})*e^{-\frac{t}{\tau}}
+\end{equation}
+
+En este caso particular $I_o=0$, por lo tanto la expresión para la corriente queda:
 
 \begin{equation} \label{eq_corriente_temporal}
 	i_L(t)=\frac{v_L}{R_L}*(1-e^{-\frac{R_L}{L(Y_g)}*t})
 \end{equation}
+
+
 
 En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior de la figura se observa la tensión de entrada, y en la parte inferior la corriente del electroimán. Este análisis resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
 
@@ -185,9 +193,34 @@ Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-b
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-Debido a que lo único que cambia es el valor de tensión en modulo con el que se exita al electroimán la constante de tiempo del circuito no cambia. Esto da como resultado a que la corriente oscile sobre un valor medio de forma triangular. El valor de el ripple de corriente esta determinado por el periodo de conmutación de la fuentes. Estos parámetros pueden ser definidos ajustando el ancho de histéresis. 
+Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento como de decrecimiento. El valor del ripple de corriente es fijo y está determinado por el ancho de histéresis que se elija. Al analizar la forma de la corriente en la figura \ref{fig:img_corriente_triangular} se deduce que a mayor $\Delta I_L$, se tiene una menor frecuencia de oscilación. 
+
+Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
+
+Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
+
+A partir de la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede obtener el valor máximo de ripple cuando $t=t_{max}$, considerando que la corriente inicial es $I_{min}$ y que la corriente final es $I_{min}+\Delta I_L$
+
+\begin{equation} \label{eq_delta_i}
+	I_{min}+\Delta I_{L_{max}}=\frac{v_L}{R_L}+(I_{min}-\frac{v_L}{R_L})*e^{-\frac{t_{max}}{\tau}}
+\end{equation}
+
+De la ecuación \ref{eq_delta_i} se puede despejar el valor máximo que puede tener $\Delta I_L$. 
+
+\begin{equation} \label{eq_delta_i_2}
+	\Delta I_{L_{max}}=6.06*10^{-3}*(\frac{v_L}{R_L}-I_{min})
+\end{equation}
+
+\colorbox{red}{HAY QUE DEFINIR VL ANTES DE ESTO} O DEJAMOS ESTA EXPRESIÓN Y DESPUÉS CUANDO CALCULAMOS VL CALCULAMOS EL DELTA I
+
+\colorbox{red}{Para los calculos usé Vl=24V}
 
 
+Sabiendo que el controlador de corriente tendrá una corriente media variable entre 0 y 30 A, se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier $I_{min}$ dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0$ e $I_{min}=30$. Para el primer caso se llega a que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=500\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
+
+
+
+\colorbox{red}{esto no se si va}
 Como se mencionó, la forma de onda tendrá un ripple en torno a un valor medio. La elección del ancho de este ripple determinará la velocidad de respuesta que el comprador pueda tener. Esto quiere decir que el error ($I_{e}$(cambiar desp a Ie en la figura)) aumentará hasta cierto valor definido para luego ser corregido. Si $I_{e}$ alcanza un valor demasiado grande la pieza que se desea mantener levitando caerá debido a que el sistema no conmutó lo suficientemente rápido, caso contrario, si la conmutación es muy rápida traerá los problemas ya mencionados anteriormente.
 
 Sensado de corriente

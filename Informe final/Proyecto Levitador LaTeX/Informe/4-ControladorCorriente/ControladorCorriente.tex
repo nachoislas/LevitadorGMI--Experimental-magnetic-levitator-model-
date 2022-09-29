@@ -252,9 +252,62 @@ Es decir que el error es el propio error del sensor. Si se toma un ancho de hist
 El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
 
 
-
-
 \section{Elección de tensión de alimentación}
+
+Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta que está determinada por el polo dominante. 
+
+Al analizar la forma de corriente de la FIGURA 3.6, se observan tres secciones de tiempo diferenciadas. La que es de interés para este análisis es desde que el equipo se enciende(t0) hasta cuando actúa el comparador(t1). Al encender el equipo el electroimán puede encontrarse en cualquier punto. Si este se encuentra muy alejado tal que la corriente necesaria para mantenerlo sea mayor a la corriente máxima(Imax) el objeto se caerá. Otro caso es que el objeto esté a una distancia Y que el sistema deberá mantener. Para hacerlo el sistema iniciará con corriente nula hasta alcanzar el valor necesario para mantener al objeto levitando. Como el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación.
+
+La expresión teórica de la corriente es: 
+
+\begin{equation}
+	I_L(t)=\frac{V}{R_L} + (I_o-\frac{V}{R_L})*e^{-\frac{t}{\tau}}
+\end{equation}
+
+Donde:
+\begin{itemize}
+	\item V es la tensión de alimentación, que puede tomar valores $+V_{cc}$ y $-V_{cc}$.
+	\item $I_o$ es la corriente inicial en cada tramo de la imagen.
+	\item $\tau$ es la constante de tiempo del electroimán.
+\end{itemize}
+
+Para encontrar la expresion del tiempo que tarda la corriente en alcanzar el valor maximo de corriente imax se reemplaza I0=0 y se obtiene T1. Esto da:
+
+\begin{equation}\label{eq_tiempo_de_subida}
+		T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}})
+\end{equation}
+
+Suponiendo que el electroimán se enciende en a una distancia de trabajo $Y=3 mm$, la corriente que se requiere es I=(buscar). Es necesario que el tiempo de subida de corriente T1 sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a imax). Es decir que el objeto cae libremente un delta $\Delta Y= 2mm $. Utilizando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
+
+
+\begin{equation}
+	T=\sqrt{\frac{2*\Delta Y}{g}}
+\end{equation}
+
+Considerando $\Delta Y=2\:mm$, se llega a que $T=20,2 mSeg 17.5\:ms$. Por lo tanto se desea que $T1<T$.
+
+Finalmente se obtiene: $Vcc=20.9\:V$.
+
+----------------------------------------------------------------
+SEPARADOR
+------------------------------------------------
+
+Otra 
+Corriente para 4mm 30 KG = 16.3 A
+
+Corriente para 4mm 1kG= 2.9 A
+
+Hay que subir hasta 16.4 para que no se caiga el electroiman antes de que se nos valla a 5mm es decir delta Y=1mm.
+
+T de caida libre(1mm)= 14,27 mSeg
+
+Vcc necesario para que la corriente suba desde 2,9 a 16,3 en 14,27 mSeg es 16,77 V. 
+si ponemos 24 va a tardar menos. Todo esto es sin considerar la fuerza magnética presente al inicio ni que esta aumenta a medida que la corriente sube. Es decir un caso que no va a existir que es el peor de todos lo cumplimos XD
+
+----------------------------------------------------------------
+SEPARADOR
+------------------------------------------------
+\section{2Elección de tensión de alimentación}
 \colorbox{red}{Esto no iria acá, pero lo pongo para que ya quede y después lo movemos}
 
 Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta.... y nose que mas

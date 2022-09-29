@@ -338,4 +338,49 @@ Podemos decir que queremos que estos tiempos sean lo mas parecidos posible, dent
 
 El punto en que ambas figuras se cruzan es con $Vcc=18\:V$, por lo tanto se eligen una tensión de alimentación de $24\:V$.
 
+
+\section{Diseño del circuito}
+
+Se realizará el diseño circuital de cada bloque planteado en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}.
+
+\subsection{Diseño de puente H}
+capaz acá entraría lo del calculo de la fuente de alimentación
+
+Para el diseño del puente H se deben definir qué componente electrónico cumplirá la función de actuaar como llave, proporcionar su circuitería de control, hip, bootstrap, todo eso
+\subsection{realimentacion}
+capaz acá habría que poner lo del sensor de efecto hall?? y lo del operacional que hace la resta de vbias
+asd
+\subsection{etapa de entrada y restador}
+
+
+Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. Como se mencióno MAS ARRIBA, la etapa de entrada tiene una ganancia. Esta debe ser implementada con un circuito de operacionales.
+
+La salida de esta etapa, al igual que la tensión de salida del sensor de efecto Hall, se polarizan en un punto de operación de $2.5\:V$ Para lograrlo se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Etapa-de-entrada.png}
+	\caption{Etapa de entrada.}
+	\label{fig:img_etapa-de-entrada}
+\end{figure}
+\colorbox{red}{Capaz sería mejor poner las imagenes directamente de Altium}
+
+Las ecuaciones de diseño para este circuito son: ......
+
+
+\subsection{comparador con histeresis}
+
+Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se eligió que la corriente de salida del electroimán tenga un ripple de $500\:mA$. Por lo tanto, al afectar este valor por la transconductancia del sensor de efecto Hall, se obtiene un ancho de histéresis de $26.665\:mV$, alrededor de un punto de operación de $2.5\:V$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Comparador-con-histeresis.png}
+	\caption{Comparador con histéresis.}
+	\label{fig:img_comp-con-hist}
+\end{figure}
+
+\subsection{conmutación auxiliar}
+qqqwqw
+\subsection{set-point de 2.6V}
  

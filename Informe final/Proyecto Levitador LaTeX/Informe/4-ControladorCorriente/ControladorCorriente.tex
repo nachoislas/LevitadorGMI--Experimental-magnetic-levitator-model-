@@ -2,7 +2,7 @@
 
 En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Como se vio en el capítulo anterior, el sistema trabaja con corrientes elevadas por lo que se implementan estrategias de conmutación para reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un \textsl{driver} que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
 
-\section{Descripción general}
+\section{Descripción general}\label{sec_descripcion-general}
 
 Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida.
 
@@ -18,7 +18,7 @@ Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente
 	i_L(t)=\frac{v_L}{R_L}*(1-e^{-\frac{R_L}{L(Y_g)}*t})
 \end{equation}
 
-En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior de la figura se observa la tensión de entrada, y en la parte inferior la corriente del electroimán. Este análisis resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
+En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior de la figura \ref{eq_corriente_temporal} se observa la tensión de entrada, y en la parte inferior la corriente del electroimán. Este análisis resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
 
 
 \begin{figure}[H]
@@ -29,10 +29,10 @@ En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta 
 \end{figure}
 
 
-\section{Diseño de topología}
+\section{Diseño de la topología}
 
 
-Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente continua deseada por su bobinado.  Para ello, se propone implementar un sistema realimentado que compare la corriente que circula por el electroimán con una de referencia, que es la que se desea que circule. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra un diagrama en bloques simplificado del sistema.
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente con un valor medio deseado por su bobinado.  Para ello, se propone implementar un sistema realimentado que compare la corriente que circula por el electroimán con una de referencia, que es la que se quiere que circule. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra un diagrama en bloques simplificado del sistema.
 
 \begin{figure}[H]
 	\centering
@@ -51,9 +51,9 @@ A continuación se analizan distintas alternativas para satisfacer estas necesid
 
 \subsection{Control de corriente mediante transistor en modo lineal}
 
-Como se vio en la introducción del capítulo, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. Por lo tanto, 
+Como se analizó en la sección \ref{sec_descripcion-general}, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. Por lo tanto, para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. 
 
-Para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. Una posible implementación circuital se muestra en la figura \ref{fig:img_controlador-lineal}.
+Una posible implementación circuital se muestra en la figura \ref{fig:img_controlador-lineal}.
 
 \begin{figure}[H]
 	\centering
@@ -64,7 +64,7 @@ Para mantener una corriente constante controlada se podría utilizar un transist
 
 En este modo de funcionamiento la tensión colector-emisor ($V_{CE}$) se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. Es decir, en régimen permanente se obtiene:
  
- \begin{equation} \label{eq_corriente_temporal}
+ \begin{equation}
  	I_L=\frac{V_{CC}-V_{CE}}{R_L}
  \end{equation}
  

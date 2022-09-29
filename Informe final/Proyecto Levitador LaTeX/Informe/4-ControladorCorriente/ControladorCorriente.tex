@@ -172,7 +172,7 @@ Por otro lado, al considerar que el tiempo de conmutación es pequeño comparado
 	\label{fig:img_corriente_triangular}
 \end{figure} 
 
-Como se mencionó previamente, para poder generar una corriente con el valor medio deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para poder controlar dicha polaridad, se debe actuar sobre las llaves en función de si se desea que la corriente aumente o disminuya.
+Como se mencionó previamente, para obtener el valor medio de corriente deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para ello, se debe actuar sobre las llaves en función de si se desea que la corriente aumente o disminuya.
 
 Una manera de implementar la lógica de control es mediante un controlador de lazo cerrado del tipo ON-OFF. En la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} se muestra su diagrama en bloques. Este controlador realiza una resta entre la corriente de referencia y la corriente que está circulando por el electroimán, para obtener un valor llamado corriente de error (Ie). De esta forma, si la corriente medida es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán, será positiva para lograr que su corriente crezca e iguale a la de referencia. En cambio, si resulta mayor, la alimentación será negativa para disminuir la corriente.
 

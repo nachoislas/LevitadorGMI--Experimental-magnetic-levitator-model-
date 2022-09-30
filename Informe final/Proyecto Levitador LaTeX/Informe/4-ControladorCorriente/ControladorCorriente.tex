@@ -254,9 +254,48 @@ El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho m
 
 \section{Elección de tensión de alimentación}
 
-Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta que está determinada por el polo dominante. 
+Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta que está determinada por el polo dominante. Es decir el sistema debe ser lo suficientemente rapido de modificar el valor de la corriente a medida que el usuario se lo exige. Un caso a analizar es cuando en ragimen permanente se modifica bruscamente la carga que se esta levitando. En esta situacion el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia maxima de referencia Y=5mm se modifica de carga minima(1Kg) a maxima(30Kg). Utilizando la ecuacion XX se obtiene que la corriente para ambos casos es de:
 
-Al analizar la forma de corriente de la FIGURA 3.6, se observan tres secciones de tiempo diferenciadas. La que es de interés para este análisis es desde que el equipo se enciende(t0) hasta cuando actúa el comparador(t1). Al encender el equipo el electroimán puede encontrarse en cualquier punto. Si este se encuentra muy alejado tal que la corriente necesaria para mantenerlo sea mayor a la corriente máxima(Imax) el objeto se caerá. Otro caso es que el objeto esté a una distancia Y que el sistema deberá mantener. Para hacerlo el sistema iniciará con corriente nula hasta alcanzar el valor necesario para mantener al objeto levitando. Como el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación.
+\begin{equation}
+	I_L(Y=4mm)[m=30Kg]=16.3 A
+	I_L(Y=4mm)[m=1Kg]=2.9 A
+\end{equation}
+
+ Como el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación. La expresión teórica de la corriente es: 
+
+\begin{equation}
+	I_L(t)=\frac{V}{R_L} + (I_o-\frac{V}{R_L})*e^{-\frac{t}{\tau}}
+\end{equation}
+
+Donde:
+\begin{itemize}
+	\item V es la tensión de alimentación, que puede tomar valores $+V_{cc}$ y $-V_{cc}$.
+	\item $I_o$ es la corriente en el instante inicial.
+	\item $\tau$ es la constante de tiempo del electroimán.
+\end{itemize}
+
+Para encontrar la expresion del tiempo que tarda la corriente en alcanzar el valor maximo de corriente imax se reemplaza I0=2,9 y se obtiene T1. Esto da:
+
+\begin{equation}\label{eq_tiempo_de_subida}
+		T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
+\end{equation}
+
+Cuando se modifique la carga del objeto ,es necesario que el tiempo de subida de corriente T1 sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a imax). Es decir que el objeto cae libremente un delta $\Delta Y= 1mm $. Utilizando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
+
+\begin{equation}
+	T=\sqrt{\frac{2*\Delta Y}{g}}=rt{\frac{2*1mm}{9.81}}=14,27\:ms
+\end{equation}
+
+Finalmente reemplazando en \ref{eq_tiempo_de_subida} se obtiene: $Vcc>=13,72\:V$.
+
+Se puede decir cuanto da T1 si tomamos 24V
+
+----------------------------------------------------------------
+SEPARADOR
+------------------------------------------------
+
+Al analizar la forma de corriente de la FIGURA 3.6, se observan tres secciones de tiempo diferenciadas. La que es de interés para este análisis es desde que el equipo se enciende(t0) hasta cuando actúa el comparador(t1). 
+Al encender el equipo el electroimán puede encontrarse en cualquier punto. Si este se encuentra muy alejado tal que la corriente necesaria para mantenerlo sea mayor a la corriente máxima(Imax) el objeto se caerá. Otro caso es que el objeto esté a una distancia Y que el sistema deberá mantener. Para hacerlo el sistema iniciará con corriente nula hasta alcanzar el valor necesario para mantener al objeto levitando. Como el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación.
 
 La expresión teórica de la corriente es: 
 
@@ -271,10 +310,10 @@ Donde:
 	\item $\tau$ es la constante de tiempo del electroimán.
 \end{itemize}
 
-Para encontrar la expresion del tiempo que tarda la corriente en alcanzar el valor maximo de corriente imax se reemplaza I0=0 y se obtiene T1. Esto da:
+Para encontrar la expresion del tiempo que tarda la corriente en alcanzar el valor maximo de corriente imax se reemplaza I0=2,9 y se obtiene T1. Esto da:
 
 \begin{equation}\label{eq_tiempo_de_subida}
-		T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}})
+		T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
 \end{equation}
 
 Suponiendo que el electroimán se enciende en a una distancia de trabajo $Y=3 mm$, la corriente que se requiere es I=(buscar). Es necesario que el tiempo de subida de corriente T1 sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a imax). Es decir que el objeto cae libremente un delta $\Delta Y= 2mm $. Utilizando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
@@ -284,9 +323,9 @@ Suponiendo que el electroimán se enciende en a una distancia de trabajo $Y=3 mm
 	T=\sqrt{\frac{2*\Delta Y}{g}}
 \end{equation}
 
-Considerando $\Delta Y=2\:mm$, se llega a que $T=20,2 mSeg 17.5\:ms$. Por lo tanto se desea que $T1<T$.
+Considerando $\Delta Y=2\:mm$, se llega a que $T=14,27\:ms$. Por lo tanto se desea que $T1<T$.
 
-Finalmente se obtiene: $Vcc=20.9\:V$.
+
 
 ----------------------------------------------------------------
 SEPARADOR

@@ -184,7 +184,7 @@ Una manera de implementar la lógica de control es mediante un controlador de la
 	\label{fig:img_diag-en-bloques-comparador-sin-hist}
 \end{figure}
 
-Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán (IL(s)) supere infinitesimalmente a la referencia, se produce una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, resulta conveniente agregar histéresis al controlador, de la manera que se muestra en la figura \ref{fig:img_diag-en-bloques}. Este bloque permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
+Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán (IL(s)) supere infinitesimalmente a la referencia, se produce una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, resulta conveniente agregar histéresis al controlador, de la manera que se muestra en la figura \ref{fig:img_diag-en-bloques}.
 
 \begin{figure}[H]
 	\centering
@@ -193,9 +193,18 @@ Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-b
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento como de decrecimiento. El valor del ripple de corriente es fijo y está determinado por el ancho de histéresis que se elija. Al analizar la forma de la corriente en la figura \ref{fig:img_corriente_triangular} se deduce que a mayor $\Delta I_L$, se tiene una menor frecuencia de oscilación. 
+Este bloque permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
+
+PONER IMAGEN EXPLICANDO HISTERESIS
+
+
+Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento como de decrecimiento. Esta oscilación también es conocida como ripple. Su ancho es fijo y está determinado por el ancho de histéresis que con el que se diseñe el controlador. 
+
+Para elegir un ancho de histéresis adecuado se debe tener en cuenta que, al analizar la forma de la corriente en la figura \ref{fig:img_corriente_triangular} se deduce que a mayor $\Delta I_L$, se tiene una menor frecuencia de oscilación. 
 
 Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
+
+\colorbox{red}{Esto conviene calcularlo acá o dejarlo planteado y calcular mas adelante?}
 
 Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
 

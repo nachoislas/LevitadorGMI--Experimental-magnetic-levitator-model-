@@ -4,29 +4,21 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}\label{sec_descripcion-general}
 
-Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado. Para ello, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida.
+Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado como se muestra en la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
 
-Para diseñar la fuente de alimentación se debe conocer el comportamiento eléctrico de la planta. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia variable con una resistencia serie. Es decir, es un circuito RL serie cuya corriente ($I_L$) depende de la tensión aplicada ($V_L$). La expresión \ref{eq_corriente} muestra la relación entre estos parámetros.
+Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro y una resistencia serie. Es decir, como un circuito RL serie cuya admitancia se muestra en la expresión \ref{eq_corriente}.
 
 \begin{equation} \label{eq_corriente}
 \frac{I_L}{V_L}(s)=\frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
-Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente ante un escalón de tensión de amplitud ``$v_L$'' en la entrada considerando condiciones iniciales $I_o$:
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente ante un escalón de tensión con amplitud ``$v_L$'' en la entrada, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L(Y_g)}{R_L}$.
 
 \begin{equation} \label{eq_corriente_temporal_cond_iniciales}
 	i_L(t)=\frac{v_L}{R_L} + (I_o-\frac{v_L}{R_L})*e^{-\frac{t}{\tau}}
 \end{equation}
 
-En este caso particular $I_o=0$, por lo tanto la expresión para la corriente queda:
-
-\begin{equation} \label{eq_corriente_temporal}
-	i_L(t)=\frac{v_L}{R_L}*(1-e^{-\frac{R_L}{L(Y_g)}*t})
-\end{equation}
-
-
-
-En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero provoca que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior de la figura se observa la tensión de entrada, y en la parte inferior la corriente del electroimán. Este análisis resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
+En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero es el responsable de que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior se observa la tensión de entrada y, en la inferior, la corriente del electroimán. Este análisis resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
 
 
 \begin{figure}[H]
@@ -37,7 +29,7 @@ En la expresión \ref{eq_corriente_temporal} se puede observar que la respuesta 
 \end{figure}
 
 
-\section{Diseño de la topología}
+\section{Diseño del controlador}
 
 
 Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente con un valor medio deseado por su bobinado.  Para ello, se propone implementar un sistema realimentado que compare la corriente que circula por el electroimán con una de referencia, que es la que se quiere que circule. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra un diagrama en bloques simplificado del sistema.
@@ -49,19 +41,20 @@ Se desea diseñar un sistema de control que modifique la alimentación del elect
 	\label{fig:img_diagrama_bloques_basico}
 \end{figure}
 
-De este diagrama surgen dos necesidades:
+De este diagrama surgen las siguientes necesidades:
 \begin{itemize}
-	\item Diseñar un controlador que modifique la alimentación del electroimán según sus entradas.
+	\item Diseñar la topología de la fuente de alimentación.
+	\item Diseñar un controlador que modifique la corriente que circula por el electroimán según sus entradas.	
 	\item Medir la corriente que circula en el electroimán para poder utilizarla como entrada al controlador.
 \end{itemize}
 
-A continuación se analizan distintas alternativas para satisfacer estas necesidades.
+A continuación se analizan distintas alternativas para satisfacerlas.
 
-\subsection{Control de corriente mediante transistor en modo lineal}
+\subsection{Diseño de la topología de la fuente de alimentación}
+En esta sección se analizan las distintas topologías para la fuente de alimentación del electroimán. Inicialmente se analiza el funcionamiento de un controlador de corriente mediante el uso de un transistor trabajando en modo lineal y luego utilizando una fuente de alimentación trabajando en conmutación.
 
-Como se analizó en la sección \ref{sec_descripcion-general}, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. Por lo tanto, para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal, es decir, como una fuente de corriente constante. 
-
-Una posible implementación circuital se muestra en la figura \ref{fig:img_controlador-lineal}.
+\subsubsection{Control de corriente mediante transistor en modo lineal}
+Como se analizó en la sección \ref{sec_descripcion-general}, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. Por lo tanto, para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal como se muestra en el circuito de la figura \ref{fig:img_controlador-lineal}.
 
 \begin{figure}[H]
 	\centering
@@ -70,19 +63,19 @@ Una posible implementación circuital se muestra en la figura \ref{fig:img_contr
 	\label{fig:img_controlador-lineal}
 \end{figure}
 
-En este modo de funcionamiento la tensión colector-emisor ($V_{CE}$) se controla de manera que la diferencia entre esta y la tensión de alimentación, circulando por la resistencia interna del electroimán, generen la corriente deseada. Es decir, en régimen permanente se obtiene:
+En este modo de funcionamiento la tensión colector-emisor ($V_{CE}$) se controla de manera que su diferencia con la tensión de alimentación, circulando por la resistencia interna del electroimán, genere la corriente deseada. Es decir, en régimen permanente se obtiene:
  
  \begin{equation}
  	I_L=\frac{V_{CC}-V_{CE}}{R_L}
  \end{equation}
  
-La desventaja de esto es que al circular una corriente constante, la caída de tensión sobre el inductor es prácticamente nula (solo lo correspondiente a la resistencia interna). Por lo tanto, la mayor parte de la potencia disipada cae sobre el transistor. Esta puede calcularse como: 
+Al considerar que la caída de tensión sobre el inductor es prácticamente nula (solo lo correspondiente a la resistencia interna), la mayor parte de la potencia disipada se produce en el transistor. Esta puede calcularse como: 
 
 \begin{equation}
 	P_{transistor} = I_L*V_{CE}
 \end{equation}
 
-Teniendo en cuenta que la tensión colector-emisor es la resta de la tensión de alimentación y la caida en la resistencia del electroimán:
+Teniendo en cuenta que la tensión colector-emisor es la resta de la tensión de alimentación y la caída en la resistencia del electroimán:
 
 \begin{equation}
 	V_{CE}=V_{CC}-I_L*R_L
@@ -101,23 +94,17 @@ Esta función llega a un máximo cuando $I_L=\frac{V_{CC}}{2*R_L}$
 	P_{transistor_{max}}=\frac{V_{CC}^2}{4*R_L}
 \end{equation}
 
-Teniendo en cuenta que la corriente maxima que se requiere es de aproximadamente 30 A se puede obtener que la minima tension de VCC requerida es:
+Teniendo en cuenta que la corriente máxima requerida es de aproximadamente $30\:A$ se obtiene que la mínima tensión de $V_{CC}$ es:
 
-\begin{equation}
-	V_{CC}=I_L*R_L+V_{CE}=30 A * 0,2  = 5 V, VCE=0
+\begin{equation}\label{eq_vcc-min}
+	V_{CC}=I_L*R_L+V_{CE}=30 A * 0,2  = 5 V, \:V_{CE}=0
 \end{equation}
 
-En el mercado las fuentes de tension capaces de entregar 30 A mas comunes en el mercado comienzan con valores minimos de 12 V. Si se reemplaza este valor en la ecuacion  \ref{eq_pot_transistor_lineal_final} se obtiene un valor minimo de 180 Watt, esto elevaria demasiado la temperatura del transistor, haciendo que sea necesario el agregado de un gran disipador de calor y pone en riesgo la vida útil de los componentes.
-  
-En la ecuación \ref{eq_pot_transistor_lineal_fina} se puede ver que para valores de tension normalmente utilizados $(5\:V,10\:V,15\:V)$ la potencia disipada por el transistor varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor, haciendo que sea necesario el agregado de un gran disipador de calor y pone en riesgo la vida útil de los componentes.
+En la ecuación \ref{eq_pot_transistor_lineal_final} se puede ver que para valores de tensión normalmente utilizados $(5\:V,10\:V,15\:V)$ la potencia disipada por el transistor varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor y pone en riesgo la vida útil de los componentes, haciendo que sea necesario el agregado de un gran disipador de calor. Por este motivo, se procede a analizar otra alternativa para el diseño de la fuente de alimentación.
 
-Aunque aún no se define con qué tensión se alimentará el sistema, se puede probar con valores utilizados comunmente para obtener una aproximación de la potencia disipada por el transistor. Por ejemplo, para valores de tensión de alimentación $(5\:V,10\:V,15\:V)$ el valor de potencia que se obtiene varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor, haciendo que sea necesario el agregado de un gran disipador de calor y pone en riesgo la vida útil de los componentes.
+\subsubsection{Control de corriente mediante conmutación}
 
-\colorbox{red}{HACER UN MEJOR ENGANCHE}
-
-\subsection{Control de corriente mediante conmutación}
-
-Como se analizó en la sección anterior, al trabajar con corrientes elevadas, no es eficiente utilizar un transistor que trabaje en su zona lineal puesto que el consumo de energía es elevado. Se propone entonces utilizar una fuente conmutada.
+Como se analizó previamente, al trabajar con corrientes elevadas, no es eficiente utilizar un transistor que trabaje en su zona lineal puesto que el consumo de energía es elevado. Se propone entonces utilizar una fuente conmutada.
 
 %\noindent Para lograr una corriente continua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en sus bornes. De esta forma, se aprovecha el transitorio mostrado en la figura \ref{fig:img_respuesta_escalon} para hacer crecer la corriente hasta llegar a un cierto valor (denominado límite superior), y luego se conmuta la polaridad de la alimentación para que decrezca. Nuevamente, al llegar a un cierto valor (denominado límite inferior), se vuelve a conmutar. Este proceso se repite, y se logra que la corriente oscile en torno al valor medio entre los dos límites, que es el valor de corriente continua deseado. 
 
@@ -144,7 +131,7 @@ Por lo tanto, es necesario diseñar un circuito que permita alternar la polarida
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{puente_con_llaves.png}
-	\caption{Topología simplificada.}
+	\caption{Topología simplificada de puente completo con cuatro llaves.}
 	\label{fig:img_topologia_simplificada}
 \end{figure} 
 
@@ -155,27 +142,24 @@ Para poder obtener una forma de onda de corriente como la que se muestra en la f
 
 \begin{itemize}
 	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, generando un circuito entre $V_{cc}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa. 
-	\item Al llegar al límite superior ($I_{MAX}$), el controlador conmuta el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejan de conducir, y comienzan a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo que su magnitud comienza a decrecer.
-	\item Una vez alcanzado el límite inferior ($I_{MIN}$), el controlador vuelve a conmutar el estado de las llaves para que la corriente tenga pendiente positiva.
+	\item Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejen de conducir, y comiencen a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo que su magnitud comienza a decrecer.
+	\item Una vez alcanzado el límite inferior de corriente ($I_{L_{MIN}}$), se vuelve a conmutar el estado de las llaves para que la corriente vuelva a crecer.
+	\item Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. 
 \end{itemize}
 
-Este ciclo se repite en régimen permanente para obtener la corriente deseada. Si se elige un tiempo de conmutación pequeño comparado a la constante de tiempo de la planta, la fuerza magnética producida por esta corriente oscilante podrá ser filtrada, quedando únicamente su valor medio. Es decir, no habrá variaciones significativas en la fuerza ejercida.
+%Si se elige un tiempo de conmutación pequeño comparado a la constante de tiempo de la planta, la fuerza magnética producida por esta corriente oscilante podrá ser filtrada, quedando únicamente su valor medio. Es decir, no habrá variaciones significativas en la fuerza ejercida.
 
 Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
 
-Por otro lado, al considerar que el tiempo de conmutación es pequeño comparado a la constante de tiempo de la planta, la forma de onda de la corriente en régimen permanente será triangular puesto que no llegará a tomar forma exponencial. Además, como la tensión aplicada a los bornes del electroimán en cada semiciclo de conmutación es igual en magnitud y el circuito de carga y descarga del electroimán es el mismo, la onda triangular tendrá pendientes simétricas. La forma de onda resultante se puede observar en rojo en la figura \ref{fig:img_corriente_triangular}.
+A diferencia del controlador mediante un transistor trabajando en modo lineal, en esta topología se logra una eficiencia extremadamente alta, ya que las llaves operan en corte y conducción, por lo que la disipación de potencia se produce solo en el electroimán y no en el circuito de control Debido a este motivo, se decide utilizar esta topología para la fuente de alimentación.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Forma-de-onda-corriente-lineal.png}
-	\caption{Forma de onda de corriente triangular}
-	\label{fig:img_corriente_triangular}
-\end{figure} 
+
+
+\subsection{Diseño del lazo de control de corriente}
 
 Como se mencionó previamente, para obtener el valor medio de corriente deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para ello, se debe actuar sobre las llaves en función de si se desea que la corriente aumente o disminuya.
 
-Una manera de implementar la lógica de control es mediante un controlador de lazo cerrado del tipo ON-OFF. En la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} se muestra su diagrama en bloques. Este controlador realiza una resta entre la corriente de referencia y la corriente que está circulando por el electroimán, para obtener un valor llamado corriente de error (Ie). De esta forma, si la corriente medida es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán, será positiva para lograr que su corriente crezca e iguale a la de referencia. En cambio, si resulta mayor, la alimentación será negativa para disminuir la corriente.
-
+Una manera de implementar la lógica de control es mediante un controlador de lazo cerrado del tipo ON-OFF. En la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} se muestra su diagrama en bloques. Este controlador realiza una resta entre la corriente de referencia y la corriente que está circulando por el electroimán, para obtener un valor llamado corriente de error ($I_e$). De esta forma, si la corriente medida es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán será positiva para lograr que su corriente crezca e iguale a la de referencia. En cambio, si resulta mayor, la alimentación será negativa para disminuir la corriente.
 
 \begin{figure}[H]
 	\centering
@@ -184,59 +168,50 @@ Una manera de implementar la lógica de control es mediante un controlador de la
 	\label{fig:img_diag-en-bloques-comparador-sin-hist}
 \end{figure}
 
-Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán (IL(s)) supere infinitesimalmente a la referencia, se produce una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, resulta conveniente agregar histéresis al controlador, de la manera que se muestra en la figura \ref{fig:img_diag-en-bloques}.
+\subsection{Medición de corriente}
+
+%Por otro lado, al considerar que el tiempo de conmutación es pequeño comparado a la constante de tiempo de la planta, la forma de onda de la corriente en régimen permanente será triangular puesto que no llegará a tomar forma exponencial. 
+
+%Además, como la tensión aplicada a los bornes del electroimán en cada semiciclo de conmutación es igual en magnitud y el circuito de carga y descarga del electroimán es el mismo, la onda triangular tendrá pendientes simétricas. La forma de onda resultante se puede observar en rojo en la figura \ref{fig:img_corriente_triangular}.
+
+
+
+Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán ($I_{L}(s)$) supere infinitesimalmente a la referencia, se produce una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, resulta conveniente agregar histéresis al controlador, de la manera que se muestra en la figura \ref{fig:img_diag-en-bloques}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Diagrama-en-bloques.png}
-	\caption{Diagrama en bloques del controlador de corriente con un comparador con histéresis.}
+	\caption{Diagrama en bloques del controlador de corriente con histéresis.}
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-Este bloque permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
+Este bloque permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$. La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_triangular}.
 
-PONER IMAGEN EXPLICANDO HISTERESIS
-
-
-Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento como de decrecimiento. Esta oscilación también es conocida como ripple. Su ancho es fijo y está determinado por el ancho de histéresis que con el que se diseñe el controlador. 
-
-Para elegir un ancho de histéresis adecuado se debe tener en cuenta que, al analizar la forma de la corriente en la figura \ref{fig:img_corriente_triangular} se deduce que a mayor $\Delta I_L$, se tiene una menor frecuencia de oscilación. 
-
-Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
-
-\colorbox{red}{Esto conviene calcularlo acá o dejarlo planteado y calcular mas adelante?}
-
-Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
-
-A partir de la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede obtener el valor máximo de ripple cuando $t=t_{max}$, considerando que la corriente inicial es $I_{min}$ y que la corriente final es $I_{min}+\Delta I_L$
-
-\begin{equation} \label{eq_delta_i}
-	I_{min}+\Delta I_{L_{max}}=\frac{v_L}{R_L}+(I_{min}-\frac{v_L}{R_L})*e^{-\frac{t_{max}}{\tau}}
-\end{equation}
-
-De la ecuación \ref{eq_delta_i} se puede despejar el valor máximo que puede tener $\Delta I_L$. 
-
-\begin{equation} \label{eq_delta_i_2}
-	\Delta I_{L_{max}}=6.06*10^{-3}*(\frac{v_L}{R_L}-I_{min})
-\end{equation}
-
-\colorbox{red}{HAY QUE DEFINIR VL ANTES DE ESTO} O DEJAMOS ESTA EXPRESIÓN Y DESPUÉS CUANDO CALCULAMOS VL CALCULAMOS EL DELTA I
-
-\colorbox{red}{Para los calculos usé Vl=24V}
-
-
-Sabiendo que el controlador de corriente tendrá una corriente media variable entre 0 y 30 A, se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier $I_{min}$ dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0$ e $I_{min}=30$. Para el primer caso se llega a que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=500\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Forma-de-onda-corriente-exponencial.png}
+	\caption{Forma de onda de corriente y tensión en el electroimán.}
+	\label{fig:img_corriente_exponencial}
+\end{figure}
 
 
 
-\colorbox{red}{esto no se si va}
-Como se mencionó, la forma de onda tendrá un ripple en torno a un valor medio. La elección del ancho de este ripple determinará la velocidad de respuesta que el comprador pueda tener. Esto quiere decir que el error ($I_{e}$(cambiar desp a Ie en la figura)) aumentará hasta cierto valor definido para luego ser corregido. Si $I_{e}$ alcanza un valor demasiado grande la pieza que se desea mantener levitando caerá debido a que el sistema no conmutó lo suficientemente rápido, caso contrario, si la conmutación es muy rápida traerá los problemas ya mencionados anteriormente.
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{Forma-de-onda-corriente-lineal.png}
+%	\caption{Forma de onda de corriente triangular}
+%	\label{fig:img_corriente_triangular}
+%\end{figure} 
 
-Sensado de corriente
+Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento como de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador. 
 
-Como se puede ver en el diagrama en bloques anterior, para poder realizar la comparación es necesario realimentar la corriente del electroimán para que el comprador pueda actuar en función al error ($I_{e}$).
+\subsection{Medición de corriente}
 
-Para hacer esto se debe utilizar un sensor que permita una medición de corriente mayor a 31 amperes y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema. Además lo de la conmutación q dijo el gusti…
+
+Como se puede ver en el diagrama en bloques \ref{fig:img_diag-en-bloques}, para poder realizar el control es necesario medir la corriente que circula por el electroimán y actuar en consecuencia.
+
+
+Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema. Además lo de la conmutación q dijo el gusti…
 
 Los sensores de corriente trabajan en transresistencia, por lo tanto, se agrega el bloque H en el lazo de realimentación figura \ref{fig:img_diag-en-bloques-conH-y-Kin}. Ahora $V_{iL}=i_{L}*rm$. De esta forma ahora se está trabajando con tensiones por lo tanto la corriente de referencia se afecta por el bloque $K_{in}$ para obtener su equivalente en tensión. El bloque resultante es el siguiente:
 
@@ -253,13 +228,13 @@ Se puede expresar al error que introduce el sensor de efecto hall como $V_{errSe
 	V_{e}= K_{in}*I_{ref}-H*iL\pm V_{errSensor}=\triangle I \pm V_{errSensor}
 \end{equation}
 
-	
 
 De esta forma, tomando el  caso extremo $K_{in}*I_{ref}=H*i_{L}$ el error obtenido $V_{e}=\pm V_{errSensor}$.
 Es decir que el error es el propio error del sensor. Si se toma un ancho de histéresis mucho mayor al error máximo introducido por el sensor, este error no afectaría al sistema ya que seria despreciable a comparación del valor que deltaI debería alcanzar para que el comparador cambie de estado.
 
 El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
 
+-----------------SEPARADOR-------
 
 \section{Elección de tensión de alimentación}
 
@@ -270,7 +245,7 @@ Para comenzar el diseño circuital es importante determinar cómo será la alime
 	I_L(Y=4mm)[m=1Kg]=2.9 A
 \end{equation}
 
- Como el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación. La expresión teórica de la corriente es: 
+Como el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación. La expresión teórica de la corriente es: 
 
 \begin{equation}
 	I_L(t)=\frac{V}{R_L} + (I_o-\frac{V}{R_L})*e^{-\frac{t}{\tau}}
@@ -286,7 +261,7 @@ Donde:
 Para encontrar la expresion del tiempo que tarda la corriente en alcanzar el valor maximo de corriente imax se reemplaza I0=2,9 y se obtiene T1. Esto da:
 
 \begin{equation}\label{eq_tiempo_de_subida}
-		T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
+	T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
 \end{equation}
 
 Cuando se modifique la carga del objeto ,es necesario que el tiempo de subida de corriente T1 sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a imax). Es decir que el objeto cae libremente un delta $\Delta Y= 1mm $. Utilizando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
@@ -322,7 +297,7 @@ Donde:
 Para encontrar la expresion del tiempo que tarda la corriente en alcanzar el valor maximo de corriente imax se reemplaza I0=2,9 y se obtiene T1. Esto da:
 
 \begin{equation}\label{eq_tiempo_de_subida}
-		T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
+	T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
 \end{equation}
 
 Suponiendo que el electroimán se enciende en a una distancia de trabajo $Y=3 mm$, la corriente que se requiere es I=(buscar). Es necesario que el tiempo de subida de corriente T1 sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a imax). Es decir que el objeto cae libremente un delta $\Delta Y= 2mm $. Utilizando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
@@ -383,7 +358,7 @@ Para encontrar expresiones del tiempo que tarda en realizarse cada tramo, se ree
 
 
 \begin{equation}
-		T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}})
+	T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}})
 \end{equation}
 
 
@@ -438,6 +413,46 @@ Podemos decir que queremos que estos tiempos sean lo mas parecidos posible, dent
 \end{figure}
 
 El punto en que ambas figuras se cruzan es con $Vcc=18\:V$, por lo tanto se eligen una tensión de alimentación de $24\:V$.
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
+
+\colorbox{red}{Esto conviene calcularlo acá o dejarlo planteado y calcular mas adelante?}
+
+Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
+
+A partir de la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede obtener el valor máximo de ripple cuando $t=t_{max}$, considerando que la corriente inicial es $I_{min}$ y que la corriente final es $I_{min}+\Delta I_L$
+
+\begin{equation} \label{eq_delta_i}
+	I_{min}+\Delta I_{L_{max}}=\frac{v_L}{R_L}+(I_{min}-\frac{v_L}{R_L})*e^{-\frac{t_{max}}{\tau}}
+\end{equation}
+
+De la ecuación \ref{eq_delta_i} se puede despejar el valor máximo que puede tener $\Delta I_L$. 
+
+\begin{equation} \label{eq_delta_i_2}
+	\Delta I_{L_{max}}=6.06*10^{-3}*(\frac{v_L}{R_L}-I_{min})
+\end{equation}
+
+\colorbox{red}{HAY QUE DEFINIR VL ANTES DE ESTO} O DEJAMOS ESTA EXPRESIÓN Y DESPUÉS CUANDO CALCULAMOS VL CALCULAMOS EL DELTA I
+
+\colorbox{red}{Para los calculos usé Vl=24V}
+
+
+Sabiendo que el controlador de corriente tendrá una corriente media variable entre 0 y 30 A, se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier $I_{min}$ dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0$ e $I_{min}=30$. Para el primer caso se llega a que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=500\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
+
+
+
+\colorbox{red}{esto no se si va}
+Como se mencionó, la forma de onda tendrá un ripple en torno a un valor medio. La elección del ancho de este ripple determinará la velocidad de respuesta que el comprador pueda tener. Esto quiere decir que el error ($I_{e}$(cambiar desp a Ie en la figura)) aumentará hasta cierto valor definido para luego ser corregido. Si $I_{e}$ alcanza un valor demasiado grande la pieza que se desea mantener levitando caerá debido a que el sistema no conmutó lo suficientemente rápido, caso contrario, si la conmutación es muy rápida traerá los problemas ya mencionados anteriormente.
+
+
+
+
+
+
+
 
 
 \section{Diseño del circuito}

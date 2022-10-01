@@ -136,7 +136,7 @@ Por lo tanto, es necesario diseñar un circuito que permita alternar la polarida
 \end{figure} 
 
 
-El electroimán se conecta entre los puntos medios de cada par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de una combinación correcta de las mismas se puede controlar la polaridad de la alimentación y el sentido de circulación de la corriente, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}.
+El electroimán se conecta entre los puntos medios de cada par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de una combinación correcta de las mismas se puede controlar la polaridad de la alimentación y el sentido de circulación de la corriente, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Además, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
 
 Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de la siguiente manera:
 
@@ -168,7 +168,7 @@ Una manera de implementar la lógica de control es mediante un controlador de la
 	\label{fig:img_diag-en-bloques-comparador-sin-hist}
 \end{figure}
 
-\subsection{Medición de corriente}
+
 
 %Por otro lado, al considerar que el tiempo de conmutación es pequeño comparado a la constante de tiempo de la planta, la forma de onda de la corriente en régimen permanente será triangular puesto que no llegará a tomar forma exponencial. 
 
@@ -236,13 +236,20 @@ El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho m
 
 -----------------SEPARADOR-------
 
-\section{Elección de tensión de alimentación}
+\section{Cálculo de parámetros del controlador}
+En esta sección se determinarán los parámertos críticos para el correcto funcionamiento del controlador de corriente.
+\subsection{Cálculo de tensión de alimentación}
 
-Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta que está determinada por el polo dominante. Es decir el sistema debe ser lo suficientemente rapido de modificar el valor de la corriente a medida que el usuario se lo exige. Un caso a analizar es cuando en ragimen permanente se modifica bruscamente la carga que se esta levitando. En esta situacion el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia maxima de referencia Y=5mm se modifica de carga minima(1Kg) a maxima(30Kg). Utilizando la ecuacion XX se obtiene que la corriente para ambos casos es de:
+\subsection{Cálculo de sensor de sensor de corriente}
+\subsection{Cálculo de ganancia de entrada}
+
+Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta que está determinada por su constante de tiempo ($\tau$). Es decir el sistema debe ser lo suficientemente rápido para modificar el valor medio de la corriente ante perturbaciones o cambios en el punto de operación. Un caso a analizar es cuando, en régimen permanente, se modifica bruscamente la carga que se esta levitando. En esta situación el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia máxima de referencia $Y_g=5\:mm$ se modifica de carga mínima ($1\:Kg$) a máxima ($30\:Kg$). Utilizando la ecuación XX se obtiene que la corriente para ambos casos es de:
 
 \begin{equation}
-	I_L(Y=4mm)[m=30Kg]=16.3 A
-	I_L(Y=4mm)[m=1Kg]=2.9 A
+	I_L(Y=5\:mm)[m=30\:Kg]=20.4\:A 
+\end{equation}
+\begin{equation}
+	I_L(Y=5\:mm)[m=1\:Kg]=3.72\:A
 \end{equation}
 
 Como el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación. La expresión teórica de la corriente es: 
@@ -270,156 +277,14 @@ Cuando se modifique la carga del objeto ,es necesario que el tiempo de subida de
 	T=\sqrt{\frac{2*\Delta Y}{g}}=rt{\frac{2*1mm}{9.81}}=14,27\:ms
 \end{equation}
 
-Finalmente reemplazando en \ref{eq_tiempo_de_subida} se obtiene: $Vcc>=13,72\:V$.
+Finalmente reemplazando en \ref{eq_tiempo_de_subida} se obtiene: $Vcc>=21.6\:V$.
 
-Se puede decir cuanto da T1 si tomamos 24V
+Se puede decir cuanto da T1 si tomamos 24V.
 
-----------------------------------------------------------------
-SEPARADOR
-------------------------------------------------
-
-Al analizar la forma de corriente de la FIGURA 3.6, se observan tres secciones de tiempo diferenciadas. La que es de interés para este análisis es desde que el equipo se enciende(t0) hasta cuando actúa el comparador(t1). 
-Al encender el equipo el electroimán puede encontrarse en cualquier punto. Si este se encuentra muy alejado tal que la corriente necesaria para mantenerlo sea mayor a la corriente máxima(Imax) el objeto se caerá. Otro caso es que el objeto esté a una distancia Y que el sistema deberá mantener. Para hacerlo el sistema iniciará con corriente nula hasta alcanzar el valor necesario para mantener al objeto levitando. Como el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación.
-
-La expresión teórica de la corriente es: 
-
-\begin{equation}
-	I_L(t)=\frac{V}{R_L} + (I_o-\frac{V}{R_L})*e^{-\frac{t}{\tau}}
-\end{equation}
-
-Donde:
-\begin{itemize}
-	\item V es la tensión de alimentación, que puede tomar valores $+V_{cc}$ y $-V_{cc}$.
-	\item $I_o$ es la corriente inicial en cada tramo de la imagen.
-	\item $\tau$ es la constante de tiempo del electroimán.
-\end{itemize}
-
-Para encontrar la expresion del tiempo que tarda la corriente en alcanzar el valor maximo de corriente imax se reemplaza I0=2,9 y se obtiene T1. Esto da:
-
-\begin{equation}\label{eq_tiempo_de_subida}
-	T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
-\end{equation}
-
-Suponiendo que el electroimán se enciende en a una distancia de trabajo $Y=3 mm$, la corriente que se requiere es I=(buscar). Es necesario que el tiempo de subida de corriente T1 sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a imax). Es decir que el objeto cae libremente un delta $\Delta Y= 2mm $. Utilizando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
-
-
-\begin{equation}
-	T=\sqrt{\frac{2*\Delta Y}{g}}
-\end{equation}
-
-Considerando $\Delta Y=2\:mm$, se llega a que $T=14,27\:ms$. Por lo tanto se desea que $T1<T$.
-
-
-
-----------------------------------------------------------------
-SEPARADOR
-------------------------------------------------
-
-Otra 
-Corriente para 4mm 30 KG = 16.3 A
-
-Corriente para 4mm 1kG= 2.9 A
-
-Hay que subir hasta 16.4 para que no se caiga el electroiman antes de que se nos valla a 5mm es decir delta Y=1mm.
-
-T de caida libre(1mm)= 14,27 mSeg
-
-Vcc necesario para que la corriente suba desde 2,9 a 16,3 en 14,27 mSeg es 16,77 V. 
-si ponemos 24 va a tardar menos. Todo esto es sin considerar la fuerza magnética presente al inicio ni que esta aumenta a medida que la corriente sube. Es decir un caso que no va a existir que es el peor de todos lo cumplimos XD
-
-----------------------------------------------------------------
-SEPARADOR
-------------------------------------------------
-\section{2Elección de tensión de alimentación}
-\colorbox{red}{Esto no iria acá, pero lo pongo para que ya quede y después lo movemos}
-
-Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta.... y nose que mas
-
-analizando la forma de corriente de la FIGURA 3.6, se observan tres secciones de tiempo diferenciadas: desde t= 0 hasta t1, desde t1 hasta t2,  y desde t2 hasta t3. \colorbox{red}{marcar en la imagen}
-
-Se puede encontrar la expresión teórica de la corriente para cada uno de esos instantes de tiempo... Se utiliza la formula:
-
-\begin{equation}
-	I_L(t)=\frac{V}{R_L} + (I_o-\frac{V}{R_L})*e^{-\frac{t}{\tau}}
-\end{equation} 
-
-Donde:
-\begin{itemize}
-	\item V es la tensión de alimentación, que puede tomar valores $+V_{cc}$ y $-V_{cc}$.
-	\item $I_o$ es la corriente inicial en cada tramo de la imagen.
-	\item $\tau$ es la constante de tiempo del electroimán.
-\end{itemize}
-
-Como el ancho del ripple de corriente es fijo y conocido (SE SUPONE QUE YA LO DEFINIMOS???) nos interesa NOSE QUE NOS INTERESA...
-
-
-
-Para encontrar expresiones del tiempo que tarda en realizarse cada tramo, se reemplaza $I_o$ por la correspondiente y se obtiene el tiempo que tarda en llegar a la corriente final...
-
-
-\begin{equation}
-	T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}})
-\end{equation}
-
-
-\colorbox{red}{Con esta} podemos ver cuánto tardaríamos de pasar de corriente 0 a corriente máxima, y podemos decir que queremos tardar menos de cierto tiempo.
-
-
-Por ejemplo usando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caida libre una altura $\Delta Y$:
-
-\begin{equation}
-	T=\sqrt{\frac{2*\Delta Y}{g}}
-\end{equation}
-
-Considerando $\Delta Y=1.5\:mm$, se llega a que $T=17.5\:ms$. Por lo tanto se desea que $T1<T$.
-finalmente se obtiene: $Vcc=20.9\:V$.
-
-
-
-----------------------------------------------------------------
-SEPARADOR
-------------------------------------------------
-
-
-Otra forma de calcular la tensión de alimentación que se necesita sería considerando que se desea que los tiempos de crecimiento sean lo mas parecidos posible a los de decrecimiento. Esta diferencia se hace mas pronunciada a medida que aumenta el valor medio de la corriente del electroimán.
-
-\begin{equation}
-	T2-T1=-\tau*ln(\frac{I_{min}+\frac{V_{cc}}{R}}{I_{max}+\frac{V_{cc}}{R}})
-\end{equation}
-
-\begin{equation}
-	T3-T2=-\tau*ln(\frac{I_{max}-\frac{V_{cc}}{R}}{I_{min}-\frac{V_{cc}}{R}})
-\end{equation}
-
-
-Podemos poner todo en función de $I_{min}$ utilizando la relación $I_{max}=I_{min}+\delta I_L$
-
-\begin{equation}
-	T2-T1=-\tau*ln(\frac{1}{1+\frac{\Delta I_L}{I_{min}+\frac{V_{cc}}{R}}})
-\end{equation}
-
-\begin{equation}
-	T3-T2=-\tau*ln(1+\frac{\Delta I_L}{I_{min}-\frac{V_{cc}}{R}})
-\end{equation}
-
-
-Podemos decir que queremos que estos tiempos sean lo mas parecidos posible, dentro de todo el rango de trabajo de la corriente. Para ello consideramos que T3 no debe hacerse mucho mayor que T2 en el caso de que la corriente sea la máxima (30 A). Por elegir un número, considero que T3 debe ser menor a $2*T2$ \colorbox{red}{tuve que elegir que sea menor al doble así me quedaba bien el} cruce de las figuras.  planteamos una inecuación y la resolvemos con un grafico:
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{tiempos_conmutacion_vs_fuente.png}
-	\caption{Tiempos de conmutación vs tensión de alimentación.}
-	\label{fig:img_tiempos_conmutacion}
-\end{figure}
-
-El punto en que ambas figuras se cruzan es con $Vcc=18\:V$, por lo tanto se eligen una tensión de alimentación de $24\:V$.
-
-
-------------------------------------------------------------------------------------------------------------------------------
+\subsection{Cálculo de ancho de histéresis}
 
 Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
 
-\colorbox{red}{Esto conviene calcularlo acá o dejarlo planteado y calcular mas adelante?}
 
 Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
 
@@ -434,25 +299,9 @@ De la ecuación \ref{eq_delta_i} se puede despejar el valor máximo que puede te
 \begin{equation} \label{eq_delta_i_2}
 	\Delta I_{L_{max}}=6.06*10^{-3}*(\frac{v_L}{R_L}-I_{min})
 \end{equation}
-
-\colorbox{red}{HAY QUE DEFINIR VL ANTES DE ESTO} O DEJAMOS ESTA EXPRESIÓN Y DESPUÉS CUANDO CALCULAMOS VL CALCULAMOS EL DELTA I
-
-\colorbox{red}{Para los calculos usé Vl=24V}
-
+\colorbox{red}{Cambiar VL por VCC, y ver imagen de altium}
 
 Sabiendo que el controlador de corriente tendrá una corriente media variable entre 0 y 30 A, se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier $I_{min}$ dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0$ e $I_{min}=30$. Para el primer caso se llega a que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=500\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
-
-
-
-\colorbox{red}{esto no se si va}
-Como se mencionó, la forma de onda tendrá un ripple en torno a un valor medio. La elección del ancho de este ripple determinará la velocidad de respuesta que el comprador pueda tener. Esto quiere decir que el error ($I_{e}$(cambiar desp a Ie en la figura)) aumentará hasta cierto valor definido para luego ser corregido. Si $I_{e}$ alcanza un valor demasiado grande la pieza que se desea mantener levitando caerá debido a que el sistema no conmutó lo suficientemente rápido, caso contrario, si la conmutación es muy rápida traerá los problemas ya mencionados anteriormente.
-
-
-
-
-
-
-
 
 
 \section{Diseño del circuito}

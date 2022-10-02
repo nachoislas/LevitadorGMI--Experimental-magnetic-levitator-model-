@@ -36,7 +36,7 @@ Se desea diseñar un sistema de control que modifique la alimentación del elect
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{Diagrama-en-bloques-basico.png}
+	\includegraphics[scale=0.45]{Diagrama-en-bloques-basico.png}
 	\caption{Diagrama en bloques básico del controlador de corriente.}
 	\label{fig:img_diagrama_bloques_basico}
 \end{figure}
@@ -185,13 +185,13 @@ Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-b
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-Este bloque permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$. La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_triangular}.
+Este bloque permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$. La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_exponencial-hist}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{Forma-de-onda-corriente-exponencial.png}
+	\includegraphics[scale=0.5]{Forma-de-onda-corriente-exponencial-hist.png}
 	\caption{Forma de onda de corriente y tensión en el electroimán.}
-	\label{fig:img_corriente_exponencial}
+	\label{fig:img_corriente_exponencial-hist}
 \end{figure}
 
 

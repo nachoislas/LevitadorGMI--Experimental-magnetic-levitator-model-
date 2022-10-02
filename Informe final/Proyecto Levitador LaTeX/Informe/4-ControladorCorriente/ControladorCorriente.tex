@@ -4,7 +4,7 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}\label{sec_descripcion-general}
 
-Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado como se muestra en la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
+Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
 
 Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro y una resistencia serie. Es decir, como un circuito RL serie cuya admitancia se muestra en la expresión \ref{eq_corriente}.
 
@@ -12,7 +12,7 @@ Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electr
 \frac{I_L}{V_L}(s)=\frac{1}{sL(Y_g)\ +\ R_L}
 \end{equation}
 
-Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se puede obtener la respuesta temporal de la corriente ante un escalón de tensión con amplitud ``$v_L$'' en la entrada, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L(Y_g)}{R_L}$.
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se obtiene la respuesta temporal de la corriente ante un escalón de tensión con amplitud $v_L$ en la entrada, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L(Y_g)}{R_L}$.
 
 \begin{equation} \label{eq_corriente_temporal_cond_iniciales}
 	i_L(t)=\frac{v_L}{R_L} + (I_o-\frac{v_L}{R_L})*e^{-\frac{t}{\tau}}
@@ -32,23 +32,23 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 \section{Diseño del controlador}
 
 
-Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente con un valor medio deseado por su bobinado.  Para ello, se propone implementar un sistema realimentado que compare la corriente que circula por el electroimán con una de referencia, que es la que se quiere que circule. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra un diagrama en bloques simplificado del sistema.
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente con un valor medio deseado por su bobinado.  Para ello, se propone implementar un sistema realimentado que compare la corriente que circula por el electroimán con una de referencia, que es la que se desea que circule. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra un diagrama en bloques simplificado del sistema.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.45]{Diagrama-en-bloques-basico.png}
+	\includegraphics[scale=0.4]{Diagrama-en-bloques-basico.png}
 	\caption{Diagrama en bloques básico del controlador de corriente.}
 	\label{fig:img_diagrama_bloques_basico}
 \end{figure}
 
-De este diagrama surgen las siguientes necesidades:
+Del diagrama \ref{fig:img_diagrama_bloques_basico} surgen las siguientes necesidades:
 \begin{itemize}
 	\item Diseñar la topología de la fuente de alimentación.
 	\item Diseñar un controlador que modifique la corriente que circula por el electroimán según sus entradas.	
 	\item Medir la corriente que circula en el electroimán para poder utilizarla como entrada al controlador.
 \end{itemize}
 
-A continuación se analizan distintas alternativas para satisfacerlas.
+A continuación se analizan distintas alternativas para satisfacer cada una de las necesidades planteadas.
 
 \subsection{Diseño de la topología de la fuente de alimentación}
 En esta sección se analizan las distintas topologías para la fuente de alimentación del electroimán. Inicialmente se analiza el funcionamiento de un controlador de corriente mediante el uso de un transistor trabajando en modo lineal y luego utilizando una fuente de alimentación trabajando en conmutación.
@@ -63,12 +63,13 @@ Como se analizó en la sección \ref{sec_descripcion-general}, el valor en régi
 	\label{fig:img_controlador-lineal}
 \end{figure}
 
-En este modo de funcionamiento la tensión colector-emisor ($V_{CE}$) se controla de manera que su diferencia con la tensión de alimentación, circulando por la resistencia interna del electroimán, genere la corriente deseada. Es decir, en régimen permanente se obtiene:
+En este modo de funcionamiento la tensión colector-emisor ($V_{CE}$) se controla de manera que su diferencia con la tensión de alimentación, al ser aplicada en los bornes del electroimán, genere la corriente deseada. Es decir, en régimen permanente se obtiene:
  
  \begin{equation}
  	I_L=\frac{V_{CC}-V_{CE}}{R_L}
  \end{equation}
- 
+
+
 Al considerar que la caída de tensión sobre el inductor es prácticamente nula (solo lo correspondiente a la resistencia interna), la mayor parte de la potencia disipada se produce en el transistor. Esta puede calcularse como: 
 
 \begin{equation}
@@ -87,18 +88,21 @@ Finalmente:
 	P_{transistor}=V_{CC}*I_L-I_L^2*R_L
 \end{equation}
 
-Esta función llega a un máximo cuando $I_L=\frac{V_{CC}}{2*R_L}$
+Esta función llega a un máximo cuando $I_L=\frac{V_{CC}}{2*R_L}$.
 
 
 \begin{equation}\label{eq_pot_transistor_lineal_final}
 	P_{transistor_{max}}=\frac{V_{CC}^2}{4*R_L}
 \end{equation}
 
+
 Teniendo en cuenta que la corriente máxima requerida es de aproximadamente $30\:A$ se obtiene que la mínima tensión de $V_{CC}$ es:
 
 \begin{equation}\label{eq_vcc-min}
 	V_{CC}=I_L*R_L+V_{CE}=30 A * 0,2  = 5 V, \:V_{CE}=0
 \end{equation}
+
+\colorbox{red}{es necesario poner esto de arriba? lo de la tensión mínima..}
 
 En la ecuación \ref{eq_pot_transistor_lineal_final} se puede ver que para valores de tensión normalmente utilizados $(5\:V,10\:V,15\:V)$ la potencia disipada por el transistor varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor y pone en riesgo la vida útil de los componentes, haciendo que sea necesario el agregado de un gran disipador de calor. Por este motivo, se procede a analizar otra alternativa para el diseño de la fuente de alimentación.
 
@@ -126,7 +130,7 @@ Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente 
 %	\label{fig:img_corriente_lineal}
 %\end{figure}
 
-Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, una que tiene la capacidad de alimentar su carga en ambos sentidos es la topología de puente completo con cuatro llaves que se muestra en la figura \ref{fig:img_topologia_simplificada}.
+Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar, de esta forma, el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, una que tiene la capacidad de alimentar su carga en ambos sentidos es la topología de puente completo con cuatro llaves que se muestra en la figura \ref{fig:img_topologia_simplificada}.
 
 \begin{figure}[H]
 	\centering
@@ -136,12 +140,12 @@ Por lo tanto, es necesario diseñar un circuito que permita alternar la polarida
 \end{figure} 
 
 
-El electroimán se conecta entre los puntos medios de cada par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de una combinación correcta de las mismas se puede controlar la polaridad de la alimentación y el sentido de circulación de la corriente, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Además, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
+El electroimán se conecta entre los puntos medios de cada par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de una combinación correcta de las mismas se puede controlar la polaridad de la alimentación y el sentido de circulación de la corriente, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Por otro lado, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
 
 Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de la siguiente manera:
 
 \begin{itemize}
-	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, generando un circuito entre $V_{cc}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa. 
+	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, generando un circuito entre $V_{CC}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa. 
 	\item Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejen de conducir, y comiencen a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo que su magnitud comienza a decrecer.
 	\item Una vez alcanzado el límite inferior de corriente ($I_{L_{MIN}}$), se vuelve a conmutar el estado de las llaves para que la corriente vuelva a crecer.
 	\item Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. 
@@ -151,15 +155,13 @@ Para poder obtener una forma de onda de corriente como la que se muestra en la f
 
 Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
 
-A diferencia del controlador mediante un transistor trabajando en modo lineal, en esta topología se logra una eficiencia extremadamente alta, ya que las llaves operan en corte y conducción, por lo que la disipación de potencia se produce solo en el electroimán y no en el circuito de control Debido a este motivo, se decide utilizar esta topología para la fuente de alimentación.
-
-
+A diferencia del controlador mediante un transistor trabajando en modo lineal, en esta topología se logra una eficiencia extremadamente alta, ya que las llaves operan en corte y conducción, por lo que la disipación de potencia se produce solo en el electroimán y no en el circuito de control. Debido a este motivo, se decide utilizar esta topología para el diseño de la fuente de alimentación.
 
 \subsection{Diseño del lazo de control de corriente}
 
-Como se mencionó previamente, para obtener el valor medio de corriente deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para ello, se debe actuar sobre las llaves en función de si se desea que la corriente aumente o disminuya.
+Como se mencionó previamente, para el diseño de la fuente de alimentación del electroimán se utilizará una topología de puente H trabajando en conmutación. Por lo tanto, para obtener el valor medio de corriente deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para ello, se debe actuar sobre las llaves en función de si se desea que la corriente aumente o disminuya.
 
-Una manera de implementar la lógica de control es mediante un controlador de lazo cerrado del tipo ON-OFF. En la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} se muestra su diagrama en bloques. Este controlador realiza una resta entre la corriente de referencia y la corriente que está circulando por el electroimán, para obtener un valor llamado corriente de error ($I_e$). De esta forma, si la corriente medida es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán será positiva para lograr que su corriente crezca e iguale a la de referencia. En cambio, si resulta mayor, la alimentación será negativa para disminuir la corriente.
+Una manera de implementar la lógica de control es mediante un controlador de lazo cerrado del tipo ON-OFF como se muestra en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist}. Este controlador realiza una resta entre la corriente de referencia y la corriente que está circulando por el electroimán, para obtener un valor llamado corriente de error ($I_e$). De esta forma, si la corriente medida es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán será positiva para lograr que su corriente crezca e iguale a la de referencia. En cambio, si resulta mayor, la alimentación será negativa y la corriente disminuirá.
 
 \begin{figure}[H]
 	\centering
@@ -176,7 +178,7 @@ Una manera de implementar la lógica de control es mediante un controlador de la
 
 
 
-Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán ($I_{L}(s)$) supere infinitesimalmente a la referencia, se produce una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, resulta conveniente agregar histéresis al controlador, de la manera que se muestra en la figura \ref{fig:img_diag-en-bloques}.
+Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán ($I_{L}(s)$) supere infinitesimalmente a la referencia, se produce una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, resulta conveniente agregar histéresis al controlador como se muestra en la figura \ref{fig:img_diag-en-bloques}.
 
 \begin{figure}[H]
 	\centering
@@ -185,7 +187,10 @@ Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-b
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-Este bloque permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$. La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_exponencial-hist}.
+\colorbox{red}{ver si conviene agregar deltaI en el diagrama}
+\colorbox{red}{Esta bien que sea Vh la salida? Habría que unificar despues..}
+
+La histéresis permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$. La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_exponencial-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -203,7 +208,7 @@ Este bloque permite definir un margen de corriente $\Delta I_L$ de forma tal que
 %	\label{fig:img_corriente_triangular}
 %\end{figure} 
 
-Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento como de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador. 
+Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador. 
 
 \subsection{Medición de corriente}
 

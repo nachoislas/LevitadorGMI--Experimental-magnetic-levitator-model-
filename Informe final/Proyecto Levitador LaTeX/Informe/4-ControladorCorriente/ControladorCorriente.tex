@@ -41,6 +41,8 @@ Se desea diseñar un sistema de control que modifique la alimentación del elect
 	\label{fig:img_diagrama_bloques_basico}
 \end{figure}
 
+\colorbox{red}{Está bien decir que del diagrama surge esto? No debería ser al revés?}
+
 Del diagrama \ref{fig:img_diagrama_bloques_basico} surgen las siguientes necesidades:
 \begin{itemize}
 	\item Diseñar la topología de la fuente de alimentación.
@@ -51,7 +53,7 @@ Del diagrama \ref{fig:img_diagrama_bloques_basico} surgen las siguientes necesid
 A continuación se analizan distintas alternativas para satisfacer cada una de las necesidades planteadas.
 
 \subsection{Diseño de la topología de la fuente de alimentación}
-En esta sección se analizan las distintas topologías para la fuente de alimentación del electroimán. Inicialmente se analiza el funcionamiento de un controlador de corriente mediante el uso de un transistor trabajando en modo lineal y luego utilizando una fuente de alimentación trabajando en conmutación.
+En esta sección se analizan distintas topologías para la fuente de alimentación del electroimán. Inicialmente se analiza el funcionamiento de un controlador de corriente mediante el uso de un transistor trabajando en modo lineal y luego utilizando una fuente de alimentación trabajando en conmutación.
 
 \subsubsection{Control de corriente mediante transistor en modo lineal}
 Como se analizó en la sección \ref{sec_descripcion-general}, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. Por lo tanto, para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal como se muestra en el circuito de la figura \ref{fig:img_controlador-lineal}.
@@ -86,9 +88,10 @@ Finalmente:
 
 \begin{equation}
 	P_{transistor}=V_{CC}*I_L-I_L^2*R_L
+	\label{eq_p-transistor_lineal}
 \end{equation}
 
-Esta función llega a un máximo cuando $I_L=\frac{V_{CC}}{2*R_L}$.
+La función \ref{eq_p-transistor_lineal} presenta un máximo cuando $I_L=\frac{V_{CC}}{2*R_L}$.
 
 
 \begin{equation}\label{eq_pot_transistor_lineal_final}
@@ -112,7 +115,7 @@ Como se analizó previamente, al trabajar con corrientes elevadas, no es eficien
 
 %\noindent Para lograr una corriente continua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en sus bornes. De esta forma, se aprovecha el transitorio mostrado en la figura \ref{fig:img_respuesta_escalon} para hacer crecer la corriente hasta llegar a un cierto valor (denominado límite superior), y luego se conmuta la polaridad de la alimentación para que decrezca. Nuevamente, al llegar a un cierto valor (denominado límite inferior), se vuelve a conmutar. Este proceso se repite, y se logra que la corriente oscile en torno al valor medio entre los dos límites, que es el valor de corriente continua deseado. 
 
-Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente aumentará en forma exponencial. Si se desea que la corriente que circule por su bobinado sea aproximadamente continua, es necesario alternar la polaridad de la tensión aplicada ($\pm V_L$) de forma que la corriente oscile en torno al valor medio deseado ($<I_L>$) como se observa en la figura \ref{fig:img_corriente_exponencial}.
+Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente aumentará en forma exponencial. Si se desea que la corriente que circule por su bobinado sea aproximadamente continua, es posible alternar la polaridad de la tensión aplicada ($\pm V_L$) de forma que la corriente oscile en torno al valor medio deseado ($<I_L>$) como se observa en la figura \ref{fig:img_corriente_exponencial}.
 
 \begin{figure}[H]
 	\centering
@@ -132,6 +135,8 @@ Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente 
 
 Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar, de esta forma, el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, una que tiene la capacidad de alimentar su carga en ambos sentidos es la topología de puente completo con cuatro llaves que se muestra en la figura \ref{fig:img_topologia_simplificada}.
 
+\colorbox{red}{vale la pena mencionar que alimenta la carga en ambos sentidos?}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{puente_con_llaves.png}
@@ -146,6 +151,7 @@ Para poder obtener una forma de onda de corriente como la que se muestra en la f
 
 \begin{itemize}
 	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, generando un circuito entre $V_{CC}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa. 
+	\colorbox{red}{Habría que decir algo sobre ILmax? ej. corriente menor a la de reg. perm.?}
 	\item Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejen de conducir, y comiencen a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo que su magnitud comienza a decrecer.
 	\item Una vez alcanzado el límite inferior de corriente ($I_{L_{MIN}}$), se vuelve a conmutar el estado de las llaves para que la corriente vuelva a crecer.
 	\item Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. 
@@ -155,13 +161,13 @@ Para poder obtener una forma de onda de corriente como la que se muestra en la f
 
 Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
 
-A diferencia del controlador mediante un transistor trabajando en modo lineal, en esta topología se logra una eficiencia extremadamente alta, ya que las llaves operan en corte y conducción, por lo que la disipación de potencia se produce solo en el electroimán y no en el circuito de control. Debido a este motivo, se decide utilizar esta topología para el diseño de la fuente de alimentación.
+A diferencia del controlador mediante un transistor trabajando en modo lineal, en esta topología se logra una eficiencia extremadamente alta, ya que las llaves operan en corte y conducción, por lo que la disipación de potencia se produce solo en el electroimán y no en el circuito de control. Debido a este motivo, se decide implementar esta topología en el diseño de la fuente de alimentación.
 
 \subsection{Diseño del lazo de control de corriente}
 
 Como se mencionó previamente, para el diseño de la fuente de alimentación del electroimán se utilizará una topología de puente H trabajando en conmutación. Por lo tanto, para obtener el valor medio de corriente deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para ello, se debe actuar sobre las llaves en función de si se desea que la corriente aumente o disminuya.
 
-Una manera de implementar la lógica de control es mediante un controlador de lazo cerrado del tipo ON-OFF como se muestra en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist}. Este controlador realiza una resta entre la corriente de referencia y la corriente que está circulando por el electroimán, para obtener un valor llamado corriente de error ($I_e$). De esta forma, si la corriente medida es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán será positiva para lograr que su corriente crezca e iguale a la de referencia. En cambio, si resulta mayor, la alimentación será negativa y la corriente disminuirá.
+Una manera de implementar la lógica de control es mediante un controlador de lazo cerrado del tipo ON-OFF como se muestra en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist}. Este controlador realiza una resta entre la corriente de referencia y la corriente que está circulando por el electroimán, obteniendo una corriente de error ($I_e$). De esta forma, si la corriente medida es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán será positiva para lograr que su corriente crezca e iguale a la de referencia. En cambio, si resulta mayor, la alimentación será negativa y la corriente disminuirá.
 
 \begin{figure}[H]
 	\centering
@@ -178,7 +184,7 @@ Una manera de implementar la lógica de control es mediante un controlador de la
 
 
 
-Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán ($I_{L}(s)$) supere infinitesimalmente a la referencia, se produce una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, resulta conveniente agregar histéresis al controlador como se muestra en la figura \ref{fig:img_diag-en-bloques}.
+Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán ($I_{L}(s)$) supere infinitesimalmente a la referencia, se producirá una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, resulta conveniente agregar histéresis al controlador como se muestra en la figura \ref{fig:img_diag-en-bloques}.
 
 \begin{figure}[H]
 	\centering

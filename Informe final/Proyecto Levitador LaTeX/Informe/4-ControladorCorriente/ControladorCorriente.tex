@@ -245,14 +245,10 @@ Es decir que el error es el propio error del sensor. Si se toma un ancho de hist
 
 El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
 
------------------SEPARADOR-------
 
-\section{Cálculo de parámetros del controlador}
+\section{Eleccion y calculo de parámetros del controlador}
 En esta sección se determinarán los parámertos críticos para el correcto funcionamiento del controlador de corriente.
 \subsection{Cálculo de tensión de alimentación}
-
-\subsection{Cálculo de sensor de sensor de corriente}
-\subsection{Cálculo de ganancia de entrada}
 
 Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta que está determinada por su constante de tiempo ($\tau$). Es decir el sistema debe ser lo suficientemente rápido para modificar el valor medio de la corriente ante perturbaciones o cambios en el punto de operación. Un caso a analizar es cuando, en régimen permanente, se modifica bruscamente la carga que se esta levitando. En esta situación el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia máxima de referencia $Y_g=5\:mm$ se modifica de carga mínima ($1\:Kg$) a máxima ($30\:Kg$). Utilizando la ecuación XX se obtiene que la corriente para ambos casos es de:
 
@@ -285,12 +281,17 @@ Para encontrar la expresion del tiempo que tarda la corriente en alcanzar el val
 Cuando se modifique la carga del objeto ,es necesario que el tiempo de subida de corriente T1 sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a imax). Es decir que el objeto cae libremente un delta $\Delta Y= 1mm $. Utilizando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
 
 \begin{equation}
-	T=\sqrt{\frac{2*\Delta Y}{g}}=rt{\frac{2*1mm}{9.81}}=14,27\:ms
+	T=\sqrt{\frac{2*\Delta Y}{g}}=\sqrt{\frac{2*1mm}{9.81}}=14,27\:ms
 \end{equation}
 
 Finalmente reemplazando en \ref{eq_tiempo_de_subida} se obtiene: $Vcc>=21.6\:V$.
 
 Se puede decir cuanto da T1 si tomamos 24V.
+
+\subsection{Eleccion del sensor de corriente}
+\subsection{Cálculo de ganancia de entrada}
+
+
 
 \subsection{Cálculo de ancho de histéresis}
 

@@ -288,11 +288,6 @@ Finalmente reemplazando en \ref{eq_tiempo_de_subida} se obtiene: $Vcc>=21.6\:V$.
 
 Se puede decir cuanto da T1 si tomamos 24V.
 
-\subsection{Eleccion del sensor de corriente}
-\subsection{Cálculo de ganancia de entrada}
-
-
-
 \subsection{Cálculo de ancho de histéresis}
 
 Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
@@ -314,6 +309,29 @@ De la ecuación \ref{eq_delta_i} se puede despejar el valor máximo que puede te
 \colorbox{red}{Cambiar VL por VCC, y ver imagen de altium}
 
 Sabiendo que el controlador de corriente tendrá una corriente media variable entre 0 y 30 A, se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier $I_{min}$ dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0$ e $I_{min}=30$. Para el primer caso se llega a que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=500\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
+
+\subsection{Eleccion del sensor de corriente}
+
+Para poder diseñar un controlador de corriente apropiado es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán y actuar en consecuencia. Es necesario conocer tanto el valor medio de la corriente, como su ripple. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde 0 hasta 30 A con un ripple de 500 mA.
+
+En esta sección se analizan dos alternativas para lograr este objetivo. La primera mediante una resistencia y la segunda con un sensor de efecto Hall.
+
+\subsubsection{Análisis de medición de corriente mediante resistencia shunt}
+Una posible opción para efectuar la medición de corriente es colocar una resistencia shunt en serie con el electroimán y medir la diferencia de tensión en sus terminales. Para no generar pérdidas de potencia considerables, se elige una resistencia de 10mOhms. Debido a que los terminales de la resistencia se encuentran a una tensión flotante, es decir varía entre 0V y VCC se necesita implementar un amplificador que trabaje en modo diferencial, para obtener una salida de tensión referenciada a masa.
+
+El principal problema se encuentra en que los puntos de medición del amplificador en modo diferencial cambian bruscamente en cada conmutación generando transitorios que introducen ruido de modo común a la misma frecuencia que la onda triangular que se quiere analizar. Por este motivo se propone utilizar otro tipo de sensor.
+
+\subsubsection{Análisis de medición de corriente mediante Sensor de Efecto Hall}
+Dado que la medición con una resistencia de shunt introduce ruido en modo común se plantea como opción la alternativa de utilizar dispositivos que miden variaciones de campo magnético producidas por la corriente, conocidos como sensores de efecto Hall. La ventaja de estos sensores es que al estar midiendo el campo magnético, generado por la circulación de corriente, las conmutaciones no afectan en la medición.
+
+Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan los criterios que el sensor debe cumplir.
+
+
+\subsection{Cálculo de ganancia de entrada}
+
+
+
+
 
 
 \section{Diseño del circuito}

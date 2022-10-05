@@ -312,14 +312,28 @@ Sabiendo que el controlador de corriente tendrá una corriente media variable en
 
 \subsection{Eleccion del sensor de corriente}
 
-Para poder diseñar un controlador de corriente apropiado es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán y actuar en consecuencia. Es necesario conocer tanto el valor medio de la corriente, como su ripple. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde 0 hasta 30 A con un ripple de 500 mA.
+Para poder diseñar un controlador de corriente apropiado es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán para que luego el controlador pueda actuar en consecuencia. Es necesario conocer tanto su valor medio, como su ripple. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde 0 hasta 30 A con un ripple de 500 mA.
 
-En esta sección se analizan dos alternativas para lograr este objetivo. La primera mediante una resistencia y la segunda con un sensor de efecto Hall.
+En esta sección se analizan dos alternativas para lograr este objetivo. La primera mediante una resistencia en serie al electroimán y la segunda utilizando un sensor de efecto Hall.
+
 
 \subsubsection{Análisis de medición de corriente mediante resistencia shunt}
-Una posible opción para efectuar la medición de corriente es colocar una resistencia shunt en serie con el electroimán y medir la diferencia de tensión en sus terminales. Para no generar pérdidas de potencia considerables, se elige una resistencia de 10mOhms. Debido a que los terminales de la resistencia se encuentran a una tensión flotante, es decir varía entre 0V y VCC se necesita implementar un amplificador que trabaje en modo diferencial, para obtener una salida de tensión referenciada a masa.
+La forma de medir corriente que resulta, en principio, más simple es la de utilizar una resistencia en serie con el electroimán, y medir en sus terminales la diferencia de tensión generada por la corriente. De esta forma, se obtiene una tensión proporcional a la corriente que circula por el electroimán.  
 
-El principal problema se encuentra en que los puntos de medición del amplificador en modo diferencial cambian bruscamente en cada conmutación generando transitorios que introducen ruido de modo común a la misma frecuencia que la onda triangular que se quiere analizar. Por este motivo se propone utilizar otro tipo de sensor.
+HACEMOS UNA FIGURA PARA MOSTRAR
+
+En primera instancia se podrían mencionar tres inconvenientes de esta implementación.
+
+El primero es que al agregar una resistencia en serie al electroimán, se estaría disipando potencia en ella. Sin embargo, se podría elegir un valor de resistencia lo suficientemente bajo para reducir el consumo. Por ejemplo, se podría adoptar una resistencia de 10mOhms, lo cual resulta en pérdidas de potencia de 4W, que es un valor aceptable. 
+
+El segundo inconveniente es que alteraría la dinámica de la planta. Sin embargo, la realidad es que el electroimán presenta una resistencia interna de 0.2 Ohms, por lo que una resistencia de 10 mOhms no afectaría en gran medida.
+
+El tercero es que la medición debe ser flotante ya que la resistencia, al estar en serie con el imán, no tiene ningún punto de medición referido a masa. Por lo tanto, se debe utilizar un amplificador que mida tensión en modo diferencial para luego obtener una señal en modo común. El inconveniente que se presenta es que cada uno de los puntos de medición se encuentra a un alto potencial respecto de masa y, además, cambian en cada conmutación. Esto genera que los transitorios de conmutación se metan en la medición diferencial.
+
+Debido a que la conmutación se produce a los 2 KHz, el amplificador debe poseer un rechazo de modo común elevado a esa frecuencia. Pero además debe amplificar la señal de modo diferencial sin atenuarla  puesto que queremos mantener la forma de onda triangular. Esto eleva la complejidad del circuito necesario para realizar la medición.
+
+Analizar la complejidad de implementar un amplificador diferencial con alto rechazo de modo común a 2KHz. Por que no se podría?
+
 
 \subsubsection{Análisis de medición de corriente mediante Sensor de Efecto Hall}
 Dado que la medición con una resistencia de shunt introduce ruido en modo común se plantea como opción la alternativa de utilizar dispositivos que miden variaciones de campo magnético producidas por la corriente, conocidos como sensores de efecto Hall. La ventaja de estos sensores es que al estar midiendo el campo magnético, generado por la circulación de corriente, las conmutaciones no afectan en la medición.

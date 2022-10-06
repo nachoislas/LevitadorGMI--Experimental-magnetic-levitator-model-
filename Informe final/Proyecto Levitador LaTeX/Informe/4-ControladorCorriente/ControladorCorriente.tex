@@ -336,9 +336,9 @@ Por otro lado, la realimentación del controlador de corriente debe ser en forma
 
 Aunque este método para medir corriente pareciera directo, presenta algunos inconvenientes en el diseño:
 
-El primero es que al agregar una resistencia en serie al electroimán, se estaría disipando potencia en ella. Sin embargo, se podría elegir un valor de resistencia lo suficientemente bajo para reducir el consumo. Por ejemplo, se podría adoptar una resistencia de 10mOhms, lo cual resulta en pérdidas de potencia de 4W, que es un valor aceptable. 
+El primero es que al agregar una resistencia en serie al electroimán, se estaría agregando una mayor disipación de potencia en el sistema. Para intentar reducir este problema se podría elegir un valor de resistencia lo suficientemente bajo para que su consumo sea despreciable. Por ejemplo, se podría adoptar una resistencia de $10\:mOhms$. Este valor resulta en pérdidas de potencia de $4\:W$, que es un valor aceptable. 
 
-El segundo inconveniente es que alteraría la dinámica de la planta. Sin embargo, la realidad es que el electroimán presenta una resistencia interna de 0.2 Ohms, por lo que una resistencia de 10 mOhms no afectaría en gran medida.
+El segundo inconveniente es que alteraría la dinámica de la planta, ya que la constante de tiempo sería $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:Ohm$, por lo que una resistencia de sensado con valor $10\:mOhm$ no afectaría en gran medida la dinámica.
 
 El tercero es que la medición debe ser flotante ya que la resistencia, al estar en serie con el imán, no tiene ningún punto de medición referido a masa. Por lo tanto, se debe utilizar un amplificador que mida tensión en modo diferencial para luego obtener una señal en modo común. El inconveniente que se presenta es que cada uno de los puntos de medición se encuentra a un alto potencial respecto de masa y, además, cambian en cada conmutación. Esto genera que los transitorios de conmutación se metan en la medición diferencial.
 

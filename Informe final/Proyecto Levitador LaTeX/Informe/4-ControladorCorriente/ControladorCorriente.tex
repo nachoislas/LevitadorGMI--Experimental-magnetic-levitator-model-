@@ -324,7 +324,6 @@ La forma de medir corriente que resulta, en principio, más simple es la de util
 	I_L=\frac{V_s-V_a}{R_s}
 \end{equation}
 
-De esta forma, se obtiene una tensión proporcional a la corriente que circula por el electroimán.  
 
 \begin{figure}[H]
 	\centering
@@ -333,7 +332,9 @@ De esta forma, se obtiene una tensión proporcional a la corriente que circula p
 	\label{fig:img_puente_con_rshunt}
 \end{figure}
 
-En primera instancia se podrían mencionar tres inconvenientes de esta implementación.
+Por otro lado, la realimentación del controlador de corriente debe ser en forma de tensión, por lo tanto es suficiente con medir la tensión diferencial $V_s-V_a$ y tener en cuenta en el diseño del controlador la ganancia que se tiene al pasar de corriente a tensión.
+
+Aunque este método para medir corriente pareciera directo, presenta algunos inconvenientes en el diseño:
 
 El primero es que al agregar una resistencia en serie al electroimán, se estaría disipando potencia en ella. Sin embargo, se podría elegir un valor de resistencia lo suficientemente bajo para reducir el consumo. Por ejemplo, se podría adoptar una resistencia de 10mOhms, lo cual resulta en pérdidas de potencia de 4W, que es un valor aceptable. 
 

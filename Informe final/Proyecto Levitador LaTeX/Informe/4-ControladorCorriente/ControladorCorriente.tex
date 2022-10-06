@@ -318,9 +318,20 @@ En esta sección se analizan dos alternativas para lograr este objetivo. La prim
 
 
 \subsubsection{Análisis de medición de corriente mediante resistencia shunt}
-La forma de medir corriente que resulta, en principio, más simple es la de utilizar una resistencia en serie con el electroimán, y medir en sus terminales la diferencia de tensión generada por la corriente. De esta forma, se obtiene una tensión proporcional a la corriente que circula por el electroimán.  
+La forma de medir corriente que resulta, en principio, más simple es la de utilizar una resistencia de valor $R_s$ en serie con el electroimán como se muestra en la figura \ref{fig:img_puente_con_rshunt}, y medir en sus terminales la diferencia de tensión generada por la corriente. A partir de esta tensión ($V_s-V_a$) se puede utilizar la ley de Ohm para conocer el valor de corriente:
 
-HACEMOS UNA FIGURA PARA MOSTRAR
+\begin{equation}
+	I_L=\frac{V_s-V_a}{R_s}
+\end{equation}
+
+De esta forma, se obtiene una tensión proporcional a la corriente que circula por el electroimán.  
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{puente_con_rshunt.png}
+	\caption{Puente H con resistencia de sensado de corriente (Rs).}
+	\label{fig:img_puente_con_rshunt}
+\end{figure}
 
 En primera instancia se podrían mencionar tres inconvenientes de esta implementación.
 
@@ -332,13 +343,13 @@ El tercero es que la medición debe ser flotante ya que la resistencia, al estar
 
 Debido a que la conmutación se produce a los 2 KHz, el amplificador debe poseer un rechazo de modo común elevado a esa frecuencia. Pero además debe amplificar la señal de modo diferencial sin atenuarla  puesto que queremos mantener la forma de onda triangular. Esto eleva la complejidad del circuito necesario para realizar la medición.
 
-Analizar la complejidad de implementar un amplificador diferencial con alto rechazo de modo común a 2KHz. Por que no se podría?
+\colorbox{red}{creo que sería mejor arrancar con el sensor Hall}Analizar la complejidad de implementar un amplificador diferencial con alto rechazo de modo común a 2KHz. Por que no se podría?
 
 
 \subsubsection{Análisis de medición de corriente mediante Sensor de Efecto Hall}
-Dado que la medición con una resistencia de shunt introduce ruido en modo común se plantea como opción la alternativa de utilizar dispositivos que miden variaciones de campo magnético producidas por la corriente, conocidos como sensores de efecto Hall. La ventaja de estos sensores es que al estar midiendo el campo magnético, generado por la circulación de corriente, las conmutaciones no afectan en la medición.
+Dado que la medición con una resistencia de shunt introduce ruido ocasionado por la conmutación de las llaves, se plantea la alternativa de utilizar dispositivos que miden las variaciones de campo magnético producidas por la corriente, conocidos como sensores de efecto Hall. Tienen la ventaja de que al estar midiendo el campo magnético, generado por la circulación de corriente, las conmutaciones de tensión en sus extremos no afectan en la medición.
 
-Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan los criterios que el sensor debe cumplir.
+Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan algunos criterios que se tendrán en cuenta para la elección del sensor.
 
 
 \subsection{Cálculo de ganancia de entrada}

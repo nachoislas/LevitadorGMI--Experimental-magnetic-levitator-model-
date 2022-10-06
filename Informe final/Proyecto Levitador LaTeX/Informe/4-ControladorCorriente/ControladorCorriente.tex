@@ -340,17 +340,26 @@ El primero es que al agregar una resistencia en serie al electroimán, se estar�
 
 El segundo inconveniente es que alteraría la dinámica de la planta, ya que la constante de tiempo sería $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:Ohm$, por lo que una resistencia de sensado con valor $10\:mOhm$ no afectaría en gran medida la dinámica.
 
-El tercero es que la medición debe ser flotante ya que la resistencia, al estar en serie con el imán, no tiene ningún punto de medición referido a masa. Por lo tanto, se debe utilizar un amplificador que mida tensión en modo diferencial para luego obtener una señal en modo común. El inconveniente que se presenta es que cada uno de los puntos de medición se encuentra a un alto potencial respecto de masa y, además, cambian en cada conmutación. Esto genera que los transitorios de conmutación se metan en la medición diferencial.
+El tercero es que se debe realizar una medición de tensión flotante. Esto se debe a que la resistencia, al estar en serie con el electroimán, no tiene ningún punto de medición referido a masa. Por lo tanto, se debe utilizar un amplificador que mida tensión en modo diferencial para luego obtener una señal en modo común. El inconveniente que se presenta es que cada uno de los puntos de medición se encuentra a un alto potencial respecto de masa y, además, este cambia en cada conmutación. Esto genera que durante los transitorios de conmutación haya ruido en la medición diferencial.
 
-Debido a que la conmutación se produce a los 2 KHz, el amplificador debe poseer un rechazo de modo común elevado a esa frecuencia. Pero además debe amplificar la señal de modo diferencial sin atenuarla  puesto que queremos mantener la forma de onda triangular. Esto eleva la complejidad del circuito necesario para realizar la medición.
+El amplificador debe poseer un rechazo de modo común elevado a la frecuencia de conmutación. Pero además debe amplificar la señal de modo diferencial sin atenuarla puesto que se desea mantener la forma de onda de la corriente. Esto eleva la complejidad del circuito necesario para realizar la medición.
 
 \colorbox{red}{creo que sería mejor arrancar con el sensor Hall}Analizar la complejidad de implementar un amplificador diferencial con alto rechazo de modo común a 2KHz. Por que no se podría?
 
 
 \subsubsection{Análisis de medición de corriente mediante Sensor de Efecto Hall}
-Dado que la medición con una resistencia de shunt introduce ruido ocasionado por la conmutación de las llaves, se plantea la alternativa de utilizar dispositivos que miden las variaciones de campo magnético producidas por la corriente, conocidos como sensores de efecto Hall. Tienen la ventaja de que al estar midiendo el campo magnético, generado por la circulación de corriente, las conmutaciones de tensión en sus extremos no afectan en la medición.
 
-Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan algunos criterios que se tendrán en cuenta para la elección del sensor.
+Dado que la medición con una resistencia de sensado introduce ruido ocasionado por la conmutación de las llaves, se plantea la alternativa de utilizar dispositivos que miden las variaciones de campo magnético producidas por la corriente, conocidos como sensores de efecto Hall. Tienen la ventaja de que al estar midiendo el campo magnético, generado por la circulación de corriente, las conmutaciones de tensión en sus extremos no afectan en la medición.
+
+Estos funcionan bajo el fenómeno físico llamado efecto Hall, en el que al incidir un campo magnético en un semiconductor se genera una acumulación de portadores, lo que produce una diferencia de tensión. Los sensores de corriente que funcionan bajo este principio tienen un bobinado por el que circula la corriente, y en el medio se encuentra la pastilla de semiconductor.
+
+Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan algunos criterios que se tendrán en cuenta para la elección del sensor:
+
+\begin{itemize}
+	\item corriente máxima, y mínima
+	\item Linealidad
+	\item ...
+\end{itemize}
 
 
 \subsection{Cálculo de ganancia de entrada}

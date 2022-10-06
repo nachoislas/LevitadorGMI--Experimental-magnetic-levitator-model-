@@ -342,9 +342,7 @@ El segundo inconveniente es que alteraría la dinámica de la planta, ya que la 
 
 El tercero es que se debe realizar una medición de tensión flotante. Esto se debe a que la resistencia, al estar en serie con el electroimán, no tiene ningún punto de medición referido a masa. Por lo tanto, se debe utilizar un amplificador que mida tensión en modo diferencial para luego obtener una señal en modo común. El inconveniente que se presenta es que cada uno de los puntos de medición se encuentra a un alto potencial respecto de masa y, además, este cambia en cada conmutación. Esto genera que durante los transitorios de conmutación haya ruido en la medición diferencial.
 
-El amplificador debe poseer un rechazo de modo común elevado a la frecuencia de conmutación. Pero además debe amplificar la señal de modo diferencial sin atenuarla puesto que se desea mantener la forma de onda de la corriente. Esto eleva la complejidad del circuito necesario para realizar la medición.
-
-\colorbox{red}{creo que sería mejor arrancar con el sensor Hall}Analizar la complejidad de implementar un amplificador diferencial con alto rechazo de modo común a 2KHz. Por que no se podría?
+Debido a que se requiere medir el valor de corriente sin que el ruido de modo común altere la medición, se propone analizar otra alternativa que sea inmune a dicho efecto.
 
 
 \subsubsection{Análisis de medición de corriente mediante Sensor de Efecto Hall}

@@ -246,8 +246,8 @@ Es decir que el error es el propio error del sensor. Si se toma un ancho de hist
 El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
 
 
-\section{Eleccion y calculo de parámetros del controlador}
-En esta sección se determinarán los parámertos críticos para el correcto funcionamiento del controlador de corriente.
+\section{Elección y calculo de parámetros del controlador}
+En esta sección se determinarán los parámetros críticos para el correcto funcionamiento del controlador de corriente.
 \subsection{Cálculo de tensión de alimentación}
 \colorbox{red}{Comenzar el diseño circuital? mm..}
 Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta que está determinada por su constante de tiempo ($\tau$). Es decir, el sistema debe ser lo suficientemente rápido para modificar el valor medio de la corriente ante perturbaciones o cambios en el punto de operación. Un caso a analizar es cuando, en régimen permanente, se modifica bruscamente la carga que se esta levitando. En esta situación el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia máxima de referencia $Y_g=5\:mm$ se modifica de carga mínima ($1\:Kg$) a máxima ($30\:Kg$). Utilizando la ecuación XX se obtiene que la corriente para ambos casos es de:
@@ -310,7 +310,7 @@ De la ecuación \ref{eq_delta_i} se puede despejar el valor máximo que puede te
 
 Sabiendo que el controlador de corriente tendrá una corriente media variable entre 0 y 30 A, se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier $I_{min}$ dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0$ e $I_{min}=30$. Para el primer caso se llega a que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=500\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
 
-\subsection{Eleccion del sensor de corriente}
+\subsection{Elección del sensor de corriente}
 
 Para poder diseñar un controlador de corriente apropiado es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán para que luego el controlador pueda actuar en consecuencia. Es necesario conocer tanto su valor medio, como su ripple. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde 0 hasta 30 A con un ripple de 500 mA.
 
@@ -345,27 +345,23 @@ El tercero es que se debe realizar una medición de tensión flotante. Esto se d
 Debido a que se requiere medir el valor de corriente sin que el ruido de modo común altere la medición, se propone analizar otra alternativa que sea inmune a dicho efecto.
 
 
-\subsubsection{Análisis de medición de corriente mediante Sensor de Efecto Hall}
+\subsubsection{Análisis de medición de corriente mediante sensor de efecto Hall}
 
-Dado que la medición con una resistencia de sensado introduce ruido ocasionado por la conmutación de las llaves, se plantea la alternativa de utilizar dispositivos que miden las variaciones de campo magnético producidas por la corriente, conocidos como sensores de efecto Hall. Tienen la ventaja de que al estar midiendo el campo magnético, generado por la circulación de corriente, las conmutaciones de tensión en sus extremos no afectan en la medición.
+Dado que la medición con una resistencia de sensado introduce ruido ocasionado por la conmutación de las llaves, se plantea la alternativa de utilizar un sensor de efecto Hall. Este dispositivo mide el campo magnético generado por la corriente, entregando a su salida una tensión proporcional a ésta. La principal ventaja que presenta es que el campo magnético medido sólo es sensible a las variaciones de corriente y no a las conmutaciones de tensión.
 
-Estos funcionan bajo el fenómeno físico llamado efecto Hall, en el que al incidir un campo magnético en un semiconductor se genera una acumulación de portadores, que produce una diferencia de tensión. Los sensores de corriente que funcionan bajo este principio tienen un bobinado por el que circula la corriente, y en el medio se encuentra la pastilla de semiconductor.
-
-Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan algunos criterios que se tendrán en cuenta para la elección del sensor:
+Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan los criterios que se tendrán en cuenta para la elección del sensor:
 
 \begin{itemize}
-	\item Debe ser capaz de medir una corriente de hasta 30A.
-	\item El ancho de banda debe ser mucho mayor al polo de la frecuencia de conmutación del controlador de corriente para poder conservar la forma de onda de la corriente triangular a medir. Por lo tanto, debe ser al menos de 100kHz.
-	\item La transresistencia debe ser lineal entre 0A y 30A.
-	\item Buena resolución y presicion en la medicion.
-	\item Inmunidad a campos magnéticos externos	
+	\item Debe ser capaz de medir una corriente de hasta $30\:A$.
+	\item El ancho de banda debe ser mucho mayor al polo de la frecuencia de conmutación del controlador de corriente para poder conservar la forma de onda de la corriente triangular a medir. Por lo tanto, debe ser al menos de $100\:kHz$.
+	\item La transresistencia debe ser lineal entre $0\:A$ y $30\:A$.	
 \end{itemize}
 
-A partir de estas caracteristicas se decicdio utilizar el sensor HO 15-NP-0000, el cual permite medir una corriente de $\pm 37.5 A$ con un ancho de banda de $250 kHz$. Ademas este sensor esta aislado galvanicamente por lo tanto es inmune a ruido en modo comun, posee alta inmunidad a interferencias externas, y presenta una tension de offset magnetica muy baja ( $\pm 6 mV$). 
+A partir de estas características se decidió utilizar el sensor HO 15-NP-0000 \cite{HO15-NP}. Este permite medir una corriente de $\pm 37.5\:A$ con un ancho de banda de $250\:kHz$ y posee una transresistencia de $53.33\:mV/A$ en todo  el rango de corriente. Además, presenta alta inmunidad a interferencias externas. 
 
-En cuanto a la sensibilidad y linearidad, el sensor posee una sesibilidad de $53,33 mV/A$ en el rango de medicion y se especifica un error de linealidad porcentual en terminos de la corriente($\pm 0.8 $) el cual indica el error en la regresion lineal y los puntos medidos por el fabricante. Ademas este sensor permite tener una salida sobre un offset de tension configurado por el usuario, esto evita la necesidad de la implementacion de fuentes de tension negativas para excursiones de corriente negativas. Por este 
+Este sensor tiene la capacidad de medir tanto corrientes en sentido positivo, como negativo. Para ello admite una tensión de bias de $2.5\:V$, la cual se corresponde a la salida cuando la corriente es nula. Cuando la circulación de corriente es positiva, la salida del sensor resulta en una tensión mayor a $2.5\:V$, y para negativas, menor.
 
-Entonces el bloque H de realimentacion queda definido como:
+De esta forma, el bloque H de realimentación queda definido como:
 
 \begin{equation}
 	H=\frac{V_iLF}{I_L}=53,33 mV/A

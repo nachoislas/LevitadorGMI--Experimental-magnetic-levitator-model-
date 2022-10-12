@@ -354,10 +354,23 @@ Estos funcionan bajo el fenómeno físico llamado efecto Hall, en el que al inci
 Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan algunos criterios que se tendrán en cuenta para la elección del sensor:
 
 \begin{itemize}
-	\item corriente máxima, y mínima
-	\item Linealidad
-	\item ...	
+	\item Debe ser capaz de medir una corriente de hasta 30A.
+	\item El ancho de banda debe ser mucho mayor al polo de la frecuencia de conmutación del controlador de corriente para poder conservar la forma de onda de la corriente triangular a medir. Por lo tanto, debe ser al menos de 100kHz.
+	\item La transresistencia debe ser lineal entre 0A y 30A.
+	\item Buena resolución y presicion en la medicion.
+	\item Inmunidad a campos magnéticos externos	
 \end{itemize}
+
+A partir de estas caracteristicas se decicdio utilizar el sensor HO 15-NP-0000, el cual permite medir una corriente de $\pm 37.5 A$ con un ancho de banda de $250 kHz$. Ademas este sensor esta aislado galvanicamente por lo tanto es inmune a ruido en modo comun, posee alta inmunidad a interferencias externas, y presenta una tension de offset magnetica muy baja ( $\pm 6 mV$). 
+
+En cuanto a la sensibilidad y linearidad, el sensor posee una sesibilidad de $53,33 mV/A$ en el rango de medicion y se especifica un error de linealidad porcentual en terminos de la corriente($\pm 0.8 $) el cual indica el error en la regresion lineal y los puntos medidos por el fabricante. Ademas este sensor permite tener una salida sobre un offset de tension configurado por el usuario, esto evita la necesidad de la implementacion de fuentes de tension negativas para excursiones de corriente negativas. Por este 
+
+Entonces el bloque H de realimentacion queda definido como:
+
+\begin{equation}
+	H=\frac{V_iLF}{I_L}=53,33 mV/A
+\end{equation}
+
 
 
 \subsection{Cálculo de ganancia de entrada}

@@ -133,19 +133,23 @@ Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente 
 %	\label{fig:img_corriente_lineal}
 %\end{figure}
 
+\colorbox{red}{TODO LO QUE ESTA EN ROJO NO VA...(NO LO SAQUE POR LAS DUDAS)}
+
 \colorbox{red}{
 Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar, de esta forma, el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, una que tiene la capacidad de alimentar su carga en ambos sentidos es la topología de puente completo con cuatro llaves que se muestra en la figura \ref{fig:img_topologia_simplificada}.}
-\colorbox{red}{ESTA IMAGEN NO VA}
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{puente_con_llaves.png}
-	\caption{Topología simplificada de puente completo con cuatro llaves.}
-	\label{fig:img_topologia_simplificada}
-\end{figure} 
+\colorbox{red}{ACA SAQUE LA IMAGEN DEL PUENTEH Y LA PUSEMAS ABAJO}
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{puente_con_llaves.png}
+%	\caption{Topología simplificada de puente completo con cuatro llaves.}
+%	\label{fig:img_topologia_simplificada}
+%\end{figure} 
 
 
 Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar, de esta forma, el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, se propone utilizar la mas simple de ellas, la topología de semi puente con dos llaves que se muestra en la figura \ref{fig:img_topologia_semipuente}.
 
+\colorbox{red}{ENCONTRE ESTA PERO PUEDESER OTRA ES SOLO PARA EXPLICAR LO BASICO... ESTARIA BUENO UNA PARECIDA A LA DEL PUENTE H CON LA DIRECCION DELA CORRIENTE.. }
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{semiPuente.png}
@@ -158,9 +162,11 @@ El electroimán se conecta entre los puntos medios de cada par de llaves. Cada u
 }
 
 
-El electroimán se conecta en el puntos medio del par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de un cambio en el estado de las llaves, de forma sincronizada, se puede controlar la polaridad de la alimentación según se desee. Para esta tipo de circuitos, la corriente poseera un solo sentido aplicación en particular, por lo tanto la fuerza magnética es tambien siempre en el mismo sentido. Se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Por otro lado, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
+El electroimán se conecta en el puntos medio del par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de un cambio en el estado de las llaves, de forma sincronizada, se puede conmutar entre 0 V y +VCC el valor de alimentación según se desee. Para esta tipo de circuitos, la corriente poseera un solo sentido aplicación en particular, por lo tanto la fuerza magnética es tambien siempre en el mismo sentido. Se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Por otro lado, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
 
-Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de manera sincronizada. Para comenzar se debe cerrar la llave  $Q_1$, de esta forma se aplica la tension VCC sobre el electroiman y de esta forma la corriente aumentara con forma expnencial negativa. Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, es decir se abre $Q_1$ y se cierra $Q_2$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la tension aplicada sobre los bornes del electroiman es cero, por lo que su magnitud comienza a decrecer. Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. Se debe tener en cuenta que al utilizar esta topologia la forma de crecimiento y decrecimiento de la forma de onda de la corriente no son simetricas.
+Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de manera sincronizada. Para comenzar se debe cerrar la llave  $Q_1$, de esta forma se aplica la tension VCC sobre el electroiman y de esta forma la corriente aumentara con forma expnencial negativa. Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, es decir se abre $Q_1$ y se cierra $Q_2$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la tension aplicada sobre los bornes del electroiman es cero, por lo que su magnitud comienza a decrecer. Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. Se debe tener en cuenta que al utilizar esta topologia la forma de crecimiento y decrecimiento de la forma de onda de la corriente no son simetricas. 
+
+\colorbox{red}{Si esto les parece bien se podria agregar algo mas de la asimetria de los tiempos y dejar ecuaciones genericas de como se calcula}
 
 Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
 
@@ -213,6 +219,11 @@ Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-b
 \colorbox{red}{ver si conviene agregar deltaI en el diagrama}
 \colorbox{red}{Esta bien que sea Vh la salida? Habría que unificar despues..}
 
+
+\colorbox{red}{Este parrafo ESTA OK porque a pesar de que}
+
+\colorbox{red}{Tenemos asimetria en la rampas de subida y bajada el delta iL es FIJO...}
+
 La histéresis permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$. La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_exponencial-hist}.
 
 \begin{figure}[H]
@@ -223,13 +234,19 @@ La histéresis permite definir un margen de corriente $\Delta I_L$ de forma tal 
 \end{figure}
 
 
-
 %\begin{figure}[H]
 %	\centering
 %	\includegraphics[scale=0.5]{Forma-de-onda-corriente-lineal.png}
 %	\caption{Forma de onda de corriente triangular}
 %	\label{fig:img_corriente_triangular}
 %\end{figure} 
+
+\colorbox{red}{Este parrafo deberia cambiar si queda lo que esta antes del semipuente}
+
+\colorbox{red}{Algo Asi ...}
+
+\colorbox{red}{A pesar de que la rampa de subida es distinta al de bajada, la corriente oscila sobre un valor medio .}
+\colorbox{red}{ Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador. }
 
 Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador. 
 
@@ -298,6 +315,20 @@ Según mediciones realizadas (ver tabla \ref{tab_mediciones}), se tienen los val
 \begin{equation} \label{eq_di-dt_lineal}
 {\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
 \end{equation}
+
+\colorbox{red}{Se puede poner algo asi como para enganchar..}
+
+Como se puede ver en las ecuacion \ref{eq_di-dt_lineal} se puede obtener el valor de la posicion conocioendo el valor de la derivada de la corriente. Por lo tanto realimentando el valor de la corriente y derivando$\left|\frac{{dI}_L}{dt}\right|$ se obtiene una estimacion de $(Y_g)$ . El diagrama en bloques planteado es:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin-conDerivador.png}
+	\caption{Diagrama en bloques del controlador de corriente completo con derivador.}
+	\label{fig:img_diag-en-bloques-conH-y-Kin-con-Derivador}
+\end{figure}
+
+
+\colorbox{red}{ACA NO SE SI ALGO MAS O LO CORTAMOS ACA SE PODRIA ONDEAR UN POCO MAS EN ESTIMADOR? NOLOSE}
 
 \section{Criterio de utilización de la topología de puente H}
 \label{secc_justificación-puente-H}

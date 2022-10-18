@@ -199,14 +199,11 @@ La histéresis permite definir un margen de corriente $\Delta I_L$ de forma tal 
 %	\label{fig:img_corriente_triangular}
 %\end{figure} 
 
-\colorbox{red}{Este parrafo deberia cambiar si queda lo que esta antes del semipuente}
 
-\colorbox{red}{Algo Asi ...}
+A pesar de que la rampa de subida es distinta al de bajada, la corriente oscila sobre un valor medio . Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
 
-\colorbox{red}{A pesar de que la rampa de subida es distinta al de bajada, la corriente oscila sobre un valor medio .}
-\colorbox{red}{ Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador. }
-
-Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador. 
+\colorbox{red}{Esto estaba antes, mal xq quedo viejo}
+\colorbox{red}{Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.}
 
 \subsection{Medición de corriente}
 
@@ -214,7 +211,7 @@ Debido a que lo único que cambia es la polaridad de la tensión con la que se e
 Como se puede ver en el diagrama en bloques \ref{fig:img_diag-en-bloques}, para poder realizar el control es necesario medir la corriente que circula por el electroimán y actuar en consecuencia.
 
 
-Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema. Además lo de la conmutación q dijo el gusti…
+Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema.
 
 Los sensores de corriente trabajan en transresistencia, por lo tanto, se agrega el bloque H en el lazo de realimentación figura \ref{fig:img_diag-en-bloques-conH-y-Kin}. Ahora $V_{iL}=i_{L}*rm$. De esta forma ahora se está trabajando con tensiones por lo tanto la corriente de referencia se afecta por el bloque $K_{in}$ para obtener su equivalente en tensión. El bloque resultante es el siguiente:
 
@@ -237,13 +234,13 @@ Es decir que el error es el propio error del sensor. Si se toma un ancho de hist
 
 El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
 
-\subsection{Foma de ONDA TRIANGULA METEMOS LO DE ESTIMACION ACA COMO UN RESUMEN XD}
+\subsection{Introduccion a la realimentacion u otro nombre XD}
 
 Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor  para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
 
 En esta seccion se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y sus respectivas simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
 
-\section{An\'{a}lisis de la estimaci\'{o}n}
+\subsubsection{An\'{a}lisis de la estimaci\'{o}n}
 
 La ecuaci\'{o}n que gobierna la corriente en el electroim\'{a}n se puede calcular con las leyes de Kirchoff correspondientes al circuito mostrado en la figura \ref{fig:img_topologia-puenteH} y la expresión de la inductancia \ref{eq_inductancia_vs_y}.
 
@@ -284,12 +281,16 @@ Como se puede ver en las ecuacion \ref{eq_di-dt_lineal} se puede obtener el valo
 \end{figure}
 
 
-\colorbox{red}{ACA NO SE SI ALGO MAS O LO CORTAMOS ACA SE PODRIA ONDEAR UN POCO MAS EN ESTIMADOR? NOLOSE}
+\colorbox{red}{ACA NO SE SI ALGO MAS O LO CORTAMOS ACA SE PODRIA ONDEAR UN POCO}
+\colorbox{red}{ MAS EN ESTIMADOR? NOLOSE}
 
+\subsection{Circuitos de conmutacion de tension}
 
-\subsubsection{semipuente}
-\colorbox{red}{despues vemos bien donde lo ponemos}
-Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar, de esta forma, el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, se propone utilizar la mas simple de ellas, la topología de semi puente con dos llaves que se muestra en la figura \ref{fig:img_topologia_semipuente}.
+Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar, de esta forma, el valor medio de su corriente. En esta seccion se analizaran las topologias que funcionan en conmutacion mas comunes.
+
+\subsection{Semipuente}
+
+A continuacion se propone utilizar el circuito de conmutacion mas simple, conocido como semi puente H, este consta de dos llaves y se muestra en la figura \ref{fig:img_topologia_semipuente}.
 
 \colorbox{red}{ENCONTRE ESTA PERO PUEDESER OTRA ES SOLO PARA EXPLICAR LO BASICO... ESTARIA BUENO UNA PARECIDA A LA DEL PUENTE H CON LA DIRECCION DELA CORRIENTE.. }
 \begin{figure}[H]
@@ -299,37 +300,23 @@ Por lo tanto, es necesario diseñar un circuito que permita alternar la polarida
 	\label{fig:img_topologia_semipuente}
 \end{figure} 
 
-\colorbox{red}{
-	El electroimán se conecta entre los puntos medios de cada par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de una combinación correcta de estas se puede controlar la polaridad de la alimentación y el sentido de circulación de la corriente, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Por otro lado, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
-}
-
 
 El electroimán se conecta en el puntos medio del par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de un cambio en el estado de las llaves, de forma sincronizada, se puede conmutar entre 0 V y +VCC el valor de alimentación según se desee. Para esta tipo de circuitos, la corriente poseera un solo sentido aplicación en particular, por lo tanto la fuerza magnética es tambien siempre en el mismo sentido. Se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Por otro lado, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
 
 Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de manera sincronizada. Para comenzar se debe cerrar la llave  $Q_1$, de esta forma se aplica la tension VCC sobre el electroiman y de esta forma la corriente aumentara con forma expnencial negativa. Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, es decir se abre $Q_1$ y se cierra $Q_2$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la tension aplicada sobre los bornes del electroiman es cero, por lo que su magnitud comienza a decrecer. Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. Se debe tener en cuenta que al utilizar esta topologia la forma de crecimiento y decrecimiento de la forma de onda de la corriente no son simetricas. 
 
-\colorbox{red}{Si esto les parece bien se podria agregar algo mas de la asimetria de los tiempos y dejar ecuaciones genericas de como se calcula}
+\colorbox{red}{Si esto les parece bien se podria agregar algo mas de la asimetria de los tiempos}
+\colorbox{red}{y dejar ecuaciones genericas de como se calcula}
 
 Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
-
-\colorbox{red}{Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de la siguiente manera:}
-
-\colorbox{red}{ESTE ITEMIZE NO VA}
-\begin{itemize}
-	\item \colorbox{red}{En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, generando un circuito entre $V_{CC}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa. }
-	\colorbox{red}{Habría que decir algo sobre ILmax? ej. corriente menor a la de reg. perm.?}
-	\item \colorbox{red}{Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejen de conducir, y comiencen a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo que su magnitud comienza a decrecer.}
-	\item \colorbox{red}{Una vez alcanzado el límite inferior de corriente ($I_{L_{MIN}}$), se vuelve a conmutar el estado de las llaves para que la corriente vuelva a crecer.}
-	\item \colorbox{red}{Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. }
-\end{itemize}
-\colorbox{red}{
-	Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
-}
 
 A diferencia del controlador mediante un transistor trabajando en modo lineal, en esta topología se logra una eficiencia extremadamente alta, ya que las llaves operan en corte y conducción, por lo que la disipación de potencia se produce solo en el electroimán y no en el circuito de control.
 
 \section{Criterio de utilización de la topología de puente H}
 \label{secc_justificación-puente-H}
+
+\colorbox{red}{En esta seccion tambien se puede decir algo de lo de }
+\colorbox{red}{la asimetria como justificacion}
 
 Como se menciono en la secciones anteriores(INTRO, ETC). En la solucion planteada se va a autilizar un estimador de posicion. El diagrama en bloques planteado previamente figura XD se puede ver que se realimenta la corriente para que luego a partir de esta se obtenga una estimacion de la posicion.
 
@@ -359,7 +346,7 @@ Sin embargo, puede darse el caso que la corriente en el electroimán sea negativ
 
 ACA UNA VEZ EXPLICADO LO DELA ESTIMACION Y PORQUE ES NECESITAMOS EL PUENTEH COMPELTO PONEMOS LO QUE ESTABA ANTES EXPLICADO DEL PUENTEH Y DESP HACEMOS EL DISENIO DE DELTA IL Y FUENTES DE ALIMENTACION
 
-TAMBIEN SE PUEDE COMENTAR LO DEQUE ES LA RAMPA ES SIMETRICA ETC....(CON EL PUENTEH NO....)
+TAMBIEN SE PUEDE COMENTAR LO DEQUE ES LA RAMPA ES SIMETRICA ETC....(CON EL SEMI PUENTEH NO....)
 
 El electroimán se conecta entre los puntos medios de cada par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de una combinación correcta de estas se puede controlar la polaridad de la alimentación y el sentido de circulación de la corriente, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Por otro lado, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
 

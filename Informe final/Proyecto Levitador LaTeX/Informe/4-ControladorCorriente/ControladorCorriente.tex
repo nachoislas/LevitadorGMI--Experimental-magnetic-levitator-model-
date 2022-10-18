@@ -208,6 +208,85 @@ La histéresis permite definir un margen de corriente $\Delta I_L$ de forma tal 
 
 Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador. 
 
+\subsection{Medición de corriente}
+
+
+Como se puede ver en el diagrama en bloques \ref{fig:img_diag-en-bloques}, para poder realizar el control es necesario medir la corriente que circula por el electroimán y actuar en consecuencia.
+
+
+Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema. Además lo de la conmutación q dijo el gusti…
+
+Los sensores de corriente trabajan en transresistencia, por lo tanto, se agrega el bloque H en el lazo de realimentación figura \ref{fig:img_diag-en-bloques-conH-y-Kin}. Ahora $V_{iL}=i_{L}*rm$. De esta forma ahora se está trabajando con tensiones por lo tanto la corriente de referencia se afecta por el bloque $K_{in}$ para obtener su equivalente en tensión. El bloque resultante es el siguiente:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin.png}
+	\caption{Diagrama en bloques del controlador de corriente completo.}
+	\label{fig:img_diag-en-bloques-conH-y-Kin}
+\end{figure}
+
+Se puede expresar al error que introduce el sensor de efecto hall como $V_{errSensor}$. Entonces la expresion de error $V_{e}$ resulta: 
+
+\begin{equation}\label{eq_error_ve}
+	V_{e}= K_{in}*I_{ref}-H*iL\pm V_{errSensor}=\triangle I \pm V_{errSensor}
+\end{equation}
+
+
+De esta forma, tomando el  caso extremo $K_{in}*I_{ref}=H*i_{L}$ el error obtenido $V_{e}=\pm V_{errSensor}$.
+Es decir que el error es el propio error del sensor. Si se toma un ancho de histéresis mucho mayor al error máximo introducido por el sensor, este error no afectaría al sistema ya que seria despreciable a comparación del valor que deltaI debería alcanzar para que el comparador cambie de estado.
+
+El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
+
+\subsection{Foma de ONDA TRIANGULA METEMOS LO DE ESTIMACION ACA COMO UN RESUMEN XD}
+
+Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor  para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
+
+En esta seccion se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y sus respectivas simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
+
+\section{An\'{a}lisis de la estimaci\'{o}n}
+
+La ecuaci\'{o}n que gobierna la corriente en el electroim\'{a}n se puede calcular con las leyes de Kirchoff correspondientes al circuito mostrado en la figura \ref{fig:img_topologia-puenteH} y la expresión de la inductancia \ref{eq_inductancia_vs_y}.
+
+
+Al resolver el circuito se obtiene:
+\begin{equation} \label{eq_VbusCondicion}
+	\pm V_{BUS}-\ L(Y_g)*\left|\frac{{dI}_L}{dt}\right|-L_{\infty }*\left|\frac{{dI}_L}{dt}\right|-R_L*I_L=0
+\end{equation}
+
+Se asume que:
+
+\begin{equation} \label{eq_Derivadadi-dt}
+	V_{BUS}>>I_L*R_L
+\end{equation}
+
+\noindent Se aproxima la derivada de la corriente como:
+
+\begin{equation} \label{eq_derivadaAproximacion}
+	\left|\frac{{dI}_L}{dt}\right|\simeq \frac{V_{BUS}}{L(Y_g)+L_{\infty }}=\frac{V_{BUS}}{L_T(Y_g)}
+\end{equation}
+
+Según mediciones realizadas (ver tabla \ref{tab_mediciones}), se tienen los valores de $L_T(Y_g)$ correspondientes a cada posici\'{o}n. En base a ellos se hace una aproximaci\'{o}n lineal para obtener la expresi\'{o}n de la derivada de la ecuaci\'{o}n \ref{eq_di-dt_lineal}.
+
+
+\begin{equation} \label{eq_di-dt_lineal}
+	{\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
+\end{equation}
+
+\colorbox{red}{Se puede poner algo asi como para enganchar..}
+
+Como se puede ver en las ecuacion \ref{eq_di-dt_lineal} se puede obtener el valor de la posicion conocioendo el valor de la derivada de la corriente. Por lo tanto realimentando el valor de la corriente y derivando$\left|\frac{{dI}_L}{dt}\right|$ se obtiene una estimacion de $(Y_g)$ . El diagrama en bloques planteado es:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin-conDerivador.png}
+	\caption{Diagrama en bloques del controlador de corriente completo con derivador.}
+	\label{fig:img_diag-en-bloques-conH-y-Kin-con-Derivador}
+\end{figure}
+
+
+\colorbox{red}{ACA NO SE SI ALGO MAS O LO CORTAMOS ACA SE PODRIA ONDEAR UN POCO MAS EN ESTIMADOR? NOLOSE}
+
+
 \subsubsection{semipuente}
 \colorbox{red}{despues vemos bien donde lo ponemos}
 Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar, de esta forma, el valor medio de su corriente. Entre las distintas topologías de fuentes conmutadas que se utilizan comúnmente, se propone utilizar la mas simple de ellas, la topología de semi puente con dos llaves que se muestra en la figura \ref{fig:img_topologia_semipuente}.
@@ -249,84 +328,6 @@ Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez. E
 
 A diferencia del controlador mediante un transistor trabajando en modo lineal, en esta topología se logra una eficiencia extremadamente alta, ya que las llaves operan en corte y conducción, por lo que la disipación de potencia se produce solo en el electroimán y no en el circuito de control.
 
-\subsection{Medición de corriente}
-
-
-Como se puede ver en el diagrama en bloques \ref{fig:img_diag-en-bloques}, para poder realizar el control es necesario medir la corriente que circula por el electroimán y actuar en consecuencia.
-
-
-Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema. Además lo de la conmutación q dijo el gusti…
-
-Los sensores de corriente trabajan en transresistencia, por lo tanto, se agrega el bloque H en el lazo de realimentación figura \ref{fig:img_diag-en-bloques-conH-y-Kin}. Ahora $V_{iL}=i_{L}*rm$. De esta forma ahora se está trabajando con tensiones por lo tanto la corriente de referencia se afecta por el bloque $K_{in}$ para obtener su equivalente en tensión. El bloque resultante es el siguiente:
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin.png}
-	\caption{Diagrama en bloques del controlador de corriente completo.}
-	\label{fig:img_diag-en-bloques-conH-y-Kin}
-\end{figure}
-
-Se puede expresar al error que introduce el sensor de efecto hall como $V_{errSensor}$. Entonces la expresion de error $V_{e}$ resulta: 
-
-\begin{equation}\label{eq_error_ve}
-	V_{e}= K_{in}*I_{ref}-H*iL\pm V_{errSensor}=\triangle I \pm V_{errSensor}
-\end{equation}
-
-
-De esta forma, tomando el  caso extremo $K_{in}*I_{ref}=H*i_{L}$ el error obtenido $V_{e}=\pm V_{errSensor}$.
-Es decir que el error es el propio error del sensor. Si se toma un ancho de histéresis mucho mayor al error máximo introducido por el sensor, este error no afectaría al sistema ya que seria despreciable a comparación del valor que deltaI debería alcanzar para que el comparador cambie de estado.
-
-El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
-
-\subsection{Foma de ONDA TRIANGULA METEMOS LO DE ESTIMACION ACA COMO UN RESUMEN XD}
-
-Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor  para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
- 
-En esta seccion se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y sus respectivas simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
-
-\section{An\'{a}lisis de la estimaci\'{o}n}
-
-La ecuaci\'{o}n que gobierna la corriente en el electroim\'{a}n se puede calcular con las leyes de Kirchoff correspondientes al circuito mostrado en la figura \ref{fig:img_topologia-puenteH} y la expresión de la inductancia \ref{eq_inductancia_vs_y}.
-
-
-Al resolver el circuito se obtiene:
-\begin{equation} \label{eq_VbusCondicion}
-	\pm V_{BUS}-\ L(Y_g)*\left|\frac{{dI}_L}{dt}\right|-L_{\infty }*\left|\frac{{dI}_L}{dt}\right|-R_L*I_L=0
-\end{equation}
-
-Se asume que:
-
-\begin{equation} \label{eq_Derivadadi-dt}
-	V_{BUS}>>I_L*R_L
-\end{equation}
- 
-\noindent Se aproxima la derivada de la corriente como:
-
-\begin{equation} \label{eq_derivadaAproximacion}
-	\left|\frac{{dI}_L}{dt}\right|\simeq \frac{V_{BUS}}{L(Y_g)+L_{\infty }}=\frac{V_{BUS}}{L_T(Y_g)}
-\end{equation}
-
-Según mediciones realizadas (ver tabla \ref{tab_mediciones}), se tienen los valores de $L_T(Y_g)$ correspondientes a cada posici\'{o}n. En base a ellos se hace una aproximaci\'{o}n lineal para obtener la expresi\'{o}n de la derivada de la ecuaci\'{o}n \ref{eq_di-dt_lineal}.
-
-
-\begin{equation} \label{eq_di-dt_lineal}
-{\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
-\end{equation}
-
-\colorbox{red}{Se puede poner algo asi como para enganchar..}
-
-Como se puede ver en las ecuacion \ref{eq_di-dt_lineal} se puede obtener el valor de la posicion conocioendo el valor de la derivada de la corriente. Por lo tanto realimentando el valor de la corriente y derivando$\left|\frac{{dI}_L}{dt}\right|$ se obtiene una estimacion de $(Y_g)$ . El diagrama en bloques planteado es:
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin-conDerivador.png}
-	\caption{Diagrama en bloques del controlador de corriente completo con derivador.}
-	\label{fig:img_diag-en-bloques-conH-y-Kin-con-Derivador}
-\end{figure}
-
-
-\colorbox{red}{ACA NO SE SI ALGO MAS O LO CORTAMOS ACA SE PODRIA ONDEAR UN POCO MAS EN ESTIMADOR? NOLOSE}
-
 \section{Criterio de utilización de la topología de puente H}
 \label{secc_justificación-puente-H}
 
@@ -351,6 +352,8 @@ Sin embargo, puede darse el caso que la corriente en el electroimán sea negativ
 \end{itemize}
 
 \noindent Por estos motivos se debe utilizar una topología de puente completo, puesto que permite la excursión negativa de la corriente mientras que mantiene en funcionamiento al estimador de posición.
+
+
 
 \section{Puente H Completo}
 

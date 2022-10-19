@@ -1,0 +1,779 @@
+\chapter{Controlador de corriente} \chapterlabel{Informe/4-ControladorCorriente} \label{cap:ControladorCorriente}
+
+En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Como se vio en el capítulo anterior, el sistema trabaja con corrientes elevadas por lo que se implementan estrategias de conmutación para reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un \textsl{driver} que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
+
+\section{Descripción general}\label{sec_descripcion-general}
+
+Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
+
+Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro y una resistencia serie. Es decir, como un circuito RL serie cuya admitancia se muestra en la expresión \ref{eq_corriente}.
+
+\begin{equation} \label{eq_corriente}
+\frac{I_L}{V_L}(s)=\frac{1}{sL(Y_g)\ +\ R_L}
+\end{equation}
+
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se obtiene la respuesta temporal de la corriente ante un escalón de tensión con amplitud $v_L$ en la entrada, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L(Y_g)}{R_L}$.
+
+\begin{equation} \label{eq_corriente_temporal_cond_iniciales}
+	i_L(t)=\frac{v_L}{R_L} + (I_o-\frac{v_L}{R_L})*e^{-\frac{t}{\tau}}
+\end{equation}
+
+En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar que la respuesta al escalón está compuesta por dos partes: un término con una exponencial negativa correspondiente al transitorio, y un término constante correspondiente al valor en régimen permanente $\frac{v_L}{R_L}$. El primero es el responsable de que la corriente en el inductor crezca de manera amortiguada, hasta alcanzar el valor de régimen permanente luego de cierto tiempo. Este comportamiento se puede observar en la simulación realizada en la figura \ref{fig:img_respuesta_escalon}. En la parte superior se observa la tensión de entrada y, en la inferior, la corriente del electroimán. Este análisis resulta de utilidad para conocer el comportamiento del electroimán y diseñar un controlador de corriente adecuado.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{corriente_escalon.png}
+	\caption{Respuesta ante una entrada en escalón.}
+	\label{fig:img_respuesta_escalon}
+\end{figure}
+
+
+\section{Diseño del controlador}
+
+
+Se desea diseñar un sistema de control que modifique la alimentación del electroimán con el objetivo de que circule una corriente con un valor medio deseado por su bobinado.  Para ello, se propone implementar un sistema realimentado que compare la corriente que circula por el electroimán con una de referencia, que es la que se desea que circule. En la figura \ref{fig:img_diagrama_bloques_basico} se muestra un diagrama en bloques simplificado del sistema.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{Diagrama-en-bloques-basico.png}
+	\caption{Diagrama en bloques básico del controlador de corriente.}
+	\label{fig:img_diagrama_bloques_basico}
+\end{figure}
+
+\colorbox{red}{Está bien decir que del diagrama surge esto? No debería ser al revés?}
+
+Del diagrama \ref{fig:img_diagrama_bloques_basico} surgen las siguientes necesidades:
+\begin{itemize}
+	\item Diseñar la topología de la fuente de alimentación.
+	\item Diseñar un controlador que modifique la corriente que circula por el electroimán según sus entradas.	
+	\item Medir la corriente que circula en el electroimán para poder utilizarla como entrada al controlador.
+\end{itemize}
+
+A continuación se analizan distintas alternativas para satisfacer cada una de las necesidades planteadas.
+
+\subsection{Diseño de la topología de la fuente de alimentación}
+En esta sección se analizan distintas topologías para la fuente de alimentación del electroimán. Inicialmente se analiza el funcionamiento de un controlador de corriente mediante el uso de un transistor trabajando en modo lineal y luego utilizando una fuente de alimentación trabajando en conmutación.
+
+\subsubsection{Control de corriente mediante transistor en modo lineal}
+Como se analizó en la sección \ref{sec_descripcion-general}, el valor en régimen permanente de la corriente depende proporcionalmente de la tensión aplicada al electroimán. Por lo tanto, para mantener una corriente constante controlada se podría utilizar un transistor en modo lineal como se muestra en el circuito de la figura \ref{fig:img_controlador-lineal}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{controlador_lineal.png}
+	\caption{Control de corriente mediante transistor en modo lineal.}
+	\label{fig:img_controlador-lineal}
+\end{figure}
+
+En este modo de funcionamiento la tensión colector-emisor ($V_{CE}$) se controla de manera que su diferencia con la tensión de alimentación, al ser aplicada en los bornes del electroimán, genere la corriente deseada. Es decir, en régimen permanente se obtiene:
+ 
+ \begin{equation}
+ 	I_L=\frac{V_{CC}-V_{CE}}{R_L}
+ \end{equation}
+
+
+Al considerar que la caída de tensión sobre el inductor es prácticamente nula (solo lo correspondiente a la resistencia interna), la mayor parte de la potencia disipada se produce en el transistor. Esta puede calcularse como: 
+
+\begin{equation}
+	P_{transistor} = I_L*V_{CE}
+\end{equation}
+
+Teniendo en cuenta que la tensión colector-emisor es la resta de la tensión de alimentación y la caída en la resistencia del electroimán:
+
+\begin{equation}
+	V_{CE}=V_{CC}-I_L*R_L
+\end{equation}
+
+Finalmente:
+
+\begin{equation}
+	P_{transistor}=V_{CC}*I_L-I_L^2*R_L
+	\label{eq_p-transistor_lineal}
+\end{equation}
+
+La función \ref{eq_p-transistor_lineal} presenta un máximo cuando $I_L=\frac{V_{CC}}{2*R_L}$.
+
+
+\begin{equation}\label{eq_pot_transistor_lineal_final}
+	P_{transistor_{max}}=\frac{V_{CC}^2}{4*R_L}
+\end{equation}
+
+
+Teniendo en cuenta que la corriente máxima requerida es de aproximadamente $30\:A$ se obtiene que la mínima tensión de $V_{CC}$ es:
+
+\begin{equation}\label{eq_vcc-min}
+	V_{CC}=I_L*R_L+V_{CE}=30 A * 0,2  = 5 V, \:V_{CE}=0
+\end{equation}
+
+\colorbox{red}{es necesario poner esto de arriba? lo de la tensión mínima..}
+
+En la ecuación \ref{eq_pot_transistor_lineal_final} se puede ver que para valores de tensión normalmente utilizados $(5\:V,10\:V,15\:V)$ la potencia disipada por el transistor varía entre $30\:W$ hasta $280\:W$. Esto eleva demasiado la temperatura del transistor y pone en riesgo la vida útil de los componentes, haciendo que sea necesario el agregado de un gran disipador de calor. Por este motivo, se procede a analizar otra alternativa para el diseño de la fuente de alimentación.
+
+\subsubsection{Control de corriente mediante conmutación}
+
+Como se analizó previamente, al trabajar con corrientes elevadas, no es eficiente utilizar un transistor que trabaje en su zona lineal puesto que el consumo de energía es elevado. Se propone entonces utilizar una fuente conmutada.
+
+%\noindent Para lograr una corriente continua en el electroimán mediante una fuente conmutada se debe alternar la polaridad de la tensión aplicada en sus bornes. De esta forma, se aprovecha el transitorio mostrado en la figura \ref{fig:img_respuesta_escalon} para hacer crecer la corriente hasta llegar a un cierto valor (denominado límite superior), y luego se conmuta la polaridad de la alimentación para que decrezca. Nuevamente, al llegar a un cierto valor (denominado límite inferior), se vuelve a conmutar. Este proceso se repite, y se logra que la corriente oscile en torno al valor medio entre los dos límites, que es el valor de corriente continua deseado. 
+
+Al aplicar tensión en los bornes del electroimán, la magnitud de la corriente aumentará en forma exponencial. Si se desea que la corriente que circule por su bobinado sea aproximadamente continua, se debe alternar la polaridad de la tensión aplicada ($\ V_{sup} y V_{inf}$) de forma que la corriente oscile en torno al valor medio deseado ($<I_L>$) como se observa en la figura \ref{fig:img_corriente_exponencial}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Forma-de-onda-corriente-exponencial.png}
+	\caption{Forma de onda de corriente y tensión en el electroimán.}
+	\label{fig:img_corriente_exponencial}
+\end{figure}
+
+%En la figura \ref{fig:img_corriente_exponencial} se puede ver que la corriente crece y decrece en forma exponencial dentro de cada ciclo de conmutación. Sin embargo, si se elige un intervalo de tiempo de la conmutación pequeño comparado con la constante de tiempo de la planta, el incremento de corriente será pequeño y puede ser aproximado como una rampa. Por lo tanto, se obtiene una corriente continua con un ripple superpuesto de forma triangular, como la que se muestra en la figura \label{fig:img_corriente_lineal}.
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{forma-de-onda-corriente-lineal.png}
+%	\caption{Forma de onda de corriente al disminuir el período de conmutación.}
+%	\label{fig:img_corriente_lineal}
+%\end{figure}
+
+\colorbox{red}{TODO LO QUE ESTA EN ROJO NO VA...(NO LO SAQUE POR LAS DUDAS)}
+
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{puente_con_llaves.png}
+%	\caption{Topología simplificada de puente completo con cuatro llaves.}
+%	\label{fig:img_topologia_simplificada}
+%\end{figure} 
+
+
+\subsection{Diseño del lazo de control de corriente}
+
+%Como se mencionó previamente, para el diseño de la fuente de alimentación del electroimán se utilizará una topología de puente H trabajando en conmutación. Por lo tanto, para obtener el valor medio de corriente deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para ello, se debe actuar sobre las llaves en función de si se desea que la corriente aumente o disminuya.
+
+Una manera de implementar la lógica de control es mediante un controlador de lazo cerrado del tipo ON-OFF como se muestra en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist}. Este controlador realiza una resta entre la corriente de referencia y la corriente que está circulando por el electroimán, obteniendo una corriente de error ($I_e$). De esta forma, si la corriente medida es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán será positiva para lograr que su corriente crezca e iguale a la de referencia. En cambio, si resulta mayor, la alimentación será negativa y la corriente disminuirá.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Diagrama-en-bloques-comparador-sin-hist.png}
+	\caption{Diagrama en bloques simplificado del controlador de corriente.}
+	\label{fig:img_diag-en-bloques-comparador-sin-hist}
+\end{figure}
+
+
+
+%Por otro lado, al considerar que el tiempo de conmutación es pequeño comparado a la constante de tiempo de la planta, la forma de onda de la corriente en régimen permanente será triangular puesto que no llegará a tomar forma exponencial. 
+
+%Además, como la tensión aplicada a los bornes del electroimán en cada semiciclo de conmutación es igual en magnitud y el circuito de carga y descarga del electroimán es el mismo, la onda triangular tendrá pendientes simétricas. La forma de onda resultante se puede observar en rojo en la figura \ref{fig:img_corriente_triangular}.
+
+
+
+Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán ($I_{L}(s)$) supere infinitesimalmente a la referencia, se producirá una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, se propone agregar histéresis al controlador como se muestra en la figura \ref{fig:img_diag-en-bloques}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Diagrama-en-bloques.png}
+	\caption{Diagrama en bloques del controlador de corriente con histéresis.}
+	\label{fig:img_diag-en-bloques}
+\end{figure}
+
+\colorbox{red}{ver si conviene agregar deltaI en el diagrama}
+\colorbox{red}{Esta bien que sea Vh la salida? Habría que unificar despues..}
+
+
+\colorbox{red}{Este parrafo ESTA OK porque a pesar de que}
+
+\colorbox{red}{Tenemos asimetria en la rampas de subida y bajada el delta iL es FIJO...}
+
+La histéresis permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$. La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_exponencial-hist}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Forma-de-onda-corriente-exponencial-hist.png}
+	\caption{Forma de onda de corriente y tensión en el electroimán.}
+	\label{fig:img_corriente_exponencial-hist}
+\end{figure}
+
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{Forma-de-onda-corriente-lineal.png}
+%	\caption{Forma de onda de corriente triangular}
+%	\label{fig:img_corriente_triangular}
+%\end{figure} 
+
+
+A pesar de que la rampa de subida es distinta al de bajada, la corriente oscila sobre un valor medio . Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
+
+\colorbox{red}{Esto estaba antes, mal xq quedo viejo}
+\colorbox{red}{Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.}
+
+\subsection{Medición de corriente}
+
+
+Como se puede ver en el diagrama en bloques \ref{fig:img_diag-en-bloques}, para poder realizar el control es necesario medir la corriente que circula por el electroimán y actuar en consecuencia.
+
+
+Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema.
+
+Los sensores de corriente trabajan en transresistencia, por lo tanto, se agrega el bloque H en el lazo de realimentación figura \ref{fig:img_diag-en-bloques-conH-y-Kin}. Ahora $V_{iL}=i_{L}*rm$. De esta forma ahora se está trabajando con tensiones por lo tanto la corriente de referencia se afecta por el bloque $K_{in}$ para obtener su equivalente en tensión. El bloque resultante es el siguiente:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin.png}
+	\caption{Diagrama en bloques del controlador de corriente completo.}
+	\label{fig:img_diag-en-bloques-conH-y-Kin}
+\end{figure}
+
+Se puede expresar al error que introduce el sensor de efecto hall como $V_{errSensor}$. Entonces la expresion de error $V_{e}$ resulta: 
+
+\begin{equation}\label{eq_error_ve}
+	V_{e}= K_{in}*I_{ref}-H*iL\pm V_{errSensor}=\triangle I \pm V_{errSensor}
+\end{equation}
+
+
+De esta forma, tomando el  caso extremo $K_{in}*I_{ref}=H*i_{L}$ el error obtenido $V_{e}=\pm V_{errSensor}$.
+Es decir que el error es el propio error del sensor. Si se toma un ancho de histéresis mucho mayor al error máximo introducido por el sensor, este error no afectaría al sistema ya que seria despreciable a comparación del valor que deltaI debería alcanzar para que el comparador cambie de estado.
+
+El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
+
+\subsection{Introduccion a la realimentacion u otro nombre XD}
+
+Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor  para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
+
+En esta seccion se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y sus respectivas simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
+
+\subsubsection{An\'{a}lisis de la estimaci\'{o}n}
+
+La ecuaci\'{o}n que gobierna la corriente en el electroim\'{a}n se puede calcular con las leyes de Kirchoff correspondientes al circuito mostrado en la figura \ref{fig:img_topologia-puenteH} y la expresión de la inductancia \ref{eq_inductancia_vs_y}.
+
+
+Al resolver el circuito se obtiene:
+\begin{equation} \label{eq_VbusCondicion}
+	\pm V_{BUS}-\ L(Y_g)*\left|\frac{{dI}_L}{dt}\right|-L_{\infty }*\left|\frac{{dI}_L}{dt}\right|-R_L*I_L=0
+\end{equation}
+
+Se asume que:
+
+\begin{equation} \label{eq_Derivadadi-dt}
+	V_{BUS}>>I_L*R_L
+\end{equation}
+
+\noindent Se aproxima la derivada de la corriente como:
+
+\begin{equation} \label{eq_derivadaAproximacion}
+	\left|\frac{{dI}_L}{dt}\right|\simeq \frac{V_{BUS}}{L(Y_g)+L_{\infty }}=\frac{V_{BUS}}{L_T(Y_g)}
+\end{equation}
+
+Según mediciones realizadas (ver tabla \ref{tab_mediciones}), se tienen los valores de $L_T(Y_g)$ correspondientes a cada posici\'{o}n. En base a ellos se hace una aproximaci\'{o}n lineal para obtener la expresi\'{o}n de la derivada de la ecuaci\'{o}n \ref{eq_di-dt_lineal}.
+
+
+\begin{equation} \label{eq_di-dt_lineal}
+	{\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
+\end{equation}
+
+\colorbox{red}{Se puede poner algo asi como para enganchar..}
+
+Como se puede ver en las ecuacion \ref{eq_di-dt_lineal} se puede obtener el valor de la posicion conocioendo el valor de la derivada de la corriente. Por lo tanto realimentando el valor de la corriente y derivando$\left|\frac{{dI}_L}{dt}\right|$ se obtiene una estimacion de $(Y_g)$ . El diagrama en bloques planteado es:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin-conDerivador.png}
+	\caption{Diagrama en bloques del controlador de corriente completo con derivador.}
+	\label{fig:img_diag-en-bloques-conH-y-Kin-con-Derivador}
+\end{figure}
+
+
+\colorbox{red}{ACA NO SE SI ALGO MAS O LO CORTAMOS ACA SE PODRIA ONDEAR UN POCO}
+\colorbox{red}{ MAS EN ESTIMADOR? NOLOSE}
+
+\subsection{Circuitos de conmutacion de tension}
+
+Por lo tanto, es necesario diseñar un circuito que permita alternar la polaridad de la tensión aplicada al electroimán y controlar, de esta forma, el valor medio de su corriente. En esta seccion se analizaran las topologias que funcionan en conmutacion mas comunes.
+
+\subsection{Semipuente}
+
+A continuacion se propone utilizar el circuito de conmutacion mas simple, conocido como semi puente H, este consta de dos llaves y se muestra en la figura \ref{fig:img_topologia_semipuente}.
+
+\colorbox{red}{ENCONTRE ESTA PERO PUEDESER OTRA ES SOLO PARA EXPLICAR LO BASICO... ESTARIA BUENO UNA PARECIDA A LA DEL PUENTE H CON LA DIRECCION DELA CORRIENTE.. }
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{semiPuente.png}
+	\caption{Topología simplificada de semi puente}
+	\label{fig:img_topologia_semipuente}
+\end{figure} 
+
+
+El electroimán se conecta en el puntos medio del par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de un cambio en el estado de las llaves, de forma sincronizada, se puede conmutar entre 0 V y +VCC el valor de alimentación según se desee. Para esta tipo de circuitos, la corriente poseera un solo sentido aplicación en particular, por lo tanto la fuerza magnética es tambien siempre en el mismo sentido. Se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Por otro lado, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
+
+Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de manera sincronizada. Para comenzar se debe cerrar la llave  $Q_1$, de esta forma se aplica la tension VCC sobre el electroiman y de esta forma la corriente aumentara con forma expnencial negativa. Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, es decir se abre $Q_1$ y se cierra $Q_2$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la tension aplicada sobre los bornes del electroiman es cero, por lo que su magnitud comienza a decrecer. Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. Se debe tener en cuenta que al utilizar esta topologia la forma de crecimiento y decrecimiento de la forma de onda de la corriente no son simetricas. 
+
+\colorbox{red}{Si esto les parece bien se podria agregar algo mas de la asimetria de los tiempos}
+\colorbox{red}{y dejar ecuaciones genericas de como se calcula}
+
+Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
+
+A diferencia del controlador mediante un transistor trabajando en modo lineal, en esta topología se logra una eficiencia extremadamente alta, ya que las llaves operan en corte y conducción, por lo que la disipación de potencia se produce solo en el electroimán y no en el circuito de control.
+
+\section{Criterio de utilización de la topología de puente H}
+\label{secc_justificación-puente-H}
+
+\colorbox{red}{En esta seccion tambien se puede decir algo de lo de }
+\colorbox{red}{la asimetria como justificacion}
+
+Como se menciono en la secciones anteriores(INTRO, ETC). En la solucion planteada se va a autilizar un estimador de posicion. El diagrama en bloques planteado previamente figura XD se puede ver que se realimenta la corriente para que luego a partir de esta se obtenga una estimacion de la posicion.
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale = 0.75]{diagrama-en-bloques-del-sistema.png}
+%	\caption{Diagrama en bloques del sistema.}
+%	\label{fig:img_diagrama-en-bloques-del-sistema}
+%\end{figure}
+
+Con el sistema de semi puente planteado hasta ahora, la corriente puede tener solo un sentido de circulacion. Es necesario que el controlador presente una corriente media unidireccional, ya que una corriente media negativa es indistinguible de la positiva puesto que tiene el mismo efecto en la fuerza del electroimán.%, pero el signo del controlador hace inestable el lazo de control. 
+
+Sin embargo, puede darse el caso que la corriente en el electroimán sea negativa de manera instantánea con valor medio positivo. En ese caso, es necesario que se conserve la forma de onda triangular ya que de lo contrario traería problemas en la estimación de la posición. Por lo tanto, para evitar que la misma sea recortada, es necesario que el controlador permita excursiones negativas sin perder la forma de onda. Esta situación puede darse en los siguientes casos:
+
+
+\begin{itemize} 
+	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio de corriente supera la mitad del ripple de corriente $(\Delta I_{L})$.
+	
+	\item Cuando el entrehierro es pequeño y se trabaja con peso reducido la corriente media puede llegar a ser menor que el ripple $\Delta I_{L}$.
+\end{itemize}
+
+\noindent Por estos motivos se debe utilizar una topología de puente completo, puesto que permite la excursión negativa de la corriente mientras que mantiene en funcionamiento al estimador de posición.
+
+
+
+\section{Puente H Completo}
+
+ACA UNA VEZ EXPLICADO LO DELA ESTIMACION Y PORQUE ES NECESITAMOS EL PUENTEH COMPELTO PONEMOS LO QUE ESTABA ANTES EXPLICADO DEL PUENTEH Y DESP HACEMOS EL DISENIO DE DELTA IL Y FUENTES DE ALIMENTACION
+
+TAMBIEN SE PUEDE COMENTAR LO DEQUE ES LA RAMPA ES SIMETRICA ETC....(CON EL SEMI PUENTEH NO....)
+
+El electroimán se conecta entre los puntos medios de cada par de llaves. Cada una de ellas puede ser controlada de manera independiente mediante señales eléctricas. A través de una combinación correcta de estas se puede controlar la polaridad de la alimentación y el sentido de circulación de la corriente, según se desee. Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. Por otro lado, es posible observar que la tensión con la que se alimenta al puente está representada por $V_{CC}$.
+
+
+Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de la siguiente manera:
+
+
+\begin{itemize}
+	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, generando un circuito entre $V_{CC}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa.
+	\item Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejen de conducir, y comiencen a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo que su magnitud comienza a decrecer.
+	\item Una vez alcanzado el límite inferior de corriente ($I_{L_{MIN}}$), se vuelve a conmutar el estado de las llaves para que la corriente vuelva a crecer.
+	\item Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. 
+\end{itemize}
+
+Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
+
+
+
+\section{Elección y calculo de parámetros del controlador}
+En esta sección se determinarán los parámetros críticos para el correcto funcionamiento del controlador de corriente.
+\subsection{Cálculo de tensión de alimentación}
+\colorbox{red}{Comenzar el diseño circuital? mm..}
+Para comenzar el diseño circuital es importante determinar cómo será la alimentación del controlador de corriente. Para definirla se tendrá en cuenta la velocidad de respuesta de la planta que está determinada por su constante de tiempo ($\tau$). Es decir, el sistema debe ser lo suficientemente rápido para modificar el valor medio de la corriente ante perturbaciones o cambios en el punto de operación. Un caso a analizar es cuando, en régimen permanente, se modifica bruscamente la carga que se esta levitando. En esta situación el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia máxima de referencia $Y_g=5\:mm$ se modifica de carga mínima ($1\:Kg$) a máxima ($30\:Kg$). Utilizando la ecuación XX se obtiene que la corriente para ambos casos es de:
+
+\begin{equation}
+	I_L(Y=5\:mm)[m=30\:Kg]=20.4\:A 
+\end{equation}
+\begin{equation}
+	I_L(Y=5\:mm)[m=1\:Kg]=3.72\:A
+\end{equation}
+
+Como el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación. La expresión teórica de la corriente es: 
+
+\begin{equation}
+	I_L(t)=\frac{V}{R_L} + (I_o-\frac{V}{R_L})*e^{-\frac{t}{\tau}}
+\end{equation}
+
+Donde:
+\begin{itemize}
+	\item V es la tensión de alimentación, que puede tomar valores $+V_{cc}$ y $-V_{cc}$.
+	\item $I_o$ es la corriente en el instante inicial.
+	\item $\tau$ es la constante de tiempo del electroimán.
+\end{itemize}
+
+Para encontrar la expresion del tiempo que tarda la corriente en alcanzar el valor maximo de corriente imax se reemplaza I0=2,9 y se obtiene T1. Esto da:
+
+\begin{equation}\label{eq_tiempo_de_subida}
+	T1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
+\end{equation}
+
+Cuando se modifique la carga del objeto ,es necesario que el tiempo de subida de corriente T1 sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a imax). Es decir que el objeto cae libremente un delta $\Delta Y= 1mm $. Utilizando la ecuación que calcula el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
+
+\begin{equation}
+	T=\sqrt{\frac{2*\Delta Y}{g}}=\sqrt{\frac{2*1mm}{9.81}}=14,27\:ms
+\end{equation}
+
+Finalmente reemplazando en \ref{eq_tiempo_de_subida} se obtiene: $Vcc>=21.6\:V$.
+
+Se puede decir cuanto da T1 si tomamos 24V.
+
+\subsection{Cálculo de ancho de histéresis}
+
+Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
+
+
+Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
+
+A partir de la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede obtener el valor máximo de ripple cuando $t=t_{max}$, considerando que la corriente inicial es $I_{min}$ y que la corriente final es $I_{min}+\Delta I_L$
+
+\begin{equation} \label{eq_delta_i}
+	I_{min}+\Delta I_{L_{max}}=\frac{v_L}{R_L}+(I_{min}-\frac{v_L}{R_L})*e^{-\frac{t_{max}}{\tau}}
+\end{equation}
+
+De la ecuación \ref{eq_delta_i} se puede despejar el valor máximo que puede tener $\Delta I_L$. 
+
+\begin{equation} \label{eq_delta_i_2}
+	\Delta I_{L_{max}}=6.06*10^{-3}*(\frac{v_L}{R_L}-I_{min})
+\end{equation}
+\colorbox{red}{Cambiar VL por VCC, y ver imagen de altium}
+
+Sabiendo que el controlador de corriente tendrá una corriente media variable entre 0 y 30 A, se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier $I_{min}$ dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0$ e $I_{min}=30$. Para el primer caso se llega a que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=500\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
+
+\subsection{Elección del sensor de corriente}
+
+Para poder diseñar un controlador de corriente apropiado es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán para que luego el controlador pueda actuar en consecuencia. Es necesario conocer tanto su valor medio, como su ripple. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde 0 hasta 30 A con un ripple de 500 mA.
+
+En esta sección se analizan dos alternativas para lograr este objetivo. La primera mediante una resistencia en serie al electroimán y la segunda utilizando un sensor de efecto Hall.
+
+
+\subsubsection{Análisis de medición de corriente mediante resistencia shunt}
+La forma de medir corriente que resulta, en principio, más simple es la de utilizar una resistencia de valor $R_s$ en serie con el electroimán como se muestra en la figura \ref{fig:img_puente_con_rshunt}, y medir en sus terminales la diferencia de tensión generada por la corriente. A partir de esta tensión ($V_s-V_a$) se puede utilizar la ley de Ohm para conocer el valor de corriente:
+
+\begin{equation}
+	I_L=\frac{V_s-V_a}{R_s}
+\end{equation}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{puente_con_rshunt.png}
+	\caption{Puente H con resistencia de sensado de corriente (Rs).}
+	\label{fig:img_puente_con_rshunt}
+\end{figure}
+
+Por otro lado, la realimentación del controlador de corriente debe ser en forma de tensión, por lo tanto es suficiente con medir la tensión diferencial $V_s-V_a$ y tener en cuenta en el diseño del controlador la ganancia que se tiene al pasar de corriente a tensión.
+
+Aunque este método para medir corriente pareciera directo, presenta algunos inconvenientes en el diseño:
+
+El primero es que al agregar una resistencia en serie al electroimán, se estaría agregando una mayor disipación de potencia en el sistema. Para intentar reducir este problema se podría elegir un valor de resistencia lo suficientemente bajo para que su consumo sea despreciable. Por ejemplo, se podría adoptar una resistencia de $10\:mOhms$. Este valor resulta en pérdidas de potencia de $4\:W$, que es un valor aceptable. 
+
+El segundo inconveniente es que alteraría la dinámica de la planta, ya que la constante de tiempo sería $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:Ohm$, por lo que una resistencia de sensado con valor $10\:mOhm$ no afectaría en gran medida la dinámica.
+
+El tercero es que se debe realizar una medición de tensión flotante. Esto se debe a que la resistencia, al estar en serie con el electroimán, no tiene ningún punto de medición referido a masa. Por lo tanto, se debe utilizar un amplificador que mida tensión en modo diferencial para luego obtener una señal en modo común. El inconveniente que se presenta es que cada uno de los puntos de medición se encuentra a un alto potencial respecto de masa y, además, este cambia en cada conmutación. Esto genera que durante los transitorios de conmutación haya ruido en la medición diferencial.
+
+Debido a que se requiere medir el valor de corriente sin que el ruido de modo común altere la medición, se propone analizar otra alternativa que sea inmune a dicho efecto.
+
+
+\subsubsection{Análisis de medición de corriente mediante sensor de efecto Hall}
+
+Dado que la medición con una resistencia de sensado introduce ruido ocasionado por la conmutación de las llaves, se plantea la alternativa de utilizar un sensor de efecto Hall. Este dispositivo mide el campo magnético generado por la corriente, entregando a su salida una tensión proporcional a ésta. La principal ventaja que presenta es que el campo magnético medido sólo es sensible a las variaciones de corriente y no a las conmutaciones de tensión.
+
+Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan los criterios que se tendrán en cuenta para la elección del sensor:
+
+\begin{itemize}
+	\item Debe ser capaz de medir una corriente de hasta $30\:A$.
+	\item El ancho de banda debe ser mucho mayor al polo de la frecuencia de conmutación del controlador de corriente para poder conservar la forma de onda de la corriente triangular a medir. Por lo tanto, debe ser al menos de $100\:kHz$.
+	\item La transresistencia debe ser lineal entre $0\:A$ y $30\:A$.	
+\end{itemize}
+
+A partir de estas características se decidió utilizar el sensor HO 15-NP-0000 \cite{HO15-NP}. Este permite medir una corriente de $\pm 37.5\:A$ con un ancho de banda de $250\:kHz$ y posee una transresistencia de $53.33\:mV/A$ en todo  el rango de corriente. Además, presenta alta inmunidad a interferencias externas. 
+
+Este sensor tiene la capacidad de medir tanto corrientes en sentido positivo, como negativo. Para ello admite una tensión de bias de $2.5\:V$, la cual se corresponde a la salida cuando la corriente es nula. Cuando la circulación de corriente es positiva, la salida del sensor resulta en una tensión mayor a $2.5\:V$, y para negativas, menor.
+
+De esta forma, el bloque H de realimentación queda definido como:
+
+\begin{equation}
+	H=\frac{V_iLF}{I_L}=53,33 mV/A
+\end{equation}
+
+
+
+\subsection{Cálculo de ganancia de entrada}
+
+
+
+
+
+
+\section{Diseño del circuito}
+
+\colorbox{red}{LA IDEA DE ESTO ES IR COPIANDO L OQUE YA TENEMOS Y REORGANIZANDOLO}
+
+Se desea realizar un circuito electrónico analógico para cumplir la función de controlar la corriente del electroimán a partir de una tensión de referencia. Cada bloque planteado en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} se implementará en un circuito. Es decir, se tendrán las etapas de: Alimentación del electroimán (puente H), realimentación de corriente, referencia de corriente y restador, comparador con histéresis.
+
+\subsection{Diseño de puente H}
+
+capaz acá entraría lo del calculo de la fuente de alimentación
+
+Para el diseño del puente H se deben definir qué componente electrónico cumplirá la función de actuaar como llave, proporcionar su circuitería de control, hip, bootstrap, todo eso
+
+
+Como se mencionó previamente, se utiliza una topología de puente completo con 4 llaves para alimentar el electroimán. Debido a que las llaves son únicamente una representación ideal y existen diversos componentes electrónicos que pueden realizar una función similar, es necesario elegir cuál componente es el más adecuado para funcionar como llave. Además se debe diseñar la circuitería necesaria para su correcto funcionamiento.
+
+\subsubsection{Elección de llaves}
+
+Entre los dispositivos semiconductores más utilizados para trabajar en conmutación se encuentran los transistores bipolares de juntura (BJT), transistores de efecto de campo metal-oxido semiconductor (MOSFET) y los transistores bipolares de compuerta aislada (IGBT). Cada uno de ellos posee características distintivas que lo hacen mas o menos apropiado para cada aplicación en particular.
+
+Dados los requerimientos de corriente del dispositivo, la intención de reducir las pérdidas de potencia en las llaves y los requerimientos de velocidad de conmutación (\colorbox{red}{ESTO ES MEDIO CHAMULLO}), resulta apropiado elegir MOSFET para ser utilizados como llaves. 
+
+
+Estos dispositivos se encienden al aplicar una tensión en su gate que genera un canal de conducción de corriente entre su drain y source...
+\colorbox{red}{Acá hay que decir cuál MOS vamos a usar y justificar la elección}
+
+\colorbox{red}{acá podemos poner una imagen de como quedaría el puente por ahora} y pondría la bornera para conectar el electroimán. Por ahora no pondría el sensor de efecto Hall.
+ 
+La correcta utilización de estos dispositivos impone la necesidad de incorporar un circuito controlador de MOSFET (MOSFET driver) para lograr encenderlos y apagarlos correctamente según la señal de control indique. .... \colorbox{red}{podríamos mencionar mas adelante} que elegimos el HIP y por ahora solo mencionamos el driver como algo genérico.
+
+Este driver es un circuito integrado conectado a una alimentación de 12 V, con dos entradas de control (una para cada medio puente) y las salidas necesarias para encender cada MOSFET.
+
+
+\noindent Los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $7\:V$. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores del puente H, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada es la de la alimentación general del sistema de $24\:V$. Existen distintas maneras de solucionar este inconveniente:
+
+\begin{itemize}
+	\item Usar un transformador en gate
+	\item ...
+	\item Usar un driver bootstrap
+\end{itemize}
+
+Para resolver este problema se utiliza un \textsl{driver} flotante con \textsl{bootstrap}. Tiene la ventaja sobre la opción de utilizar transformadores de que reduce el espacio que se necesita en el PCB.
+
+
+\subsection{Resistencia entre \textsl{gate} y \textsl{source}} \label{secc_res_gate_source}
+
+\colorbox{red}{acá podemos poner una imagen de como quedaría el puente con las resistencias ahora}
+
+\noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como $R_1$, $R_2$, $R_3$ y $R_4$. Su propósito es evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
+
+\noindent Se utiliza una resistencia de $4.7 \:k\Omega$ debido a que permite que el \textsl{gate} se descargue en un tiempo rápido, consumiendo solo $2.55\:mA$ del capacitor de \textsl{bootstrap}.
+
+\subsection{Protección del \textsl{gate}}
+
+\colorbox{red}{acá podemos poner una imagen de como quedaría el puente con las resistencias ahora}
+
+\noindent El \textsl{gate} de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro.
+
+\noindent Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
+
+\subsection{Dimensionamiento de los capacitores de fuente}
+
+\colorbox{red}{acá podemos poner una imagen de como quedaría el puente con los capacitores ahora}
+
+
+\noindent Para reducir el consumo de potencia de la red se utilizan capacitores en paralelo a la fuente de $+24\:V$. Esto permite que, una vez que la fuente cargó inicialmente el inductor, en las conmutaciones sucesivas la carga del inductor pase a dichos capacitores en un semiciclo y viceversa en el otro ciclo de conmutación. Idealmente, esta transferencia de energía no tiene pérdidas. Por lo tanto, el consumo de potencia queda reducido a la perdida por disipación de los MOSFET y los demás componentes del controlador de corriente. 
+
+\noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan ripple en la tensión $V_{BUS}$.
+
+\noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por $C_1$ y $C_2$. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores hacia el electroimán por $Q_1$ y $Q_4$. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de $Q_2$ y $Q_3$. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-<I_L>$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Corriente-capacitores.png}
+	\caption{Forma de onda de la corriente en $C_1$ y $C_2$.}
+	\label{fig:img_ccorriente-capacitores}
+\end{figure}
+
+\noindent Por el electroimán circula una corriente media de aproximadamente $21\:A$ en condiciones normales de trabajo. Por lo tanto, la carga del capacitor se puede calcular como:
+
+\begin{equation} 
+	\begin{aligned}
+		\Delta Q &= \int I dt\\	
+	\end{aligned}
+\end{equation}
+
+\begin{equation} 
+	\begin{aligned}
+		\Delta Q ^+ &= \frac{T_S}{2}*\Delta I_L * \frac{1}{2} + (<I_L> -\frac{\Delta I_L}{2})*\frac{T_S}{2}\\
+	\end{aligned}
+\end{equation}
+
+\begin{equation} 
+	\begin{aligned}
+		\Delta Q ^+ &= <I_L> *\frac{T_S}{2}\\
+	\end{aligned}
+\end{equation}
+
+\noindent Con $\Delta I_L=500 \:mA$ y $T=0.47\:ms$ que corresponde a $Y_g = 2 \:mm$ según la tabla \ref{tab_mediciones}.
+
+\begin{equation} 
+	\Delta Q = 21\:A * \frac{0.47\:ms}{2} \approx 5\:mC
+\end{equation}
+
+\noindent Al considerar que un ripple de $\Delta V=500 \:mV$ es aceptable, se obtiene un valor de:
+
+\begin{equation} 
+	c = \frac{\Delta Q}{\Delta V} = 10 \:mF
+\end{equation}
+
+\noindent Dado que por los capacitores circula una corriente elevada ($21.25 A$) es recomendable disminuir la ESR total para minimizar la potencia disipada. Por lo tanto, se colocan capacitores en paralelo de baja ESR, como se muestra en la figura \ref{fig:img_capacitores-fuente}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Capacitores-fuente.png}
+	\caption{Capacitores de la fuente.}
+	\label{fig:img_capacitores-fuente}
+\end{figure}
+
+
+\begin{equation} 
+	C = C1 + C2 + ... + C_n
+\end{equation}
+
+
+\noindent Si todos los valores de ESR son iguales se obtiene:
+
+\begin{equation} 
+	R_T = \frac{R_{ESR}}{n}
+\end{equation}
+
+\noindent Por lo tanto, se puede calcular la potencia que disipan como:
+
+\begin{equation}\label{eq_potencia} 
+	P = I^2 * R_T = 21.25^2 * \frac{R_{ESR}}{n}
+\end{equation}
+
+\noindent Se decidió utilizar 6 capacitores  de $2200 \:uF$ con un rating de tensión de $50\:V$ y una ESR de $17 \:\Omega$ (datos obtenidos de \cite{EKY-350ELL222MM25S}) . De esta forma, al reemplazar en la ecuación \ref{eq_potencia} se obtiene que la potencia disipada es de: 
+
+\begin{equation} 
+	P=1.28\:W
+\end{equation}
+
+\subsubsection{Elección de controlador de MOSFET}
+
+\noindent Para controlar la conmutación se utiliza un MOSFET \textsl{driver} HIP4081A \cite{HIP4081A_FN3659} que se encarga de encender y apagar los transistores según las entradas de control. Además permite la configuración de un tiempo muerto para evitar que se enciendan dos transistores de un lado a la vez. También provee la circuitería necesaria para implementar la fuente flotante que enciende los MOSFET del lado superior para lo cual solo se debe agregar un diodo y un capacitor de manera externa. Para la implementación circuital se van a utilizar los MOSFET IPB160N04 \cite{IPB160N04}.
+
+\noindent En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el \textsl{driver} HIP4081A. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del \textsl{bootstrap driver} permite obtener en el \textsl{gate} del MOS superior, una tensión de $36\:V$ respecto a GND, de manera que se logra una diferencia de tensión mayor a $7\:V$ entre \textsl{gate} y \textsl{source}. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{Bootstrap.png}
+	\caption{Configuración \textsl{bootstrap} simplificada.}
+	\label{fig:img_bootstrap}
+\end{figure}
+
+\noindent El \textsl{bootstrap driver} consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del \textsl{bootstrap}, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender $Q_2$ y $Q_4$ durante un tiempo que se conoce como periodo de refresco de \textsl{bootstrap}. De esta forma, los capacitores de \textsl{bootstrap} de ambos lados quedan conectados entre $12\:V$ y GND y se pueden cargar completamente. Durante este tiempo, las salidas a los \textsl{gates} AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de \textsl{shoot-through} durante el período nominal de refresco del \textsl{bootstrap}. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
+
+\noindent Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra en funcionamiento: con el transistor $Q_2$ encendido (ALO = $V_{CC}$), $Q_1$ apagado (AHO = AHS = $0\:V$) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a $12\:V$, ya que en un terminal tiene la fuente de $12\:V$ (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de $Q_2$.
+
+\noindent Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el \textsl{source} del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de $Q_2$. 
+
+\noindent Una vez finalizado el tiempo muerto, se enciende el MOS $Q_1$. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que $Q_1$ pasa de estar apagado a encendido, la tensión en el \textsl{source} cambia de $-V_d$ a $V_{bus}$ de manera gradual mientras se carga el \textsl{gate}, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de \textsl{bootstrap} sumada a la tensión en el \textsl{source} de $Q_1$. De esta manera se logra una tensión de $36\:V$ con respecto a GND en el \textsl{gate} y genera una diferencia entre \textsl{gate} y \textsl{source} de $12\:V$.
+
+\noindent Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOS esté encendido.
+
+
+\subsection{Dimensionamiento de capacitor de \textsl{bootstrap}}
+
+\noindent Para el dimensionamiento de los capacitores de \textsl{bootstrap} se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
+
+\noindent Para encender un NMOS es necesario proveer corriente a su \textsl{gate} hasta cargar las capacidades parásitas entre \textsl{gate-source} y \textsl{gate-drain}. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el \textsl{gate}. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de \textsl{bootstrap}. 
+
+\noindent En la implementación del puente H se decidió colocar resistencias entre \textsl{gate} y \textsl{source} (ver apartado \ref{secc_res_gate_source}), que aparecen como $R_1$, $R_2$, $R_3$ y $R_4$ en la figura \ref{fig:img_capacitores-puenteH}. Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el  \textsl{bootstrap}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Capacitores-puenteH.png}
+	\caption{Puente H.}
+	\label{fig:img_capacitores-puenteH}
+\end{figure}
+
+\noindent Por otro lado, el capacitor debe entregar corriente al diodo de \textsl{bootstrap} cuando este queda en inversa ($I_{DR}$), y también entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
+
+\noindent Por lo tanto, para poder dimensionar correctamente el capacitor de \textsl{bootstrap} es necesario tener en cuenta todos los efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena el capacitor \textsl{bootstrap}:
+
+\begin{equation} \label{eq_carga-cap-bootstrap}
+	Q_{BS}=C_{BS}*\Delta V_{BS}
+\end{equation}
+
+\noindent En la ecuación \ref{eq_carga-cap-bootstrap}, $Q_{BS}$ es la carga total del capacitor de \textsl{bootstrap}, $C_{BS}$ su capacidad, y $\Delta V_{BS}$ es la diferencia de  tensión entre sus terminales. 
+
+\noindent Para evitar sufrir una caída de tensión tal que afecte el encendido de los MOS, es necesario que $Q_{BS}$ pueda abastecer también al \textsl{gate}, al diodo en inversa y a la resistencia entre \textsl{gate-source}. Por lo tanto:
+
+\begin{equation} \label{eq_carga-cap-bootstrap2}
+	Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
+\end{equation}
+
+\noindent Donde:
+\begin{itemize}
+	\item $Q_G$ = Carga total que se debe entregar al \textsl{gate} del MOS.
+	\item $Q_{RR}$ = Carga entregada al diodo en inversa durante el tiempo de recuperación (cuando pasa de modo conducción a inversa).
+	\item $I_{DR}$ = Corriente de fuga del diodo en inversa.
+	\item $I_{GS}$ = Corriente que circula por la resistencia de \textsl{gate-source}.
+	\item $f_{PWM}$ = frecuencia de conmutación.
+\end{itemize}
+
+
+\noindent Por lo tanto, al reemplazar la ecuación \ref{eq_carga-cap-bootstrap} en la \ref{eq_carga-cap-bootstrap2} resulta:
+
+
+\begin{equation} \label{eq_cap-bootstrap}
+	C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
+\end{equation}
+
+\noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, se obtiene que $Q_G= 170\:nC$. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS} = 0.1\:V$, es posible dimensionarlo para que posea carga suficiente para mantener al MOSFET siempre encendido.
+
+\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR se obtiene, a partir de \cite{RSX205LAM30}, que  $I_R$ es igual a $0.1\:A$  y  el tiempo de recuperación de inversión es de $12.5\:ns$. Por lo tanto, la carga de recuperación resulta de $0.625\:nC$. Además, la corriente inversa de fuga del diodo de \textsl{bootstrap} tiene un valor de $I_{DR} =2 \:mA\:(@\: T=75^{\circ}\:C, V_R= 24\:V)$.
+
+\noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de \textsl{bootstrap} ($V_B=12\:V$) dividido el valor de la resistencia \textsl{gate-source}, que es de $4.7\:k\Omega$. Por lo tanto, $I_{GS}=2.55 \:mA$. 
+
+\noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de $50\:kHz$ (como se explica en el apartado \ref{secc_conmutacion-auxiliar}), lo que resulta en $f_{PWM}=50 \:kHz$. 
+
+\noindent Al reemplazar los valores obtenidos en \ref{eq_cap-bootstrap}, se obtiene:
+
+\begin{equation} 
+	\begin{aligned}
+		C_{BS} &> \frac{170 \:nC + 0.625\:nC + \frac{2 \:mA + 2.55 \:mA}{50 \:kHz}}{0.1 \:V}\\
+	\end{aligned}
+\end{equation}
+
+\begin{equation} 
+	\begin{aligned}
+		C_{BS} &> 2.61 \:\mu F\\	
+	\end{aligned}
+\end{equation}
+
+
+\noindent Por lo tanto, una capacidad mayor a $2.61 \:\mu F$ resulta en una caída menor a $0.1\:V$ en el capacitor de \textsl{bootstrap} durante el tiempo de encendido de los MOSFET. Podría usarse un capacitor más pequeño, a costa de permitir una mayor caída de tensión en el capacitor. 
+
+\noindent Finalmente, se decidió utilizar dos capacitores de \textsl{bootstrap} en paralelo de $5.6 \:\mu F$ cada uno, con el objetivo de reducir la resistencia serie.
+
+
+
+\subsection{realimentacion}
+capaz acá habría que poner lo del sensor de efecto hall?? y lo del operacional que hace la resta de vbias
+asd
+
+
+\subsection{etapa de entrada y restador}
+
+
+Se plantea la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. Como se mencióno MAS ARRIBA, la etapa de entrada tiene una ganancia. Esta debe ser implementada con un circuito de operacionales.
+
+La salida de esta etapa, al igual que la tensión de salida del sensor de efecto Hall, se polarizan en un punto de operación de $2.5\:V$ Para lograrlo se utiliza un circuito como el que se muestra en la figura \ref{fig:img_etapa-de-entrada}.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Etapa-de-entrada.png}
+	\caption{Etapa de entrada.}
+	\label{fig:img_etapa-de-entrada}
+\end{figure}
+\colorbox{red}{Capaz sería mejor poner las imagenes directamente de Altium}
+
+Las ecuaciones de diseño para este circuito son: ......
+
+
+\subsection{comparador con histeresis}
+
+Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se eligió que la corriente de salida del electroimán tenga un ripple de $500\:mA$. Por lo tanto, al afectar este valor por la transconductancia del sensor de efecto Hall, se obtiene un ancho de histéresis de $26.665\:mV$, alrededor de un punto de operación de $2.5\:V$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Comparador-con-histeresis.png}
+	\caption{Comparador con histéresis.}
+	\label{fig:img_comp-con-hist}
+\end{figure}
+
+\subsection{conmutación auxiliar}
+qqqwqw
+\subsection{set-point de 2.6V}
+ 

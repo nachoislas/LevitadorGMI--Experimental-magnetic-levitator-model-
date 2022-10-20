@@ -131,29 +131,15 @@ Este análisis resulta de interés ya que se puede observar que la pendiente tie
 %*Que la pendiente en la subida sea igual en valor absoluto a la de bajada.  PAra que se pueda obtener un valor de posición en todo momento, sin que el sistema quede a lazo abierto
 
 %*Que la estimación nunca se vea interrumpida, ya que el sisema quedaría a lazo abierto.
-
 \subsection{Diseño del lazo de control de corriente}
 
-%Como se mencionó previamente, para el diseño de la fuente de alimentación del electroimán se utilizará una topología de puente H trabajando en conmutación. Por lo tanto, para obtener el valor medio de corriente deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. Para ello, se debe actuar sobre las llaves en función de si se desea que la corriente aumente o disminuya.
+%Como se mencionó previamente, para el diseño de la fuente de alimentación del electroimán se utilizará una topología de puente H trabajando en conmutación. Por lo tanto, para obtener el valor medio de corriente deseado es necesario controlar el tiempo que se le aplica cierta polaridad de tensión al electroimán. 
 
-Una manera de implementar la lógica de control es mediante un controlador de lazo cerrado del tipo ON-OFF como se muestra en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist}. Este controlador realiza una resta entre la corriente de referencia y la corriente que está circulando por el electroimán, obteniendo una corriente de error ($I_e$). De esta forma, si la corriente medida es menor a la de referencia, la polaridad de la tensión aplicada en los bornes del electroimán será positiva para lograr que su corriente crezca e iguale a la de referencia. En cambio, si resulta mayor, la alimentación será negativa y la corriente disminuirá.
+Como solución se propone un diagrama en bloques que se muestra en la figura XD. En este diagrama se realimenta la corriente y se compara con una corriente de referencia como Ie. Esta variable ingresa a un bloque -omparador con histéresis. 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{Diagrama-en-bloques-comparador-sin-hist.png}
-	\caption{Diagrama en bloques simplificado del controlador de corriente.}
-	\label{fig:img_diag-en-bloques-comparador-sin-hist}
-\end{figure}
+El cual permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
 
-
-
-%Por otro lado, al considerar que el tiempo de conmutación es pequeño comparado a la constante de tiempo de la planta, la forma de onda de la corriente en régimen permanente será triangular puesto que no llegará a tomar forma exponencial. 
-
-%Además, como la tensión aplicada a los bornes del electroimán en cada semiciclo de conmutación es igual en magnitud y el circuito de carga y descarga del electroimán es el mismo, la onda triangular tendrá pendientes simétricas. La forma de onda resultante se puede observar en rojo en la figura \ref{fig:img_corriente_triangular}.
-
-
-
-Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán ($I_{L}(s)$) supere infinitesimalmente a la referencia, se producirá una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, se propone agregar histéresis al controlador como se muestra en la figura \ref{fig:img_diag-en-bloques}.
+La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_exponencial-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -162,36 +148,10 @@ Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-b
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-\colorbox{red}{ver si conviene agregar deltaI en el diagrama}
-\colorbox{red}{Esta bien que sea Vh la salida? Habría que unificar despues..}
+Al analizar el diagrama en bloques planteado en la figura \ref{fig:img_diag-en-bloques-comparador-sin-hist} es posible notar que, una vez que la corriente del electroimán ($I_{L}(s)$) supere infinitesimalmente a la referencia, se producirá una conmutación en la polaridad de tensión aplicada al electroimán. Lo mismo sucede cuando es infinitesimalmente menor. El inconveniente que esto presenta es que se producirían conmutaciones extremadamente rápidas en torno al valor medio, por lo que sería necesario tener alta velocidad en conmutación. Por lo tanto, para reducir la frecuencia de esas oscilaciones, se propone agregar histéresis al controlador como se muestra en la figura \ref{fig:img_diag-en-bloques}.
 
+Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
 
-\colorbox{red}{Este parrafo ESTA OK porque a pesar de que}
-
-\colorbox{red}{Tenemos asimetria en la rampas de subida y bajada el delta iL es FIJO...}
-
-La histéresis permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$. La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_exponencial-hist}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Forma-de-onda-corriente-exponencial-hist.png}
-	\caption{Forma de onda de corriente y tensión en el electroimán.}
-	\label{fig:img_corriente_exponencial-hist}
-\end{figure}
-
-
-%\begin{figure}[H]
-%	\centering
-%	\includegraphics[scale=0.5]{Forma-de-onda-corriente-lineal.png}
-%	\caption{Forma de onda de corriente triangular}
-%	\label{fig:img_corriente_triangular}
-%\end{figure} 
-
-
-A pesar de que la rampa de subida es distinta al de bajada, la corriente oscila sobre un valor medio . Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
-
-\colorbox{red}{Esto estaba antes, mal xq quedo viejo}
-\colorbox{red}{Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado  que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.}
 
 \subsection{Medición de corriente}
 

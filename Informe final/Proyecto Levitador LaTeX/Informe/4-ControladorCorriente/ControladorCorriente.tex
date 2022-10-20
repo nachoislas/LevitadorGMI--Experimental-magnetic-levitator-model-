@@ -4,7 +4,17 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}\label{sec_descripcion-general}
 
-Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética generada por el electroimán. Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
+Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética que genera el electroimán según sea necesario. Como se analizó en el capitulo \ref{cap:CaracterizacionElectroiman}, en la sección ASDASDAS se llega a la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
+
+\begin{equation*}
+	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
+\end{equation*}
+
+En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto si se desea regular la fuerza electromagnética, se puede lograr a partir de modificar la intensidad de corriente.
+
+\colorbox{red}{esto estaba antes}}Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
+
+\subsection{Análisis de respuesta al escalón}
 
 Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro y una resistencia serie. Es decir, como un circuito RL serie cuya admitancia se muestra en la expresión \ref{eq_corriente}.
 
@@ -30,6 +40,11 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 
 
 \section{Diseño del controlador}
+
+
+
+
+----------------------------------------
 
 Se desea lograr controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado es que se obtiene una forma de onda oscilante cuyo valor medio $<I_L>$ es la corriente deseada. El resultado es una forma de onda con un valor medio correspondiente al deseado y un ripple superpuesto. La idea es que este ripple sea pequeño comparado con el valor medio, de manera que la planta pueda filtrarlo. 
 
@@ -108,7 +123,7 @@ Este análisis resulta de interés ya que se puede observar que la pendiente tie
 
 Como se mencionó en la descripción general del dispositivo, es de interés realizar una estimación de la distancia del entrehierro a partir de la corriente que circular en el electroimán. Por este motivo es conveniente aprovechar la relación que existe entre la pendiente de la onda triangular, con la inductancia, que es inversamente propocional a la distancia de entrehierro.... De esta manera se puede implementar un circuito de estimación que trabaje a partir de medir la pendiente... Paroa que este circuito funcione correctamente, se debe respetar dos condiciones:
 
-´*Que la magnitud de la pendiente solo sea sensible a la distancia de separación, y que todo lo demás sea constante (v_L)...
+*Que la magnitud de la pendiente solo sea sensible a la distancia de separación, y que todo lo demás sea constante (v_L)...
 
 *Que la pendiente en la subida sea igual en valor absoluto a la de bajada.  PAra que se pueda obtener un valor de posición en todo momento, sin que el sistema quede a lazo abierto
 

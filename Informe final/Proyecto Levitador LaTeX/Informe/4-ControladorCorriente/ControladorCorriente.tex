@@ -78,7 +78,13 @@ Por el momento se considera el caso en que $I_o=0$, y considerando que $\tau=\fr
 	i_L(t)= \frac{v_L}{L}*t
 \end{equation}
 
-De ACA se puede obtener la pendiente como:
+\subsubsection{Análisis de estimación}
+
+Como se menciono en la seccion INTRODUCCION para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor para luego actuar en consecuencia. Si bien se podrían utilizar sensores especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera.
+
+Dado que existe una relación entre la inductancia del electroimán y la distancia de separación, es posible estimar esta última a partir de la forma de onda triangular de su corriente. Como se vio en el capítulo \ref{cap:ControladorCorriente}, el circuito equivalente del electroimán es del tipo RL serie. Por lo tanto, al conmutar la polaridad del inductor a una frecuencia mayor que su ancho de banda, se logra que la corriente crezca y decrezca de manera aproximadamente lineal (sin llegar a verse la forma exponencial). Por lo tanto, se puede extraer información del valor de la inductancia conociendo el valor de dichas pendientes
+
+A partir de la ecuación de la corriente 3.4 si se aplica la derivada temporal se obtiene:
 
 \begin{equation} \label{eq_corriente_taylor_2}
 	\frac{di_L(t)}{dt}= \frac{v_L}{L}
@@ -108,14 +114,11 @@ Mirando la imagen 3.3 se puede plantear dos casos para la pendiente: la de subid
 	\frac{di_L(t)}{dt}_{inf}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{inf}
 \end{equation}
 
-
-
-Se puede observar que la pendiente está compuesta en su mayoría por constantes... Por lo tanto, si se elige que $|V_{sup}|=|V_{inf}|=|V_{cc}|$, la pendiente queda dependiendo únicamente de la distancia $Y_g$ como se muestra en la ecuación de ABAJO:
+Por lo tanto, si se elige que $|V_{sup}|=|V_{inf}|=|V_{cc}|$, la pendiente depende únicamente de la distancia $Y_g$ como se muestra en la ecuación de XD:
 
 \begin{equation} \label{eq_corriente_taylor_2}
 	\frac{di_L(t)}{dt}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{cc}
 \end{equation}
-
 
 Este análisis resulta de interés ya que se puede observar que la pendiente tiene información de la distancia de entrehierro. Por lo tanto, se podría aplicar un estimador de posición a partir de medir la pendiente.
 

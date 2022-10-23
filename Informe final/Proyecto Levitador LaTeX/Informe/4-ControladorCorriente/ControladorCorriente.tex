@@ -18,15 +18,15 @@ En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por
 
 \colorbox{red}{esto estaba antes}Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
 
-\subsection{Análisis de respuesta al escalón}
+\subsection{Comportamiento eléctrico del electroimán}
 
-Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro y una resistencia serie. Es decir, como un circuito RL serie cuya admitancia se muestra en la expresión \ref{eq_corriente}.
+Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($Y_g$) y una resistencia serie ($R_L$) correspondiente al bobinado. Es decir, como un circuito RL serie cuya relación entre corriente de salida y tensión de entrada (admitancia) se muestra en la expresión \ref{eq_corriente} expresada en el dominio de Laplace.
 
 \begin{equation} \label{eq_corriente}
-\frac{I_L}{V_L}(s)=\frac{1}{sL(Y_g)\ +\ R_L}
+\frac{I_L}{V_L}(s)=\frac{1}{s*L_{(Y_g)}+R_L}
 \end{equation}
 
-Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se obtiene la respuesta temporal de la corriente ante un escalón de tensión con amplitud $v_L$ en la entrada, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L(Y_g)}{R_L}$.
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se obtiene la respuesta temporal de la corriente ante un escalón de tensión con amplitud $v_L$ en la entrada, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L_{(Y_g)}}{R_L}$.
 
 \begin{equation} \label{eq_corriente_temporal_cond_iniciales}
 	i_L(t)=\frac{v_L}{R_L} + (I_o-\frac{v_L}{R_L})*e^{-\frac{t}{\tau}}

@@ -4,13 +4,17 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}\label{sec_descripcion-general}
 
-Para mantener en suspensión a la pieza móvil es necesario regular la fuerza electromagnética que genera el electroimán según sea necesario. Como se analizó en el capitulo \ref{cap:CaracterizacionElectroiman}, en la sección ASDASDAS se llega a la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
+\colorbox{red}{Creo que estaría buena una intro para mas contexto de qué función cumple}
+
+Como se describió en la introducción del proyecto, el dispositivo completo se trata de un sistema realimentado en el que el control de la posición se realiza regulando la corriente del electroimán según lo requiera el compensador (tanto analógico, como digital). Si bien aún no se aborda el diseño de este bloque compensador, se sabe (o se desea) que su salida será en forma de tensión, con niveles entre 0 y 5V. Por otro lado, el electroimán requiere corrientes tan elevadas como 30A. Por lo tanto es necesario diseñar un controlador (o \textsl{driver}) de corriente que sea capaz de entregar la corriente requerida, y que esta sea controlada por una tensión de entrada(tensión de referencia).
+
+Como se analizó en el capitulo \ref{cap:CaracterizacionElectroiman}, en la sección ASDASDAS se llega a la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
 
 \begin{equation*}
 	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation*}
 
-En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto si se desea regular la fuerza electromagnética, se puede lograr a partir de modificar la intensidad de corriente.
+En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto si se desea regular la fuerza electromagnética, esto se puede lograr a partir de modificar la intensidad de corriente.
 
 \colorbox{red}{esto estaba antes}Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
 

@@ -6,17 +6,29 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \colorbox{red}{Creo que estaría buena una intro para mas contexto de qué función cumple}
 
-Como se describió en el capítulo \ref{cap:Introducción}, el dispositivo completo se trata de un sistema realimentado en el que el control de la posición se realiza regulando la corriente del electroimán según lo requiera el compensador (tanto analógico, como digital). Si bien aún no se aborda el diseño de este bloque compensador, se sabe (o se desea) que su salida será en forma de tensión, con niveles entre $0\:V$ y $5\:V$. Por otro lado, el electroimán requiere corrientes de hasta como $30\:A$. Por lo tanto es necesario diseñar un controlador (o \textsl{driver}) de corriente que sea capaz de entregar la corriente requerida, y que esta sea controlada por una tensión de entrada(tensión de referencia).
-
-Como se analizó en el capitulo \ref{cap:CaracterizacionElectroiman}, en la sección ASDASDAS se llega a la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
+Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, en la sección \ref{sec:fuerza_magnetica}, la fuerza magnética generada por el electroimán esta determinada por la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
 
 \begin{equation*}
 	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation*}
 
-En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto si se desea regular la fuerza electromagnética, esto se puede lograr a partir de modificar la intensidad de corriente.
+En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, para regular esta fuerza, se implementa un controlador (o driver) de corriente que modifica su intensidad y, por ende, la de la fuerza electromagnetica generada.
 
-\colorbox{red}{esto estaba antes}Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
+%En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto si se desea regular la fuerza electromagnética, se podría lograr a partir de modificar la intensidad de corriente.
+
+El dispositivo completo se trata de un sistema realimentado en el que el control de la posición se realiza regulando la corriente del electroimán según lo requiera el compensador (tanto analógico, como digital), el cual entregará una tensión en su salida. El diseño del bloque compensador se analizará en los capítulos \ref{cap:Compensador Analogico} y \ref{cap:Implementacion digital}.
+
+Por lo tanto, es necesario diseñar un controlador (o \textsl{driver}) de corriente que sea capaz de entregar la corriente requerida, y que esta sea controlada por una tensión de entrada de referencia.
+
+%Como se analizó en el capitulo \ref{cap:CaracterizacionElectroiman}, en la sección ASDASDAS se llega a la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
+
+%\begin{equation*}
+%	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
+%\end{equation*}
+
+%En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto si se desea regular la fuerza electromagnética, esto se puede lograr a partir de modificar la intensidad de corriente.
+
+%\colorbox{red}{esto estaba antes}Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
 
 \subsection{Comportamiento eléctrico del electroimán}
 

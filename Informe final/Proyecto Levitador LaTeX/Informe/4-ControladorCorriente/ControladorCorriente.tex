@@ -58,7 +58,7 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 \section{Diseño del controlador}
 
 
-Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una forma de onda con un valor medio correspondiente al deseado y un ripple superpuesto. Este ripple debe ser pequeño comparado con el valor medio, de manera que la planta pueda filtrarlo. 
+Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una corriente con un valor medio correspondiente al deseado y un ripple superpuesto. El sistema debe ser diseñado de manera tal que el ripple sea pequeño comparado con el valor medio para que la planta pueda filtrarlo. 
 
 \begin{figure}[H]
 	\centering
@@ -78,44 +78,48 @@ Si se elige un período de conmutación lo suficientemente chico con respecto a 
 	\label{fig:img_corriente_lineal}
 \end{figure}
 
-Se puede obtener una expresión lineal para cada tramo de la corriente triangular a partir de la serie de Taylor hasta el término de orden 1 de la ecuación \ref{eq_corriente_temporal_cond_iniciales}:
+Cada tramo de esta forma de onda puede ser aproximado a partir de expresar en serie de Taylor hasta el término de orden 1 la ecuación \ref{eq_corriente_temporal_cond_iniciales}:
 
 \begin{equation} \label{eq_corriente_taylor}
-	i_L(t)=I_o -  (I_o-\frac{v_L}{R_L})*\frac{t}{\tau}
+	i_L(t)=I_o -  (I_o-\frac{V_L}{R_L})*\frac{t}{\tau}
 \end{equation}
 
-Considerando el caso en que $I_o=0$ y  $\tau=\frac{L}{R_L}$ la expresión queda:
+Aunque para el caso en que la corriente crece desde un valor $I_o=0$ en $t=0$ esta aproximación puede presentar cierto error, para los tramos entre $T1'<t<T2'$ Y EL SIGUIENTE, la aproximación resulta en un error despreciable.
+
+Considerando el caso en que $I_o=0$ y  $\tau=\frac{L_{(Y_g)}}{R_L}$ la expresión queda:
 
 \begin{equation} \label{eq_corriente_taylor_2}
-	i_L(t)= \frac{v_L}{L}*t
+	i_L(t)= \frac{V_L}{L_{(Y_g)}}*t
 \end{equation}
 
-\subsubsection{Análisis de estimación}
+De la expresión \ref{eq_corriente_taylor_2} se puede observar que existe una relación entra la forma de onda de la corriente y la distancia de entrehierro. Es por ello que se desea analizar si es posible obtener una estimación de $Y_g$ a partir de una medición de la corriente.
 
-Como se mencionó en la sección INTRODUCCION para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor para luego actuar en consecuencia. Si bien se podrían utilizar sensores especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera.
+\subsection{Análisis de estimación}
 
-Dado que existe una relación entre la inductancia del electroimán y la distancia de separación, es posible estimar esta última a partir de la forma de onda triangular de su corriente. Como se vio en la sección \ref{sec_comportamiento-electrico-electroiman}, el circuito equivalente del electroimán es del tipo RL serie. Por lo tanto, al conmutar la polaridad del inductor a una frecuencia mayor que su ancho de banda, se logra que la corriente crezca y decrezca de manera aproximadamente lineal (sin llegar a verse la forma exponencial). Por lo tanto, se puede extraer información del valor de la inductancia conociendo el valor de dichas pendientes
+Como se mencionó en la sección \ref{cap:Introducción}, para que la placa de control pueda mantener la distancia de separación $Y_{g}$ necesita conocer su valor para luego actuar en consecuencia. Si bien se podrían utilizar sensores especializados para ello, para este proyecto se optó por medirla de manera indirecta. \colorbox{red}{esto que sigue lo sacaría, ya está en la intro o debería estar ahí} a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera.
 
-A partir de la ecuación de la corriente \ref{eq_corriente_taylor_2} si se aplica la derivada temporal se obtiene:
+\colorbox{red}{esto también lo sacaría} Dado que existe una relación entre la inductancia del electroimán y la distancia de separación, es posible estimar esta última a partir de la forma de onda triangular de su corriente. Como se vio en la sección \ref{sec_comportamiento-electrico-electroiman}, el circuito equivalente del electroimán es del tipo RL serie. Por lo tanto, al conmutar la polaridad del inductor a una frecuencia mayor que su ancho de banda, se logra que la corriente crezca y decrezca de manera aproximadamente lineal (sin llegar a verse la forma exponencial). Por lo tanto, se puede extraer información del valor de la inductancia conociendo el valor de dichas pendientes
+
+A partir de la expresión de la corriente \ref{eq_corriente_taylor_2} se puede obtener la pendiente haciendo la derivada temporal:
 
 \begin{equation} 
-	\frac{di_L(t)}{dt}= \frac{v_L}{L}
+	\frac{di_L(t)}{dt}= \frac{V_L}{L_{(Y_g)}}
 \end{equation}
 
 
 Como se vio en el capítulo \ref{cap:CaracterizacionElectroiman}, la inductancia es inversamente proporcional a la distancia de entrehierro, por lo tanto resulta:
 
 \begin{equation}
-	\frac{di_L(t)}{dt}= v_L*f(Y_g)
+	\frac{di_L(t)}{dt}= V_L*f(Y_g)
 \end{equation}
 
-Utilizando la expresión \ref{eq_inductancia_vs_y}, se llega a:
+Utilizando la expresión \ref{eq_inductancia_vs_y} que relaciona la inductancia del electroimán con la distancia de entrehierro, se llega a:
 
-\begin{equation} 
-	\frac{di_L(t)}{dt}= Y_g*\frac{2}{N^2*A*\mu_o}*v_L
+\begin{equation}\label{eq_pendiente_vs_Yg}
+	\frac{di_L(t)}{dt}= Y_g*\frac{2}{N^2*A*\mu_o}*V_L
 \end{equation}
 
-Mirando la imagen 3.3 se puede plantear dos casos para la pendiente: la de subida, cuando $v_L=V_{sup}$ y la de bajada cuando $v_L=V_{inf}$ se obtienen dos expresiones para la pendiente:
+En la expresión \ref{eq_pendiente_vs_Yg} $V_L$ es la tensión con la que se alimenta el electroimán. Mirando la figura \ref{fig:img_corriente_lineal} se pueden plantear dos casos para la pendiente: la de subida, cuando $V_L=V_{sup}$ y la de bajada cuando $V_L=V_{inf}$. Por lo tanto se obtienen dos expresiones para la pendiente:
 
 \begin{equation} 
 	\frac{di_L(t)}{dt}_{sup}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{sup}
@@ -126,13 +130,13 @@ Mirando la imagen 3.3 se puede plantear dos casos para la pendiente: la de subid
 	\frac{di_L(t)}{dt}_{inf}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{inf}
 \end{equation}
 
-Por lo tanto, si se elige que $|V_{sup}|=|V_{inf}|=|V_{cc}|$, la pendiente depende únicamente de la distancia $Y_g$ como se muestra en la ecuación de XD:
+La tensión $V_L$ es un parámetro que se debe diseñar en el sistema, por lo tanto resulta conveniente que se elija una alimentación $V_{cc}$ tal que $|V_{sup}|=|V_{inf}|=|V_{cc}|$. En ese caso la pendiente depende únicamente de la distancia $Y_g$, como se muestra en la ecuación de \ref{eq_corriente_taylor_3}:
 
-\begin{equation} \label{eq_corriente_taylor_2}
+\begin{equation} \label{eq_corriente_taylor_3}
 	\frac{di_L(t)}{dt}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{cc}
 \end{equation}
 
-Este análisis resulta de interés ya que se puede observar que la pendiente tiene información de la distancia de entrehierro. Por lo tanto, se podría aplicar un estimador de posición a partir de medir la pendiente.
+Este análisis resulta de interés ya que se llega a la conclusión de que se puede estimar la distancia de entrehierro a partir de medir la pendiente de la corriente en el electroimán.
 
  %se podría aprovechar esa relación para aplicar estimación de variables y obtener, de manera indirecta un valor de distancia de entrehierro a partir de la pendiente de la corriente de la onda de corriente conmutada.
 

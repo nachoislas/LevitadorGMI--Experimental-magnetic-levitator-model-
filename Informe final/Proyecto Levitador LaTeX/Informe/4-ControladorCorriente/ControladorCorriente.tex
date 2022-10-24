@@ -6,7 +6,7 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \colorbox{red}{Creo que estaría buena una intro para mas contexto de qué función cumple}
 
-Como se describió en la introducción del proyecto, el dispositivo completo se trata de un sistema realimentado en el que el control de la posición se realiza regulando la corriente del electroimán según lo requiera el compensador (tanto analógico, como digital). Si bien aún no se aborda el diseño de este bloque compensador, se sabe (o se desea) que su salida será en forma de tensión, con niveles entre 0 y 5V. Por otro lado, el electroimán requiere corrientes tan elevadas como 30A. Por lo tanto es necesario diseñar un controlador (o \textsl{driver}) de corriente que sea capaz de entregar la corriente requerida, y que esta sea controlada por una tensión de entrada(tensión de referencia).
+Como se describió en el capítulo \ref{cap:Introducción}, el dispositivo completo se trata de un sistema realimentado en el que el control de la posición se realiza regulando la corriente del electroimán según lo requiera el compensador (tanto analógico, como digital). Si bien aún no se aborda el diseño de este bloque compensador, se sabe (o se desea) que su salida será en forma de tensión, con niveles entre $0\:V$ y $5\:V$. Por otro lado, el electroimán requiere corrientes de hasta como $30\:A$. Por lo tanto es necesario diseñar un controlador (o \textsl{driver}) de corriente que sea capaz de entregar la corriente requerida, y que esta sea controlada por una tensión de entrada(tensión de referencia).
 
 Como se analizó en el capitulo \ref{cap:CaracterizacionElectroiman}, en la sección ASDASDAS se llega a la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
 
@@ -20,7 +20,7 @@ En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por
 
 \subsection{Comportamiento eléctrico del electroimán}
 
-Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($Y_g$) y una resistencia serie ($R_L$) correspondiente al bobinado. Es decir, como un circuito RL serie cuya relación entre corriente de salida y tensión de entrada (admitancia) se muestra en la expresión \ref{eq_corriente} expresada en el dominio de Laplace.
+Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($Y_g$) y una resistencia serie ($R_L$) correspondiente al bobinado. Es decir, como un circuito RL serie cuya relación entre corriente de salida y tensión de entrada (admitancia) se muestra en la expresión \ref{eq_corriente}.
 
 \begin{equation} \label{eq_corriente}
 \frac{I_L}{V_L}(s)=\frac{1}{s*L_{(Y_g)}+R_L}
@@ -46,11 +46,7 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 \section{Diseño del controlador}
 
 
-
-
-----------------------------------------
-
-Se desea lograr controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado es que se obtiene una forma de onda oscilante cuyo valor medio $<I_L>$ es la corriente deseada. El resultado es una forma de onda con un valor medio correspondiente al deseado y un ripple superpuesto. La idea es que este ripple sea pequeño comparado con el valor medio, de manera que la planta pueda filtrarlo. 
+Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una forma de onda con un valor medio correspondiente al deseado y un ripple superpuesto. La idea es que este ripple sea pequeño comparado con el valor medio, de manera que la planta pueda filtrarlo. 
 
 \begin{figure}[H]
 	\centering
@@ -61,7 +57,7 @@ Se desea lograr controlar el valor medio de corriente que circula por el electro
 
 \colorbox{red}{modificar valores de imagen}
 
-Si se elige un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura daddasdas.
+Si se elige un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal}.
 
 \begin{figure}[H]
 	\centering
@@ -76,7 +72,7 @@ Se puede obtener una expresión lineal para cada tramo de la corriente triangula
 	i_L(t)=I_o -  (I_o-\frac{v_L}{R_L})*\frac{t}{\tau}
 \end{equation}
 
-Por el momento se considera el caso en que $I_o=0$, y considerando que $\tau=\frac{L}{R_L}$, de manera que la expresión queda:
+Considerando el caso en que $I_o=0$ y  $\tau=\frac{L}{R_L}$ la expresión queda:
 
 \begin{equation} \label{eq_corriente_taylor_2}
 	i_L(t)= \frac{v_L}{L}*t

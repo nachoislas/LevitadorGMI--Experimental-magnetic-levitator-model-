@@ -12,13 +12,13 @@ Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, en la sec
 	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation*}
 
-En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, para regular esta fuerza, se implementa un controlador (o driver) de corriente que modifica su intensidad y, por ende, la de la fuerza electromagnetica generada.
+En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, para regular esta fuerza, se implementa un controlador (o \textsl{driver}) de corriente que modifica su intensidad y, por ende, la fuerza electromagnética generada.
 
 %En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto si se desea regular la fuerza electromagnética, se podría lograr a partir de modificar la intensidad de corriente.
 
 El dispositivo completo se trata de un sistema realimentado en el que el control de la posición se realiza regulando la corriente del electroimán según lo requiera el compensador (tanto analógico, como digital), el cual entregará una tensión en su salida. El diseño del bloque compensador se analizará en los capítulos \ref{cap:Compensador Analogico} y \ref{cap:Implementacion digital}.
 
-Por lo tanto, es necesario diseñar un controlador (o \textsl{driver}) de corriente que sea capaz de entregar la corriente requerida, y que esta sea controlada por una tensión de entrada de referencia.
+Por lo tanto, es necesario diseñar un controlador de corriente que sea capaz de entregar la corriente requerida, y que esta sea controlada por una tensión de entrada de referencia.
 
 %Como se analizó en el capitulo \ref{cap:CaracterizacionElectroiman}, en la sección ASDASDAS se llega a la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
 
@@ -30,7 +30,7 @@ Por lo tanto, es necesario diseñar un controlador (o \textsl{driver}) de corrie
 
 %\colorbox{red}{esto estaba antes}Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
 
-\subsection{Comportamiento eléctrico del electroimán}
+\subsection{Comportamiento eléctrico del electroimán}\label{sec_comportamiento-electrico-electroiman}
 
 Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($Y_g$) y una resistencia serie ($R_L$) correspondiente al bobinado. Es decir, como un circuito RL serie cuya relación entre corriente de salida y tensión de entrada (admitancia) se muestra en la expresión \ref{eq_corriente}.
 
@@ -58,7 +58,7 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 \section{Diseño del controlador}
 
 
-Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una forma de onda con un valor medio correspondiente al deseado y un ripple superpuesto. La idea es que este ripple sea pequeño comparado con el valor medio, de manera que la planta pueda filtrarlo. 
+Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una forma de onda con un valor medio correspondiente al deseado y un ripple superpuesto. Este ripple debe ser pequeño comparado con el valor medio, de manera que la planta pueda filtrarlo. 
 
 \begin{figure}[H]
 	\centering
@@ -92,37 +92,37 @@ Considerando el caso en que $I_o=0$ y  $\tau=\frac{L}{R_L}$ la expresión queda:
 
 \subsubsection{Análisis de estimación}
 
-Como se menciono en la seccion INTRODUCCION para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor para luego actuar en consecuencia. Si bien se podrían utilizar sensores especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera.
+Como se mencionó en la sección INTRODUCCION para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor para luego actuar en consecuencia. Si bien se podrían utilizar sensores especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera.
 
-Dado que existe una relación entre la inductancia del electroimán y la distancia de separación, es posible estimar esta última a partir de la forma de onda triangular de su corriente. Como se vio en el capítulo \ref{cap:ControladorCorriente}, el circuito equivalente del electroimán es del tipo RL serie. Por lo tanto, al conmutar la polaridad del inductor a una frecuencia mayor que su ancho de banda, se logra que la corriente crezca y decrezca de manera aproximadamente lineal (sin llegar a verse la forma exponencial). Por lo tanto, se puede extraer información del valor de la inductancia conociendo el valor de dichas pendientes
+Dado que existe una relación entre la inductancia del electroimán y la distancia de separación, es posible estimar esta última a partir de la forma de onda triangular de su corriente. Como se vio en la sección \ref{sec_comportamiento-electrico-electroiman}, el circuito equivalente del electroimán es del tipo RL serie. Por lo tanto, al conmutar la polaridad del inductor a una frecuencia mayor que su ancho de banda, se logra que la corriente crezca y decrezca de manera aproximadamente lineal (sin llegar a verse la forma exponencial). Por lo tanto, se puede extraer información del valor de la inductancia conociendo el valor de dichas pendientes
 
-A partir de la ecuación de la corriente 3.4 si se aplica la derivada temporal se obtiene:
+A partir de la ecuación de la corriente \ref{eq_corriente_taylor_2} si se aplica la derivada temporal se obtiene:
 
-\begin{equation} \label{eq_corriente_taylor_2}
+\begin{equation} 
 	\frac{di_L(t)}{dt}= \frac{v_L}{L}
 \end{equation}
 
 
-Como se vió en el capítulo 2, la inductancia es inversamente proporcional a la distancia de entrehierro, por lo tanto resulta:
+Como se vio en el capítulo \ref{cap:CaracterizacionElectroiman}, la inductancia es inversamente proporcional a la distancia de entrehierro, por lo tanto resulta:
 
-\begin{equation} \label{eq_corriente_taylor_2}
+\begin{equation}
 	\frac{di_L(t)}{dt}= v_L*f(Y_g)
 \end{equation}
 
 Utilizando la expresión \ref{eq_inductancia_vs_y}, se llega a:
 
-\begin{equation} \label{eq_corriente_taylor_2}
+\begin{equation} 
 	\frac{di_L(t)}{dt}= Y_g*\frac{2}{N^2*A*\mu_o}*v_L
 \end{equation}
 
 Mirando la imagen 3.3 se puede plantear dos casos para la pendiente: la de subida, cuando $v_L=V_{sup}$ y la de bajada cuando $v_L=V_{inf}$ se obtienen dos expresiones para la pendiente:
 
-\begin{equation} \label{eq_corriente_taylor_2}
+\begin{equation} 
 	\frac{di_L(t)}{dt}_{sup}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{sup}
 \end{equation}
 
 
-\begin{equation} \label{eq_corriente_taylor_2}
+\begin{equation}
 	\frac{di_L(t)}{dt}_{inf}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{inf}
 \end{equation}
 

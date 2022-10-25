@@ -4,7 +4,7 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}\label{sec_descripcion-general}
 
-\colorbox{red}{Creo que estaría buena una intro para mas contexto de qué función cumple}
+Como se mencionó en la sección \ref{sec_descripcion-del-dispositivo} para poder controlar la posición es necesario modificar la fuerza que ejerce el electroimán. 
 
 Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, en la sección \ref{sec:fuerza_magnetica}, la fuerza magnética generada por el electroimán esta determinada por la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
 
@@ -12,23 +12,8 @@ Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, en la sec
 	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation*}
 
-En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, para regular esta fuerza, se implementa un controlador (o \textsl{driver}) de corriente que modifica su intensidad y, por ende, la fuerza electromagnética generada.
+En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, esta fuerza puede ser regulada al modificar la corriente. De esta forma, se decide implementar un controlador de corriente que sea capaz de controlar la corriente que circula por el electroimán a partir de una tensión de referencia correspondiente al valor de corriente deseado. 
 
-%En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto si se desea regular la fuerza electromagnética, se podría lograr a partir de modificar la intensidad de corriente.
-
-El dispositivo completo se trata de un sistema realimentado en el que el control de la posición se realiza regulando la corriente del electroimán según lo requiera el compensador (tanto analógico, como digital), el cual entregará una tensión en su salida. El diseño del bloque compensador se analizará en los capítulos \ref{cap:Compensador Analogico} y \ref{cap:Implementacion digital}.
-
-Por lo tanto, es necesario diseñar un controlador de corriente que sea capaz de entregar la corriente requerida, y que esta sea controlada por una tensión de entrada de referencia.
-
-%Como se analizó en el capitulo \ref{cap:CaracterizacionElectroiman}, en la sección ASDASDAS se llega a la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
-
-%\begin{equation*}
-%	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
-%\end{equation*}
-
-%En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto si se desea regular la fuerza electromagnética, esto se puede lograr a partir de modificar la intensidad de corriente.
-
-%\colorbox{red}{esto estaba antes}Esto se logra modificando la intensidad de la corriente que circula por su bobinado como lo indica la expresión \ref{eq_fuerza_magnetica}. Por lo tanto, es necesario diseñar una fuente de alimentación que sea capaz de proveer la corriente requerida. 
 
 \subsection{Comportamiento eléctrico del electroimán}\label{sec_comportamiento-electrico-electroiman}
 
@@ -58,7 +43,7 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 \section{Diseño del controlador}
 
 
-Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una corriente con un valor medio correspondiente al deseado y un ripple superpuesto. El sistema debe ser diseñado de manera tal que el ripple sea pequeño comparado con el valor medio para que la planta pueda filtrarlo. 
+Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una corriente con un valor medio correspondiente al deseado y un ripple superpuesto. El sistema debe ser diseñado de manera tal que el ripple sea pequeño comparado con el valor medio para que no afecte considerablemente en la fuerza magnética generada. 
 
 \begin{figure}[H]
 	\centering
@@ -67,7 +52,7 @@ Se desea controlar el valor medio de corriente que circula por el electroimán a
 	\label{fig:img_corriente_exponencial}
 \end{figure}
 
-\colorbox{red}{modificar valores de imagen}
+\colorbox{red}{modificar valores de imagen Vsup y Vinf}
 
 Si se elige un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal}.
 
@@ -92,34 +77,23 @@ Considerando el caso en que $I_o=0$ y  $\tau=\frac{L_{(Y_g)}}{R_L}$ la expresió
 	i_L(t)= \frac{V_L}{L_{(Y_g)}}*t
 \end{equation}
 
-De la expresión \ref{eq_corriente_taylor_2} se puede observar que existe una relación entra la forma de onda de la corriente y la distancia de entrehierro. Es por ello que se desea analizar si es posible obtener una estimación de $Y_g$ a partir de una medición de la corriente.
+De la expresión \ref{eq_corriente_taylor_2} se puede observar que existe una relación entre la forma de onda de la corriente y la distancia de entrehierro. Es por ello que a continuación se analiza si es posible obtener una estimación de $Y_g$ a partir de una medición de la corriente.
 
 \subsection{Análisis de estimación}
-
-Como se mencionó en la sección \ref{cap:Introducción}, para que la placa de control pueda mantener la distancia de separación $Y_{g}$ necesita conocer su valor para luego actuar en consecuencia. Si bien se podrían utilizar sensores especializados para ello, para este proyecto se optó por medirla de manera indirecta. \colorbox{red}{esto que sigue lo sacaría, ya está en la intro o debería estar ahí} a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera.
-
-\colorbox{red}{esto también lo sacaría} Dado que existe una relación entre la inductancia del electroimán y la distancia de separación, es posible estimar esta última a partir de la forma de onda triangular de su corriente. Como se vio en la sección \ref{sec_comportamiento-electrico-electroiman}, el circuito equivalente del electroimán es del tipo RL serie. Por lo tanto, al conmutar la polaridad del inductor a una frecuencia mayor que su ancho de banda, se logra que la corriente crezca y decrezca de manera aproximadamente lineal (sin llegar a verse la forma exponencial). Por lo tanto, se puede extraer información del valor de la inductancia conociendo el valor de dichas pendientes
-
-A partir de la expresión de la corriente \ref{eq_corriente_taylor_2} se puede obtener la pendiente haciendo la derivada temporal:
+La informacion de la distancia de entrehierro se encuentra en la pendiente de la onda triangular de la corriente. Por ello se parte de la expresión \ref{eq_corriente_taylor_2} y se obtiene la pendiente a partir de su derivada temporal:
 
 \begin{equation} 
 	\frac{di_L(t)}{dt}= \frac{V_L}{L_{(Y_g)}}
 \end{equation}
 
 
-Como se vio en el capítulo \ref{cap:CaracterizacionElectroiman}, la inductancia es inversamente proporcional a la distancia de entrehierro, por lo tanto resulta:
-
-\begin{equation}
-	\frac{di_L(t)}{dt}= V_L*f(Y_g)
-\end{equation}
-
-Utilizando la expresión \ref{eq_inductancia_vs_y} que relaciona la inductancia del electroimán con la distancia de entrehierro, se llega a:
+Como se vio en el capítulo \ref{cap:CaracterizacionElectroiman}, la expresión \ref{eq_inductancia_vs_y} indica que la inductancia del electroimán es inversamente proporcional a la distancia de entrehierro. Por lo tanto se llega a:
 
 \begin{equation}\label{eq_pendiente_vs_Yg}
 	\frac{di_L(t)}{dt}= Y_g*\frac{2}{N^2*A*\mu_o}*V_L
 \end{equation}
 
-En la expresión \ref{eq_pendiente_vs_Yg} $V_L$ es la tensión con la que se alimenta el electroimán. Mirando la figura \ref{fig:img_corriente_lineal} se pueden plantear dos casos para la pendiente: la de subida, cuando $V_L=V_{sup}$ y la de bajada cuando $V_L=V_{inf}$. Por lo tanto se obtienen dos expresiones para la pendiente:
+En la expresión \ref{eq_pendiente_vs_Yg} $V_L$ es la tensión con la que se alimenta el electroimán. A partir de la figura \ref{fig:img_corriente_lineal} se pueden plantear dos casos para la pendiente: la de subida, cuando $V_L=V_{sup}$ y la de bajada cuando $V_L=V_{inf}$. Por lo tanto se obtienen dos expresiones:
 
 \begin{equation} 
 	\frac{di_L(t)}{dt}_{sup}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{sup}
@@ -130,30 +104,20 @@ En la expresión \ref{eq_pendiente_vs_Yg} $V_L$ es la tensión con la que se ali
 	\frac{di_L(t)}{dt}_{inf}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{inf}
 \end{equation}
 
-La tensión $V_L$ es un parámetro que se debe diseñar en el sistema, por lo tanto resulta conveniente que se elija una alimentación $V_{cc}$ tal que $|V_{sup}|=|V_{inf}|=|V_{cc}|$. En ese caso la pendiente depende únicamente de la distancia $Y_g$, como se muestra en la ecuación de \ref{eq_corriente_taylor_3}:
+La tensión $V_L$ es un parámetro de diseño en el sistema, por lo tanto resulta conveniente elegir una alimentación $V_{cc}$ tal que $|V_{sup}|=|V_{inf}|=|V_{cc}|$. De esta forma, se obtiene que el módulo de la pendiente es igual en ambos casos y resulta:
 
 \begin{equation} \label{eq_corriente_taylor_3}
-	\frac{di_L(t)}{dt}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{cc}
+	\abs{\frac{di_L(t)}{dt}}= Y_g*\frac{2}{N^2*A*\mu_o}*\abs{V_{cc}}
 \end{equation}
 
-Este análisis resulta de interés ya que se llega a la conclusión de que se puede estimar la distancia de entrehierro a partir de medir la pendiente de la corriente en el electroimán.
+Como se muestra en la ecuación de \ref{eq_corriente_taylor_3}, la pendiente depende únicamente de la distancia $Y_g$. Por lo tanto, es posible obtener una estimación de la distancia de entrehierrpo a partir de la medición de la pendiente de la onda triangular.
 
- %se podría aprovechar esa relación para aplicar estimación de variables y obtener, de manera indirecta un valor de distancia de entrehierro a partir de la pendiente de la corriente de la onda de corriente conmutada.
-
-%Como se mencionó en la descripción general del dispositivo, es de interés realizar una estimación de la distancia del entrehierro a partir de la corriente que circular en el electroimán. Por este motivo es conveniente aprovechar la relación que existe entre la pendiente de la onda triangular, con la inductancia, que es inversamente propocional a la distancia de entrehierro.... De esta manera se puede implementar un circuito de estimación que trabaje a partir de medir la pendiente... Paroa que este circuito funcione correctamente, se debe respetar dos condiciones:
-
-%*Que la magnitud de la pendiente solo sea sensible a la distancia de separación, y que todo lo demás sea constante (v_L)...
-
-%*Que la pendiente en la subida sea igual en valor absoluto a la de bajada.  PAra que se pueda obtener un valor de posición en todo momento, sin que el sistema quede a lazo abierto
-
-%*Que la estimación nunca se vea interrumpida, ya que el sisema quedaría a lazo abierto.
 \subsection{Diseño del lazo de control de corriente}
 
-Para lograr obtener una corriente como la que se describió con anterioridad se propone implementar un controlador de corriente de lazo cerrado del tipo ON-OFF con el agregado de una zona de histéresis, cuyo diagrama en bloques se muestra en la figura \ref{fig:img_diag-en-bloques}. En este controlador se realimenta la corriente del electroimán y se la compara con una corriente de referencia $I_{L_{ref}}$, dando como resultado una corriente de error $I_e$. 
+Para controlar la corriente que circula por el electroimán se propone un controlador de lazo cerrado del tipo ON-OFF con el agregado de una zona de histéresis. En este tipo de controlador se alterna la polaridad de la tensión de alimentación del electroimán, con el objetivo de que la corriente se mantenga oscilando en torno a un valor medio de referencia. Para ello se define un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
 
-Este tipo de controlador permite definir un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
+En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador implementado, en el cual la diferencia entre la corriente de referencia y la que circula por el electorimán está representado por Ie. Esta última ingresa al controlador ON-OF con histéresis, que se encarga de alternar la polaridad de la tensión del electroimán.
 
-%La forma de onda de corriente resultante se puede observar en la figura \ref{fig:img_corriente_exponencial-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -161,6 +125,7 @@ Este tipo de controlador permite definir un margen de corriente $\Delta I_L$ de 
 	\caption{Diagrama en bloques del controlador de corriente con histéresis.}
 	\label{fig:img_diag-en-bloques}
 \end{figure}
+
 
 Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
 

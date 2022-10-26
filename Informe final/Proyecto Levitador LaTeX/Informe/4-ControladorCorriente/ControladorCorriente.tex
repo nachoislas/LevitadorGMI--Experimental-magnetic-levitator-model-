@@ -4,23 +4,23 @@ En este capítulo se diseña y modela el circuito encargado de controlar la corr
 
 \section{Descripción general}\label{sec_descripcion-general}
 
-Para controlar la posición es necesario modificar la fuerza que ejerce el electroimán. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, en la sección \ref{sec:fuerza_magnetica}, la fuerza magnética generada por el electroimán esta determinada por la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
+Para controlar la posición es necesario modificar la fuerza que ejerce el electroimán sobre la pieza móvil. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, dicha fuerza esta determinada por la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
 
 \begin{equation*}
 	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation*}
 
-En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se decide implementar un controlador de corriente que permita regularla a partir de una tensión de referencia correspondiente al valor deseado, con el objetivo de controlar la fuerza ejercida.
+En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se propone implementar un controlador de corriente que permita regular esta fuerza a partir de una tensión de entrada de referencia correspondiente al valor deseado. De esta forma, al variar dicha tensión se logra ajustar la fuerza ejercida.
 
 \subsection{Comportamiento eléctrico del electroimán}\label{sec_comportamiento-electrico-electroiman}
 
-Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($Y_g$) y una resistencia serie ($R_L$) correspondiente a la del bobinado. Es decir, como un circuito RL serie cuya relación entre corriente de salida y tensión de entrada (admitancia) se muestra en la expresión \ref{eq_corriente}.
+Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($Y_g$) y una resistencia serie ($R_L$). Es decir, como un circuito RL serie cuya relación entre corriente de salida y tensión de entrada (admitancia) es:
 
 \begin{equation} \label{eq_corriente}
-\frac{I_L}{V_L}(s)=\frac{1}{s*L_{(Y_g)}+R_L}
+	\frac{I_L}{V_L}(s)=\frac{1}{s*L_{(Y_g)}+R_L}
 \end{equation}
 
-Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se obtiene la respuesta temporal de la corriente ante un escalón de tensión con amplitud $v_L$ en la entrada, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L_{(Y_g)}}{R_L}$.
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se obtiene la respuesta temporal de la corriente ante un escalón de tensión en la entrada con amplitud $v_L$, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L_{(Y_g)}}{R_L}$.
 
 \begin{equation} \label{eq_corriente_temporal_cond_iniciales}
 	i_L(t)=\frac{v_L}{R_L} + (I_o-\frac{v_L}{R_L})*e^{-\frac{t}{\tau}}
@@ -40,7 +40,7 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 \section{Diseño del controlador}
 
 
-Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una corriente con un valor medio correspondiente al deseado y un ripple superpuesto. Este último debe ser lo suficientemente pequeño comparado con el valor medio para que no afecte considerablemente en la fuerza magnética generada. 
+Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una corriente con un valor medio correspondiente al deseado y un ripple superpuesto. Este último debe ser lo suficientemente pequeño comparado con el valor medio para que no contribuya en la fuerza magnética generada. 
 
 \begin{figure}[H]
 	\centering
@@ -51,7 +51,7 @@ Se desea controlar el valor medio de corriente que circula por el electroimán a
 
 \colorbox{red}{modificar valores de imagen Vsup y Vinf}
 
-Si se elige un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal} y la ecuación \ref{eq_corriente_temporal_cond_iniciales} puede ser aproximada a la expresión \ref{eq_corriente_taylor}.
+Si se elige un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal}. Por el mismo motivo, la ecuación \ref{eq_corriente_temporal_cond_iniciales} puede ser aproximada a la \ref{eq_corriente_taylor}.
 
 \begin{equation} \label{eq_corriente_taylor}
 	i_L(t)=I_o -  (I_o-\frac{V_L}{R_L})*\frac{t}{\tau}
@@ -65,17 +65,20 @@ Si se elige un período de conmutación lo suficientemente chico con respecto a 
 	\label{fig:img_corriente_lineal}
 \end{figure}
 
-Si bien la pendiente cambia según las condiciones iniciales, para este análisis se considera $I_o=0$ y luego se analiza cómo afecta en el sistema real.
-
-Por lo tanto, al considerar el caso en que $I_o=0$ y  $\tau=\frac{L_{(Y_g)}}{R_L}$ la expresión queda:
+Si bien la pendiente cambia según las condiciones iniciales, para este análisis se considera $I_o=0$ y luego se analiza cómo afecta en el sistema real. De esta forma, considerando que  $\tau=\frac{L_{(Y_g)}}{R_L}$ resulta:
 
 \begin{equation} \label{eq_corriente_taylor_2}
 	i_L(t)= \frac{V_L}{L_{(Y_g)}}*t
 \end{equation}
 
-De la expresión \ref{eq_corriente_taylor_2} se puede observar que existe una relación entre la forma de onda de la corriente y la distancia de entrehierro. Es por ello que a continuación se analiza si es posible obtener una estimación de $Y_g$ a partir de una medición de la corriente.
 
-\subsection{Análisis de estimación}
+Es posible observar en la expresión \ref{eq_corriente_taylor_2} que la pendiente de la onda triangular depende de la distancia de entrehierro. Esto es interesante ya que se podría conocer o estimar el valor de la distancia de separación a partir de la medición de dicha pendiente.
+
+Debido a que para poder determinar la magnitud de fuerza magnética que debe generar el electroimán es necesario conocer la distancia de entrehierro, se propone medirla indirectamente a través de la pendiente de la onda triangular.
+
+Por lo tanto, a continuación se analiza que variables del sistema afectan el valor de la pendiente y si es posible implementar el estimador de posición.
+
+\subsection{Análisis de estimación de distancia de entrehierro}
 
 La pendiente de la onda triangular de la corriente contiene información de la distancia de entrehierro. Por lo tanto, se calcula dicha pendiente haciendo la derivada de la expresión \ref{eq_corriente_taylor_2} con respecto al tiempo para medir indirectamente dicha separación.
 
@@ -90,7 +93,7 @@ Como se vio en el capítulo \ref{cap:CaracterizacionElectroiman}, la expresión 
 	\frac{di_L(t)}{dt}= Y_g*\frac{2}{N^2*A*\mu_o}*V_L
 \end{equation}
 
-En la expresión \ref{eq_pendiente_vs_Yg} $V_L$ es la tensión con la que se alimenta el electroimán. A partir de la figura \ref{fig:img_corriente_lineal} se pueden plantear dos casos para la pendiente: la de subida, cuando $V_L=V_{sup}$ y la de bajada cuando $V_L=V_{inf}$. Por lo tanto se obtienen dos expresiones:
+En la expresión \ref{eq_pendiente_vs_Yg}, la tensión con la que se alimenta al electroimán está representada por $V_L$. A partir de la figura \ref{fig:img_corriente_lineal} se pueden plantear dos casos para la pendiente: cuando crece (con $V_L=V_{sup}$) y cuando decrece (con $V_L=V_{inf}$). Por lo tanto, se obtienen dos expresiones:
 
 \begin{equation} 
 	\frac{di_L(t)}{dt}_{sup}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{sup}
@@ -101,7 +104,7 @@ En la expresión \ref{eq_pendiente_vs_Yg} $V_L$ es la tensión con la que se ali
 	\frac{di_L(t)}{dt}_{inf}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{inf}
 \end{equation}
 
-La tensión $V_L$ es un parámetro de diseño en el sistema, por lo tanto resulta conveniente elegir una alimentación $V_{cc}$ tal que $|V_{sup}|=|V_{inf}|=|V_{cc}|$. De esta forma, se obtiene que el módulo de la pendiente es igual en ambos casos y resulta:
+La tensión $V_L$ es un parámetro de diseño en el sistema, por lo tanto resulta conveniente elegir una fuente de alimentación cuyo valor sea $V_{cc}$ y que $|V_{sup}|=|V_{inf}|=|V_{cc}|$. De esta forma, se obtiene que el módulo de la pendiente es igual en ambos casos y resulta:
 
 \begin{equation} \label{eq_corriente_taylor_3}
 	\abs{\frac{di_L(t)}{dt}}= Y_g*\frac{2}{N^2*A*\mu_o}*\abs{V_{cc}}

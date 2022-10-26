@@ -111,7 +111,7 @@ Como se muestra en la ecuación de \ref{eq_corriente_taylor_3}, la pendiente dep
 
 \subsection{Diseño del lazo de control de corriente}
 
-Para controlar la corriente que circula por el electroimán se propone un controlador de lazo cerrado del tipo ON-OFF con el agregado de una zona de histéresis. En este tipo de controlador se alterna la polaridad de la tensión de alimentación del electroimán, con el objetivo de que la corriente se mantenga oscilando en torno a un valor medio de referencia. Para ello se define un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
+Para controlar la corriente que circula por el electroimán se propone un controlador de lazo cerrado del tipo ON-OFF con el agregado de una zona de histéresis.
 
 En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador implementado, en el cual la diferencia entre la corriente de referencia y la que circula por el electorimán está representado por Ie. Esta última ingresa al controlador ON-OF con histéresis, que se encarga de alternar la polaridad de la tensión del electroimán.
 
@@ -123,9 +123,17 @@ En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador impl
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
+En este tipo de controlador se alterna la polaridad de la tensión de alimentación del electroimán, con el objetivo de que la corriente se mantenga oscilando en torno a un valor medio de referencia. Para ello se define un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
 
+%% BORRADOR DE ALGO
 Debido a que lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
 
+Para lograr una formad de onda mostrada en la  fig 3.3 el controlador actua de la siguiente manera. 
+
+Al iniciar la corriente iL aumentara de forma exponencial hasta que el valor de ie sea deltaIL/2.En este el bloque de histeresis actua y se conmuta la tension Vh a -VCC.
+
+Al hacer esto la corriente comienza a decrecer hatsta que el error es igual a -deltaiL/2. De igual forma, en este punto el bloque coomparador actua y la tension vh conmuta +VCC. Este ciclo se repite indefinidamente siempre y cuando la iref sea constante.
+%%
 
 \subsection{Medición de corriente}
 

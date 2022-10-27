@@ -231,15 +231,15 @@ Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiem
 A partir de la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede obtener el valor máximo de ripple cuando $t=t_{max}$, considerando que la corriente inicial es $I_{min}$ y que la corriente final es $I_{min}+\Delta I_L$
 
 \begin{equation} \label{eq_delta_i}
-	I_{min}+\Delta I_{L_{max}}=\frac{v_L}{R_L}+(I_{min}-\frac{v_L}{R_L})*e^{-\frac{t_{max}}{\tau}}
+	I_{min}+\Delta I_{L_{max}}=\frac{V_{CC}}{R_L}+(I_{min}-\frac{V_{CC}}{R_L})*e^{-\frac{t_{max}}{\tau}}
 \end{equation}
 
 +De la ecuación \ref{eq_delta_i} se obtiene el valor máximo que se le puede asignar a $\Delta I_L$. 
 
 \begin{equation} \label{eq_delta_i_2}
-	\Delta I_{L_{max}}=6.06*10^{-3}*(\frac{v_L}{R_L}-I_{min})
+	\Delta I_{L_{max}}=6.06*10^{-3}*(\frac{V_{CC}}{R_L}-I_{min})
 \end{equation}
-\colorbox{red}{Cambiar VL por VCC, y ver imagen de altium}
+\colorbox{red}{ver imagen de altium}
 
 El controlador de corriente tendrá una corriente media variable entre 0 y 30 A, se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier $I_{min}$ dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0$ e $I_{min}=30$. Para el primer caso se obtiene que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=500\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
 
@@ -269,9 +269,9 @@ Por otro lado, la realimentación del controlador de corriente debe ser en forma
 
 Aunque este método para medir corriente pareciera directo, presenta algunos inconvenientes en el diseño:
 
-El primero es que al agregar una resistencia en serie al electroimán, se estaría agregando una mayor disipación de potencia en el sistema. Para intentar reducir este problema se podría elegir un valor de resistencia lo suficientemente bajo para que su consumo sea despreciable. Por ejemplo, se podría adoptar una resistencia de $10\:mOhms$. Este valor resulta en pérdidas de potencia de $4\:W$, que es un valor aceptable. 
+El primero es que al agregar una resistencia en serie al electroimán, se introduce una mayor disipación de potencia en el sistema. Para intentar reducir este problema se podría elegir un valor de resistencia lo suficientemente bajo para que su consumo sea despreciable. Por ejemplo, si se adopta una resistencia de $10\:mOhms$ el valor de pérdidas de potencia es de $4\:W$, que es un valor aceptable. 
 
-El segundo inconveniente es que alteraría la dinámica de la planta, ya que la constante de tiempo sería $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:Ohm$, por lo que una resistencia de sensado con valor $10\:mOhm$ no afectaría en gran medida la dinámica.
+El segundo inconveniente es que se altera la dinámica de la planta, ya que la constante de tiempo cambia a $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:Ohm$, por lo que una resistencia de sensado con valor $10\:mOhm$ no afectaría en gran medida la dinámica.
 
 El tercero es que se debe realizar una medición de tensión flotante. Esto se debe a que la resistencia, al estar en serie con el electroimán, no tiene ningún punto de medición referido a masa. Por lo tanto, se debe utilizar un amplificador que mida tensión en modo diferencial para luego obtener una señal en modo común. El inconveniente que se presenta es que cada uno de los puntos de medición se encuentra a un alto potencial respecto de masa y, además, este cambia en cada conmutación. Esto genera que durante los transitorios de conmutación haya ruido en la medición diferencial.
 
@@ -280,7 +280,7 @@ Debido a que se requiere medir el valor de corriente sin que el ruido de modo co
 
 \subsubsection{Análisis de medición de corriente mediante sensor de efecto Hall}
 
-Dado que la medición con una resistencia de sensado introduce ruido ocasionado por la conmutación de las llaves, se plantea la alternativa de utilizar un sensor de efecto Hall. Este dispositivo mide el campo magnético generado por la corriente, entregando a su salida una tensión proporcional a ésta. La principal ventaja que presenta es que el campo magnético medido sólo es sensible a las variaciones de corriente y no a las conmutaciones de tensión.
+Dado que la medición con una resistencia de shunt introduce ruido ocasionado por la conmutación de las llaves, se plantea como alternativa utilizar un sensor de efecto Hall. Estos dispositivos miden el campo magnético generado por la corriente, entregando a su salida una tensión proporcional a ésta. La principal ventaja que presentan es que el campo magnético medido sólo es sensible a las variaciones de corriente y no a las conmutaciones de tensión.
 
 Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan los criterios que se tendrán en cuenta para la elección del sensor:
 

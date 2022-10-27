@@ -300,6 +300,13 @@ De esta forma, el bloque H de realimentación queda definido como:
 	H=\frac{V_iLF}{I_L}=53,33 mV/A
 \end{equation}
 
+\subsection{Principio de funcionamiento del Puente H}
+
+Para lograr una forma de onda de tensión mostrada en la figura XD se propone utilizar un Puente H. Este circuito consta de 4 llaves dispuestas como se ve en la figura XD.
+
+FIGURA XD
+
+El electroimán se conecta entre los puntos medios de cada par de transistores. De esta manera se puede conmutar la polaridad de la tensión que se le aplica modificando el estado de las llaves de forma sincrona. Sólo se permite que dos llaves se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada \textsl{shoot-through}.  
 
 
 \subsection{Cálculo de ganancia de entrada}

@@ -132,6 +132,7 @@ En este tipo de controlador se alterna la polaridad de la tensión de alimentaci
 Debido a que en las sucesivas conmutaciones lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
 
 Para lograr una forma de onda como la mostrada en la  figura \ref{fig:img_corriente_lineal} el controlador actúa de la siguiente manera. Al iniciar, la corriente $I_L$ es cero, dando como resultado a la entrada del comparador una $I_e = I_{ref}$. Por lo tanto, el comparador excita al electroimán con $+V_{CC}$ provocando que $I_L$ aumente de forma exponencial hasta que el valor de $I_e$ sea $\frac{\Delta I_L}{2}$. Una vez alcanzado este valor, el bloque con histéresis actúa y conmuta la tensión $V_h$ a $-V_{CC}$. Al hacer esto, la corriente comienza a decrecer hasta que el error sea igual a $-\frac{\Delta I_L}{2}$. De igual forma, en este punto el bloque comparador actúa y la tensión $V_h$ conmuta $+V_{CC}$. Este ciclo se repite indefinidamente siempre y cuando la $I_{ref}$ sea constante.
+\colorbox{red}{Habría que explicar que pasa cuando Ie no es constante?}
 
 
 

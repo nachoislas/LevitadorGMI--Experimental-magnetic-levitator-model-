@@ -126,6 +126,12 @@ En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador impl
 	\label{fig:img_diag-en-bloques}
 \end{figure}
 
+\begin{figure}[ht]
+	\centering
+	\input{tikz/diagrama_bloques_histeresis.tex}
+	\caption{Diagrama en bloques simplificado del controlador de corriente}	\label{fig:diagrama_bloques_histeresis}
+\end{figure}
+
 En este tipo de controlador se alterna la polaridad de la tensión de alimentación del electroimán, con el objetivo de que la corriente se mantenga oscilando en torno a un valor medio de referencia. Para ello se define un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
 
 %% BORRADOR DE ALGO

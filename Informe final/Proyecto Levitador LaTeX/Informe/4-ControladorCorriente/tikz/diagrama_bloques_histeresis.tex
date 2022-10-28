@@ -1,0 +1,62 @@
+%\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+%	\node [coordinate, name=entrada] {};
+%	\node [sum, right=of entrada] (resta) {};
+%	\node [coordinate, right=of resta] (ie) {};
+%	\node [block, right=of ie] (comparador) {COMP};
+%	\node [block, right=of comparador] (planta) {PLANTA};
+%	\node [coordinate, right=of planta] (salida) {};
+%	\node [coordinate, below of=planta] (realimentacion) {};
+%	
+%	\draw [->] (entrada) -- node {$I_{L_{ref}}$} (resta);
+%	\draw [->] (resta) -- (comparador);
+%	\draw [->] (comparador) -- (planta);
+%%	\draw [->] (fft) -- node[name=a_resta] {} (resta);
+%%	\draw [->] (fft) -- node[near end] {+} (resta);
+%	\draw [->] (salida) |- (realimentacion);
+%	\draw [->] (realimentacion) -| node[pos=0.95] {-} (resta);
+%	\draw [->] (planta) -- node {$I_L$} (salida);
+%	
+%
+%	
+%%	\draw [->] (fft) |- (promedio);
+%%	\draw [->] (promedio) -| node [near end] {-} (resta);
+%\end{tikzpicture}
+
+\tikzstyle{block} = [draw, fill=blue!20, rectangle, 
+minimum height=3em, minimum width=6em]
+\tikzstyle{sum} = [draw, fill=blue!20, circle, node distance=1cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+
+\def\windup{
+	\tikz[remember picture,overlay]{
+		\draw [stealth-stealth] (-1,0) -- node[pos=1] {$I_e$} (1,0); 
+		\draw [stealth-stealth] (0,-0.6)--(0,0.6); %esto son los ejes
+		\draw [-stealth] (-0.9,-0.4)-- (0.3,-0.4);
+		\draw  [-stealth] (0.3,-0.4) -- (0.3,0.4); 
+		\draw [-stealth] (0.9,0.4) --(-0.3,0.4);
+		\draw [-stealth] (-0.3,0.4) -- (-0.3, -0.4); %esto sería la formita
+}}
+% The block diagram code is probably more verbose than necessary
+\begin{tikzpicture}[auto, node distance=3cm,>=latex']
+	% We start by placing the blocks
+	\node [input, name=input] {};
+	\node [sum, right of=input] (sum) {};
+	\node [block, right of=sum] (controller) {\windup};
+	\node [block, right of=controller, 
+	node distance=3cm] (system) {System};
+	% We draw an edge between the controller and system block to 
+	% calculate the coordinate u. We need it to place the measurement block. 
+	\draw [->] (controller) -- node[name=u] {$V_L$} (system);
+	\node [output, right of=system] (output) {};
+	\node [block, below of=u] (measurements) {Measurements};
+	
+	% Once the nodes are placed, connecting them is easy. 
+	\draw [draw,->] (input) -- node {$I_{L_{ref}}$} (sum);
+	\draw [->] (sum) -- node {$I_e$} (controller);
+	\draw [->] (system) -- node [name=y] {$I_L$}(output);
+	\draw [->] (y) |- (measurements);
+	\draw [->] (measurements) -| node[pos=0.99] {$-$} 
+	node [near end] {$I_{L_{feed}}$} (sum);
+\end{tikzpicture}

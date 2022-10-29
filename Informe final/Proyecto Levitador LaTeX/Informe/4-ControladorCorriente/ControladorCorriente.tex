@@ -39,8 +39,19 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 
 \section{Diseño del controlador}
 
+Se desea controlar el valor de la corriente que circula por el electroimán a partir de una tensión de referencia. Es decir, que la corriente sea proporcional a esta tensión de entrada. Para ello, se propone implementar un controlador que actúe sobre la tensión de alimentación del electroimán ($V_L$), ya que como dice la expresión \ref{eq_corriente}, esta permite modificar el valor de la corriente. Por lo tanto se propone el siguiente diagrama en bloques:
 
-Se desea controlar el valor medio de corriente que circula por el electroimán a partir de un sistema realimentado. Para ello se propone utilizar un controlador que trabaja en conmutación, alternando la alimentación del electroimán entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar \colorbox{red}{la excursión de la corriente alrededor del valor deseado?? en vez de }los tiempos de conmutación, se puede lograr una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. El resultado que se obtiene es una corriente con un valor medio correspondiente al deseado y un ripple superpuesto. Este último debe ser lo suficientemente pequeño comparado con el valor medio para que no contribuya en la fuerza magnética generada. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Diagrama-en-bloques-basico.png}
+	\caption{Diagrama en bloques básico.}
+	\label{fig:img_diagrama_bloques_basico_cc}
+\end{figure}
+
+Este sistema de control trabaja a lazo cerrado, es decir, mide una tensión proporcional a la corriente y luego la compara con la referencia. Este resultado es utilizado para determinar si es necesario aumentar o disminuir la corriente y, en función de ello, actuar sobre la tensión de alimentación del electroimán.
+
+Para ello se propone diseñar un controlador que trabaje en conmutación. En este tipo de controladores se alterna la alimentación del electroimán ($V_L$) entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se logra que la corriente oscile en torno a un valor medio deseado. La forma de onda resultante se muestra en la figura  \ref{fig:img_corriente_exponencial}. En ella se puede ver que existe un ripple superpuesto al valor medio deseado. Sin embargo, esto no presentaría un problema si el controlador de corriente es diseñado de forma tal que estas variaciones sean pequeñas comparadas con el valor medio.
 
 \begin{figure}[H]
 	\centering
@@ -51,12 +62,7 @@ Se desea controlar el valor medio de corriente que circula por el electroimán a
 
 \colorbox{red}{modificar valores de imagen Vsup y Vinf}
 
-Si se elige un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal}. Por el mismo motivo, la ecuación \ref{eq_corriente_temporal_cond_iniciales} puede ser aproximada a la \ref{eq_corriente_taylor}.
-
-\begin{equation} \label{eq_corriente_taylor}
-	i_L(t)=I_o -  (I_o-\frac{V_L}{R_L})*\frac{t}{\tau}
-\end{equation}
-
+Al elegir un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal}. 
 
 \begin{figure}[H]
 	\centering
@@ -65,22 +71,29 @@ Si se elige un período de conmutación lo suficientemente chico con respecto a 
 	\label{fig:img_corriente_lineal}
 \end{figure}
 
-Si bien la pendiente cambia según las condiciones iniciales, para este análisis se considera $I_o=0$ y luego se analizará cómo afecta en el sistema real \colorbox{red}{ponemos que se hace en el cap 4??}. De esta forma, considerando que  $\tau=\frac{L_{(Y_g)}}{R_L}$ resulta:
+Cada tramo que compone la onda triangular puede ser aproximado con la ecuación \ref{eq_corriente_taylor}, en donde $I_o$ corresponde al valor de corriente en el que se produce la conmutación en $V_L$.
 
-\begin{equation} \label{eq_corriente_taylor_2}
-	i_L(t)= \frac{V_L}{L_{(Y_g)}}*t
+\begin{equation} \label{eq_corriente_taylor}
+	i_L(t)=I_o -  (I_o-\frac{V_L}{R_L})*\frac{t}{\tau}
 \end{equation}
 
-
-Es posible observar en la expresión \ref{eq_corriente_taylor_2} que la pendiente de la onda triangular depende de la distancia de entrehierro. Esto es interesante ya que se podría conocer o estimar el valor de la distancia de separación a partir de la medición de dicha pendiente.
-
-Debido a que para poder determinar la magnitud de fuerza magnética que debe generar el electroimán es necesario conocer la distancia de entrehierro, se propone medirla indirectamente a través de la pendiente de la onda triangular.
-
-Por lo tanto, a continuación se analiza que variables del sistema afectan el valor de la pendiente y si es posible implementar el estimador de posición.
+Es posible observar en la expresión \ref{eq_corriente_taylor} que la pendiente de la onda triangular depende de $\tau=\frac{L_{(Y_g)}}{R_L}$. Es decir, se puede ver que existe una relación entre la pendiente y la distancia de entrehierro. Debido a que para poder determinar la magnitud de fuerza magnética que debe generar el electroimán es necesario conocer dicha distancia, se propone medirla indirectamente a través de la pendiente de la onda triangular. Por lo tanto, a continuación se analiza que variables del sistema afectan el valor de la pendiente y si es posible implementar el estimador de posición.
 
 \subsection{Análisis de estimación de distancia de entrehierro}
 
-La pendiente de la onda triangular de la corriente contiene información de la distancia de entrehierro. Por lo tanto, se calcula dicha pendiente haciendo la derivada de la expresión \ref{eq_corriente_taylor_2} con respecto al tiempo para medir indirectamente dicha separación.
+Como se mencionó previamente, la pendiente de la onda triangular de la corriente contiene información de la distancia de entrehierro. Por lo tanto, para realizar este análisis se hace la derivada de la expresión \ref{eq_corriente_taylor} con respecto al tiempo para obtener el valor de la pendiente y se reemplaza $\tau=\frac{L_{(Y_g)}}{R_L}$.
+
+%\begin{equation} \label{eq_derivada_corriente}
+%	\frac{di_L(t)}{dt}=(\frac{V_L}{R_L}-I_o)*\frac{1}{\tau}
+%\end{equation}
+
+\begin{equation} \label{eq_derivada_corriente}
+	\frac{di_L(t)}{dt}=\frac{V_L-I_o*R_L}{L_{(Y_g)}}
+\end{equation}
+
+
+Si bien la pendiente cambia según las condiciones iniciales, para este análisis se considera $I_o=0$ y luego se analizará cómo afecta en el sistema real. De esta forma, la pendiente resulta:
+
 
 \begin{equation} 
 	\frac{di_L(t)}{dt}= \frac{V_L}{L_{(Y_g)}}
@@ -103,23 +116,26 @@ En la expresión \ref{eq_pendiente_vs_Yg}, la tensión con la que se alimenta al
 \begin{equation}
 	\frac{di_L(t)}{dt}_{inf}= Y_g*\frac{2}{N^2*A*\mu_o}*V_{inf}
 \end{equation}
+%
+%La tensión $V_L$ es un parámetro de diseño en el sistema, por lo tanto resulta conveniente elegir una fuente de alimentación para el electroimán que sea capaz de entregar una tensión, que llamaremos $V_{cc}$, alternando su polaridad. Por lo tanto $|V_{sup}|=|V_{inf}|=|V_{cc}|$. De esta forma, se obtiene que el módulo de la pendiente es igual en ambos casos y resulta:
+%
+%La tensión $V_L$ es un parámetro de diseño en el sistema, por lo tanto resulta conveniente elegir una alimentación $V_{cc}$ tal que $|V_{sup}|=|V_{inf}|=|V_{cc}|$. De esta forma, se obtiene que el módulo de la pendiente es igual en ambos casos y resulta:
 
-La tensión $V_L$ es un parámetro de diseño en el sistema, por lo tanto resulta conveniente elegir una fuente de alimentación para el electroimán que sea capaz de entregar una tensión, que llamaremos $V_{cc}$, alternando su polaridad. Por lo tanto $|V_{sup}|=|V_{inf}|=|V_{cc}|$. De esta forma, se obtiene que el módulo de la pendiente es igual en ambos casos y resulta:
-
-\begin{equation} \label{eq_corriente_taylor_3}
+Como se desea realizar la estimación a partir del módulo de la pendiente, resulta conveniente que su magnitud sea igual en cada ciclo de conmutación independientemente de la tensión de alimentación aplicada. Por lo tanto, debido a que la tensión $V_L$ es un parámetro de diseño en el sistema, se elijen valores de $V_{sup}$ y $V_{inf}$ que difieran en su polaridad, pero que tengan la misma magnitud. De esta forma, se define una alimentación $V_{cc}$ tal que $|V_{sup}|=|V_{inf}|=|V_{cc}|$ y se obtiene:
+ 
+\begin{equation} \label{eq_pendiente_simetrica_corriente}
 	\abs{\frac{di_L(t)}{dt}}= Y_g*\frac{2}{N^2*A*\mu_o}*\abs{V_{cc}}
 \end{equation}
 
-Como se muestra en la ecuación de \ref{eq_corriente_taylor_3}, la pendiente depende únicamente de la distancia $Y_g$ puesto que los demás términos son constantes. 
+Como se muestra en la ecuación \ref{eq_pendiente_simetrica_corriente}, la pendiente varía únicamente con la distancia $Y_g$ puesto que los demás términos son constantes. 
 
-De esta análisis se llega a la conclusión de que es posible obtener una estimación de la distancia de entrehierro a partir de la medición de la pendiente de la onda triangular. Esto será analizado en detalle en el capitulo \ref{cap:Estimador Analogico}.
+De este análisis se llega a la conclusión de que es posible obtener una estimación de la distancia de entrehierro a partir de la medición de la pendiente de la onda triangular. Para ello se debe diseñar una fuente de alimentación que permita alternar la polaridad de la tensión aplicada al electroimán con igual magnitud pero sentido contrario.
 
-\subsection{Diseño del lazo de control de corriente}
+\subsection{Lógica de control de corriente}
 
-Para controlar la corriente que circula por el electroimán se propone un controlador de lazo cerrado del tipo ON-OFF con el agregado de una zona de histéresis.
+Para controlar la corriente que circula pr el electroimán y lograr la forma de onda triangular, se propone un controlador del tipo ON-OFF con el agregado de una zona de histéresis.
 
-En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador implementado, en el cual la diferencia entre la corriente de referencia y la que circula por el electorimán está representado por $I_e$. Esta última ingresa al controlador ON-OF con histéresis, que se encarga de alternar la polaridad de la tensión del electroimán.
-
+En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador implementado, en el cual la diferencia entre la corriente de referencia y la que circula por el electroimán está representada por $I_e$. Esta última ingresa al comparador con histéresis, que se encarga de alternar la polaridad de la tensión del electroimán según corresponda.
 
 \begin{figure}[H]
 	\centering
@@ -133,20 +149,13 @@ En este tipo de controlador se alterna la polaridad de la tensión de alimentaci
 
 Debido a que en las sucesivas conmutaciones lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
 
-Para lograr una forma de onda como la mostrada en la  figura \ref{fig:img_corriente_lineal} el controlador actúa de la siguiente manera. Al iniciar, la corriente $I_L$ es cero, dando como resultado a la entrada del comparador una $I_e = I_{ref}$. Por lo tanto, el comparador excita al electroimán con $+V_{CC}$ provocando que $I_L$ aumente de forma exponencial hasta que el valor de $I_e$ sea $\frac{\Delta I_L}{2}$. Una vez alcanzado este valor, el bloque con histéresis actúa y conmuta la tensión $V_h$ a $-V_{CC}$. Al hacer esto, la corriente comienza a decrecer hasta que el error sea igual a $-\frac{\Delta I_L}{2}$. De igual forma, en este punto el bloque comparador actúa y la tensión $V_h$ conmuta $+V_{CC}$. Este ciclo se repite indefinidamente siempre y cuando la $I_{ref}$ sea constante.
-\colorbox{red}{Habría que explicar que pasa cuando Ie no es constante?}
+Para lograr una forma de onda como la mostrada en la  figura \ref{fig:img_corriente_lineal} el controlador actúa de la siguiente manera. Al iniciar, la corriente $I_L$ es cero, dando como resultado a la entrada del comparador una $I_e = I_{ref}$. Por lo tanto, el comparador excita al electroimán con $V_L=+V_{CC}$ provocando que $I_L$ aumente de forma exponencial hasta que el valor de $I_e$ sea $\frac{\Delta I_L}{2}$. Una vez alcanzado este valor, el bloque con histéresis actúa y conmuta la tensión $V_L$ a $-V_{CC}$. Al hacer esto, la corriente comienza a decrecer hasta que el error sea igual a $-\frac{\Delta I_L}{2}$. De igual forma, en este punto el bloque comparador actúa y la tensión $V_L$ conmuta a $+V_{CC}$. Este ciclo se repite indefinidamente siempre y cuando la $I_{ref}$ sea constante. En caso de que esta cambie, el sistema dejará de conmutar momentáneamente hasta que el módulo de $I_e$ sea igual a $\frac{\Delta I_L}{2}$. Una vez igualado, el sistema volverá a conmutar.
 
+TENEMOS QUE PONER LA IMAGEN Y CAMBIAR EL TEXTO EN REFERENCIA A ELLA
 
+\subsection{Consideraciones prácticas del controlador de corriente}
 
-\subsection{Medición de corriente}
-
-
-Como se puede ver en el diagrama en bloques \ref{fig:img_diag-en-bloques}, para poder realizar el control es necesario medir la corriente que circula por el electroimán y actuar en consecuencia.
-
-
-Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema.
-
-Los sensores de corriente trabajan en transresistencia ($rm$), por lo tanto, se agrega el bloque H (correspondiente a la ganancia del mismo) en el lazo de realimentación. Ahora $V_{iL}=i_{L}*rm$. Como se está trabajando con tensiones es necesario agregar un bloque $K_{in}$ para obtener el equivalente en tensión de $I_{ref}$ . El diagrama en bloques resultante es el siguiente (figura \ref{fig:img_diag-en-bloques-conH-y-Kin}):
+En el diagrama en bloques \ref{fig:img_diag-en-bloques} se analizó la lógica de control trabajando únicamente con corrientes. Sin embargo, para la realización práctica del controlador es conveniente trabajar con tensiones. Por lo tanto, es necesario convertir el valor de corriente del electroimán medido en un valor de tensión proporcional, cuya ganancia se simboliza con $H(s)$ y esta determinado por el sensor a implementar. Por otro lado, para lograr que la corriente de salida excursione entre $0\:A$ a $30\:A$, a partir de una tensión de referencia de entrada, se agrega el bloque $K_{in}$ que permite relacionar cada valor de corriente de salida con uno de tensión de entrada. El diagrama en bloques del sistema modificado se muestra en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}.
 
 \begin{figure}[H]
 	\centering
@@ -154,6 +163,8 @@ Los sensores de corriente trabajan en transresistencia ($rm$), por lo tanto, se 
 	\caption{Diagrama en bloques del controlador de corriente completo.}
 	\label{fig:img_diag-en-bloques-conH-y-Kin}
 \end{figure}
+
+%Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema.
 
 %ESTO AL FINAL ES AL PEDO CREO DE ULTIMA SE PUEDE HACER UN ANALISIS CON VALORES PERO MAS ADELANTE 
 %Se puede expresar al error que introduce el sensor de efecto hall como $V_{errSensor}$. Entonces la expresión de error $V_{e}$ resulta: 
@@ -174,8 +185,10 @@ En esta sección se determinarán los parámetros críticos para el correcto fun
 
 \subsection{Cálculo de tensión de alimentación}
 
-Como se esta excitando a un sistema RL que posee una constante de tiempo ($\tau$) definida con una conmutación de tensión $+-Vcc$, la elección de este ultimo valor determina la velocidad de respuesta que el sistema tendrá ante perturbaciones o cambios en el punto  de operación.
+%Como se esta excitando a un sistema RL que posee una constante de tiempo ($\tau$) definida con una conmutación de tensión $\pm Vcc$, la elección de este ultimo valor determina la velocidad de respuesta que el sistema tendrá ante perturbaciones o cambios en el punto  de operación.
 
+La determinación del valor de la tensión de alimentación a utilizar es importante ya que determina la velocidad con la que responde el sistema ante perturbaciones o a cambios en el punto de operación.
+ 
 %Es importante determinar cómo será la alimentación del controlador de corriente. Para hacerlo se debe tener en cuenta la velocidad de respuesta de la planta que está determinada por su constante de tiempo ($\tau$). Es decir, el sistema debe ser lo suficientemente rápido para modificar el valor medio de la corriente ante perturbaciones o cambios en el punto de operación. 
 
 Un caso a analizar es cuando, en régimen permanente, se modifica bruscamente la carga que esta levitando. En esta situación el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia máxima de referencia $Y_g=5\:mm$ se modifica de carga mínima ($1\:Kg$) a máxima ($30\:Kg$). Utilizando la ecuación \label{eq_corriente_peso} se obtiene que la corriente para ambos casos es de:

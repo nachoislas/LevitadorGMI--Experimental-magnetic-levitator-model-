@@ -227,18 +227,20 @@ Cuando se modifique la carga del objeto ,es necesario que el tiempo de subida de
 \end{equation}
 
 Reemplazando este valor en la ecuación \ref{eq_tiempo_de_subida} se puede obtener el valor de tensión mínimo de $V_{CC}$ para que se alcance una velocidad de respuesta aceptable para que circule la corriente necesaria para que el objeto mantenga la posición deseada.
-El valor obtenido es $Vcc>=21.6\:V$ por lo que se escoge un valor comúnmente utilizado de $24 V$.
+
+El valor obtenido es $Vcc\geq21.6\:V$ por lo que se escoge un valor comúnmente utilizado de $24 V$.
+
 
 colorbox{Se puede decir cuanto da $T_1$ si tomamos 24V.}
 
 \subsection{Cálculo de ancho de histéresis}
 
-+%Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
+%Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
 
 Para controlar la fuerza magnética ejercida sin tener variaciones los componentes frecuenciales introducidos por la conmutación deben ser filtrados por la dinámica de la planta.
 
 Esto se logra asignando una frecuencia de conmutación con un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}.
-De esta forma el polo dominante se mantiene y la respuesta a los transitorios no se ve afectada.  Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$ (expresada en Hz resulta $F_{sw}>=1\:kHz$).
+De esta forma el polo dominante se mantiene y la respuesta a los transitorios no se ve afectada.  Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}\geq7000\:r/s$ (expresada en Hz resulta $F_{sw}\geq1\:kHz$).
 
 
 Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
@@ -249,7 +251,7 @@ A partir de la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede ob
 	I_{min}+\Delta I_{L_{max}}=\frac{V_{CC}}{R_L}+(I_{min}-\frac{V_{CC}}{R_L})*e^{-\frac{t_{max}}{\tau}}
 \end{equation}
 
-+De la ecuación \ref{eq_delta_i} se obtiene el valor máximo que se le puede asignar a $\Delta I_L$. 
+De la ecuación \ref{eq_delta_i} se obtiene el valor máximo que se le puede asignar a $\Delta I_L$. 
 
 \begin{equation} \label{eq_delta_i_2}
 	\Delta I_{L_{max}}=6.06*10^{-3}*(\frac{V_{CC}}{R_L}-I_{min})
@@ -260,7 +262,7 @@ El controlador de corriente tendrá una corriente media variable entre 0 y 30 A,
 
 \subsection{Elección del sensor de corriente}
 
-Para poder diseñar un controlador de corriente apropiado es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán para que luego el controlador pueda actuar en consecuencia. Es necesario conocer tanto su valor medio, como su ripple. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde 0 hasta 30 A con un ripple de 500 mA.
+Como se menciono en secciones anteriores es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán para que luego el controlador pueda actuar en consecuencia. Es necesario conocer tanto su valor medio, como su ripple. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde 0 hasta 30 A con un ripple de 500 mA.
 
 En esta sección se analizan dos alternativas para lograr este objetivo. La primera mediante una resistencia en serie al electroimán y la segunda utilizando un sensor de efecto Hall.
 

@@ -179,7 +179,61 @@ En el diagrama en bloques \ref{fig:img_diag-en-bloques} se analizó la lógica d
 
 %El error que introduce el sensor de efecto hall $V_{errSensor}$ debe ser mucho menor al ancho de histéresis del comparador.
 
-\section{Elección y calculo de parámetros del controlador}
+\subsection{Elección de topología de fuente de alimentación}
+
+%La fuente de alimentación debe ser capaz de proveer la corriente que el eectroimán requiere para genera la fuerza suficiente para mantener al objeto en suspención. El sistema de control planteado en la sección anterior utiliza señales en forma de tensión, que tienen niveles bajos (son señales lñogicas)  Sin embargo el electroimán trabaja con corrientes de hasta 30 A, por lo tanto es necesario diseñar una etapa que haga la conversión entre señales de nivel lógico y señales de potencia.Por otro lado,
+%
+%Para poder controlar la corriente de hasta 30 A que circulan por el electroimán, se plantea utilziar una lógica de control con niveles de tensión entre 0V y 5V. 
+%
+%Para alcanzar los niveles de corriente de hasta 30A que requiere el electroimán es necesario implementar una etapa de potencia. Además, se debe tener en cuenta los siguientes aspectos. 
+
+Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada. Debido a que existen diversas topologías circuitales para este tipo de fuentes, se analizan los aspectos que debe cumplir para poder elegir la adecuada.
+
+Debido a que se medirá indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente, la topología debe permitir alternar la polaridad de la alimentación de forma tal que la magnitud de la pendiente se mantenga igual en cada semiciclo de conmutación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
+
+Por otro lado, debido a que el lazo de control para el sistema de levitación magnética necesitará conocer el valor de la distancia de separación de entrehierro para regular la fuerza ejercida, es necesario disponer de la estimación en todo momento. Por este motivo, no puede darse el caso en que el sistema deje de conmutar ya que no habría pendiente y, por ende, tampoco estimación de la distancia. Los casos en que la conmutación se podría ver afectada son los siguientes: 
+
+\begin{itemize} 
+	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio de corriente supera la mitad del ripple de corriente $(\Delta I_{L})$.
+	
+	\item Cuando la distancia de entrehierro es pequeña y se trabaja con peso reducido la corriente media puede llegar a ser menor que el ripple $\frac{\Delta I_{L}}{2}$.
+\end{itemize}
+
+Por estos motivos se propone utilizar una topología de puente H completo compuesto por cuatro llaves como se muestra en la figura \ref{fig:img_puente_h_con_llaves}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{puente_con_llaves.png}
+	\caption{Topología de puente H.}
+	\label{fig:img_topologia_simplificada}
+\end{figure}
+
+\colorbox{pink}{poner un cuadrado en vez de la L y la R}
+
+Esta topología permite el control individual del estado de cada llave. Cada una tiene dos estados posibles: abierto (no conduce corriente), y cerrado (conduce corriente sin caida de tensión en la llave). Por medio de la correcta combinación de llaves se puede lograr que la alimentación del electroimán sea $+V_{cc}$ (con Q1 y Q4 cerrados y Q2 y Q3 abiertos), o $-V_{cc}$ (con Q2 y Q3 cerrados y Q1 y Q4 abiertos). De esta manera, se logra una alimentación simétrica de la carga.
+
+% Con estas combinaciones también se puede controlar el sentido de circulación de corriente.
+
+Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. 
+
+
+% Esta topología permite la excursión negativa de la corriente mientras que mantiene en funcionamiento al estimador de posición.
+
+\subsubsection{Funcionamiento del puente H}
+
+Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de la siguiente manera:
+
+
+\begin{itemize}
+	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, generando un circuito entre $V_{CC}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa.
+	\item Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejen de conducir, y comiencen a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo que su magnitud comienza a decrecer.
+	\item Una vez alcanzado el límite inferior de corriente ($I_{L_{MIN}}$), se vuelve a conmutar el estado de las llaves para que la corriente vuelva a crecer.
+	\item Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. 
+\end{itemize}
+
+Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
+
+\section{Elección y cálculo de parámetros del controlador}
 
 En esta sección se determinarán los parámetros críticos para el correcto funcionamiento del controlador de corriente.
 
@@ -187,19 +241,38 @@ En esta sección se determinarán los parámetros críticos para el correcto fun
 
 %Como se esta excitando a un sistema RL que posee una constante de tiempo ($\tau$) definida con una conmutación de tensión $\pm Vcc$, la elección de este ultimo valor determina la velocidad de respuesta que el sistema tendrá ante perturbaciones o cambios en el punto  de operación.
 
-La determinación del valor de la tensión de alimentación a utilizar es importante ya que determina la velocidad con la que responde el sistema ante perturbaciones o a cambios en el punto de operación.
- 
-%Es importante determinar cómo será la alimentación del controlador de corriente. Para hacerlo se debe tener en cuenta la velocidad de respuesta de la planta que está determinada por su constante de tiempo ($\tau$). Es decir, el sistema debe ser lo suficientemente rápido para modificar el valor medio de la corriente ante perturbaciones o cambios en el punto de operación. 
+La determinación del valor de la tensión de alimentación $V_{CC}$ a utilizar es importante ya que determina la velocidad con la que responde el sistema ante perturbaciones o a cambios en el punto de operación. Por lo tanto, se analiza qué valor de tensión de alimentación es requerida para lograr aumentar la corriente que circula por el electroimán lo suficientemente rápido para que pueda responder ante esas situaciones.
 
-Un caso a analizar es cuando, en régimen permanente, se modifica bruscamente la carga que esta levitando. En esta situación el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia máxima de referencia $Y_g=5\:mm$ se modifica de carga mínima ($1\:Kg$) a máxima ($30\:Kg$). Utilizando la ecuación \label{eq_corriente_peso} se obtiene que la corriente para ambos casos es de:
+Para ello, se plantea el caso en que el sistema se encuentre manteniendo en suspensión a un objeto con una masa de 1Kg a una distancia de 4mm y esta cambie abruptamente a 30Kg. 
+
+Teniendo en cuenta que para mantener un objeto de 30Kg suspendido a una distancia de 4mm se requiere una coriente de 2233A y para 5mm 131A, el sistema debe poder aumentar su corriente 2332A antes de que el objeto supere 1mm
+
+En este caso, el sistema debe ser capaz de aumentar la corriente que circula por el electroimán 
+
+
+
+Para ello, se propone analizar el caso en que el levitador se encuentra funcionando con una distancia de entrehierro de 4mm y con el peso mínimo (1kg). El electroimán tiene una corriente media de:
+\colorbox{red}{repetir cálculo con y=4}
+\begin{equation}
+	I_L(Y=4\:mm)[m=1\:kg]=3.72\:A  
+\end{equation}
+
+A continuación se aumenta abruptamente la carga, haciendo que m=30kg. Por lo tanto el compensador del lazo de control de distancia (supongamos que el controlador pone la referencia de corriente en la máxima). Aunque el controlador responda inmediatamente, la corriente en el electroimán tardará cierto tiempo en alcanzar el valor necesario, por lo tanto se espera que la distancia de separación aumente un cachito. Nos interesa que este aumento de distancia no sea mayor a 1mm, por lo tanto se necesita que la corriente sea:
 
 \begin{equation}
 	I_L(Y=5\:mm)[m=30\:Kg]=20.4\:A 
 \end{equation}
 
-\begin{equation}
-	I_L(Y=5\:mm)[m=1\:Kg]=3.72\:A
-\end{equation}
+Antes de llegar a un tiempo....T1
+%Es importante determinar cómo será la alimentación del controlador de corriente. Para hacerlo se debe tener en cuenta la velocidad de respuesta de la planta que está determinada por su constante de tiempo ($\tau$). Es decir, el sistema debe ser lo suficientemente rápido para modificar el valor medio de la corriente ante perturbaciones o cambios en el punto de operación. 
+
+
+
+Un caso a analizar es cuando, en régimen permanente, se modifica bruscamente la carga que esta levitando. En esta situación el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia máxima de referencia $Y_g=5\:mm$ se modifica de carga mínima ($1\:Kg$) a máxima ($30\:Kg$). Utilizando la ecuación \label{eq_corriente_peso} se obtiene que la corriente para ambos casos es de:
+
+
+
+
 
 Dado que el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación. La expresión teórica de la corriente es: 
 
@@ -317,13 +390,6 @@ De esta forma, el bloque H de realimentación queda definido como:
 	H=\frac{V_iLF}{I_L}=53,33 mV/A
 \end{equation}
 
-\subsection{Principio de funcionamiento del Puente H}
-
-Para lograr una forma de onda de tensión mostrada en la figura XD se propone utilizar un Puente H. Este circuito consta de 4 llaves dispuestas como se ve en la figura XD.
-
-FIGURA XD
-
-El electroimán se conecta entre los puntos medios de cada par de transistores. De esta manera se puede conmutar la polaridad de la tensión que se le aplica modificando el estado de las llaves de forma sincrona. Sólo se permite que dos llaves se enciendan a la vez, y esto se realiza de manera diagonal. Es decir, en la figura \ref{fig:img_topologia-puenteH}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. De otra forma, se podría generar un cortocircuito entre la fuente de alimentación y GND, que produciría una circulación de corriente denominada \textsl{shoot-through}.  
 
 
 \subsection{Cálculo de ganancia de entrada}

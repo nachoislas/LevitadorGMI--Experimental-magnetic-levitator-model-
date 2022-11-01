@@ -24,3 +24,10 @@ History/
 
 #simulink
 *.autosave
+*.aux
+*.lof
+*.lot
+*.out
+*.gz
+*.toc
+*.gz

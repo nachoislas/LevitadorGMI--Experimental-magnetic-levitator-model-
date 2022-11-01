@@ -316,11 +316,10 @@ En esta sección se determinarán los parámetros críticos para el correcto fun
 
 %Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
 
-Para controlar la fuerza magnética ejercida sin tener variaciones los componentes frecuenciales introducidos por la conmutación deben ser filtrados por la dinámica de la planta.
+Al trabajar en conmutación se está excitando al sistema con una onda cuadrada de forma constante (en estado estacionario). Como se mencionó previamente la forma de onda de la corriente debe ser triangular de forma que esta oscile sobre un valor medio generando una fuerza constante con pequeñas variaciones que no afecten la dinámica de la planta.
 
-Esto se logra asignando una frecuencia de conmutación con un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}.
-De esta forma el polo dominante se mantiene y la respuesta a los transitorios no se ve afectada.  Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}\geq7000\:r/s$ (expresada en Hz resulta $F_{sw}\geq1\:kHz$).
-
+Para lograr esto la frecuencia de conmutación debe ser al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}.
+De esta forma la dinámica de la planta y la respuesta a los transitorios no se ven afectadas.  Por lo tanto, dado que el polo se ubica en $70\:r/s$  se debe conmutar a una frecuencia de $\omega_{sw}\geq7000\:r/s$ (expresada en Hz resulta $F_{sw}\geq1\:kHz$).
 
 Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
 

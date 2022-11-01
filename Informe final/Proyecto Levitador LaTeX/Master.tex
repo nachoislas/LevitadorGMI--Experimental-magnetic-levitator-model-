@@ -9,6 +9,8 @@
 \usepackage[utf8]{inputenc}
 \pagestyle{empty}
 \usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,babel}
+\usetikzlibrary{decorations.markings}
 \usepackage{xcolor}
 \usepackage{listings}
 
@@ -69,7 +71,7 @@
 \usepackage{notoccite} % Evitar que las citas en los caption inicien el contador (aparecen en la lista de figuras)
 \usepackage{layouts}
 \usepackage{newverbs}
-%\usepackage{xpatch}
+\usepackage{xpatch}
 \usepackage{algorithm} %ctan.org\pkg\algorithms
 %\usepackage{algorithmic}
 \usepackage{algpseudocode}
@@ -344,6 +346,14 @@
 
 \begin{document}
 \raggedbottom
+
+%definiciones de parametros para el dibujo
+\tikzstyle{block} = [draw, fill=blue!20, rectangle, 
+minimum height=4.5em, minimum width=6em]
+\tikzstyle{sum} = [draw, fill=blue!20, circle, node distance=1cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
 
 %% Inserta p\'{a}gina en blanco para imprimir dos p\'{a}ginas por hoja
 %\NoBgThispage

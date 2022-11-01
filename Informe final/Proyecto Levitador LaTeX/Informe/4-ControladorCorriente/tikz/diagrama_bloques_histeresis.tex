@@ -1,0 +1,40 @@
+%esto es para poder dibujar flechitas en la histeresis usando ->-
+\tikzset{->-/.style={decoration={
+			markings,
+			mark=at position .5 with {\arrow{>}}},postaction={decorate}}}
+
+%aca se define el dibujito de la histeresis uniendo lineas
+\def\hist{
+	\tikz[remember picture,overlay]{
+		%dibujamos los ejes. stealth es para las flechas
+		\draw [stealth-stealth] (-1,0) -- (1,0) node[pos=1, yshift=0.5em]{${\scriptstyle I_e}$};  %eje x
+		\draw [stealth-stealth] (0,-0.8)--(0,0.8) node[pos=0.9, xshift=0.8em]{${\scriptstyle V_L}$}; %eje y
+		
+		%esto es para dibujar los tramos de la histeresis
+		\draw [->-] (-0.7,-0.4)-- (0.3,-0.4);
+		\draw  [->-] (0.3,-0.4) -- (0.3,0.4); 
+		\draw [->-] (0.7,0.4) --(-0.3,0.4);
+		\draw [->-] (-0.3,0.4) -- (-0.3, -0.4);
+}}
+
+%Acá se define eñ diagrama en bloques completo
+\begin{tikzpicture}[auto, node distance=3cm,>=latex']
+	% We start by placing the blocks
+	\node [input, name=input] {};
+	\node [sum, right of=input] (sum) {};
+	\node [block, right of=sum] (controller) {\hist};
+	\node [block, right of=controller, 
+	node distance=4.5cm] (system) {${\displaystyle\frac{1}{s*L+R_L}}$};
+	% We draw an edge between the controller and system block to 
+	% calculate the coordinate u. We need it to place the measurement block. 
+	\draw [->] (controller) -- node[name=u] {$V_L$} (system);
+	\node [output, right of=system] (output) {};
+	\node [coordinate, below of=u] (measurements) {Measurements};
+	
+	% Once the nodes are placed, connecting them is easy. 
+	\draw [draw,->] (input) -- node[pos=0.1]{$I_{L_{ref}}$} node[pos=0.9]{$+$} (sum);
+	\draw [->] (sum) -- node {$I_e$} (controller);
+	\draw [->] (system) -- node [name=y] {$I_L$}(output);
+	\draw  (y) |- (measurements);
+	\draw [->] (measurements) -| node[pos=0.99] {$-$} (sum); %node [near end] {$I_{L_{feed}}$} 
+\end{tikzpicture}

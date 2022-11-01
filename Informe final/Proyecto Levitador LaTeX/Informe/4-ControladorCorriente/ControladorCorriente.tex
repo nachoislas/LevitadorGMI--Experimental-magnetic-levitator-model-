@@ -233,78 +233,77 @@ Para poder obtener una forma de onda de corriente como la que se muestra en la f
 
 Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
 
+El valor de tensión de la fuente de alimentación utilizada para el puente H está basado en la versión anterior del dispositivo, por lo que se utiliza $V_{CC} = 24\:V$.
+
 \section{Elección y cálculo de parámetros del controlador}
 
 En esta sección se determinarán los parámetros críticos para el correcto funcionamiento del controlador de corriente.
 
-\subsection{Cálculo de tensión de alimentación}
+%\subsection{Cálculo de tensión de alimentación}
 
 %Como se esta excitando a un sistema RL que posee una constante de tiempo ($\tau$) definida con una conmutación de tensión $\pm Vcc$, la elección de este ultimo valor determina la velocidad de respuesta que el sistema tendrá ante perturbaciones o cambios en el punto  de operación.
 
-La determinación del valor de la tensión de alimentación $V_{CC}$ a utilizar es importante ya que determina la velocidad con la que responde el sistema ante perturbaciones o a cambios en el punto de operación. Por lo tanto, se analiza qué valor de tensión de alimentación es requerida para lograr aumentar la corriente que circula por el electroimán lo suficientemente rápido para que pueda responder ante esas situaciones.
-
-Para ello, se plantea el caso en que el sistema se encuentre manteniendo en suspensión a un objeto con una masa de 1Kg a una distancia de 4mm y esta cambie abruptamente a 30Kg. 
-
-Teniendo en cuenta que para mantener un objeto de 30Kg suspendido a una distancia de 4mm se requiere una coriente de 2233A y para 5mm 131A, el sistema debe poder aumentar su corriente 2332A antes de que el objeto supere 1mm
-
-En este caso, el sistema debe ser capaz de aumentar la corriente que circula por el electroimán 
-
-
-
-Para ello, se propone analizar el caso en que el levitador se encuentra funcionando con una distancia de entrehierro de 4mm y con el peso mínimo (1kg). El electroimán tiene una corriente media de:
-\colorbox{red}{repetir cálculo con y=4}
-\begin{equation}
-	I_L(Y=4\:mm)[m=1\:kg]=3.72\:A  
-\end{equation}
-
-A continuación se aumenta abruptamente la carga, haciendo que m=30kg. Por lo tanto el compensador del lazo de control de distancia (supongamos que el controlador pone la referencia de corriente en la máxima). Aunque el controlador responda inmediatamente, la corriente en el electroimán tardará cierto tiempo en alcanzar el valor necesario, por lo tanto se espera que la distancia de separación aumente un cachito. Nos interesa que este aumento de distancia no sea mayor a 1mm, por lo tanto se necesita que la corriente sea:
-
-\begin{equation}
-	I_L(Y=5\:mm)[m=30\:Kg]=20.4\:A 
-\end{equation}
-
-Antes de llegar a un tiempo....T1
-%Es importante determinar cómo será la alimentación del controlador de corriente. Para hacerlo se debe tener en cuenta la velocidad de respuesta de la planta que está determinada por su constante de tiempo ($\tau$). Es decir, el sistema debe ser lo suficientemente rápido para modificar el valor medio de la corriente ante perturbaciones o cambios en el punto de operación. 
-
-
-
-Un caso a analizar es cuando, en régimen permanente, se modifica bruscamente la carga que esta levitando. En esta situación el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia máxima de referencia $Y_g=5\:mm$ se modifica de carga mínima ($1\:Kg$) a máxima ($30\:Kg$). Utilizando la ecuación \label{eq_corriente_peso} se obtiene que la corriente para ambos casos es de:
-
-
-
-
-
-Dado que el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación. La expresión teórica de la corriente es: 
-
-\begin{equation}
-	I_L(t)=\frac{V}{R_L} + (I_o-\frac{V}{R_L})*e^{-\frac{t}{\tau}}
-\end{equation}
-
-Donde:
-\begin{itemize}
-	\item V es la tensión de alimentación, que puede tomar valores $+V_{cc}$ y $-V_{cc}$.
-	\item $I_o$ es la corriente en el instante inicial.
-	\item $\tau$ es la constante de tiempo del electroimán.
-\end{itemize}
-
-Para encontrar la expresión del tiempo que tarda la corriente en alcanzar el valor máximo de corriente $i_{max}$ se reemplaza $I_{0}=2.9$ y se obtiene $T_{1}$. Esto da:
-
-\begin{equation}\label{eq_tiempo_de_subida}
-	T_1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
-\end{equation}
-
-Cuando se modifique la carga del objeto ,es necesario que el tiempo de subida de corriente $T_1$ sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a $I_{max}$). Es decir que el objeto cae libremente un delta $\Delta Y= 1mm $. Utilizando la ecuación \ref{eq_caida_libre} se obtiene el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
-
-\begin{equation}\label{eq_caida_libre}
-	T=\sqrt{\frac{2*\Delta Y}{g}}=\sqrt{\frac{2*1mm}{9.81}}=14,27\:ms
-\end{equation}
-
-Reemplazando este valor en la ecuación \ref{eq_tiempo_de_subida} se puede obtener el valor de tensión mínimo de $V_{CC}$ para que se alcance una velocidad de respuesta aceptable para que circule la corriente necesaria para que el objeto mantenga la posición deseada.
-
-El valor obtenido es $Vcc\geq21.6\:V$ por lo que se escoge un valor comúnmente utilizado de $24 V$.
-
-
-colorbox{Se puede decir cuanto da $T_1$ si tomamos 24V.}
+%La determinación del valor de la tensión de alimentación $V_{CC}$ a utilizar es importante ya que determina la velocidad con la que responde el sistema ante perturbaciones o a cambios en el punto de operación. Por lo tanto, se analiza qué valor de tensión de alimentación es requerida para lograr aumentar la corriente que circula por el electroimán lo suficientemente rápido para que pueda responder ante esas situaciones.
+%
+%Para ello, se plantea el caso en que el sistema se encuentra con un objeto de 1Kg suspendido a una distancia de 5mm y este cambia abruptamente a 30Kg. 
+% 
+%Las condicion inicial del problema es un objeto de 1Kg suspendido a una distancia de 5mm, por lo que por el electroimán estarán circulando 3.72A. La condición final es una masa 30Kg a 6mm, lo que resulta en una corriente de 24.48A. Por lo tanto, el sistema debe ser lo suficientemente rapido para aumentar la corriente 20.75A antes de que el objeto llegue a 5mm. 
+%
+%Nos dio un Vcc de 26.79 (con una inductancia para 4mm)
+%Nos dio un Vcc de 24.4 (con una inductancia para 5mm)
+%Nos dio un Vcc de 23.7 (con una inductancia para 6mm)
+%\colorbox{red}{repetir cálculo con y=4}
+%\begin{equation}
+%	I_L(Y=4\:mm)[m=1\:kg]=3.72\:A  
+%\end{equation}
+%
+%\begin{equation}
+%	I_L(Y=5\:mm)[m=30\:Kg]=20.4\:A 
+%\end{equation}
+%
+%Antes de llegar a un tiempo....T1
+%%Es importante determinar cómo será la alimentación del controlador de corriente. Para hacerlo se debe tener en cuenta la velocidad de respuesta de la planta que está determinada por su constante de tiempo ($\tau$). Es decir, el sistema debe ser lo suficientemente rápido para modificar el valor medio de la corriente ante perturbaciones o cambios en el punto de operación. 
+%
+%
+%
+%Un caso a analizar es cuando, en régimen permanente, se modifica bruscamente la carga que esta levitando. En esta situación el sistema debe aumentar o disminuir la corriente de forma abrupta para evitar que el objeto se caiga. El caso de mayor exigencia se da cuando a una distancia máxima de referencia $Y_g=5\:mm$ se modifica de carga mínima ($1\:Kg$) a máxima ($30\:Kg$). Utilizando la ecuación \label{eq_corriente_peso} se obtiene que la corriente para ambos casos es de:
+%
+%Es importante tener en cuenta que la inductancia se consideró constante.
+%
+%
+%
+%
+%Dado que el polo dominante ya está definido por el circuito RL del electroimán, la velocidad con que el sistema pueda alcanzar un valor de corriente elevado está determinado por el valor de la fuente de alimentación. La expresión teórica de la corriente es: 
+%
+%\begin{equation}
+%	I_L(t)=\frac{V}{R_L} + (I_o-\frac{V}{R_L})*e^{-\frac{t}{\tau}}
+%\end{equation}
+%
+%Donde:
+%\begin{itemize}
+%	\item V es la tensión de alimentación, que puede tomar valores $+V_{cc}$ y $-V_{cc}$.
+%	\item $I_o$ es la corriente en el instante inicial.
+%	\item $\tau$ es la constante de tiempo del electroimán.
+%\end{itemize}
+%
+%Para encontrar la expresión del tiempo que tarda la corriente en alcanzar el valor máximo de corriente $i_{max}$ se reemplaza $I_{0}=2.9$ y se obtiene $T_{1}$. Esto da:
+%
+%\begin{equation}\label{eq_tiempo_de_subida}
+%	T_1=-\tau*ln(\frac{V_{cc}-R*I_{max}}{V_{cc}-R*I_{0}})
+%\end{equation}
+%
+%Cuando se modifique la carga del objeto ,es necesario que el tiempo de subida de corriente $T_1$ sea mucho menor al tiempo en que la carga llegue a la distancia máxima que el sistema soporta $Y=5mm$ aprox (que corresponde a $I_{max}$). Es decir que el objeto cae libremente un delta $\Delta Y= 1mm $. Utilizando la ecuación \ref{eq_caida_libre} se obtiene el tiempo (T) que tarda en desplazarse un objeto en caída libre una altura $\Delta Y$:
+%
+%\begin{equation}\label{eq_caida_libre}
+%	T=\sqrt{\frac{2*\Delta Y}{g}}=\sqrt{\frac{2*1mm}{9.81}}=14,27\:ms
+%\end{equation}
+%
+%Reemplazando este valor en la ecuación \ref{eq_tiempo_de_subida} se puede obtener el valor de tensión mínimo de $V_{CC}$ para que se alcance una velocidad de respuesta aceptable para que circule la corriente necesaria para que el objeto mantenga la posición deseada.
+%
+%El valor obtenido es $Vcc\geq21.6\:V$ por lo que se escoge un valor comúnmente utilizado de $24 V$.
+%
+%
+%colorbox{Se puede decir cuanto da $T_1$ si tomamos 24V.}
 
 \subsection{Cálculo de ancho de histéresis}
 

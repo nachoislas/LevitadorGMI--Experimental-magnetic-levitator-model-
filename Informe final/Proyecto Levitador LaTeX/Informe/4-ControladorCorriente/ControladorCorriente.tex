@@ -395,6 +395,27 @@ De esta forma, el bloque H de realimentación queda definido como:
 	H=\frac{V_iLF}{I_L}=53,33 mV/A
 \end{equation}
 
+\subsubsection{Elección de llaves de conmutación}
+
+Las llaves de conmutación (Q1,Q2,Q3 y Q4) que se muestran en la figura 3.9 deben ser elegidas con cuidado. Idealmente estas llaves deberían presentar resistencia nula al estar cerradas, de esta forma no se modifica la dinámica de la planta y se reduce la disipación de potencia.
+
+Las llaves son transistores y en el mercado existe una amplia variedad cada uno con sus características. Entre ellos destacan los TBJ, MOSFET y los IGBT. 
+
+Pagina de donde se puede sacar algo 
+
+https://electronoobs.io/tutorial/132#
+
+https://www.allaboutcircuits.com/technical-articles/fet-vs-bjt-vs-igbt-whats-the-right-choice-for-your-power-stage-design/
+
+Lo que encontre es que como vamos a trabajar a 100KHz, a un voltaje bajo y alta corriente el mejor es el MOSFET porque permite conmutaciones a esa freq. Ademas el ON y el OFF es de bajo voltaje para estos. En cambio para un bjt o IGBT no. 
+
+EL BJT 
+EL IGBT descartado supuetamente xq la freq de conmutacion en menor a 50Khz(2017 capaz ahora si?)
+
+
+\subsubsection{Elección de driver de corriente}
+
+Para lograr una conmutación sincronizada de los MOSFET(ya explicamos antes que vamos a isar mosfet) se necesita un dispositivo que permita manejar activar los pares de transistores de forma sincronizada con una senial adecuada. Estos circuitos también llamados DRIVERS de corriente son encapsulados que poseen toda la circuiteria para hacerlo.....
 
 
 \subsection{Cálculo de ganancia de entrada}

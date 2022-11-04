@@ -420,24 +420,15 @@ Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de fun
 
 Como se ve en la tabla en los $BJT$ al circular altas corrientes las pérdidas en $V_{ce}$ son altas (en torno a $1 V$) en cambio los $MOSFET$ presentan una $R_{ds}$ parásita que puede ser del orden de los miliOhms. Esto hace que para una corriente de $30 A$ y una $V_{CC}$ de $24 V$ la caída $V_{ds}$ a comparación de la $V_{ce}$ de los $BJT$ sea mucho menor. Además los $MOSFET$ poseen un diodo anti paralelo que permite el flujo de corrientes parásitas en sentido opuesto. Esto es útil para corrientes espurias que se generan por la conmutación en el puente H.
 
+Para la implementación se utilizan los MSOSFET IPB160N04 ya que ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente, con una corriente máxima de $I_{D}=160$ y presentan una $R_{ds}$ muy baja de $1.6 mohm$. Estos transistores son de tipo N y para que estén en estado de conducción debe aplicarse una tensión entre gate y source de $V_{gs}= 3 V$
 
 
 \subsubsection{Elección de driver de corriente}
 
 Para lograr una conmutación sincronizada de los MOSFET(ya explicamos antes que vamos a isar mosfet) se necesita un dispositivo que permita manejar activar los pares de transistores de forma sincronizada con una senial adecuada. Estos circuitos también llamados DRIVERS de corriente son encapsulados que poseen toda la circuiteria para hacerlo.....
 
-\begin{table}[t]
-	\begin{center}
-		\begin{tabular}{| r | l | c |}
-			Fruta & Cantidad & Origen \\ \hline
-			Manzana & 4 & Estados Unidos \\
-			Naranja & 10 & España \\
-			Plátano & 3 & Colombia \\ \hline
-		\end{tabular}
-		\caption{Fruta disponible}
-		\label{tab:fruta}
-	\end{center}
-\end{table}
+
+
 
 \subsection{Cálculo de ganancia de entrada}
 

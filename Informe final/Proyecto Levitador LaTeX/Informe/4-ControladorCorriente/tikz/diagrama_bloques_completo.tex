@@ -6,7 +6,8 @@
 \begin{tikzpicture}[auto, node distance=3cm,>=latex']
 	% We start by placing the blocks
 	\node [input, name=input] {};
-	\node [sum, right of=input] (sum) {};
+	\node [block, right of=input] (Kin) {$K_{in}$};
+	\node [sum, right of=Kin, node distance=3cm] (sum) {};
 	\node [block, right of=sum] (controller) {\hist};
 	\node [block, right of=controller, 
 	node distance=4.5cm] (system) {${\displaystyle\frac{1}{s*L(Y_g)+R_L}}$};
@@ -14,12 +15,15 @@
 	% calculate the coordinate u. We need it to place the measurement block. 
 	\draw [->] (controller) -- node[name=u] {$V_L$} (system);
 	\node [output, right of=system] (output) {};
-	\node [coordinate, below of=u] (measurements) {Measurements};
+	\node [block, below of=u] (measurements) {H(s)};
 	
 	% Once the nodes are placed, connecting them is easy. 
-	\draw [draw,->] (input) -- node[pos=0.1]{$I_{L_{ref}}$} node[pos=0.9]{$+$} (sum);
+	\draw [draw,->] (input) -- node[pos=0.1]{$V_{IL_{ref}}$} (Kin);
+	\draw [draw,->] (Kin) -- node[pos=0.9]{$+$} (sum);
 	\draw [->] (sum) -- node {$e$} (controller);
 	\draw [->] (system) -- node [name=y] {$I_L$}(output);
 	\draw  (y) |- (measurements);
-	\draw [->] (measurements) -| node[pos=0.99] {$-$} (sum); %node [near end] {$I_{L_{feed}}$} 
+	\draw [->] (measurements) -| node[pos=0.99] {$-$} node[above, pos=0.9, right] {$V_{IL_{feed}}$} (sum); %node [near end] {$I_{L_{feed}}$} 
 \end{tikzpicture}
+
+

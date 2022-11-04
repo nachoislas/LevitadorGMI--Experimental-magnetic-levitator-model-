@@ -17,10 +17,10 @@ En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por
 Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($Y_g$) y una resistencia serie ($R_L$). Es decir, como un circuito RL serie cuya relación entre corriente de salida y tensión de entrada (admitancia) es:
 
 \begin{equation} \label{eq_corriente}
-	\frac{I_L}{V_L}(s)=\frac{1}{s*L_{(Y_g)}+R_L}
+	\frac{I_L}{V_L}(s)=\frac{1}{s*L(Y_g)+R_L}
 \end{equation}
 
-Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se obtiene la respuesta temporal de la corriente ante un escalón de tensión en la entrada con amplitud $v_L$, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L_{(Y_g)}}{R_L}$.
+Al aplicar la transformada inversa de Laplace a la expresión  \ref{eq_corriente}, se obtiene la respuesta temporal de la corriente ante un escalón de tensión en la entrada con amplitud $v_L$, considerando corriente inicial $I_o$ y constante de tiempo $\tau=\frac{L(Y_g)}{R_L}$.
 
 \begin{equation} \label{eq_corriente_temporal_cond_iniciales}
 	i_L(t)=\frac{v_L}{R_L} + (I_o-\frac{v_L}{R_L})*e^{-\frac{t}{\tau}}
@@ -47,6 +47,12 @@ Se desea controlar el valor de la corriente que circula por el electroimán a pa
 	\includegraphics[scale=0.5]{Diagrama-en-bloques-basico.png}
 	\caption{Diagrama en bloques básico.}
 	\label{fig:img_diagrama_bloques_basico_cc}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\input{tikz/diagrama_bloques_basico.tex}
+	\caption{Diagrama en bloques básico}	\label{fig:img_diagrama_bloques_basico_cc_2}
 \end{figure}
 
 Este sistema de control trabaja a lazo cerrado, es decir, mide una tensión proporcional a la corriente y luego la compara con la referencia. Este resultado es utilizado para determinar si es necesario aumentar o disminuir la corriente y, en función de ello, actuar sobre la tensión de alimentación del electroimán.
@@ -81,14 +87,14 @@ Es posible observar en la expresión \ref{eq_corriente_taylor} que la pendiente 
 
 \subsection{Análisis de estimación de distancia de entrehierro}
 
-Como se mencionó previamente, la pendiente de la onda triangular de la corriente contiene información de la distancia de entrehierro. Por lo tanto, para realizar este análisis se hace la derivada de la expresión \ref{eq_corriente_taylor} con respecto al tiempo para obtener el valor de la pendiente y se reemplaza $\tau=\frac{L_{(Y_g)}}{R_L}$.
+Como se mencionó previamente, la pendiente de la onda triangular de la corriente contiene información de la distancia de entrehierro. Por lo tanto, para realizar este análisis se hace la derivada de la expresión \ref{eq_corriente_taylor} con respecto al tiempo para obtener el valor de la pendiente y se reemplaza $\tau=\frac{L(Y_g)}{R_L}$.
 
 %\begin{equation} \label{eq_derivada_corriente}
 %	\frac{di_L(t)}{dt}=(\frac{V_L}{R_L}-I_o)*\frac{1}{\tau}
 %\end{equation}
 
 \begin{equation} \label{eq_derivada_corriente}
-	\frac{di_L(t)}{dt}=\frac{V_L-I_o*R_L}{L_{(Y_g)}}
+	\frac{di_L(t)}{dt}=\frac{V_L-I_o*R_L}{L(Y_g)}
 \end{equation}
 
 
@@ -96,7 +102,7 @@ Si bien la pendiente cambia según las condiciones iniciales, para este análisi
 
 
 \begin{equation} 
-	\frac{di_L(t)}{dt}= \frac{V_L}{L_{(Y_g)}}
+	\frac{di_L(t)}{dt}= \frac{V_L}{L(Y_g)}
 \end{equation}
 
 
@@ -121,7 +127,7 @@ En la expresión \ref{eq_pendiente_vs_Yg}, la tensión con la que se alimenta al
 %
 %La tensión $V_L$ es un parámetro de diseño en el sistema, por lo tanto resulta conveniente elegir una alimentación $V_{cc}$ tal que $|V_{sup}|=|V_{inf}|=|V_{cc}|$. De esta forma, se obtiene que el módulo de la pendiente es igual en ambos casos y resulta:
 
-Como se desea realizar la estimación a partir del módulo de la pendiente, resulta conveniente que su magnitud sea igual en cada ciclo de conmutación independientemente de la tensión de alimentación aplicada. Por lo tanto, debido a que la tensión $V_L$ es un parámetro de diseño en el sistema, se elijen valores de $V_{sup}$ y $V_{inf}$ que difieran en su polaridad, pero que tengan la misma magnitud. De esta forma, se define una alimentación $V_{cc}$ tal que $|V_{sup}|=|V_{inf}|=|V_{cc}|$ y se obtiene:
+Como se desea realizar la estimación a partir del módulo de la pendiente, resulta conveniente que su magnitud sea igual en cada ciclo de conmutación independientemente de la tensión de alimentación aplicada. Por lo tanto, debido a que la tensión $V_L$ es un parámetro de diseño en el sistema, se eligen valores de $V_{sup}$ y $V_{inf}$ que difieran en su polaridad, pero que tengan la misma magnitud. De esta forma, se define una alimentación $V_{cc}$ tal que $|V_{sup}|=|V_{inf}|=|V_{cc}|$ y se obtiene:
  
 \begin{equation} \label{eq_pendiente_simetrica_corriente}
 	\abs{\frac{di_L(t)}{dt}}= Y_g*\frac{2}{N^2*A*\mu_o}*\abs{V_{cc}}
@@ -149,7 +155,7 @@ En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador impl
 	\input{tikz/diagrama_bloques_histeresis.tex}
 	\caption{Diagrama en bloques simplificado del controlador de corriente}	\label{fig:diagrama_bloques_histeresis}
 \end{figure}
-\colorbox{red}{les parece? pueden modificarle cosas}
+\colorbox{red}{En los diagramas cambié Ie por e, así no tengo que hacer un bloque de histeresis distinto cuando el error es Ve (como en el de abajo)}
 
 En este tipo de controlador se alterna la polaridad de la tensión de alimentación del electroimán, con el objetivo de que la corriente se mantenga oscilando en torno a un valor medio de referencia. Para ello se define un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
 
@@ -169,6 +175,12 @@ En el diagrama en bloques \ref{fig:img_diag-en-bloques} se analizó la lógica d
 	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin.png}
 	\caption{Diagrama en bloques del controlador de corriente completo.}
 	\label{fig:img_diag-en-bloques-conH-y-Kin}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_bloques_completo.tex}
+	\caption{Diagrama en bloques completo del controlador de corriente}	\label{fig:diagrama_bloques_completo}
 \end{figure}
 
 %Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema.
@@ -418,7 +430,7 @@ Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de fun
 	\end{center}
 \end{table}
 
-Como se ve en la tabla en los $BJT$ al circular altas corrientes las pérdidas en $V_{ce}$ son altas (en torno a $1 V$) en cambio los $MOSFET$ presentan una $R_{ds}$ parásita que puede ser del orden de los miliOhms. Esto hace que para una corriente de $30 A$ y una $V_{CC}$ de $24 V$ la caída $V_{ds}$ a comparación de la $V_{ce}$ de los $BJT$ sea mucho menor. Además los $MOSFET$ poseen un diodo anti paralelo que permite el flujo de corrientes parásitas en sentido opuesto. Esto es útil para corrientes espurias que se generan por la conmutación en el puente H.
+https://www.allaboutcircuits.com/technical-articles/fet-vs-bjt-vs-igbt-whats-the-right-choice-for-your-power-stage-design/
 
 Para la implementación se utilizan los MSOSFET IPB160N04 ya que ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente, con una corriente máxima de $I_{D}=160$ y presentan una $R_{ds}$ muy baja de $1.6 mohm$. Estos transistores son de tipo N y para que estén en estado de conducción debe aplicarse una tensión entre gate y source de $V_{gs}= 3 V$
 

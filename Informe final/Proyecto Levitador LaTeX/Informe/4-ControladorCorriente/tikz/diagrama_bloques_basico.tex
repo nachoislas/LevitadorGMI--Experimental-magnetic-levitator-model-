@@ -1,13 +1,8 @@
-%importo el bloque de histeresis que definí en otro archivo
-\input{tikz/histeresis.tex}
-
-
 %Acá se define eñ diagrama en bloques completo
 \begin{tikzpicture}[auto, node distance=3cm,>=latex']
 	% We start by placing the blocks
 	\node [input, name=input] {};
-	\node [sum, right of=input] (sum) {};
-	\node [block, right of=sum] (controller) {\hist};
+	\node [block, right of=input] (controller) {CONTROLADOR};
 	\node [block, right of=controller, 
 	node distance=4.5cm] (system) {${\displaystyle\frac{1}{s*L(Y_g)+R_L}}$};
 	% We draw an edge between the controller and system block to 
@@ -17,9 +12,11 @@
 	\node [coordinate, below of=u] (measurements) {Measurements};
 	
 	% Once the nodes are placed, connecting them is easy. 
-	\draw [draw,->] (input) -- node[pos=0.1]{$I_{L_{ref}}$} node[pos=0.9]{$+$} (sum);
-	\draw [->] (sum) -- node {$e$} (controller);
+	\draw [draw,->] (input) -- node[pos=0.5]{$I_{L_{ref}}$} (controller);
 	\draw [->] (system) -- node [name=y] {$I_L$}(output);
 	\draw  (y) |- (measurements);
-	\draw [->] (measurements) -| node[pos=0.99] {$-$} (sum); %node [near end] {$I_{L_{feed}}$} 
+	\draw [->] (measurements) -| node[pos=0.9]{$I_L$} (controller); %node [near end] {$I_{L_{feed}}$} 
 \end{tikzpicture}
+
+
+	

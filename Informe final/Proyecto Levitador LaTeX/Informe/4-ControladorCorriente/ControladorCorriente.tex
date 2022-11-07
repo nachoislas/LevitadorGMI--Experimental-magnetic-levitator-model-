@@ -470,4 +470,12 @@ Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimen
 
 \subsection{Cálculo de ganancia de entrada}
 
+Como se ve en el diagrama en bloques de la figura XD la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Dado que la ganancia del sensor HO15-NP \cite{HO15-NP} es de $H(s) = 53.3\:mV/A$ se puede calcular la ganancia de entrada como:
+
+\begin{equation}
+	K_{in}=\frac{30\:A*53.3\:mV/A}{5\:V}=0.32 
+\end{equation}
+
+La salida de esta etapa, al igual que la tensión de salida del sensor de efecto Hall, se polarizan en un punto de operación de $2.6\:V$\.
+
 

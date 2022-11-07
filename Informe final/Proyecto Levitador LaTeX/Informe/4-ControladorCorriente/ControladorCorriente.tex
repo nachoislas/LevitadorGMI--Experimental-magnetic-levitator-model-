@@ -457,7 +457,15 @@ En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puen
 	\label{fig:img_bootstrap}
 \end{figure}
 
+El \textsl{bootstrap driver} consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del \textsl{bootstrap}, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender $Q_2$ y $Q_4$ durante un tiempo que se conoce como periodo de refresco de \textsl{bootstrap}. De esta forma, los capacitores de \textsl{bootstrap} de ambos lados quedan conectados entre $12\:V$ y GND y se pueden cargar completamente. Durante este tiempo, las salidas a los \textsl{gates} AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de \textsl{shoot-through} durante el período nominal de refresco del \textsl{bootstrap}. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
 
+Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra en funcionamiento: con el transistor $Q_2$ encendido (ALO = $V_{CC}$), $Q_1$ apagado (AHO = AHS = $0\:V$) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a $12\:V$, ya que en un terminal tiene la fuente de $12\:V$ (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de $Q_2$.
+
+Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el \textsl{source} del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de $Q_2$. 
+
+Una vez finalizado el tiempo muerto, se enciende el MOS $Q_1$. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que $Q_1$ pasa de estar apagado a encendido, la tensión en el \textsl{source} cambia de $-V_d$ a $V_{bus}$ de manera gradual mientras se carga el \textsl{gate}, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de \textsl{bootstrap} sumada a la tensión en el \textsl{source} de $Q_1$. De esta manera se logra una tensión de $36\:V$ con respecto a GND en el \textsl{gate} y genera una diferencia entre \textsl{gate} y \textsl{source} de $12\:V$.
+
+Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOS esté encendido.
 
 
 \subsection{Cálculo de ganancia de entrada}

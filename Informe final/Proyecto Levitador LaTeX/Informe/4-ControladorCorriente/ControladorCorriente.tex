@@ -140,22 +140,23 @@ De este análisis se llega a la conclusión de que es posible obtener una estima
 
 \subsection{Lógica de control de corriente}
 
-Para controlar la corriente que circula pr el electroimán y lograr la forma de onda triangular, se propone un controlador del tipo ON-OFF con el agregado de una zona de histéresis.
+Para controlar la corriente que circula por el electroimán y lograr la forma de onda triangular, se propone un controlador del tipo ON-OFF con el agregado de una zona de histéresis.
 
-En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador implementado, en el cual la diferencia entre la corriente de referencia y la que circula por el electroimán está representada por $I_e$. Esta última ingresa al comparador con histéresis, que se encarga de alternar la polaridad de la tensión del electroimán según corresponda.
+En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador implementado, en el cual la diferencia entre la corriente de referencia y la que circula por el electroimán está representada por $e$. Esta última ingresa a un comparador con histéresis, que se encarga de alternar la polaridad de la tensión del electroimán según el valor de $e$.
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{Diagrama-en-bloques.png}
+%	\caption{Diagrama en bloques del controlador de corriente con histéresis.}
+%	\label{fig:img_diag-en-bloques}
+%\end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{Diagrama-en-bloques.png}
-	\caption{Diagrama en bloques del controlador de corriente con histéresis.}
-	\label{fig:img_diag-en-bloques}
+	\input{tikz/diagrama_bloques_histeresis.tex}
+	\caption{Diagrama en bloques simplificado del controlador de corriente}	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-\begin{figure}[ht]
-	\centering
-	\input{tikz/diagrama_bloques_histeresis.tex}
-	\caption{Diagrama en bloques simplificado del controlador de corriente}	\label{fig:diagrama_bloques_histeresis}
-\end{figure}
 \colorbox{red}{En los diagramas cambié Ie por e, así no tengo que hacer un bloque de histeresis distinto cuando el error es Ve (como en el de abajo)}
 
 En este tipo de controlador se alterna la polaridad de la tensión de alimentación del electroimán, con el objetivo de que la corriente se mantenga oscilando en torno a un valor medio de referencia. Para ello se define un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
@@ -163,25 +164,27 @@ En este tipo de controlador se alterna la polaridad de la tensión de alimentaci
 
 Debido a que en las sucesivas conmutaciones lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. Esta oscilación también es conocida como \textsl{ripple}. Su amplitud es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
 
-Para lograr una forma de onda como la mostrada en la  figura \ref{fig:img_corriente_lineal} el controlador actúa de la siguiente manera. Al iniciar, la corriente $I_L$ es cero, dando como resultado a la entrada del comparador una $I_e = I_{ref}$. Por lo tanto, el comparador excita al electroimán con $V_L=+V_{CC}$ provocando que $I_L$ aumente de forma exponencial hasta que el valor de $I_e$ sea $\frac{\Delta I_L}{2}$. Una vez alcanzado este valor, el bloque con histéresis actúa y conmuta la tensión $V_L$ a $-V_{CC}$. Al hacer esto, la corriente comienza a decrecer hasta que el error sea igual a $-\frac{\Delta I_L}{2}$. De igual forma, en este punto el bloque comparador actúa y la tensión $V_L$ conmuta a $+V_{CC}$. Este ciclo se repite indefinidamente siempre y cuando la $I_{ref}$ sea constante. En caso de que esta cambie, el sistema dejará de conmutar momentáneamente hasta que el módulo de $I_e$ sea igual a $\frac{\Delta I_L}{2}$. Una vez igualado, el sistema volverá a conmutar.
+Para lograr una forma de onda como la mostrada en la  figura \ref{fig:img_corriente_lineal} el controlador actúa de la siguiente manera. Al iniciar, la corriente $I_L$ es cero, dando como resultado a la entrada del comparador  $e = I_{ref}$. Por lo tanto, el comparador excita al electroimán con $V_L=+V_{CC}$ provocando que $I_L$ aumente de forma exponencial hasta que el valor de $e$ sea $\frac{\Delta I_L}{2}$. Una vez alcanzado este valor, el bloque con histéresis actúa y conmuta la tensión $V_L$ a $-V_{CC}$. Al hacer esto, la corriente comienza a decrecer hasta que el error sea igual a $-\frac{\Delta I_L}{2}$. De igual forma, en este punto el bloque comparador actúa y la tensión $V_L$ conmuta a $+V_{CC}$. Este ciclo se repite indefinidamente siempre y cuando la $I_{ref}$ sea constante. En caso de que esta cambie, el sistema dejará de conmutar momentáneamente hasta que el módulo de $e$ sea igual a $\frac{\Delta I_L}{2}$. Una vez igualado, el sistema volverá a conmutar.
 
 TENEMOS QUE PONER LA IMAGEN Y CAMBIAR EL TEXTO EN REFERENCIA A ELLA
 
 \subsection{Consideraciones prácticas del controlador de corriente}
 
-En el diagrama en bloques \ref{fig:img_diag-en-bloques} se analizó la lógica de control trabajando únicamente con corrientes. Sin embargo, para la realización práctica del controlador es conveniente trabajar con tensiones. Por lo tanto, es necesario convertir el valor de corriente del electroimán medido en un valor de tensión proporcional, cuya ganancia se simboliza con $H(s)$ y esta determinado por el sensor a implementar. Por otro lado, para lograr que la corriente de salida excursione entre $0\:A$ a $30\:A$, a partir de una tensión de referencia de entrada, se agrega el bloque $K_{in}$ que permite relacionar cada valor de corriente de salida con uno de tensión de entrada. El diagrama en bloques del sistema modificado se muestra en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}.
+En el diagrama en bloques \ref{fig:img_diag-en-bloques} se analizó la lógica de control trabajando únicamente con señales en forma de corriente. Sin embargo, para la realización práctica del controlador es conveniente trabajar con tensiones. Por lo tanto, es necesario  convertir el valor de corriente del electroimán medido en un valor de tensión proporcional. Esto se realiza utilizando un sensor de corriente cuya ganancia se simboliza con $H(s)$.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin.png}
-	\caption{Diagrama en bloques del controlador de corriente completo.}
-	\label{fig:img_diag-en-bloques-conH-y-Kin}
-\end{figure}
+Por otro lado, para lograr que la corriente de salida excursione entre $0\:A$ a $30\:A$, a partir de una tensión de referencia de entrada ($V_{IL_{ref}}$), se agrega el bloque $K_{in}$. Este permite relacionar cada valor de corriente de salida con uno de tensión de entrada. El diagrama en bloques del sistema modificado se muestra en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}.
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{Diagrama-en-bloques-conH-y-Kin.png}
+%	\caption{Diagrama en bloques del controlador de corriente completo.}
+%	\label{fig:img_diag-en-bloques-conH-y-Kin}
+%\end{figure}
 
 \begin{figure}[H]
 	\centering
 	\input{tikz/diagrama_bloques_completo.tex}
-	\caption{Diagrama en bloques completo del controlador de corriente}	\label{fig:diagrama_bloques_completo}
+	\caption{Diagrama en bloques completo del controlador de corriente}	\label{fig:img_diag-en-bloques-conH-y-Kin}
 \end{figure}
 
 Para la señal de entrada $V_{IL_{ref}}$ se adoptan valores de tensión entre $0\:V$ y $5\:V$. Esto con el fin de que la implementación circuital utilice amplificadores operacionales con una fuente simple de $5\:V$. 

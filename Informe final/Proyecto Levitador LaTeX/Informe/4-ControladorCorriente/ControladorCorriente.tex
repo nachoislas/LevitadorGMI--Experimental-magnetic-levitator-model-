@@ -802,29 +802,37 @@ La desventaja de este circuito es que elimina completamente cualquier corriente 
 
 \subsection{Ajuste para permitir corrientes negativas}
 
-\noindent El sensor de efecto Hall entrega una tensión proporcional a la corriente que circula por el electroimán con un \textsl{offset} de $2.5\:V$. Es decir, para corrientes positivas, la salida será mayor a $2.5\:V$, y para corrientes negativas, menor.
+El sensor de efecto Hall entrega una tensión proporcional a la corriente que circula por el electroimán con un \textsl{offset} $V_{op}$. Es decir, para corrientes positivas, la salida será mayor a $V_{op}$, y para corrientes negativas, menor.
 
-\noindent La salida de este sensor se realimenta hacia la entrada del controlador de corriente mediante un operacional, quitándole el \textsl{offset} de $2.5\:V$. Debido a que se utiliza una fuente simple para la alimentación, el circuito encargado de realimentar solo permite excursiones positivas de la corriente mientras que las negativas son recortadas. Esto presenta un problema ya que si ocurre el caso de que la corriente del electroimán se haga negativa instantáneamente, la tensión de salida del sensor de efecto Hall será menor a $2.5\:V$, por lo que la salida del operacional será recortada y, por lo tanto, el sistema quedará a lazo abierto.
+La salida de este sensor se realimenta hacia la etapa del restador del controlador de corriente mediante un operacional, quitándole el \textsl{offset} de $V_{op}$. Debido a que se utiliza una fuente simple para la alimentación, el circuito encargado de realimentar solo permite excursiones positivas de la corriente mientras que las negativas son recortadas. Esto presenta un problema ya que si ocurre el caso de que la corriente del electroimán se haga negativa instantáneamente, la tensión de salida del sensor de efecto Hall será menor a $V_{op}$, por lo que la salida del operacional será recortada y, por lo tanto, el sistema quedará a lazo abierto.
 
 \noindent Para solucionar este problema se analizaron dos alternativas:
 
 \begin{itemize} 
-	\item Elevar el \textsl{set-point} del sensor de efecto Hall.
+	\item Elevar el \textsl{set-point}  $V_{op}$ del sensor de efecto Hall.
 	
 	\item Utilizar una alimentación bipolar para el operacional de realimentación.
 \end{itemize}
 
-\noindent Entre estas se eligió la primer alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el \textsl{offset} del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente.
+Entre estas se eligió la primera alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el \textsl{offset} del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente.
 
-\noindent Para saber qué valor utilizar para el \textsl{offset} se debe calcular el mínimo de tensión entregada por el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo cual la corriente media del electroimán será $0 \:A$ con una excursión de $±250\:mA$. Lo que significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{offset}. Para tomar un margen se incrementa el \textsl{offset} a $2.6\:V$. 
+Para saber qué valor utilizar para el \textsl{offset} se debe calcular el mínimo de tensión entregada por el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo cual la corriente media del electroimán será $0 \:A$ con una excursión de $±250\:mA$. Lo que significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{offset}. Para tomar un margen se incrementa el \textsl{offset} a $2.6\:V$. 
 
 
 PONEMOS IMAGEN DEL CIRCUITO RESTADOR.
 
+\subsection{Comparador con histéresis}
 
-Una de las entradas presenta valores entre
+Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se eligió que la corriente de salida del electroimán tenga un ripple de $500\:mA$. Por lo tanto, al afectar este valor por la transconductancia del sensor de efecto Hall, se obtiene un ancho de histéresis de $26.665\:mV$, alrededor de un punto de operación de $2.6\:V$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Comparador-con-histeresis.png}
+	\caption{Comparador con histéresis.}
+	\label{fig:img_comp-con-hist}
+\end{figure}
 
+\colorbox{red}{explicar funcionamiento del circuito y poner ecuaciones de diseño}
 
 \subsection{Circuito de conmutación auxiliar}
 \noindent Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:

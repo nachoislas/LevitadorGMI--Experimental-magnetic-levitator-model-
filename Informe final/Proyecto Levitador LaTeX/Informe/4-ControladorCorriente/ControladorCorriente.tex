@@ -709,11 +709,20 @@ Se debe diseñar un circuito restador con entradas variables entre $0\:$ y $5\:V
 \colorbox{red}{esta imagen la vamos a cambiare pero nos sirve para plantear las ecuaciones}
 \colorbox{red}{ver dónde poner qué operacionales elegimos}
 
+Del analisis del circuito de la figura \ref{fig:img_etapa-de-entrada} se obtiene la relación entre la salida $V_e$ y todas sus entradas:
+
 \begin{equation*}
 	V_e = \frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}*V_{iLRef}-\frac{R_{4}}{R_{5}}*V_{iLF}+\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}* V_{op}
 \end{equation*}
 
-Dado que $V_{iLRef}$ se multiplica por la ganancia $K_{in}$ y luego se le resta el valor de $V_{iLF}$, todo esto sobre un setpoint $V_{op}$ se obtienen las siguientes relaciones:
+Dado que con este circuito se desea simular la etapa de ganancia de entrada + restador, la salida debe ser de la forma:
+
+\begin{equation}
+	V_e = K_{in} * V_{iLRef} - V_{iLF} + V_{op}
+\end{equation}
+
+Por lo tanto se plantean las siguientes relaciones:
+% $V_{iLRef}$ se multiplica por la ganancia $K_{in}$ y luego se le resta el valor de $V_{iLF}$, todo esto sobre un setpoint $V_{op}$ se obtienen las siguientes relaciones:
 
 
 \begin{equation} \label{eq_ve_operacional-1}
@@ -753,7 +762,7 @@ Para la señal de realimentación ($V_{IL_{feed}}$) se debe adecuar la salida de
 	V_{sns}=I_L*H_0+V_{op}
 \end{equation}
 
-Esta tiene un punto de operación $V_{op}$. Cuando la corriente es positiva, la salida estará por encima del punto de operación, mientras que para corriente negativa estará por debajo. Como en este dispositivo se desea que la corriente sea positiva, se agrega un restador a la salida del sensor para quitarle el punto de operación. Para ello se implementa el circuito de la figura \ref{fig:img_resta-Vbias}, que entrega una tensión mayor a 0V para valores de corriente positivos y recorta los negativos. En este circuito l
+Esta tiene un punto de operación $V_{op}$. Cuando la corriente es positiva, $V_{sns}$ estará por encima del punto de operación, mientras que para corriente negativa estará por debajo. Como en este dispositivo se desea que la corriente sea positiva, se agrega un restador a la salida del sensor para quitarle el punto de operación. Para ello se implementa el circuito de la figura \ref{fig:img_resta-Vbias}, que entrega una tensión mayor a 0V para valores de corriente positivos y recorta los negativos.
 
 \begin{figure}[H]
 	\centering
@@ -783,9 +792,11 @@ Estas ecuaciones se cumplen para valores de resistencias que sean todas iguales,
 
 Finalmente la salida de este circuito queda:
 
-\begin{equation}
-	V_{IL_{feed}}=V_{sns}-V_{op}
+\begin{equation} \label{eq_salida_restador_hall}
+	V_{IL_{feed}}=V_{sns}-V_{op}=I_L*H_0
 \end{equation}
+
+La ecuación \ref{eq_salida_restador_hall} es válida únicamente para $I_L>=0\:A$. Para valores de $I_L<0\:A$, la salida será $V_{IL_{feed}}=0$.
 
 La desventaja de este circuito es que elimina completamente cualquier corriente instantánea que sea negativa. Como se mencionó en la sección ASD, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador, por lo tanto a continuación se intenta solucionar ese inconveniente.
 

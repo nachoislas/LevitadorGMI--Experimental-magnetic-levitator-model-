@@ -12,7 +12,7 @@
 	\node [coordinate, below of=u] (measurements) {Measurements};
 	
 	% Once the nodes are placed, connecting them is easy. 
-	\draw [draw,->] (input) -- node[pos=0.5]{$I_{L_{ref}}$} (controller);
+	\draw [draw,->] (input) -- node[pos=0.5]{$V_{IL_{ref}}$} (controller);
 	\draw [->] (system) -- node [name=y] {$I_L$}(output);
 	\draw  (y) |- (measurements);
 	\draw [->] (measurements) -| node[pos=0.9]{$I_L$} (controller); %node [near end] {$I_{L_{feed}}$} 

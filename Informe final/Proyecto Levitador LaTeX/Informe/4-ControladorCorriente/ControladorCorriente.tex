@@ -1,20 +1,20 @@
 \chapter{Controlador de corriente} \chapterlabel{Informe/4-ControladorCorriente} \label{cap:ControladorCorriente}
-
+\colorbox{red}{no nos olvidemos de actualizar esto cuando terminemos}
 En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Como se vio en el capítulo anterior, el sistema trabaja con corrientes elevadas por lo que se implementan estrategias de conmutación para reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un \textsl{driver} que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
 
 \section{Descripción general}\label{sec_descripcion-general}
 
-Para controlar la posición es necesario modificar la fuerza que ejerce el electroimán sobre la pieza móvil. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, dicha fuerza esta determinada por la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
+Para controlar la posición de la pieza móvil es necesario modificar la fuerza que ejerce el electroimán sobre ella. Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, dicha fuerza está determinada por la ecuación \ref{eq_fuerza_magnetica}, que se repite a continuación. 
 
 \begin{equation*}
 	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation*}
 
-En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se propone implementar un controlador de corriente que permita regular esta fuerza a partir de una tensión de entrada de referencia correspondiente al valor deseado. De forma tal que, al variar dicha tensión, se logre ajustar la fuerza ejercida.
+En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se propone implementar un controlador de corriente que permita regularla a partir de una tensión de entrada, que funciona como referencia del valor de corriente deseado. De forma tal que, al variar dicha tensión, se logre ajustar la fuerza ejercida por el electroimán.
 
 \subsection{Comportamiento eléctrico del electroimán}\label{sec_comportamiento-electrico-electroiman}
 
-Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($Y_g$) y una resistencia serie ($R_L$). Es decir, como un circuito RL serie cuya relación entre corriente de salida y tensión de entrada (admitancia) es:
+Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia ($L(Y_g)$) que varía con la distancia de entrehierro ($Y_g$) y una resistencia serie ($R_L$). Es decir, como un circuito RL serie cuya  relación entre corriente de salida ($I_L$) y tensión de entrada ($V_L$), llamada admitancia, es:
 
 \begin{equation} \label{eq_corriente}
 	\frac{I_L}{V_L}(s)=\frac{1}{s*L(Y_g)+R_L}
@@ -39,20 +39,20 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 
 \section{Diseño del controlador}
 
-Se desea controlar el valor de la corriente que circula por el electroimán a partir de una tensión de referencia. Es decir, que la corriente sea proporcional a esta tensión de entrada. Para ello, se propone implementar un controlador que actúe sobre la tensión de alimentación del electroimán ($V_L$), ya que como dice la expresión \ref{eq_corriente}, esta permite modificar el valor de la corriente. Por lo tanto se propone el siguiente diagrama en bloques:
+Se desea controlar el valor de la corriente que circula por el electroimán a partir de una tensión de referencia. Es decir, que la corriente ($I_L$) sea proporcional a esta tensión de entrada ($V_{IL_{ref}}$). Para ello, se propone implementar un controlador que actúe sobre la tensión de alimentación del electroimán ($V_L$), ya que como se ve en la expresión \ref{eq_corriente}, esta permite modificar el valor de la corriente. En la figura \ref{fig:img_diagrama_bloques_basico_cc} se ilustra el diagrama en bloques propuesto para el controlador.
 
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{Diagrama-en-bloques-basico.png}
+%	\caption{Diagrama en bloques básico.}
+%	\label{fig:img_diagrama_bloques_basico_cc}
+%\end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{Diagrama-en-bloques-basico.png}
-	\caption{Diagrama en bloques básico.}
-	\label{fig:img_diagrama_bloques_basico_cc}
-\end{figure}
-
-\begin{figure}[ht]
-	\centering
 	\input{tikz/diagrama_bloques_basico.tex}
-	\caption{Diagrama en bloques básico}	\label{fig:img_diagrama_bloques_basico_cc_2}
+	\caption{Diagrama en bloques del controlador de corriente.}
+	\label{fig:img_diagrama_bloques_basico_cc}
 \end{figure}
 
 Este sistema de control trabaja a lazo cerrado, es decir, mide una tensión proporcional a la corriente y luego la compara con la referencia. Este resultado es utilizado para determinar si es necesario aumentar o disminuir la corriente y, en función de ello, actuar sobre la tensión de alimentación del electroimán.

@@ -3,11 +3,11 @@
 
 
 %Acá se define eñ diagrama en bloques completo
-\begin{tikzpicture}[auto, node distance=3cm,>=latex']
+\begin{tikzpicture}[auto, node distance=2.5cm,>=latex']
 	% We start by placing the blocks
 	\node [input, name=input] {};
 	\node [block, right of=input] (Kin) {$K_{in}$};
-	\node [sum, right of=Kin, node distance=3cm] (sum) {};
+	\node [sum, right of=Kin, node distance=2cm] (sum) {};
 	\node [block, right of=sum] (controller) {\hist};
 	\node [block, right of=controller, 
 	node distance=4.5cm] (system) {${\displaystyle\frac{1}{s*L(Y_g)+R_L}}$};

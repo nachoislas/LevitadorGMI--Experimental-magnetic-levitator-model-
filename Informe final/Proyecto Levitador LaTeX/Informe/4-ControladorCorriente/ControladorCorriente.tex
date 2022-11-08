@@ -57,7 +57,9 @@ Se desea controlar el valor de la corriente que circula por el electroimán a pa
 
 Este sistema de control trabaja a lazo cerrado, es decir, mide una tensión proporcional a la corriente y luego la compara con la referencia. Este resultado es utilizado para determinar si es necesario aumentar o disminuir la corriente y, en función de ello, actuar sobre la tensión de alimentación del electroimán.
 
-Para ello se propone diseñar un controlador que trabaje en conmutación. En este tipo de controladores se alterna la alimentación del electroimán ($V_L$) entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se logra que la corriente oscile en torno a un valor medio deseado. La forma de onda resultante se muestra en la figura  \ref{fig:img_corriente_exponencial}. En ella se puede ver que existe un ripple superpuesto al valor medio deseado. Sin embargo, esto no presentaría un problema si el controlador de corriente es diseñado de forma tal que estas variaciones sean pequeñas comparadas con el valor medio.
+Para controlar la alimentación del electroimán se propone diseñar un controlador que trabaje en conmutación. En este tipo de controladores se alterna la alimentación del electroimán ($V_L$) entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se logra que la corriente oscile en torno a un valor medio deseado. La forma de onda resultante se muestra en la figura  \ref{fig:img_corriente_exponencial}. 
+
+En ella se puede ver que esta manera de controlar la alimentación genera una corriente con oscilaciones alrededor del valor medio deseado, también conocidas como \textsl{ripple}. Sin embargo, esto no presentaría un problema si el controlador de corriente es diseñado de forma tal que estas variaciones sean pequeñas comparadas con el valor medio.
 
 \begin{figure}[H]
 	\centering
@@ -68,7 +70,7 @@ Para ello se propone diseñar un controlador que trabaje en conmutación. En est
 
 \colorbox{red}{modificar valores de imagen Vsup y Vinf}
 
-Al elegir un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal}. 
+Si se elige un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal}. 
 
 \begin{figure}[H]
 	\centering
@@ -83,11 +85,11 @@ Cada tramo que compone la onda triangular puede ser aproximado con la ecuación 
 	i_L(t)=I_o -  (I_o-\frac{V_L}{R_L})*\frac{t}{\tau}
 \end{equation}
 
-Es posible observar en la expresión \ref{eq_corriente_taylor} que la pendiente de la onda triangular depende de $\tau=\frac{L_{(Y_g)}}{R_L}$. Es decir, se puede ver que existe una relación entre la pendiente y la distancia de entrehierro. Debido a que para poder determinar la magnitud de fuerza magnética que debe generar el electroimán es necesario conocer dicha distancia, se propone medirla indirectamente a través de la pendiente de la onda triangular. Por lo tanto, a continuación se analiza que variables del sistema afectan el valor de la pendiente y si es posible implementar el estimador de posición.
+Es posible observar en la expresión \ref{eq_corriente_taylor} que la pendiente de la onda triangular depende de $\tau=\frac{L_{(Y_g)}}{R_L}$. Es decir, existe una relación entre la pendiente y la distancia de entrehierro. Como se mencionó en la sección \ref{sec_descripcion-del-dispositivo}, para que el dispositivo completo pueda mantener la pieza móvil levitando debe conocer dicha distancia en todo momento. Por lo tanto se propone medirla indirectamente a través de la pendiente de la onda triangular. A continuación se analizará qué variables del sistema afectan el valor de la pendiente y si es posible utilizarla para estimar la posición.
 
 \subsection{Análisis de estimación de distancia de entrehierro}
 
-Como se mencionó previamente, la pendiente de la onda triangular de la corriente contiene información de la distancia de entrehierro. Por lo tanto, para realizar este análisis se hace la derivada de la expresión \ref{eq_corriente_taylor} con respecto al tiempo para obtener el valor de la pendiente y se reemplaza $\tau=\frac{L(Y_g)}{R_L}$.
+Como se mencionó previamente, la pendiente de la onda triangular de la corriente contiene información de la distancia de entrehierro. Por lo tanto, para comenzar este análisis se deriva la expresión \ref{eq_corriente_taylor} con respecto al tiempo para obtener el valor de la pendiente. Reemplazando $\tau=\frac{L(Y_g)}{R_L}$ se obtiene la expresión \ref{eq_derivada_corriente}. 
 
 %\begin{equation} \label{eq_derivada_corriente}
 %	\frac{di_L(t)}{dt}=(\frac{V_L}{R_L}-I_o)*\frac{1}{\tau}
@@ -97,16 +99,15 @@ Como se mencionó previamente, la pendiente de la onda triangular de la corrient
 	\frac{di_L(t)}{dt}=\frac{V_L-I_o*R_L}{L(Y_g)}
 \end{equation}
 
-
 Si bien la pendiente cambia según las condiciones iniciales, para este análisis se considera $I_o=0$ y luego se analizará cómo afecta en el sistema real. De esta forma, la pendiente resulta:
 
 
-\begin{equation} 
+\begin{equation} \label{eq_derivada_corriente_2}
 	\frac{di_L(t)}{dt}= \frac{V_L}{L(Y_g)}
 \end{equation}
 
 
-Como se vio en el capítulo \ref{cap:CaracterizacionElectroiman}, la expresión \ref{eq_inductancia_vs_y} indica que la inductancia del electroimán es inversamente proporcional a la distancia de entrehierro. Por lo tanto se llega a:
+Como se vio en el capítulo \ref{cap:CaracterizacionElectroiman}, la expresión \ref{eq_inductancia_vs_y} indica que la inductancia del electroimán es inversamente proporcional a la distancia de entrehierro. Por lo tanto, reemplazando $L(Y_g)$ en la ecuación \ref{eq_derivada_corriente_2} se llega a:
 
 \begin{equation}\label{eq_pendiente_vs_Yg}
 	\frac{di_L(t)}{dt}= Y_g*\frac{2}{N^2*A*\mu_o}*V_L

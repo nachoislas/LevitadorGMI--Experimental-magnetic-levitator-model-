@@ -358,7 +358,7 @@ El controlador de corriente tendrá una corriente media variable entre 0 y 30 A,
 
 Como se ve en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Considerando  la ganancia de contínua del sensor de corriente $H(s)$, denominada $H_0$, se puede expresar la ganancia de entrada como:
 
-\begin{equation}
+\begin{equation} \label{eq_kin}
 	K_{in}=\frac{30\:A*H_0}{5\:V}=6*H_0 
 \end{equation}
 
@@ -683,7 +683,67 @@ Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una cor
 	P=1.28\:W
 \end{equation}
 
-\subsubsection{Circuito de conmutación auxiliar}
+\subsection{Etapa de entrada y restador}
+
+En esta sección se diseña la implementación circuital correspondiente a la etapa que realiza la resta entre la tensión de referencia, afectada por $K_{in}$ y la realimentación de la tensión proporcional a la corriente, como se muestra en el diagrama en bloques \ref{fig:img_diag-en-bloques-conH-y-Kin}.
+
+En principio se calcula la ganancia de entrada $K_{in}$ Utilizando la ecuación \ref{eq_kin} y teniendo en cuenta la ganancia del sensor de efecto Hall elegido:
+
+\begin{equation}
+	K_{in}=6*53.33=0.32
+\end{equation}
+
+
+Se debe diseñar un circuito restador con entradas variables entre $0\:$ y $5\:V$ cuya salida tenga un punto de operación $V_{ope}$ y que además multiplique la tensión de referencia por la ganancia $K_{in}$. Para ello se propone una topología con un amplificador operacional y resistencias, como la que se muestra en la figura ASDASDA. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Etapa-de-entrada.png}
+	\caption{Etapa de entrada.}
+	\label{fig:img_etapa-de-entrada}
+\end{figure}
+\colorbox{red}{esta imagen la vamos a cambiare pero nos sirve para plantear las ecuaciones}
+\colorbox{red}{ver dónde poner qué operacionales elegimos}
+
+Para obtener una ganancia de $K_{in}=0.32$, los valores de R1 y R2 resultan:
+
+\begin{equation*}
+	V_e = asdads
+\end{equation*}
+\colorbox{red}{hasta acá llegamos, pensamos plantear la salida del operaciones en función de todas las entradas y de ahí obtener ecuaciones para Kin, etc}
+
+
+\subsection{realimentación}
+
+Para la señal de realimentación se debe adecuar la salida del sensor de efecto Hall a valores acordes a la señal de referencia. La salida del sensor tiene un punto de operación de 2.5V. Cuando la corriente es positiva, la salida estará por encima del punto de operación, mientras que para corriente neghativa estará por debajo. Como en este dispositivo se desea que la corriente sea positiva, se agrega un restador a la salida del sensor para quitarle el punto de operación. Sin embargo para permitir excursiones negativas de la corriente (con valor medio positivo), es necesario aumentar el punto de operación del sensor a 2.6V. 
+
+\subsection{Ajuste para evitar lazo abierto con corriente instantánea negativa}
+
+\noindent El sensor de efecto Hall entrega una tensión proporcional a la corriente que circula por el electroimán con un \textsl{offset} de $2.5\:V$. Es decir, para corrientes positivas, la salida será mayor a $2.5\:V$, y para corrientes negativas, menor.
+
+\noindent La salida de este sensor se realimenta hacia la entrada del controlador de corriente mediante un operacional, quitándole el \textsl{offset} de $2.5\:V$. Debido a que se utiliza una fuente simple para la alimentación, el circuito encargado de realimentar solo permite excursiones positivas de la corriente mientras que las negativas son recortadas. Esto presenta un problema ya que si ocurre el caso de que la corriente del electroimán se haga negativa instantáneamente, la tensión de salida del sensor de efecto Hall será menor a $2.5\:V$, por lo que la salida del operacional será recortada y, por lo tanto, el sistema quedará a lazo abierto.
+
+\noindent Para solucionar este problema se analizaron dos alternativas:
+
+\begin{itemize} 
+	\item Elevar el \textsl{set-point} del sensor de efecto Hall.
+	
+	\item Utilizar una alimentación bipolar para el operacional de realimentación.
+\end{itemize}
+
+\noindent Entre estas se eligió la primer alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el \textsl{offset} del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente.
+
+\noindent Para saber qué valor utilizar para el \textsl{offset} se debe calcular el mínimo de tensión entregada por el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo cual la corriente media del electroimán será $0 \:A$ con una excursión de $±250\:mA$. Lo que significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{offset}. Para tomar un margen se incrementa el \textsl{offset} a $2.6\:V$. 
+
+
+PONEMOS IMAGEN DEL CIRCUITO RESTADOR.
+
+
+Una de las entradas presenta valores entre
+
+
+
+\subsection{Circuito de conmutación auxiliar}
 \noindent Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:
 
 \begin{equation} 

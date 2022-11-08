@@ -731,7 +731,13 @@ Donde
 
 \subsection{Adaptación de salida del sensor de corriente}
 
-Para la señal de realimentación ($V_{IL_{feed}}$) se debe adecuar la salida del sensor de efecto Hall a valores acordes a la señal de referencia. La salida del sensor tiene un punto de operación $V_{op}$. Cuando la corriente es positiva, la salida estará por encima del punto de operación, mientras que para corriente negativa estará por debajo. Como en este dispositivo se desea que la corriente sea positiva, se agrega un restador a la salida del sensor para quitarle el punto de operación. Para ello se implementa el circuito de la figura \ref{fig:img_resta-Vbias}, que entrega una tensión mayor a 0V para valores de corriente positivos y recorta los negativos.
+Para la señal de realimentación ($V_{IL_{feed}}$) se debe adecuar la salida del sensor de efecto Hall a valores acordes a la señal de referencia. La salida del sensor ($V_{sns}$) está dada por:
+
+\begin{equation}
+	V_{sns}=I_L*H_0+V_{op}
+\end{equation}
+
+Esta tiene un punto de operación $V_{op}$. Cuando la corriente es positiva, la salida estará por encima del punto de operación, mientras que para corriente negativa estará por debajo. Como en este dispositivo se desea que la corriente sea positiva, se agrega un restador a la salida del sensor para quitarle el punto de operación. Para ello se implementa el circuito de la figura \ref{fig:img_resta-Vbias}, que entrega una tensión mayor a 0V para valores de corriente positivos y recorta los negativos. En este circuito l
 
 \begin{figure}[H]
 	\centering
@@ -767,7 +773,7 @@ Finalmente la salida de este circuito queda:
 
 La desventaja de este circuito es que elimina completamente cualquier corriente instantánea que sea negativa. Como se mencionó en la sección ASD, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador, por lo tanto a continuación se intenta solucionar ese inconveniente.
 
-\subsection{Ajuste para evitar lazo abierto con corriente instantánea negativa}
+\subsection{Ajuste para permitir corrientes negativas}
 
 \noindent El sensor de efecto Hall entrega una tensión proporcional a la corriente que circula por el electroimán con un \textsl{offset} de $2.5\:V$. Es decir, para corrientes positivas, la salida será mayor a $2.5\:V$, y para corrientes negativas, menor.
 

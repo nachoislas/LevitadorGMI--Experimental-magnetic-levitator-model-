@@ -729,9 +729,43 @@ Donde
 \colorbox{red}{hasta acá llegamos, pensamos plantear la salida del operaciones en función de todas las entradas y de ahí obtener ecuaciones para Kin, etc}
 
 
-\subsection{realimentación}
+\subsection{Adaptación de salida del sensor de corriente}
 
-Para la señal de realimentación se debe adecuar la salida del sensor de efecto Hall a valores acordes a la señal de referencia. La salida del sensor tiene un punto de operación de 2.5V. Cuando la corriente es positiva, la salida estará por encima del punto de operación, mientras que para corriente neghativa estará por debajo. Como en este dispositivo se desea que la corriente sea positiva, se agrega un restador a la salida del sensor para quitarle el punto de operación. Sin embargo para permitir excursiones negativas de la corriente (con valor medio positivo), es necesario aumentar el punto de operación del sensor a 2.6V. 
+Para la señal de realimentación ($V_{IL_{feed}}$) se debe adecuar la salida del sensor de efecto Hall a valores acordes a la señal de referencia. La salida del sensor tiene un punto de operación $V_{op}$. Cuando la corriente es positiva, la salida estará por encima del punto de operación, mientras que para corriente negativa estará por debajo. Como en este dispositivo se desea que la corriente sea positiva, se agrega un restador a la salida del sensor para quitarle el punto de operación. Para ello se implementa el circuito de la figura \ref{fig:img_resta-Vbias}, que entrega una tensión mayor a 0V para valores de corriente positivos y recorta los negativos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Resta-Vbias.png}
+	\caption{Resta de $V_{bias}$ al sensor de efecto Hall.}
+	\label{fig:img_resta-Vbias}
+\end{figure}
+\colorbox{red}{cambiar esta imagen después. Reemplazar 2.5 por Vop, poner alimentación del operacional. verificar nombres vilf, vsns, etc..., dejar genericos los valores de resistencias}
+
+La salida de este circuito queda determinada por:
+
+\begin{equation}
+	V_{IL_{feed}}=V_{sns}*\frac{R_{15}}{R_{14}+R_{15}}*\frac{R_{16}+R_{17}}{R_{16}}-V_{op}*\frac{R_{17}}{R_{16}}
+\end{equation}
+
+Como se desea que esta etapa sea un restador puro, se deben elegir valores para las resistencias que cumplan:
+
+\begin{equation}
+	\frac{R_{17}}{R_{16}}=1
+\end{equation}
+
+\begin{equation}
+	\frac{R_{15}}{R_{14}+R_{15}}*\frac{R_{16}+R_{17}}{R_{16}}=1
+\end{equation}
+
+Estas ecuaciones se cumplen para valores de resistencias que sean todas iguales, es decir $R_{14}=R_{15}=R_{16}=R_{17}$. Por lo tanto se elige que estas resistencias tengan el valor $10kOhm$.
+
+Finalmente la salida de este circuito queda:
+
+\begin{equation}
+	V_{IL_{feed}}=V_{sns}-V_{op}
+\end{equation}
+
+La desventaja de este circuito es que elimina completamente cualquier corriente instantánea que sea negativa. Como se mencionó en la sección ASD, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador, por lo tanto a continuación se intenta solucionar ese inconveniente.
 
 \subsection{Ajuste para evitar lazo abierto con corriente instantánea negativa}
 

@@ -709,24 +709,40 @@ Se debe diseñar un circuito restador con entradas variables entre $0\:$ y $5\:V
 \colorbox{red}{esta imagen la vamos a cambiare pero nos sirve para plantear las ecuaciones}
 \colorbox{red}{ver dónde poner qué operacionales elegimos}
 
-Para obtener una ganancia de $K_{in}=0.32$, los valores de R1 y R2 resultan:
-
 \begin{equation*}
-	V_e = \frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}*V_{iLRef}+\frac{R_{4}}{R_{5}}*V_{iLF}+\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}* V_{op}
+	V_e = \frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}*V_{iLRef}-\frac{R_{4}}{R_{5}}*V_{iLF}+\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}* V_{op}
 \end{equation*}
 
-Donde 
+Dado que $V_{iLRef}$ se multiplica por la ganancia $K_{in}$ y luego se le resta el valor de $V_{iLF}$, todo esto sobre un setpoint $V_{op}$ se obtienen las siguientes relaciones:
+
+
+\begin{equation} \label{eq_ve_operacional-1}
+	\frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}} = K_{in} = 0.32
+\end{equation}
+
+\begin{equation} \label{eq_ve_operacional-2}
+	\frac{R_{4}}{R_{5}} = 1
+\end{equation}
+
+\begin{equation} \label{eq_ve_operacional-3}
+	\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}} = 1
+\end{equation}
+
+De estas relaciones se obtiene que $R_{4}=R_{5}$ y luego reemplazando en las ecuaciones \ref{eq_ve_operacional-1}, \ref{eq_ve_operacional-2} y \ref{eq_ve_operacional-3} se obtiene:
 
 \begin{equation*}
-\frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}*V_{iLRef} = 0.32
+	\frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}= 0.16
 \end{equation*}
+
 \begin{equation*}
-\frac{R_{4}}{R_{5}} = 1
+	\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}= 0.5
 \end{equation*}
-\begin{equation*}
-\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}} = 1
-\end{equation*}
-\colorbox{red}{hasta acá llegamos, pensamos plantear la salida del operaciones en función de todas las entradas y de ahí obtener ecuaciones para Kin, etc}
+
+Tomando un valor de $R_{1} = R_{4} = 10 K$ y reemplazando finalmente se obtienen $R_{3}=4.7 K$ y $R_{2}=4.7 K$. Por lo tanto se obtiene a la salida del circuito la ecuación \ref{eq_ve_operacional}: 
+
+\begin{equation} \label{eq_ve_operacional}
+	V_e = 0.32 * V_{iLRef} - V_{iLF} + V_{op}
+\end{equation}
 
 
 \subsection{Adaptación de salida del sensor de corriente}

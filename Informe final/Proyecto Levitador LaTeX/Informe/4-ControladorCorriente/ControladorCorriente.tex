@@ -712,7 +712,19 @@ Se debe diseñar un circuito restador con entradas variables entre $0\:$ y $5\:V
 Para obtener una ganancia de $K_{in}=0.32$, los valores de R1 y R2 resultan:
 
 \begin{equation*}
-	V_e = \frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}*V_{iLRef}+\frac{R_{4}}{R_{5}}*V_{iLF}+\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}* 2.6 V
+	V_e = \frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}*V_{iLRef}+\frac{R_{4}}{R_{5}}*V_{iLF}+\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}* V_{op}
+\end{equation*}
+
+Donde 
+
+\begin{equation*}
+\frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}*V_{iLRef} = 0.32
+\end{equation*}
+\begin{equation*}
+\frac{R_{4}}{R_{5}} = 1
+\end{equation*}
+\begin{equation*}
+\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}} = 1
 \end{equation*}
 \colorbox{red}{hasta acá llegamos, pensamos plantear la salida del operaciones en función de todas las entradas y de ahí obtener ecuaciones para Kin, etc}
 

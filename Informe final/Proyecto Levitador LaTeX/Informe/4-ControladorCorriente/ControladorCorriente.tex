@@ -834,7 +834,16 @@ Para la implementación del comparador con histéresis se utiliza un amplificado
 	\label{fig:img_comp-con-hist}
 \end{figure}
 
-\colorbox{red}{explicar funcionamiento del circuito y poner ecuaciones de diseño}
+Este circuito trabaja con una tensión de salida que puede tomar dos valores como se vio anteriormente(+- Vcc). En la entrada negativa del operacional (V-) se tiene una onda triangular montada sobre un offset de 2.5 V (Ve).
+
+Las ecuaciones son las siguientes:
+\begin{equation} 
+V+ = \frac{R_{7}}{R_{8}+R_{7}}*( Vh - 2.5 V)
+\end{equation} 
+
+La tensión diferencial entre las patas $V+$ y $V-$ es $Vd=(V+)-(V-)$
+
+
 
 \subsection{Circuito de conmutación auxiliar}
 \noindent Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:

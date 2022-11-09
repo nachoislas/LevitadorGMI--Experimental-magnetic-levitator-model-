@@ -87,7 +87,7 @@ Cada tramo que compone la onda triangular puede ser aproximado con la ecuación 
 
 Es posible observar en la expresión \ref{eq_corriente_taylor} que la pendiente de la onda triangular depende de $\tau=\frac{L_{(Y_g)}}{R_L}$. Es decir, existe una relación entre la pendiente y la distancia de entrehierro. Como se mencionó en la sección \ref{sec_descripcion-del-dispositivo}, para que el dispositivo completo pueda mantener la pieza móvil levitando debe conocer dicha distancia en todo momento. Por lo tanto se propone medirla indirectamente a través de la pendiente de la onda triangular. A continuación se analizará qué variables del sistema afectan el valor de la pendiente y si es posible utilizarla para estimar la posición.
 
-\subsection{Análisis de estimación de distancia de entrehierro}
+\subsection{Análisis de estimación de distancia de entrehierro} \label{sec_analisis_estimacion}
 
 Como se mencionó previamente, la pendiente de la onda triangular de la corriente contiene información de la distancia de entrehierro. Por lo tanto, para comenzar este análisis se deriva la expresión \ref{eq_corriente_taylor} con respecto al tiempo para obtener el valor de la pendiente. Reemplazando $\tau=\frac{L(Y_g)}{R_L}$ se obtiene la expresión \ref{eq_derivada_corriente}. 
 
@@ -212,9 +212,9 @@ Para la señal de entrada $V_{IL_{ref}}$ se adoptan valores de tensión entre $0
 %
 %Para alcanzar los niveles de corriente de hasta 30A que requiere el electroimán es necesario implementar una etapa de potencia. Además, se debe tener en cuenta los siguientes aspectos. 
 
-Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada. Debido a que existen diversas topologías circuitales para este tipo de fuentes, se analizan los aspectos que debe cumplir para poder elegir la adecuada.
+Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes. Existen diversas topologías circuitales posibles para el control de corriente de una carga inductiva, por lo tanto se analizan los aspectos que debe cumplir la fuente a diseñar para poder elegir la topología adecuada.
 
-Debido a que se medirá indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente, la topología debe permitir alternar la polaridad de la alimentación de forma tal que la magnitud de la pendiente se mantenga igual en cada semiciclo de conmutación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
+Como se analizó en la sección \ref{sec_analisis_estimacion}, se planea medir indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente. De este análisis surge la necesidad de que la magnitud de la alimentación sea igual para la carga y la descarga del electroimán, con polaridad opuesta. Por lo tanto, se debe escoger una topología que permita alternar la polaridad de la alimentación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
 
 Por otro lado, debido a que el lazo de control para el sistema de levitación magnética necesitará conocer el valor de la distancia de separación de entrehierro para regular la fuerza ejercida, es necesario disponer de la estimación en todo momento. Por este motivo, no puede darse el caso en que el sistema deje de conmutar ya que no habría pendiente y, por ende, tampoco estimación de la distancia. Los casos en que la conmutación se podría ver afectada son los siguientes: 
 
@@ -224,7 +224,9 @@ Por otro lado, debido a que el lazo de control para el sistema de levitación ma
 	\item Cuando la distancia de entrehierro es pequeña y se trabaja con peso reducido la corriente media puede llegar a ser menor que el ripple $\frac{\Delta I_{L}}{2}$.
 \end{itemize}
 
-Por estos motivos se propone utilizar una topología de puente H completo compuesto por cuatro llaves como se muestra en la figura \ref{fig:img_puente_h_con_llaves}.
+En estos casos puede darse la situación de que la corriente del electroimán tenga un valor medio mayor o igual a 0, pero puede tomar valores instantáneos negativos. Por lo tanto, se necesita una topología de fuente que permita circulación de corriente por la carga en ambos sentidos.
+
+Por estos motivos se propone utilizar una topología de puente H completo compuesto por cuatro llaves como se muestra en la figura \ref{fig:img_topologia_simplificada}.
 
 \begin{figure}[H]
 	\centering
@@ -258,7 +260,7 @@ Para poder obtener una forma de onda de corriente como la que se muestra en la f
 	\item Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. 
 \end{itemize}
 
-Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que se podría generar un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Se debe tener en cuenta esta restricción al momento de diseñar el circuito encargado de controlar estas llaves.
+Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que si se encendieran a la vez  $Q_1$ y $Q_3$ o  $Q_2$ y $Q_4$ se generaría un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Esta restricción será tenida en cuenta en el momento de diseñar el circuito encargado de controlar estas llaves.
 
 El valor de tensión de la fuente de alimentación utilizada para el puente H está basado en la versión anterior del dispositivo, por lo que se utiliza $V_{CC} = 24\:V$.
 

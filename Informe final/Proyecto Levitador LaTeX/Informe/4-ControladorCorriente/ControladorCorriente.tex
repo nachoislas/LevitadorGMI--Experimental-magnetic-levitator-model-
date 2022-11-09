@@ -802,7 +802,7 @@ La ecuación \ref{eq_salida_restador_hall} es válida únicamente para $I_L>=0\:
 
 La desventaja de este circuito es que elimina completamente cualquier corriente instantánea que sea negativa. Como se mencionó en la sección ASD, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador, por lo tanto a continuación se intenta solucionar ese inconveniente.
 
-\subsection{Ajuste para permitir corrientes negativas}
+\subsubsection{Ajuste para permitir corrientes negativas}
 
 El sensor de efecto Hall entrega una tensión proporcional a la corriente que circula por el electroimán con un \textsl{offset} $V_{op}$. Es decir, para corrientes positivas, la salida será mayor a $V_{op}$, y para corrientes negativas, menor.
 
@@ -818,14 +818,17 @@ La salida de este sensor se realimenta hacia la etapa del restador del controlad
 
 Entre estas se eligió la primera alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el \textsl{offset} del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente.
 
-Para saber qué valor utilizar para el \textsl{offset} se debe calcular el mínimo de tensión entregada por el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo cual la corriente media del electroimán será $0 \:A$ con una excursión de $±250\:mA$. Lo que significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{offset}. Para tomar un margen se incrementa el \textsl{offset} a $2.6\:V$. 
+Para saber qué valor utilizar para el \textsl{offset} se debe calcular el mínimo de tensión entregada por el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo cual la corriente media del electroimán será $0 \:A$ con una excursión de $±250\:mA$. Lo que significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{offset}. Para tomar un margen se incrementa el \textsl{offset} a $V_{op}=2.6\:V$. \colorbox{red}{habría que aclarar mejor cuales quedan en 2.5 y uales en 2.6}
 
+Teniendo en cuenta este cambio en el punto de operación, la salida de esta etapa queda:
 
-PONEMOS IMAGEN DEL CIRCUITO RESTADOR.
+\begin{equation} \label{eq_salida_restador_hall_2}
+	V_{IL_{feed}}=V_{sns}-2.5V =I_L*H_0 + 0.1V
+\end{equation}
 
 \subsection{Comparador con histéresis}
 
-Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Se eligió que la corriente de salida del electroimán tenga un ripple de $500\:mA$. Por lo tanto, al afectar este valor por la transconductancia del sensor de efecto Hall, se obtiene un ancho de histéresis de $26.665\:mV$, alrededor de un punto de operación de $2.6\:V$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
+Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Debido a que se eligió que la corriente de salida del electroimán tenga un ripple de $500\:mA$, al afectarla por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -834,14 +837,42 @@ Para la implementación del comparador con histéresis se utiliza un amplificado
 	\label{fig:img_comp-con-hist}
 \end{figure}
 
-Este circuito trabaja con una tensión de salida que puede tomar dos valores como se vio anteriormente(+- Vcc). En la entrada negativa del operacional (V-) se tiene una onda triangular montada sobre un offset de 2.5 V (Ve).
+El funcionamiento de este circuito depende de la tensión de entrada $V_e$ y la tensión en la entrada no inversora del operacional $V^+$ y esta a su vez depende de la tensión de salida $V_h$. El circuito tiene dos estados posibles:
 
+1- cuando $V_e<V^+$ la salida será $V_h=5V$
+
+2- cuando $V_e>V^+$ la salida será $V_h=0V$
+ 
+Para obtener una expresión para la salida en función de la entrada, primero es necesario conocer el valor de $V^+$.
 Las ecuaciones son las siguientes:
+
 \begin{equation} 
-V+ = \frac{R_{7}}{R_{8}+R_{7}}*( Vh - 2.5 V)
+V^+ = V_h*\frac{R_{8}}{R_{8}+R_{7}} + 2.5V*\frac{R_{7}}{R_{8}+R_{7}}
 \end{equation} 
 
-La tensión diferencial entre las patas $V+$ y $V-$ es $Vd=(V+)-(V-)$
+La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por lo tanto se pueden plantear dos casos: 
+
+1- cuando $V_e>V^+$  y $V_h=0V$ entonces:
+
+\begin{equation}
+	V^+_{off}=2.5*\frac{R_{7}}{R_{8}+R_{7}}
+\end{equation}
+
+2- cuando $V_e<V^+$ entonces $V_h=5V$, 
+
+\begin{equation}
+	 V^+_{on}=2.5*\frac{R_{7}}{R_{8}+R_{7}} + 5V*\frac{R_{8}}{R_{8}+R_{7}}=V^+_{off}+5V*\frac{R_{8}}{R_{8}+R_{7}}
+\end{equation}
+
+El término $5V*\frac{R_{8}}{R_{8}+R_{7}}$ determina el ancho de histéresis.
+
+
+Este circuito trabaja con una tensión de salida que puede tomar dos valores como se vio anteriormente($0V y 5V$). En la entrada negativa del operacional ($V^-$) se tiene una onda triangular montada sobre un offset de 2.5 V (Ve), dada por la ecuación \ref{eq_ve_operacional}:
+
+\begin{equation}
+	V_e= 0.32 * V_{iLRef} - I_L*H_0+2.5V
+\end{equation}
+
 
 
 

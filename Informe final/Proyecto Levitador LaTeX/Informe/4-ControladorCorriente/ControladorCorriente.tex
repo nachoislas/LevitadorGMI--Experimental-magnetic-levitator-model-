@@ -887,12 +887,12 @@ El funcionamiento de este circuito depende de la tensión de entrada $V_e$ y la 
 1- cuando $V_e<V^+$ la salida será $V_h=5V$
 
 2- cuando $V_e>V^+$ la salida será $V_h=0V$
- 
+
 Para obtener una expresión para la salida en función de la entrada, primero es necesario conocer el valor de $V^+$.
 Las ecuaciones son las siguientes:
 
 \begin{equation} 
-V^+ = V_h*\frac{R_{8}}{R_{8}+R_{7}} + 2.5V*\frac{R_{7}}{R_{8}+R_{7}}
+	V^+ = V_h*\frac{R_{8}}{R_{8}+R_{7}} + 2.5V*\frac{R_{7}}{R_{8}+R_{7}}
 \end{equation} 
 
 La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por lo tanto se pueden plantear dos casos: 
@@ -906,20 +906,18 @@ La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por l
 2- cuando $V_e<V^+$ entonces $V_h=5V$, 
 
 \begin{equation}
-	 V^+_{on}=2.5*\frac{R_{7}}{R_{8}+R_{7}} + 5V*\frac{R_{8}}{R_{8}+R_{7}}=V^+_{off}+5V*\frac{R_{8}}{R_{8}+R_{7}}
+	V^+_{on}=2.5*\frac{R_{7}}{R_{8}+R_{7}} + 5V*\frac{R_{8}}{R_{8}+R_{7}}=V^+_{off}+5V*\frac{R_{8}}{R_{8}+R_{7}}
 \end{equation}
 
-El término $5V*\frac{R_{8}}{R_{8}+R_{7}}$ determina el ancho de histéresis.
+Como $V_{e}$ tiene forma triangular, inicialmente se tendrá una forma de onda de rampa aproximadamente lineal creciente tal que $V_e<V^+$ por lo tanto, la salida del comparador sera $V_{h}=5 V$. Luego cuando $V_e>V^+$ se alternara la salida del comparador a $V_{h}=0 V$ alternando la senial a una rampa decreciente hasta que nuevamente se alcanze $V_e<V^+$. Este ciclo de histeresis se mantiene constante.
 
-
-Este circuito trabaja con una tensión de salida que puede tomar dos valores como se vio anteriormente ($0\:V y 5\:V$). En la entrada negativa del operacional ($V^-$) se tiene una onda triangular montada sobre un offset de $2.5\:V$ (Ve), dada por la ecuación \ref{eq_ve_operacional}:
+Para obtener un ancho de histeresis de $26,665 mV$ entonces la diferencia entre el punto mas alto y mas bajo debe ser:
 
 \begin{equation}
-	V_e= 0.32 * V_{iLRef} - I_L*H_0+2.5V
+	V^+_{on}-V^+_{off} = 5V*\frac{R_{8}}{R_{8}+R_{7}}= 26,665 mV
 \end{equation}
 
-
-
+Si se toma $R_{7}=200 k$ se obtiene $R_{8}=1072 $ por lo tanto se toma un valor comercial de $R_{8}=1066$. De esta forma se obtiene el ancho de histeresis deseado.
 
 \subsection{Circuito de conmutación auxiliar}
 \noindent Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:

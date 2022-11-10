@@ -59,7 +59,7 @@ Se desea controlar el valor de la corriente que circula por el electroimán a pa
 
 Este sistema de control trabaja a lazo cerrado, es decir, mide una tensión proporcional a la corriente y luego la compara con la referencia. Este resultado es utilizado para determinar si es necesario aumentar o disminuir la corriente y, en función de ello, actuar sobre la tensión de alimentación del electroimán.
 
-Para controlar la tensión de alimentación del electroimán se propone diseñar un controlador que trabaje en conmutación. En este tipo de controladores se alterna la alimentación del electroimán ($V_L$) entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se logra que la corriente oscile en torno a un valor medio deseado y se obtiene una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. En ella se puede ver que esta manera de controlar la alimentación genera una corriente con oscilaciones alrededor del valor medio deseado, también conocidas como \textsl{ripple}. Sin embargo, esto no presentaría un problema si el controlador de corriente es diseñado de forma tal que estas variaciones sean pequeñas comparadas con el valor medio. \colorbox{red}{..ya que no afectaría em la fuerza ejercida..?}
+Para controlar la tensión de alimentación del electroimán se propone diseñar un controlador que trabaje en conmutación. En este tipo de controladores se alterna la alimentación del electroimán ($V_L$) entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se logra que la corriente oscile en torno a un valor medio deseado y se obtiene una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. En ella se puede ver que esta manera de controlar la alimentación genera una corriente con oscilaciones alrededor del valor medio deseado, también conocidas como \textsl{ripple}. Sin embargo, esto no presentaría un problema si el controlador de corriente es diseñado de forma tal que estas variaciones sean pequeñas comparadas con el valor medio ya que no afectarían en la fuerza ejercida.
 
 \begin{figure}[H]
 	\centering
@@ -175,7 +175,7 @@ Para la señal de entrada $V_{IL_{ref}}$ se adoptan valores de tensión entre $0
 
 Por otro lado, para lograr que la corriente de salida excursione entre $0\:A$ a $30\:A$, a partir de una tensión de referencia de entrada ($V_{IL_{ref}}$), se agrega el bloque $K_{in}$. Este permite asociar cada valor de corriente de salida con uno de tensión de entrada. El diagrama en bloques del sistema modificado se muestra en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}.
 
-\colorbox{red}{acá ya se podría calcular Kin, pq sabemos que va de 0 a 5V y la corriente de 0 a 30 A..}
+\colorbox{red}{acá ya se podría calcular Kin, pq sabemos que va de 0 a 5V y la corriente de 0 a 30 A..} CREO QUE NO SE PODRÍA, FALTA LA H
 
 %\begin{figure}[H]
 %	\centering
@@ -213,12 +213,14 @@ Por otro lado, para lograr que la corriente de salida excursione entre $0\:A$ a 
 %
 %Para alcanzar los niveles de corriente de hasta 30A que requiere el electroimán es necesario implementar una etapa de potencia. Además, se debe tener en cuenta los siguientes aspectos. 
 
-Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes. Existen diversas topologías circuitales posibles para el control de corriente de una carga inductiva, por lo tanto se analizan los aspectos que debe cumplir la fuente a diseñar para poder elegir la topología adecuada.
+Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes. Están compuestas principalmente por llaves, que permiten circulación de corriente o la bloquean, y elementos que almacenan energía (capacitores e inductores). Las llaves cargan o descargan los elementos reactivos de manera tal de controlar el valor de corriente. Son eficientes energéticamente ya que no se disipa potencia en las llaves.
+
+Existen diversas topologías circuitales posibles para el control de corriente de una carga inductiva. La diferencia entre ellas está en la cantidad de llaves, su ubicación, cantidad de elementos reactivos. Por lo tanto en esta sección se analizarán los aspectos que debe cumplir la fuente a diseñar para poder elegir una topología adecuada.
 
 Como se analizó en la sección \ref{sec_analisis_estimacion}, se planea medir indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente. De este análisis surge la necesidad de que la magnitud de la alimentación sea igual para la carga y la descarga del electroimán, con polaridad opuesta. Por lo tanto, se debe escoger una topología que permita alternar la polaridad de la alimentación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
 
 Por otro lado, debido a que el lazo de control para el sistema de levitación magnética necesitará conocer el valor de la distancia de separación de entrehierro para regular la fuerza ejercida, es necesario disponer de la estimación en todo momento. Por este motivo, no puede darse el caso en que el sistema deje de conmutar ya que no habría pendiente y, por ende, tampoco estimación de la distancia. Los casos en que la conmutación se podría ver afectada son los siguientes: 
-
+\colorbox{red}{capaz sacaría la primer condición, no se si se entiende}
 \begin{itemize} 
 	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio de corriente supera la mitad del \textsl{ripple} de corriente $(\Delta I_{L})$.
 	
@@ -240,9 +242,28 @@ Por estos motivos se propone utilizar una topología de puente H completo compue
 
 \colorbox{red}{Agregar señales de control como S1, S2, S3 y S4}
 
-Esta topología permite el control individual del estado de cada llave. Cada una tiene dos estados posibles: abierto (no conduce corriente), y cerrado (conduce corriente sin caida de tensión en la llave). Por medio de la correcta combinación de llaves se puede lograr que la alimentación del electroimán sea $+V_{cc}$ (con Q1 y Q4 cerrados y Q2 y Q3 abiertos), o $-V_{cc}$ (con Q2 y Q3 cerrados y Q1 y Q4 abiertos). De esta manera, se logra una alimentación simétrica de la carga.
+Esta topología permite el control individual del estado de cada llave por medio de las señales de control ($S_x$). Cada una tiene dos estados posibles: abierto ($S_x=0$), no conduce corriente; y cerrado ($S_x=1$), conduce corriente sin caida de tensión en la llave. Las llaves se activan de a pares, y al combinar los valores de las señales de control de cada llave se pueden generar distintas diferencias de potencial sobre el electroimán. A continuación se muestra una tabla con las posibles combinaciones de pares de llaves, y diferencia de potencial resultante en el electroimán ($V_L$):
 
-% Con estas combinaciones también se puede controlar el sentido de circulación de corriente.
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| c | c | c | c | c |}
+			\hline
+			$S_1$ & $S_2$ & $S_3$ & $S_4$ & $V_L$ \\ \hline
+			1 & 1 & 0 & 0 & 0 \\ \hline 
+			1 & 0 & 1 & 0 & x \\ \hline 
+			1 & 0 & 0 & 1 & $+V_{cc}$ \\ \hline 
+			0 & 1 & 1 & 0 & $-V_{cc}$ \\ \hline 
+			0 & 1 & 0 & 1 & x \\ \hline 
+			0 & 0 & 1 & 1 & 0 \\ \hline 
+		\end{tabular}
+		\caption{Combinaciones de llaves}
+		\label{tab_llaves}
+	\end{center}
+\end{table}
+
+En la tabla \ref{tab_llaves} se observa que de todas las combinaciones posibles, solo dos generan una diferencia de potencial $\pm V_{cc}$ sobre el electroimán. Estas son  $S_1$, $S_4$ cerrados y $S_2$, $S_3$ abiertos para $V_L=+V_{cc}$, o con $S_2$, $S_3$ cerrados y $S_1$, $S_4$ abiertos para $V_L=-V_{cc}$ . Al controlar el estado de las llaves variando entre estas dos combinaciones, se logra una alimentación simétrica de la carga.
+
+Debido a que solo se utilizan estas dos combinaciones, se puede reducir la cantidad de señales que controla el sistema: $S_1=S_4$, $S_2=S_3$ y $S_1=\overline{S_2}$. Por lo tanto se define una nueva señal de control $S_T$ tal que $S_T=S_1=\overline{S_2}=\overline{S_3}=S_4$. El puente completo puede ser controlado por una sola señal, lo que simplifica el diseño de la etapa de lógica de control.
 
 Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. 
 
@@ -255,9 +276,9 @@ Para poder obtener una forma de onda de corriente como la que se muestra en la f
 
 
 \begin{itemize}
-	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez, generando un circuito entre $V_{CC}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa.
-	\item Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de las llaves, de manera que $Q_1$ y $Q_4$ dejen de conducir, y comiencen a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo que su magnitud comienza a decrecer.
-	\item Una vez alcanzado el límite inferior de corriente ($I_{L_{MIN}}$), se vuelve a conmutar el estado de las llaves para que la corriente vuelva a crecer.
+	\item En principio se cierran las llaves $Q_1$ y $Q_4$ a la vez con $S_T=1$, generando un circuito entre $V_{CC}$, el electroimán y GND como indican las flechas negras en la figura \ref{fig:img_topologia_simplificada}. De esta forma, la corriente comienza a crecer con forma de exponencial negativa.
+	\item Al llegar al límite superior de corriente ($I_{L_{MAX}}$), se debe conmutar el estado de la señal de control ($S_T=0$), de manera que $Q_1$ y $Q_4$ dejen de conducir, y comiencen a hacerlo $Q_2$ y $Q_3$. De esta manera, la corriente seguirá circulando en el mismo sentido como indican las flechas rojas, pero ahora la diferencia de potencial en los bornes del electroimán se opone al paso de la corriente, por lo que su magnitud comienza a decrecer.
+	\item Una vez alcanzado el límite inferior de corriente ($I_{L_{MIN}}$), se vuelve a conmutar el estado de la señal de control ($S_T=1$) para que la corriente vuelva a crecer.
 	\item Este ciclo se repite en régimen permanente para que el valor medio de la corriente generada coincida con la deseada. 
 \end{itemize}
 
@@ -364,7 +385,7 @@ El controlador de corriente tendrá una corriente media variable entre $0\:A$ y 
 
 \subsection{Cálculo de ganancia de entrada}
 
-Como se observa en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, la etapa de entrada consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Considerando  la ganancia de contínua del sensor de corriente $H(s)$, denominada $H_0$, se puede expresar la ganancia de entrada como:
+Como se observa en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Si bien aún no se eligió el sensor de corriente que será utilizado, puede considerarse su ganancia de contínua $H(s=0)$, denominada $H_0$. En la expresión \ref{eq_kin} se muestra la ganancia de entrada en función de $H_0$ para poder calcularla una vez elegido el sensor.
 
 \begin{equation} \label{eq_kin}
 	K_{in}=\frac{30\:A*H_0}{5\:V}=6*H_0 
@@ -436,13 +457,13 @@ Este sensor tiene la capacidad de medir tanto corrientes en sentido positivo, co
 De esta forma, el bloque $H_0$ de realimentación queda definido como:
 
 \begin{equation}
-	H_0=\frac{V_iLF}{I_L}=53,33 mV/A
+	H_0=\frac{V_{IL_{feed}}}{I_L}=53.33 \frac{mV}{A}
 \end{equation}
 
 
 \subsection{Elección de llaves de conmutación}
 
-Las llaves de conmutación ($Q_1$, $Q_2$, $Q_3$ y $Q_4$) que se muestran en la figura \ref{fig:img_topologia_simplificada} deben ser elegidas con cuidado. Idealmente deberían presentar resistencia nula al estar cerradas e infinita al estar abiertas, de esta forma no se modifica la dinámica de la planta y se reduce la disipación de potencia.
+Las llaves de conmutación ($Q_1$, $Q_2$, $Q_3$ y $Q_4$) que se muestran en la figura \ref{fig:img_topologia_simplificada} son llaves ideales, que en la práctica se implementan por medio de dispositivos semiconductores cuyas características no son ideales. Sin embargo se pueden elegir componentes que se aproximen al comportamiento ideal. Deberían tener resistencia baja al estar en conducción e infinita al estar en estado abierto. De esta forma no se modifica la dinámica de la planta y se reduce la disipación de potencia.
 
 Para la implementación de las llaves se analiza la utilización de dispositivos semiconductores pertenecientes a la clase transistores. En el mercado existe una amplia variedad de ellos, entre los que destacan los transistores bipolares de juntura (TBJ) y los transistores de efecto de campo metal-oxido-semiconductor (MOSFET), entre otros. Cada uno de ellos posee características distintivas que lo hacen más o menos apropiado para cada aplicación en particular. 
 

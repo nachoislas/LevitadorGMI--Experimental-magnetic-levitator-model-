@@ -572,7 +572,11 @@ Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una cor
 %Como hay una corriente que circula constantemente desde el capacitor de bootstrap hacia las resistencias de Gate-source, es necesario limitar el tiempo màximo que puede quedar encendido un transistor. Debido al funcionamiento del controlador por histéresis, no se puede asegurar que haya una conmutación a intervalos regulares... Es por ello que se decide modificar levemente el diagrama en bloques \ref{fig:img_diag-en-bloques-conH-y-Kin} de manera de superponer una conmutación de alta frecuencia a la señal de control de las llaves. 
 
 \colorbox{red}{poner imagen del diagrama en bloques modificado con la conmutación} 
-
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_bloques_oscilador.tex}
+	\caption{Diagrama en bloques completo del controlador de corriente}	\label{fig:img_diag-en-bloques-con-oscilador}
+\end{figure}
 
 \noindent Por otro lado, el capacitor debe entregar corriente al diodo de \textsl{bootstrap} cuando este queda en inversa ($I_{DR}$), y también entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
 
@@ -799,7 +803,7 @@ Esta tiene un punto de operación $V_{op}=2.5\:V$. Cuando la corriente es positi
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{Resta-Vbias.png}
+	\includegraphics[scale=0.5]{Resta-Vbias.png}
 	\caption{Resta de $V_{bias}$ al sensor de efecto Hall.}
 	\label{fig:img_resta-Vbias}
 \end{figure}

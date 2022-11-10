@@ -220,12 +220,12 @@ Como se analizó en la sección \ref{sec_analisis_estimacion}, se planea medir i
 Por otro lado, debido a que el lazo de control para el sistema de levitación magnética necesitará conocer el valor de la distancia de separación de entrehierro para regular la fuerza ejercida, es necesario disponer de la estimación en todo momento. Por este motivo, no puede darse el caso en que el sistema deje de conmutar ya que no habría pendiente y, por ende, tampoco estimación de la distancia. Los casos en que la conmutación se podría ver afectada son los siguientes: 
 
 \begin{itemize} 
-	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio de corriente supera la mitad del ripple de corriente $(\Delta I_{L})$.
+	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio de corriente supera la mitad del \textsl{ripple} de corriente $(\Delta I_{L})$.
 	
-	\item Cuando la distancia de entrehierro es pequeña y se trabaja con peso reducido la corriente media puede llegar a ser menor que el ripple $\frac{\Delta I_{L}}{2}$.
+	\item Cuando la distancia de entrehierro es pequeña y se trabaja con peso reducido la corriente media puede llegar a ser menor que el \textsl{ripple} $\frac{\Delta I_{L}}{2}$.
 \end{itemize}
 
-En estos casos puede darse la situación de que la corriente del electroimán tenga un valor medio mayor o igual a 0, pero puede tomar valores instantáneos negativos. Por lo tanto, se necesita una topología de fuente que permita circulación de corriente por la carga en ambos sentidos.
+En estos casos puede darse la situación de que la corriente del electroimán tenga un valor medio mayor o igual a 0, pero valores instantáneos negativos. Por lo tanto, se necesita una topología de fuente que permita circulación de corriente por la carga en ambos sentidos.
 
 Por estos motivos se propone utilizar una topología de puente H completo compuesto por cuatro llaves como se muestra en la figura \ref{fig:img_topologia_simplificada}.
 
@@ -263,7 +263,7 @@ Para poder obtener una forma de onda de corriente como la que se muestra en la f
 
 Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que si se encendieran a la vez  $Q_1$ y $Q_3$ o  $Q_2$ y $Q_4$ se generaría un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Esta restricción será tenida en cuenta en el momento de diseñar el circuito encargado de controlar estas llaves.
 
-El valor de tensión de la fuente de alimentación utilizada para el puente H está basado en la versión anterior del dispositivo, por lo que se utiliza $V_{CC} = 24\:V$.
+El valor de tensión de la fuente de alimentación utilizada para el puente H está basado en la versión anterior del dispositivo, por lo que se utiliza $V_{CC} = 24\:V$. \colorbox{red}{Este valor de tensión le ofrece una buena velocidad de respuesta...dinamismo...}
 
 \section{Elección y cálculo de parámetros del controlador}
 
@@ -339,14 +339,15 @@ En esta sección se determinarán los parámetros críticos para el correcto fun
 
 %Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
 
-Al trabajar en conmutación se está excitando al sistema con una onda cuadrada de forma constante (en estado estacionario). Como se mencionó previamente la forma de onda de la corriente debe ser triangular de forma que esta oscile sobre un valor medio generando una fuerza constante con pequeñas variaciones que no afecten la dinámica de la planta.
+Al trabajar en conmutación se está excitando al sistema, en estado estacionario, con una onda cuadrada en tensión. Como se mencionó previamente, la forma de onda de la corriente debe ser triangular de forma que esta oscile sobre un valor medio generando una fuerza constante con pequeñas variaciones que no afecten la dinámica de la planta.
+\colorbox{red}{eso de las variaciones no se si decirlo..}
 
-Para lograr esto la frecuencia de conmutación debe ser al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}.
+Para lograr esto, la frecuencia de conmutación debe ser al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}.
 De esta forma la dinámica de la planta y la respuesta a los transitorios no se ven afectadas.  Por lo tanto, dado que el polo se ubica en $70\:r/s$  se debe conmutar a una frecuencia de $\omega_{sw}\geq7000\:r/s$ (expresada en Hz resulta $F_{sw}\geq1\:kHz$).
 
 Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
 
-A partir de la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede obtener el valor máximo de ripple cuando $t=t_{max}$, considerando que la corriente inicial es $I_{min}$ y que la corriente final es $I_{min}+\Delta I_L$
+A partir de la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede obtener el valor máximo de \textsl{ripple} cuando $t=t_{max}$, considerando que la corriente inicial es $I_{min}$ y que la corriente final es $I_{min}+\Delta I_L$
 
 \begin{equation} \label{eq_delta_i}
 	I_{min}+\Delta I_{L_{max}}=\frac{V_{CC}}{R_L}+(I_{min}-\frac{V_{CC}}{R_L})*e^{-\frac{t_{max}}{\tau}}
@@ -359,11 +360,11 @@ De la ecuación \ref{eq_delta_i} se obtiene el valor máximo que se le puede asi
 \end{equation}
 \colorbox{red}{ver imagen de altium}
 
-El controlador de corriente tendrá una corriente media variable entre 0 y 30 A, se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier $I_{min}$ dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0$ e $I_{min}=30$. Para el primer caso se obtiene que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=541.6\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
+El controlador de corriente tendrá una corriente media variable entre $0\:A$ y $30\:A$, por lo que se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier valor de corriente dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0\:A$ e $I_{min}=30\:A$. Para el primer caso se obtiene que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=541.6\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
 
 \subsection{Cálculo de ganancia de entrada}
 
-Como se ve en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Considerando  la ganancia de contínua del sensor de corriente $H(s)$, denominada $H_0$, se puede expresar la ganancia de entrada como:
+Como se observa en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, la etapa de entrada consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Considerando  la ganancia de contínua del sensor de corriente $H(s)$, denominada $H_0$, se puede expresar la ganancia de entrada como:
 
 \begin{equation} \label{eq_kin}
 	K_{in}=\frac{30\:A*H_0}{5\:V}=6*H_0 
@@ -383,7 +384,7 @@ En esta sección se realiza la implementación circuital de cada bloque plantead
 
 \subsection{Elección del sensor de corriente}
 
-Como se mencionó en secciones anteriores es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán para que luego el controlador pueda actuar en consecuencia. Es necesario conocer tanto su valor medio, como su ripple. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde 0 hasta 30 A con un ripple de 500 mA.
+Como se mencionó en secciones anteriores es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán para que luego el controlador pueda actuar en consecuencia. Es importante conocer tanto su valor medio como su \textsl{ripple}. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde $0\:A$ hasta $30\:A$ con un \textsl{ripple} de $500\:mA$.
 
 En esta sección se analizan dos alternativas para lograr este objetivo. La primera mediante una resistencia en serie al electroimán y la segunda utilizando un sensor de efecto Hall.
 
@@ -394,7 +395,7 @@ La forma de medir corriente que resulta, en principio, más simple es la de util
 \begin{equation}
 	I_L=\frac{V_s-V_a}{R_s}
 \end{equation}
-
+\colorbox{red}{corregir imagen con S1,S2,S3,S4 y bloque electroiman}
 
 \begin{figure}[H]
 	\centering
@@ -402,12 +403,12 @@ La forma de medir corriente que resulta, en principio, más simple es la de util
 	\caption{Puente H con resistencia de sensado de corriente (Rs).}
 	\label{fig:img_puente_con_rshunt}
 \end{figure}
-
+\colorbox{red}{redactar mejor este párrafo}
 Por otro lado, la realimentación del controlador de corriente debe ser en forma de tensión, por lo tanto es suficiente con medir la tensión diferencial $V_s-V_a$ y tener en cuenta en el diseño del controlador la ganancia que se tiene al pasar de corriente a tensión.
 
 Aunque este método para medir corriente pareciera directo, presenta algunos inconvenientes en el diseño:
 
-El primero es que al agregar una resistencia en serie al electroimán, se introduce una mayor disipación de potencia en el sistema. Para intentar reducir este problema se podría elegir un valor de resistencia lo suficientemente bajo para que su consumo sea despreciable. Por ejemplo, si se adopta una resistencia de $10\:mOhms$ el valor de pérdidas de potencia es de $4\:W$, que es un valor aceptable. 
+El primero es que al agregar una resistencia en serie al electroimán, se introduce una mayor disipación de potencia en el sistema. Para intentar reducir los efectos de este problema se podría elegir un valor de resistencia lo suficientemente bajo para que su consumo de potencia sea despreciable. Por ejemplo, si se adopta una resistencia de $10\:mOhms$ el valor de pérdidas de potencia es de $4\:W$, que es un valor aceptable. \colorbox{red}{por ahi podriamos sacar eso de que es aceptable..}
 
 El segundo inconveniente es que se altera la dinámica de la planta, ya que la constante de tiempo cambia a $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:Ohm$, por lo que una resistencia de sensado con valor $10\:mOhm$ no afectaría en gran medida la dinámica.
 
@@ -430,7 +431,7 @@ Existen una gran variedad de estos sensores en el mercado, cada uno con diferent
 
 A partir de estas características se decidió utilizar el sensor HO 15-NP-0000 \cite{HO15-NP}. Este permite medir una corriente de $\pm 37.5\:A$ con un ancho de banda de $250\:kHz$ y posee una transresistencia de $H(s)=H_0=53.33\:mV/A$ en todo  el rango de corriente. Además, presenta alta inmunidad a interferencias externas. 
 
-Este sensor tiene la capacidad de medir tanto corrientes en sentido positivo, como negativo. Para ello admite una tensión de bias de $2.5\:V$, la cual se corresponde a la salida cuando la corriente es nula. Cuando la circulación de corriente es positiva, la salida del sensor resulta en una tensión mayor a $2.5\:V$, y para negativas, menor.
+Este sensor tiene la capacidad de medir tanto corrientes en sentido positivo, como negativo. Para ello admite una tensión de bias de $2.5\:V$, la cual se corresponde a la salida cuando la corriente es nula. Cuando la circulación de corriente es positiva, la salida del sensor resulta en una tensión mayor a $2.5\:V$ y, para negativas, menor.
 
 De esta forma, el bloque $H_0$ de realimentación queda definido como:
 
@@ -462,12 +463,14 @@ Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de fun
 	\end{center}
 \end{table}
 
-Para la implementación se utilizan los MSOSFET IPB160N04 ya que ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente, con una corriente máxima de $I_{D}=160$ y presentan una $R_{ds}$ muy baja de $1.6 mohm$. Estos transistores son de tipo N y para que estén en estado de conducción debe aplicarse una tensión entre gate y source de $V_{gs}= 3\:V$.
+\colorbox{red}{Falta agregar una conclusión breve de la comparativa..}
+
+Para la implementación se utilizan los MSOSFET IPB160N04 ya que ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente, con una corriente máxima de $I_{D}=160\:A$ y presentan una $R_{ds}$ muy baja de $1.6 \:m \Omega$. Estos transistores son de tipo N y para que estén en estado de conducción debe aplicarse una tensión entre gate y source mínima de $V_{gs}= 3\:V$.
 
 \subsubsection{Componentes auxiliares para los MOSFET}
 
 
-Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería de protección.
+Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería de protección como se muestra en la figura \ref{fig:img_capacitores-puenteH}.
 
 
 \begin{figure}[H]
@@ -478,7 +481,7 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 \end{figure}
 
 \colorbox{red}{Agregar en la imagen los TVS y agregar S1, S2, S3 y S4, y 24V}
-\noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOS en el puente H. Estas se observan en la figura \ref{fig:img_capacitores-puenteH} como $R_1$, $R_2$, $R_3$ y $R_4$. Su propósito es evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
+\noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOS en el puente H. Estas se observan en la figura como $R_1$, $R_2$, $R_3$ y $R_4$. Su propósito es evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
 
 \noindent Se utiliza una resistencia de $4.7 \:k\Omega$ debido a que permite que el \textsl{gate} se descargue en un tiempo rápido, \colorbox{red}{modificar lo que sigue sin bootstrap} consumiendo solo $2.55\:mA$ del capacitor de \textsl{bootstrap}.
 
@@ -490,7 +493,7 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 
 \subsection{Elección y análisis del driver de corriente}
 
-Para lograr una conmutación sincronizada de los MOSFET se necesita un dispositivo que permita activar los pares de transistores de forma sincronizada con una senial adecuada. Estos circuitos llamados DRIVERS de corriente existen y se venden comercialmente. 
+Para lograr una conmutación sincronizada de los MOSFET se necesita un dispositivo que permita activar los pares de transistores de forma sincronizada con una señal adecuada. Estos circuitos llamados DRIVERS de corriente existen y se venden comercialmente. 
 
 Para controlar la conmutación se utiliza un MOSFET \textsl{driver} HIP4081A \cite{HIP4081A_FN3659}. La topologia del puente H con el HIP4081A puede verse en la figura \ref{fig:img_topologia-puenteH} donde las salidas de control del HIP4081A se conectan a los MOSFET.
 
@@ -501,7 +504,7 @@ Para controlar la conmutación se utiliza un MOSFET \textsl{driver} HIP4081A \ci
 	\label{fig:img_topologia-puenteH}
 \end{figure}
 
-Dado que los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $V_{gs min}(ON) = 7\:V$. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores del puente H, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se utiliza una ventaja que posee el \textsl{driver} HIP4081A. Esta ventaja es que tiene la capacidad de entregar una diferencia de tension mayor de la que puede entregar los $+24 V$ a partir de una tensión flotante con una configuración de \textsl{bootstrap}.
+Dado que los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $V_{gs min}(ON) = 7\:V$ \colorbox{red}{¿No eran 3V?}. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores del puente H, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se utiliza una ventaja que posee el \textsl{driver} HIP4081A. Esta ventaja es que tiene la capacidad de entregar una diferencia de tension mayor de la que puede entregar los $+24 V$ a partir de una tensión flotante con una configuración de \textsl{bootstrap}.
 
 En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el \textsl{driver} HIP4081A. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del \textsl{bootstrap driver} permite obtener en el \textsl{gate} del MOS superior, una tensión de $36\:V$ respecto a GND, de manera que se logra una diferencia de tensión mayor a $7\:V$ entre \textsl{gate} y \textsl{source}. 
 
@@ -614,7 +617,7 @@ Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una cor
 
 \noindent Para reducir el consumo de potencia de la red se utilizan capacitores en paralelo a la fuente de $+24\:V$. Esto permite que, una vez que la fuente cargó inicialmente el inductor, en las conmutaciones sucesivas la carga del inductor pase a dichos capacitores en un semiciclo y viceversa en el otro ciclo de conmutación. Idealmente, esta transferencia de energía no tiene pérdidas. Por lo tanto, el consumo de potencia queda reducido a la perdida por disipación de los MOSFET y los demás componentes del controlador de corriente. 
 
-\noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan ripple en la tensión $V_{BUS}$.
+\noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan \textsl{ripple} en la tensión $V_{BUS}$.
 
 \noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por $C_1$ y $C_2$. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores hacia el electroimán por $Q_1$ y $Q_4$. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de $Q_2$ y $Q_3$. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-<I_L>$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
 
@@ -651,7 +654,7 @@ Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una cor
 	\Delta Q = 21\:A * \frac{0.47\:ms}{2} \approx 5\:mC
 \end{equation}
 
-\noindent Al considerar que un ripple de $\Delta V=500 \:mV$ es aceptable, se obtiene un valor de:
+\noindent Al considerar que un \textsl{ripple} de $\Delta V=500 \:mV$ es aceptable, se obtiene un valor de:
 
 \begin{equation} 
 	c = \frac{\Delta Q}{\Delta V} = 10 \:mF
@@ -829,7 +832,7 @@ Teniendo en cuenta este cambio en el punto de operación, la salida de esta etap
 
 \subsection{Comparador con histéresis}
 
-Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Debido a que se eligió que la corriente de salida del electroimán tenga un ripple de $500\:mA$, al afectarla por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
+Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Debido a que se eligió que la corriente de salida del electroimán tenga un \textsl{ripple} de $500\:mA$, al afectarla por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
 \begin{figure}[H]
 	\centering

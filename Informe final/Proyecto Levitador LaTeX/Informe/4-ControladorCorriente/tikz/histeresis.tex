@@ -16,3 +16,17 @@
 		\draw [->-] (0.7,0.4) --(-0.3,0.4);
 		\draw [->-] (-0.3,0.4) -- (-0.3, -0.4);
 }}
+
+%aca hago lo mismo pero la salida es Vh en vez de VL
+\def\histvh{
+	\tikz[remember picture,overlay]{
+		%dibujamos los ejes. stealth es para las flechas
+		\draw [stealth-stealth] (-1,0) -- (1,0) node[pos=1, yshift=0.5em]{${\scriptstyle e}$};  %eje x
+		\draw [stealth-stealth] (0,-0.8)--(0,0.8) node[pos=0.9, xshift=0.8em]{${\scriptstyle V_h}$}; %eje y
+		
+		%esto es para dibujar los tramos de la histeresis
+		\draw [->-] (-0.7,-0.4)-- (0.3,-0.4);
+		\draw  [->-] (0.3,-0.4) -- (0.3,0.4); 
+		\draw [->-] (0.7,0.4) --(-0.3,0.4);
+		\draw [->-] (-0.3,0.4) -- (-0.3, -0.4);
+}}

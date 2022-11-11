@@ -173,9 +173,13 @@ En el diagrama en bloques \ref{fig:img_diag-en-bloques} se analizó la lógica d
 
 Para la señal de entrada $V_{IL_{ref}}$ se adoptan valores de tensión entre $0\:V$ y $5\:V$. Esto con el fin de que la implementación circuital utilice amplificadores operacionales con una fuente simple de $5\:V$. 
 
-Por otro lado, para lograr que la corriente de salida excursione entre $0\:A$ a $30\:A$, a partir de una tensión de referencia de entrada ($V_{IL_{ref}}$), se agrega el bloque $K_{in}$. Este permite asociar cada valor de corriente de salida con uno de tensión de entrada. El diagrama en bloques del sistema modificado se muestra en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}.
+Por otro lado, para lograr que la corriente de salida excursione entre $0\:A$ a $30\:A$, a partir de una tensión de referencia de entrada ($V_{IL_{ref}}$), se agrega el bloque $K_{in}$. Este permite asociar cada valor de corriente de salida con uno de tensión de entrada.
 
 \colorbox{red}{acá ya se podría calcular Kin, pq sabemos que va de 0 a 5V y la corriente de 0 a 30 A..} CREO QUE NO SE PODRÍA, FALTA LA H
+
+En el diagrama en bloques planteado hasta ahora, en el bloque de histéresis, se mezclan señales de niveles lógicos en su entrada, con señales de potencia en su salida. Para implementar el sistema de control real se deben separar estas etapas, de manera que el comparador con histéresis tenga una salida de tensión en niveles lógicos y luego haya un bloque que amplifique esta señal para ser utilizada como alimentación del electroimán.
+
+En la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} se muestra el diagrama en bloques del sistema teniendo en cuenta los anteriores cambios.
 
 %\begin{figure}[H]
 %	\centering
@@ -488,7 +492,7 @@ Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de fun
 
 Para la implementación se utilizan los MSOSFET IPB160N04 ya que ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente, con una corriente máxima de $I_{D}=160\:A$ y presentan una $R_{ds}$ muy baja de $1.6 \:m \Omega$. Estos transistores son de tipo N y para que estén en estado de conducción debe aplicarse una tensión entre gate y source mínima de $V_{gs}= 3\:V$.
 
-\subsubsection{Componentes auxiliares para los MOSFET}
+\subsubsection{Componentes auxiliares para los MOSFET} \label{sec_auxiliares_mosfet}
 
 
 Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería de protección como se muestra en la figura \ref{fig:img_capacitores-puenteH}.
@@ -558,25 +562,26 @@ Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimen
 
 \noindent Para el dimensionamiento de los capacitores de \textsl{bootstrap} se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
 
-\noindent Para encender un NMOS es necesario proveer corriente a su \textsl{gate} hasta cargar las capacidades parásitas entre \textsl{gate-source} y \textsl{gate-drain}. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el \textsl{gate}. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de \textsl{bootstrap}.
+Para encender un NMOS es necesario proveer corriente a su \textsl{gate} hasta cargar las capacidades parásitas entre \textsl{gate-source} y \textsl{gate-drain}. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el \textsl{gate}. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de \textsl{bootstrap}.
 
-Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el  \textsl{bootstrap}.
+En la sección \ref{sec_auxiliares_mosfet} se agregaron resistencias de protección entre \textsl{gate-source}. Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el capacitor de \textsl{bootstrap}.
 
 \noindent Cuando el MOSFET \textsl{driver} recibe una entrada que activa un MOS del lado superior, este comienza a cargar el \textsl{gate} con ayuda de la tensión que brinda el capacitor de \textsl{bootstrap} asociado a ese MOS. El capacitor de \textsl{bootstrap} entrega energía durante la carga del \textsl{gate} y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el \textsl{driver} reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del \textsl{driver} de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
 \noindent Para poder asegurar un periodo de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET \textsl{driver}. De esta manera se producen conmutaciones en un intervalo regular que permiten la carga de los capacitores de \textsl{bootstrap}. 
 
-\noindent Se adopta una frecuencia de conmutación auxiliar de $50\:kHz$ y se hace variar el ciclo de trabajo de la salida del comparador con histéresis entre dos valores. Para la carga del inductor se definió que el ciclo de trabajo sea del 90\% mientras que para la descarga sea del 10\%.
+\begin{figure}[H]
+	\centering
+	\scalebox{0.8}{\input{tikz/diagrama_bloques_oscilador.tex}}
+	\caption{Diagrama en bloques completo del controlador de corriente}	\label{fig:img_diag-en-bloques-con-oscilador}
+\end{figure}
+
+\noindent Se adopta una frecuencia de conmutación auxiliar de $F_{sw}=50\:kHz$ y se hace variar el ciclo de trabajo de la señal $V_{sw}$ entre dos valores. Para la carga del inductor se definió que el ciclo de trabajo sea del 90\% mientras que para la descarga sea del 10\%.
 
 %
 %Como hay una corriente que circula constantemente desde el capacitor de bootstrap hacia las resistencias de Gate-source, es necesario limitar el tiempo màximo que puede quedar encendido un transistor. Debido al funcionamiento del controlador por histéresis, no se puede asegurar que haya una conmutación a intervalos regulares... Es por ello que se decide modificar levemente el diagrama en bloques \ref{fig:img_diag-en-bloques-conH-y-Kin} de manera de superponer una conmutación de alta frecuencia a la señal de control de las llaves. 
 
-\colorbox{red}{poner imagen del diagrama en bloques modificado con la conmutación} 
-\begin{figure}[H]
-	\centering
-	\input{tikz/diagrama_bloques_oscilador.tex}
-	\caption{Diagrama en bloques completo del controlador de corriente}	\label{fig:img_diag-en-bloques-con-oscilador}
-\end{figure}
+
 
 \noindent Por otro lado, el capacitor debe entregar corriente al diodo de \textsl{bootstrap} cuando este queda en inversa ($I_{DR}$), y también entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
 
@@ -613,11 +618,10 @@ Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una cor
 
 \noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, se obtiene que $Q_G= 170\:nC$. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS} = 0.1\:V$, es posible dimensionarlo para que posea carga suficiente para mantener al MOSFET siempre encendido.
 
-\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR se obtiene, a partir de \cite{RSX205LAM30}, que  $I_R$ es igual a $0.1\:A$  y  el tiempo de recuperación de inversión es de $12.5\:ns$. Por lo tanto, la carga de recuperación resulta de $0.625\:nC$. Además, la corriente inversa de fuga del diodo de \textsl{bootstrap} tiene un valor de $I_{DR} =2 \:mA\:(@\: T=75^{\circ}\:C, V_R= 24\:V)$.
+\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR \colorbox{red}{creo que no habíamos mencionado nada sobre este diodo antes } se obtiene, a partir de \cite{RSX205LAM30}, que  $I_R$ es igual a $0.1\:A$  y  el tiempo de recuperación de inversión es de $12.5\:ns$. Por lo tanto, la carga de recuperación resulta de $0.625\:nC$. Además, la corriente inversa de fuga del diodo de \textsl{bootstrap} tiene un valor de $I_{DR} =2 \:mA\:(@\: T=75^{\circ}\:C, V_R= 24\:V)$.
 
 \noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de \textsl{bootstrap} ($V_B=12\:V$) dividido el valor de la resistencia \textsl{gate-source}, que es de $4.7\:k\Omega$. Por lo tanto, $I_{GS}=2.55 \:mA$. 
 
-\noindent Debido a que el controlador por histéresis no asegura que haya una conmutación en un tiempo constante (como se observa en la figura \ref{fig:img_respuesta-al-escalon}), se decidió superponer una conmutación auxiliar de $50\:kHz$ (como se explica en el apartado \ref{secc_conmutacion-auxiliar}), lo que resulta en $f_{PWM}=50 \:kHz$. 
 
 \noindent Al reemplazar los valores obtenidos en \ref{eq_cap-bootstrap}, se obtiene:
 

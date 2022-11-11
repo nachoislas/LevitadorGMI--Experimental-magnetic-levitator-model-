@@ -1,33 +1,53 @@
 %importo el bloque de histeresis que definí en otro archivo
 \input{tikz/histeresis.tex}
 
+\tikzset{%
+	buffer/.style={
+		draw,
+		shape border rotate=270,
+		regular polygon,
+		regular polygon sides=3,
+		fill=blue!20,
+		node distance=2cm,
+		minimum height=4em
+	}
+}
 
 %Acá se define eñ diagrama en bloques completo
 \begin{tikzpicture}[auto, node distance=2.5cm,>=latex']
-	% We start by placing the blocks
-	\node [input, name=input] {};
-	\node [block, right of=input] (Kin) {$K_{in}$};
-	\node [sum, right of=Kin, node distance=2cm] (sum) {};
-	\node [block, right of=sum] (controller) {\hist};
-	\node [draw,circle, right of=controller](multiplier){X};
-	\node [coordinate, above of=multiplier, node distance=1cm](osc) {Fsw}; 
-	\node [block, right of=multiplier, 
-	node distance=3.5cm] (system) {${\displaystyle\frac{1}{s*L(Y_g)+R_L}}$};
-	% We draw an edge between the controller and system block to 
-	% calculate the coordinate u. We need it to place the measurement block. 
-	\draw [->] (controller) -- node[name=u] {$V_L$} (multiplier);
-	\draw [->] (multiplier) -- (system);
-	\draw [->] (osc) -| (multiplier);
-	\node [output, right of=system] (output) {};
-	\node [block, below of=u] (measurements) {H(s)};
-	
-	% Once the nodes are placed, connecting them is easy. 
-	\draw [draw,->] (input) -- node[pos=0.1]{$V_{IL_{ref}}$} (Kin);
-	\draw [draw,->] (Kin) -- node[pos=0.9]{$+$} (sum);
-	\draw [->] (sum) -- node {$e$} (controller);
-	\draw [->] (system) -- node [name=y] {$I_L$}(output);
-	\draw  (y) |- (measurements);
-	\draw [->] (measurements) -| node[pos=0.99] {$-$} node[above, pos=0.9, right] {$V_{IL_{feed}}$} (sum); %node [near end] {$I_{L_{feed}}$} 
+% We start by placing the blocks
+\node [input, name=input] {};
+\node [block, right of=input] (Kin) {$K_{in}$};
+\node [sum, right of=Kin, node distance=2cm] (sum) {};
+\node [block, right of=sum] (controller) {\histvh};
+\node [draw,circle, fill=blue!20, right of=controller](multiplier){X};
+\node [coordinate, above of=multiplier, node distance=1cm](osc) {}; 
+\node [buffer, right of=multiplier, node distance=2cm](buffer){};
+\node [coordinate, above of=buffer, node distance=1cm](Vcc){};
+\node [coordinate, below of=buffer, node distance=1cm](Vee){};
+\node [block, right of=buffer, 
+node distance=3.5cm] (system) {${\displaystyle\frac{1}{s*L(Y_g)+R_L}}$};
+% We draw an edge between the controller and system block to 
+% calculate the coordinate u. We need it to place the measurement block. 
+\draw [->] (controller) -- node[name=u]{$V_h$} (multiplier);
+\draw [->] (multiplier) -- node{$V_{sw}$}(buffer);
+\draw [->] (osc) -| node{$F_{sw}$} (multiplier);
+\draw (Vcc) -| node{$V_{cc}$} (buffer);
+\draw (Vee) -| node[right]{$-V_{cc}$} (buffer);
+\draw [->] (buffer) -- node {$V_L$} (system);
+\node [output, right of=system] (output) {};
+\node [block, below of=u, node distance=3cm] (measurements) {H(s)};
+
+% Once the nodes are placed, connecting them is easy. 
+\draw [draw,->] (input) -- node[pos=0.1]{$V_{IL_{ref}}$} (Kin);
+\draw [draw,->] (Kin) -- node[pos=0.9]{$+$} (sum);
+\draw [->] (sum) -- node {$e$} (controller);
+\draw [->] (system) -- node [name=y] {$I_L$}(output);
+\draw  (y) |- (measurements);
+\draw [->] (measurements) -| node[pos=0.99] {$-$} node[above, pos=0.9, right] {$V_{IL_{feed}}$} (sum); %node [near end] {$I_{L_{feed}}$} 
 \end{tikzpicture}
+
+
+
 
 

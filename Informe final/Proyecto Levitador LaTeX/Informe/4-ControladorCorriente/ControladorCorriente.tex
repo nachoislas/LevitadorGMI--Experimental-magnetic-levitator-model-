@@ -940,3 +940,83 @@ Si se toma $R_{7}=200 k$ se obtiene $R_{8}=1072 $ por lo tanto se toma un valor 
 	\label{fig:img_frecuencia-auxiliar}
 \end{figure}
 
+\subsection{Conexión de oscilador con HIP???}
+
+\section{SIMULACIONES??}
+
+?????
+
+\section{Características estáticas y dinámicas del controlador}
+
+Si bien el controlador de corriente está basado en un control de tipo no lineal, es posible obtener sus características estáticas y dinámicas para luego utilizarlas en el diseño del sistema de control de levitación.
+
+\subsection{Corriente media del electroimán}
+
+\noindent Para saber la corriente media que hay a la salida al aplicarle cierta tensión en la entrada, se utiliza la transferencia de lazo cerrado (sin considerar polos, y suponiendo alta ganancia de lazo abierto):
+
+\begin{equation} 
+I_L = V_{IL_{ref}} * \frac{K_{in}}{H_0} = V_{IL_{ref}} * 6\:\frac{A}{V}
+\end{equation}
+
+\subsection{Frecuencia de conmutación de la corriente}
+
+\noindent La frecuencia de conmutación del sistema se obtiene con:
+
+\begin{equation}\label{eq_frec-sw} 
+F_{SW} = \frac{V_{cc}}{2*\Delta I_L * L(Y_g)}
+\end{equation}
+
+\noindent Para $Y_g = 4 \:mm $ se tiene una inductancia $L(4\:mm) = 16.44 \:mHy$ , lo cual resulta en una frecuencia $F_{SW }= 1460 \:Hz$ .
+
+\subsection{Ancho de banda del controlador}\label{esccion_AB_Controlador} 
+
+\noindent La dinámica del controlador, al depender de la inductancia, lo hace también del entrehierro. El ancho de banda (o velocidad con que responde) está limitado por la constante de tiempo del inductor con su resistencia serie. Juntas forman un sistema lineal de primer orden, con un polo en: 
+
+\begin{equation} \label{eq_frec-angular}
+\omega _{polo} = \frac{R_L}{L(Y_g)}
+\end{equation}
+
+\noindent Al tomar las condiciones del problema en el punto de linealización con $Y_{0}=4\:mm$, resulta una inductancia $L = 7.55 \:mHy + 8.89 \:mHy$. Luego, al considerar la resistencia del bobinado $R_L=0.2\:\Omega$, se calcula la ubicación del polo:
+
+\begin{equation} 
+\omega _{polo} = \frac{0.2\:\Omega}{16.44 \:mHy} = 12.17 \:rad/s
+\end{equation}
+
+\noindent La tabla \ref{tab_mediciones} muestra  entre qué valores de frecuencia se ve afectada la forma de onda al modificarse la distancia de separación.
+
+\begin{equation} \label{eq_DeltaT}
+\Delta T [s] = \frac{\Delta I_L * (L(Y_g) + L_{\infty})}{V_{BUS}}
+\end{equation}
+
+\noindent En la ecuación \ref{eq_DeltaT}, $\Delta T$ representa el tiempo de crecimiento o de decrecimiento de la rampa de corriente (sin considerar la resistencia del bobinado) en torno al valor nominal. El doble de este tiempo es igual al periodo de la corriente triangular $(2*T=\frac{1}{F_{SW}})$.
+
+\noindent Según las mediciones de inductancia realizadas y, al aplicar las ecuaciones \ref{eq_frec-sw}, \ref{eq_frec-angular} y \ref{eq_DeltaT}, se obtuvo la tabla \ref{tab_mediciones}.
+
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| c | c | c | c | c |}
+			\hline
+			$Y_g\:[mm]$ & $L(Y_g)\:[mHy]$ & $\Delta T\:[ms]$ & $F_{SW}\:[Hz]$ & $\omega _{polo}\:[rad/s]$\\ \hline
+			0 & 76.45 & 1.59 & 313.93 & 2.62\\ \hline
+			1 & 33.42 & 0.70 & 718.13 & 5.98\\ \hline
+			2 & 22.64 &	0.47 & 1060.07 & 8.83\\ \hline
+			3 &	18.8 & 0.39 & 1276.60 & 10.64\\ \hline
+			4.4 & 15.5 & 0.32 & 1548.39 & 12.90\\ \hline
+			5.2 & 14.7 & 0.31 & 1632.65 & 13.61\\ \hline
+			6.5 & 14.4 & 0.30 & 1666.67 & 13.89\\ \hline
+			8.23 & 12.4 & 0.26 & 1935.48 & 16.13\\ \hline
+			$\infty$ & 8.89 & 0.19 & 2699.66 & 22.5	\\ \hline
+		\end{tabular}
+		\caption{Valores calculados y medidos en función del entrehierro.}
+		\label{tab_mediciones}
+	\end{center}
+\end{table}
+
+\subsection{Transferencia lineal del controlador de corriente}
+
+\noindent En la ecuación \ref{eq_TLC-cc} se muestra la transferencia linealizada del controlador de corriente para una distancia de separación de $Y_g=4\:mm$. Esta será luego utilizada para realizar el diseño de las etapas de compensación del levitador completo. Si bien la dinámica del controlador corriente se ve afectada por la distancia de separación, para el diseño de la compensación se tendrá en cuenta únicamente la dinámica para $Y_g=4\:mm$.
+
+\begin{equation} \label{eq_TLC-cc}
+G_{iL}(s) = \frac{6}{1+\frac{s}{12.17}}
+\end{equation}

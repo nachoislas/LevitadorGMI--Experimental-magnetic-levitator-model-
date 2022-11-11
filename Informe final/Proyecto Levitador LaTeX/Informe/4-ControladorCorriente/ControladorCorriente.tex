@@ -724,7 +724,7 @@ En la sección \ref{sec_auxiliares_mosfet} se agregaron resistencias de protecci
 
 \subsection{Etapa de entrada y restador}
 
-En esta sección se diseña la implementación circuital correspondiente a la etapa que realiza la resta entre la tensión de referencia, afectada por $K_{in}$ y la realimentación de la tensión proporcional a la corriente, como se muestra en el diagrama en bloques \ref{fig:img_diag-en-bloques-conH-y-Kin}.
+En esta sección se diseña la implementación circuital correspondiente a la etapa que realiza la resta entre la tensión de referencia, afectada por $K_{in}$, y la realimentación de la tensión proporcional a la corriente, como se muestra en el diagrama en bloques \ref{fig:img_diag-en-bloques-conH-y-Kin}.
 
 
 
@@ -734,37 +734,31 @@ En principio se calcula la ganancia de entrada $K_{in}$ utilizando la ecuación 
 	K_{in}=6*53.33=0.32
 \end{equation}
 
-Se desea implementar un circuito que realize la operación matemática 
+Se desea implementar un circuito que realice la operación matemática 
 
-\begin{equation}
+\begin{equation}\label{eq_Ve-circuito}
 	V_e=K_{in}*V_{IL_{ref}} - V_{IL_{feed}} + V_{op}
 \end{equation}
 
-Para ello se utiliza un circuito basado en un amplificador operacional, alimentado con una fuente simple de $5\:V$. Debido a que se usa una alimentación simple, es necesario polarizar su salida en un punto de operación $V_{op}=2.5\:V$, para permitir excursiones positivas y negativas de la señal. En la figura \ref{fig:img_etapa-de-entrada} se muestra el circuito propuesto. 
+Para ello se utiliza un circuito basado en un amplificador operacional alimentado con una fuente simple de $5\:V$. Debido a que se usa una alimentación simple, es necesario polarizar su salida en un punto de operación $V_{op}=2.5\:V$ para permitir excursiones positivas y negativas de la señal. En la figura \ref{fig:img_etapa-de-entrada} se muestra el circuito propuesto. 
 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{Etapa-de-entrada.png}
+	\includegraphics[scale=0.7]{Etapa-de-entrada.png}
 	\caption{Etapa de entrada.}
 	\label{fig:img_etapa-de-entrada}
 \end{figure}
-\colorbox{red}{esta imagen la vamos a cambiare pero nos sirve para plantear las ecuaciones}
+
 \colorbox{red}{ver dónde poner qué operacionales elegimos}
 
-Para diseñar los valores de resistencia que se deben utilizar se realiza el analisis del circuito de la figura \ref{fig:img_etapa-de-entrada} y se obtiene la relación entre la salida $V_e$ y todas sus entradas:
+Para determinar los valores de resistencia que se deben utilizar se realiza el análisis del circuito de la figura \ref{fig:img_etapa-de-entrada} y se obtiene la relación entre la salida $V_e$ y todas sus entradas:
 
 \begin{equation*}
 	V_e = \frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}*V_{iLRef}-\frac{R_{4}}{R_{5}}*V_{iLF}+\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}}* V_{op}
 \end{equation*}
 
-Con este circuito se desea que la salida sea:
-
-\begin{equation}
-	V_e = K_{in} * V_{IL_{ref}} - V_{IL_{feed}} + V_{op}
-\end{equation}
-
-Por lo tanto se plantean las siguientes relaciones:
+Por lo tanto, al igualarla con la expresión \ref{eq_Ve-circuito} resultan las siguientes ecuaciones de diseño:
 
 \begin{equation} \label{eq_ve_operacional-1}
 	\frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}} = K_{in} = 0.32
@@ -788,7 +782,7 @@ De estas relaciones se obtiene que $R_{4}=R_{5}$. Luego al reemplazar en las ecu
 	\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}= 0.5
 \end{equation*}
 
-Tomando un valor de $R_{1} = R_{4} = 10\:k\Omega$ y reemplazando finalmente se obtienen $R_{3}=4.7\:k\Omega$ y $R_{2}=4.7\:k\Omega$. Por lo tanto se obtiene a la salida del circuito la ecuación \ref{eq_ve_operacional}: 
+Tomando un valor de $R_{1} = R_{4} = 10\:k\Omega$ resulta en $R_{3}=4.7\:k\Omega$ y $R_{2}=4.7\:k\Omega$. Por lo tanto se obtiene a la salida del circuito la ecuación \ref{eq_ve_operacional}.
 
 \begin{equation} \label{eq_ve_operacional}
 	V_e = 0.32 * V_{IL_{ref}} - V_{IL_{feed}} + V_{op}
@@ -803,7 +797,7 @@ Para obtener la señal de realimentación ($V_{IL_{feed}}$) se debe adaptar la s
 	V_{sns}=I_L*H_0+V_{op}
 \end{equation}
 
-Esta tiene un punto de operación $V_{op}=2.5\:V$. Cuando la corriente es positiva, $V_{sns}$ estará por encima del punto de operación, mientras que para corriente negativa estará por debajo. Para hacer coicidir los valores de $V_{sns}$ con los de $V_{IL_{ref}}$ se le debe restar el punto de operación a la primera. Para ello se implementa un circuito restador basado en un amplificador operacional, que se muestra en la figura \ref{fig:img_resta-Vbias}.
+Esta tiene un punto de operación $V_{op}=2.5\:V$. Cuando la corriente es positiva, $V_{sns}$ estará por encima del punto de operación, mientras que para corriente negativa estará por debajo. Para que los valores de $V_{sns}$ coincidan con los de $V_{IL_{ref}}$ se le debe restar el punto de operación. Para ello se implementa un circuito restador basado en un amplificador operacional, que se muestra en la figura \ref{fig:img_resta-Vbias}.
 
 \begin{figure}[H]
 	\centering
@@ -812,9 +806,7 @@ Esta tiene un punto de operación $V_{op}=2.5\:V$. Cuando la corriente es positi
 	\label{fig:img_resta-Vbias}
 \end{figure}
 
-\colorbox{red}{cambiar esta imagen después. Reemplazar 2.5 por Vop, poner alimentación del operacional. verificar nombres vilf, vsns, etc..., dejar genericos los valores de resistencias}
-
-Utilizando este circuito, se recortan los valores de $V_{sns}<V_{op}$, lo que significa que se recortan los valores negativos de la corriente del electroimán.
+Al utilizar este circuito se recortan los valores de $V_{sns}$ que se encuentren por debajo de $V_{op}$. Esto significa que se recortan los valores negativos de la corriente del electroimán.
 
 
 La salida de este circuito queda determinada por:
@@ -833,7 +825,7 @@ Como se desea que esta etapa sea un restador puro, se deben elegir valores para 
 	\frac{R_{15}}{R_{14}+R_{15}}*\frac{R_{16}+R_{17}}{R_{16}}=1
 \end{equation}
 
-Estas ecuaciones se cumplen para valores de resistencias que sean todas iguales, es decir $R_{14}=R_{15}=R_{16}=R_{17}$. Por lo tanto se elige que estas resistencias tengan el valor $10\:k\Omega$.
+Estas ecuaciones se cumplen si todos los valores de resistencias son iguales. Es decir, $R_{14}=R_{15}=R_{16}=R_{17}$. Por lo tanto, se elige que estas resistencias sean de $10\:k\Omega$.
 
 Finalmente, la salida de este circuito queda:
 
@@ -846,7 +838,7 @@ La ecuación \ref{eq_salida_restador_hall} es válida únicamente para $I_L>=0\:
 Si bien en el dispositivo levitador se desea que la corriente media del electroimán sea siempre positiva, este circuito tiene la desventaja de que elimina completamente cualquier corriente instantánea que sea negativa. Como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador, por lo tanto a continuación se propone una solución a este inconveniente.
 
 \subsubsection{Ajuste para permitir corrientes negativas}
-
+\colorbox{red}{Este parrafo creo qeu se repite...}
 El sensor de efecto Hall entrega una tensión $V_{sns}$ proporcional a la corriente que circula por el electroimán con un \textsl{offset} $V_{op}$. Es decir, para corrientes positivas, la salida será mayor a $V_{op}$, y para corrientes negativas, menor.
 
 La salida de este sensor se realimenta hacia la etapa del restador del controlador de corriente mediante un operacional, que le quita el \textsl{offset} de $V_{op}$. Debido a que se utiliza una fuente simple para la alimentación, el circuito encargado de realimentar solo permite excursiones positivas de la corriente mientras que las negativas son recortadas. Esto presenta un problema ya que si ocurre el caso de que la corriente del electroimán se haga negativa instantáneamente, la tensión de salida del sensor de efecto Hall será menor a $V_{op}$, por lo que la salida del operacional será recortada y, por lo tanto, el sistema quedará a lazo abierto.
@@ -859,9 +851,9 @@ Para solucionar este problema se analizaron dos alternativas:
 	\item Utilizar una alimentación bipolar para el operacional de realimentación.
 \end{itemize}
 
-Entre estas se eligió la primera alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el \textsl{offset} del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente ($V_{op}$ en figura \ref{fig:img_etapa-de-entrada}), pero para el resto de circuitos la tensión $V_{op}$ sigue manteniendo su valor de $2.5\:V$.
+Entre estas se eligió la primera alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el \textsl{offset} del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente ($V_{op}$ en figura \ref{fig:img_etapa-de-entrada}), pero para el resto de los circuitos la tensión $V_{op}$ sigue manteniendo su valor de $2.5\:V$.
 
-A continuación se debe determinar qué valor utilizar para la tensión de referencia del sensor de efecto Hall y de la etapa de entrada. Para saber qué valor utilizar se debe calcular el mínimo de tensión que podría entregar el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo cual la corriente media del electroimán es $0 \:A$ con una excursión de $±250\:mA$. Lo que significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{offset}. Para tomar un margen se incrementa a $V_{op}=2.6\:V$. 
+A continuación se debe determinar qué valor utilizar para la tensión de referencia del sensor de efecto Hall y de la etapa de entrada. Para ello se debe calcular el mínimo de tensión que podría entregar el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo que la corriente media del electroimán es $0 \:A$ con una excursión de $±250\:mA$. Esto significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{offset}. Para tomar un margen se incrementa a $V_{op}=2.6\:V$. 
 
 Teniendo en cuenta este cambio en el punto de operación, la salida de la etapa de acondicionamiento para la salida del sensor de efecto Hall queda:
 
@@ -877,7 +869,7 @@ IMAGEN DE LOS DOS CIRCUITOS JUNTOS
 
 \subsection{Comparador con histéresis}
 
-Para la implementación del comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Debido a que se eligió que la corriente de salida del electroimán tenga un \textsl{ripple} de $500\:mA$, al afectarla por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
+Para implementar el comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Debido a que se definió que la corriente de salida del electroimán tenga un \textsl{ripple} de $500\:mA$, al afectarla por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -888,9 +880,9 @@ Para la implementación del comparador con histéresis se utiliza un amplificado
 
 El funcionamiento de este circuito depende de la tensión de entrada $V_e$ y la tensión en la entrada no inversora del operacional $V^+$ y esta a su vez depende de la tensión de salida $V_h$. El circuito tiene dos estados posibles:
 
-1- cuando $V_e<V^+$ la salida será $V_h=5V$
+1- Cuando $V_e<V^+$ la salida será $V_h=5V$
 
-2- cuando $V_e>V^+$ la salida será $V_h=0V$
+2- Cuando $V_e>V^+$ la salida será $V_h=0V$
 
 Para obtener una expresión para la salida en función de la entrada, primero es necesario conocer el valor de $V^+$.
 Las ecuaciones son las siguientes:

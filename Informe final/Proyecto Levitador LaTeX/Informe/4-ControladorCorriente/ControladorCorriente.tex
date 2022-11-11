@@ -916,14 +916,16 @@ Para obtener un ancho de histeresis de $26,665 mV$ entonces la diferencia entre 
 Si se toma $R_{7}=200 k$ se obtiene $R_{8}=1072 $ por lo tanto se toma un valor comercial de $R_{8}=1066$. De esta forma se obtiene el ancho de histeresis deseado.
 
 \subsection{Circuito de conmutación auxiliar}
-\noindent Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:
+
+El controlador por histéresis no asegura que haya una conmutación en un tiempo constante , esto puede ocurrir cuando el sistema exige un cambio en la corriente media. Cuando esto ocurre por un tiempo considerable el capacitor de boostrap se descarga a travez de la resistencia del gate (Rgs), si este tiempo es considerable al querer conmutar nuevamente, el gate no tendr'ia la carga suficiente para activar al $MOSFET$ superior por lo tanto la conmutación no se podrá efectuar. Por este motivo se decidió superponer una conmutación auxiliar constante que no afecte el funcionamiento del sistema con el objetivo de evitar la descarga de los capacitores de boostrap.
+ 
+Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:
 
 \begin{equation} 
 	F_{aux} = \frac{4.5*10^{-5}}{C1} [Hz]
 \end{equation}
 
-
-\noindent Esta frecuencia debe ser mucho mayor a la fundamental de la corriente triangular para evitar problemas en el funcionamiento del sistema y, además, debe ser lo suficientemente alta para poder ser filtrada sin inconvenientes en la etapa de estimación de posición (como se explica en el capítulo \ref{cap:Estimador Analogico}). Por lo tanto, al adoptar una frecuencia auxiliar de $50\:kHz$, resulta en $C_1= 900\:pF$.
+Esta frecuencia debe ser mucho mayor a la fundamental de la corriente triangular para evitar problemas en el funcionamiento del sistema y, además, debe ser lo suficientemente alta para poder ser filtrada sin inconvenientes en la etapa de estimación de posición (como se explica en el capítulo \ref{cap:Estimador Analogico}). Por lo tanto, al adoptar una frecuencia auxiliar de $50\:kHz$, resulta en $C_1= 900\:pF$.
 
 \begin{figure}[H]
 	\centering

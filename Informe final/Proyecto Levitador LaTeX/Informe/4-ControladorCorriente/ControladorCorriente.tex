@@ -428,14 +428,14 @@ La forma de medir corriente que resulta, en principio, más simple es la de util
 	\caption{Puente H con resistencia de sensado de corriente (Rs).}
 	\label{fig:img_puente_con_rshunt}
 \end{figure}
-\colorbox{red}{redactar mejor este párrafo}
-Por otro lado, la realimentación del controlador de corriente debe ser en forma de tensión, por lo tanto es suficiente con medir la tensión diferencial $V_s-V_a$ y tener en cuenta en el diseño del controlador la ganancia que se tiene al pasar de corriente a tensión.
 
-Aunque este método para medir corriente pareciera directo, presenta algunos inconvenientes en el diseño:
+Como se observa en el diagrama en bloques \ref{fig:img_diag-en-bloques-conH-y-Kin}, la ganancia de realimentación $H(s)$ corresponde al valor de la resistencia $R_s$.
 
-El primero es que al agregar una resistencia en serie al electroimán, se introduce una mayor disipación de potencia en el sistema. Para intentar reducir los efectos de este problema se podría elegir un valor de resistencia lo suficientemente bajo para que su consumo de potencia sea despreciable. Por ejemplo, si se adopta una resistencia de $10\:mOhms$ el valor de pérdidas de potencia es de $4\:W$, que es un valor aceptable. \colorbox{red}{por ahi podriamos sacar eso de que es aceptable..}
+Si bien es posible utilizar este método para medir la corriente, se presentan algunos inconvenientes en su implementación circuital que se mencionan a continuación.
 
-El segundo inconveniente es que se altera la dinámica de la planta, ya que la constante de tiempo cambia a $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:Ohm$, por lo que una resistencia de sensado con valor $10\:mOhm$ no afectaría en gran medida la dinámica.
+El primero es que al agregar una resistencia en serie al electroimán se introduce una mayor disipación de potencia en el sistema. Para intentar reducir los efectos de este problema se podría elegir un valor de resistencia lo suficientemente bajo para que su consumo de potencia sea despreciable. Por ejemplo, si se adopta una resistencia de $10\:m\Omega$ el valor de pérdidas de potencia es de $4\:W$, que es un valor aceptable frente a al consumo del electroimán que es de $80\:W$ (considerando una corriente de $20\:A$).
+
+El segundo inconveniente es que se altera la dinámica de la planta, ya que la constante de tiempo cambia a $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:Ohm$, por lo que una resistencia de sensado con valor $10\:mOhm$ no afectaría en gran medida su comportamiento.
 
 El tercero es que se debe realizar una medición de tensión flotante. Esto se debe a que la resistencia, al estar en serie con el electroimán, no tiene ningún punto de medición referido a masa. Por lo tanto, se debe utilizar un amplificador que mida tensión en modo diferencial para luego obtener una señal en modo común. El inconveniente que se presenta es que cada uno de los puntos de medición se encuentra a un alto potencial respecto de masa y, además, este cambia en cada conmutación. Esto genera que durante los transitorios de conmutación haya ruido en la medición diferencial.
 
@@ -449,27 +449,26 @@ Dado que la medición con una resistencia de shunt introduce ruido ocasionado po
 Existen una gran variedad de estos sensores en el mercado, cada uno con diferentes características. A continuación se mencionan los criterios que se tendrán en cuenta para la elección del sensor:
 
 \begin{itemize}
-	\item Debe ser capaz de medir una corriente de hasta $30\:A$.
-	\item El ancho de banda debe ser mucho mayor al polo de la frecuencia de conmutación del controlador de corriente para poder conservar la forma de onda de la corriente triangular a medir. Por lo tanto, debe ser al menos de $100\:kHz$.
-	\item La transresistencia debe ser lineal entre $0\:A$ y $30\:A$.	
+	\item Debe ser capaz de medir y presentar una transresistencia lineal entre $0\:A$ y $30\:A$.
+	\item El ancho de banda debe ser mucho mayor al polo de la frecuencia de conmutación del controlador de corriente ($1\:kHz$) para poder conservar la forma de onda de la corriente triangular a medir. Por lo tanto, debe ser al menos de $100\:kHz$.	
 \end{itemize}
 
-A partir de estas características se decidió utilizar el sensor HO 15-NP-0000 \cite{HO15-NP}. Este permite medir una corriente de $\pm 37.5\:A$ con un ancho de banda de $250\:kHz$ y posee una transresistencia de $H(s)=H_0=53.33\:mV/A$ en todo  el rango de corriente. Además, presenta alta inmunidad a interferencias externas. 
+A partir de estas características se decidió utilizar el sensor HO 15-NP-0000 \cite{HO15-NP}. Este permite medir una corriente de $\pm 37.5\:A$ con un ancho de banda de $250\:kHz$ y una transresistencia de $H(s)=H_0=53.33\:mV/A$ en todo  el rango de corriente. Además, presenta alta inmunidad a interferencias externas. Por otro lado, requiere una fuente de alimentación simple de $5\:V$.
 
-Este sensor tiene la capacidad de medir tanto corrientes en sentido positivo, como negativo. Para ello admite una tensión de bias de $2.5\:V$, la cual se corresponde a la salida cuando la corriente es nula. Cuando la circulación de corriente es positiva, la salida del sensor resulta en una tensión mayor a $2.5\:V$ y, para negativas, menor.
+Este sensor tiene la capacidad de medir tanto corrientes en sentido positivo, como negativo. Para ello admite una tensión de operación ($V_{op}$) de $2.5\:V$, la cual se corresponde a la salida cuando la corriente es nula. Cuando la circulación de corriente es positiva, la salida del sensor resulta en una tensión mayor a $2.5\:V$ y, para negativas, menor.
 
 De esta forma, el bloque $H_0$ de realimentación queda definido como:
 
 \begin{equation}
-	H_0=\frac{V_{IL_{feed}}}{I_L}=53.33 \frac{mV}{A}
+	H_0=\frac{V_{IL_{feed}}}{I_L}=53.33 \:\frac{mV}{A}
 \end{equation}
 
 
 \subsection{Elección de llaves de conmutación}
 
-Las llaves de conmutación ($Q_1$, $Q_2$, $Q_3$ y $Q_4$) que se muestran en la figura \ref{fig:img_topologia_simplificada} son llaves ideales, que en la práctica se implementan por medio de dispositivos semiconductores cuyas características no son ideales. Sin embargo se pueden elegir componentes que se aproximen al comportamiento ideal. Deberían tener resistencia baja al estar en conducción e infinita al estar en estado abierto. De esta forma no se modifica la dinámica de la planta y se reduce la disipación de potencia.
+Las llaves de conmutación ($Q_1$, $Q_2$, $Q_3$ y $Q_4$) que se muestran en la figura \ref{fig:img_topologia_simplificada} son llaves ideales que, en la práctica, se implementan por medio de dispositivos semiconductores cuyas características no son ideales. Sin embargo se pueden elegir componentes que se aproximen al comportamiento ideal: resistencia nula al estar en conducción e infinita al estar en estado abierto. De esta forma no se modifica la dinámica de la planta y se reduce la disipación de potencia.
 
-Para la implementación de las llaves se analiza la utilización de dispositivos semiconductores pertenecientes a la clase transistores. En el mercado existe una amplia variedad de ellos, entre los que destacan los transistores bipolares de juntura (TBJ) y los transistores de efecto de campo metal-oxido-semiconductor (MOSFET), entre otros. Cada uno de ellos posee características distintivas que lo hacen más o menos apropiado para cada aplicación en particular. 
+Para la implementación de las llaves se analiza la utilización de dispositivos semiconductores pertenecientes a la clase transistores. En el mercado existe una amplia variedad de ellos, entre los que se encuentran los transistores bipolares de juntura (TBJ), los transistores de efecto de campo metal-oxido-semiconductor (MOSFET), entre otros. Cada uno de ellos posee características distintivas que lo hacen más o menos apropiado para cada aplicación en particular. 
 
 Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de funcionamiento y forma de utilización. En la tabla \ref{tab_MOSFETvsBJT} se resumen las características principales de cada tipo:
 
@@ -478,19 +477,23 @@ Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de fun
 		\begin{tabular}{| c | c | c |}
 			\hline
 			Tipo & $BJT$ & $MOSFET$\\ \hline
-			Manejo del Gate & Por Corriente & Por Voltage \\ \hline 
+			Manejo del Gate & Por corriente & Por voltage \\ \hline 
 			%Características de Voltaje (Encendido) & $V_{ce}$ bajo & presenta $R_{ds}$ \\ \hline 
-			Velocidad de conmutación & lento & rápido \\ \hline 
-			Diodo parásito & no presente & presente \\ \hline 
+			Velocidad de conmutación & Lento & Rápido \\ \hline 
+			Diodo antiparalelo & No presente & Presente \\ \hline 
+			Caída de tensión en conducción & Depende de tensión  $V_{CE}$ & Depende de resistencia $R_{ds}$ \\ \hline 
+			Dirección de corriente & En un solo sentido & En ambos sentidos \\ \hline 
 		\end{tabular}
 		\caption{BJT vs MOSFET}
 		\label{tab_MOSFETvsBJT}
 	\end{center}
 \end{table}
 
-\colorbox{red}{Falta agregar una conclusión breve de la comparativa..}
+Dadas las características de cada uno mostradas en la tabla \ref{tab_MOSFETvsBJT}, resulta conveniente que el dispositivo elegido permita la circulación de corriente en ambos sentidos (o que no requiera del agregado de componentes externos para lograrlo), permita rápidas conmutaciones y dispongan de diodos antiparalelo que permitan la circulación de corriente para cargas inductivas al momento de conmutación de las llaves. Por lo tanto, se decide utilizar la tecnología MOSFET.
 
-Para la implementación se utilizan los MSOSFET IPB160N04 ya que ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente, con una corriente máxima de $I_{D}=160\:A$ y presentan una $R_{ds}$ muy baja de $1.6 \:m \Omega$. Estos transistores son de tipo N y para que estén en estado de conducción debe aplicarse una tensión entre gate y source mínima de $V_{gs}= 3\:V$.
+Para la elección del modelo que se utilizará se tienen en cuenta los siguientes requerimientos: debe soportar una corriente ($I_{D}$) mayor a $30\:A$, una tensión entre drain y source ($V_{DS}$) mayor a $24\:V$, y baja resistencia en estado de conducción ($R_{DS_{ON}}$).
+
+Por lo tanto, se decide utilizar los MOSFET IPB160N04 ya que, ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente: soportan una $I_{D_{MAX}}=160\:A$, una tensión $V_{DS_{MAX}} = 40\:V$ y una $R_{ds} = 1.6 \:m \Omega$. Estos transistores son de tipo N y, para que estén en estado de conducción, debe aplicarse una tensión entre gate y source mínima de $V_{gs}= 3\:V$.
 
 \subsubsection{Componentes auxiliares para los MOSFET} \label{sec_auxiliares_mosfet}
 

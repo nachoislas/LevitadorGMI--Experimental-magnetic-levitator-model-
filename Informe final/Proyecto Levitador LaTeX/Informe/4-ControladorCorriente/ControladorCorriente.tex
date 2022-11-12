@@ -464,7 +464,7 @@ De esta forma, el bloque $H_0$ de realimentación queda definido como:
 \end{equation}
 
 
-\subsection{Elección de llaves de conmutación}
+\subsection{Elección de llaves de conmutación} \label{sec_eleccion_llaves}
 
 Las llaves de conmutación ($Q_1$, $Q_2$, $Q_3$ y $Q_4$) que se muestran en la figura \ref{fig:img_topologia_simplificada} son llaves ideales que, en la práctica, se implementan por medio de dispositivos semiconductores cuyas características no son ideales. Sin embargo se pueden elegir componentes que se aproximen al comportamiento ideal: resistencia nula al estar en conducción e infinita al estar en estado abierto. De esta forma no se modifica la dinámica de la planta y se reduce la disipación de potencia.
 
@@ -493,12 +493,14 @@ Dadas las características de cada uno mostradas en la tabla \ref{tab_MOSFETvsBJ
 
 Para la elección del modelo que se utilizará se tienen en cuenta los siguientes requerimientos: debe soportar una corriente ($I_{D}$) mayor a $30\:A$, una tensión entre drain y source ($V_{DS}$) mayor a $24\:V$, y baja resistencia en estado de conducción ($R_{DS_{ON}}$).
 
-Por lo tanto, se decide utilizar los MOSFET IPB160N04 ya que, ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente: soportan una $I_{D_{MAX}}=160\:A$, una tensión $V_{DS_{MAX}} = 40\:V$ y una $R_{ds} = 1.6 \:m \Omega$. Estos transistores son de tipo N y, para que estén en estado de conducción, debe aplicarse una tensión entre gate y source mínima de $V_{gs}= 3\:V$.
+Por lo tanto, se decide utilizar los MOSFET IPB160N04 ya que, ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente: soportan una $I_{D_{MAX}}=160\:A$, una tensión $V_{DS_{MAX}} = 40\:V$ y una $R_{ds} = 1.6 \:m \Omega$. Estos transistores son de tipo N y, para que estén en estado de conducción con la $R_{ds}$ especificada anteriormente, debe aplicarse una tensión entre gate y source mínima de $V_{gs}= 7\:V$.
+
+Para lograr una conmutación sincronizada de los MOSFET se necesita un dispositivo que permita activar los pares de transistores de forma sincronizada con una tensión adecuada en sus gates. Este dispositivo tiene el nombre de MOSFET DRIVER e integran varias funcionalidades útiles para el control de los mismos. 
 
 \subsubsection{Componentes auxiliares para los MOSFET} \label{sec_auxiliares_mosfet}
 
 
-Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería de protección como se muestra en la figura \ref{fig:img_capacitores-puenteH}.
+Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería de protección y acondicionamiento como se muestra en la figura \ref{fig:img_capacitores-puenteH}.
 
 
 \begin{figure}[H]
@@ -508,22 +510,32 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 	\label{fig:img_capacitores-puenteH}
 \end{figure}
 
-\colorbox{red}{Agregar en la imagen los TVS y agregar S1, S2, S3 y S4, y 24V}
-\noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOS en el puente H. Estas se observan en la figura como $R_1$, $R_2$, $R_3$ y $R_4$. Su propósito es evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
+\colorbox{red}{Agregar en la imagen los TVS y agregar S1, S2, S3 y S4, y 24V; sacar capacitores; agregar resistencia y diodo en serie a los gates}
 
-\noindent Se utiliza una resistencia de $4.7 \:k\Omega$ debido a que permite que el \textsl{gate} se descargue en un tiempo rápido, \colorbox{red}{modificar lo que sigue sin bootstrap} consumiendo solo $2.55\:mA$ del capacitor de \textsl{bootstrap}.
+\subsubsubsection{Resistencias de descarga de gate}\label{sec_res-gate}
 
+\noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOS en el puente H. Estas se observan en la figura como $R_1$, $R_2$, $R_3$ y $R_4$ y tienen el objetivo de evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
 
-\noindent El \textsl{gate} de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro.
+\noindent Se elige un valor de $4.7 \:k\Omega$  para las resistencias debido a que permite que el \textsl{gate} se descargue en un tiempo rápido, sin generar un consumo de corriente elevado de la señal de control del gate.
 
-\noindent Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
+\subsubsubsection{Protección de sobretensión del gate}
+
+\noindent El \textsl{gate} de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro. Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
+\colorbox{red}{hacer referencia a hoja de datos}
+
+\subsubsubsection{Resistencia y diodo en serie al gate}
+
+Debido a que existen inductancias parásitas en el gate, y que este tiene una impedancia de entrada capacitiva, se forma un circuito resonante LC. Al hacer una conmutación de tensión se pueden generar oscilaciones en la señal de control, lo que puede provocar una incorrecta activación del MOSFET. Para reducir este inconveniente se agrega resistencia en serie al gate en el circuito ($R_5$, $R_6$, $R_7$ y $R_8$), con el objetivo de amortiguar las oscilaciones. Esto trae la desventaja de que hace mas lenta la velocidad de encendido y apagado. Por otro lado, como se desea apagar el MOSFET en el menor tiempo posible, se genera un camino de descarga del gate a través de un diodo en paralelo a la resistencia ($D_1$, $D_2$, $D_3$ y $D_4$).
+
+Para el diseño del circuito impreso de esta etapa se propone en principio utilizar resistencias de 0Ohm y que, en caso de resultar necesario, puedan ser reemplazadas el diodo y la resistencia. 
+
 
 
 \subsection{Elección y análisis del driver de corriente}
 
-Para lograr una conmutación sincronizada de los MOSFET se necesita un dispositivo que permita activar los pares de transistores de forma sincronizada con una señal adecuada. Estos circuitos llamados DRIVERS de corriente existen y se venden comercialmente. 
+Como se mencionó en la sección \ref{sec_eleccion_llaves}, se necesita agregar al circuito un driver de MOSFETs. Para ello se elige el \textsl{driver} HIP4081A \cite{HIP4081A_FN3659}. Este dispositivo requiere una fuente de alimentación simple de $12\:V$ y permite el control de un puente completo a partir de señales de control con niveles lógicos ($0\:V$ y $5\:V$). 
 
-Para controlar la conmutación se utiliza un MOSFET \textsl{driver} HIP4081A \cite{HIP4081A_FN3659}. La topologia del puente H con el HIP4081A puede verse en la figura \ref{fig:img_topologia-puenteH} donde las salidas de control del HIP4081A se conectan a los MOSFET.
+La topologia del puente H con el HIP4081A puede verse en la figura \ref{fig:img_topologia-puenteH} donde las salidas de control del HIP4081A se conectan a los gates de los MOSFET.
 
 \begin{figure}[H]
 	\centering
@@ -532,10 +544,10 @@ Para controlar la conmutación se utiliza un MOSFET \textsl{driver} HIP4081A \ci
 	\label{fig:img_topologia-puenteH}
 \end{figure}
 
-Dado que los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $V_{gs min}(ON) = 7\:V$ \colorbox{red}{¿No eran 3V?}. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores del puente H, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se utiliza una ventaja que posee el \textsl{driver} HIP4081A. Esta ventaja es que tiene la capacidad de entregar una diferencia de tension mayor de la que puede entregar los $+24 V$ a partir de una tensión flotante con una configuración de \textsl{bootstrap}.
+Dado que los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $V_{gs min}(ON) = 7\:V$. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores del puente H, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se hace uso de una funcionalidad que presenta el \textsl{driver} HIP4081A: permite entregar una diferencia de tensión mayor a $+24\:V$ a partir de una tensión flotante con una configuración de \textsl{bootstrap}.
 
-En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A)  junto con las señales de control provistas por el \textsl{driver} HIP4081A. El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del \textsl{bootstrap driver} permite obtener en el \textsl{gate} del MOS superior, una tensión de $36\:V$ respecto a GND, de manera que se logra una diferencia de tensión mayor a $7\:V$ entre \textsl{gate} y \textsl{source}. 
-
+En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A) junto con las señales de control provistas por el \textsl{driver} HIP4081A.  El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del \textsl{bootstrap driver} permite obtener en el \textsl{gate} del MOS superior, una tensión de $36\:V$ respecto a GND, de manera que se logra una diferencia de tensión mayor a $7\:V$ entre \textsl{gate} y \textsl{source}. 
+\colorbox{red}{Ver si podemos aclarar que S1 es AHO, etc}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{Bootstrap.png}
@@ -543,7 +555,7 @@ En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puen
 	\label{fig:img_bootstrap}
 \end{figure}
 
-El \textsl{bootstrap driver} consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del \textsl{bootstrap}, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender $Q_2$ y $Q_4$ durante un tiempo que se conoce como periodo de refresco de \textsl{bootstrap}. De esta forma, los capacitores de \textsl{bootstrap} de ambos lados quedan conectados entre $12\:V$ y GND y se pueden cargar completamente. Durante este tiempo, las salidas a los \textsl{gates} AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de \textsl{shoot-through} durante el período nominal de refresco del \textsl{bootstrap}. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
+El \textsl{bootstrap driver} consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del \textsl{bootstrap}, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender $Q_2$ y $Q_4$ durante un tiempo que se conoce como periodo de refresco de \textsl{bootstrap}. De esta forma, los capacitores de \textsl{bootstrap} de ambos lados quedan conectados entre $12\:V$ y GND y se pueden cargar completamente. Durante este tiempo, las salidas a los \textsl{gates} AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de cortocircuito durante el período nominal de refresco del \textsl{bootstrap}. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
 
 Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra en funcionamiento: con el transistor $Q_2$ encendido (ALO = $V_{CC}$), $Q_1$ apagado (AHO = AHS = $0\:V$) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a $12\:V$, ya que en un terminal tiene la fuente de $12\:V$ (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de $Q_2$.
 
@@ -557,17 +569,17 @@ Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimen
 
 \noindent Para evitar generar un cortocircuito durante la conmutación de los transistores, el \textsl{driver} HIP4081A permite configurar un tiempo muerto que debe transcurrir desde que se apaga un transistor y se enciende el próximo. Esto se configura mediante dos resistencias conectadas a sus pines LDEL y HDEL.
 
-\noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un MOSFET IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es de $63\:ns$ (teniendo en cuenta el $T_{OFF}$ y el $T_{FALL}$). Por lo tanto, al considerar que esta aplicación espcífica no requiere un tiempo de encendido rápido de los MOSFET, se elige que el tiempo muerto sea de $100\:ns$.
+\noindent Para saber el tiempo muerto necesario, debe conocerse el tiempo que tarda en apagarse un MOSFET IPB160N04. De \cite{IPB160N04} se obtiene que este tiempo es de $63\:ns$ (teniendo en cuenta el $T_{OFF}$ y el $T_{FALL}$). Por lo tanto, se elige que el tiempo muerto sea de $100\:ns$ para tomar un margen.
 
 \noindent Según la hoja de datos del HIP4081A, para obtener ese tiempo muerto, las resistencias en HDEL y LDEL deben ser $200\:k\Omega$.
 
-\subsection{Dimensionamiento de capacitor de \textsl{bootstrap}}
+\subsection{Dimensionamiento de capacitor de \textsl{bootstrap}}\label{sec_cap_bootstrap}
 
 \noindent Para el dimensionamiento de los capacitores de \textsl{bootstrap} se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
 
 Para encender un NMOS es necesario proveer corriente a su \textsl{gate} hasta cargar las capacidades parásitas entre \textsl{gate-source} y \textsl{gate-drain}. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el \textsl{gate}. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de \textsl{bootstrap}.
 
-En la sección \ref{sec_auxiliares_mosfet} se agregaron resistencias de protección entre \textsl{gate-source}. Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el capacitor de \textsl{bootstrap}.
+En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre \textsl{gate-source}. Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el capacitor de \textsl{bootstrap}.
 
 \noindent Cuando el MOSFET \textsl{driver} recibe una entrada que activa un MOS del lado superior, este comienza a cargar el \textsl{gate} con ayuda de la tensión que brinda el capacitor de \textsl{bootstrap} asociado a ese MOS. El capacitor de \textsl{bootstrap} entrega energía durante la carga del \textsl{gate} y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el \textsl{driver} reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del \textsl{driver} de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
@@ -586,9 +598,9 @@ En la sección \ref{sec_auxiliares_mosfet} se agregaron resistencias de protecci
 
 
 
-\noindent Por otro lado, el capacitor debe entregar corriente al diodo de \textsl{bootstrap} cuando este queda en inversa ($I_{DR}$), y también entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
+\noindent Por otro lado, el capacitor debe entregar corriente al diodo de \textsl{bootstrap} cuando este queda en inversa ($I_{DR}$). El componente elegido para este diodo es el RSX205LAM30TR. También debe entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
 
-\noindent Por lo tanto, para poder dimensionar correctamente el capacitor de \textsl{bootstrap} es necesario tener en cuenta todos los efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena el capacitor \textsl{bootstrap}:
+\noindent Por lo tanto, para poder dimensionar correctamente el capacitor de \textsl{bootstrap} es necesario tener en cuenta todos los efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena este capacitor:
 
 \begin{equation} \label{eq_carga-cap-bootstrap}
 	Q_{BS}=C_{BS}*\Delta V_{BS}
@@ -599,7 +611,7 @@ En la sección \ref{sec_auxiliares_mosfet} se agregaron resistencias de protecci
 \noindent Para evitar sufrir una caída de tensión tal que afecte el encendido de los MOS, es necesario que $Q_{BS}$ pueda abastecer también al \textsl{gate}, al diodo en inversa y a la resistencia entre \textsl{gate-source}. Por lo tanto:
 
 \begin{equation} \label{eq_carga-cap-bootstrap2}
-	Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}
+	Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{F_{sw}}
 \end{equation}
 
 \noindent Donde:
@@ -608,7 +620,7 @@ En la sección \ref{sec_auxiliares_mosfet} se agregaron resistencias de protecci
 	\item $Q_{RR}$ = Carga entregada al diodo en inversa durante el tiempo de recuperación (cuando pasa de modo conducción a inversa).
 	\item $I_{DR}$ = Corriente de fuga del diodo en inversa.
 	\item $I_{GS}$ = Corriente que circula por la resistencia de \textsl{gate-source}.
-	\item $f_{PWM}$ = frecuencia de conmutación.
+	\item $F_{sw}$ = frecuencia de conmutación.
 \end{itemize}
 
 
@@ -616,12 +628,12 @@ En la sección \ref{sec_auxiliares_mosfet} se agregaron resistencias de protecci
 
 
 \begin{equation} \label{eq_cap-bootstrap}
-	C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{f_{PWM}}}{\Delta V_{BS}}
+	C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{F_{sw}}}{\Delta V_{BS}}
 \end{equation}
 
 \noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, se obtiene que $Q_G= 170\:nC$. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS} = 0.1\:V$, es posible dimensionarlo para que posea carga suficiente para mantener al MOSFET siempre encendido.
 
-\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR \colorbox{red}{creo que no habíamos mencionado nada sobre este diodo antes } se obtiene, a partir de \cite{RSX205LAM30}, que  $I_R$ es igual a $0.1\:A$  y  el tiempo de recuperación de inversión es de $12.5\:ns$. Por lo tanto, la carga de recuperación resulta de $0.625\:nC$. Además, la corriente inversa de fuga del diodo de \textsl{bootstrap} tiene un valor de $I_{DR} =2 \:mA\:(@\: T=75^{\circ}\:C, V_R= 24\:V)$.
+\noindent Para el cálculo de la carga de recuperación $Q_{RR}$ se puede considerar que la forma de onda de la corriente de recuperación es triangular. De esta forma,  $Q_{RR}$ es aproximadamente igual a la mitad del producto entre el pico de la magnitud de corriente inversa y la duración del tiempo de recuperación.  Debido a que se usa el diodo RSX205LAM30TR se obtiene, a partir de \cite{RSX205LAM30}, que  $I_R$ es igual a $0.1\:A$  y  el tiempo de recuperación de inversión es de $12.5\:ns$. Por lo tanto, la carga de recuperación resulta de $0.625\:nC$. Además, la corriente inversa de fuga del diodo de \textsl{bootstrap} tiene un valor de $I_{DR} =2 \:mA\:(@\: T=75^{\circ}\:C, V_R= 24\:V)$.
 
 \noindent La corriente $I_{GS}$ tiene forma exponencial pero se aproxima a una constante debido a que el intervalo de tiempo es pequeño. Por lo tanto, puede calcularse como la diferencia de tensión del capacitor de \textsl{bootstrap} ($V_B=12\:V$) dividido el valor de la resistencia \textsl{gate-source}, que es de $4.7\:k\Omega$. Por lo tanto, $I_{GS}=2.55 \:mA$. 
 
@@ -649,7 +661,9 @@ En la sección \ref{sec_auxiliares_mosfet} se agregaron resistencias de protecci
 
 \noindent Para reducir el consumo de potencia de la red se utilizan capacitores en paralelo a la fuente de $+24\:V$. Esto permite que, una vez que la fuente cargó inicialmente el inductor, en las conmutaciones sucesivas la carga del inductor pase a dichos capacitores en un semiciclo y viceversa en el otro ciclo de conmutación. Idealmente, esta transferencia de energía no tiene pérdidas. Por lo tanto, el consumo de potencia queda reducido a la perdida por disipación de los MOSFET y los demás componentes del controlador de corriente. 
 
-\noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan \textsl{ripple} en la tensión $V_{BUS}$.
+\noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan \textsl{ripple} en la tensión $V_{cc}$.
+
+\colorbox{red}{Repetir imagen 1.9 pero con capacitores de fuente}
 
 \noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por $C_1$ y $C_2$. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores hacia el electroimán por $Q_1$ y $Q_4$. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de $Q_2$ y $Q_3$. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-<I_L>$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
 
@@ -719,7 +733,7 @@ En la sección \ref{sec_auxiliares_mosfet} se agregaron resistencias de protecci
 	P = I^2 * R_T = 21.25^2 * \frac{R_{ESR}}{n}
 \end{equation}
 
-\noindent Se decidió utilizar 6 capacitores  de $2200 \:uF$ con un rating de tensión de $50\:V$ y una ESR de $17 \:\Omega$ (datos obtenidos de \cite{EKY-350ELL222MM25S}) . De esta forma, al reemplazar en la ecuación \ref{eq_potencia} se obtiene que la potencia disipada es de: 
+\noindent Se decidió utilizar 6 capacitores  \colorbox{red}{poner nombre} de $2200 \:uF$ con un rating de tensión de $50\:V$ y una ESR de $17 \:\Omega$ (datos obtenidos de \cite{EKY-350ELL222MM25S}) . De esta forma, al reemplazar en la ecuación \ref{eq_potencia} se obtiene que la potencia disipada es de: 
 
 \begin{equation} 
 	P=1.28\:W
@@ -734,7 +748,7 @@ En esta sección se diseña la implementación circuital correspondiente a la et
 En principio se calcula la ganancia de entrada $K_{in}$ utilizando la ecuación \ref{eq_kin} y teniendo en cuenta la ganancia del sensor de efecto Hall elegido:
 
 \begin{equation}
-	K_{in}=6*53.33=0.32
+	K_{in}=6\:\frac{A}{V}*53.33\:\frac{mV}{A}=0.32
 \end{equation}
 
 Se desea implementar un circuito que realice la operación matemática 
@@ -775,7 +789,7 @@ Por lo tanto, al igualarla con la expresión \ref{eq_Ve-circuito} resultan las s
 	\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}} = 1
 \end{equation}
 
-De estas relaciones se obtiene que $R_{4}=R_{5}$. Luego al reemplazar en las ecuaciones \ref{eq_ve_operacional-1}, \ref{eq_ve_operacional-2} y \ref{eq_ve_operacional-3} se obtiene:
+De estas relaciones se obtiene que $R_{4}=R_{5}$. Luego al reemplazar en las ecuaciones \ref{eq_ve_operacional-1}, \ref{eq_ve_operacional-2} y \ref{eq_ve_operacional-3} resulta:
 
 \begin{equation*}
 	\frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}= 0.16
@@ -841,12 +855,8 @@ La ecuación \ref{eq_salida_restador_hall} es válida únicamente para $I_L>=0\:
 Si bien en el dispositivo levitador se desea que la corriente media del electroimán sea siempre positiva, este circuito tiene la desventaja de que elimina completamente cualquier corriente instantánea que sea negativa. Como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador, por lo tanto a continuación se propone una solución a este inconveniente.
 
 \subsubsection{Ajuste para permitir corrientes negativas}
-\colorbox{red}{Este parrafo creo qeu se repite...}
-El sensor de efecto Hall entrega una tensión $V_{sns}$ proporcional a la corriente que circula por el electroimán con un \textsl{offset} $V_{op}$. Es decir, para corrientes positivas, la salida será mayor a $V_{op}$, y para corrientes negativas, menor.
 
-La salida de este sensor se realimenta hacia la etapa del restador del controlador de corriente mediante un operacional, que le quita el \textsl{offset} de $V_{op}$. Debido a que se utiliza una fuente simple para la alimentación, el circuito encargado de realimentar solo permite excursiones positivas de la corriente mientras que las negativas son recortadas. Esto presenta un problema ya que si ocurre el caso de que la corriente del electroimán se haga negativa instantáneamente, la tensión de salida del sensor de efecto Hall será menor a $V_{op}$, por lo que la salida del operacional será recortada y, por lo tanto, el sistema quedará a lazo abierto.
-
-Para solucionar este problema se analizaron dos alternativas:
+Debido a que el circuito encargado de realimentar la salida del sensor solo permite excursiones positivas de la corriente mientras que las negativas son recortadas, se presenta el problema de que si la corriente del electroimán se hace negativa instantáneamente, la tensión de salida del sensor de efecto Hall será menor a $V_{op}$. Por lo tanto, la salida del operacional será recortada y el sistema quedará a lazo abierto. Para solucionar este problema se analizaron dos alternativas:
 
 \begin{itemize} 
 	\item Elevar el \textsl{set-point}  $V_{op}$ del sensor de efecto Hall.
@@ -864,15 +874,38 @@ Teniendo en cuenta este cambio en el punto de operación, la salida de la etapa 
 	V_{IL_{feed}}=V_{sns}-2.5V =I_L*H_0 + 2.6V - 2.5V =I_L*H_0+0.1V
 \end{equation}
 
-\colorbox{red}{habría que aclarar mejor cuales quedan en 2.5 y uales en 2.6}
-
 A continuación se muestran los circuitos correspondientes a la etapa de entrada y acondicionamiento de salida del sensor, con la modificación en el punto de operación:
 
-IMAGEN DE LOS DOS CIRCUITOS JUNTOS
+\colorbox{red}{IMAGEN DE LOS DOS CIRCUITOS JUNTOS}
 
 \subsection{Comparador con histéresis}
 
-Para implementar el comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Debido a que se definió que la corriente de salida del electroimán tenga un \textsl{ripple} de $500\:mA$, al afectarla por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
+Como se mencionó en la sección \ref{sec_cap_bootstrap} es necesario agregar una etapa de oscilación de alta frecuencia para permitir la carga de los capacitores de bootstrap en un intervalo de tiempo regular.
+
+Para implementar el oscilador de alta frecuencia se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Esta genera una señal pulsada con ciclo de trabajo 90\% en su salida a partir de el valor de la tensión $V_h$ en su entrada con el agregado de una inversión de signo. Pueden darse dos casos:
+
+1- $V_h=5\:V$ entonces la salida estará 90\% del tiempo en $0\:V$ y  el resto en $5\:V$. 
+
+2- $V_h=0\:V$ entonces la salida estará 90\% del tiempo en $5\:V$ y el resto en $0\:V$.
+
+\colorbox{red}{hacer calculo de componentes}
+Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:
+
+\begin{equation} 
+	F_{aux} = \frac{4.5*10^{-5}}{C1} [Hz]
+\end{equation}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Frecuencia-auxiliar.png}
+	\caption{Circuito oscilador de frecuencia auxiliar.}
+	\label{fig:img_frecuencia-auxiliar}
+\end{figure}
+
+
+
+Para implementar el comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Para el diseño del comparador se tiene en cuenta la inversión de signo que aporta la etapa de oscilador de alta frecuencia para cancelarla. Debido a que se definió que la corriente de salida del electroimán tenga un \textsl{ripple} de $500\:mA$, al afectarla por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -881,7 +914,7 @@ Para implementar el comparador con histéresis se utiliza un amplificador operac
 	\label{fig:img_comp-con-hist}
 \end{figure}
 
-El funcionamiento de este circuito depende de la tensión de entrada $V_e$ y la tensión en la entrada no inversora del operacional $V^+$ y esta a su vez depende de la tensión de salida $V_h$. El circuito tiene dos estados posibles:
+El funcionamiento de este circuito depende de la tensión de entrada $V_e$ y la tensión en la entrada no inversora del operacional $V^+$ y esta, a su vez, depende de la tensión de salida $V_h$. El circuito tiene dos estados posibles:
 
 1- Cuando $V_e<V^+$ la salida será $V_h=5V$
 
@@ -908,7 +941,7 @@ La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por l
 	V^+_{on}=2.5*\frac{R_{7}}{R_{8}+R_{7}} + 5V*\frac{R_{8}}{R_{8}+R_{7}}=V^+_{off}+5V*\frac{R_{8}}{R_{8}+R_{7}}
 \end{equation}
 
-Como $V_{e}$ tiene forma triangular, inicialmente se tendrá una forma de onda de rampa aproximadamente lineal creciente tal que $V_e<V^+$ por lo tanto, la salida del comparador sera $V_{h}=5 V$. Luego cuando $V_e>V^+$ se alternara la salida del comparador a $V_{h}=0 V$ alternando la senial a una rampa decreciente hasta que nuevamente se alcanze $V_e<V^+$. Este ciclo de histeresis se mantiene constante.
+Como $V_{e}$ tiene forma triangular, inicialmente se tendrá una forma de onda de rampa creciente tal que $V_e < V^+_{on}$. Por lo tanto, la salida del comparador será $V_{h}=5\:V$. Luego, cuando $V_e > V^+_{off}$ se alternará la salida del comparador a $V_{h}=0\:V$ alternando la señal a una rampa decreciente hasta que nuevamente se alcance $V_e<V^+$. Este ciclo de histéresis se mantiene constante.
 
 Para obtener un ancho de histeresis de $26,665 mV$ entonces la diferencia entre el punto mas alto y mas bajo debe ser:
 
@@ -918,30 +951,22 @@ Para obtener un ancho de histeresis de $26,665 mV$ entonces la diferencia entre 
 
 Si se toma $R_{7}=200 k$ se obtiene $R_{8}=1072 $ por lo tanto se toma un valor comercial de $R_{8}=1066$. De esta forma se obtiene el ancho de histeresis deseado.
 
-\subsection{Circuito de conmutación auxiliar}
 
-El controlador por histéresis no asegura que haya una conmutación en un tiempo constante , esto puede ocurrir cuando el sistema exige un cambio en la corriente media. Cuando esto ocurre por un tiempo considerable el capacitor de boostrap se descarga a travez de la resistencia del gate (Rgs), si este tiempo es considerable al querer conmutar nuevamente, el gate no tendr'ia la carga suficiente para activar al $MOSFET$ superior por lo tanto la conmutación no se podrá efectuar. Por este motivo se decidió superponer una conmutación auxiliar constante que no afecte el funcionamiento del sistema con el objetivo de evitar la descarga de los capacitores de boostrap.
- 
-Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:
 
-\begin{equation} 
-	F_{aux} = \frac{4.5*10^{-5}}{C1} [Hz]
-\end{equation}
-
-Esta frecuencia debe ser mucho mayor a la fundamental de la corriente triangular para evitar problemas en el funcionamiento del sistema y, además, debe ser lo suficientemente alta para poder ser filtrada sin inconvenientes en la etapa de estimación de posición (como se explica en el capítulo \ref{cap:Estimador Analogico}). Por lo tanto, al adoptar una frecuencia auxiliar de $50\:kHz$, resulta en $C_1= 900\:pF$.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=1]{Frecuencia-auxiliar.png}
-	\caption{Circuito oscilador de frecuencia auxiliar.}
-	\label{fig:img_frecuencia-auxiliar}
-\end{figure}
 
 \subsection{Conexión de oscilador con HIP???}
+El HIP tiene 4 señales de control, cada una engargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura daddasdasADSDAS.
+
+\colorbox{red}{poner diagrama de conexion, señales de control HIP con oscilador}
+
 
 \section{SIMULACIONES??}
 
-?????
+En esta sección se mues
+Escalon con alta frecuencia
+Frecuencia de las señales de conmutacion
+niveles de tensión
+tension de comparador con histeresis
 
 \section{Características estáticas y dinámicas del controlador}
 

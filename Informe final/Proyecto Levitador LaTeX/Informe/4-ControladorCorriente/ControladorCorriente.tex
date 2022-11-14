@@ -389,7 +389,7 @@ El controlador de corriente tendrá una corriente media variable entre $0\:A$ y 
 
 \subsection{Cálculo de ganancia de entrada}
 
-Como se observa en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Si bien aún no se eligió el sensor de corriente que será utilizado, puede considerarse su ganancia de contínua $H(s=0)$, denominada $H_0$. En la expresión \ref{eq_kin} se muestra la ganancia de entrada en función de $H_0$ para poder calcularla una vez elegido el sensor.
+Como se observa en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, la etapa de entrada consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Si bien aún no se eligió el sensor de corriente que será utilizado, puede considerarse su ganancia de contínua $H(s=0)$, denominada $H_0$. En la expresión \ref{eq_kin} se muestra la ganancia de entrada en función de $H_0$ para poder calcularla una vez elegido el sensor.
 
 \begin{equation} \label{eq_kin}
 	K_{in}=\frac{30\:A*H_0}{5\:V}=6*H_0 
@@ -409,13 +409,14 @@ En esta sección se realiza la implementación circuital de cada bloque plantead
 
 \subsection{Elección del sensor de corriente}
 
-Como se mencionó en secciones anteriores es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán para que luego el controlador pueda actuar en consecuencia. Es importante conocer tanto su valor medio como su \textsl{ripple}. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde $0\:A$ hasta $30\:A$ con un \textsl{ripple} de $500\:mA$.
+Como se mencionó previamente es necesario realizar una medición sobre la corriente que circula por el bobinado del electroimán para que luego el controlador pueda actuar en consecuencia. Es importante conocer tanto su valor medio como su \textsl{ripple}. Es por ello que se debe idear una estrategia de medición que represente correctamente esta forma de onda cuyo valor medio puede alcanzar valores desde $0\:A$ hasta $30\:A$ con un \textsl{ripple} de $500\:mA$.
 
 En esta sección se analizan dos alternativas para lograr este objetivo. La primera mediante una resistencia en serie al electroimán y la segunda utilizando un sensor de efecto Hall.
 
 
 \subsubsection{Análisis de medición de corriente mediante resistencia shunt}
-La forma de medir corriente que resulta, en principio, más simple es la de utilizar una resistencia de valor $R_s$ en serie con el electroimán como se muestra en la figura \ref{fig:img_puente_con_rshunt}, y medir en sus terminales la diferencia de tensión generada por la corriente. A partir de esta tensión ($V_s-V_a$) se puede utilizar la ley de Ohm para conocer el valor de corriente:
+
+Una forma de medir la corriente es utilizar una resistencia de valor $R_s$ en serie con el electroimán como se muestra en la figura \ref{fig:img_puente_con_rshunt}, y medir en sus terminales la diferencia de tensión generada por la corriente. A partir de esta tensión ($V_s-V_a$) se puede utilizar la ley de Ohm para conocer el valor de corriente:
 
 \begin{equation}
 	I_L=\frac{V_s-V_a}{R_s}
@@ -483,7 +484,7 @@ Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de fun
 		\begin{tabular}{| c | c | c |}
 			\hline
 			Tipo & $BJT$ & $MOSFET$\\ \hline
-			Manejo del Gate & Por corriente & Por voltage \\ \hline 
+			Manejo del \textsl{gate} & Por corriente & Por voltage \\ \hline 
 			%Características de Voltaje (Encendido) & $V_{ce}$ bajo & presenta $R_{ds}$ \\ \hline 
 			Velocidad de conmutación & Lento & Rápido \\ \hline 
 			Diodo antiparalelo & No presente & Presente \\ \hline 
@@ -497,11 +498,14 @@ Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de fun
 
 Dadas las características de cada uno mostradas en la tabla \ref{tab_MOSFETvsBJT}, resulta conveniente que el dispositivo elegido permita la circulación de corriente en ambos sentidos (o que no requiera del agregado de componentes externos para lograrlo), permita rápidas conmutaciones y dispongan de diodos antiparalelo que permitan la circulación de corriente para cargas inductivas al momento de conmutación de las llaves. Por lo tanto, se decide utilizar la tecnología MOSFET.
 
-Para la elección del modelo que se utilizará se tienen en cuenta los siguientes requerimientos: debe soportar una corriente ($I_{D}$) mayor a $30\:A$, una tensión entre drain y source ($V_{DS}$) mayor a $24\:V$, y baja resistencia en estado de conducción ($R_{DS_{ON}}$).
+Para la elección del modelo que se utilizará se tienen en cuenta los siguientes requerimientos: debe soportar una corriente ($I_{D}$) mayor a $30\:A$, una tensión entre \textsl{drain} y \textsl{source} ($V_{DS}$) mayor a $24\:V$, y baja resistencia en estado de conducción ($R_{DS_{ON}}$).
 
-Por lo tanto, se decide utilizar los MOSFET IPB160N04 ya que, ademas de estar presentes en el prototipo anterior, cumplen con los requerimientos de corriente: soportan una $I_{D_{MAX}}=160\:A$, una tensión $V_{DS_{MAX}} = 40\:V$ y una $R_{ds} = 1.6 \:m \Omega$. Estos transistores son de tipo N y, para que estén en estado de conducción con la $R_{ds}$ especificada anteriormente, debe aplicarse una tensión entre gate y source mínima de $V_{gs}= 7\:V$.
 
-Para lograr una conmutación sincronizada de los MOSFET se necesita un dispositivo que permita activar los pares de transistores de forma sincronizada con una tensión adecuada en sus gates. Este dispositivo tiene el nombre de MOSFET DRIVER e integran varias funcionalidades útiles para el control de los mismos. 
+\colorbox{red}{Agregar datasheet del MOSFET?}
+
+Por lo tanto, se decide utilizar los MOSFET IPB160N04 ya que, ademas de haber sido probados en el prototipo anterior, cumplen con los requerimientos de corriente: soportan una $I_{D_{MAX}}=160\:A$, una tensión $V_{DS_{MAX}} = 40\:V$ y una $R_{ds} = 1.6 \:m \Omega$. Estos transistores son de tipo N y, para que estén en estado de conducción con la $R_{ds}$ especificada anteriormente, debe aplicarse una tensión entre \textsl{gate} y \textsl{source} mínima de $V_{gs}= 7\:V$.
+
+Para lograr una conmutación sincronizada de los MOSFET se necesita un dispositivo que permita activar los pares de transistores de forma sincronizada con una tensión adecuada en sus \textsl{gates}. Este dispositivo tiene el nombre de MOSFET \textsl{driver} e integran varias funcionalidades útiles para el control de los mismos. 
 
 \subsubsection{Componentes auxiliares para los MOSFET} \label{sec_auxiliares_mosfet}
 
@@ -518,30 +522,32 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 
 \colorbox{red}{No se si va con AHO o con S1..}
 
-\subsubsubsection{Resistencias de descarga de gate}\label{sec_res-gate}
+\subsubsubsection{Resistencias de descarga de \textsl{gate}}\label{sec_res-gate}
 
 \noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOS en el puente H. Estas se observan en la figura como $R_1$, $R_2$, $R_3$ y $R_4$ y tienen el objetivo de evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
 
-\noindent Se elige un valor de $4.7 \:k\Omega$  para las resistencias debido a que permite que el \textsl{gate} se descargue en un tiempo rápido, sin generar un consumo de corriente elevado de la señal de control del gate.
+\noindent Se elige un valor de $4.7 \:k\Omega$  para las resistencias debido a que permite que el \textsl{gate} se descargue en un tiempo rápido, sin generar un consumo de corriente elevado de la señal de control del \textsl{gate}.
 
-\subsubsubsection{Protección de sobretensión del gate}
+\colorbox{red}{Hay algun cálculo para ver que tan rápido se descarga? O como sabemos eso...}
 
-\noindent El \textsl{gate} de los MOS es sensible a las sobretensiones. Soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro. Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
+\subsubsubsection{Protección de sobretensión del \textsl{gate}}
+
+\noindent El \textsl{gate} de los MOS es sensible a las sobretensiones: soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro. Estos se observan como $TVS_1$, $TVS_2$, $TVS_3$ y $TVS_4$ en la figura \ref{fig:img_capacitores-puenteH}. Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
 \colorbox{red}{hacer referencia a hoja de datos}
 
-\subsubsubsection{Resistencia y diodo en serie al gate}
+\subsubsubsection{Resistencia y diodo en serie al \textsl{gate}}
 
-Debido a que existen inductancias parásitas en el gate, y que este tiene una impedancia de entrada capacitiva, se forma un circuito resonante LC. Al hacer una conmutación de tensión se pueden generar oscilaciones en la señal de control, lo que puede provocar una incorrecta activación del MOSFET. Para reducir este inconveniente se agrega resistencia en serie al gate en el circuito ($R_5$, $R_6$, $R_7$ y $R_8$), con el objetivo de amortiguar las oscilaciones. Esto trae la desventaja de que hace mas lenta la velocidad de encendido y apagado. Por otro lado, como se desea apagar el MOSFET en el menor tiempo posible, se genera un camino de descarga del gate a través de un diodo en paralelo a la resistencia ($D_1$, $D_2$, $D_3$ y $D_4$).
+Debido a que existen inductancias parásitas en el \textsl{gate}, y que este tiene una impedancia de entrada capacitiva, se forma un circuito resonante LC. Al hacer una conmutación de tensión se pueden generar oscilaciones en la señal de control, lo que puede provocar una incorrecta activación del MOSFET. Para reducir este inconveniente se agrega resistencia en serie al \textsl{gate} en el circuito ($R_5$, $R_6$, $R_7$ y $R_8$), con el objetivo de amortiguar las oscilaciones. Esto trae la desventaja de que hace mas lenta la velocidad de encendido y apagado. Por otro lado, como se desea apagar el MOSFET en el menor tiempo posible, se genera un camino de descarga del \textsl{gate} a través de un diodo en paralelo a la resistencia ($D_1$, $D_2$, $D_3$ y $D_4$).
 
-Para el diseño del circuito impreso de esta etapa se propone en principio utilizar resistencias de 0Ohm y que, en caso de resultar necesario, puedan ser reemplazadas el diodo y la resistencia. 
+Para el diseño del circuito impreso de esta etapa se propone en principio utilizar resistencias de 0Ohm y que, en caso de resultar necesario, puedan ser reemplazadas por un valor de resistencia adecuado. \colorbox{red}{¿Y cual sería el correcto valor de la resistencia? o nunca lo calculamos?}
 
 
 
-\subsection{Elección y análisis del driver de corriente}
+\subsection{Elección y análisis del \textsl{driver} de corriente}
 
-Como se mencionó en la sección \ref{sec_eleccion_llaves}, se necesita agregar al circuito un driver de MOSFETs. Para ello se elige el \textsl{driver} HIP4081A \cite{HIP4081A_FN3659}. Este dispositivo requiere una fuente de alimentación simple de $12\:V$ y permite el control de un puente completo a partir de señales de control con niveles lógicos ($0\:V$ y $5\:V$). 
+Como se mencionó en la sección \ref{sec_eleccion_llaves}, se necesita agregar al circuito un \textsl{driver} de MOSFETs. Para ello se elige el \textsl{driver} HIP4081A \cite{HIP4081A_FN3659}. Este dispositivo requiere una fuente de alimentación simple de $12\:V$ y permite el control de un puente completo a partir de señales de control con niveles lógicos entre $0\:V$ y $5\:V$. 
 
-La topologia del puente H con el HIP4081A puede verse en la figura \ref{fig:img_topologia-puenteH} donde las salidas de control del HIP4081A se conectan a los gates de los MOSFET.
+La topologia del puente H con el \textsl{driver} puede verse en la figura \ref{fig:img_topologia-puenteH} donde las salidas de control del HIP4081A se conectan a los \textsl{gates} de los MOSFET.
 
 \begin{figure}[H]
 	\centering

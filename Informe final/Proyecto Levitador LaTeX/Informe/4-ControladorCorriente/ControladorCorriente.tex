@@ -242,10 +242,6 @@ Por estos motivos se propone utilizar una topología de puente H completo compue
 	\label{fig:img_topologia_simplificada}
 \end{figure}
 
-\colorbox{pink}{poner un cuadrado en vez de la L y la R}
-
-\colorbox{red}{Agregar señales de control como S1, S2, S3 y S4}
-
 Esta topología permite el control individual del estado de cada llave por medio de las señales de control ($S_x$). Cada una tiene dos estados posibles: abierto ($S_x=0$), no conduce corriente; y cerrado ($S_x=1$), conduce corriente sin caida de tensión en la llave. Las llaves se activan de a pares, y al combinar los valores de las señales de control de cada llave se pueden generar distintas diferencias de potencial sobre el electroimán. A continuación se muestra una tabla con las posibles combinaciones de pares de llaves, y diferencia de potencial resultante en el electroimán ($V_L$):
 
 \begin{table}[H]
@@ -420,11 +416,10 @@ La forma de medir corriente que resulta, en principio, más simple es la de util
 \begin{equation}
 	I_L=\frac{V_s-V_a}{R_s}
 \end{equation}
-\colorbox{red}{corregir imagen con S1,S2,S3,S4 y bloque electroiman}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{puente_con_rshunt.png}
+	\includegraphics[scale=0.6]{puente_con_rshunt.png}
 	\caption{Puente H con resistencia de sensado de corriente (Rs).}
 	\label{fig:img_puente_con_rshunt}
 \end{figure}
@@ -505,12 +500,12 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{Capacitores-puenteH.png}
+	\includegraphics[scale=0.4]{Capacitores-puenteH.png}
 	\caption{Puente H.}
 	\label{fig:img_capacitores-puenteH}
 \end{figure}
 
-\colorbox{red}{Agregar en la imagen los TVS y agregar S1, S2, S3 y S4, y 24V; sacar capacitores; agregar resistencia y diodo en serie a los gates}
+\colorbox{red}{No se si va con AHO o con S1..}
 
 \subsubsubsection{Resistencias de descarga de gate}\label{sec_res-gate}
 
@@ -663,9 +658,14 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 
 \noindent Estos capacitores deben tener una baja resistencia equivalente serie (ESR) ya que, de lo contrario, disiparían mucha potencia en forma de calor y se acortaría su vida útil. Además generan \textsl{ripple} en la tensión $V_{cc}$.
 
-\colorbox{red}{Repetir imagen 1.9 pero con capacitores de fuente}
+\noindent En la figura \ref{fig:img_puenteH-capacitores-fuente.png} los capacitores de la fuente están representados por $C_1$ y $C_2$. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores hacia el electroimán por $Q_1$ y $Q_4$. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de $Q_2$ y $Q_3$. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-<I_L>$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
 
-\noindent En la figura \ref{fig:img_capacitores-puenteH} los capacitores de la fuente están representados por $C_1$ y $C_2$. Para poder dimensionarlos correctamente hay que tener en cuenta que la forma de onda de la corriente que circula por el electroimán en régimen permanente es aproximadamente triangular. Esta corriente es conducida durante medio ciclo desde estos capacitores hacia el electroimán por $Q_1$ y $Q_4$. Luego, durante la otra mitad del ciclo, la corriente regresa a estos capacitores a través de $Q_2$ y $Q_3$. Esto provoca que la corriente en los capacitores sea, durante el semiciclo encendido, igual al valor medio de la corriente del electroimán, con $ \pm \frac{\Delta I_L}{2}$. Similarmente ocurre en el semiciclo apagado, pero con valor medio $-<I_L>$.  Por lo tanto,  la corriente tiene la forma que se muestra en la figura \ref{fig:img_ccorriente-capacitores}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{puenteH-capacitores-fuente.png}
+	\caption{Forma de onda de la corriente en $C_1$ y $C_2$.}
+	\label{fig:img_puenteH-capacitores-fuente.png}
+\end{figure}
 
 \begin{figure}[H]
 	\centering
@@ -895,13 +895,21 @@ Para generar esta conmutación se agrega el oscilador que se observa en la figur
 	F_{aux} = \frac{4.5*10^{-5}}{C1} [Hz]
 \end{equation}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{conmutacion-auxiliar.png}
+	\caption{Circuito oscilador de frecuencia auxiliar.}
+	\label{fig:img_frecuencia-auxiliar}
+\end{figure}
 
+\colorbox{red}{A la imagen de abajo no la saqué todavia para ver los valores de los componentes}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=1]{Frecuencia-auxiliar.png}
 	\caption{Circuito oscilador de frecuencia auxiliar.}
-	\label{fig:img_frecuencia-auxiliar}
+	\label{fig:img_frecuencia-auxiliarasdas}
 \end{figure}
+
 
 
 

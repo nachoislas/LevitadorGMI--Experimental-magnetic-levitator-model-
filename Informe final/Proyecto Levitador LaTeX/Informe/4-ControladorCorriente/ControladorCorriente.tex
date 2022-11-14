@@ -464,12 +464,22 @@ De esta forma, el bloque $H_0$ de realimentación queda definido como:
 \end{equation}
 
 \subsubsection{Conexión de sensor en el puente}
+\colorbox{red}{esto se puede modificar o sacar si quieren, pero me parece que es importante marcar la señal Vsns que después la usamos en los operacionales}
 
-El sensor elegido tiene ... pines. La conexión de estos en la fuente de alimentación se muestra en la figura siguiente... (\colorbox{red}{ponemos los pines relevantes nomás})
+El sensor se conecta dentro de la fuente de alimentación de la manera que se muestra en la figura \ref{fig:img_conexion_sensor}. Entre sus conexiones mas relevantes se encuentran la entrada de alimentación (pin 1), la entrada de corriente del electroimán (pines 8,9,10), la salida de corriente (pines 11,12,13), la entrada de tensión de referencia (pin 4) y la señal de salida $V_{sns}$ (pin 3).
 
-ACÁ DESPUES PONGO UNA IMAGEN
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{conexion_sensor_hall.png}
+	\caption{Sensor de corriente dentro del puente H.}
+	\label{fig:img_conexion_sensor}
+\end{figure}
 
-ACÁ PODEMOS MARCAR LA SEÑAL Vsns
+La señal $V_{sns}$ está dada por la ecuación siguiente:
+
+\begin{equation}
+	V_{sns}=I_L*H_0+V_{op}
+\end{equation}
 
 \subsection{Elección de llaves de conmutación} \label{sec_eleccion_llaves}
 

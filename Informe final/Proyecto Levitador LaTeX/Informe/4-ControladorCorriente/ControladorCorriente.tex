@@ -826,7 +826,7 @@ De estas relaciones se obtiene que $R_{4}=R_{5}$. Luego al reemplazar en las ecu
 	\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}= 0.5
 \end{equation*}
 
-Tomando un valor de $R_{1} = R_{4} = 10\:k\Omega$ resulta en $R_{3}=4.7\:k\Omega$ y $R_{2}=4.7\:k\Omega$. Por lo tanto se obtiene a la salida del circuito la ecuación \ref{eq_ve_operacional}.
+Tomando un valor de $R_{1} = R_{4} = 10\:k\Omega$ resulta en $R_{3}=4.7\:k\Omega$ y $R_{2}=3.2\:k\Omega$. Por lo tanto se obtiene a la salida del circuito la ecuación \ref{eq_ve_operacional}.
 
 \begin{equation} \label{eq_ve_operacional}
 	V_e = 0.32 * V_{IL_{ref}} - V_{IL_{feed}} + V_{op}
@@ -900,6 +900,9 @@ Teniendo en cuenta este cambio en el punto de operación, la salida de la etapa 
 \begin{equation} \label{eq_salida_restador_hall_2}
 	V_{IL_{feed}}=V_{sns}-2.5V =I_L*H_0 + 2.6V - 2.5V =I_L*H_0+0.1V
 \end{equation}
+
+Por otro lado, al considerar el cambio en el punto de operación, es necesario volver acalcular algunos valores de resistencias de la etapa de entrada de las ecuaciones \ref{eq_ve_operacional-1} y \ref{eq_ve_operacional-3}.
+
 
 A continuación se muestran los circuitos correspondientes a la etapa de entrada y acondicionamiento de salida del sensor, con la modificación en el punto de operación:
 

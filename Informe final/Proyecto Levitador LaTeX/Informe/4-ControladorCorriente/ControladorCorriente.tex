@@ -10,7 +10,7 @@ Para controlar la posición de la pieza móvil es necesario modificar la fuerza 
 	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation*}
 
-En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se propone implementar un controlador de corriente que permita regular esta fuerza \colorbox{red}{acá se está hablando de regular la corriente me parece} a partir de una tensión de entrada, que funciona como referencia del valor de corriente deseado. De forma tal que, al variar dicha tensión, se logre ajustar la fuerza ejercida por el electroimán.
+En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se propone implementar un controlador que permita regular la corriente a partir de una tensión de entrada, que funciona como referencia del valor de corriente deseado. De forma tal que, al variar dicha tensión, se logre ajustar la corriente y, por ende, la fuerza ejercida por el electroimán.
 
 %En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se propone implementar un controlador de corriente que permita regularla. Este controlador tendrá como entrada una tensión de referencia correspondiente al valor de corriente deseado. De esta forma, al variar dicha tensión, se logra ajustar la fuerza ejercida por el electroimán.
 
@@ -176,8 +176,6 @@ Para la señal de entrada $V_{IL_{ref}}$ se adoptan valores de tensión entre $0
 
 Por otro lado, para lograr que la corriente de salida excursione entre $0\:A$ a $30\:A$, a partir de una tensión de referencia de entrada ($V_{IL_{ref}}$), se agrega el bloque $K_{in}$. Este permite asociar cada valor de corriente de salida con uno de tensión de entrada.
 
-\colorbox{red}{acá ya se podría calcular Kin, pq sabemos que va de 0 a 5V y la corriente de 0 a 30 A..} CREO QUE NO SE PODRÍA, FALTA LA H
-
 En el bloque de histéresis del diagrama en bloques planteado hasta ahora, se mezclan señales de niveles lógicos en su entrada con señales de potencia en su salida. Para implementar el sistema de control real se deben separar estas etapas, de manera que el comparador con histéresis tenga una salida de tensión en niveles lógicos y luego haya un bloque que amplifique esta señal para ser utilizada como alimentación del electroimán.
 
 En la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} se muestra el diagrama en bloques del sistema teniendo en cuenta los aspectos previamente mencionados.
@@ -227,7 +225,6 @@ Existen diversas topologías circuitales posibles para el control de corriente d
 Como se vio en la sección \ref{sec_analisis_estimacion}, se planea medir indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente. A partir de este análisis surge la necesidad de que la magnitud de la fuente de alimentación sea igual para la carga y la descarga del electroimán, con polaridad opuesta. Por lo tanto, se debe escoger una topología que permita alternar la polaridad de la alimentación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
 
 Por otro lado, debido a que el lazo de control para el sistema de levitación magnética necesitará conocer el valor de la distancia de separación de entrehierro para regular la fuerza ejercida, es necesario disponer de la estimación en todo momento. Por este motivo, no puede darse el caso en que el sistema deje de conmutar ya que no habría pendiente y, por ende, tampoco estimación de la distancia. Los casos en que la conmutación se podría ver afectada son los siguientes: 
-\colorbox{red}{capaz sacaría la primer condición, no se si se entiende}
 \begin{itemize} 
 	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio de corriente supera la mitad del \textsl{ripple} de corriente $(\Delta I_{L})$.
 	
@@ -274,7 +271,6 @@ Para esta aplicación en particular, la fuerza magnética es siempre en el mismo
 % Esta topología permite la excursión negativa de la corriente mientras que mantiene en funcionamiento al estimador de posición.
 
 \subsubsection{Funcionamiento del puente H}
-\colorbox{red}{Aca conviene llamar a la señal de cotrol Vh en vez de ST?}
 
 Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de la siguiente manera:
 
@@ -288,7 +284,7 @@ Para poder obtener una forma de onda de corriente como la que se muestra en la f
 
 Es importante tener en cuenta que sólo dos llaves pueden encenderse a la vez, y esto debe realizarse de manera diagonal. Es decir, en la figura \ref{fig:img_topologia_simplificada}, $Q_1$ y $Q_4$ pueden estar encendidos, mientras que $Q_3$ y $Q_2$ están apagados, y viceversa. Esto es debido a que si se encendieran a la vez  $Q_1$ y $Q_3$ o  $Q_2$ y $Q_4$ se generaría un cortocircuito entre la fuente de alimentación y GND, produciendo una circulación de corriente elevada que podría dañar el sistema y la fuente de alimentación. Esta restricción será tenida en cuenta en el momento de diseñar el circuito encargado de controlar estas llaves.
 
-El valor de tensión de la fuente de alimentación utilizada para el puente H está basado en la versión anterior del dispositivo, por lo que se utiliza $V_{CC} = 24\:V$. \colorbox{red}{Este valor de tensión le ofrece una buena velocidad de respuesta...dinamismo...}
+El valor de tensión de la fuente de alimentación utilizada para el puente H está basado en la versión anterior del dispositivo, por lo que se utiliza $V_{CC} = 24\:V$.
 
 \section{Elección y cálculo de parámetros del controlador}
 
@@ -364,8 +360,7 @@ En esta sección se determinarán los parámetros críticos para el correcto fun
 
 %Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
 
-Al trabajar en conmutación se está excitando al sistema, en estado estacionario, con una onda cuadrada en tensión. Como se mencionó previamente, la forma de onda de la corriente debe ser triangular de forma que esta oscile sobre un valor medio generando una fuerza constante con pequeñas variaciones que no afecten la dinámica de la planta.
-\colorbox{red}{eso de las variaciones no se si decirlo..}
+Al trabajar en conmutación se está excitando al sistema, en estado estacionario, con una onda cuadrada en tensión. Como se mencionó previamente, la forma de onda de la corriente debe ser triangular de forma que esta oscile sobre un valor medio generando una fuerza constante con pequeñas variaciones que no afectan la dinámica de la planta.
 
 Para lograr esto, la frecuencia de conmutación debe ser al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}.
 De esta forma la dinámica de la planta y la respuesta a los transitorios no se ven afectadas.  Por lo tanto, dado que el polo se ubica en $70\:r/s$  se debe conmutar a una frecuencia de $\omega_{sw}\geq7000\:r/s$ (expresada en Hz resulta $F_{sw}\geq1\:kHz$).
@@ -383,7 +378,6 @@ De la ecuación \ref{eq_delta_i} se obtiene el valor máximo que se le puede asi
 \begin{equation} \label{eq_delta_i_2}
 	\Delta I_{L_{max}}=6.06*10^{-3}*(\frac{V_{CC}}{R_L}-I_{min})
 \end{equation}
-\colorbox{red}{ver imagen de altium}
 
 El controlador de corriente tendrá una corriente media variable entre $0\:A$ y $30\:A$, por lo que se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier valor de corriente dentro de ese rango. De esta forma, se plantean dos casos: $I_{min}=0\:A$ e $I_{min}=30\:A$. Para el primero se obtiene que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=541.6\:mA$. Por lo tanto, se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
 
@@ -464,12 +458,24 @@ De esta forma, el bloque $H_0$ de realimentación queda definido como:
 \end{equation}
 
 \subsubsection{Conexión de sensor en el puente}
+\colorbox{red}{esto se puede modificar o sacar si quieren, pero me parece que es importante marcar la señal Vsns que después la usamos en los operacionales}
 
-El sensor elegido tiene ... pines. La conexión de estos en la fuente de alimentación se muestra en la figura siguiente... (\colorbox{red}{ponemos los pines relevantes nomás})
+El sensor se conecta dentro de la fuente de alimentación de la manera que se muestra en la figura \ref{fig:img_conexion_sensor}. Entre sus conexiones mas relevantes se encuentran la entrada de alimentación (pin 1), la entrada de corriente del electroimán (pines 8, 9, 10), la salida de corriente (pines 11, 12, 13), la entrada de tensión de referencia (pin 4) y la señal de salida $V_{sns}$ (pin 3).
 
-ACÁ DESPUES PONGO UNA IMAGEN
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{conexion_sensor_hall.png}
+	\caption{Sensor de corriente dentro del puente H.}
+	\label{fig:img_conexion_sensor}
+\end{figure}
 
-ACÁ PODEMOS MARCAR LA SEÑAL Vsns
+La señal $V_{sns}$ está dada por la ecuación siguiente:
+
+\begin{equation}
+	V_{sns}=I_L*H_0+V_{op}
+\end{equation}
+
+\colorbox{red}{sacar capacitores de desacople}
 
 \subsection{Elección de llaves de conmutación} \label{sec_eleccion_llaves}
 
@@ -520,15 +526,13 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 	\label{fig:img_capacitores-puenteH}
 \end{figure}
 
-\colorbox{red}{No se si va con AHO o con S1..}
+\colorbox{red}{Dejar S1, S2, ...}
 
 \subsubsubsection{Resistencias de descarga de \textsl{gate}}\label{sec_res-gate}
 
 \noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOS en el puente H. Estas se observan en la figura como $R_1$, $R_2$, $R_3$ y $R_4$ y tienen el objetivo de evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
 
 \noindent Se elige un valor de $4.7 \:k\Omega$  para las resistencias debido a que permite que el \textsl{gate} se descargue en un tiempo rápido, sin generar un consumo de corriente elevado de la señal de control del \textsl{gate}.
-
-\colorbox{red}{Hay algun cálculo para ver que tan rápido se descarga? O como sabemos eso...}
 
 \subsubsubsection{Protección de sobretensión del \textsl{gate}}
 
@@ -539,9 +543,7 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 
 Debido a que existen inductancias parásitas en el \textsl{gate}, y que este tiene una impedancia de entrada capacitiva, se forma un circuito resonante LC. Al hacer una conmutación de tensión se pueden generar oscilaciones en la señal de control, lo que puede provocar una incorrecta activación del MOSFET. Para reducir este inconveniente se agrega resistencia en serie al \textsl{gate} en el circuito ($R_5$, $R_6$, $R_7$ y $R_8$), con el objetivo de amortiguar las oscilaciones. Esto trae la desventaja de que hace mas lenta la velocidad de encendido y apagado. Por otro lado, como se desea apagar el MOSFET en el menor tiempo posible, se genera un camino de descarga del \textsl{gate} a través de un diodo en paralelo a la resistencia ($D_1$, $D_2$, $D_3$ y $D_4$).
 
-Para el diseño del circuito impreso de esta etapa se propone en principio utilizar resistencias de 0Ohm y que, en caso de resultar necesario, puedan ser reemplazadas por un valor de resistencia adecuado. \colorbox{red}{¿Y cual sería el correcto valor de la resistencia? o nunca lo calculamos?}
-
-
+Para el diseño del circuito impreso de esta etapa se propone en principio utilizar resistencias de 0Ohm y que, en caso de resultar necesario, puedan ser reemplazadas por un valor de resistencia adecuado. 
 
 \subsection{Elección y análisis del \textsl{driver} de corriente}
 
@@ -794,8 +796,6 @@ En la figura \ref{fig:img_etapa-de-entrada} se muestra el circuito propuesto.
 	\label{fig:img_etapa-de-entrada}
 \end{figure}
 
-\colorbox{red}{ver dónde poner qué operacionales elegimos}
-
 Para determinar los valores de resistencia que se deben utilizar se realiza el análisis del circuito de la figura \ref{fig:img_etapa-de-entrada} y se obtiene la relación entre la salida $V_e$ y todas sus entradas:
 
 \begin{equation*}
@@ -910,7 +910,13 @@ A continuación se muestran los circuitos correspondientes a la etapa de entrada
 	\label{fig:img_circuito-de-entrada-completo.png}
 \end{figure}
 
+\colorbox{red}{Agregar 2.6 a R2 y a sensor de efecto hall y 2.5 a R16 y agregar el operacional para la conmutacion como en el diagrama}
+
 \subsection{Comparador con histéresis y oscilador auxiliar}
+
+En esta sección se analiza la implementación circuital de la etapa de conmutación, compuesta por un comparador con histéresis y un oscilador auxiliar.
+
+\subsubsection{Circuito del oscilador auxiliar}
 
 Como se mencionó en la sección \ref{sec_cap_bootstrap} es necesario agregar una etapa de oscilación auxiliar para permitir la carga de los capacitores de bootstrap en un intervalo de tiempo regular.
 
@@ -951,8 +957,7 @@ Este circuito es un oscilador de onda pulsada basado en un comparador con histé
 	\label{fig:img_frecuencia-auxiliarasdas}
 \end{figure}
 
-
-\colorbox{red}{hacemos una section nueva para el comparador? sino queda todo mezclado}
+\subsubsection{Circuito del comparador con histéresis}
 
 Para implementar el comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Para el diseño del comparador se tiene en cuenta la inversión de signo que aporta la etapa de oscilador de alta frecuencia para cancelarla. Debido a que se definió que la corriente de salida del electroimán tenga un \textsl{ripple} de $500\:mA$, al afectarla por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
@@ -1002,16 +1007,7 @@ Si se toma $R_{7}=200 \:k\Omega$ se obtiene $R_{8}=1072 \;\Omega$ por lo tanto s
 
 \subsection{Elección de amplificadores operacionales}
 
-Para implementar los circuitos planteados en las secciones anteriores se necesita elegir un amplificador operacional adecuado. En principio los factores mas relevantes para su elección son:
-
-1- Que permitan alimentación con fuente simple de 5V
-
-2- Que su salida permita una excursión completa entre 0 y 5V (RRIO)
-
-3- Buena velocidad de respuesta
-
-En base a estas condiciones se eligió el operacional MCP664 del fabricante Microchip.
-
+Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 \colorbox{red}{Agregar datasheet} ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. 
 
 \subsection{Conexión de oscilador con HIP???}
 El HIP tiene 4 señales de control, cada una encargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura daddasdasADSDAS.

@@ -10,13 +10,13 @@ Para controlar la posición de la pieza móvil es necesario modificar la fuerza 
 	\abs{F_{m}}=\frac{i^{2}*N^{2}*\mu_{o}*A}{4*Y_{g}^{2}}
 \end{equation*}
 
-En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se propone implementar un controlador de corriente que permita regularla a partir de una tensión de entrada, que funciona como referencia del valor de corriente deseado. De forma tal que, al variar dicha tensión, se logre ajustar la fuerza ejercida por el electroimán.
+En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se propone implementar un controlador de corriente que permita regular esta fuerza a partir de una tensión de entrada, que funciona como referencia del valor de corriente deseado. De forma tal que, al variar dicha tensión, se logre ajustar la fuerza ejercida por el electroimán.
 
 %En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por lo tanto, se propone implementar un controlador de corriente que permita regularla. Este controlador tendrá como entrada una tensión de referencia correspondiente al valor de corriente deseado. De esta forma, al variar dicha tensión, se logra ajustar la fuerza ejercida por el electroimán.
 
 \subsection{Comportamiento eléctrico del electroimán}\label{sec_comportamiento-electrico-electroiman}
 
-Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($L(Y_g)$) y una resistencia serie ($R_L$). Es decir, como un circuito RL serie cuya  relación entre corriente de salida ($I_L$) y tensión de entrada ($V_L$), llamada admitancia, es:
+Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($L(Y_g)$) y una resistencia serie ($R_L$). Es decir, como un circuito RL serie cuya admitancia o relación entre corriente de salida ($I_L$) y tensión de entrada ($V_L$) es:
 
 \begin{equation} \label{eq_corriente}
 	\frac{I_L}{V_L}(s)=\frac{1}{s*L(Y_g)+R_L}
@@ -38,6 +38,7 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 	\label{fig:img_respuesta_escalon}
 \end{figure}
 
+\colorbox{red}{ver si se puede mejorar esta imagen..}
 
 \section{Diseño del controlador}
 
@@ -68,7 +69,7 @@ Para controlar la tensión de alimentación del electroimán se propone diseñar
 	\label{fig:img_corriente_exponencial}
 \end{figure}
 
-Si se elige un período de conmutación lo suficientemente chico con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal}. 
+Al elegir un período de conmutación lo suficientemente pequeño con respecto a la constante de tiempo de la planta, la forma de onda de la corriente en estado estacionario puede ser aproximada a una onda triangular como se muestra en la figura \ref{fig:img_corriente_lineal}. 
 
 \begin{figure}[H]
 	\centering
@@ -158,7 +159,7 @@ En la figura \ref{fig:img_diag-en-bloques} se puede observar el controlador impl
 	\caption{Diagrama en bloques simplificado del controlador de corriente}	\label{fig:img_diag-en-bloques}
 \end{figure}
 
-En este tipo de controlador se alterna la polaridad de la tensión de alimentación del electroimán, con el objetivo de que la corriente se mantenga oscilando en torno a un valor medio de referencia. Para ello se define un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
+El controlador alterna la polaridad de la tensión de alimentación del electroimán, con el objetivo de que la corriente se mantenga oscilando en torno a un valor medio de referencia. Para ello se define un margen de corriente $\Delta I_L$ de forma tal que, si la corriente que circula por el electroimán supera a la de referencia, no se producirá un cambio de polaridad en la tensión aplicada hasta que la supere por $\frac{\Delta I_L}{2}$. Análogamente, cuando comienza a decrecer, seguirá haciéndolo hasta que sea menor a la corriente de referencia menos $\frac{\Delta I_L}{2}$.
 
 Debido a que en las sucesivas conmutaciones lo único que cambia es la polaridad de la tensión con la que se excita al electroimán, la constante de tiempo del circuito no cambia. Esto da como resultado que la corriente oscile sobre un valor medio con igual tiempo de crecimiento que de decrecimiento. La amplitud de estas oscilaciones (o \textsl{ripple}) es fija y está determinada por el ancho de histéresis con el que se diseñe el controlador.
 
@@ -177,9 +178,9 @@ Por otro lado, para lograr que la corriente de salida excursione entre $0\:A$ a 
 
 \colorbox{red}{acá ya se podría calcular Kin, pq sabemos que va de 0 a 5V y la corriente de 0 a 30 A..} CREO QUE NO SE PODRÍA, FALTA LA H
 
-En el diagrama en bloques planteado hasta ahora, en el bloque de histéresis, se mezclan señales de niveles lógicos en su entrada, con señales de potencia en su salida. Para implementar el sistema de control real se deben separar estas etapas, de manera que el comparador con histéresis tenga una salida de tensión en niveles lógicos y luego haya un bloque que amplifique esta señal para ser utilizada como alimentación del electroimán.
+En el bloque de histéresis del diagrama en bloques planteado hasta ahora, se mezclan señales de niveles lógicos en su entrada con señales de potencia en su salida. Para implementar el sistema de control real se deben separar estas etapas, de manera que el comparador con histéresis tenga una salida de tensión en niveles lógicos y luego haya un bloque que amplifique esta señal para ser utilizada como alimentación del electroimán.
 
-En la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} se muestra el diagrama en bloques del sistema teniendo en cuenta los anteriores cambios.
+En la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} se muestra el diagrama en bloques del sistema teniendo en cuenta los aspectos previamente mencionados.
 
 %\begin{figure}[H]
 %	\centering
@@ -876,7 +877,12 @@ Teniendo en cuenta este cambio en el punto de operación, la salida de la etapa 
 
 A continuación se muestran los circuitos correspondientes a la etapa de entrada y acondicionamiento de salida del sensor, con la modificación en el punto de operación:
 
-\colorbox{red}{IMAGEN DE LOS DOS CIRCUITOS JUNTOS}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{circuito-de-entrada-completo.png}
+	\caption{Circuitos de etapa de entrada completo.}
+	\label{fig:img_circuito-de-entrada-completo.png}
+\end{figure}
 
 \subsection{Comparador con histéresis}
 
@@ -937,13 +943,13 @@ Las ecuaciones son las siguientes:
 
 La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por lo tanto se pueden plantear dos casos: 
 
-1- cuando $V_e>V^+$  y $V_h=0V$ entonces:
+1- Cuando $V_e>V^+$ entonces $V_h=0V$. Por lo tanto:
 
 \begin{equation}
 	V^+_{off}=2.5*\frac{R_{7}}{R_{8}+R_{7}}
 \end{equation}
 
-2- cuando $V_e<V^+$ entonces $V_h=5V$, 
+2- Cuando $V_e<V^+$ entonces $V_h=5V$. Resulta:
 
 \begin{equation}
 	V^+_{on}=2.5*\frac{R_{7}}{R_{8}+R_{7}} + 5V*\frac{R_{8}}{R_{8}+R_{7}}=V^+_{off}+5V*\frac{R_{8}}{R_{8}+R_{7}}
@@ -951,21 +957,21 @@ La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por l
 
 Como $V_{e}$ tiene forma triangular, inicialmente se tendrá una forma de onda de rampa creciente tal que $V_e < V^+_{on}$. Por lo tanto, la salida del comparador será $V_{h}=5\:V$. Luego, cuando $V_e > V^+_{off}$ se alternará la salida del comparador a $V_{h}=0\:V$ alternando la señal a una rampa decreciente hasta que nuevamente se alcance $V_e<V^+$. Este ciclo de histéresis se mantiene constante.
 
-Para obtener un ancho de histeresis de $26,665 mV$ entonces la diferencia entre el punto mas alto y mas bajo debe ser:
+Para obtener un ancho de histéresis de $26,665 mV$ entonces la diferencia entre el punto mas alto y mas bajo debe ser:
 
 \begin{equation}
 	V^+_{on}-V^+_{off} = 5V*\frac{R_{8}}{R_{8}+R_{7}}= 26,665 mV
 \end{equation}
 
-Si se toma $R_{7}=200 k$ se obtiene $R_{8}=1072 $ por lo tanto se toma un valor comercial de $R_{8}=1066$. De esta forma se obtiene el ancho de histeresis deseado.
+Si se toma $R_{7}=200 \:k\Omega$ se obtiene $R_{8}=1072 \;\Omega$ por lo tanto se toma un valor comercial de $R_{8}=1066\:\Omega$. De esta forma se obtiene el ancho de histéresis deseado.
 
 
 
 
 \subsection{Conexión de oscilador con HIP???}
-El HIP tiene 4 señales de control, cada una engargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura daddasdasADSDAS.
+El HIP tiene 4 señales de control, cada una encargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura daddasdasADSDAS.
 
-\colorbox{red}{poner diagrama de conexion, señales de control HIP con oscilador}
+\colorbox{red}{poner diagrama de conexión, señales de control HIP con oscilador}
 
 
 \section{SIMULACIONES??}

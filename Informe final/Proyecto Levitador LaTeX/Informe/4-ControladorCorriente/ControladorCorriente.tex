@@ -16,7 +16,7 @@ En ella se ve que la fuerza magnética depende de la corriente del bobinado. Por
 
 \subsection{Comportamiento eléctrico del electroimán}\label{sec_comportamiento-electrico-electroiman}
 
-Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($L(Y_g)$) y una resistencia serie ($R_L$). Es decir, como un circuito RL serie cuya admitancia o relación entre corriente de salida ($I_L$) y tensión de entrada ($V_L$) es:
+Como se analizó en el capítulo \ref{cap:CaracterizacionElectroiman}, el electroimán puede ser modelado como una inductancia que varía con la distancia de entrehierro ($L(Y_g)$) y una resistencia serie ($R_L$). Es decir, como un circuito RL serie cuya admitancia, o relación entre corriente de salida ($I_L$) y tensión de entrada ($V_L$), es:
 
 \begin{equation} \label{eq_corriente}
 	\frac{I_L}{V_L}(s)=\frac{1}{s*L(Y_g)+R_L}
@@ -218,13 +218,13 @@ En la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} se muestra el diagrama en 
 %
 %Para alcanzar los niveles de corriente de hasta 30A que requiere el electroimán es necesario implementar una etapa de potencia. Además, se debe tener en cuenta los siguientes aspectos. 
 
-En esta sección se planteará la topología ideal que conforma el bloque amplificador planteado en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}. Se encarga de entregar la tensión $V_L$ al electroimán a partir del valor de la señal de entrada $V_h$. $V_L$ puede tomar dos valores de tensión posibles: $V_L=+Vcc$ si $V_h=5\:V$, o $V_L=-Vcc$ si $V_h=0\:V$.
+En esta sección se plantea la topología ideal que conforma el bloque amplificador de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, que se encarga de entregar la tensión $V_L$ al electroimán a partir del valor de la señal de entrada $V_h$. $V_L$ puede tomar dos valores de tensión posibles: $V_L=+Vcc$ si $V_h=5\:V$, o $V_L=-Vcc$ si $V_h=0\:V$.
 
 Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes. Están compuestas principalmente por llaves, que permiten circulación de corriente o la bloquean, y elementos que almacenan energía (capacitores e inductores). Las llaves cargan o descargan los elementos reactivos de manera tal de controlar el valor de corriente. Son eficientes energéticamente ya que no se disipa potencia en las llaves.
 
-Existen diversas topologías circuitales posibles para el control de corriente de una carga inductiva. La diferencia entre ellas está en la cantidad de llaves, su ubicación, cantidad de elementos reactivos. Por lo tanto en esta sección se analizarán los aspectos que debe cumplir la fuente a diseñar para poder elegir una topología adecuada.
+Existen diversas topologías circuitales posibles para el control de corriente de una carga inductiva. La diferencia entre ellas está en la cantidad de llaves, su ubicación y la cantidad de elementos reactivos. Por lo tanto, en esta sección se analizan los aspectos que debe cumplir la fuente a diseñar para poder elegir una topología adecuada.
 
-Como se analizó en la sección \ref{sec_analisis_estimacion}, se planea medir indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente. De este análisis surge la necesidad de que la magnitud de la alimentación sea igual para la carga y la descarga del electroimán, con polaridad opuesta. Por lo tanto, se debe escoger una topología que permita alternar la polaridad de la alimentación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
+Como se vio en la sección \ref{sec_analisis_estimacion}, se planea medir indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente. A partir de este análisis surge la necesidad de que la magnitud de la fuente de alimentación sea igual para la carga y la descarga del electroimán, con polaridad opuesta. Por lo tanto, se debe escoger una topología que permita alternar la polaridad de la alimentación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
 
 Por otro lado, debido a que el lazo de control para el sistema de levitación magnética necesitará conocer el valor de la distancia de separación de entrehierro para regular la fuerza ejercida, es necesario disponer de la estimación en todo momento. Por este motivo, no puede darse el caso en que el sistema deje de conmutar ya que no habría pendiente y, por ende, tampoco estimación de la distancia. Los casos en que la conmutación se podría ver afectada son los siguientes: 
 \colorbox{red}{capaz sacaría la primer condición, no se si se entiende}
@@ -245,7 +245,7 @@ Por estos motivos se propone utilizar una topología de puente H completo compue
 	\label{fig:img_topologia_simplificada}
 \end{figure}
 
-Esta topología permite el control individual del estado de cada llave por medio de las señales de control ($S_x$). Cada una tiene dos estados posibles: abierto ($S_x=0$), no conduce corriente; y cerrado ($S_x=1$), conduce corriente sin caida de tensión en la llave. Las llaves se activan de a pares, y al combinar los valores de las señales de control de cada llave se pueden generar distintas diferencias de potencial sobre el electroimán. A continuación se muestra una tabla con las posibles combinaciones de pares de llaves, y diferencia de potencial resultante en el electroimán ($V_L$):
+Esta topología permite el control individual del estado de cada llave por medio de las señales de control ($S_x$). Cada una tiene dos estados posibles: abierto ($S_x=0$), no conduce corriente; y cerrado ($S_x=1$), conduce corriente sin caida de tensión en la llave. Las llaves se activan de a pares y, al combinar los valores de las señales de control de cada llave, se pueden generar distintas diferencias de potencial sobre el electroimán. A continuación se muestra una tabla con las posibles combinaciones de pares de llaves, y diferencia de potencial resultante en el electroimán ($V_L$):
 
 \begin{table}[H]
 	\begin{center}
@@ -264,7 +264,7 @@ Esta topología permite el control individual del estado de cada llave por medio
 	\end{center}
 \end{table}
 
-En la tabla \ref{tab_llaves} se observa que de todas las combinaciones posibles, solo dos generan una diferencia de potencial $\pm V_{cc}$ sobre el electroimán. Estas son  $S_1$, $S_4$ cerrados y $S_2$, $S_3$ abiertos para $V_L=+V_{cc}$, o con $S_2$, $S_3$ cerrados y $S_1$, $S_4$ abiertos para $V_L=-V_{cc}$ . Al controlar el estado de las llaves alternando entre estas dos combinaciones, se logra una alimentación simétrica de la carga.
+En la tabla \ref{tab_llaves} se observa que de todas las combinaciones posibles, solo dos generan una diferencia de potencial $\pm V_{cc}$ sobre el electroimán. Estas son  $S_1$ y $S_4$ cerrados y $S_2$ y $S_3$ abiertos para $V_L=+V_{cc}$, o con $S_2$ y $S_3$ cerrados y $S_1$ y $S_4$ abiertos para $V_L=-V_{cc}$. Al controlar el estado de las llaves alternando entre estas dos combinaciones, se logra una alimentación simétrica de la carga.
 
 Debido a que solo se utilizan estas dos combinaciones, se puede reducir la cantidad de señales que controlan el sistema: $S_1=S_4$, $S_2=S_3$ y $S_1=\overline{S_2}$. Por lo tanto se define una nueva señal de control $S_T$ tal que $S_T=S_1=\overline{S_2}=\overline{S_3}=S_4$. El puente completo puede ser controlado por una sola señal, lo que simplifica el diseño de la etapa de lógica de control. Esta señal coincide con la entrada $V_h$ del bloque amplificador en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}.
 
@@ -274,6 +274,7 @@ Para esta aplicación en particular, la fuerza magnética es siempre en el mismo
 % Esta topología permite la excursión negativa de la corriente mientras que mantiene en funcionamiento al estimador de posición.
 
 \subsubsection{Funcionamiento del puente H}
+\colorbox{red}{Aca conviene llamar a la señal de cotrol Vh en vez de ST?}
 
 Para poder obtener una forma de onda de corriente como la que se muestra en la figura \ref{fig:img_corriente_exponencial}, comenzando desde corriente nula, se debe controlar el estado de las llaves de la siguiente manera:
 
@@ -384,7 +385,7 @@ De la ecuación \ref{eq_delta_i} se obtiene el valor máximo que se le puede asi
 \end{equation}
 \colorbox{red}{ver imagen de altium}
 
-El controlador de corriente tendrá una corriente media variable entre $0\:A$ y $30\:A$, por lo que se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier valor de corriente dentro de ese rango. Por lo tanto se plantean dos casos: $I_{min}=0\:A$ e $I_{min}=30\:A$. Para el primer caso se obtiene que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=541.6\:mA$. Por lo tanto se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
+El controlador de corriente tendrá una corriente media variable entre $0\:A$ y $30\:A$, por lo que se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier valor de corriente dentro de ese rango. De esta forma, se plantean dos casos: $I_{min}=0\:A$ e $I_{min}=30\:A$. Para el primero se obtiene que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=541.6\:mA$. Por lo tanto, se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
 
 \subsection{Cálculo de ganancia de entrada}
 

@@ -556,7 +556,7 @@ La topologia del puente H con el \textsl{driver} puede verse en la figura \ref{f
 	\label{fig:img_topologia-puenteH}
 \end{figure}
 
-Dado que los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $V_{gs min}(ON) = 7\:V$. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores del puente H, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se hace uso de una funcionalidad que presenta el \textsl{driver} HIP4081A: permite entregar una diferencia de tensión mayor a $+24\:V$ a partir de una tensión flotante con una configuración de \textsl{bootstrap}.
+Dado que los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $V_{gs min}(ON) = 7\:V$. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores del puente H, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se hace uso de una funcionalidad que presenta el \textsl{driver} HIP4081A: entregar una diferencia de tensión mayor a $+24\:V$ a partir de una tensión flotante con una configuración de \textsl{bootstrap}.
 
 En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A) junto con las señales de control provistas por el \textsl{driver} HIP4081A.  El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del \textsl{bootstrap driver} permite obtener en el \textsl{gate} del MOS superior, una tensión de $36\:V$ respecto a GND, de manera que se logra una diferencia de tensión mayor a $7\:V$ entre \textsl{gate} y \textsl{source}. 
 \colorbox{red}{Ver si podemos aclarar que S1 es AHO, etc}
@@ -573,7 +573,7 @@ Para comprender su funcionamiento se hará un breve análisis del sistema. Para 
 
 Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el \textsl{source} del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de $Q_2$. 
 
-Una vez finalizado el tiempo muerto, se enciende el MOS $Q_1$. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que $Q_1$ pasa de estar apagado a encendido, la tensión en el \textsl{source} cambia de $-V_d$ a $V_{bus}$ de manera gradual mientras se carga el \textsl{gate}, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de \textsl{bootstrap} sumada a la tensión en el \textsl{source} de $Q_1$. De esta manera se logra una tensión de $36\:V$ con respecto a GND en el \textsl{gate} y genera una diferencia entre \textsl{gate} y \textsl{source} de $12\:V$.
+Una vez finalizado el tiempo muerto, se enciende $Q_1$. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que $Q_1$ pasa de estar apagado a encendido, la tensión en el \textsl{source} cambia de $-V_d$ a $V_{bus}$ de manera gradual mientras se carga el \textsl{gate}, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de \textsl{bootstrap} sumada a la tensión en el \textsl{source} de $Q_1$. De esta manera se logra una tensión de $36\:V$ con respecto a GND en el \textsl{gate} y genera una diferencia entre \textsl{gate} y \textsl{source} de $12\:V$.
 
 Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOS esté encendido.
 
@@ -595,7 +595,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 
 \noindent Cuando el MOSFET \textsl{driver} recibe una entrada que activa un MOS del lado superior, este comienza a cargar el \textsl{gate} con ayuda de la tensión que brinda el capacitor de \textsl{bootstrap} asociado a ese MOS. El capacitor de \textsl{bootstrap} entrega energía durante la carga del \textsl{gate} y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el \textsl{driver} reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del \textsl{driver} de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
-\noindent Para poder asegurar un periodo de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET \textsl{driver}. De esta manera se producen conmutaciones en un intervalo regular que permiten la carga de los capacitores de \textsl{bootstrap}. 
+\noindent Para poder asegurar un período de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET \textsl{driver}. De esta manera se producen conmutaciones en un intervalo regular que permiten la carga de los capacitores de \textsl{bootstrap}. El diagrama en bloques resultante se muestra en la figura \ref{fig:img_diag-en-bloques-con-oscilador}. 
 
 \begin{figure}[H]
 	\centering
@@ -605,12 +605,14 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 
 \noindent Se adopta una frecuencia de conmutación auxiliar de $F_{sw}=50\:kHz$ y se hace variar el ciclo de trabajo de la señal $V_{sw}$ entre dos valores. Para la carga del inductor se definió que el ciclo de trabajo sea del 90\% mientras que para la descarga sea del 10\%.
 
+\colorbox{red}{ver de mejorar el parrafo de arriba, de última fue..}
+
 %
 %Como hay una corriente que circula constantemente desde el capacitor de bootstrap hacia las resistencias de Gate-source, es necesario limitar el tiempo màximo que puede quedar encendido un transistor. Debido al funcionamiento del controlador por histéresis, no se puede asegurar que haya una conmutación a intervalos regulares... Es por ello que se decide modificar levemente el diagrama en bloques \ref{fig:img_diag-en-bloques-conH-y-Kin} de manera de superponer una conmutación de alta frecuencia a la señal de control de las llaves. 
 
 
 
-\noindent Por otro lado, el capacitor debe entregar corriente al diodo de \textsl{bootstrap} cuando este queda en inversa ($I_{DR}$). El componente elegido para este diodo es el RSX205LAM30TR. También debe entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
+\noindent Por otro lado, el capacitor debe entregar corriente al diodo de \textsl{bootstrap} cuando este queda en inversa ($I_{DR}$). El componente elegido para este diodo es el RSX205LAM30TR \colorbox{red}{Agregamos la hoja de datos?}. También debe entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
 
 \noindent Por lo tanto, para poder dimensionar correctamente el capacitor de \textsl{bootstrap} es necesario tener en cuenta todos los efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena este capacitor:
 

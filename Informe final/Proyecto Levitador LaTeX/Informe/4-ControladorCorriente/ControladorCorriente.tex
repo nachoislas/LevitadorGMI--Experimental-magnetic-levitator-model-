@@ -912,7 +912,14 @@ En esta sección se analiza la implementación circuital de la etapa de conmutac
 
 Como se mencionó en la sección \ref{sec_cap_bootstrap} es necesario agregar una etapa de oscilación auxiliar para permitir la carga de los capacitores de bootstrap en un intervalo de tiempo regular.
 
-Para implementar el oscilador de alta frecuencia se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Esta genera una señal pulsada con ciclo de trabajo 90\% en su salida a partir de el valor de la tensión $V_h$ en su entrada con el agregado de una inversión de fase. 
+Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para conmutar con un ciclo de trabajo del 90\%. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $50\:KHz$. Este circuito presenta, además, una inversión de signo a su salida.
+
+La frecuencia de conmutación se calcula como:
+
+\begin{equation} 
+	 C_1= \frac{4.5*10^{-5}}{F_{aux}} = 900pF [Hz]
+\end{equation}
+
 
 \begin{figure}[H]
 	\centering
@@ -926,28 +933,6 @@ Pueden darse dos casos:
 1- $V_h=5\:V$ entonces la salida estará 90\% del tiempo en $0\:V$ y  el resto en $5\:V$. 
 
 2- $V_h=0\:V$ entonces la salida estará 90\% del tiempo en $5\:V$ y el resto en $0\:V$.
-
-\colorbox{red}{hacer calculo de componentes}
-
-Este circuito es un oscilador de onda pulsada basado en un comparador con histéresis con el agregado de una red de realimentación negativa RC. Sus ecuaciones de diseño son:
-
-\colorbox{red}{capaz podemos poner directamente unas ecuaciones de diseño en vez de analizar todo el comportamiento del circuito}
-
-%Para generar esta conmutación se agrega el oscilador que se observa en la figura \ref{fig:img_frecuencia-auxiliar} a la salida del comparador con histéresis. La frecuencia de conmutación se puede obtener en función de $C_1$ como:
-%
-%\begin{equation} 
-%	F_{aux} = \frac{4.5*10^{-5}}{C1} [Hz]
-%\end{equation}
-
-
-
-\colorbox{red}{A la imagen de abajo no la saqué todavia para ver los valores de los componentes}
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=1]{Frecuencia-auxiliar.png}
-	\caption{Circuito oscilador de frecuencia auxiliar.}
-	\label{fig:img_frecuencia-auxiliarasdas}
-\end{figure}
 
 \subsubsection{Circuito del comparador con histéresis}
 
@@ -1010,6 +995,10 @@ El HIP tiene 4 señales de control, cada una encargada de controlar una llave. S
 	\caption{Señal de control del HIP4081A.}
 	\label{fig:img_control-HIP}
 \end{figure}
+
+\colorbox{red}{Aclarar que componentes usamos para los inversores y agregar datasheet}
+
+\colorbox{red}{para que se usan esos inversores}
 
 
 \section{Simulaciones del controlador de corriente}

@@ -871,7 +871,10 @@ Finalmente, la salida de este circuito queda:
 
 La ecuación \ref{eq_salida_restador_hall} es válida únicamente para $I_L>=0\:A$. Para valores de $I_L<0\:A$, la salida será $V_{IL_{feed}}=0$.
 
-Si bien en el dispositivo levitador se desea que la corriente media del electroimán sea siempre positiva, este circuito tiene la desventaja de que elimina completamente cualquier corriente instantánea que sea negativa. Como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador, por lo tanto a continuación se propone una solución a este inconveniente.
+Si bien en el dispositivo levitador se desea que la corriente media del electroimán sea siempre positiva, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador en situaciones como las mencionadas en la sección \ref{sec_topologia-fuente-alimentacion}. Sin embargo, este circuito tiene la desventaja de que elimina completamente cualquier corriente instantánea que sea negativa. Por lo tanto a continuación se propone una solución a este inconveniente.
+
+
+
 
 \subsubsection{Ajuste para permitir corrientes negativas}
 
@@ -883,9 +886,11 @@ Debido a que el circuito encargado de realimentar la salida del sensor solo perm
 	\item Utilizar una alimentación bipolar para el operacional de realimentación.
 \end{itemize}
 
-Entre estas se eligió la primera alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el \textsl{offset} del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente ($V_{op}$ en figura \ref{fig:img_etapa-de-entrada}), pero para el resto de los circuitos la tensión $V_{op}$ sigue manteniendo su valor de $2.5\:V$.
+Entre estas se eligió la primera alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el \textsl{set-point} del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente ($V_{op}$ en figura \ref{fig:img_etapa-de-entrada}), pero para el resto de los circuitos la tensión $V_{op}$ sigue manteniendo su valor de $2.5\:V$.
 
-A continuación se debe determinar qué valor utilizar para la tensión de referencia del sensor de efecto Hall y de la etapa de entrada. Para ello se debe calcular el mínimo de tensión que podría entregar el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo que la corriente media del electroimán es $0 \:A$ con una excursión de $±250\:mA$. Esto significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{offset}. Para tomar un margen se incrementa a $V_{op}=2.6\:V$. 
+A continuación se determina qué valor utilizar para la tensión de referencia del sensor de efecto Hall y de la etapa de entrada. Para ello se debe calcular el mínimo de tensión que podría entregar el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo que la corriente media del electroimán es $0 \:A$ con una excursión de $±250\:mA$. Esto significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{set-point}. Para tomar un margen se incrementa a $V_{op}=2.6\:V$. 
+
+\colorbox{red}{Cambiamos offset y setpoint por punto de operacion?}
 
 Teniendo en cuenta este cambio en el punto de operación, la salida de la etapa de acondicionamiento para la salida del sensor de efecto Hall queda:
 

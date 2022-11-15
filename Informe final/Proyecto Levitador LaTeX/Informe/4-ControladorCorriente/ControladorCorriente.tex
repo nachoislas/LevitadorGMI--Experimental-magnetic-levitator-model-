@@ -920,6 +920,8 @@ Para su implementación se propone la topología circuital mostrada en la figura
 
 Un ciclo de trabajo $d=90\%$ significa que del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:uS$), el 90\% del tiempo la señal de salida ($V_{sw}$) se encuentre en $5\:V$, y el 10\% restante se encuentre en $0\:V$. Por lo tanto $T_{on}=0.9*T_{total}=18\:uS$ y $T_{off}=0.1*T_{total}=2\:uS$.
 
+\colorbox{red}{No habría que aclarar lo mismo para cuando se encuentra el 90\% en bajo?}
+
 
 \begin{figure}[H]
 	\centering
@@ -941,6 +943,7 @@ Se menciona que este circuito invierte la fase ya que se pueden diferenciar dos 
 2- $V_h=0\:V$ entonces la salida estará 90\% del tiempo en $5\:V$ y el resto en $0\:V$.
 
 Esta inversión de fase es importante ya que debe ser tenida en cuenta para terminar de diseñar el lazo de control de corriente. De lo contrario el sistema resultaría inestable y no se podría controlar el valor de corriente.
+\colorbox{red}{ver como decir lo de la inversion de fase, lo repetimos mucho ahi arriba}
 
 \subsubsection{Circuito del comparador con histéresis}
 

@@ -218,7 +218,7 @@ En la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} se muestra el diagrama en 
 
 En esta sección se plantea la topología ideal que conforma el bloque amplificador de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, que se encarga de entregar la tensión $V_L$ al electroimán a partir del valor de la señal de entrada $V_h$. $V_L$ puede tomar dos valores de tensión posibles: $V_L=+Vcc$ si $V_h=5\:V$, o $V_L=-Vcc$ si $V_h=0\:V$.
 
-Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes. Están compuestas principalmente por llaves, que permiten circulación de corriente o la bloquean, y elementos que almacenan energía (capacitores e inductores). Las llaves cargan o descargan los elementos reactivos de manera tal de controlar el valor de corriente. Son eficientes energéticamente ya que no se disipa potencia en las llaves.
+Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes.\colorbox{red}{No se si justificarlo aca, pq antes ya dijimos que trabajabamos con fuentes conmutadas y no dijimos pq..} Están compuestas principalmente por llaves, que permiten circulación de corriente o la bloquean, y elementos que almacenan energía (capacitores e inductores). Las llaves cargan o descargan los elementos reactivos de manera tal de controlar el valor de corriente. Son eficientes energéticamente ya que no se disipa potencia en las llaves.
 
 Existen diversas topologías circuitales posibles para el control de corriente de una carga inductiva. La diferencia entre ellas está en la cantidad de llaves, su ubicación y la cantidad de elementos reactivos. Por lo tanto, en esta sección se analizan los aspectos que debe cumplir la fuente a diseñar para poder elegir una topología adecuada.
 
@@ -231,7 +231,7 @@ Por otro lado, debido a que el lazo de control para el sistema de levitación ma
 	\item Cuando la distancia de entrehierro es pequeña y se trabaja con peso reducido la corriente media puede llegar a ser menor que el \textsl{ripple} $\frac{\Delta I_{L}}{2}$.
 \end{itemize}
 
-En estos casos puede darse la situación de que la corriente del electroimán tenga un valor medio mayor o igual a 0, pero valores instantáneos negativos. Por lo tanto, se necesita una topología de fuente que permita circulación de corriente por la carga en ambos sentidos.
+En estos casos puede darse la situación de que la corriente del electroimán tenga un valor medio mayor o igual a $0\:A$, pero valores instantáneos negativos. Por lo tanto, se necesita una topología de fuente que permita circulación de corriente por la carga en ambos sentidos.
 
 Por estos motivos se propone utilizar una topología de puente H completo compuesto por cuatro llaves como se muestra en la figura \ref{fig:img_topologia_simplificada}.
 
@@ -360,10 +360,9 @@ En esta sección se determinarán los parámetros críticos para el correcto fun
 
 %Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
 
-Al trabajar en conmutación se está excitando al sistema, en estado estacionario, con una onda cuadrada en tensión. Como se mencionó previamente, la forma de onda de la corriente debe ser triangular de forma que esta oscile sobre un valor medio generando una fuerza constante con pequeñas variaciones que no afectan la dinámica de la planta.
+Al trabajar en conmutación se está excitando al sistema, en estado estacionario, con una onda cuadrada en tensión. Como se mencionó previamente, la forma de onda de la corriente debe ser triangular de forma que esta oscile sobre un valor medio generando una fuerza constante con pequeñas variaciones que no afectan la dinámica de la planta. Para lograr esto, la frecuencia de conmutación debe ser al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}. 
 
-Para lograr esto, la frecuencia de conmutación debe ser al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}.
-De esta forma la dinámica de la planta y la respuesta a los transitorios no se ven afectadas.  Por lo tanto, dado que el polo se ubica en $70\:r/s$  se debe conmutar a una frecuencia de $\omega_{sw}\geq7000\:r/s$ (expresada en Hz resulta $F_{sw}\geq1\:kHz$).
+De esta forma la dinámica de la planta y la respuesta a los transitorios no se ven afectadas.  Por lo tanto, dado que el polo se ubica en $70\:r/s$  se debe conmutar a una frecuencia de $\omega_{sw}\geq7000\:r/s$ (expresada en Hz resulta $F_{sw}\geq1\:kHz$). 
 
 Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
 
@@ -459,7 +458,7 @@ De esta forma, el bloque $H_0$ de realimentación queda definido como:
 
 \subsubsection{Conexión de sensor en el puente}
 
-El sensor se conecta dentro de la fuente de alimentación de la manera que se muestra en la figura \ref{fig:img_conexion_sensor}. Entre sus conexiones mas relevantes se encuentran la entrada de alimentación (pin 1), la entrada de corriente del electroimán (pines 8, 9, 10), la salida de corriente (pines 11, 12, 13), la entrada de tensión de referencia (pin 4) y la señal de salida $V_{sns}$ (pin 3).
+El sensor se conecta \colorbox{red}{dentro de la fuente de alimentación} de la manera que se muestra en la figura \ref{fig:img_conexion_sensor}. Entre sus conexiones mas relevantes se encuentran la entrada de alimentación (pin 1), la entrada de corriente del electroimán (pines 8, 9, 10), la salida de corriente (pines 11, 12, 13), la entrada de tensión de referencia (pin 4) y la señal de salida $V_{sns}$ (pin 3).
 
 \begin{figure}[H]
 	\centering
@@ -468,7 +467,7 @@ El sensor se conecta dentro de la fuente de alimentación de la manera que se mu
 	\label{fig:img_conexion_sensor}
 \end{figure}
 
-La señal $V_{sns}$ está dada por la ecuación siguiente:
+La señal $V_{sns}$ está dada por la siguiente ecuación:
 
 \begin{equation}
 	V_{sns}=I_L*H_0+V_{op}
@@ -506,7 +505,7 @@ Para la elección del modelo que se utilizará se tienen en cuenta los siguiente
 
 \colorbox{red}{Agregar datasheet del MOSFET?}
 
-Por lo tanto, se decide utilizar los MOSFET IPB160N04 ya que, ademas de haber sido probados en el prototipo anterior, cumplen con los requerimientos de corriente: soportan una $I_{D_{MAX}}=160\:A$, una tensión $V_{DS_{MAX}} = 40\:V$ y una $R_{ds} = 1.6 \:m \Omega$. Estos transistores son de tipo N y, para que estén en estado de conducción con la $R_{ds}$ especificada anteriormente, debe aplicarse una tensión entre \textsl{gate} y \textsl{source} mínima de $V_{gs}= 7\:V$.
+Por lo tanto, se decide utilizar los MOSFET IPB160N04 ya que, ademas de cumplir con los requerimientos: soportan una $I_{D_{MAX}}=160\:A$, una tensión $V_{DS_{MAX}} = 40\:V$ y una $R_{ds} = 1.6 \:m \Omega$, fueron probados en el prototipo anterior. Estos transistores son de tipo N y, para que estén en estado de conducción con la $R_{ds}$ especificada anteriormente, debe aplicarse una tensión entre \textsl{gate} y \textsl{source} mínima de $V_{gs}= 7\:V$.
 
 Para lograr una conmutación sincronizada de los MOSFET se necesita un dispositivo que permita activar los pares de transistores de forma sincronizada con una tensión adecuada en sus \textsl{gates}. Este dispositivo tiene el nombre de MOSFET \textsl{driver} e integran varias funcionalidades útiles para el control de los mismos. 
 
@@ -525,20 +524,20 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 
 \subsubsubsection{Resistencias de descarga de \textsl{gate}}\label{sec_res-gate}
 
-\noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOS en el puente H. Estas se observan en la figura como $R_1$, $R_2$, $R_3$ y $R_4$ y tienen el objetivo de evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
+\noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOSFET en el puente H. Estas se observan en la figura como $R_1$, $R_2$, $R_3$ y $R_4$ y tienen el objetivo de evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
 
 \noindent Se elige un valor de $4.7 \:k\Omega$  para las resistencias debido a que permite que el \textsl{gate} se descargue en un tiempo rápido, sin generar un consumo de corriente elevado de la señal de control del \textsl{gate}.
 
 \subsubsubsection{Protección de sobretensión del \textsl{gate}}
 
-\noindent El \textsl{gate} de los MOS es sensible a las sobretensiones: soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOS al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro. Estos se observan como $TVS_1$, $TVS_2$, $TVS_3$ y $TVS_4$ en la figura \ref{fig:img_capacitores-puenteH}. Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
+\noindent El \textsl{gate} de los MOSFET es sensible a las sobretensiones: soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOSFET al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro. Estos se observan como $TVS_1$, $TVS_2$, $TVS_3$ y $TVS_4$ en la figura \ref{fig:img_capacitores-puenteH}. Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
 \colorbox{red}{hacer referencia a hoja de datos}
 
 \subsubsubsection{Resistencia y diodo en serie al \textsl{gate}}
 
 Debido a que existen inductancias parásitas en el \textsl{gate}, y que este tiene una impedancia de entrada capacitiva, se forma un circuito resonante LC. Al hacer una conmutación de tensión se pueden generar oscilaciones en la señal de control, lo que puede provocar una incorrecta activación del MOSFET. Para reducir este inconveniente se agrega resistencia en serie al \textsl{gate} en el circuito ($R_5$, $R_6$, $R_7$ y $R_8$), con el objetivo de amortiguar las oscilaciones. Esto trae la desventaja de que hace mas lenta la velocidad de encendido y apagado. Por otro lado, como se desea apagar el MOSFET en el menor tiempo posible, se genera un camino de descarga del \textsl{gate} a través de un diodo en paralelo a la resistencia ($D_1$, $D_2$, $D_3$ y $D_4$).
 
-Para el diseño del circuito impreso de esta etapa se propone en principio utilizar resistencias de 0Ohm y que, en caso de resultar necesario, puedan ser reemplazadas por un valor de resistencia adecuado. 
+Para el diseño del circuito impreso de esta etapa se propone en principio utilizar resistencias de $0\:\Omega$ y que, en caso de resultar necesario, puedan ser reemplazadas por un valor de resistencia adecuado. 
 
 \subsection{Elección y análisis del \textsl{driver} de corriente}
 

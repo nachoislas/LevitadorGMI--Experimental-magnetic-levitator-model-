@@ -875,7 +875,7 @@ Finalmente, la salida de este circuito queda:
 	V_{IL_{feed}}=V_{sns}-V_{op}=I_L*H_0
 \end{equation}
 
-La ecuación \ref{eq_salida_restador_hall} es válida únicamente para $I_L>=0\:A$. Para valores de $I_L<0\:A$, la salida será $V_{IL_{feed}}=0$.
+La ecuación \ref{eq_salida_restador_hall} es válida únicamente para $I_L>=0\:A$. Para valores de $I_L<0\:A$, la salida será $V_{IL_{feed}}=0\:V$.
 
 Si bien en el dispositivo levitador se desea que la corriente media del electroimán sea siempre positiva, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador en situaciones como las mencionadas en la sección \ref{sec_topologia-fuente-alimentacion}. Sin embargo, este circuito tiene la desventaja de que elimina completamente cualquier corriente instantánea que sea negativa. Por lo tanto a continuación se propone una solución a este inconveniente.
 
@@ -922,34 +922,31 @@ En esta sección se analiza la implementación circuital de la etapa de conmutac
 
 Como se mencionó en la sección \ref{sec_cap_bootstrap} es necesario agregar una etapa de oscilación auxiliar para permitir la carga de los capacitores de bootstrap en un intervalo de tiempo regular.
 
-Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para conmutar con un ciclo de trabajo del $d=90\%$. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $F_{aux}=50\:kHz$. Este circuito presenta, además, una inversión de fase a su salida.
+Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para generar a su salida una onda pulsada con un ciclo de trabajo variable entre dos posibles valores: $d=90\%$ y $d=10\%$, dependiendo del valor de su entrada: $0\:V$ o $5\:V$, respectivamente. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $F_{aux}=50\:kHz$. Este circuito presenta, además, una inversión de fase a su salida.
 
-Un ciclo de trabajo $d=90\%$ significa que del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:uS$), el 90\% del tiempo la señal de salida ($V_{sw}$) se encuentre en $5\:V$, y el 10\% restante se encuentre en $0\:V$. Por lo tanto $T_{on}=0.9*T_{total}=18\:uS$ y $T_{off}=0.1*T_{total}=2\:uS$.
+%La señal de salida del circuito $V_{SW}$ es una onda pulsada con dos valores posibles de ciclo de trabajo ($d$) dependiendo del valor en su entrada ($V_h$):
+%
+%1- Cuando $V_h=0\:V$, entonces $d=90\%$. 
+%
+%2- Cuando $V_h=5\:V$, entonces $d=10\%$.
 
-\colorbox{red}{No habría que aclarar lo mismo para cuando se encuentra el 90\% en bajo?}
+Este oscilador funciona de la siguiente manera. Cuando la entrada es $V_h=0\:V$, resulta en un  ciclo de trabajo $d=90\%$. Es decir, del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:uS$), el 90\% del tiempo la salida ($V_{sw}$) se encuentre en $5\:V$, y el 10\% restante se encuentra en $0\:V$. Por lo tanto $T_{on}=0.9*T_{total}=18\:uS$ y $T_{off}=0.1*T_{total}=2\:uS$.
 
+De igual forma, cuando la entrada es $V_h=5\:V$, resulta en un ciclo de trabajo $d=10\%$. Es decir, $T_{on}=0.1*T_{total}=2\:uS$ y $T_{off}=0.9*T_{total}=18\:uS$.
 
+Finalmente, el capacitor $C_1$ se calcula como:
+
+\begin{equation} 
+	C_1= \frac{4.5*10^{-5}}{F_{aux}} = 900\:pF
+\end{equation}
+
+Por otro lado, es importante tener en cuenta la inversión de fase generada por este circuito en el diseño final del lazo de control de corriente. De lo contrario, el sistema resultaría inestable y no se podría controlar el valor de corriente.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{conmutacion-auxiliar.png}
 	\caption{Circuito oscilador de frecuencia auxiliar.}
 	\label{fig:img_frecuencia-auxiliar}
 \end{figure}
-
-El capacitor $C_1$ se calcula como:
-
-\begin{equation} 
-C_1= \frac{4.5*10^{-5}}{F_{aux}} = 900\:pF
-\end{equation}
-
-Se menciona que este circuito invierte la fase ya que se pueden diferenciar dos estados según la tensión en su entrada:
-
-1- $V_h=5\:V$ entonces la salida estará 90\% del tiempo en $0\:V$ y  el resto en $5\:V$. 
-
-2- $V_h=0\:V$ entonces la salida estará 90\% del tiempo en $5\:V$ y el resto en $0\:V$.
-
-Esta inversión de fase es importante ya que debe ser tenida en cuenta para terminar de diseñar el lazo de control de corriente. De lo contrario el sistema resultaría inestable y no se podría controlar el valor de corriente.
-\colorbox{red}{ver como decir lo de la inversion de fase, lo repetimos mucho ahi arriba}
 
 \subsubsection{Circuito del comparador con histéresis}
 

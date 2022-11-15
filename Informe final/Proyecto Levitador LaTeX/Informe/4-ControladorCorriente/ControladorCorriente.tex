@@ -536,7 +536,7 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 
 \subsubsubsection{Protección de sobretensión del \textsl{gate}}
 
-\noindent El \textsl{gate} de los MOSFET es sensible a las sobretensiones: soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOSFET al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro. Estos se observan como $TVS_1$, $TVS_2$, $TVS_3$ y $TVS_4$ en la figura \ref{fig:img_capacitores-puenteH}. Se eligen los TVS SMAJ15 con una tensión bidireccional de $\pm 15\:V$.
+\noindent El \textsl{gate} de los MOSFET es sensible a las sobretensiones: soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOSFET al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro. Estos se observan como $TVS_1$, $TVS_2$, $TVS_3$ y $TVS_4$ en la figura \ref{fig:img_capacitores-puenteH}. Se eligen los TVS SMAJ15 \cite{SMAJ15} con una tensión bidireccional de $\pm 15\:V$.
 \colorbox{red}{hacer referencia a hoja de datos}
 
 \subsubsubsection{Resistencia y diodo en serie al \textsl{gate}}
@@ -939,6 +939,8 @@ Finalmente, el capacitor $C_1$ se calcula como:
 \begin{equation} 
 	C_1= \frac{4.5*10^{-5}}{F_{aux}} = 900\:pF
 \end{equation}
+
+\colorbox{red}{lo volví a calcular mejor y me quedó de 1.22nF, ese valor anda mejor en la simulación. mñaana escribo la ecuación}
 
 Por otro lado, es importante notar que este circuito presenta una inversión de fase a su salida. Por lo tanto, debe ser tenida en cuenta en el diseño final del lazo de control de corriente. De lo contrario, el sistema resultaría inestable y no se podría controlar el valor de corriente.
 

@@ -922,7 +922,7 @@ En esta sección se analiza la implementación circuital de la etapa de conmutac
 
 Como se mencionó en la sección \ref{sec_cap_bootstrap} es necesario agregar una etapa de oscilación auxiliar para permitir la carga de los capacitores de bootstrap en un intervalo de tiempo regular.
 
-Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para generar a su salida una onda pulsada con un ciclo de trabajo variable entre dos posibles valores: $d=90\%$ y $d=10\%$, dependiendo del valor de su entrada: $0\:V$ o $5\:V$, respectivamente. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $F_{aux}=50\:kHz$. Este circuito presenta, además, una inversión de fase a su salida.
+Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para generar a su salida una onda pulsada con un ciclo de trabajo variable entre dos posibles valores: $d=90\%$ y $d=10\%$, dependiendo del valor de su entrada: $0\:V$ o $5\:V$, respectivamente. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $F_{aux}=50\:kHz$..
 
 %La señal de salida del circuito $V_{SW}$ es una onda pulsada con dos valores posibles de ciclo de trabajo ($d$) dependiendo del valor en su entrada ($V_h$):
 %
@@ -940,7 +940,8 @@ Finalmente, el capacitor $C_1$ se calcula como:
 	C_1= \frac{4.5*10^{-5}}{F_{aux}} = 900\:pF
 \end{equation}
 
-Por otro lado, es importante tener en cuenta la inversión de fase generada por este circuito en el diseño final del lazo de control de corriente. De lo contrario, el sistema resultaría inestable y no se podría controlar el valor de corriente.
+Por otro lado, es importante notar que este circuito presenta una inversión de fase a su salida. Por lo tanto, debe ser tenida en cuenta en el diseño final del lazo de control de corriente. De lo contrario, el sistema resultaría inestable y no se podría controlar el valor de corriente.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{conmutacion-auxiliar.png}
@@ -1010,9 +1011,7 @@ El HIP tiene 4 señales de control, cada una encargada de controlar una llave. S
 	\label{fig:img_control-HIP}
 \end{figure}
 
-\colorbox{red}{Aclarar que componentes usamos para los inversores y agregar datasheet}
-
-\colorbox{red}{para que se usan esos inversores}
+Para poder obtener la señal $\overline{V_{SW}}$ a partir de $V_{SW}$, se utiliza el inversor SN74LVC3G06DCUT \colorbox{red}{Agregar hoja de datos}. Por lo tanto, la salida de este se conecta con las señales de entrada BHI y ALI del HIP4081A. Por otro lado, para las señales de entrada restantes (BLI y AHI), que no requieren inversión de signo, se podría ingresar directamente con la señal $V_{SW}$. Sin embargo, debido a que el inversor produce flancos de subida y de bajada abruptos, se decidió volver a invertir la señal $\overline{V_{SW}}$ y obtener una señal mas $V_{SW}$ con flancos de subida mas abruptos que la original. 
 
 
 \section{Simulaciones del controlador de corriente}

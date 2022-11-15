@@ -912,13 +912,9 @@ En esta sección se analiza la implementación circuital de la etapa de conmutac
 
 Como se mencionó en la sección \ref{sec_cap_bootstrap} es necesario agregar una etapa de oscilación auxiliar para permitir la carga de los capacitores de bootstrap en un intervalo de tiempo regular.
 
-Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para conmutar con un ciclo de trabajo del 90\%. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $50\:KHz$. Este circuito presenta, además, una inversión de signo a su salida.
+Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para conmutar con un ciclo de trabajo del $d=90\%$. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $F_{aux}=50\:kHz$. Este circuito presenta, además, una inversión de fase a su salida.
 
-La frecuencia de conmutación se calcula como:
-
-\begin{equation} 
-	 C_1= \frac{4.5*10^{-5}}{F_{aux}} = 900pF [Hz]
-\end{equation}
+Un ciclo de trabajo $d=90\%$ significa que del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:uS$), el 90\% del tiempo la señal de salida ($V_{sw}$) se encuentre en $5\:V$, y el 10\% restante se encuentre en $0\:V$. Por lo tanto $T_{on}=0.9*T_{total}=18\:uS$ y $T_{off}=0.1*T_{total}=2\:uS$.
 
 
 \begin{figure}[H]
@@ -928,15 +924,23 @@ La frecuencia de conmutación se calcula como:
 	\label{fig:img_frecuencia-auxiliar}
 \end{figure}
 
-Pueden darse dos casos:
+El capacitor $C_1$ se calcula como:
+
+\begin{equation} 
+C_1= \frac{4.5*10^{-5}}{F_{aux}} = 900\:pF
+\end{equation}
+
+Se menciona que este circuito invierte la fase ya que se pueden diferenciar dos estados según la tensión en su entrada:
 
 1- $V_h=5\:V$ entonces la salida estará 90\% del tiempo en $0\:V$ y  el resto en $5\:V$. 
 
 2- $V_h=0\:V$ entonces la salida estará 90\% del tiempo en $5\:V$ y el resto en $0\:V$.
 
+Esta inversión de fase es importante ya que debe ser tenida en cuenta para terminar de diseñar el lazo de control de corriente. De lo contrario el sistema resultaría inestable y no se podría controlar el valor de corriente.
+
 \subsubsection{Circuito del comparador con histéresis}
 
-Para implementar el comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Para el diseño del comparador se tiene en cuenta la inversión de signo que aporta la etapa de oscilador de alta frecuencia para cancelarla. Debido a que se definió que la corriente de salida del electroimán tenga un \textsl{ripple} de $500\:mA$, al afectarla por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
+Para implementar el comparador con histéresis se utiliza un amplificador operacional realimentado positivamente. Para el diseño del comparador se tiene en cuenta la inversión de signo que aporta la etapa de oscilador de alta frecuencia para cancelarla. Debido a que se definió que la corriente de salida del electroimán tenga un \textsl{ripple} $\Delta I_L=500\:mA$, al afectarlo por la ganancia del sensor de corriente ($H_0$) se obtiene un ancho de histéresis de $\Delta V_h=26.665\:mV$. El circuito implementado se muestra en la figura \ref{fig:img_comp-con-hist}.
 
 \begin{figure}[H]
 	\centering
@@ -955,29 +959,29 @@ Para obtener una expresión para la salida en función de la entrada, primero es
 Las ecuaciones son las siguientes:
 
 \begin{equation} 
-	V^+ = V_h*\frac{R_{8}}{R_{8}+R_{7}} + 2.5V*\frac{R_{7}}{R_{8}+R_{7}}
+	V^+ = V_h*\frac{R_{8}}{R_{8}+R_{7}} + 2.5\:V*\frac{R_{7}}{R_{8}+R_{7}}
 \end{equation} 
 
 La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por lo tanto se pueden plantear dos casos: 
 
-1- Cuando $V_e>V^+$ entonces $V_h=0V$. Por lo tanto:
+1- Cuando $V_e>V^+$ entonces $V_h=0\:V$. Por lo tanto:
 
 \begin{equation}
 	V^+_{off}=2.5*\frac{R_{7}}{R_{8}+R_{7}}
 \end{equation}
 
-2- Cuando $V_e<V^+$ entonces $V_h=5V$. Resulta:
+2- Cuando $V_e<V^+$ entonces $V_h=5\:V$. Resulta:
 
 \begin{equation}
-	V^+_{on}=2.5*\frac{R_{7}}{R_{8}+R_{7}} + 5V*\frac{R_{8}}{R_{8}+R_{7}}=V^+_{off}+5V*\frac{R_{8}}{R_{8}+R_{7}}
+	V^+_{on}=2.5*\frac{R_{7}}{R_{8}+R_{7}} + 5\:V*\frac{R_{8}}{R_{8}+R_{7}}=V^+_{off}+5V*\frac{R_{8}}{R_{8}+R_{7}}
 \end{equation}
 
 Como $V_{e}$ tiene forma triangular, inicialmente se tendrá una forma de onda de rampa creciente tal que $V_e < V^+_{on}$. Por lo tanto, la salida del comparador será $V_{h}=5\:V$. Luego, cuando $V_e > V^+_{off}$ se alternará la salida del comparador a $V_{h}=0\:V$ alternando la señal a una rampa decreciente hasta que nuevamente se alcance $V_e<V^+$. Este ciclo de histéresis se mantiene constante.
 
-Para obtener un ancho de histéresis de $26,665 mV$ entonces la diferencia entre el punto mas alto y mas bajo debe ser:
+Para obtener un ancho de histéresis de $26.665\:mV$ entonces la diferencia entre el punto mas alto y mas bajo debe ser:
 
 \begin{equation}
-	V^+_{on}-V^+_{off} = 5V*\frac{R_{8}}{R_{8}+R_{7}}= 26,665 mV
+	V^+_{on}-V^+_{off} = 5\:V*\frac{R_{8}}{R_{8}+R_{7}}= 26.665\:mV
 \end{equation}
 
 Si se toma $R_{7}=200 \:k\Omega$ se obtiene $R_{8}=1072 \;\Omega$ por lo tanto se toma un valor comercial de $R_{8}=1066\:\Omega$. De esta forma se obtiene el ancho de histéresis deseado.
@@ -1012,6 +1016,8 @@ Se utilizó el software de simulación de circuitos electrónicos NL5 para const
 	\caption{Circuito armado para la simulación}
 	\label{fig:circuito_simulacion_final}
 \end{figure}
+
+\colorbox{red}{cambiar detalles de la imagen, como capacitores de fuente, nombres de llaves, etc...}
 
 
 \subsection{Señales en régimen permanente}
@@ -1057,10 +1063,10 @@ De esta simulación se realizaron mediciones sobre variables del sistema para co
 			$F_{planta}$ [Hz]& 1080 &	1000 \\ \hline
 			$V_{L_{on}}$ [V]&	24 & 24 \\ \hline
 			$V_{L_{off}}$ [V]& -24 & -24 \\ \hline
-			$F_{aux}$ [kHz] & 49.8 & 50 \\ \hline
 			$T_{on}$ [uS] & 17.57 & 18 \\ \hline
 			$T_{off}$ [uS] & 2.5 & 2 \\ \hline
 			$T_{total}$ [uS] & 20.06 & 20 \\ \hline
+			$F_{aux}$ [kHz] & 49.8 & 50 \\ \hline
 			$d=\frac{T_{on}}{T_{total}}$ [\%] & 87 & 90 \\ \hline
 		\end{tabular}
 		\caption{Valores medidos en simulación y calculados teóricamente.}

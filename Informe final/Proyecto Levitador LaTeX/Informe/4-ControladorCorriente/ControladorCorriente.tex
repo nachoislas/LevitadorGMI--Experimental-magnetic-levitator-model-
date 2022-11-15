@@ -464,7 +464,7 @@ El sensor se conecta dentro de la fuente de alimentación de la manera que se mu
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{conexion_sensor_hall.png}
+	\includegraphics[scale=0.6]{conexion_sensor_hall.png}
 	\caption{Sensor de corriente dentro del puente H.}
 	\label{fig:img_conexion_sensor}
 \end{figure}
@@ -474,8 +474,6 @@ La señal $V_{sns}$ está dada por la ecuación siguiente:
 \begin{equation}
 	V_{sns}=I_L*H_0+V_{op}
 \end{equation}
-
-\colorbox{red}{sacar capacitores de desacople}
 
 \subsection{Elección de llaves de conmutación} \label{sec_eleccion_llaves}
 
@@ -521,12 +519,10 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{Capacitores-puenteH.png}
-	\caption{Puente H.}
+	\includegraphics[scale=0.5]{proteccion-mosfet.png}
+	\caption{Componentes auxiliares para la protección de los MOSFET.}
 	\label{fig:img_capacitores-puenteH}
 \end{figure}
-
-\colorbox{red}{Dejar S1, S2, ...}
 
 \subsubsubsection{Resistencias de descarga de \textsl{gate}}\label{sec_res-gate}
 
@@ -547,7 +543,7 @@ Para el diseño del circuito impreso de esta etapa se propone en principio utili
 
 \subsection{Elección y análisis del \textsl{driver} de corriente}
 
-Como se mencionó en la sección \ref{sec_eleccion_llaves}, se necesita agregar al circuito un \textsl{driver} de MOSFETs. Para ello se elige el \textsl{driver} HIP4081A \cite{HIP4081A_FN3659}. Este dispositivo requiere una fuente de alimentación simple de $12\:V$ y permite el control de un puente completo a partir de señales de control con niveles lógicos entre $0\:V$ y $5\:V$. 
+Como se mencionó en la sección \ref{sec_eleccion_llaves}, se necesita agregar al circuito un \textsl{driver} de MOSFETs. Para ello se elige el \textsl{driver} HIP4081A \cite{HIP4081A_FN3659}. Este dispositivo requiere una fuente de alimentación simple de $12\:V$ y permite el control de un puente completo a partir de señales de control con niveles lógicos entre $0\:V$ y $5\:V$.  Estas señales de control  son $S_1$, $S_2$, $S_3$ y $S_4$, que ingresan  a los pines AHI, BHI, ALI y BLI respectivamente.
 
 La topologia del puente H con el \textsl{driver} puede verse en la figura \ref{fig:img_topologia-puenteH} donde las salidas de control del HIP4081A se conectan a los \textsl{gates} de los MOSFET.
 
@@ -558,12 +554,12 @@ La topologia del puente H con el \textsl{driver} puede verse en la figura \ref{f
 	\label{fig:img_topologia-puenteH}
 \end{figure}
 
-\colorbox{red}{modificar cosas de la imagen como Vcc, load, etc..., agregar señales s1,s2,s3,s4}
 
 Dado que los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $V_{gs min}(ON) = 7\:V$. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores del puente H, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se hace uso de una funcionalidad que presenta el \textsl{driver} HIP4081A: entregar una diferencia de tensión mayor a $+24\:V$ a partir de una tensión flotante con una configuración de \textsl{bootstrap}.
 
 En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A) junto con las señales de control provistas por el \textsl{driver} HIP4081A.  El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del \textsl{bootstrap driver} permite obtener en el \textsl{gate} del MOS superior, una tensión de $36\:V$ respecto a GND, de manera que se logra una diferencia de tensión mayor a $7\:V$ entre \textsl{gate} y \textsl{source}. 
-\colorbox{red}{Ver si podemos aclarar que S1 es AHO, etc}
+
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{Bootstrap.png}
@@ -608,8 +604,6 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 \end{figure}
 
 \noindent Se adopta una frecuencia de conmutación auxiliar de $F_{sw}=50\:kHz$ y se hace variar el ciclo de trabajo de la señal $V_{sw}$ entre dos valores. Para la carga del inductor se definió que el ciclo de trabajo sea del 90\% mientras que para la descarga sea del 10\%.
-
-\colorbox{red}{ver de mejorar el parrafo de arriba, de última fue..}
 
 %
 %Como hay una corriente que circula constantemente desde el capacitor de bootstrap hacia las resistencias de Gate-source, es necesario limitar el tiempo màximo que puede quedar encendido un transistor. Debido al funcionamiento del controlador por histéresis, no se puede asegurar que haya una conmutación a intervalos regulares... Es por ello que se decide modificar levemente el diagrama en bloques \ref{fig:img_diag-en-bloques-conH-y-Kin} de manera de superponer una conmutación de alta frecuencia a la señal de control de las llaves. 
@@ -826,7 +820,7 @@ De estas relaciones se obtiene que $R_{4}=R_{5}$. Luego al reemplazar en las ecu
 	\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}= 0.5
 \end{equation*}
 
-Tomando un valor de $R_{1} = R_{4} = 10\:k\Omega$ resulta en $R_{3}=4.7\:k\Omega$ y $R_{2}=3.2\:k\Omega$. Por lo tanto se obtiene a la salida del circuito la ecuación \ref{eq_ve_operacional}.
+Tomando un valor de $R_{1} = R_{4} =R_5= 10\:k\Omega$ resulta en $R_{3}=4.7\:k\Omega$ y $R_{2}=3.2\:k\Omega$. Por lo tanto se obtiene a la salida del circuito la ecuación \ref{eq_ve_operacional}.
 
 \begin{equation} \label{eq_ve_operacional}
 	V_e = 0.32 * V_{IL_{ref}} - V_{IL_{feed}} + V_{op}
@@ -901,9 +895,6 @@ Teniendo en cuenta este cambio en el punto de operación, la salida de la etapa 
 	V_{IL_{feed}}=V_{sns}-2.5V =I_L*H_0 + 2.6V - 2.5V =I_L*H_0+0.1V
 \end{equation}
 
-Por otro lado, al considerar el cambio en el punto de operación, es necesario volver acalcular algunos valores de resistencias de la etapa de entrada de las ecuaciones \ref{eq_ve_operacional-1} y \ref{eq_ve_operacional-3}.
-
-
 A continuación se muestran los circuitos correspondientes a la etapa de entrada y acondicionamiento de salida del sensor, con la modificación en el punto de operación:
 
 \begin{figure}[H]
@@ -913,7 +904,6 @@ A continuación se muestran los circuitos correspondientes a la etapa de entrada
 	\label{fig:img_circuito-de-entrada-completo.png}
 \end{figure}
 
-\colorbox{red}{Agregar 2.6 a R2 y a sensor de efecto hall y 2.5 a R16 y agregar el operacional para la conmutacion como en el diagrama}
 
 \subsection{Comparador con histéresis y oscilador auxiliar}
 
@@ -1012,8 +1002,15 @@ Si se toma $R_{7}=200 \:k\Omega$ se obtiene $R_{8}=1072 \;\Omega$ por lo tanto s
 
 Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 \colorbox{red}{Agregar datasheet} ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. 
 
-\subsection{Conexión de oscilador con HIP???}
-El HIP tiene 4 señales de control, cada una encargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura daddasdasADSDAS.
+\subsection{Conexión de oscilador con HIP}
+El HIP tiene 4 señales de control, cada una encargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura \ref{fig:img_control-HIP}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{conexiones-HIP-VSW.png}
+	\caption{Señal de control del HIP4081A.}
+	\label{fig:img_control-HIP}
+\end{figure}
 
 \colorbox{red}{poner diagrama de conexión, señales de control HIP con oscilador}
 
@@ -1030,6 +1027,11 @@ Se utilizó el software de simulación de circuitos electrónicos NL5 para const
 	\label{fig:circuito_simulacion_final}
 \end{figure}
 
+Escalon con alta frecuencia
+Frecuencia de las señales de conmutacion
+niveles de tensión
+tension de comparador con histeresis
+
 \subsection{Sistema en régimen permanente}
 
 \begin{figure}
@@ -1045,11 +1047,6 @@ Se utilizó el software de simulación de circuitos electrónicos NL5 para const
 	\caption{Simulación de conmutación auxiliar.}
 	\label{fig:simulacion_auxiliar}
 \end{figure}
-
-Escalon con alta frecuencia
-Frecuencia de las señales de conmutacion
-niveles de tensión
-tension de comparador con histeresis
 
 \section{Características estáticas y dinámicas del controlador}
 

@@ -1020,36 +1020,94 @@ El HIP tiene 4 señales de control, cada una encargada de controlar una llave. S
 
 \section{SIMULACIONES??}
 
-Se utilizó el software de simulación de circuitos electrónicos NL5 para construir una representación circuital del controlador de corriente. El circuito armado se muestra en la figura \ref{fig:circuito_simulacion_final}
+Se utilizó el software de simulación de circuitos electrónicos NL5 para construir una representación circuital del controlador de corriente y comprobar el correcto funcionamiento del circuito según los parámetros con los que se diseñó. El circuito armado se muestra en la figura \ref{fig:circuito_simulacion_final}.
 
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{circuito_simulacion_final.png}
 	\caption[Circuito armado para la simulación]{}
 	\label{fig:circuito_simulacion_final}
 \end{figure}
 
-\subsection{Sistema en régimen permanente}
 
-\begin{figure}
+\subsection{Señales en régimen permanente}
+
+En las figuras \ref{fig:simulacion_regimen_permanente_1} y \ref{fig:simulacion_regimen_permanente_2} se muestran algunas señales de intéres del controlador de corriente funcionando en régimen permanente con una tensión de referencia $V_{IL_{ref}}=1\:V$ y el valor de inductancia correspondiente a $Y_g=4\:mm$.
+
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{simulacion_escalon.png}
-	\caption{Simulación de escalón en la referencia de corriente.}
-	\label{fig:simulacion_escalon}
+	\includegraphics[width=1\linewidth]{simulacion_regimen_permanente_1.png}
+	\caption{Simulación de señales en régimen permanente.}
+	\label{fig:simulacion_regimen_permanente_1}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{simulacion_regimen_permanente_2.png}
+	\caption{Simulación de señales de alta frecuencia en régimen permanente.}
+	\label{fig:simulacion_regimen_permanente_2}
+\end{figure}
+
+
+De esta simulación se pueden realizar mediciones sobre variables del sistema y comprobar si coinciden con los parámetros que se utilizaron para el diseño. Para las mediciones se utilizó la funcionalidad de cursores que tiene el programa NL5 y se agruparon los resultados en la tabla \ref{tab_mediciones_simulacion}
+
+%Se midió:
+%VLon = +24V
+%VLoff = -24V
+%Fsw = 49.8 kHz %de vl
+%Ilmed = 5.97A
+%deltaIL = 509mA
+%freq = 1.08 kHz %de baja frecuencia
+%Ton = 17.57us
+%Toff = 2.5us
+%Ttotal = 20.06
+%d = 87\%
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| c | c | c |}
+			\hline
+			Variable & Resultado medido & Resultado teórico \\ \hline
+			$\overline{I_L}$ [A] & $5.97$ & $6$ \\ \hline
+			$\Delta I_L$ [mA] & 509 & 500 \\ \hline
+			$F_{planta}$ [Hz]& 1080 &	1000 \\ \hline
+			$V_{L_{on}$ [V]&	24 & 24 \\ \hline
+			$V_{L_{off}}$ [V]& -24 & -24 \\ \hline
+			$F_{aux}$ [kHz] & 49.8 & 50 \\ \hline
+			$d$ [\%] & 87 & 90 \\ \hline
+		\end{tabular}
+		\caption{Valores calculados y medidos en función del entrehierro.}
+		\label{tab_mediciones_simulacion}
+	\end{center}
+\end{table}
+
+\colorbox{red}{ver si modificamos los nombres mas arriba como Fplanta, Faux, etc...}
+
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{simulacion_auxiliar.png}
 	\caption{Simulación de conmutación auxiliar.}
 	\label{fig:simulacion_auxiliar}
 \end{figure}
 
-Escalon con alta frecuencia
-Frecuencia de las señales de conmutacion
-niveles de tensión
-tension de comparador con histeresis
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{simulacion_alimentacion.png}
+	\caption{Simulación de tensión de alimentación en el electroimán.}
+	\label{fig:simulacion_alimentacion}
+\end{figure}
+
+\subsection{Simulación de escalón en la referencia de corriente}
+
+En la figura \ref{fig:simulacion_escalon} se muestra como reacciona el sistema ante un cambio en la tensión de referencia de corriente. El sistema comienza estable en un valor de corriente media $I_L=0\:A$ y luego del cambio de referencia se estabiliza en $I_L=6\:A$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{simulacion_escalon.png}
+	\caption{Simulación de escalón en la referencia de corriente.}
+	\label{fig:simulacion_escalon}
+\end{figure}
 
 \section{Características estáticas y dinámicas del controlador}
 

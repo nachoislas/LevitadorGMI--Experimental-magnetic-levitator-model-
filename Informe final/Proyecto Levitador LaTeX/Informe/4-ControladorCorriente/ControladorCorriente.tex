@@ -1015,7 +1015,7 @@ El HIP tiene 4 señales de control, cada una encargada de controlar una llave. S
 \colorbox{red}{poner diagrama de conexión, señales de control HIP con oscilador}
 
 
-\section{SIMULACIONES??}
+\section{Simulaciones del controlador de corriente}
 
 Se utilizó el software de simulación de circuitos electrónicos NL5 para construir una representación circuital del controlador de corriente y comprobar el correcto funcionamiento del circuito según los parámetros con los que se diseñó. El circuito armado se muestra en la figura \ref{fig:circuito_simulacion_final}.
 
@@ -1023,14 +1023,14 @@ Se utilizó el software de simulación de circuitos electrónicos NL5 para const
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{circuito_simulacion_final.png}
-	\caption[Circuito armado para la simulación]{}
+	\caption{Circuito armado para la simulación}
 	\label{fig:circuito_simulacion_final}
 \end{figure}
 
 
 \subsection{Señales en régimen permanente}
 
-En las figuras \ref{fig:simulacion_regimen_permanente_1} y \ref{fig:simulacion_regimen_permanente_2} se muestran algunas señales de intéres del controlador de corriente funcionando en régimen permanente con una tensión de referencia $V_{IL_{ref}}=1\:V$ y el valor de inductancia correspondiente a $Y_g=4\:mm$.
+En las figuras \ref{fig:simulacion_regimen_permanente_1} y \ref{fig:simulacion_regimen_permanente_2} se muestran algunas señales de intéres del controlador de corriente funcionando en régimen permanente con una tensión de referencia $V_{IL_{ref}}=1\:V$ y el valor de inductancia correspondiente a $Y_g=4\:mm$. En la primera se muestran las señales de baja frecuencia correspondientes a la salida del comparador con histéresis y a la corriente del electroimán. En la segunda se muestra en detalle la conmutación auxiliar y la forma de la tensión de alimentación del electroimán.
 
 \begin{figure}[H]
 	\centering
@@ -1047,7 +1047,7 @@ En las figuras \ref{fig:simulacion_regimen_permanente_1} y \ref{fig:simulacion_r
 \end{figure}
 
 
-De esta simulación se pueden realizar mediciones sobre variables del sistema y comprobar si coinciden con los parámetros que se utilizaron para el diseño. Para las mediciones se utilizó la funcionalidad de cursores que tiene el programa NL5 y se agruparon los resultados en la tabla \ref{tab_mediciones_simulacion}
+De esta simulación se realizaron mediciones sobre variables del sistema para comprobar si coinciden con los parámetros que se utilizaron para el diseño. Para las mediciones se utilizó la funcionalidad de cursores que tiene el programa NL5 y se agruparon los resultados en la tabla \ref{tab_mediciones_simulacion}
 
 %Se midió:
 %VLon = +24V
@@ -1072,35 +1072,35 @@ De esta simulación se pueden realizar mediciones sobre variables del sistema y 
 			$V_{L_{on}}$ [V]&	24 & 24 \\ \hline
 			$V_{L_{off}}$ [V]& -24 & -24 \\ \hline
 			$F_{aux}$ [kHz] & 49.8 & 50 \\ \hline
-			$T_{on}$ [\u{s}] & 17.57 & 18 \\ \hline
-			$T_{off}$ [\u{s}] & 2.5 & 2 \\ \hline
-			$T_{total}$ [\u{s}] & 20.06 & 20 \\ \hline
-			$d$ [\%] & 87 & 90 \\ \hline
+			$T_{on}$ [uS] & 17.57 & 18 \\ \hline
+			$T_{off}$ [uS] & 2.5 & 2 \\ \hline
+			$T_{total}$ [uS] & 20.06 & 20 \\ \hline
+			$d=\frac{T_{on}}{T_{total}}$ [\%] & 87 & 90 \\ \hline
 		\end{tabular}
-		\caption{Valores calculados y medidos en función del entrehierro.}
+		\caption{Valores medidos en simulación y calculados teóricamente.}
 		\label{tab_mediciones_simulacion}
 	\end{center}
 \end{table}
 
-\colorbox{red}{ver si modificamos los nombres mas arriba como Fplanta, Faux, etc...}
+\colorbox{red}{ver si modificamos los nombres mas arriba como Fplanta, Faux, etc... y si ponemos una referencia de a donde los calculamos}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\linewidth]{simulacion_auxiliar.png}
-	\caption{Simulación de conmutación auxiliar.}
-	\label{fig:simulacion_auxiliar}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\linewidth]{simulacion_alimentacion.png}
-	\caption{Simulación de tensión de alimentación en el electroimán.}
-	\label{fig:simulacion_alimentacion}
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=1\linewidth]{simulacion_auxiliar.png}
+%	\caption{Simulación de conmutación auxiliar.}
+%	\label{fig:simulacion_auxiliar}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=1\linewidth]{simulacion_alimentacion.png}
+%	\caption{Simulación de tensión de alimentación en el electroimán.}
+%	\label{fig:simulacion_alimentacion}
+%\end{figure}
 
 \subsection{Simulación de escalón en la referencia de corriente}
 
-En la figura \ref{fig:simulacion_escalon} se muestra como reacciona el sistema ante un cambio en la tensión de referencia de corriente. El sistema comienza estable en un valor de corriente media $I_L=0\:A$ y luego del cambio de referencia se estabiliza en $I_L=6\:A$.
+En la figura \ref{fig:simulacion_escalon} se muestra como reacciona el sistema ante un cambio en la tensión de referencia de corriente. El sistema comienza estable en un valor de corriente media $I_L=0\:A$ y luego del cambio de referencia se estabiliza en $I_L=6\:A$. Es interesante observar como la salida del comparador con histéresis se mantiene constante en un nivel para compensar el cambio de referencia, hasta que la corriente del electroimán supera a la de referencia por $\Delta I_L /2$ y luego vuelve a conmutar. 
 
 \begin{figure}[H]
 	\centering

@@ -477,7 +477,14 @@ La señal $V_{sns}$ está dada por la siguiente ecuación:
 
 Las llaves de conmutación ($Q_1$, $Q_2$, $Q_3$ y $Q_4$) que se muestran en la figura \ref{fig:img_topologia_simplificada} son llaves ideales que, en la práctica, se implementan por medio de dispositivos semiconductores cuyas características no son ideales. Sin embargo se pueden elegir componentes que se aproximen al comportamiento ideal: resistencia nula al estar en conducción e infinita al estar en estado abierto. De esta forma no se modifica la dinámica de la planta y se reduce la disipación de potencia.
 
-Para la implementación de las llaves se analiza la utilización de dispositivos semiconductores pertenecientes a la clase transistores. En el mercado existe una amplia variedad de ellos, entre los que se encuentran los transistores bipolares de juntura (TBJ), los transistores de efecto de campo metal-oxido-semiconductor (MOSFET), entre otros. Cada uno de ellos posee características distintivas que lo hacen más o menos apropiado para cada aplicación en particular. 
+Para la implementación de las llaves se analiza la utilización de dispositivos semiconductores pertenecientes a la clase transistores. En el mercado existe una amplia variedad de ellos, entre los que se encuentran los transistores bipolares de juntura (TBJ), los transistores de efecto de campo metal-oxido-semiconductor (MOSFET), entre otros. En la figura \ref{fig:img_bjt_vs_mosfet} se muestra el símbolo eléctrico de cada uno, con el nombre de cada uno de sus terminales. Cada uno de ellos posee características distintivas que lo hacen más o menos apropiado para cada aplicación en particular. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{bjt_vs_mosfet.png}
+	\caption{Comparación de BJT con MOSFET.}
+	\label{fig:img_bjt_vs_mosfet}
+\end{figure}
 
 Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de funcionamiento y forma de utilización. En la tabla \ref{tab_MOSFETvsBJT} se resumen las características principales de cada tipo:
 

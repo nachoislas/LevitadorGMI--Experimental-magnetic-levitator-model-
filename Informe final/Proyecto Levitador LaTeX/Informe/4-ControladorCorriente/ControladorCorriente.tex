@@ -60,8 +60,7 @@ Se desea controlar el valor de la corriente que circula por el electroimán a pa
 
 Este sistema de control trabaja a lazo cerrado, es decir, mide una tensión proporcional a la corriente y luego la compara con la referencia. Este resultado es utilizado para determinar si es necesario aumentar o disminuir la corriente y, en función de ello, actuar sobre la tensión de alimentación del electroimán.
 
-Para controlar la tensión de alimentación del electroimán se propone diseñar un controlador que trabaje en conmutación. En este tipo de controladores se alterna la alimentación del electroimán ($V_L$) entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se logra que la corriente oscile en torno a un valor medio deseado y se obtiene una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. En ella se puede ver que esta manera de controlar la alimentación genera una corriente con oscilaciones alrededor del valor medio deseado, también conocidas como \textsl{ripple}. Sin embargo, esto no presentaría un problema si el controlador de corriente es diseñado de forma tal que estas variaciones sean pequeñas comparadas con el \colorbox{red}{valor medio} ya que no afectarían en la fuerza ejercida.
-\colorbox{red}{Que pasa si el valor medio es muy pequeño y las oscilaciones se hace comparable? }
+Para controlar la tensión de alimentación del electroimán se propone diseñar un controlador que trabaje en conmutación. En este tipo de controladores se alterna la alimentación del electroimán ($V_L$) entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se logra que la corriente oscile en torno a un valor medio deseado y se obtiene una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. En ella se puede ver que esta manera de controlar la alimentación genera una corriente con oscilaciones alrededor del valor medio deseado, también conocidas como \textsl{ripple}. 
 
 \begin{figure}[H]
 	\centering
@@ -496,15 +495,15 @@ El sensor se conecta dentro del puente H de la manera que se muestra en la figur
 
 \subsection{Elección de llaves de conmutación} \label{sec_eleccion_llaves}
 
-Las llaves de conmutación ($Q_1$, $Q_2$, $Q_3$ y $Q_4$) que se muestran en la figura \ref{fig:img_topologia_simplificada} son llaves ideales que, en la práctica, se implementan por medio de dispositivos semiconductores cuyas características no son ideales. Sin embargo se pueden elegir componentes que se aproximen al comportamiento ideal: resistencia nula al estar en conducción e infinita al estar en estado abierto. De esta forma no se modifica la dinámica de la planta y se reduce la disipación de potencia.
+Las llaves de conmutación ($Q_1$, $Q_2$, $Q_3$ y $Q_4$) que se muestran en la figura \ref{fig:img_topologia_simplificada} son ideales: presentan resistencia nula al estar en conducción e infinita al estar en estado abierto. Sin embargo, en la práctica, estas llaves se implementan por medio de dispositivos semiconductores cuyas características no son ideales pero pueden ser elegidos de manera que no se modifique la dinámica de la planta y la disipación de potencia sea despreciable.
 
-Para la implementación de las llaves se analiza la utilización de dispositivos semiconductores pertenecientes a la clase transistores. En el mercado existe una amplia variedad de ellos, entre los que se encuentran los transistores bipolares de juntura (TBJ o BJT), los transistores de efecto de campo metal-oxido-semiconductor (MOSFET), entre otros. 
+Para la implementación de las llaves se analiza la utilización de dispositivos semiconductores pertenecientes a la clase transistores. En el mercado existe una amplia variedad de ellos, entre los que se encuentran los transistores bipolares de juntura (BJT), los transistores de efecto de campo metal-oxido-semiconductor (MOSFET), entre otros. 
 
 Para este dispositivo se analiza la elección del transistor mas apropiado entre los BJT y los MOSFET. En la figura \ref{fig:img_bjt_vs_mosfet} se muestra el símbolo eléctrico de cada uno, con el nombre de sus terminales. Cada uno de ellos posee características distintivas que lo hacen más o menos apropiado para cada aplicación en particular. 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{bjt_vs_mosfet.png}
+	\includegraphics[scale=0.8]{bjt_vs_mosfet.png}
 	\caption{Comparación de BJT con MOSFET.}
 	\label{fig:img_bjt_vs_mosfet}
 \end{figure}
@@ -551,7 +550,7 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 
 \subsubsubsection{Resistencias de descarga de \textsl{gate}}\label{sec_res-gate}
 
-\noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOSFET en el puente H. Estas se observan en la figura como $R_1$, $R_2$, $R_3$ y $R_4$ y tienen el objetivo de evitar que el \textsl{gate} del MOSFET se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
+\noindent Se colocan resistencias que conectan el \textsl{gate} y el \textsl{source} de cada MOSFET en el puente H. Estas se observan en la figura como $R_1$, $R_2$, $R_3$ y $R_4$ y tienen el objetivo de evitar que el \textsl{gate} se encuentre cargado cuando el circuito se enciende y el \textsl{driver} de corriente aún no puede descargarlo. Además, ayuda a evitar que se encienda el MOSFET por ruido acoplado capacitivamente. 
 
 \noindent Se elige un valor de $4.7 \:k\Omega$  para las resistencias debido a que permite que el \textsl{gate} se descargue en un tiempo rápido, sin generar un consumo de corriente elevado de la señal de control del \textsl{gate}.
 
@@ -579,9 +578,9 @@ La topologia del puente H con el \textsl{driver} puede verse en la figura \ref{f
 \end{figure}
 
 
-Dado que los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $V_{gs min}(ON) = 7\:V$. Esto no es un problema para los dos MOS inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores del puente H, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se hace uso de una funcionalidad que presenta el \textsl{driver} HIP4081A: entregar una diferencia de tensión mayor a $+24\:V$ a partir de una tensión flotante con una configuración de \textsl{bootstrap}.
+Dado que los cuatro MOSFET utilizados para el puente H son de tipo N. Para que estos puedan funcionar correctamente en conmutación es necesario que en el estado ON, la diferencia de tensión entre \textsl{gate} y \textsl{source} sea mayor o igual a $V_{gs min}(ON) = 7\:V$. Esto no es un problema para los dos MOSFET inferiores del puente H ($Q_2$ y $Q_4$), ya que la tensión en \textsl{source} está fijada en GND y el \textsl{driver} puede aplicar $12\:V$ al \textsl{gate} (superando los $7\:V$ entre \textsl{gate} y \textsl{source}). El problema radica en los transistores superiores, ya que la tensión en \textsl{source} varía entre $0\:V$ y $24\:V$, por lo que en el \textsl{gate} debería haber, por lo menos, $31\:V$ con respecto a GND. Sin embargo, la tensión máxima disponible entregada por la fuente es de $24\:V$. Para resolver este problema se hace uso de una funcionalidad que presenta el \textsl{driver} HIP4081A: entregar una diferencia de tensión mayor a $+24\:V$ a partir de una tensión flotante con una configuración de \textsl{bootstrap}.
 
-En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A) junto con las señales de control provistas por el \textsl{driver} HIP4081A.  El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del \textsl{bootstrap driver} permite obtener en el \textsl{gate} del MOS superior, una tensión de $36\:V$ respecto a GND, de manera que se logra una diferencia de tensión mayor a $7\:V$ entre \textsl{gate} y \textsl{source}. 
+En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puente H (lado A) junto con las señales de control provistas por el \textsl{driver} HIP4081A.  El análisis para la otra mitad es análogo, por lo que se evita por simplicidad. La implementación del \textsl{bootstrap driver} permite obtener en el \textsl{gate} del MOSFET superior, una tensión de $36\:V$ respecto a GND, de manera que se logra una diferencia de tensión mayor a $7\:V$ entre \textsl{gate} y \textsl{source}. 
 
 
 \begin{figure}[H]
@@ -595,11 +594,11 @@ El \textsl{bootstrap driver} consiste en un capacitor ($C_{BS}$), un diodo, y la
 
 Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra en funcionamiento: con el transistor $Q_2$ encendido (ALO = $V_{CC}$), $Q_1$ apagado (AHO = AHS = $0\:V$) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a $12\:V$, ya que en un terminal tiene la fuente de $12\:V$ (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de $Q_2$.
 
-Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el \textsl{source} del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de $Q_2$. 
+Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOSFET inferior del lado A y el superior del lado B. Esto provoca que el \textsl{source} del transistor superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de $Q_2$. 
 
 Una vez finalizado el tiempo muerto, se enciende $Q_1$. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que $Q_1$ pasa de estar apagado a encendido, la tensión en el \textsl{source} cambia de $-V_d$ a $V_{cc}$ de manera gradual mientras se carga el \textsl{gate}, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de \textsl{bootstrap} sumada a la tensión en el \textsl{source} de $Q_1$. De esta manera se logra una tensión de $36\:V$ con respecto a GND en el \textsl{gate} y genera una diferencia entre \textsl{gate} y \textsl{source} de $12\:V$.
 
-Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOS esté encendido.
+Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOSFET esté encendido.
 
 \subsubsection{Tiempo muerto}
 
@@ -611,13 +610,13 @@ Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimen
 
 \subsection{Dimensionamiento de capacitor de \textsl{bootstrap}}\label{sec_cap_bootstrap}
 
-\noindent Para el dimensionamiento de los capacitores de \textsl{bootstrap} se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
+\noindent Para el dimensionamiento del capacitor de \textsl{bootstrap} se tuvieron en cuenta sugerencias y procedimientos descriptos en \cite{HIP4081A_AN9405} y \cite{HIP4081A_FN3659}.
 
-Para encender un NMOS es necesario proveer corriente a su \textsl{gate} hasta cargar las capacidades parásitas entre \textsl{gate-source} y \textsl{gate-drain}. Una vez cargadas, el MOS queda en estado encendido y no consume más corriente en el \textsl{gate}. En el caso de los MOS del lado superior, esta corriente proviene del capacitor de \textsl{bootstrap}.
+Para encender un N-MOSFET es necesario proveer corriente a su \textsl{gate} hasta cargar las capacidades parásitas entre \textsl{gate-source} y \textsl{gate-drain}. Una vez cargadas, el transistor queda en estado encendido y no consume más corriente en el \textsl{gate}. En el caso de los MOSFET del lado superior, esta corriente proviene del capacitor de \textsl{bootstrap}.
 
-En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre \textsl{gate-source}. Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una corriente constante en estas resistencias durante el tiempo que el MOS esté encendido, que también debe ser provista por el capacitor de \textsl{bootstrap}.
+En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre \textsl{gate-source}. Debido a la diferencia de tensión entre \textsl{gate-source}, se genera una corriente constante en estas resistencias durante el tiempo que el MOSFET esté encendido, que también debe ser provista por el capacitor de \textsl{bootstrap}.
 
-\noindent Cuando el MOSFET \textsl{driver} recibe una entrada que activa un MOS del lado superior, este comienza a cargar el \textsl{gate} con ayuda de la tensión que brinda el capacitor de \textsl{bootstrap} asociado a ese MOS. El capacitor de \textsl{bootstrap} entrega energía durante la carga del \textsl{gate} y durante todo el tiempo que el MOS esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el \textsl{driver} reciba la entrada necesaria para apagar el MOS. Debido a que la implementación del \textsl{driver} de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
+\noindent Cuando el MOSFET \textsl{driver} recibe una entrada que activa un transistor del lado superior, este comienza a cargar el \textsl{gate} con ayuda de la tensión que brinda el capacitor de \textsl{bootstrap} asociado a ese MOSFET. El capacitor de \textsl{bootstrap} entrega energía durante la carga del \textsl{gate} y durante todo el tiempo que el transistor esté activo (debido a la resistencia $R_{GS}$). Para poder recargar el capacitor, debe esperarse a que el \textsl{driver} reciba la entrada necesaria para apagar el MOSFET. Debido a que la implementación del \textsl{driver} de corriente utiliza un controlador por histéresis, no es posible asegurar que haya una conmutación en un periodo regular.
 
 \noindent Para poder asegurar un período de conmutación constante y conocido se agrega un bloque que superpone una conmutación de alta frecuencia a la señal de control que ingresa al MOSFET \textsl{driver}. De esta manera se producen conmutaciones en un intervalo regular que permiten la carga de los capacitores de \textsl{bootstrap}. El diagrama en bloques resultante se muestra en la figura \ref{fig:img_diag-en-bloques-con-oscilador}. 
 
@@ -644,7 +643,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 
 \noindent En la ecuación \ref{eq_carga-cap-bootstrap}, $Q_{BS}$ es la carga total del capacitor de \textsl{bootstrap}, $C_{BS}$ su capacidad, y $\Delta V_{BS}$ es la diferencia de  tensión entre sus terminales. 
 
-\noindent Para evitar sufrir una caída de tensión tal que afecte el encendido de los MOS, es necesario que $Q_{BS}$ pueda abastecer también al \textsl{gate}, al diodo en inversa y a la resistencia entre \textsl{gate-source}. Por lo tanto:
+\noindent Para evitar sufrir una caída de tensión tal que afecte el encendido de los MOSFET, es necesario que $Q_{BS}$ pueda abastecer también al \textsl{gate}, al diodo en inversa y a la resistencia entre \textsl{gate-source}. Por lo tanto:
 
 \begin{equation} \label{eq_carga-cap-bootstrap2}
 	Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{F_{aux}}
@@ -652,7 +651,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 
 \noindent Donde:
 \begin{itemize}
-	\item $Q_G$ = Carga total que se debe entregar al \textsl{gate} del MOS.
+	\item $Q_G$ = Carga total que se debe entregar al \textsl{gate} del MOSFET.
 	\item $Q_{RR}$ = Carga entregada al diodo en inversa durante el tiempo de recuperación (cuando pasa de modo conducción a inversa).
 	\item $I_{DR}$ = Corriente de fuga del diodo en inversa.
 	\item $I_{GS}$ = Corriente que circula por la resistencia de \textsl{gate-source}.
@@ -1035,7 +1034,7 @@ En la figura \ref{fig:img_etapa-conmutacion} se puede observar la conexión entr
 
 \subsection{Elección de amplificadores operacionales}
 
-Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. Entre sus características principales, obtenidas de su hoja de datos \cite{MCP660}, se encuentran que está compensado internamente, tiene una ganancia de contínua $A_{OL}=126\:dB$, ancho de banda de 60 MHz y un slew-rate de $32\:V/uS$.
+Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. Entre sus características principales, obtenidas de su hoja de datos \cite{MCP660}, se encuentran que está compensado internamente, tiene una ganancia de contínua $A_{OL}=126\:dB$, ancho de banda de $60\:MHz$ y un slew-rate de $32\:V/uS$.
 
 \subsection{Conexión de oscilador con HIP}
 El HIP tiene 4 señales de control, cada una encargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura \ref{fig:img_control-HIP}.

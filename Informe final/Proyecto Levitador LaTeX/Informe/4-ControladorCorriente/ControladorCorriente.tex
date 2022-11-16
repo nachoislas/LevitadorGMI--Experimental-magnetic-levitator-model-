@@ -1054,12 +1054,9 @@ Se utilizó el software de simulación de circuitos electrónicos NL5 para const
 	\label{fig:circuito_simulacion_final}
 \end{figure}
 
-\colorbox{red}{cambiar detalles de la imagen, como capacitores de fuente, nombres de llaves, etc...}
-
 
 \subsection{Señales en régimen permanente}
 
-\colorbox{red}{Tal vez podríamos agregar la simulación que muestre como se soluciona lo de las corrientes instantáneas negativas...}
 En las figuras \ref{fig:simulacion_regimen_permanente_1} y \ref{fig:simulacion_regimen_permanente_2} se muestran algunas señales de intéres del controlador de corriente funcionando en régimen permanente con una tensión de referencia $V_{IL_{ref}}=1\:V$ y el valor de inductancia correspondiente a $Y_g=4\:mm$. En la primera se muestran las señales de baja frecuencia correspondientes a la salida del comparador con histéresis y a la corriente del electroimán. En la segunda se muestra en detalle la conmutación auxiliar y la forma de la tensión de alimentación del electroimán.
 
 \begin{figure}[H]
@@ -1112,8 +1109,6 @@ De esta simulación se realizaron mediciones sobre variables del sistema para co
 	\end{center}
 \end{table}
 
-\colorbox{red}{ver si modificamos los nombres mas arriba como Fplanta, Faux, etc... y si ponemos una referencia de a donde los calculamos}
-
 %\begin{figure}[H]
 %	\centering
 %	\includegraphics[width=1\linewidth]{simulacion_auxiliar.png}
@@ -1152,7 +1147,7 @@ La simulación de la figura \ref{fig:simulacion_escalon_conmutacion} fue realiza
 
 \subsection{Simulación de caso con corriente instantánea negativa}
 
-Se realizó una simulación con una tensión de referencia $V_{IL_{ref}}=16\:mV$ que se corresponde con una corriente en el electroimán $\overline{I_L}=96\:mA$. En este caso la corriente tendrá valor medio positivo pero puede tomar valores instantáneos negativos. En la simulación se verificó que el ajuste hecho en el punto de operación del sensor de efecto Hall resultó adecuado para permitir que no se interrumpa la conmutación de la corriente.
+Se realizó una simulación con una tensión de referencia $V_{IL_{ref}}=16\:mV$ que se corresponde con una corriente en el electroimán $\overline{I_L}=96\:mA$. En este caso la corriente tendrá valor medio positivo pero puede tomar valores instantáneos negativos. En la simulación se verificó que el ajuste hecho en el punto de operación del sensor de efecto Hall resultó adecuado para permitir que no se interrumpa la conmutación de la corriente. Esta simulación se muestra en la figura \ref{fig:simulacion_corriente_negativa}.
 
 \begin{figure}[H]
 	\centering
@@ -1161,7 +1156,23 @@ Se realizó una simulación con una tensión de referencia $V_{IL_{ref}}=16\:mV$
 	\label{fig:simulacion_corriente_negativa}
 \end{figure}
 
+Se puede observar en la figura que la salida del sensor de efecto Hall toma valores menores a $2.6\:V$ cuando la corriente del electroimán se hace negativa. Mientras que la tensión $V_{IL{feed}}$ se mantiene por encima de $0\:V$ sin recortar.
 
+%Utilizando cursores en la simulación se midieron valores de interés y se armó la tabla asdasd.
+%
+%\begin{table}[H]
+%	\begin{center}
+%		\begin{tabular}{| c | c | c |}
+%			\hline
+%			Variable & Resultado medido & Resultado teórico \\ \hline
+%			$\overline{I_L}$ [mA] & $96.2$ & $96$ \\ \hline
+%			$\Delta I_L$ [mA] & 505 & 500 \\ \hline
+%			
+%		\end{tabular}
+%		\caption{Valores medidos en simulación y calculados teóricamente.}
+%		\label{tab_mediciones_simulacion}
+%	\end{center}
+%\end{table}
 
 \section{Características estáticas y dinámicas del controlador}
 

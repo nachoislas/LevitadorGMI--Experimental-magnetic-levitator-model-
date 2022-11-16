@@ -107,9 +107,13 @@ Para comenzar este análisis se deriva la expresión \ref{eq_corriente_taylor} c
 	\frac{di_L(t)}{dt}=\frac{V_L-I_o*R_L}{L(Y_g)}
 \end{equation}
 
-Si bien la pendiente cambia según las condiciones iniciales, para este análisis se considera $I_o=0\:A$ y luego se analizará cómo afecta esta suposición en el sistema real. De esta forma, la pendiente resulta:
-\colorbox{red}{No nos olvidemos de verificar esta suposición...}
+Si bien la pendiente cambia según las condiciones iniciales, si se considera que:
 
+\begin{equation} \label{eq_Derivadadi-dt}
+	V_{L}>>I_o*R_L
+\end{equation}
+
+De esta forma, la pendiente se puede aproximar:
 
 \begin{equation} \label{eq_derivada_corriente_2}
 	\frac{di_L(t)}{dt}= \frac{V_L}{L(Y_g)}

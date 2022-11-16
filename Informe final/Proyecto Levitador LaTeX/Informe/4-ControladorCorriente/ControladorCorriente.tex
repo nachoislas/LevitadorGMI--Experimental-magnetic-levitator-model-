@@ -1035,7 +1035,7 @@ En la figura \ref{fig:img_etapa-conmutacion} se puede observar la conexión entr
 
 \subsection{Elección de amplificadores operacionales}
 
-Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 \colorbox{red}{Agregar datasheet} ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. 
+Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. Entre sus características principales, obtenidas de su hoja de datos \cite{MCP660}, se encuentran que está compensado internamente, tiene una ganancia de contínua $A_{OL}=126\:dB$, ancho de banda de 60 MHz y un slew-rate de $32\:V/uS$.
 
 \subsection{Conexión de oscilador con HIP}
 El HIP tiene 4 señales de control, cada una encargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura \ref{fig:img_control-HIP}.

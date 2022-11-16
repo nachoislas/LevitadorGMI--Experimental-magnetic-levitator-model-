@@ -1150,6 +1150,19 @@ Si bien el comparador con histéresis mantuvo su salida en un estado bajo durant
 
 La simulación de la figura \ref{fig:simulacion_escalon_conmutacion} fue realizada con una frecuencia de conmutación auxiliar menor a la utilizada en el diseño. Esto con el fin de que se puedan observar correctamente en una misma imagen las señales de baja frecuencia y la de conmutación auxiliar.
 
+\subsection{Simulación de caso con corriente instantánea negativa}
+
+Se realizó una simulación con una tensión de referencia $V_{IL_{ref}}=16\:mV$ que se corresponde con una corriente en el electroimán $\overline{I_L}=96\:mA$. En este caso la corriente tendrá valor medio positivo pero puede tomar valores instantáneos negativos. En la simulación se verificó que el ajuste hecho en el punto de operación del sensor de efecto Hall resultó adecuado para permitir que no se interrumpa la conmutación de la corriente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{simulacion_corriente_negativa.png}
+	\caption{Simulación de corriente instantánea negativa en el electroimán.}
+	\label{fig:simulacion_corriente_negativa}
+\end{figure}
+
+
+
 \section{Características estáticas y dinámicas del controlador}
 
 Si bien el controlador de corriente está basado en un control de tipo no lineal, es posible obtener sus características estáticas y dinámicas para luego utilizarlas en el diseño del sistema de control de levitación.

@@ -473,7 +473,11 @@ De esta forma, el bloque $H_0$ de realimentación queda definido como:
 
 \subsubsection{Conexión de sensor en el puente}
 
-El sensor se conecta dentro del puente H de la manera que se muestra en la figura \ref{fig:img_conexion_sensor}. Entre sus conexiones mas relevantes se encuentran la entrada de alimentación (pin 1), la entrada de corriente del electroimán (pines 8, 9, 10), la salida de corriente (pines 11, 12, 13), la entrada de tensión de referencia (pin 4) y la señal de salida $V_{sns}$ (pin 3).
+El sensor se conecta dentro del puente H de la manera que se muestra en la figura \ref{fig:img_conexion_sensor}. Entre sus conexiones mas relevantes se encuentran la entrada de alimentación (pin 1), la entrada de corriente del electroimán (pines 8, 9, 10), la salida de corriente (pines 11, 12, 13), la entrada de tensión de referencia (pin 4) y la señal de salida $V_{sns}$ (pin 3). Esta última está dada por la ecuación \ref{eq_sensor_Vsns}.
+
+\begin{equation}\label{eq_sensor_Vsns}
+	V_{sns}=I_L*H_0+V_{op}
+\end{equation}
 
 \begin{figure}[H]
 	\centering
@@ -482,11 +486,7 @@ El sensor se conecta dentro del puente H de la manera que se muestra en la figur
 	\label{fig:img_conexion_sensor}
 \end{figure}
 
-La señal $V_{sns}$ está dada por la siguiente ecuación:
 
-\begin{equation}
-	V_{sns}=I_L*H_0+V_{op}
-\end{equation}
 
 \subsection{Elección de llaves de conmutación} \label{sec_eleccion_llaves}
 

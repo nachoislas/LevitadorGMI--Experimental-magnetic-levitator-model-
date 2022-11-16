@@ -60,7 +60,8 @@ Se desea controlar el valor de la corriente que circula por el electroimán a pa
 
 Este sistema de control trabaja a lazo cerrado, es decir, mide una tensión proporcional a la corriente y luego la compara con la referencia. Este resultado es utilizado para determinar si es necesario aumentar o disminuir la corriente y, en función de ello, actuar sobre la tensión de alimentación del electroimán.
 
-Para controlar la tensión de alimentación del electroimán se propone diseñar un controlador que trabaje en conmutación. En este tipo de controladores se alterna la alimentación del electroimán ($V_L$) entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se logra que la corriente oscile en torno a un valor medio deseado y se obtiene una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. En ella se puede ver que esta manera de controlar la alimentación genera una corriente con oscilaciones alrededor del valor medio deseado, también conocidas como \textsl{ripple}. Sin embargo, esto no presentaría un problema si el controlador de corriente es diseñado de forma tal que estas variaciones sean pequeñas comparadas con el valor medio ya que no afectarían en la fuerza ejercida.
+Para controlar la tensión de alimentación del electroimán se propone diseñar un controlador que trabaje en conmutación. En este tipo de controladores se alterna la alimentación del electroimán ($V_L$) entre un valor superior positivo $\ V_{sup}$, y un valor inferior negativo $V_{inf}$. De esta manera, al controlar los tiempos de conmutación, se logra que la corriente oscile en torno a un valor medio deseado y se obtiene una forma de onda como la que se muestra en la figura  \ref{fig:img_corriente_exponencial}. En ella se puede ver que esta manera de controlar la alimentación genera una corriente con oscilaciones alrededor del valor medio deseado, también conocidas como \textsl{ripple}. Sin embargo, esto no presentaría un problema si el controlador de corriente es diseñado de forma tal que estas variaciones sean pequeñas comparadas con el \colorbox{red}{valor medio} ya que no afectarían en la fuerza ejercida.
+\colorbox{red}{Que pasa si el valor medio es muy pequeño y las oscilaciones se hace comparable? }
 
 \begin{figure}[H]
 	\centering
@@ -80,17 +81,23 @@ Al elegir un período de conmutación lo suficientemente pequeño con respecto a
 
 Cada tramo que compone la onda triangular puede ser aproximado con la ecuación \ref{eq_corriente_taylor}, en donde $I_o$ corresponde al valor de corriente en el instante en que se produce la conmutación en $V_L$.
 
-\begin{equation} \label{eq_corriente_taylor}
+\begin{equation}
 	i_L(t)=I_o -  (I_o-\frac{V_L}{R_L})*\frac{t}{\tau}
 \end{equation}
 
-Es posible observar en la expresión \ref{eq_corriente_taylor} que la pendiente de la onda triangular depende de $\tau=\frac{L_{(Y_g)}}{R_L}$. Es decir, existe una relación entre la pendiente y la distancia de entrehierro. Como se mencionó en la sección \ref{sec_descripcion-del-dispositivo}, para que el dispositivo de levitación magnética pueda mantener la pieza móvil suspendida debe conocer dicha distancia en todo momento. Por lo tanto se propone medirla indirectamente a través de la pendiente de la onda triangular. A continuación se analiza qué variables del sistema afectan el valor de la pendiente y si es posible utilizarla para estimar la posición.
+Al reemplazar por $\tau=\frac{L_{(Y_g)}}{R_L}$, resulta:
+
+\begin{equation} \label{eq_corriente_taylor}
+	i_L(t)=I_o -  (I_o*R_L-V_L)*\frac{1}{L_{(Y_g)}}*t
+\end{equation}
+
+Es posible observar en la expresión \ref{eq_corriente_taylor} que existe una relación entre la pendiente y la distancia de entrehierro. Como se mencionó en la sección \ref{sec_descripcion-del-dispositivo}, para que el dispositivo de levitación magnética pueda mantener la pieza móvil suspendida debe conocer dicha distancia en todo momento. Por lo tanto se propone medirla indirectamente a través de la pendiente de la onda triangular. A continuación se analiza qué variables del sistema afectan el valor de la pendiente y si es posible utilizarla para estimar la posición.
 
 \subsection{Análisis de estimación de distancia de entrehierro} \label{sec_analisis_estimacion}
 
 Como se mencionó previamente, la pendiente de la onda triangular de la corriente contiene información de la distancia de entrehierro. Por lo tanto, se propone estimar el valor de la distancia a partir de la medición de dicha pendiente. 
 
-Para comenzar este análisis se deriva la expresión \ref{eq_corriente_taylor} con respecto al tiempo para obtener el valor de la pendiente y se reemplaza $\tau=\frac{L(Y_g)}{R_L}$:
+Para comenzar este análisis se deriva la expresión \ref{eq_corriente_taylor} con respecto al tiempo para obtener el valor de la pendiente::
 
 %\begin{equation} \label{eq_derivada_corriente}
 %	\frac{di_L(t)}{dt}=(\frac{V_L}{R_L}-I_o)*\frac{1}{\tau}
@@ -216,21 +223,21 @@ En la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} se muestra el diagrama en 
 %
 %Para alcanzar los niveles de corriente de hasta 30A que requiere el electroimán es necesario implementar una etapa de potencia. Además, se debe tener en cuenta los siguientes aspectos. 
 
-En esta sección se plantea la topología ideal que conforma el bloque amplificador de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, que se encarga de entregar la tensión $V_L$ al electroimán a partir del valor de la señal de entrada $V_h$. $V_L$ puede tomar dos valores de tensión posibles: $V_L=+Vcc$ si $V_h=5\:V$, o $V_L=-Vcc$ si $V_h=0\:V$.
+En esta sección se plantea la topología ideal que conforma el bloque amplificador de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, que se encarga de entregar la tensión $V_L$ al electroimán a partir del valor de la señal de entrada $V_h$. $V_L$ puede tomar dos valores de tensión posibles: $+Vcc$ si $V_h=5\:V$, o $-Vcc$ si $V_h=0\:V$.
 
-Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes.\colorbox{red}{No se si justificarlo aca, pq antes ya dijimos que trabajabamos con fuentes conmutadas y no dijimos pq..} Están compuestas principalmente por llaves, que permiten circulación de corriente o la bloquean, y elementos que almacenan energía (capacitores e inductores). Las llaves cargan o descargan los elementos reactivos de manera tal de controlar el valor de corriente. Son eficientes energéticamente ya que no se disipa potencia en las llaves.
+Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes.\colorbox{red}{No se si justificarlo aca, pq antes ya dijimos que trabajabamos con fuentes conmutadas y no dijimos pq..} Están compuestas principalmente por llaves (que permiten la circulación o el bloqueo de la corriente) y elementos que almacenan energía (capacitores e inductores). Las llaves cargan o descargan los elementos reactivos de manera tal de controlar el valor de corriente. Son eficientes energéticamente ya que no se disipa potencia en las llaves.
 
 Existen diversas topologías circuitales posibles para el control de corriente de una carga inductiva. La diferencia entre ellas está en la cantidad de llaves, su ubicación y la cantidad de elementos reactivos. Por lo tanto, en esta sección se analizan los aspectos que debe cumplir la fuente a diseñar para poder elegir una topología adecuada.
 
-Como se vio en la sección \ref{sec_analisis_estimacion}, se planea medir indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente. A partir de este análisis surge la necesidad de que la magnitud de la fuente de alimentación sea igual para la carga y la descarga del electroimán, con polaridad opuesta. Por lo tanto, se debe escoger una topología que permita alternar la polaridad de la alimentación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
+Como se vio en la sección \ref{sec_analisis_estimacion}, se planea medir indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente. A partir de esto surge la necesidad de que la magnitud de la fuente de alimentación sea igual para la carga y la descarga del electroimán, con polaridad opuesta. Por lo tanto, se debe escoger una topología que permita alternar la polaridad de la alimentación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
 
 Por otro lado, debido a que el lazo de control para el sistema de levitación magnética necesitará conocer el valor de la distancia de separación de entrehierro para regular la fuerza ejercida, es necesario disponer de la estimación en todo momento. Por este motivo, no puede darse el caso en que el sistema deje de conmutar ya que no habría pendiente y, por ende, tampoco estimación de la distancia. Los casos en que la conmutación se podría ver afectada son los siguientes: 
 \begin{itemize} 
-	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio de corriente supera la mitad del \textsl{ripple} de corriente $(\Delta I_{L})$.
+	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio supera la mitad del \textsl{ripple} de corriente $(\Delta I_{L})$.
 	
 	\item Cuando la distancia de entrehierro es pequeña y se trabaja con peso reducido la corriente media puede llegar a ser menor que el \textsl{ripple} $\frac{\Delta I_{L}}{2}$.
 \end{itemize}
-
+\colorbox{red}{No se si queda muy clara el segundo caso..}
 En estos casos puede darse la situación de que la corriente del electroimán tenga un valor medio mayor o igual a $0\:A$, pero valores instantáneos negativos. Por lo tanto, se necesita una topología de fuente que permita circulación de corriente por la carga en ambos sentidos.
 
 Por estos motivos se propone utilizar una topología de puente H completo compuesto por cuatro llaves como se muestra en la figura \ref{fig:img_topologia_simplificada}.
@@ -261,9 +268,9 @@ Esta topología permite el control individual del estado de cada llave por medio
 	\end{center}
 \end{table}
 
-En la tabla \ref{tab_llaves} se observa que de todas las combinaciones posibles, solo dos generan una diferencia de potencial $\pm V_{cc}$ sobre el electroimán. Estas son  $S_1$ y $S_4$ cerrados y $S_2$ y $S_3$ abiertos para $V_L=+V_{cc}$, o con $S_2$ y $S_3$ cerrados y $S_1$ y $S_4$ abiertos para $V_L=-V_{cc}$. Al controlar el estado de las llaves alternando entre estas dos combinaciones, se logra una alimentación simétrica de la carga.
+En la tabla \ref{tab_llaves} se observa que de todas las combinaciones posibles, solo dos de ellas generan una diferencia de potencial $\pm V_{cc}$ sobre el electroimán. Estas son  $S_1$ y $S_4$ cerrados y $S_2$ y $S_3$ abiertos para $V_L=+V_{cc}$, o con $S_2$ y $S_3$ cerrados y $S_1$ y $S_4$ abiertos para $V_L=-V_{cc}$. Al controlar el estado de las llaves alternando entre estas dos combinaciones, se logra una alimentación simétrica de la carga.
 
-Debido a que solo se utilizan estas dos combinaciones, se puede reducir la cantidad de señales que controlan el sistema: $S_1=S_4$, $S_2=S_3$ y $S_1=\overline{S_2}$. Por lo tanto se define una nueva señal de control $S_T$ tal que $S_T=S_1=\overline{S_2}=\overline{S_3}=S_4$. El puente completo puede ser controlado por una sola señal, lo que simplifica el diseño de la etapa de lógica de control. Esta señal coincide con la entrada $V_h$ del bloque amplificador en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}.
+Debido a que solo se utilizan estas dos combinaciones, se puede reducir la cantidad de señales que controlan el sistema: $S_1=S_4$, $S_2=S_3$ y $S_1=\overline{S_2}$. Por lo tanto se define una nueva señal de control $S_T$ tal que $S_T=S_1=\overline{S_2}=\overline{S_3}=S_4$. El puente completo puede ser controlado por una sola señal, lo que simplifica el diseño de la etapa de lógica de control. Esta señal se corresponde con la entrada $V_h$ del bloque amplificador en la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}.
 
 Para esta aplicación en particular, la fuerza magnética es siempre en el mismo sentido, independientemente del sentido en que circule la corriente. Por lo tanto, se adopta como sentido de circulación positivo de izquierda a derecha como lo indican las flechas en la figura \ref{fig:img_topologia_simplificada}. 
 

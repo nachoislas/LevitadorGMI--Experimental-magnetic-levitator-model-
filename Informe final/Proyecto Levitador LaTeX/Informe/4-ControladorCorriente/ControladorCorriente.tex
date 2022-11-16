@@ -358,13 +358,13 @@ En esta sección se determinarán los parámetros críticos para el correcto fun
 
 \subsection{Cálculo de ancho de histéresis}
 
-%Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{sw}>=1\:kHz$.
+%Como se mencionó, se desea controlar la fuerza ejercida a partir del valor medio de la corriente. Por lo tanto, las variaciones en torno a dicho valor medio no deben generar variaciones significativas en la fuerza magnética. Por ello, se debe elegir un ancho de histéresis tal que la frecuencia de conmutación resultante sea filtrada por la dinámica de la planta. Un valor de al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m} serìa suficiente. Este se ubica en $70\:r/s$, lo que resulta en que se debe conmutar a una frecuencia de $\omega_{sw}>=7000\:r/s$, y expresada en Hz resulta $F_{aux}>=1\:kHz$.
 
 Al trabajar en conmutación se está excitando al sistema, en estado estacionario, con una onda cuadrada en tensión. Como se mencionó previamente, la forma de onda de la corriente debe ser triangular de forma que esta oscile sobre un valor medio generando una fuerza constante con pequeñas variaciones que no afectan la dinámica de la planta. Para lograr esto, la frecuencia de conmutación debe ser al menos 100 veces mayor que la frecuencia del polo de la planta obtenida en \ref{eq_transferencia_planta_m}. 
 
-De esta forma la dinámica de la planta y la respuesta a los transitorios no se ven afectadas.  Por lo tanto, dado que el polo se ubica en $70\:r/s$  se debe conmutar a una frecuencia de $\omega_{sw}\geq7000\:r/s$ (expresada en Hz resulta $F_{sw}\geq1\:kHz$). 
+De esta forma la dinámica de la planta y la respuesta a los transitorios no se ven afectadas.  Por lo tanto, dado que el polo se ubica en $70\:r/s$  se debe conmutar a una frecuencia de $\omega_{planta}\geq7000\:r/s$ (expresada en Hz resulta $F_{planta}\geq1\:kHz$). 
 
-Por lo tanto, como la frecuencia mínima es $F_{sw}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
+Por lo tanto, como la frecuencia mínima es $F_{planta}$, y considerando que el tiempo en que crece la corriente es igual al que decrece, se obtiene que el tiempo máximo que puede tener la sección creciente de la corriente es igual a $t_{max}=500\:us$. 
 
 A partir de la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede obtener el valor máximo de \textsl{ripple} cuando $t=t_{max}$, considerando que la corriente inicial es $I_{min}$ y que la corriente final es $I_{min}+\Delta I_L$
 
@@ -379,6 +379,14 @@ De la ecuación \ref{eq_delta_i} se obtiene el valor máximo que se le puede asi
 \end{equation}
 
 El controlador de corriente tendrá una corriente media variable entre $0\:A$ y $30\:A$, por lo que se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier valor de corriente dentro de ese rango. De esta forma, se plantean dos casos: $I_{min}=0\:A$ e $I_{min}=30\:A$. Para el primero se obtiene que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=541.6\:mA$. Por lo tanto, se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
+
+Entonces, con este ancho de histéresis elegido se obtiene una frecuencia de conmutación de la planta (calculada para $I_{min}=30\:A$):
+
+\begin{equation} \label{eq_fplanta}
+	F_{planta}=1092\:Hz
+\end{equation}
+
+\colorbox{red}{si hago el calculo con Imin=0 me da Fplanta=1457Hz}
 
 \subsection{Cálculo de ganancia de entrada}
 
@@ -576,7 +584,7 @@ Para comprender su funcionamiento se hará un breve análisis del sistema. Para 
 
 Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOS inferior del lado A y el superior del lado B. Esto provoca que el \textsl{source} del MOS superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de $Q_2$. 
 
-Una vez finalizado el tiempo muerto, se enciende $Q_1$. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que $Q_1$ pasa de estar apagado a encendido, la tensión en el \textsl{source} cambia de $-V_d$ a $V_{bus}$ de manera gradual mientras se carga el \textsl{gate}, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de \textsl{bootstrap} sumada a la tensión en el \textsl{source} de $Q_1$. De esta manera se logra una tensión de $36\:V$ con respecto a GND en el \textsl{gate} y genera una diferencia entre \textsl{gate} y \textsl{source} de $12\:V$.
+Una vez finalizado el tiempo muerto, se enciende $Q_1$. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que $Q_1$ pasa de estar apagado a encendido, la tensión en el \textsl{source} cambia de $-V_d$ a $V_{cc}$ de manera gradual mientras se carga el \textsl{gate}, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de \textsl{bootstrap} sumada a la tensión en el \textsl{source} de $Q_1$. De esta manera se logra una tensión de $36\:V$ con respecto a GND en el \textsl{gate} y genera una diferencia entre \textsl{gate} y \textsl{source} de $12\:V$.
 
 Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOS esté encendido.
 
@@ -606,7 +614,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 	\caption{Diagrama en bloques completo del controlador de corriente}	\label{fig:img_diag-en-bloques-con-oscilador}
 \end{figure}
 
-\noindent Se adopta una frecuencia de conmutación auxiliar de $F_{sw}=50\:kHz$ y se hace variar el ciclo de trabajo de la señal $V_{sw}$ entre dos valores. Para la carga del inductor se definió que el ciclo de trabajo sea del 90\% mientras que para la descarga sea del 10\%.
+\noindent Se adopta una frecuencia de conmutación auxiliar de $F_{aux}=50\:kHz$ y se hace variar el ciclo de trabajo de la señal $V_{sw}$ entre dos valores. Para la carga del inductor se definió que el ciclo de trabajo sea del 90\% mientras que para la descarga sea del 10\%.
 
 %
 %Como hay una corriente que circula constantemente desde el capacitor de bootstrap hacia las resistencias de Gate-source, es necesario limitar el tiempo màximo que puede quedar encendido un transistor. Debido al funcionamiento del controlador por histéresis, no se puede asegurar que haya una conmutación a intervalos regulares... Es por ello que se decide modificar levemente el diagrama en bloques \ref{fig:img_diag-en-bloques-conH-y-Kin} de manera de superponer una conmutación de alta frecuencia a la señal de control de las llaves. 
@@ -626,7 +634,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 \noindent Para evitar sufrir una caída de tensión tal que afecte el encendido de los MOS, es necesario que $Q_{BS}$ pueda abastecer también al \textsl{gate}, al diodo en inversa y a la resistencia entre \textsl{gate-source}. Por lo tanto:
 
 \begin{equation} \label{eq_carga-cap-bootstrap2}
-	Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{F_{sw}}
+	Q_{BS} > Q_G + Q_{RR} + \frac{I_{DR}+I_{GS}}{F_{aux}}
 \end{equation}
 
 \noindent Donde:
@@ -635,7 +643,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 	\item $Q_{RR}$ = Carga entregada al diodo en inversa durante el tiempo de recuperación (cuando pasa de modo conducción a inversa).
 	\item $I_{DR}$ = Corriente de fuga del diodo en inversa.
 	\item $I_{GS}$ = Corriente que circula por la resistencia de \textsl{gate-source}.
-	\item $F_{sw}$ = frecuencia de conmutación.
+	\item $F_{aux}$ = frecuencia de conmutación.
 \end{itemize}
 
 
@@ -643,7 +651,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 
 
 \begin{equation} \label{eq_cap-bootstrap}
-	C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{F_{sw}}}{\Delta V_{BS}}
+	C_{BS} > \frac{Q_G+Q_{RR} + \frac{I_{DR}+I_{GS}}{F_{aux}}}{\Delta V_{BS}}
 \end{equation}
 
 \noindent Según la hoja de datos \cite{IPB160N04} del MOSFET IPB160N04, se obtiene que $Q_G= 170\:nC$. Por lo tanto, al adoptar una caída de tensión tolerable en el capacitor de $\Delta V_{BS} = 0.1\:V$, es posible dimensionarlo para que posea carga suficiente para mantener al MOSFET siempre encendido.
@@ -921,7 +929,7 @@ En esta sección se analiza la implementación circuital de la etapa de conmutac
 
 Como se mencionó en la sección \ref{sec_cap_bootstrap} es necesario agregar una etapa de oscilación auxiliar para permitir la carga de los capacitores de bootstrap en un intervalo de tiempo regular.
 
-Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para generar a su salida una onda pulsada con un ciclo de trabajo variable entre dos posibles valores: $d=90\%$ y $d=10\%$, dependiendo del valor de su entrada: $0\:V$ o $5\:V$, respectivamente. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $F_{aux}=50\:kHz$..
+Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para generar a su salida una onda pulsada con un ciclo de trabajo variable entre dos posibles valores: $d=90\%$ y $d=10\%$, dependiendo del valor de su entrada: $0\:V$ o $5\:V$, respectivamente. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $F_{aux}=50\:kHz$.
 
 %La señal de salida del circuito $V_{SW}$ es una onda pulsada con dos valores posibles de ciclo de trabajo ($d$) dependiendo del valor en su entrada ($V_h$):
 %
@@ -929,7 +937,7 @@ Para su implementación se propone la topología circuital mostrada en la figura
 %
 %2- Cuando $V_h=5\:V$, entonces $d=10\%$.
 
-Este oscilador funciona de la siguiente manera. Cuando la entrada es $V_h=0\:V$, la salida resulta en una onda pulsada con un  ciclo de trabajo (d) del 90\%. Es decir, del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:uS$), el 90\% del tiempo la salida ($V_{sw}$) se encuentra en $5\:V$, y el 10\% restante en $0\:V$. Por lo tanto, $T_{on}=0.9*T_{total}=18\:uS$ y $T_{off}=0.1*T_{total}=2\:uS$.
+Este oscilador funciona de la siguiente manera. Cuando la entrada es $V_h=0\:V$, la salida resulta en una onda pulsada con un  ciclo de trabajo $d=90\%$. Es decir, del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:uS$), el 90\% del tiempo la salida ($V_{sw}$) se encuentra en $5\:V$, y el 10\% restante en $0\:V$. Por lo tanto, $T_{on}=0.9*T_{total}=18\:uS$ y $T_{off}=0.1*T_{total}=2\:uS$.
 
 Por otro lado, cuando la entrada es $V_h=5\:V$, la salida presenta un ciclo de trabajo del 10\%. Es decir, $T_{on}=0.1*T_{total}=2\:uS$ y $T_{off}=0.9*T_{total}=18\:uS$.
 
@@ -1087,7 +1095,7 @@ De esta simulación se realizaron mediciones sobre variables del sistema para co
 			Variable & Resultado medido & Resultado teórico \\ \hline
 			$\overline{I_L}$ [A] & $5.97$ & $6$ \\ \hline
 			$\Delta I_L$ [mA] & 509 & 500 \\ \hline
-			$F_{planta}$ [Hz]& 1080 &	1000 \\ \hline
+			$F_{planta}$ [Hz]& 1080 &	1092 \\ \hline
 			$V_{L_{on}}$ [V]&	24 & 24 \\ \hline
 			$V_{L_{off}}$ [V]& -24 & -24 \\ \hline
 			$T_{on}$ [uS] & 17.57 & 18 \\ \hline
@@ -1148,10 +1156,10 @@ I_L = V_{IL_{ref}} * \frac{K_{in}}{H_0} = V_{IL_{ref}} * 6\:\frac{A}{V}
 \noindent La frecuencia de conmutación del sistema se obtiene con:
 
 \begin{equation}\label{eq_frec-sw} 
-F_{SW} = \frac{V_{cc}}{2*\Delta I_L * L(Y_g)}
+F_{planta} = \frac{V_{cc}}{2*\Delta I_L * L(Y_g)}
 \end{equation}
 
-\noindent Para $Y_g = 4 \:mm $ se tiene una inductancia $L(4\:mm) = 16.44 \:mHy$ , lo cual resulta en una frecuencia $F_{SW }= 1460 \:Hz$ .
+\noindent Para $Y_g = 4 \:mm $ se tiene una inductancia $L(4\:mm) = 16.44 \:mHy$ , lo cual resulta en una frecuencia $F_{planta}= 1460\:Hz$ .
 
 \subsection{Ancho de banda del controlador}\label{esccion_AB_Controlador} 
 
@@ -1170,10 +1178,10 @@ F_{SW} = \frac{V_{cc}}{2*\Delta I_L * L(Y_g)}
 \noindent La tabla \ref{tab_mediciones} muestra  entre qué valores de frecuencia se ve afectada la forma de onda al modificarse la distancia de separación.
 
 \begin{equation} \label{eq_DeltaT}
-\Delta T [s] = \frac{\Delta I_L * (L(Y_g) + L_{\infty})}{V_{BUS}}
+\Delta T [s] = \frac{\Delta I_L * (L(Y_g) + L_{\infty})}{V_{cc}}
 \end{equation}
 
-\noindent En la ecuación \ref{eq_DeltaT}, $\Delta T$ representa el tiempo de crecimiento o de decrecimiento de la rampa de corriente (sin considerar la resistencia del bobinado) en torno al valor nominal. El doble de este tiempo es igual al periodo de la corriente triangular $(2*T=\frac{1}{F_{SW}})$.
+\noindent En la ecuación \ref{eq_DeltaT}, $\Delta T$ representa el tiempo de crecimiento o de decrecimiento de la rampa de corriente (sin considerar la resistencia del bobinado) en torno al valor nominal. El doble de este tiempo es igual al periodo de la corriente triangular $(2*T=\frac{1}{F_{planta}})$.
 
 \noindent Según las mediciones de inductancia realizadas y, al aplicar las ecuaciones \ref{eq_frec-sw}, \ref{eq_frec-angular} y \ref{eq_DeltaT}, se obtuvo la tabla \ref{tab_mediciones}.
 
@@ -1182,7 +1190,7 @@ F_{SW} = \frac{V_{cc}}{2*\Delta I_L * L(Y_g)}
 	\begin{center}
 		\begin{tabular}{| c | c | c | c | c |}
 			\hline
-			$Y_g\:[mm]$ & $L(Y_g)\:[mHy]$ & $\Delta T\:[ms]$ & $F_{SW}\:[Hz]$ & $\omega _{polo}\:[rad/s]$\\ \hline
+			$Y_g\:[mm]$ & $L(Y_g)\:[mHy]$ & $\Delta T\:[ms]$ & $F_{planta}\:[Hz]$ & $\omega _{polo}\:[rad/s]$\\ \hline
 			0 & 76.45 & 1.59 & 313.93 & 2.62\\ \hline
 			1 & 33.42 & 0.70 & 718.13 & 5.98\\ \hline
 			2 & 22.64 &	0.47 & 1060.07 & 8.83\\ \hline

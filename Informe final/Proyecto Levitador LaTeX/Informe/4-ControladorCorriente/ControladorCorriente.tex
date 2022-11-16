@@ -428,7 +428,7 @@ Si bien es posible utilizar este método para medir la corriente, se presentan a
 
 El primero es que al agregar una resistencia en serie al electroimán se introduce una mayor disipación de potencia en el sistema. Para intentar reducir los efectos de este problema se podría elegir un valor de resistencia lo suficientemente bajo para que su consumo de potencia sea despreciable. Por ejemplo, si se adopta una resistencia de $10\:m\Omega$ el valor de pérdidas de potencia es de $4\:W$, que es un valor aceptable frente a al consumo del electroimán que es de $80\:W$ (considerando una corriente de $20\:A$).
 
-El segundo inconveniente es que se altera la dinámica de la planta, ya que la constante de tiempo cambia a $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:Ohm$, por lo que una resistencia de sensado con valor $10\:mOhm$ no afectaría en gran medida su comportamiento.
+El segundo inconveniente es que se altera la dinámica de la planta, ya que la constante de tiempo cambia a $\tau=\frac{L}{R_L+R_s}$. Sin embargo, el electroimán presenta una resistencia interna de $0.2\:\Omega$, por lo que una resistencia de sensado con valor $10\:m\Omega$ no afectaría en gran medida su comportamiento.
 
 El tercero es que se debe realizar una medición de tensión flotante. Esto se debe a que la resistencia, al estar en serie con el electroimán, no tiene ningún punto de medición referido a masa. Por lo tanto, se debe utilizar un amplificador que mida tensión en modo diferencial para luego obtener una señal en modo común. El inconveniente que se presenta es que cada uno de los puntos de medición se encuentra a un alto potencial respecto de masa y, además, este cambia en cada conmutación. Esto genera que durante los transitorios de conmutación haya ruido en la medición diferencial.
 
@@ -537,7 +537,6 @@ Para el correcto funcionamiento de los MOSFET es necesario agregar circuitería 
 \subsubsubsection{Protección de sobretensión del \textsl{gate}}
 
 \noindent El \textsl{gate} de los MOSFET es sensible a las sobretensiones: soporta como máximo $\pm 20\:V$. Una descarga electrostática (ESD) puede sobrepasar ampliamente este valor de tensión y dañar el MOSFET al acercar la mano o la sonda del osciloscopio. Para protegerlo se coloca un diodo TVS entre el \textsl{gate} y \textsl{source} de cada transistor, de manera de limitar la tensión que se desarrolla en el \textsl{gate} a un valor seguro. Estos se observan como $TVS_1$, $TVS_2$, $TVS_3$ y $TVS_4$ en la figura \ref{fig:img_capacitores-puenteH}. Se eligen los TVS SMAJ15 \cite{SMAJ15} con una tensión bidireccional de $\pm 15\:V$.
-\colorbox{red}{hacer referencia a hoja de datos}
 
 \subsubsubsection{Resistencia y diodo en serie al \textsl{gate}}
 
@@ -614,7 +613,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 
 
 
-\noindent Por otro lado, el capacitor debe entregar corriente al diodo de \textsl{bootstrap} cuando este queda en inversa ($I_{DR}$). El componente elegido para este diodo es el RSX205LAM30TR \colorbox{red}{Agregamos la hoja de datos?}. También debe entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
+\noindent Por otro lado, el capacitor debe entregar corriente al diodo de \textsl{bootstrap} cuando este queda en inversa ($I_{DR}$). El componente elegido para este diodo es el RSX205LAM30TR. También debe entregar una corriente de fuga al circuito integrado HIP ($I_{QBS}$). Esta última se desprecia ya que es compensada internamente por la bomba de carga del HIP.
 
 \noindent Por lo tanto, para poder dimensionar correctamente el capacitor de \textsl{bootstrap} es necesario tener en cuenta todos los efectos mencionados anteriormente. Para ello se parte planteando la carga que almacena este capacitor:
 

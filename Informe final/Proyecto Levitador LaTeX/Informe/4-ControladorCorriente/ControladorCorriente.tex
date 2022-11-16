@@ -877,7 +877,7 @@ Finalmente, la salida de este circuito queda:
 
 La ecuación \ref{eq_salida_restador_hall} es válida únicamente para $I_L>=0\:A$. Para valores de $I_L<0\:A$, la salida será $V_{IL_{feed}}=0\:V$.
 
-Si bien en el dispositivo levitador se desea que la corriente media del electroimán sea siempre positiva, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador en situaciones como las mencionadas en la sección \ref{sec_topologia-fuente-alimentacion}. Sin embargo, este circuito tiene la desventaja de que elimina completamente cualquier corriente instantánea que sea negativa. Por lo tanto a continuación se propone una solución a este inconveniente.
+Si bien en el dispositivo levitador se desea que la corriente media del electroimán sea siempre positiva, es necesario permitir una excursión de corriente negativa para el correcto funcionamiento del controlador en situaciones como las mencionadas en la sección \ref{sec_topologia-fuente-alimentacion}. Sin embargo, este circuito tiene la desventaja de que elimina completamente cualquier corriente instantánea que sea negativa. Por lo tanto, a continuación se propone una solución a este inconveniente.
 
 
 
@@ -930,9 +930,9 @@ Para su implementación se propone la topología circuital mostrada en la figura
 %
 %2- Cuando $V_h=5\:V$, entonces $d=10\%$.
 
-Este oscilador funciona de la siguiente manera. Cuando la entrada es $V_h=0\:V$, resulta en un  ciclo de trabajo $d=90\%$. Es decir, del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:uS$), el 90\% del tiempo la salida ($V_{sw}$) se encuentre en $5\:V$, y el 10\% restante se encuentra en $0\:V$. Por lo tanto $T_{on}=0.9*T_{total}=18\:uS$ y $T_{off}=0.1*T_{total}=2\:uS$.
+Este oscilador funciona de la siguiente manera. Cuando la entrada es $V_h=0\:V$, la salida resulta en una onda pulsada con un  ciclo de trabajo (d) del 90\%. Es decir, del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:uS$), el 90\% del tiempo la salida ($V_{sw}$) se encuentra en $5\:V$, y el 10\% restante en $0\:V$. Por lo tanto, $T_{on}=0.9*T_{total}=18\:uS$ y $T_{off}=0.1*T_{total}=2\:uS$.
 
-De igual forma, cuando la entrada es $V_h=5\:V$, resulta en un ciclo de trabajo $d=10\%$. Es decir, $T_{on}=0.1*T_{total}=2\:uS$ y $T_{off}=0.9*T_{total}=18\:uS$.
+Por otro lado, cuando la entrada es $V_h=5\:V$, la salida presenta un ciclo de trabajo del 10\%. Es decir, $T_{on}=0.1*T_{total}=2\:uS$ y $T_{off}=0.9*T_{total}=18\:uS$.
 
 Finalmente, el capacitor $C_1$ se calcula como:
 
@@ -942,7 +942,9 @@ Finalmente, el capacitor $C_1$ se calcula como:
 
 \colorbox{red}{lo volví a calcular mejor y me quedó de 1.22nF, ese valor anda mejor en la simulación. mñaana escribo la ecuación}
 
-Por otro lado, es importante notar que este circuito presenta una inversión de fase a su salida. Por lo tanto, debe ser tenida en cuenta en el diseño final del lazo de control de corriente. De lo contrario, el sistema resultaría inestable y no se podría controlar el valor de corriente.
+\colorbox{yellow}{De última, si se complica, podemos decir algo así: "Para obtener una frecuencia de 50kHz, se ajusta el valor del capacitor C1 a xxx pF, manteniendo el resto de los componetes con el mismo valor." .....tipo sin poner la fórmula}
+
+Es importante notar que este circuito presenta una inversión de fase a su salida. Por lo tanto, debe ser tenida en cuenta en el diseño final del lazo de control de corriente. De lo contrario, el sistema resultaría inestable y no se podría controlar el valor de corriente.
 
 \begin{figure}[H]
 	\centering
@@ -997,7 +999,19 @@ Para obtener un ancho de histéresis de $26.665\:mV$ entonces la diferencia entr
 	V^+_{on}-V^+_{off} = 5\:V*\frac{R_{8}}{R_{8}+R_{7}}= 26.665\:mV
 \end{equation}
 
-Si se toma $R_{7}=200 \:k\Omega$ se obtiene $R_{8}=1072 \;\Omega$ por lo tanto se toma un valor comercial de $R_{8}=1066\:\Omega$. De esta forma se obtiene el ancho de histéresis deseado.
+Si se toma $R_{7}=200 \:k\Omega$ se obtiene $R_{8}=1072 \;\Omega$. Por lo tanto, se toma un valor comercial de $R_{8}=1066\:\Omega$. De esta forma se obtiene el ancho de histéresis deseado.
+
+\subsubsection{Circuito de la etapa de conmutación completo}
+\colorbox{red}{Ver nombre de título..}
+En la figura \ref{fig:img_etapa-conmutacion} se puede observar la conexión entre la etapa de conmutación con histéresis y la de oscilación auxiliar.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{etapa-conmutacion.png}
+	\caption{Circuito de conmutación con histéresis y oscilador auxiliar.}
+	\label{fig:img_etapa-conmutacion}
+\end{figure}
 
 \subsection{Elección de amplificadores operacionales}
 
@@ -1013,7 +1027,9 @@ El HIP tiene 4 señales de control, cada una encargada de controlar una llave. S
 	\label{fig:img_control-HIP}
 \end{figure}
 
-Para poder obtener la señal $\overline{V_{SW}}$ a partir de $V_{SW}$, se utiliza el inversor SN74LVC3G06DCUT \colorbox{red}{Agregar hoja de datos}. Por lo tanto, la salida de este se conecta con las señales de entrada BHI y ALI del HIP4081A. Por otro lado, para las señales de entrada restantes (BLI y AHI), que no requieren inversión de signo, se podría ingresar directamente con la señal $V_{SW}$. Sin embargo, debido a que el inversor produce flancos de subida y de bajada abruptos, se decidió volver a invertir la señal $\overline{V_{SW}}$ y obtener una señal mas $V_{SW}$ con flancos de subida mas abruptos que la original. 
+\colorbox{red}{Agregar hoja de datos?}
+
+Para poder obtener la señal $\overline{V_{SW}}$ a partir de $V_{SW}$, se utiliza el inversor SN74LVC3G06DCUT. Su salida se conecta con las señales de entrada BHI y ALI del HIP4081A. Por otro lado, para las señales de entrada restantes (BLI y AHI), que no requieren inversión de signo, se podría ingresar directamente con la señal $V_{SW}$. Sin embargo, debido a que este circuito además de invertir, mejora los flancos de subida y de bajada de la señal en su entrada, se decidió volver a invertir la señal $\overline{V_{SW}}$ y obtener así a $V_{SW}$. 
 
 
 \section{Simulaciones del controlador de corriente}
@@ -1024,7 +1040,7 @@ Se utilizó el software de simulación de circuitos electrónicos NL5 para const
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{circuito_simulacion_final.png}
-	\caption{Circuito armado para la simulación}
+	\caption{Circuito armado para la simulación.}
 	\label{fig:circuito_simulacion_final}
 \end{figure}
 
@@ -1033,6 +1049,7 @@ Se utilizó el software de simulación de circuitos electrónicos NL5 para const
 
 \subsection{Señales en régimen permanente}
 
+\colorbox{red}{Tal vez podríamos agregar la simulación que muestre como se soluciona lo de las corrientes instantáneas negativas...}
 En las figuras \ref{fig:simulacion_regimen_permanente_1} y \ref{fig:simulacion_regimen_permanente_2} se muestran algunas señales de intéres del controlador de corriente funcionando en régimen permanente con una tensión de referencia $V_{IL_{ref}}=1\:V$ y el valor de inductancia correspondiente a $Y_g=4\:mm$. En la primera se muestran las señales de baja frecuencia correspondientes a la salida del comparador con histéresis y a la corriente del electroimán. En la segunda se muestra en detalle la conmutación auxiliar y la forma de la tensión de alimentación del electroimán.
 
 \begin{figure}[H]
@@ -1111,6 +1128,9 @@ En la figura \ref{fig:simulacion_escalon} se muestra como reacciona el sistema a
 	\caption{Simulación de escalón en la referencia de corriente.}
 	\label{fig:simulacion_escalon}
 \end{figure}
+
+\colorbox{red}{Aca lo que podríamos agregar es algo así: }
+"Si bien la conmutación con histéresis se detuvo, la conmutación auxiliar siguió conmutando (Agregar otra imagen que lo muestre) con el ciclo de trabajo constante hasta qeu la histéresis hizo que vuelva a cambiar,. Sin embargo en todo momento hubo conmutación para la carga de los bootstrap"
 
 \section{Características estáticas y dinámicas del controlador}
 

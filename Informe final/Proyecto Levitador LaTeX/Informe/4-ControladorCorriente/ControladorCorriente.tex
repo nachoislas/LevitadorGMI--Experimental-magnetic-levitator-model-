@@ -1148,8 +1148,15 @@ En la figura \ref{fig:simulacion_escalon} se muestra como reacciona el sistema a
 	\label{fig:simulacion_escalon}
 \end{figure}
 
-\colorbox{red}{Aca lo que podríamos agregar es algo así: }
-"Si bien la conmutación con histéresis se detuvo, la conmutación auxiliar siguió conmutando (Agregar otra imagen que lo muestre) con el ciclo de trabajo constante hasta qeu la histéresis hizo que vuelva a cambiar,. Sin embargo en todo momento hubo conmutación para la carga de los bootstrap"
+Si bien el comparador con histéresis mantuvo su salida en un estado bajo durante el transitorio, la conmutación auxiliar siguió conmutando con el ciclo de trabajo constante, como se muestra en la figura \ref{fig:simulacion_escalon_conmutacion}. Esto es lo que asegura la correcta carga de los capacitores de bootstrap. Una vez que el comparador con histéresis volvió a conmutar, el ciclo de trabajo también se alternó.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{simulacion_escalon_conmutacion.png}
+	\caption{Simulación de escalón en la referencia de corriente mostrando conmutación de alimentación en el electroimán. Con fines demostrativos únicamente, esta simulación fue realizada con una frecuencia de conmutación auxiliar menor a la utilizada en el diseño. Esto con el fin de que se puedan representar correctamente en una misma imagen las señales de baja frecuencia y la de conmutación.}
+	\label{fig:simulacion_escalon_conmutacion}
+\end{figure}
+
 
 \section{Características estáticas y dinámicas del controlador}
 

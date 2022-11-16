@@ -746,7 +746,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 	c = \frac{\Delta Q}{\Delta V} = 10 \:mF
 \end{equation}
 
-\noindent Dado que por los capacitores circula una corriente elevada ($21.25 A$) es recomendable disminuir la ESR total para minimizar la potencia disipada. Por lo tanto, se colocan capacitores en paralelo de baja ESR, como se muestra en la figura \ref{fig:img_capacitores-fuente}.
+\noindent Dado que por los capacitores circula una corriente elevada ($21.25\:A$) es recomendable disminuir la ESR total para minimizar la potencia disipada. Por lo tanto, se colocan capacitores en paralelo de baja ESR, como se muestra en la figura \ref{fig:img_capacitores-fuente}.
 
 \begin{figure}[H]
 	\centering
@@ -797,7 +797,7 @@ Se desea implementar un circuito que realice la operación matemática
 	V_e=K_{in}*V_{IL_{ref}} - V_{IL_{feed}}
 \end{equation}
 
-Para ello se utiliza un circuito basado en un amplificador operacional alimentado con una fuente simple de $5\:V$. Debido a que se usa una alimentación simple, es necesario polarizar su salida en un punto de operación $V_{op}=2.5\:V$ para permitir excursiones positivas y negativas de la señal. Por lo tanto la ecuación \ref{eq_Ve-circuito_1} se modifica agregando este punto de operación y se obtiene:
+Para ello se utiliza un circuito basado en un amplificador operacional alimentado con una fuente simple de $5\:V$. Debido a que se usa una alimentación simple, es necesario polarizar su salida en un punto de operación $V_{op}=2.5\:V$ para permitir excursiones positivas y negativas de la señal. Por lo tanto, la ecuación \ref{eq_Ve-circuito_1} se modifica agregando este punto de operación y se obtiene:
 
 \begin{equation}\label{eq_Ve-circuito}
 V_e=K_{in}*V_{IL_{ref}} - V_{IL_{feed}} + V_{op}
@@ -833,7 +833,7 @@ Por lo tanto, al igualarla con la expresión \ref{eq_Ve-circuito} resultan las s
 	\frac{R_{1}//R_{3}}{R_{2}+R_{1}//R_{3}}*\frac{R_{4}+R_{5}}{R_{5}} = 1
 \end{equation}
 
-De estas relaciones se obtiene que $R_{4}=R_{5}$. Luego al reemplazar en las ecuaciones \ref{eq_ve_operacional-1}, \ref{eq_ve_operacional-2} y \ref{eq_ve_operacional-3} resulta:
+De estas relaciones se obtiene que $R_{4}=R_{5}$. Luego, al reemplazar en las ecuaciones \ref{eq_ve_operacional-1}, \ref{eq_ve_operacional-2} y \ref{eq_ve_operacional-3} resulta:
 
 \begin{equation*}
 	\frac{R_{2}//R_{3}}{R_{1}+R_{2}//R_{3}}= 0.16
@@ -941,7 +941,15 @@ En esta sección se analiza la implementación circuital de la etapa de conmutac
 
 Como se mencionó en la sección \ref{sec_cap_bootstrap} es necesario agregar una etapa de oscilación auxiliar para permitir la carga de los capacitores de bootstrap en un intervalo de tiempo regular.
 
-Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para generar a su salida una onda pulsada con un ciclo de trabajo variable entre dos posibles valores: $d=90\%$ y $d=10\%$, dependiendo del valor de su entrada: $0\:V$ o $5\:V$, respectivamente. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ para obtener una frecuencia de conmutación de $F_{aux}=50\:kHz$.
+Para su implementación se propone la topología circuital mostrada en la figura \ref{fig:img_frecuencia-auxiliar}. Este oscilador fue utilizado en la versión anterior del prototipo para generar a su salida una onda pulsada con un ciclo de trabajo variable entre dos posibles valores: $d=90\%$ y $d=10\%$, dependiendo del valor de su entrada: $0\:V$ o $5\:V$, respectivamente. Por lo tanto, se decide seguir con esta topología ajustando el valor de $C_1$ a $1.22\:nF$, (manteniendo el resto de los componentes con el mismo valor) para obtener una frecuencia de conmutación de $F_{aux}=50\:kHz$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{conmutacion-auxiliar.png}
+	\caption{Circuito oscilador de frecuencia auxiliar.}
+	\label{fig:img_frecuencia-auxiliar}
+\end{figure}
+
 
 %La señal de salida del circuito $V_{SW}$ es una onda pulsada con dos valores posibles de ciclo de trabajo ($d$) dependiendo del valor en su entrada ($V_h$):
 %
@@ -953,24 +961,7 @@ Este oscilador funciona de la siguiente manera. Cuando la entrada es $V_h=0\:V$,
 
 Por otro lado, cuando la entrada es $V_h=5\:V$, la salida presenta un ciclo de trabajo del 10\%. Es decir, $T_{on}=0.1*T_{total}=2\:uS$ y $T_{off}=0.9*T_{total}=18\:uS$.
 
-Finalmente, el capacitor $C_1$ se calcula como:
-
-\begin{equation} 
-	C_1= \frac{4.5*10^{-5}}{F_{aux}} = 900\:pF
-\end{equation}
-
-\colorbox{red}{lo volví a calcular mejor y me quedó de 1.22nF, ese valor anda mejor en la simulación. mñaana escribo la ecuación}
-
-\colorbox{yellow}{De última, si se complica, podemos decir algo así: "Para obtener una frecuencia de 50kHz, se ajusta el valor del capacitor C1 a xxx pF, manteniendo el resto de los componetes con el mismo valor." .....tipo sin poner la fórmula}
-
 Es importante notar que este circuito presenta una inversión de fase a su salida. Por lo tanto, debe ser tenida en cuenta en el diseño final del lazo de control de corriente. De lo contrario, el sistema resultaría inestable y no se podría controlar el valor de corriente.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.7]{conmutacion-auxiliar.png}
-	\caption{Circuito oscilador de frecuencia auxiliar.}
-	\label{fig:img_frecuencia-auxiliar}
-\end{figure}
 
 \subsubsection{Circuito del comparador con histéresis}
 
@@ -978,7 +969,7 @@ Para implementar el comparador con histéresis se utiliza un amplificador operac
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{Comparador-con-histeresis.png}
+	\includegraphics[scale=0.8]{Comparador-con-histeresis.png}
 	\caption{Comparador con histéresis.}
 	\label{fig:img_comp-con-hist}
 \end{figure}
@@ -996,9 +987,9 @@ Las ecuaciones son las siguientes:
 	V^+ = V_h*\frac{R_{8}}{R_{8}+R_{7}} + 2.5\:V*\frac{R_{7}}{R_{8}+R_{7}}
 \end{equation} 
 
-La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por lo tanto se pueden plantear dos casos: 
+La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por lo tanto, se pueden plantear dos casos: 
 
-1- Cuando $V_e>V^+$ entonces $V_h=0\:V$. Por lo tanto:
+1- Cuando $V_e>V^+$ entonces $V_h=0\:V$. Resulta:
 
 \begin{equation}
 	V^+_{off}=2.5*\frac{R_{7}}{R_{8}+R_{7}}
@@ -1021,7 +1012,7 @@ Para obtener un ancho de histéresis de $26.665\:mV$ entonces la diferencia entr
 Si se toma $R_{7}=200 \:k\Omega$ se obtiene $R_{8}=1072 \;\Omega$. Por lo tanto, se toma un valor comercial de $R_{8}=1066\:\Omega$. De esta forma se obtiene el ancho de histéresis deseado.
 
 \subsubsection{Circuito de la etapa de conmutación completo}
-\colorbox{red}{Ver nombre de título..}
+
 En la figura \ref{fig:img_etapa-conmutacion} se puede observar la conexión entre la etapa de conmutación con histéresis y la de oscilación auxiliar.
 
 
@@ -1034,10 +1025,10 @@ En la figura \ref{fig:img_etapa-conmutacion} se puede observar la conexión entr
 
 \subsection{Elección de amplificadores operacionales}
 
-Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. Entre sus características principales, obtenidas de su hoja de datos \cite{MCP660}, se encuentran que está compensado internamente, tiene una ganancia de contínua $A_{OL}=126\:dB$, ancho de banda de $60\:MHz$ y un slew-rate de $32\:V/uS$.
+Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. Entre sus características principales, obtenidas de su hoja de datos \cite{MCP660}, se encuentran que está compensado internamente, tiene una ganancia de contínua $A_{OL}=126\:dB$, ancho de banda de $60\:MHz$ y un \textsl{slew-rate} de $32\:V/uS$.
 
-\subsection{Conexión de oscilador con HIP}
-El HIP tiene 4 señales de control, cada una encargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura \ref{fig:img_control-HIP}.
+\subsection{Conexión de oscilador con el MOSFET \textsl{driver}}
+El HIP4081A tiene 4 señales de control, cada una encargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura \ref{fig:img_control-HIP}.
 
 \begin{figure}[H]
 	\centering
@@ -1153,10 +1144,11 @@ Si bien el comparador con histéresis mantuvo su salida en un estado bajo durant
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{simulacion_escalon_conmutacion.png}
-	\caption{Simulación de escalón en la referencia de corriente mostrando conmutación de alimentación en el electroimán. Con fines demostrativos únicamente, esta simulación fue realizada con una frecuencia de conmutación auxiliar menor a la utilizada en el diseño. Esto con el fin de que se puedan representar correctamente en una misma imagen las señales de baja frecuencia y la de conmutación.}
+	\caption{Simulación de escalón en la referencia de corriente y conmutación de alimentación en el electroimán.}
 	\label{fig:simulacion_escalon_conmutacion}
 \end{figure}
 
+La simulación de la figura \ref{fig:simulacion_escalon_conmutacion} fue realizada con una frecuencia de conmutación auxiliar menor a la utilizada en el diseño. Esto con el fin de que se puedan observar correctamente en una misma imagen las señales de baja frecuencia y la de conmutación auxiliar.
 
 \section{Características estáticas y dinámicas del controlador}
 

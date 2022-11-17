@@ -1,5 +1,5 @@
 \chapter{Controlador de corriente} \chapterlabel{Informe/4-ControladorCorriente} \label{cap:ControladorCorriente}
-\colorbox{red}{no nos olvidemos de actualizar esto cuando terminemos}
+
 En este capítulo se diseña y modela el circuito encargado de controlar la corriente que circula por el electroimán. Como se vio en el capítulo anterior, el sistema trabaja con corrientes elevadas por lo que se implementan estrategias de conmutación para reducir las pérdidas de energía. Para ello se utiliza una topología de puente H con cuatro MOSFET y un \textsl{driver} que los controla. Además, se detallan los criterios tenidos en cuenta al momento de  elegir  y dimensionar todos los componentes que intervienen para lograr el correcto funcionamiento del controlador de corriente. Por último, se obtiene su función transferencia  para ser utilizada en el diseño del compensador.
 
 \section{Descripción general}\label{sec_descripcion-general}
@@ -37,8 +37,6 @@ En la expresión \ref{eq_corriente_temporal_cond_iniciales} se puede observar qu
 	\caption{Respuesta ante una entrada en escalón.}
 	\label{fig:img_respuesta_escalon}
 \end{figure}
-
-\colorbox{red}{ver si se puede mejorar esta imagen..}
 
 \section{Diseño del controlador}
 
@@ -175,9 +173,6 @@ Debido a que en las sucesivas conmutaciones lo único que cambia es la polaridad
 
 Para lograr una forma de onda como la mostrada en la  figura \ref{fig:img_corriente_lineal} el controlador debe actuar de la siguiente manera. Al iniciar, la corriente $I_L$ es cero, dando como resultado a la entrada del comparador  $e = I_{ref}$. Por lo tanto, el comparador excita al electroimán con $V_L=+V_{CC}$ provocando que $I_L$ aumente de forma exponencial hasta que el valor de $e$ sea $-\frac{\Delta I_L}{2}$. Una vez alcanzado este valor, el bloque con histéresis actúa y conmuta la tensión $V_L$ a $-V_{CC}$. Al hacer esto, la corriente comienza a decrecer hasta que el error sea igual a $\frac{\Delta I_L}{2}$. De igual forma, en este punto el bloque comparador actúa y la tensión $V_L$ conmuta a $+V_{CC}$. Este ciclo se repite indefinidamente siempre y cuando la $I_{ref}$ sea constante. En caso de que esta cambie, el sistema dejará de conmutar momentáneamente hasta que el módulo de $e$ sea igual a $\frac{\Delta I_L}{2}$. Una vez igualado, el sistema volverá a conmutar.
 
-TENEMOS QUE PONER LA IMAGEN Y CAMBIAR EL TEXTO EN REFERENCIA A ELLA
-\colorbox{red}{Que imagen sería?}
-
 \subsection{Consideraciones prácticas del controlador de corriente}
 
 En el diagrama en bloques \ref{fig:img_diag-en-bloques} se analizó la lógica de control trabajando únicamente con señales en forma de corriente. Sin embargo, para la realización práctica del controlador es conveniente trabajar con tensiones. Por lo tanto, es necesario  convertir el valor de corriente del electroimán medido en un valor de tensión proporcional. Esto se realiza utilizando un sensor de corriente cuya ganancia se simboliza con $H(s)$.
@@ -230,9 +225,9 @@ En esta sección se plantea la topología ideal que conforma el bloque amplifica
 
 %Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes.\colorbox{red}{No se si justificarlo aca, pq antes ya dijimos que trabajabamos con fuentes conmutadas y no dijimos pq..} Están compuestas principalmente por llaves (que permiten la circulación o el bloqueo de la corriente) y elementos que almacenan energía (capacitores e inductores). Las llaves cargan o descargan los elementos reactivos de manera tal de controlar el valor de corriente. Son eficientes energéticamente ya que no se disipa potencia en las llaves.
 
-Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada, debido a la eficiencia energética de este tipo de fuentes.\colorbox{red}{No se si justificarlo aca, pq antes ya dijimos que trabajabamos con fuentes conmutadas y no dijimos pq..} Están compuestas principalmente por llaves, que permiten circulación de corriente o la bloquean, y elementos que almacenan energía (capacitores e inductores)\colorbox{red}{Eliminaria elementos que almacenan eneriga... digo lo mas importante es decir que son llaves lo otro se explica despues}. Las llaves cargan o descargan los elementos reactivos de manera tal de controlar el valor de corriente. Son eficientes energéticamente ya que no se disipa potencia en las llaves.\colorbox{red}{Aca por ahi se podria decir que: Uno de los motivos por el cual se utilizan fuentes conmutadas es que la disipacion de potencia en las llaves es mucho menor comparada con otro tipo de implementaciones(transistor en modo lineal etc)(y aca s epodria decir bien simple que se consume potencia de forma cosntate..).}
+Para proveer la corriente que requiere el electroimán se decidió trabajar con una fuente conmutada. Están compuestas principalmente por llaves, que permiten circulación de corriente o la bloquean, y elementos que almacenan energía (capacitores e inductores). Las llaves cargan o descargan los elementos reactivos de manera tal de controlar el valor de corriente.
 
-Existen diversas topologías circuitales posibles para el control de corriente de una carga inductiva. La diferencia entre ellas está en la cantidad de llaves, su ubicación y la cantidad de elementos reactivos. Por lo tanto, en esta sección se analizan los aspectos que debe cumplir la fuente a diseñar para poder elegir una topología adecuada.\colorbox{red}{vamos por el tercer parrafo veo medio raro aclarar que en esta seccion bla bla. (EN VEZ DE ESTA SECCION NO QUEDA MEJOR A continuacion...? o directamente borrar la oracion y creo que queda bien igual)}
+Existen diversas topologías circuitales posibles para el control de corriente de una carga inductiva. La diferencia entre ellas está en la cantidad de llaves, su ubicación y la cantidad de elementos reactivos. Por lo tanto, a continuación se analizan los aspectos que debe cumplir la fuente a diseñar para poder elegir una topología adecuada.
 
 Como se vio en la sección \ref{sec_analisis_estimacion}, se planea medir indirectamente la distancia de entrehierro a través de la pendiente de la onda triangular de la corriente. A partir de esto surge la necesidad de que la magnitud de la fuente de alimentación sea igual para la carga y la descarga del electroimán, con polaridad opuesta. Por lo tanto, se debe escoger una topología que permita alternar la polaridad de la alimentación. Es decir, la fuente debe ser capaz de alimentar al electroimán con $+V_{CC}$  en un semiciclo y con $-V_{CC}$ en el otro.
 
@@ -240,9 +235,9 @@ Por otro lado, debido a que el lazo de control para el sistema de levitación ma
 \begin{itemize} 
 	\item Cuando el sistema arranca desde corriente cero, hasta que el valor medio supera la mitad del \textsl{ripple} de corriente $(\Delta I_{L})$.
 	
-	\item Cuando la distancia de entrehierro es pequeña y se trabaja con peso reducido la corriente media puede llegar a ser menor que el \textsl{ripple} $\frac{\Delta I_{L}}{2}$.
+	\item Cuando la distancia de entrehierro es pequeña y se trabaja con peso reducido. En esta situación, la corriente media puede llegar a ser menor que el \textsl{ripple} $\frac{\Delta I_{L}}{2}$.
 \end{itemize}
-\colorbox{red}{No se si queda muy clara el segundo caso..}
+
 En estos casos puede darse la situación de que la corriente del electroimán tenga un valor medio mayor o igual a $0\:A$, pero valores instantáneos negativos. Por lo tanto, se necesita una topología de fuente que permita circulación de corriente por la carga en ambos sentidos.
 
 Por estos motivos se propone utilizar una topología de puente H completo compuesto por cuatro llaves como se muestra en la figura \ref{fig:img_topologia_simplificada}.
@@ -392,13 +387,11 @@ De la ecuación \ref{eq_delta_i} se obtiene el valor máximo que se le puede asi
 
 El controlador de corriente tendrá una corriente media variable entre $0\:A$ y $30\:A$, por lo que se debe satisfacer la expresión \ref{eq_delta_i_2} para cualquier valor de corriente dentro de ese rango. De esta forma, se plantean dos casos: $I_{min}=0\:A$ e $I_{min}=30\:A$. Para el primero se obtiene que $\Delta I_{L_{max}}=727\:mA$ y en el segundo $\Delta I_{L_{max}}=541.6\:mA$. Por lo tanto, se elige un ancho de histéresis de $500\:mA$ ya que cumple las dos condiciones.
 
-Entonces, con este ancho de histéresis elegido se obtiene una frecuencia de conmutación de la planta (calculada para $I_{min}=30\:A$):
+Entonces, con este ancho de histéresis elegido se obtiene una frecuencia de conmutación de la planta (calculada para el peor caso de corriente $I_{min}=30\:A$):
 
 \begin{equation} \label{eq_fplanta}
 	F_{planta}=1092\:Hz
 \end{equation}
-
-\colorbox{red}{si hago el calculo con Imin=0 me da Fplanta=1457Hz}
 
 \subsection{Cálculo de ganancia de entrada}
 
@@ -906,16 +899,14 @@ Si bien en el dispositivo levitador se desea que la corriente media del electroi
 Debido a que el circuito encargado de realimentar la salida del sensor solo permite excursiones positivas de la corriente mientras que las negativas son recortadas, se presenta el problema de que si la corriente del electroimán se hace negativa instantáneamente, la tensión de salida del sensor de efecto Hall será menor a $V_{op}$. Por lo tanto, la salida del operacional será recortada y el sistema quedará a lazo abierto. Para solucionar este problema se analizaron dos alternativas:
 
 \begin{itemize} 
-	\item Elevar el \textsl{set-point}  $V_{op}$ del sensor de efecto Hall.
+	\item Elevar el punto de operación del sensor de efecto Hall ($V_{op}$).
 	
 	\item Utilizar una alimentación bipolar para el operacional de realimentación.
 \end{itemize}
 
-Entre estas se eligió la primera alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el \textsl{set-point} del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente ($V_{op}$ en figura \ref{fig:img_etapa-de-entrada}), pero para el resto de los circuitos la tensión $V_{op}$ sigue manteniendo su valor de $2.5\:V$.
+Entre estas se eligió la primera alternativa, ya que se puede implementar con mayor facilidad en el circuito. Hay que tener en cuenta que, al incrementar el punto de operación del sensor, también se debe incrementar en la misma proporción la tensión de referencia de la etapa de entrada al controlador de corriente ($V_{op}$ en figura \ref{fig:img_etapa-de-entrada}), pero para el resto de los circuitos la tensión $V_{op}$ sigue manteniendo su valor de $2.5\:V$.
 
-A continuación se determina qué valor utilizar para la tensión de referencia del sensor de efecto Hall y de la etapa de entrada. Para ello se debe calcular el mínimo de tensión que podría entregar el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo que la corriente media del electroimán es $0 \:A$ con una excursión de $±250\:mA$. Esto significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del \textsl{set-point}. Para tomar un margen se incrementa a $V_{op}=2.6\:V$. 
-
-\colorbox{red}{Cambiamos offset y setpoint por punto de operacion?}
+A continuación se determina qué valor utilizar para la tensión de referencia del sensor de efecto Hall y de la etapa de entrada. Para ello se debe calcular el mínimo de tensión que podría entregar el sensor de efecto Hall. Esto se da cuando la referencia del controlador de corriente es de $0\:V$, con lo que la corriente media del electroimán es $0 \:A$ con una excursión de $±250\:mA$. Esto significa una tensión de salida del sensor de efecto Hall de $13.3\:mV$ por encima y debajo del punto de operación. Para tomar un margen se incrementa a $V_{op}=2.6\:V$. 
 
 Teniendo en cuenta este cambio en el punto de operación, la salida de la etapa de acondicionamiento para la salida del sensor de efecto Hall queda:
 
@@ -1028,7 +1019,7 @@ En la figura \ref{fig:img_etapa-conmutacion} se puede observar la conexión entr
 Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. Entre sus características principales, obtenidas de su hoja de datos \cite{MCP660}, se encuentran que está compensado internamente, tiene una ganancia de contínua $A_{OL}=126\:dB$, ancho de banda de $60\:MHz$ y un \textsl{slew-rate} de $32\:V/uS$.
 
 \subsection{Conexión de oscilador con el MOSFET \textsl{driver}}
-El HIP4081A tiene 4 señales de control, cada una encargada de controlar una llave. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia. Por lo tanto, conexionado resultante se muestra en el circuito de la figura \ref{fig:img_control-HIP}.
+El HIP4081A tiene 4 señales de control, cada una encargada de controlar un MOSFET. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia y el conexionado resultante se muestra en el circuito de la figura \ref{fig:img_control-HIP}.
 
 \begin{figure}[H]
 	\centering
@@ -1037,9 +1028,8 @@ El HIP4081A tiene 4 señales de control, cada una encargada de controlar una lla
 	\label{fig:img_control-HIP}
 \end{figure}
 
-\colorbox{red}{Agregar hoja de datos?}
 
-Para poder obtener la señal $\overline{V_{SW}}$ a partir de $V_{SW}$, se utiliza el inversor SN74LVC3G06DCUT. Su salida se conecta con las señales de entrada BHI y ALI del HIP4081A. Por otro lado, para las señales de entrada restantes (BLI y AHI), que no requieren inversión de signo, se podría ingresar directamente con la señal $V_{SW}$. Sin embargo, debido a que este circuito además de invertir, mejora los flancos de subida y de bajada de la señal en su entrada, se decidió volver a invertir la señal $\overline{V_{SW}}$ y obtener así a $V_{SW}$. 
+Para poder obtener la señal $\overline{V_{SW}}$ a partir de $V_{SW}$, se utiliza el circuito inversor SN74LVC3G06. Su salida se conecta con las señales de entrada BHI y ALI del HIP4081A. Por otro lado, para las señales de entrada restantes (BLI y AHI), que no requieren inversión de signo, se podría ingresar directamente con la señal $V_{SW}$. Sin embargo, debido a que este circuito además de invertir, mejora los flancos de subida y de bajada de la señal en su entrada, se decidió volver a invertir la señal $\overline{V_{SW}}$ y obtener así a $V_{SW}$. 
 
 
 \section{Simulaciones del controlador de corriente}

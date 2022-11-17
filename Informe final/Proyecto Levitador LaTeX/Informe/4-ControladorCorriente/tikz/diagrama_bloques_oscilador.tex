@@ -31,7 +31,7 @@ node distance=3.5cm] (system) {${\displaystyle\frac{1}{s*L(Y_g)+R_L}}$};
 % calculate the coordinate u. We need it to place the measurement block. 
 \draw [->] (controller) -- node[name=u]{$V_h$} (multiplier);
 \draw [->] (multiplier) -- node{$V_{sw}$}(buffer);
-\draw [->] (osc) -| node{$F_{sw}$} (multiplier);
+\draw [->] (osc) -| node{$F_{aux}$} (multiplier);
 \draw (Vcc) -| node{$V_{cc}$} (buffer);
 \draw (Vee) -| node[right]{$-V_{cc}$} (buffer);
 \draw [->] (buffer) -- node {$V_L$} (system);

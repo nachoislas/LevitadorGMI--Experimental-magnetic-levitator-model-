@@ -195,7 +195,7 @@ En la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} se muestra el diagrama en 
 \begin{figure}[H]
 	\centering
 	\input{tikz/diagrama_bloques_completo.tex}
-	\caption{Diagrama en bloques completo del controlador de corriente}	\label{fig:img_diag-en-bloques-conH-y-Kin}
+	\caption{Diagrama en bloques completo del controlador de corriente.}	\label{fig:img_diag-en-bloques-conH-y-Kin}
 \end{figure}
 
 %Para hacer esto se debe utilizar un sensor que permita una medición de corriente hasta, por lo menos, $30\:A$  y con un error máximo tolerable tal que permita actuar al comparador y no afecte al sistema.
@@ -249,7 +249,7 @@ Por estos motivos se propone utilizar una topología de puente H completo compue
 	\label{fig:img_topologia_simplificada}
 \end{figure}
 
-Esta topología permite el control individual del estado de cada llave por medio de las señales de control ($S_x$). Cada una tiene dos estados posibles: abierto ($S_x=0$), no conduce corriente; y cerrado ($S_x=1$), conduce corriente sin caida de tensión en la llave. Las llaves se activan de a pares y, al combinar los valores de las señales de control de cada llave, se pueden generar distintas diferencias de potencial sobre el electroimán. A continuación se muestra una tabla con las posibles combinaciones de pares de llaves, y diferencia de potencial resultante en el electroimán ($V_L$):
+Esta topología permite el control individual del estado de cada llave por medio de las señales de control ($S_x$). Cada una tiene dos estados posibles: abierto ($S_x=0$), no conduce corriente; y cerrado ($S_x=1$), conduce corriente sin caída de tensión en la llave. Las llaves se activan de a pares y, al combinar los valores de las señales de control de cada llave, se pueden generar distintas diferencias de potencial sobre el electroimán. A continuación se muestra una tabla con las posibles combinaciones de pares de llaves, y diferencia de potencial resultante en el electroimán ($V_L$):
 
 \begin{table}[H]
 	\begin{center}
@@ -497,7 +497,7 @@ Para este dispositivo se analiza la elección del transistor mas apropiado entre
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{bjt_vs_mosfet.png}
-	\caption{Comparación de BJT con MOSFET.}
+	\caption{Representación circuital de transistores BJT y MOSFET.}
 	\label{fig:img_bjt_vs_mosfet}
 \end{figure}
 
@@ -508,10 +508,10 @@ Estos dispositivos presentan diferencias en cuanto a su mecanismo interno de fun
 		\begin{tabular}{| c | c | c |}
 			\hline
 			Tipo & $BJT$ & $MOSFET$\\ \hline
-			Manejo del \textsl{gate} & Por corriente & Por voltage \\ \hline 
+			Manejo del \textsl{gate} & Por corriente & Por voltaje \\ \hline 
 			%Características de Voltaje (Encendido) & $V_{ce}$ bajo & presenta $R_{ds}$ \\ \hline 
 			Velocidad de conmutación & Lento & Rápido \\ \hline 
-			Diodo antiparalelo & No presente & Presente entre Source y Drain \\ \hline 
+			Diodo antiparalelo & No presente & Presente entre \textsl{source} y \textsl{drain} \\ \hline 
 			Caída de tensión en conducción & Depende de tensión  $V_{CE}$ & Depende de resistencia $R_{ds}$ \\ \hline 
 			Dirección de corriente & En un solo sentido & En ambos sentidos \\ \hline 
 		\end{tabular}
@@ -559,14 +559,14 @@ Para el diseño del circuito impreso de esta etapa se propone en principio utili
 
 \subsection{Elección y análisis del \textsl{driver} de corriente}
 
-Como se mencionó en la sección \ref{sec_eleccion_llaves}, se necesita agregar al circuito un \textsl{driver} de MOSFETs. Para ello se elige el \textsl{driver} HIP4081A \cite{HIP4081A_FN3659}. Este dispositivo requiere una fuente de alimentación simple de $12\:V$ y permite el control de un puente completo a partir de señales de control con niveles lógicos entre $0\:V$ y $5\:V$.  Estas señales de control  son $S_1$, $S_2$, $S_3$ y $S_4$, que ingresan  a los pines AHI, BHI, ALI y BLI respectivamente.
+Como se mencionó en la sección \ref{sec_eleccion_llaves}, se necesita agregar al circuito un \textsl{driver} de MOSFET. Para ello se elige el \textsl{driver} HIP4081A \cite{HIP4081A_FN3659}. Este dispositivo requiere una fuente de alimentación simple de $12\:V$ y permite el control de un puente completo a partir de señales de control con niveles lógicos entre $0\:V$ y $5\:V$.  Estas señales de control  son $S_1$, $S_2$, $S_3$ y $S_4$, que ingresan  a los pines AHI, BHI, ALI y BLI respectivamente.
 
-La topologia del puente H con el \textsl{driver} puede verse en la figura \ref{fig:img_topologia-puenteH} donde las salidas de control del HIP4081A se conectan a los \textsl{gates} de los MOSFET.
+La topología del puente H con el \textsl{driver} puede verse en la figura \ref{fig:img_topologia-puenteH} donde las salidas de control del HIP4081A se conectan a los \textsl{gates} de los MOSFET.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Topologia-puenteH.png}
-	\caption{Topología elemental del puente H.}
+	\caption{Conexión entre puente H y MOSFET \textsl{driver}.}
 	\label{fig:img_topologia-puenteH}
 \end{figure}
 
@@ -593,7 +593,7 @@ Una vez finalizado el tiempo muerto, se enciende $Q_1$. Para ello, la señal AHO
 
 Para lograr un funcionamiento adecuado del \textsl{bootstrap} es necesario dimensionar correctamente al capacitor $C_{BS}$ con el fin de que pueda proveer la carga suficiente durante el tiempo en el que el MOSFET esté encendido.
 
-\subsubsection{Tiempo muerto}
+\subsection{Configuración de tiempo muerto}
 
 \noindent Para evitar generar un cortocircuito durante la conmutación de los transistores, el \textsl{driver} HIP4081A permite configurar un tiempo muerto que debe transcurrir desde que se apaga un transistor y se enciende el próximo. Esto se configura mediante dos resistencias conectadas a sus pines LDEL y HDEL.
 
@@ -616,7 +616,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 \begin{figure}[H]
 	\centering
 	\scalebox{0.8}{\input{tikz/diagrama_bloques_oscilador.tex}}
-	\caption{Diagrama en bloques completo del controlador de corriente}	\label{fig:img_diag-en-bloques-con-oscilador}
+	\caption{Diagrama en bloques del controlador de corriente con conmutación auxiliar.}	\label{fig:img_diag-en-bloques-con-oscilador}
 \end{figure}
 
 \noindent Se adopta una frecuencia de conmutación auxiliar de $F_{aux}=50\:kHz$ y se hace variar el ciclo de trabajo de la señal $V_{sw}$ entre dos valores. Para la carga del inductor se definió que el ciclo de trabajo sea del 90\% mientras que para la descarga sea del 10\%.
@@ -696,7 +696,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{puenteH-capacitores-fuente.png}
-	\caption{Forma de onda de la corriente en $C_1$ y $C_2$.}
+	\caption{Puente H con capacitores de fuente.}
 	\label{fig:img_puenteH-capacitores-fuente.png}
 \end{figure}
 
@@ -744,7 +744,7 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Capacitores-fuente.png}
-	\caption{Capacitores de la fuente.}
+	\caption{Distribución de corriente en capacitores de la fuente.}
 	\label{fig:img_capacitores-fuente}
 \end{figure}
 
@@ -914,12 +914,12 @@ Teniendo en cuenta este cambio en el punto de operación, la salida de la etapa 
 	V_{IL_{feed}}=V_{sns}-2.5V =I_L*H_0 + 2.6V - 2.5V =I_L*H_0+0.1V
 \end{equation}
 
-A continuación se muestran los circuitos correspondientes a la etapa de entrada y acondicionamiento de salida del sensor, con la modificación en el punto de operación:
+En la figura \ref{fig:img_circuito-de-entrada-completo.png} se muestran los circuitos correspondientes a la etapa de entrada y acondicionamiento de salida del sensor, con la modificación en el punto de operación:
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{circuito-de-entrada-completo.png}
-	\caption{Circuitos de etapa de entrada completo.}
+	\caption{Circuito completo con corrección en punto de operación.}
 	\label{fig:img_circuito-de-entrada-completo.png}
 \end{figure}
 
@@ -1002,7 +1002,7 @@ Para obtener un ancho de histéresis de $26.665\:mV$ entonces la diferencia entr
 
 Si se toma $R_{7}=200 \:k\Omega$ se obtiene $R_{8}=1072 \;\Omega$. Por lo tanto, se toma un valor comercial de $R_{8}=1066\:\Omega$. De esta forma se obtiene el ancho de histéresis deseado.
 
-\subsubsection{Circuito de la etapa de conmutación completo}
+\subsubsection{Circuito de conmutación completo}
 
 En la figura \ref{fig:img_etapa-conmutacion} se puede observar la conexión entre la etapa de conmutación con histéresis y la de oscilación auxiliar.
 
@@ -1040,14 +1040,14 @@ Se utilizó el software de simulación de circuitos electrónicos NL5 para const
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{circuito_simulacion_final.png}
-	\caption{Circuito armado para la simulación.}
+	\caption{Circuito utilizado para la simulación.}
 	\label{fig:circuito_simulacion_final}
 \end{figure}
 
 
 \subsection{Señales en régimen permanente}
 
-En las figuras \ref{fig:simulacion_regimen_permanente_1} y \ref{fig:simulacion_regimen_permanente_2} se muestran algunas señales de intéres del controlador de corriente funcionando en régimen permanente con una tensión de referencia $V_{IL_{ref}}=1\:V$ y el valor de inductancia correspondiente a $Y_g=4\:mm$. En la primera se muestran las señales de baja frecuencia correspondientes a la salida del comparador con histéresis y a la corriente del electroimán. En la segunda se muestra en detalle la conmutación auxiliar y la forma de la tensión de alimentación del electroimán.
+En las figuras \ref{fig:simulacion_regimen_permanente_1} y \ref{fig:simulacion_regimen_permanente_2} se muestran algunas señales de interés del controlador de corriente funcionando en régimen permanente con una tensión de referencia $V_{IL_{ref}}=1\:V$ y el valor de inductancia correspondiente a $Y_g=4\:mm$. En la primera se muestran las señales de baja frecuencia correspondientes a la salida del comparador con histéresis y a la corriente del electroimán. En la segunda se muestra en detalle la conmutación auxiliar y la forma de la tensión de alimentación del electroimán.
 
 \begin{figure}[H]
 	\centering
@@ -1146,7 +1146,7 @@ Se realizó una simulación con una tensión de referencia $V_{IL_{ref}}=16\:mV$
 	\label{fig:simulacion_corriente_negativa}
 \end{figure}
 
-Se puede observar en la figura que la salida del sensor de efecto Hall toma valores menores a $2.6\:V$ cuando la corriente del electroimán se hace negativa. Mientras que la tensión $V_{IL{feed}}$ se mantiene por encima de $0\:V$ sin recortar.
+Se puede observar en la figura \ref{fig:simulacion_corriente_negativa} que la salida del sensor de efecto Hall toma valores menores a $2.6\:V$ cuando la corriente del electroimán se hace negativa. Mientras que la tensión $V_{IL{feed}}$ se mantiene por encima de $0\:V$ sin recortar.
 
 %Utilizando cursores en la simulación se midieron valores de interés y se armó la tabla asdasd.
 %

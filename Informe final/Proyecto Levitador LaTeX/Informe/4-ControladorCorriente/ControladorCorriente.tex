@@ -948,9 +948,9 @@ Para su implementación se propone la topología circuital mostrada en la figura
 %
 %2- Cuando $V_h=5\:V$, entonces $d=10\%$.
 
-Este oscilador funciona de la siguiente manera. Cuando la entrada es $V_h=0\:V$, la salida resulta en una onda pulsada con un  ciclo de trabajo $d=90\%$. Es decir, del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:uS$), el 90\% del tiempo la salida ($V_{sw}$) se encuentra en $5\:V$, y el 10\% restante en $0\:V$. Por lo tanto, $T_{on}=0.9*T_{total}=18\:uS$ y $T_{off}=0.1*T_{total}=2\:uS$.
+Este oscilador funciona de la siguiente manera. Cuando la entrada es $V_h=0\:V$, la salida resulta en una onda pulsada con un  ciclo de trabajo $d=90\%$. Es decir, del periodo total de la señal ($T_{total}=\frac{1}{F_{aux}}=20\:\mu s$), el 90\% del tiempo la salida ($V_{sw}$) se encuentra en $5\:V$, y el 10\% restante en $0\:V$. Por lo tanto, $T_{on}=0.9*T_{total}=18\:\mu s$ y $T_{off}=0.1*T_{total}=2\:\mu s$.
 
-Por otro lado, cuando la entrada es $V_h=5\:V$, la salida presenta un ciclo de trabajo del 10\%. Es decir, $T_{on}=0.1*T_{total}=2\:uS$ y $T_{off}=0.9*T_{total}=18\:uS$.
+Por otro lado, cuando la entrada es $V_h=5\:V$, la salida presenta un ciclo de trabajo del 10\%. Es decir, $T_{on}=0.1*T_{total}=2\:\mu s$ y $T_{off}=0.9*T_{total}=18\:\mu s$.
 
 Es importante notar que este circuito presenta una inversión de fase a su salida. Por lo tanto, debe ser tenida en cuenta en el diseño final del lazo de control de corriente. De lo contrario, el sistema resultaría inestable y no se podría controlar el valor de corriente.
 
@@ -1016,7 +1016,7 @@ En la figura \ref{fig:img_etapa-conmutacion} se puede observar la conexión entr
 
 \subsection{Elección de amplificadores operacionales}
 
-Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. Entre sus características principales, obtenidas de su hoja de datos \cite{MCP660}, se encuentran que está compensado internamente, tiene una ganancia de contínua $A_{OL}=126\:dB$, ancho de banda de $60\:MHz$ y un \textsl{slew-rate} de $32\:V/uS$.
+Para implementar los circuitos planteados en las secciones anteriores se decidió utilizar el amplificador operacional MCP664 ya que pueden ser alimentados mediante una fuente de tensión simple de $5\:V$ y admiten a su salida una excursión de tensión completa entre $0\:V$ y $5\:V$. Entre sus características principales, obtenidas de su hoja de datos \cite{MCP660}, se encuentran que está compensado internamente, tiene una ganancia de contínua $A_{OL}=126\:dB$, ancho de banda de $60\:MHz$ y un \textsl{slew-rate} de $32\:V/\mu s$.
 
 \subsection{Conexión de oscilador con el MOSFET \textsl{driver}}
 El HIP4081A tiene 4 señales de control, cada una encargada de controlar un MOSFET. Sin embargo, como se mencionó en la sección \ref{sec_topologia-fuente-alimentacion}, con una señal de control es suficiente para manejar el puente H ya que dos de ellas son iguales y las otras dos están invertidas con respecto a las primeras. Esta señal de control es la salida del oscilador de alta frecuencia y el conexionado resultante se muestra en el circuito de la figura \ref{fig:img_control-HIP}.
@@ -1088,9 +1088,9 @@ De esta simulación se realizaron mediciones sobre variables del sistema para co
 			$F_{planta}$ [Hz]& 1080 &	1092 \\ \hline
 			$V_{L_{on}}$ [V]&	24 & 24 \\ \hline
 			$V_{L_{off}}$ [V]& -24 & -24 \\ \hline
-			$T_{on}$ [uS] & 17.57 & 18 \\ \hline
-			$T_{off}$ [uS] & 2.5 & 2 \\ \hline
-			$T_{total}$ [uS] & 20.06 & 20 \\ \hline
+			$T_{on}$ [$\mu s$] & 17.57 & 18 \\ \hline
+			$T_{off}$ [$\mu s$] & 2.5 & 2 \\ \hline
+			$T_{total}$ [$\mu s$] & 20.06 & 20 \\ \hline
 			$F_{aux}$ [kHz] & 49.8 & 50 \\ \hline
 			$d=\frac{T_{on}}{T_{total}}$ [\%] & 87 & 90 \\ \hline
 		\end{tabular}

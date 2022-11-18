@@ -6,15 +6,21 @@ En este capítulo se detalla la estrategia utilizada para realizar la estimació
 
 \section{Análisis de la estimación}
 
-Como se analizó en el capítulo 3, para controlar el valor medio de la corriente se utiliza una fuente conmutada que alterna la polaridad de la tensión aplicada al electroimán. Esto genera una onda de corriente triangular superpuesta al valor medio deseado, cuyas pendientes de crecimiento y de decrecimiento contienen información de la distancia de separación de entrehierro. Con esta información se decidió realizar una estimación de la distancia a partir de la medición de la pendiente de la onda triangular de la corriente.
+Como se analizó en el capítulo \ref{cap:ControladorCorriente}, para controlar el valor medio de la corriente se utiliza una fuente conmutada que alterna la polaridad de la tensión aplicada al electroimán. Esto genera una onda de corriente triangular superpuesta al valor medio deseado, cuyas pendientes de crecimiento y de decrecimiento contienen información de la distancia de separación de entrehierro. Con esta información se decidió realizar una estimación de la distancia a partir de la medición de la pendiente de la onda triangular de la corriente.
 
-En la sección 3.2.1 se obtuvo una ecuación que relaciona la pendiente de la corriente con la distancia de entrehierro, en función de constantes del sistema. Si bien este resultado es correcto, para tener una mejor aproximación se realiza el cálculo de la ecuación 3.7 utilizando la expresión de inductancia linealizada (calculada en el capítulo 2).
+En la sección \ref{sec_analisis_estimacion} se obtuvo una ecuación que relaciona la pendiente de la corriente con la distancia de entrehierro, en función de constantes del sistema. Si bien este resultado es correcto, se aprovechan las mediciones realizadas sobre el electroimán para calcular la ecuación \ref{eq_derivada_corriente_2} utilizando la expresión de inductancia linealizada \ref{eq_induct_practica}, que se repite a continuación.
 
-\begin{equation} \label{eq_inductancia_lineal_teorica}
-	L(y_{g})=-2.2089*Y_{g}+0.0177\:Hy
+\begin{equation*}
+	L(Y_g)=-2.56*Y_{g}+0.027\:Hy
+\end{equation*}
+
+Por lo tanto, utilizando esta inductancia en la ecuación \ref{eq_derivada_corriente_2} se obtiene:
+
+\begin{equation} \label{eq_derivada_corriente_3}
+	\frac{di_L(t)}{dt}= \frac{V_L}{L(Y_g)}=\frac{V_L}{-2.56*Y_{g}+0.027}
 \end{equation}
 
-Utilizando esta inductancia en la ecuación 3.7 se obtiene una expresión no lineal, que se vuelve a linealizar y se obtiene:
+Esta es una expresión no lineal, por lo tanto se linealiza y se obtiene:
 
 \begin{equation} \label{eq_di-dt_lineal}
 	{\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
@@ -24,7 +30,7 @@ Por lo tanto, al despejar la distancia de separación se obtiene:
 \colorbox{red}{Despejar Yg}
 
 \begin{equation} \label{eq_Yg_despejada}
-	{\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
+	Y_g=({\left|\frac{{dI}_L}{dt}\right|}_{Lineal} - 676) / 194690 %*\ Y_g\:[m]+676\:A/s
 \end{equation}
 
 Al observar la expresión \ref{eq_Yg_despejada}, es necesario diseñar un circuito que pueda obtener el módulo de la derivada de la corriente. Esto se puede implementar circuitalmente a través de dos etapas: un derivador y un rectificador.

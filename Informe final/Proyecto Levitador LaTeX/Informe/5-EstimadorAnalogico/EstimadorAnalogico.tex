@@ -112,7 +112,7 @@ Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores 
 
 Para el diseño del derivador es necesario escoger de forma adecuada un amplificador operacional que permita mantener características derivativas en toda la banda de interés.
 
-Dado que la forma de onda triangular que se desea derivar posee una frecuencia fundamental de 2 KHz es necesario que el opAmp seleccionado posea un ancho de banda y una ganancia suficiente que permita el diseño de un derivador con características derivativas hasta al menos la quinta armónica de dicha frecuencia ($2KHz*5=10 KHz$) .
+Dado que la forma de onda triangular que se desea derivar posee una frecuencia fundamental de 2 KHz es necesario que el amplificador operacional seleccionado posea un ancho de banda y una ganancia suficiente que permita el diseño de un derivador con características derivativas hasta al menos la quinta armónica de dicha frecuencia que es de $2KHz*5=10 KHz$.
 
 Se escogió el MCP660 el cual cumple con las características mencionadas anteriormente.El integrado posee una ganancia continua de 130 dB, y un polo en 20 Hz. Además se destaca su slew rate de 32 V/us.
 
@@ -127,7 +127,7 @@ Puesto que los circuitos derivadores pueden presentar inestabilidad a alta frecu
 	\label{fig:img_Circuito_derivador_compensado}
 \end{figure}
 
-El operacional es internamente compensado, por lo que todos sus otros polos los tiene luego del cruce por $0\:dB$ de la ganancia. Para simplificar el análisis estos no se tienen en cuenta, ya que están fuera de la zona de inter\'{e}s.
+El operacional es internamente compensado, por lo que todos sus otros polos los tiene luego del cruce por $0\:dB$ de la ganancia. Para simplificar el análisis estos no se tienen en cuenta, ya que están fuera de la zona de interés.
 
 \begin{equation} \label{eq_Aw_1}
 	A(w)=\frac{1778279}{(\frac{s}{2\pi *20}+1)}
@@ -181,7 +181,7 @@ Debido a que el derivador amplifica las señales de alta frecuencia es necesario
 
 \section{Compensación de resistencia interna}
 
-Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión casi constante en su resistencia interna. Esto provoca que no siempre est\'{e}n aplicados $\pm 24\:V$ al electroimán sino que, durante el $T_{ON}$ se aplican $+24\:V-I_L*R_L$ y durante el $T_{OFF}$ se aplican $-24\:V-I_L*R_L$. Esto genera que las pendientes sean distintas.
+Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión casi constante en su resistencia interna. Esto provoca que no siempre estén aplicados $\pm 24\:V$ al electroimán sino que, durante el $T_{ON}$ se aplican $+24\:V-I_L*R_L$ y durante el $T_{OFF}$ se aplican $-24\:V-I_L*R_L$. Esto genera que las pendientes sean distintas.
 
 \begin{equation} \label{eq_Vbus-didt-RL}
 	\pm V_{BUS}-L(Y_g)*\left|\frac{{dI}_L}{dt}\right|-L_{\infty }*\left|\frac{{dI}_L}{dt}\right|-R_L*I_L=0
@@ -205,7 +205,7 @@ Para el caso en que $V_{BUS}=-24\:V$:
 	V_{BUS}-R_L*I_L=\ -24\:V-4.2\:V=\ 28.2\:V
 \end{equation}
 
-Por lo tanto, sobre el electroimán se aplican dos tensiones distintas, en valor absoluto, durante la carga y descarga. Esto provoca que la rampa de corriente sea asim\'{e}trica.
+Por lo tanto, sobre el electroimán se aplican dos tensiones distintas, en valor absoluto, durante la carga y descarga. Esto provoca que la rampa de corriente sea asimétrica.
 
 Debido a que luego se utilizará un rectificador de onda completa, se desea que la rectificación de cada una de estas pendientes resulte en el mismo valor. En la figura \ref{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR} se muestra el efecto luego de la rectificación sin realizar ninguna compensación.
 
@@ -225,7 +225,7 @@ Para corregir este problema, se varía \textsl{set-point} de la salida del deriv
 	\label{fig:img_Esquema-circuital-del-derivador}
 \end{figure}
 
-Se tiene que la pendiente de bajada de la onda triangular, en módulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversión de signo), queda por encima del \textsl{set-point}, y la pendiente de subida, por debajo. Por ello, se debe compensar el \textsl{set-point} para que la forma de onda sea sim\'{e}trica alrededor de $2.5\:V$. 
+Se tiene que la pendiente de bajada de la onda triangular, en módulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversión de signo), queda por encima del \textsl{set-point}, y la pendiente de subida, por debajo. Por ello, se debe compensar el \textsl{set-point} para que la forma de onda sea simétrica alrededor de $2.5\:V$. 
 
 Para la pendiente de bajada, la salida del derivador es:
 
@@ -320,7 +320,7 @@ Al analizar la corriente en la resistencia $R_{25}$ (con sentido positivo hacia 
 	I_{R25}=\frac{2.5\:V\ -\ V_{deriv}}{R_{25}}
 \end{equation}
 
-En el caso de que $V_{deriv}$ $\mathrm{<}$ $2.5\:V$, la corriente será positiva. Esta misma corriente proviene desde la salida del operacional, a trav\'{e}s del diodo $D_5$ y la resistencia $R_{26}$. Si se desprecia la tensión del diodo en directa se obtiene que la salida del operacional es igual a $V^+$:
+En el caso de que $V_{deriv}$ $\mathrm{<}$ $2.5\:V$, la corriente será positiva. Esta misma corriente proviene desde la salida del operacional, a través del diodo $D_5$ y la resistencia $R_{26}$. Si se desprecia la tensión del diodo en directa se obtiene que la salida del operacional es igual a $V^+$:
 
 \begin{equation} \label{eq_V+}
 	V^+=I_{R25}*R_{26}+2.5\:V=\frac{2.5\:V-V_{deriv}\ }{R25}*R_{26}+2.5\:V\ 

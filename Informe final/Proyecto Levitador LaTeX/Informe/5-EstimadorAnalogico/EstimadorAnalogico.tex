@@ -8,7 +8,7 @@ En este capítulo se detalla la estrategia utilizada para realizar la estimació
 
 Como se analizó en el capítulo \ref{cap:ControladorCorriente}, para controlar el valor medio de la corriente se utiliza una fuente conmutada que alterna la polaridad de la tensión aplicada al electroimán. Esto genera una onda de corriente triangular superpuesta al valor medio deseado, cuyas pendientes de crecimiento y de decrecimiento contienen información de la distancia de separación de entrehierro. Con esta información se decidió realizar una estimación de la distancia a partir de la medición de la pendiente de la onda triangular de la corriente.
 
-En la sección \ref{sec_analisis_estimacion} se obtuvo una ecuación que relaciona la pendiente de la corriente con la distancia de entrehierro, en función de constantes del sistema. Si bien este resultado es correcto, se aprovechan las mediciones realizadas sobre el electroimán para calcular la ecuación \ref{eq_derivada_corriente_2} utilizando la expresión de inductancia linealizada \ref{eq_induct_practica}, que se repite a continuación.
+En la sección \ref{sec_analisis_estimacion} se obtuvo una ecuación que relaciona la pendiente de la corriente con la distancia de entrehierro, en función de constantes del sistema. Si bien este resultado es correcto, se aprovechan las mediciones realizadas sobre el electroimán para calcular la ecuación \ref{eq_derivada_corriente_2} utilizando la expresión de inductancia linealizada \ref{eq_induct_practica}, que se repite a continuación. De esta forma, se obtiene una expresión mas aproximada al comportamiento real de la planta.
 
 \begin{equation*}
 	L(Y_g)=-2.56*Y_{g}+0.027\:Hy
@@ -20,22 +20,50 @@ Por lo tanto, utilizando esta inductancia en la ecuación \ref{eq_derivada_corri
 	\frac{di_L(t)}{dt}= \frac{V_L}{L(Y_g)}=\frac{V_L}{-2.56*Y_{g}+0.027}
 \end{equation}
 
-Esta es una expresión no lineal, por lo tanto se linealiza y se obtiene:
+A partir de la expresión \ref{eq_derivada_corriente_3} se evalúa la derivada para distintos valores de distancia y se obtiene la tabla \ref{tab_derivada_linealizada}.
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| c | c |}
+			\hline
+			$Y_g[\:mm]$ & $\frac{di_L(t)}{dt} [\:A/s]$\\ \hline
+			2 & 1091.9 \\ \hline 
+			3 & 1235.8 \\ \hline 
+			4 & 1423.5 \\ \hline 
+			5 & 1678.3 \\ \hline 
+		\end{tabular}
+		\caption{Pendiente de la corriente en función de la posición.}
+		\label{tab_derivada_linealizada}
+	\end{center}
+\end{table}
+
+Al aplicar mínimos cuadrados a los valores de la tabla \ref{tab_derivada_linealizada} se obtiene una expresión linealizada de la pendiente.
+
 
 \begin{equation} \label{eq_di-dt_lineal}
 	{\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
 \end{equation}
 
 Por lo tanto, al despejar la distancia de separación se obtiene:
-\colorbox{red}{Despejar Yg}
 
 \begin{equation} \label{eq_Yg_despejada}
-	Y_g=({\left|\frac{{dI}_L}{dt}\right|}_{Lineal} - 676) / 194690 %*\ Y_g\:[m]+676\:A/s
+	Y_g=5.136*10^{-6}*{\left|\frac{{dI}_L}{dt}\right|}_{Lineal} - 3.472*10^{-3}
 \end{equation}
 
-Al observar la expresión \ref{eq_Yg_despejada}, es necesario diseñar un circuito que pueda obtener el módulo de la derivada de la corriente. Esto se puede implementar circuitalmente a través de dos etapas: un derivador y un rectificador.
 
-Además se decidió agregar un LPF luego del rectificador para reducir las frecuencias no deseadas introducidas por el cambio de signo de la pendiente, las cuales generan saltos sobre un punto de operación en la tensión de salida del derivador.
+En la expresión \ref{eq_Yg_despejada} se puede observar que para obtener una estimación de la distancia de separación es necesario medir el módulo de la pendiente de la onda triangular de la corriente. Para ello, se implementa un circuito derivador seguido de uno que permita obtener el módulo.
+
+Debido a que la forma de medir la corriente del electroimán es a través del sensor de efecto Hall es necesario tener en cuenta su ganancia $H_0$. Por lo tanto, la expresión a implementar circuitalmente resulta:
+
+\begin{equation} \label{eq_Yg_salida_sensor}
+	Y_g=\frac{5.136*10^{-6}}{H_0}*{\left|\frac{{dV}_L}{dt}\right|}_{Lineal} - 3.472*10^{-3}
+\end{equation}
+
+%Además se decidió agregar un LPF luego del rectificador para reducir las frecuencias no deseadas introducidas por el cambio de signo de la pendiente, las cuales generan saltos sobre un punto de operación en la tensión de salida del derivador.
+
+Por lo tanto, se plantea el diagrama en bloques de la figura 111.
+
+
 
 A continuación se describe la implementación circuital de cada uno de ellos.
 

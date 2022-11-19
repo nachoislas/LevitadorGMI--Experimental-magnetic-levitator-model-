@@ -51,19 +51,29 @@ Por lo tanto, al despejar la distancia de separación se obtiene:
 \end{equation}
 
 
-En la expresión \ref{eq_Yg_despejada} se puede observar que para obtener una estimación de la distancia de separación es necesario medir el módulo de la pendiente de la onda triangular de la corriente. Para ello, se implementa un circuito derivador seguido de uno que permita obtener el módulo.
+En la expresión \ref{eq_Yg_despejada} se puede observar que, para obtener una estimación de la distancia de separación, es necesario medir el módulo de la pendiente de la onda triangular de la corriente. Para ello, se implementa un circuito derivador seguido de un rectificador, de forma tal que permita obtener su módulo.
 
-Debido a que la forma de medir la corriente del electroimán es a través del sensor de efecto Hall es necesario tener en cuenta su ganancia $H_0$. Por lo tanto, la expresión a implementar circuitalmente resulta:
+La forma de onda correspondiente a la salida de cada etapa a implementar se muestra en la figura tdfgdgrt. En ella se observa que se ingresa con una onda triangular, correspondiente a la corriente que circula por el electroimán. Luego, al pasar por el derivador, se obtiene una onda pulsada, cuyos valor superior e inferior son proporcionales a la pendiente de crecimiento y de decrecimiento de la corriente. Luego, al entrar a la etapa de rectificación se obtiene un valor constante y proporcional a la pendiente y, por ende, a la distancia de separación de entrehierro.
+
+
+\colorbox{red}{Agregar imágenes de forma de onda}
+
+Debido a que la forma de medir la corriente del electroimán es a través del sensor de efecto Hall, cuya salida es $V_{IL_{feed}}$ (\ref{eq_salida_restador_hall_2}), es necesario tener en cuenta su ganancia $H_0$. Por lo tanto, la expresión a implementar circuitalmente resulta:
 
 \begin{equation} \label{eq_Yg_salida_sensor}
-	Y_g=\frac{5.136*10^{-6}}{H_0}*{\left|\frac{dV_{IL}}{dt}\right|}_{Lineal} - 3.472*10^{-3}
+	Y_g=\frac{5.136*10^{-6}}{H_0}*{\left|\frac{dV_{IL_{feed}}}{dt}\right|}_{Lineal} - 3.472*10^{-3}
 \end{equation}
 
 %Además se decidió agregar un LPF luego del rectificador para reducir las frecuencias no deseadas introducidas por el cambio de signo de la pendiente, las cuales generan saltos sobre un punto de operación en la tensión de salida del derivador.
 
-Por lo tanto, se plantea el diagrama en bloques de la figura 111.
+Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques_estimador}.
 
-
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_bloques_basico_derivador.tex}
+	\caption{Diagrama en bloques simplificado del estimador.}	\label{fig:img_diag-en-bloques_estimador}
+\end{figure}
+\colorbox{red}{no se si los nombres estarán correctos, después los cambiamos. hacer unos graficos de las señales}
 
 A continuación se describe la implementación circuital de cada uno de ellos.
 
@@ -73,15 +83,14 @@ A continuación se describe la implementación circuital de cada uno de ellos.
 	%En el capítulo 3 se analizó la forma de onda resultante de la corriente del electroimán al ser excitado con una fuente conmutada. Esta resulta en una onda triangular con un valor medio deseado, cuya pendiente de crecimiento y de decrecimiento varía proporcionalmente con distancia de separación de entrehierro. A partir de esto, se decidió realizar una estimación de la misma a partir de la medición de la pendiente de la onda triangular de la corriente.
 }
 
-\begin{figure}[H]
-	\centering
-	\input{tikz/diagrama_bloques_basico_derivador.tex}
-	\caption{Diagrama en bloques simplificado del estimador}	\label{fig:img_diag-en-bloques_estimador}
-\end{figure}
-\colorbox{red}{no se si los nombres estarán correctos, después los cambiamos}
+
 \section{Modelo circuital del estimador de posición}
 
-Para poder obtener $\left|\frac{{dI}_L}{dt}\right|$ se utiliza un circuito derivador con un amplificador operacional como se observa en la figura  \ref{fig:img_Circuito-derivador}.
+\subsection{Circuito derivador}
+
+Para poder obtener $\frac{dV_{IL_{feed}}}{dt}$ se utiliza un circuito derivador basado en un amplificador operacional como el que se muestra en la figura \ref{fig:img_Circuito-derivador}. Se decide utilizar amplificadores operacionales alimentados con una fuente de tensión simple de $5\:V$ con una excursión completa en su salida. 
+
+Debido a que $V_{IL_{feed}}$ es una onda triangular, su derivada será una onda pulsada. Por lo tanto, para poder representar valores de pendientes tanto positivos como negativos es necesario polarizar la salida del derivador en un punto de operación ($V_{op}$) para no perder información. Como la salida varía entre $0\:V$ y $5\:V$ se utiliza $V_{op}=2.5\:V$ para permitir una excursión simétrica en ambos sentidos.
 
 \begin{figure}[H]
 	\centering
@@ -90,31 +99,39 @@ Para poder obtener $\left|\frac{{dI}_L}{dt}\right|$ se utiliza un circuito deriv
 	\label{fig:img_Circuito-derivador}
 \end{figure}
 
-La salida del circuito $V_{yf}(t)$ ante una entrada $V_L$ es:
+\colorbox{red}{cambiar imagen para usar Vilfeed y vop y vderiv.}
+
+La salida del circuito $V_{deriv}(t)$ ante su entrada $V_{IL_{feed}}$ es:
+
+\begin{equation} 
+	V_{deriv}(t)\ = V_{op} - \frac{dV_{IL_{feed}}}{dt}*C_1*R_1
+\end{equation}
+
+Teniendo en cuenta que $V_{IL_{feed}}=I_L*H_0+0.1\:V$, al hacer su derivada se pierde el término constante y podemos expresar la ecuación en función de $V_{IL}=I_L*H_0$, entonces $ \frac{dV_{IL_{feed}}}{dt}= \frac{dV_{IL}}{dt}$.
 
 \begin{equation} \label{eq_vyf1}
-	V_{yf}(t)\ =\ 2.5V\ -\ \frac{dV_{iL}}{dt}*C_1*R_1
+	V_{deriv}(t)\ = 2.5V - \frac{dV_{IL}}{dt}*C_1*R_1
 \end{equation}
 
-Teniendo en cuenta que $V_{iL}=K_h*I_L$, es la salida del sensor de efecto Hall con $K_h$ como su ganancia (seccion XD), se obtiene: 
+Al expresar la ecuación \ref{eq_vyf1} en función de la derivada de la corriente se obtiene:
 
 \begin{equation} \label{eq_vyf2}
-	V_{yf}(t)\ =2.5\:V\ -\frac{dI_L}{dt}*K_h*C_1*R_1
+	V_{deriv}(t)\ =2.5\:V\ -\frac{dI_L}{dt}*H_0*C_1*R_1
 \end{equation}
 
-Para evitar una saturación de la salida del derivador y teniendo en cuenta que $V_{yf}(t)$ presenta variaciones alrededor del \textsl{set-point} de $2.5\:V$ se debe cumplir que:
+Para evitar una saturación de la salida del derivador y teniendo en cuenta que $V_{deriv}(t)$ presenta variaciones alrededor del punto de operación de $2.5\:V$ se debe cumplir que:
 
 \begin{equation} \label{eq_vyf3}
-	\left|-\frac{dI_L}{dt}*K_h*C_1*R_1\right|\ \le 2.5\:V
+	\left|-\frac{dI_L}{dt}*H_0*C_1*R_1\right|\ \le 2.5\:V
 \end{equation}
 
-Por lo tanto, con la ecuación \ref{eq_derivadaAproximacion} y \ref{eq_vyf3}:
+Por lo tanto, con la ecuación \ref{eq_derivada_corriente_2} y \ref{eq_vyf3}:
 
 \begin{equation} \label{eq_condicionC1-R1}
-	C_1*R_1\le\frac{2.5\ \:V\ *L_{min}}{V_{BUS}*K_h}
+	C_1*R_1\le\frac{2.5\ \:V\ *L_{min}}{V_{cc}*H_0}
 \end{equation}
 
-Con $L_{min}= L(5\: mm) + L_{\infty}= 14.9\: mHy$ se obtiene: 
+Con $L_{min}= L(5\: mm) = 14.9\: mHy$ se obtiene: 
 
 \begin{equation} \label{eq_condicionC1-R1-2}
 	C_1*R_1\le\ 29.1\ ms
@@ -126,9 +143,8 @@ Para los cálculos se utilizó $\tau = C_1*R_1= 25\:ms$, para dar un margen y ev
 
 Con la ecuación \ref{eq_di-dt_lineal} y \ref{eq_vyf2}, y con una variación en torno a $2.5\:V$ se obtiene:
 
-
 \begin{equation} \label{eq_Vyf-lineal}
-	Vyf(Y_g)\ =\ |K_h*C_1*R_1*dI_L/dt)|\ +2.5\:V=0.2595*Y_g+3.4\:V
+	V_{deriv}(Y_g)\ =\ |H_0*C_1*R_1*dI_L/dt)|\ +2.5\:V=0.2595*Y_g+3.4\:V
 \end{equation}
 
 Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores en los que el electroimán trabaja, el estimador posee un rango de salida ${\mathit{\Delta}{Vyf}_{Lineal}}(5\:mm-2\:mm)= 0.78\:V$.
@@ -137,24 +153,24 @@ Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores 
 	\begin{center}
 		\begin{tabular}{| c | c |}
 			\hline
-			$Y_g[\:mm]$ & ${Vyf(Y_g)}_{Lineal} [\:V]$\\ \hline
+			$Y_g[\:mm]$ & ${V_{deriv}(Y_g)}_{Lineal} [\:V]$\\ \hline
 			2 & 3.92 \\ \hline 
 			3 & 4.18 \\ \hline 
 			4 & 4.44 \\ \hline 
 			5 & 4.7 \\ \hline 
 		\end{tabular}
-		\caption{$V_{yf}$ en función de la posición.}
+		\caption{$V_{deriv}$ en función de la posición.}
 		\label{tab_Vyf_vs_y}
 	\end{center}
 \end{table}
 
-\subsection{Elección de Amplificador Operacional}
+\subsection{Elección de amplificador operacional}
 
 Para el diseño del derivador es necesario escoger de forma adecuada un amplificador operacional que permita mantener características derivativas en toda la banda de interés.
 
-Dado que la forma de onda triangular que se desea derivar posee una frecuencia fundamental de 2 KHz es necesario que el amplificador operacional seleccionado posea un ancho de banda y una ganancia suficiente que permita el diseño de un derivador con características derivativas hasta al menos la quinta armónica de dicha frecuencia que es de $2KHz*5=10 KHz$.
+Dado que la forma de onda triangular que se desea derivar posee una frecuencia fundamental de $2 \:kHz$ es necesario que el amplificador operacional seleccionado posea un ancho de banda y una ganancia suficiente que permita el diseño de un derivador con características derivativas hasta al menos la quinta armónica de dicha frecuencia que es de $2KHz*5=10 KHz$.
 
-Se escogió el MCP660 el cual cumple con las características mencionadas anteriormente.El integrado posee una ganancia continua de 130 dB, y un polo en 20 Hz. Además se destaca su slew rate de 32 V/us.
+Se escogió el MCP660 el cual cumple con las características mencionadas anteriormente. Posee una ganancia continua de $130\:dB$, y un polo en $20\:Hz$. Además se destaca su slew rate de $32\:V/us$.
 
 \subsection{Circuito del derivador compensado}
 
@@ -163,11 +179,13 @@ Puesto que los circuitos derivadores pueden presentar inestabilidad a alta frecu
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Circuito-derivador- compensado.png}
-	\caption{Circuito derivador compensado}
+	\caption{Circuito derivador compensado.}
 	\label{fig:img_Circuito_derivador_compensado}
 \end{figure}
 
-El operacional es internamente compensado, por lo que todos sus otros polos los tiene luego del cruce por $0\:dB$ de la ganancia. Para simplificar el análisis estos no se tienen en cuenta, ya que están fuera de la zona de interés.
+\colorbox{red}{Poner Vderiv}
+
+El amplificador operacional utilizado es internamente compensado, por lo que todos sus otros polos los tiene luego del cruce por $0\:dB$ de la ganancia. Para simplificar el análisis estos no se tienen en cuenta, ya que están fuera de la zona de interés.
 
 \begin{equation} \label{eq_Aw_1}
 	A(w)=\frac{1778279}{(\frac{s}{2\pi *20}+1)}
@@ -193,145 +211,19 @@ Para compensar el circuito se coloca un polo en $16 \:kHz$, que da como resultad
 	\label{fig:img_Transferencia-de-lazo-cerrado}
 \end{figure}
 
-Como se observa en la figura \ref{fig:img_Transferencia-de-lazo-cerrado}, la transferencia de lazo cerrado (TLC) tiene un comportamiento derivativo en las frecuencias cercanas a $2 \:kHz$, como es deseado.
+Como se observa en la figura \ref{fig:img_Transferencia-de-lazo-cerrado}, la transferencia de lazo cerrado (TLC) tiene un comportamiento derivativo hasta la quinta armónica de la señal ($10 \:kHz$), como es deseado.
 
 A continuación se muestra la TLC del circuito derivador:
 
 \begin{equation} \label{eq_TLC_derivador}
-	{TLC}_{derivador}=\frac{V_{yf}}{V_{iL}}=\frac{-0.025*s}{1+(\frac{2*0.473}{94.5\: k})*s+(\frac{s}{94.5\:k})^2}
+	{TLC}_{derivador}=\frac{V_{deriv}}{V_{iL}}=\frac{-0.025*s}{1+(\frac{2*0.473}{94.5\: k})*s+(\frac{s}{94.5\:k})^2}
 \end{equation} 
-ñ
-\section{Diseño del filtro pasa bajos}
 
-Debido a que el derivador amplifica las señales de alta frecuencia es necesario agregar un filtro pasa bajos en su entrada. Como la señal que ingresa al derivador es $V_{iL}$, que es una onda triangular de frecuencia fundamental de $2\:kHz$, se permite el paso de sus componentes hasta la 5º armónica. Para su implementación se utiliza un filtro activo Butterworth de segundo orden, con una frecuencia de corte en $20\:kHz$. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el filtro utilizado y en la figura \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
+\section{Etapa de rectificación}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.70]{Filtro-para-la-entrada-del-derivador.png}
-	\caption{Filtro para la entrada del derivador.}
-	\label{fig:img_Filtro-para-la-entrada-del-derivador}
-\end{figure}
+Para que la pendiente positiva de la corriente triangular coincida con la pendiente negativa, y tener a la salida del estimador una señal aproximadamente continua, se debe rectificar la salida del derivador alrededor de $2.5\:V$.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.45]{Respuesta-en-frecuencia-del-filtro-activo.png}
-	\caption{Respuesta en frecuencia del filtro activo.}
-	\label{fig:img_Respuesta-en-frecuencia-del-filtro-activo}
-\end{figure}
-
-\section{Compensación de resistencia interna}
-
-Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión casi constante en su resistencia interna. Esto provoca que no siempre estén aplicados $\pm 24\:V$ al electroimán sino que, durante el $T_{ON}$ se aplican $+24\:V-I_L*R_L$ y durante el $T_{OFF}$ se aplican $-24\:V-I_L*R_L$. Esto genera que las pendientes sean distintas.
-
-\begin{equation} \label{eq_Vbus-didt-RL}
-	\pm V_{BUS}-L(Y_g)*\left|\frac{{dI}_L}{dt}\right|-L_{\infty }*\left|\frac{{dI}_L}{dt}\right|-R_L*I_L=0
-\end{equation}
-
-Con  $R_L=0.2 \:\Omega$ y una corriente nominal  de aproximadamente $21\:A$:
-
-\begin{equation} \label{eq_Vbus-didt-RL-2}
-	\pm V_{BUS}-R_L*I_L=\ \pm 24\:V-4.2\:V
-\end{equation}
-
-Para el caso en que $V_{BUS}=24\:V$:
-
-\begin{equation} \label{eq_Vbus-didt-RL-3}
-	V_{BUS}-R_L*I_L=\ +24\:V-4.2\:V=\ 19.8\:V
-\end{equation}
-
-Para el caso en que $V_{BUS}=-24\:V$:
-
-\begin{equation} \label{eq_Vbus-didt-RL-4}
-	V_{BUS}-R_L*I_L=\ -24\:V-4.2\:V=\ 28.2\:V
-\end{equation}
-
-Por lo tanto, sobre el electroimán se aplican dos tensiones distintas, en valor absoluto, durante la carga y descarga. Esto provoca que la rampa de corriente sea asimétrica.
-
-Debido a que luego se utilizará un rectificador de onda completa, se desea que la rectificación de cada una de estas pendientes resulte en el mismo valor. En la figura \ref{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR} se muestra el efecto luego de la rectificación sin realizar ninguna compensación.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.8]{Forma-de-onda-luego-de-rectificar-sin-compensación-IR.png}
-	\caption{Forma de onda luego de rectificar sin compensación de resistencia interna.}
-	\label{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR}
-\end{figure}
-
-Para corregir este problema, se varía \textsl{set-point} de la salida del derivador. Para lograrlo se debe cambiar la tensión en la entrada no inversora ($V_{bias}$) como se muestra en la figura \ref{fig:img_Esquema-circuital-del-derivador}. 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Esquema-circuital-del-derivador.png}
-	\caption{Esquema circuital del derivador con $V_{bias}$.}
-	\label{fig:img_Esquema-circuital-del-derivador}
-\end{figure}
-
-Se tiene que la pendiente de bajada de la onda triangular, en módulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversión de signo), queda por encima del \textsl{set-point}, y la pendiente de subida, por debajo. Por ello, se debe compensar el \textsl{set-point} para que la forma de onda sea simétrica alrededor de $2.5\:V$. 
-
-Para la pendiente de bajada, la salida del derivador es:
-
-\begin{equation} \label{eq_Vyf-Vbias}
-	{Vyf}_{off}\ =\ V_{bias}+K_h\ *\ \tau *\frac{\abs{V_{BUS}}\ +\ I_L*R_L}{L}\ 
-\end{equation}
-
-Para la pendiente de subida se tiene:
-
-\begin{equation} \label{eq_Vyf-Vbias2}
-	{Vyf}_{on}\ =\ V_{bias}\ -\ K_h\ *\ \tau *\frac{\abs{V_{BUS}} -\ I_L*R_L}{L}
-\end{equation}
-
-Se desea que se cumpla:
-
-\begin{equation} \label{eq_Vyf_Vbias3}
-	{Vyf}_{off}\ -2.5\ \:V=\ 2.5\ V\ -{Vyf}_{on}
-\end{equation}
-
-Si se despeja $V_{bias}$ se llega a:
-
-\begin{equation} \label{eq_Vyf-Vbias4}
-	V_{bias}\ =2.5\ \:V -\ K_h\ *I_L*\ \tau *\frac{\ R_L}{L}
-\end{equation}
-
-Se tiene $K_h = 53.3\:\frac{mV}{A},\; R_L = 0.2\:\Omega$ y $\tau  = 25 \:ms$. En cuanto a la inductancia, se utiliza:  $L_T(4\:mm) = 16.44\:mHy$.
-
-$V_{iL}$ es la tensión de salida del sensor de efecto Hall menos un \textsl{set-point} de $2.5\:V$. Sin embargo, debido al \textsl{offset} agregado al sensor para llevar su valor medio a $2.6\:V$, al restarle $2.5\:V$ no se produce una cancelación completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuación  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este circuito compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Generación-de-Vbias.png}
-	\caption{Generación de $V_{bias}$.}
-	\label{fig:img_Generación_de_Vbias}
-\end{figure}
-
-A partir del circuito de la figura \ref{fig:img_Generación_de_Vbias} se obtiene:
-
-\begin{equation} \label{eq_Vyf-Vbias3}
-	V_{bias} =-\frac{R_4}{R_3}(K_hI_L+ 0.1\:V)+V_{Ref_{bias}}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2})
-\end{equation}
-
-Para poder llegar a la expresión de la ecuación \ref{eq_Vbus-didt-RL-2} se debe cumplir que:
-
-\begin{enumerate}
-	\item  $-\frac{R_4}{R_3}=- \tau *\frac{R_L}{L}= -0.304$  
-	
-	\item  $-\frac{R_4}{R_3}(0.1V)+V_{Ref_{bias}}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2}) = 2.5V$     
-\end{enumerate}
-
-Por lo tanto, al resolver la condición 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, al resolver la condición 2) con $V_{Ref_{bias}}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$.
-
-En la figura \ref{fig:img_Formas_de_onda_obtenidas_en_la_simulación} se muestra como cambia la forma de onda.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Formas-de-onda-obtenidas-en-la-simulación.png}
-	\caption{Formas de onda obtenidas en la simulación.}
-	\label{fig:img_Formas_de_onda_obtenidas_en_la_simulación}
-\end{figure}
-
-La onda superior corresponde a la corriente en el electroimán, la que se encuentra al medio, a la salida del derivador y la inferior, a la onda rectificada con la corrección de la resistencia interna.
-
-\section{Rectificación y suavizado}
-
-Para poder tener finalmente la estimación de la posición, se debe rectificar la salida del derivador alrededor de $2.5\:V$. Esto se hace para que la pendiente positiva de la corriente triangular coincida con la pendiente negativa, y tener a la salida del estimador una señal aproximadamente continua.
+Para la implementación circuital del rectificador se decidió utilizar la misma topología usada en la versión anterior del prototipo. Esta consiste en dos etapas: la primera en un rectificador propiamente dicho y la segunda en un filtro para suavizar la señal rectificada.
 
 En la figura \ref{fig:img_Circuito_estimador_de_posición_completo} se puede observar el circuito completo utilizado para la implementación de la rectificación y filtrado. Para facilitar la comprensión de esta última parte del estimador, se realiza un análisis de cada una de estas etapas por separado.
 
@@ -419,6 +311,7 @@ Si se toma a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2.5\: V$, 
 	\caption{Circuito restador.}
 	\label{fig:img_Restador}
 \end{figure}
+\colorbox{red}{sacar c5}
 
 \subsection{Filtrado}
 
@@ -456,6 +349,140 @@ Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar c
 	\caption{Esquema circuital del restador con una etapa de filtrado en $159.2\: Hz$.}
 	\label{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}
 \end{figure}
+
+
+\section{Simulaciones de derivador y rectificador}
+
+
+
+\section{Diseño del filtro pasa bajos}
+
+Debido a que el derivador amplifica las señales de alta frecuencia es necesario agregar un filtro pasa bajos en su entrada. Como la señal que ingresa al derivador es $V_{iL}$, que es una onda triangular de frecuencia fundamental de $2\:kHz$, se permite el paso de sus componentes hasta la 5º armónica. Para su implementación se utiliza un filtro activo Butterworth de segundo orden, con una frecuencia de corte en $20\:kHz$. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el filtro utilizado y en la figura \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.70]{Filtro-para-la-entrada-del-derivador.png}
+	\caption{Filtro para la entrada del derivador.}
+	\label{fig:img_Filtro-para-la-entrada-del-derivador}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{Respuesta-en-frecuencia-del-filtro-activo.png}
+	\caption{Respuesta en frecuencia del filtro activo.}
+	\label{fig:img_Respuesta-en-frecuencia-del-filtro-activo}
+\end{figure}
+
+\section{Compensación de resistencia interna}
+
+Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión casi constante en su resistencia interna. Esto provoca que no siempre estén aplicados $\pm 24\:V$ al electroimán sino que, durante el $T_{ON}$ se aplican $+24\:V-I_L*R_L$ y durante el $T_{OFF}$ se aplican $-24\:V-I_L*R_L$. Esto genera que las pendientes sean distintas.
+
+\begin{equation} \label{eq_Vbus-didt-RL}
+	\pm V_{cc}-L(Y_g)*\left|\frac{{dI}_L}{dt}\right|-L_{\infty }*\left|\frac{{dI}_L}{dt}\right|-R_L*I_L=0
+\end{equation}
+
+Con  $R_L=0.2 \:\Omega$ y una corriente nominal  de aproximadamente $21\:A$:
+
+\begin{equation} \label{eq_Vbus-didt-RL-2}
+	\pm V_{cc}-R_L*I_L=\ \pm 24\:V-4.2\:V
+\end{equation}
+
+Para el caso en que $V_{cc}=24\:V$:
+
+\begin{equation} \label{eq_Vbus-didt-RL-3}
+	V_{cc}-R_L*I_L=\ +24\:V-4.2\:V=\ 19.8\:V
+\end{equation}
+
+Para el caso en que $V_{cc}=-24\:V$:
+
+\begin{equation} \label{eq_Vbus-didt-RL-4}
+	V_{cc}-R_L*I_L=\ -24\:V-4.2\:V=\ 28.2\:V
+\end{equation}
+
+Por lo tanto, sobre el electroimán se aplican dos tensiones distintas, en valor absoluto, durante la carga y descarga. Esto provoca que la rampa de corriente sea asimétrica.
+
+Debido a que luego se utilizará un rectificador de onda completa, se desea que la rectificación de cada una de estas pendientes resulte en el mismo valor. En la figura \ref{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR} se muestra el efecto luego de la rectificación sin realizar ninguna compensación.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{Forma-de-onda-luego-de-rectificar-sin-compensación-IR.png}
+	\caption{Forma de onda luego de rectificar sin compensación de resistencia interna.}
+	\label{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR}
+\end{figure}
+
+Para corregir este problema, se varía \textsl{set-point} de la salida del derivador. Para lograrlo se debe cambiar la tensión en la entrada no inversora ($V_{bias}$) como se muestra en la figura \ref{fig:img_Esquema-circuital-del-derivador}. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Esquema-circuital-del-derivador.png}
+	\caption{Esquema circuital del derivador con $V_{bias}$.}
+	\label{fig:img_Esquema-circuital-del-derivador}
+\end{figure}
+
+Se tiene que la pendiente de bajada de la onda triangular, en módulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversión de signo), queda por encima del \textsl{set-point}, y la pendiente de subida, por debajo. Por ello, se debe compensar el \textsl{set-point} para que la forma de onda sea simétrica alrededor de $2.5\:V$. 
+
+Para la pendiente de bajada, la salida del derivador es:
+
+\begin{equation} \label{eq_Vyf-Vbias}
+	{Vyf}_{off}\ =\ V_{bias}+H_0\ *\ \tau *\frac{\abs{V_{cc}}\ +\ I_L*R_L}{L}\ 
+\end{equation}
+
+Para la pendiente de subida se tiene:
+
+\begin{equation} \label{eq_Vyf-Vbias2}
+	{Vyf}_{on}\ =\ V_{bias}\ -\ H_0\ *\ \tau *\frac{\abs{V_{cc}} -\ I_L*R_L}{L}
+\end{equation}
+
+Se desea que se cumpla:
+
+\begin{equation} \label{eq_Vyf_Vbias3}
+	{Vyf}_{off}\ -2.5\ \:V=\ 2.5\ V\ -{Vyf}_{on}
+\end{equation}
+
+Si se despeja $V_{bias}$ se llega a:
+
+\begin{equation} \label{eq_Vyf-Vbias4}
+	V_{bias}\ =2.5\ \:V -\ H_0\ *I_L*\ \tau *\frac{\ R_L}{L}
+\end{equation}
+
+Se tiene $H_0 = 53.3\:\frac{mV}{A},\; R_L = 0.2\:\Omega$ y $\tau  = 25 \:ms$. En cuanto a la inductancia, se utiliza:  $L_T(4\:mm) = 16.44\:mHy$.
+
+$V_{iL}$ es la tensión de salida del sensor de efecto Hall menos un \textsl{set-point} de $2.5\:V$. Sin embargo, debido al \textsl{offset} agregado al sensor para llevar su valor medio a $2.6\:V$, al restarle $2.5\:V$ no se produce una cancelación completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuación  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este circuito compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Generación-de-Vbias.png}
+	\caption{Generación de $V_{bias}$.}
+	\label{fig:img_Generación_de_Vbias}
+\end{figure}
+
+A partir del circuito de la figura \ref{fig:img_Generación_de_Vbias} se obtiene:
+
+\begin{equation} \label{eq_Vyf-Vbias3}
+	V_{bias} =-\frac{R_4}{R_3}(H_0I_L+ 0.1\:V)+V_{Ref_{bias}}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2})
+\end{equation}
+
+Para poder llegar a la expresión de la ecuación \ref{eq_Vbus-didt-RL-2} se debe cumplir que:
+
+\begin{enumerate}
+	\item  $-\frac{R_4}{R_3}=- \tau *\frac{R_L}{L}= -0.304$  
+	
+	\item  $-\frac{R_4}{R_3}(0.1V)+V_{Ref_{bias}}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2}) = 2.5V$     
+\end{enumerate}
+
+Por lo tanto, al resolver la condición 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, al resolver la condición 2) con $V_{Ref_{bias}}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$.
+
+En la figura \ref{fig:img_Formas_de_onda_obtenidas_en_la_simulación} se muestra como cambia la forma de onda.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Formas-de-onda-obtenidas-en-la-simulación.png}
+	\caption{Formas de onda obtenidas en la simulación.}
+	\label{fig:img_Formas_de_onda_obtenidas_en_la_simulación}
+\end{figure}
+
+La onda superior corresponde a la corriente en el electroimán, la que se encuentra al medio, a la salida del derivador y la inferior, a la onda rectificada con la corrección de la resistencia interna.
+
 
 \section{Simulación del estimador completo}
 

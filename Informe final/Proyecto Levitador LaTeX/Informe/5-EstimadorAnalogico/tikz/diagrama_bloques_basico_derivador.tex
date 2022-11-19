@@ -9,8 +9,8 @@
 	\node [output, right of=modulo] (output) {};
 
 	% Once the nodes are placed, connecting them is easy. 
-	\draw [draw,->] (input) -- node[pos=0.1]{$V_{IL}$} (derivador);
-	\draw [draw,->] (derivador) -- node{$V_{yf}$} (modulo);
+	\draw [draw,->] (input) -- node[pos=0.1]{$V_{IL_{feed}}$} (derivador);
+	\draw [draw,->] (derivador) -- node{$V_{deriv}$} (modulo);
 	\draw [->] (modulo) -- node [name=y] {$V_{estim}$}(output);
 \end{tikzpicture}
 

@@ -94,12 +94,11 @@ Debido a que $V_{IL_{feed}}$ es una onda triangular, su derivada será una onda 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{Circuito-derivador.png}
+	\includegraphics[scale=0.5]{Circuito-derivador.png}
 	\caption{Circuito derivador.}
 	\label{fig:img_Circuito-derivador}
 \end{figure}
 
-\colorbox{red}{cambiar imagen para usar Vilfeed y vop y vderiv.}
 
 La salida del circuito $V_{deriv}(t)$ ante su entrada $V_{IL_{feed}}$ es:
 
@@ -178,12 +177,10 @@ Puesto que los circuitos derivadores pueden presentar inestabilidad a alta frecu
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{Circuito-derivador- compensado.png}
+	\includegraphics[scale=0.5]{Circuito-derivador- compensado.png}
 	\caption{Circuito derivador compensado.}
 	\label{fig:img_Circuito_derivador_compensado}
 \end{figure}
-
-\colorbox{red}{Poner Vderiv}
 
 El amplificador operacional utilizado es internamente compensado, por lo que todos sus otros polos los tiene luego del cruce por $0\:dB$ de la ganancia. Para simplificar el análisis estos no se tienen en cuenta, ya que están fuera de la zona de interés.
 
@@ -307,11 +304,10 @@ Si se toma a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2.5\: V$, 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Restador.png}
+	\includegraphics[scale=0.4]{Restador.png}
 	\caption{Circuito restador.}
 	\label{fig:img_Restador}
 \end{figure}
-\colorbox{red}{sacar c5}
 
 \subsection{Filtrado}
 
@@ -345,7 +341,7 @@ Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar c
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159.png}
+	\includegraphics[scale=0.6]{Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159.png}
 	\caption{Esquema circuital del restador con una etapa de filtrado en $159.2\: Hz$.}
 	\label{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}
 \end{figure}
@@ -361,7 +357,7 @@ Debido a que el derivador amplifica las señales de alta frecuencia es necesario
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.70]{Filtro-para-la-entrada-del-derivador.png}
+	\includegraphics[scale=0.45]{Filtro-para-la-entrada-del-derivador.png}
 	\caption{Filtro para la entrada del derivador.}
 	\label{fig:img_Filtro-para-la-entrada-del-derivador}
 \end{figure}
@@ -414,7 +410,7 @@ Para corregir este problema, se varía \textsl{set-point} de la salida del deriv
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{Esquema-circuital-del-derivador.png}
+	\includegraphics[scale=0.5]{Esquema-circuital-del-derivador.png}
 	\caption{Esquema circuital del derivador con $V_{bias}$.}
 	\label{fig:img_Esquema-circuital-del-derivador}
 \end{figure}
@@ -459,7 +455,7 @@ $V_{iL}$ es la tensión de salida del sensor de efecto Hall menos un \textsl{set
 A partir del circuito de la figura \ref{fig:img_Generación_de_Vbias} se obtiene:
 
 \begin{equation} \label{eq_Vyf-Vbias3}
-	V_{bias} =-\frac{R_4}{R_3}(H_0I_L+ 0.1\:V)+V_{Ref_{bias}}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2})
+	V_{bias} =-\frac{R_4}{R_3}(H_0I_L+ 0.1\:V)+V_{op}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2})
 \end{equation}
 
 Para poder llegar a la expresión de la ecuación \ref{eq_Vbus-didt-RL-2} se debe cumplir que:
@@ -467,10 +463,10 @@ Para poder llegar a la expresión de la ecuación \ref{eq_Vbus-didt-RL-2} se deb
 \begin{enumerate}
 	\item  $-\frac{R_4}{R_3}=- \tau *\frac{R_L}{L}= -0.304$  
 	
-	\item  $-\frac{R_4}{R_3}(0.1V)+V_{Ref_{bias}}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2}) = 2.5V$     
+	\item  $-\frac{R_4}{R_3}(0.1V)+V_{op}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2}) = 2.5V$     
 \end{enumerate}
 
-Por lo tanto, al resolver la condición 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, al resolver la condición 2) con $V_{Ref_{bias}}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$.
+Por lo tanto, al resolver la condición 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, al resolver la condición 2) con $V_{op}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$.
 
 En la figura \ref{fig:img_Formas_de_onda_obtenidas_en_la_simulación} se muestra como cambia la forma de onda.
 

@@ -374,7 +374,7 @@ Debido a que el derivador amplifica las señales de alta frecuencia es necesario
 Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión casi constante en su resistencia interna. Esto provoca que no siempre estén aplicados $\pm 24\:V$ al electroimán sino que, durante el $T_{ON}$ se aplican $+24\:V-I_L*R_L$ y durante el $T_{OFF}$ se aplican $-24\:V-I_L*R_L$. Esto genera que las pendientes sean distintas.
 
 \begin{equation} \label{eq_Vbus-didt-RL}
-	\pm V_{cc}-L(Y_g)*\left|\frac{{dI}_L}{dt}\right|-L_{\infty }*\left|\frac{{dI}_L}{dt}\right|-R_L*I_L=0
+	\pm V_{cc}-L(Y_g)*\left|\frac{{dI}_L}{dt}\right|-R_L*I_L=0
 \end{equation}
 
 Con  $R_L=0.2 \:\Omega$ y una corriente nominal  de aproximadamente $21\:A$:

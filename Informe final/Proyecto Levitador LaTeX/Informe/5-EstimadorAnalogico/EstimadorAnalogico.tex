@@ -56,7 +56,7 @@ En la expresión \ref{eq_Yg_despejada} se puede observar que para obtener una es
 Debido a que la forma de medir la corriente del electroimán es a través del sensor de efecto Hall es necesario tener en cuenta su ganancia $H_0$. Por lo tanto, la expresión a implementar circuitalmente resulta:
 
 \begin{equation} \label{eq_Yg_salida_sensor}
-	Y_g=\frac{5.136*10^{-6}}{H_0}*{\left|\frac{{dV}_L}{dt}\right|}_{Lineal} - 3.472*10^{-3}
+	Y_g=\frac{5.136*10^{-6}}{H_0}*{\left|\frac{dV_{IL}}{dt}\right|}_{Lineal} - 3.472*10^{-3}
 \end{equation}
 
 %Además se decidió agregar un LPF luego del rectificador para reducir las frecuencias no deseadas introducidas por el cambio de signo de la pendiente, las cuales generan saltos sobre un punto de operación en la tensión de salida del derivador.
@@ -73,6 +73,12 @@ A continuación se describe la implementación circuital de cada uno de ellos.
 	%En el capítulo 3 se analizó la forma de onda resultante de la corriente del electroimán al ser excitado con una fuente conmutada. Esta resulta en una onda triangular con un valor medio deseado, cuya pendiente de crecimiento y de decrecimiento varía proporcionalmente con distancia de separación de entrehierro. A partir de esto, se decidió realizar una estimación de la misma a partir de la medición de la pendiente de la onda triangular de la corriente.
 }
 
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_bloques_basico_derivador.tex}
+	\caption{Diagrama en bloques simplificado del estimador}	\label{fig:img_diag-en-bloques_estimador}
+\end{figure}
+\colorbox{red}{no se si los nombres estarán correctos, después los cambiamos}
 \section{Modelo circuital del estimador de posición}
 
 Para poder obtener $\left|\frac{{dI}_L}{dt}\right|$ se utiliza un circuito derivador con un amplificador operacional como se observa en la figura  \ref{fig:img_Circuito-derivador}.

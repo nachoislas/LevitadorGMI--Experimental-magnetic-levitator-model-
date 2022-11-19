@@ -349,7 +349,31 @@ Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar c
 
 \section{Simulaciones de derivador y rectificador}
 
+A continuación se realizan simulaciones del circuito estimador conformado por los bloques derivador y rectificador+filtrado. Para ello se utilizó el software NL5 y se anexó el circuito estimador dentro del controlador de corriente. En la figura \ref{fig:img_simulacion_derivador+rectificador} se muestra el circuito utilizado para la simulación.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{simulacion_derivador+rectificador.png}
+	\caption{Circuito utilizado para simulación.}
+	\label{fig:img_simulacion_derivador+rectificador}
+\end{figure}
+
+\subsection{Simulación en régimen permanente}
+
+Se realizó una simulación del controlador de corriente + estimador utilizando $V_{IL_{ref}}=5\:V$, que resulta en una corriente media del electroimán $\overline{I_L}=30\:A$. En la figura \ref{fig:img_simulacion_derivador+rectificador_ss} se muestran las formas de onda de la corriente del electroimán, la salida del circuito derivador, y la salida del rectificador. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{simulacion_derivador+rectificador_ss.png}
+	\caption{Formas de onda de corriente, salida del derivador y salida rectificada.}
+	\label{fig:img_simulacion_derivador+rectificador_ss}
+\end{figure}
+
+En la forma de onda de corriente se puede observar que las pendientes de crecimiento y de decrecimiento no son simétricas. Esto es provocado por el efecto de la resistencia interna del electroimán, que se hace notorio cuando se trabaja con corrientes elevadas. Esta asimetría en las pendientes provoca que la salida del derivador no sea simétrica alrededor de $V_{op}$. Por lo tanto, como luego se rectifica esta señal pulsada alrededor de $V_{op}$, la señal resultante presentará variaciones. Para compensar este efecto se implementa la compensación de resistencia interna....
+
+También se puede observar que la salida del derivador presenta un comportamiento ruidoso en su techo y su piso. Esto proviene de de la conmutación auxiliar, que también es derivada. Para solucionar este inconveniente se implementa un filtro pasa-bajos en la entrada del estimador., que se diseña a continuación... 
+
+\colorbox{red}{tenemos que diseñar primero el LPF de la entrada y después la compensación de resistencia}
 
 \section{Diseño del filtro pasa bajos}
 

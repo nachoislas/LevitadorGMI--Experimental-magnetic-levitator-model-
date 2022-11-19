@@ -53,10 +53,17 @@ Por lo tanto, al despejar la distancia de separación se obtiene:
 
 En la expresión \ref{eq_Yg_despejada} se puede observar que, para obtener una estimación de la distancia de separación, es necesario medir el módulo de la pendiente de la onda triangular de la corriente. Para ello, se implementa un circuito derivador seguido de un rectificador, de forma tal que permita obtener su módulo.
 
-La forma de onda correspondiente a la salida de cada etapa a implementar se muestra en la figura tdfgdgrt. En ella se observa que se ingresa con una onda triangular, correspondiente a la corriente que circula por el electroimán. Luego, al pasar por el derivador, se obtiene una onda pulsada, cuyos valor superior e inferior son proporcionales a la pendiente de crecimiento y de decrecimiento de la corriente. Luego, al entrar a la etapa de rectificación se obtiene un valor constante y proporcional a la pendiente y, por ende, a la distancia de separación de entrehierro.
+La forma de onda correspondiente a la salida de cada etapa a implementar se muestra en la figura \ref{fig:img_forma-de-onda-estimador}. En ella se observa que se ingresa con una onda triangular, correspondiente a la corriente que circula por el electroimán. Luego, al pasar por el derivador, se obtiene una onda pulsada, cuyos valor superior e inferior son proporcionales a la pendiente de crecimiento y de decrecimiento de la corriente. Luego, al entrar a la etapa de rectificación se obtiene un valor constante y proporcional a la pendiente y, por ende, a la distancia de separación de entrehierro.
 
 
-\colorbox{red}{Agregar imágenes de forma de onda}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{forma-de-onda-estimador.png}
+	\caption{Formas de onda de cada etapa del estimador.}
+	\label{fig:img_forma-de-onda-estimador}
+\end{figure}
+
+
 
 Debido a que la forma de medir la corriente del electroimán es a través del sensor de efecto Hall, cuya salida es $V_{IL_{feed}}$ (\ref{eq_salida_restador_hall_2}), es necesario tener en cuenta su ganancia $H_0$. Por lo tanto, la expresión a implementar circuitalmente resulta:
 

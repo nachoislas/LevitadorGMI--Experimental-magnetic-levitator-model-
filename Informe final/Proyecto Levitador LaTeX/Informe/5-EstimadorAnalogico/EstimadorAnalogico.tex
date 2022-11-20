@@ -6,9 +6,9 @@ En este capítulo se detalla la estrategia utilizada para realizar la estimació
 
 \section{Análisis de la estimación}
 
-Como se analizó en el capítulo \ref{cap:ControladorCorriente}, para controlar el valor medio de la corriente se utiliza una fuente conmutada que alterna la polaridad de la tensión aplicada al electroimán. Esto genera una onda de corriente triangular superpuesta al valor medio deseado, cuyas pendientes de crecimiento y de decrecimiento contienen información de la distancia de separación de entrehierro. Con esta información se decidió realizar una estimación de la distancia a partir de la medición de la pendiente de la onda triangular de la corriente.
+Como se analizó en el capítulo \ref{cap:ControladorCorriente}, para controlar el valor medio de la corriente se utiliza una fuente conmutada que alterna la polaridad de la tensión aplicada al electroimán. Esto genera una onda de corriente triangular superpuesta al valor medio deseado, cuyas pendientes de crecimiento y de decrecimiento contienen información de la distancia de separación de entrehierro. Por lo tanto, se decidió realizar una estimación de la distancia a partir de la medición de la pendiente de la onda triangular de la corriente.
 
-En la sección \ref{sec_analisis_estimacion} se obtuvo una ecuación que relaciona la pendiente de la corriente con la distancia de entrehierro, en función de constantes del sistema. Si bien este resultado es correcto, se aprovechan las mediciones realizadas sobre el electroimán para calcular la ecuación \ref{eq_derivada_corriente_2} utilizando la expresión de inductancia linealizada \ref{eq_induct_practica}, que se repite a continuación. De esta forma, se obtiene una expresión mas aproximada al comportamiento real de la planta.
+En la sección \ref{sec_analisis_estimacion} se obtuvo una ecuación que relaciona la pendiente de la corriente con la distancia de entrehierro, en función de constantes del sistema. Si bien este resultado es correcto, se hace uso de las mediciones realizadas sobre el electroimán para calcular la ecuación \ref{eq_derivada_corriente_2} utilizando la expresión de inductancia linealizada \ref{eq_induct_practica}, que se repite a continuación. De esta forma, se obtiene una expresión mas aproximada al comportamiento real de la planta.
 
 \begin{equation*}
 	L(Y_g)=-2.56*Y_{g}+0.027\:Hy
@@ -44,16 +44,16 @@ Al aplicar mínimos cuadrados a los valores de la tabla \ref{tab_derivada_lineal
 	{\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
 \end{equation}
 
-Por lo tanto, al despejar la distancia de separación se obtiene:
+Al despejar la distancia de separación se obtiene:
 
 \begin{equation} \label{eq_Yg_despejada}
 	Y_g=5.136*10^{-6}*{\left|\frac{{dI}_L}{dt}\right|}_{Lineal} - 3.472*10^{-3}
 \end{equation}
 
 
-En la expresión \ref{eq_Yg_despejada} se puede observar que, para obtener una estimación de la distancia de separación, es necesario medir el módulo de la pendiente de la onda triangular de la corriente. Para ello, se implementa un circuito derivador seguido de un rectificador, de forma tal que permita obtener su módulo.
+En la expresión \ref{eq_Yg_despejada} se puede observar que, para obtener una estimación de la distancia de separación, es necesario medir el módulo de la pendiente de la onda triangular de la corriente. Para ello, se implementa un circuito derivador que permita obtener la pendiente de la corriente y luego un circuito rectificador para obtener su módulo.
 
-La forma de onda correspondiente a la salida de cada etapa a implementar se muestra en la figura \ref{fig:img_forma-de-onda-estimador}. En ella se observa que se ingresa con una onda triangular, correspondiente a la corriente que circula por el electroimán. Luego, al pasar por el derivador, se obtiene una onda pulsada, cuyos valor superior e inferior son proporcionales a la pendiente de crecimiento y de decrecimiento de la corriente. Luego, al entrar a la etapa de rectificación se obtiene un valor constante y proporcional a la pendiente y, por ende, a la distancia de separación de entrehierro.
+La forma de onda correspondiente a la salida de cada etapa a implementar se muestra en la figura \ref{fig:img_forma-de-onda-estimador}. En ella se observa que se parte con una onda triangular, correspondiente a la corriente que circula por el electroimán. Luego, al pasar por el derivador, se obtiene una onda pulsada, cuyos valor superior e inferior son proporcionales a la pendiente de crecimiento y de decrecimiento de la corriente. Luego, al entrar a la etapa de rectificación se obtiene un valor constante y proporcional a la pendiente y, por ende, a la distancia de separación de entrehierro.
 
 
 \begin{figure}[H]
@@ -82,7 +82,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:img_diag-e
 \end{figure}
 \colorbox{red}{no se si los nombres estarán correctos, después los cambiamos. hacer unos graficos de las señales}
 
-A continuación se describe la implementación circuital de cada uno de ellos.
+A continuación se describe la implementación circuital de cada una de las etapas que compponen al diagrama en bloques \ref{fig:img_diag-en-bloques_estimador}.
 
 {
 	%Por lo tanto, en esta capítulo/sección.. se aborda el análisis de la implementación…
@@ -152,7 +152,7 @@ Con la ecuación \ref{eq_di-dt_lineal} y \ref{eq_vyf2}, y con una variación en 
 \begin{equation} \label{eq_Vyf-lineal}
 	V_{deriv}(Y_g)\ =\ |H_0*C_1*R_1*dI_L/dt)|\ +2.5\:V=0.2595*Y_g+3.4\:V
 \end{equation}
-
+\colorbox{red}{Esta bien que vaya el modulo en la ecuación de arriba?}
 Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores en los que el electroimán trabaja, el estimador posee un rango de salida ${\mathit{\Delta}{Vyf}_{Lineal}}(5\:mm-2\:mm)= 0.78\:V$.
 
 \begin{table}[H]
@@ -227,9 +227,7 @@ A continuación se muestra la TLC del circuito derivador:
 
 Para que la pendiente positiva de la corriente triangular coincida con la pendiente negativa, y tener a la salida del estimador una señal aproximadamente continua, se debe rectificar la salida del derivador alrededor de $2.5\:V$.
 
-Para la implementación circuital del rectificador se decidió utilizar la misma topología usada en la versión anterior del prototipo. Esta consiste en dos etapas: la primera en un rectificador propiamente dicho y la segunda en un filtro para suavizar la señal rectificada.
-
-En la figura \ref{fig:img_Circuito_estimador_de_posición_completo} se puede observar el circuito completo utilizado para la implementación de la rectificación y filtrado. Para facilitar la comprensión de esta última parte del estimador, se realiza un análisis de cada una de estas etapas por separado.
+Para la implementación circuital del rectificador se decidió utilizar la misma topología usada en la versión anterior del prototipo, la cual está compuesta por tres etapas: rectificación, restador y filtrado. Para facilitar la comprensión de este circuito, se realiza un análisis de cada una de estas etapas por separado.
 
 \begin{figure}[H]
 	\centering
@@ -356,7 +354,7 @@ Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar c
 
 \section{Simulaciones de derivador y rectificador}
 
-A continuación se realizan simulaciones del circuito estimador conformado por los bloques derivador y rectificador+filtrado. Para ello se utilizó el software NL5 y se anexó el circuito estimador dentro del controlador de corriente. En la figura \ref{fig:img_simulacion_derivador+rectificador} se muestra el circuito utilizado para la simulación.
+A continuación se realizan simulaciones del circuito estimador conformado por los bloques derivador, rectificador y filtrado. Para ello se utilizó el software NL5 y se anexó el circuito estimador dentro del controlador de corriente. En la figura \ref{fig:img_simulacion_derivador+rectificador} se muestra el circuito utilizado para la simulación.
 
 \begin{figure}[H]
 	\centering
@@ -367,7 +365,7 @@ A continuación se realizan simulaciones del circuito estimador conformado por l
 
 \subsection{Simulación en régimen permanente}
 
-Se realizó una simulación del controlador de corriente + estimador utilizando $V_{IL_{ref}}=5\:V$, que resulta en una corriente media del electroimán $\overline{I_L}=30\:A$. En la figura \ref{fig:img_simulacion_derivador+rectificador_ss} se muestran las formas de onda de la corriente del electroimán, la salida del circuito derivador, y la salida del rectificador. 
+Se realizó una simulación del controlador de corriente junto con el estimador, utilizando $V_{IL_{ref}}=5\:V$, que resulta en una corriente media del electroimán $\overline{I_L}=30\:A$. En la figura \ref{fig:img_simulacion_derivador+rectificador_ss} se muestran las formas de onda de la corriente del electroimán, la salida del circuito derivador, y la salida del rectificador. 
 
 \begin{figure}[H]
 	\centering

@@ -1,12 +1,12 @@
 \chapter{Estimador analógico} \chapterlabel{Informe/5-EstimadorAnalogico} \label{cap:Estimador Analogico}
 
-Para que la placa de control pueda mantener la distancia de separación $Y_{g}$ es necesario conocer su valor para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
+Para que la placa de control pueda mantener la distancia de separación de entrehierro $Y_{g}$ es necesario conocer su valor para luego actuar en consecuencia. Si bien se podrían utilizar sensores  especializados para ello, para este proyecto se optó por medirla de manera indirecta a partir de la pendiente de la corriente que circula por el electroimán. De esta forma, se logran aplicar conceptos de estimación de variables, aprendidos durante la carrera. 
 
 En este capítulo se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y sus respectivas simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
 
 \section{Análisis de la estimación}
 
-Como se analizó en el capítulo \ref{cap:ControladorCorriente}, para controlar el valor medio de la corriente se utiliza una fuente conmutada que alterna la polaridad de la tensión aplicada al electroimán. Esto genera una onda de corriente triangular superpuesta al valor medio deseado, cuyas pendientes de crecimiento y de decrecimiento contienen información de la distancia de separación de entrehierro. Por lo tanto, se decidió realizar una estimación de la distancia a partir de la medición de la pendiente de la onda triangular de la corriente.
+Como se analizó en el capítulo \ref{cap:ControladorCorriente}, para controlar el valor medio de la corriente se utiliza una fuente conmutada que alterna la polaridad de la tensión aplicada al electroimán. Esto genera una onda de corriente triangular superpuesta al valor medio deseado, cuyas pendientes de crecimiento y de decrecimiento contienen información de la distancia de separación de entrehierro. Por lo tanto, se decidió realizar una estimación de la distancia a partir de la medición de dichas pendientes.
 
 En la sección \ref{sec_analisis_estimacion} se obtuvo una ecuación que relaciona la pendiente de la corriente con la distancia de entrehierro, en función de constantes del sistema. Si bien este resultado es correcto, se hace uso de las mediciones realizadas sobre el electroimán para calcular la ecuación \ref{eq_derivada_corriente_2} utilizando la expresión de inductancia linealizada \ref{eq_induct_practica}, que se repite a continuación. De esta forma, se obtiene una expresión mas aproximada al comportamiento real de la planta.
 
@@ -37,8 +37,7 @@ A partir de la expresión \ref{eq_derivada_corriente_3} se evalúa la derivada p
 	\end{center}
 \end{table}
 
-Al aplicar mínimos cuadrados a los valores de la tabla \ref{tab_derivada_linealizada} se obtiene una expresión linealizada de la pendiente.
-
+Al aplicar mínimos cuadrados a los valores de la tabla \ref{tab_derivada_linealizada} se obtiene la expresión linealizada de la pendiente:
 
 \begin{equation} \label{eq_di-dt_lineal}
 	{\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
@@ -53,7 +52,7 @@ Al despejar la distancia de separación se obtiene:
 
 En la expresión \ref{eq_Yg_despejada} se puede observar que, para obtener una estimación de la distancia de separación, es necesario medir el módulo de la pendiente de la onda triangular de la corriente. Para ello, se implementa un circuito derivador que permita obtener la pendiente de la corriente y luego un circuito rectificador para obtener su módulo.
 
-La forma de onda correspondiente a la salida de cada etapa a implementar se muestra en la figura \ref{fig:img_forma-de-onda-estimador}. En ella se observa que se parte con una onda triangular, correspondiente a la corriente que circula por el electroimán. Luego, al pasar por el derivador, se obtiene una onda pulsada, cuyos valor superior e inferior son proporcionales a la pendiente de crecimiento y de decrecimiento de la corriente. Luego, al entrar a la etapa de rectificación se obtiene un valor constante y proporcional a la pendiente y, por ende, a la distancia de separación de entrehierro.
+La forma de onda correspondiente a la salida de cada etapa a implementar se muestra en la figura \ref{fig:img_forma-de-onda-estimador}. En ella se observa que se parte con una onda triangular, correspondiente a la corriente que circula por el electroimán. Luego, al pasar por el derivador, se obtiene una onda pulsada, cuyos valor superior e inferior se corresponden con la pendiente de crecimiento y de decrecimiento de la corriente. Luego, al entrar a la etapa de rectificación se obtiene un valor constante y proporcional a la pendiente y, por ende, a la distancia de separación de entrehierro.
 
 
 \begin{figure}[H]
@@ -80,9 +79,9 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:img_diag-e
 	\input{tikz/diagrama_bloques_basico_derivador.tex}
 	\caption{Diagrama en bloques simplificado del estimador.}	\label{fig:img_diag-en-bloques_estimador}
 \end{figure}
-\colorbox{red}{no se si los nombres estarán correctos, después los cambiamos. hacer unos graficos de las señales}
+\colorbox{red}{Ver si estan bien los nombres de las señales y los bloques en el diagrama}
 
-A continuación se describe la implementación circuital de cada una de las etapas que compponen al diagrama en bloques \ref{fig:img_diag-en-bloques_estimador}.
+A continuación se describe la implementación circuital de cada una de las etapas que componen al diagrama en bloques \ref{fig:img_diag-en-bloques_estimador}.
 
 {
 	%Por lo tanto, en esta capítulo/sección.. se aborda el análisis de la implementación…
@@ -97,7 +96,7 @@ A continuación se describe la implementación circuital de cada una de las etap
 
 Para poder obtener $\frac{dV_{IL_{feed}}}{dt}$ se utiliza un circuito derivador basado en un amplificador operacional como el que se muestra en la figura \ref{fig:img_Circuito-derivador}. Se decide utilizar amplificadores operacionales alimentados con una fuente de tensión simple de $5\:V$ con una excursión completa en su salida. 
 
-Debido a que $V_{IL_{feed}}$ es una onda triangular, su derivada será una onda pulsada. Por lo tanto, para poder representar valores de pendientes tanto positivos como negativos es necesario polarizar la salida del derivador en un punto de operación ($V_{op}$) para no perder información. Como la salida varía entre $0\:V$ y $5\:V$ se utiliza $V_{op}=2.5\:V$ para permitir una excursión simétrica en ambos sentidos.
+Debido a que $V_{IL_{feed}}$ es una onda triangular, su derivada será una onda pulsada. Por lo tanto, para poder representar valores de pendientes tanto positivos como negativos es necesario polarizar la salida del derivador en un punto de operación ($V_{op}$) para no perder información. Como la salida varía entre $0\:V$ y $5\:V$ se utiliza $V_{op}=2.5\:V$ para permitir excursión en ambos sentidos.
 
 \begin{figure}[H]
 	\centering
@@ -114,6 +113,8 @@ La salida del circuito $V_{deriv}(t)$ ante su entrada $V_{IL_{feed}}$ es:
 \end{equation}
 
 Teniendo en cuenta que $V_{IL_{feed}}=I_L*H_0+0.1\:V$, al hacer su derivada se pierde el término constante y podemos expresar la ecuación en función de $V_{IL}=I_L*H_0$, entonces $ \frac{dV_{IL_{feed}}}{dt}= \frac{dV_{IL}}{dt}$.
+
+\colorbox{red}{Para que se deja en función de ViL si en la expresión 4.7 lo volvemos a dejar en función de la corriente IL?}
 
 \begin{equation} \label{eq_vyf1}
 	V_{deriv}(t)\ = 2.5V - \frac{dV_{IL}}{dt}*C_1*R_1
@@ -149,10 +150,29 @@ Para los cálculos se utilizó $\tau = C_1*R_1= 25\:ms$, para dar un margen y ev
 
 Con la ecuación \ref{eq_di-dt_lineal} y \ref{eq_vyf2}, y con una variación en torno a $2.5\:V$ se obtiene:
 
+
 \begin{equation} \label{eq_Vyf-lineal}
-	V_{deriv}(Y_g)\ =\ |H_0*C_1*R_1*dI_L/dt)|\ +2.5\:V=0.2595*Y_g+3.4\:V
+	V_{deriv}(Y_g)\ =\ |H_0*C_1*R_1*dI_L/dt)|\ +2.5\:V=0.2595*Y_g[mm]+3.4\:V
 \end{equation}
+
 \colorbox{red}{Esta bien que vaya el modulo en la ecuación de arriba?}
+
+-------------------------------
+Para pendiente positiva, la salida del circuito derivador resulta:
+
+\begin{equation} \label{eq_Vyf-lineal}
+	V_{deriv}(Y_g) = -0.2595*Y_g[mm] + 1.6\:V
+\end{equation}
+
+
+Para pendiente negativa, la salida del circuito derivador resulta:
+
+\begin{equation} \label{eq_Vyf-lineal}
+	V_{deriv}(Y_g) = 0.2595*Y_g[mm] + 3.4\:V
+\end{equation}
+
+----------------------------------
+
 Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores en los que el electroimán trabaja, el estimador posee un rango de salida ${\mathit{\Delta}{V_{deriv}}_{Lineal}}(5\:mm-2\:mm)= 0.78\:V$.
 
 \begin{table}[H]
@@ -169,6 +189,8 @@ Se puede observar en la tabla \ref{tab_Vyf_vs_y} que, para los posibles valores 
 		\label{tab_Vyf_vs_y}
 	\end{center}
 \end{table}
+
+\colorbox{red}{Esta tabla solo sería para los niveles superiores de la onda cuadrad..  Faltaría otra columna con los niveles inferiores..}
 
 \subsection{Elección de amplificador operacional}
 

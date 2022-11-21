@@ -255,9 +255,9 @@ A continuación se muestra la TLC del circuito derivador:
 
 \section{Etapa de rectificación}
 
-Para que la pendiente positiva de la corriente triangular coincida con la pendiente negativa, y tener a la salida del estimador una señal aproximadamente continua, se debe rectificar la salida del derivador alrededor de $2.5\:V$.
+Como se mencionó en la introducción, es necesario obtener el valor absoluto de la salida del derivador para tener a la salida del estimador una señal aproximadamente continua. Es por ello que se implementa un circuito rectificador en la salida del derivador alrededor de $V_{op}=2.5\:V$.
 
-Para la implementación circuital del rectificador se decidió utilizar la misma topología usada en la versión anterior del prototipo, la cual se muestra en la figura \ref{fig:img_Circuito_estimador_de_posición_completo}. Este circuito está compuesto por tres etapas: rectificación, resta y filtrado. Para facilitar su comprensión se realiza un análisis de cada una de estas etapas por separado.
+Para la implementación circuital del rectificador se decidió utilizar la misma topología usada en la versión anterior del prototipo, que se muestra en la figura \ref{fig:img_Circuito_estimador_de_posición_completo}. Este circuito está compuesto por tres etapas: rectificación, resta y filtrado. Para facilitar su comprensión se realiza un análisis de cada una de estas etapas por separado.
 
 \begin{figure}[H]
 	\centering
@@ -268,7 +268,7 @@ Para la implementación circuital del rectificador se decidió utilizar la misma
 
 \subsection{Rectificador}
 
-Para entender el funcionamiento del rectificador, se comienza con el análisis de la primer etapa del circuito de la figura \ref{fig:img_Circuito_estimador_de_posición_completo}. Por lo tanto, se simplifica el circuito al mostrado en la figura \ref{fig:img_Rectificador_y_restador}. Se parte de la suposición de que en un amplificador ideal, la tensión diferencial ($V_d$) es igual a cero. De esta forma, como la entrada no inversora está fijada en $2.5\:V$, la misma tensión se encuentra en la entrada inversora.
+Para entender el funcionamiento del rectificador, se comienza con el análisis de la primer etapa del circuito de la figura \ref{fig:img_Circuito_estimador_de_posición_completo}. Por lo tanto, se simplifica el circuito al mostrado en la figura \ref{fig:img_Rectificador_y_restador}. Se parte de la suposición de que en un amplificador operacionideal, la tensión diferencial ($V_d$) es igual a cero. De esta forma, como la entrada no inversora está fijada en $2.5\:V$, la misma tensión se encuentra en la entrada inversora.
 
 
 \begin{figure}[H]
@@ -341,7 +341,7 @@ Si se toma a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2.5\: V$, 
 	V_{estim}= 2.5\:V + |\mathit{\Delta}V_{deriv}|
 \end{equation}
 
-\colorbox{red}{La salida siempre esta por encima de 2.5V? No convendría quitarle 2.5v?}
+\colorbox{red}{La salida siempre esta por encima de 2.5V? No convendría quitarle 2.5v?}CREO QUE DA IGUAL, LO IMPORTANTE ES QUE EL POTENCIOMETRO DE REFERENCIA DE POSICIÓN TENGA VALORES SIMILARES.
 
 \begin{figure}[H]
 	\centering
@@ -372,7 +372,7 @@ En el restador se implementa un filtrado adicional a la señal de salida como se
 
 Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar cualquier posible ripple. Por ello, se escogen los siguientes valores para los componentes:
 
-\colorbox{red}{Tal vez habría que poner como conseguimos estos valores.. algún bode o simulación?}
+\colorbox{red}{Tal vez habría que poner como conseguimos estos valores.. algún bode o simulación?}podriamos decir que elegimos un ancho de banda de 1krad/s y en base a eso salen los componentes.
 
 \begin{enumerate}
 	\item  $C=10\: nF$
@@ -414,11 +414,15 @@ Se realizó una simulación del controlador de corriente junto con el estimador,
 
 Al observar la figura \ref{fig:img_simulacion_derivador+rectificador_ss} es posible notar dos problemas. El primero es que la forma de onda de corriente presenta pendientes de crecimiento y de decrecimiento asimétricas. Esto es provocado por el efecto de la resistencia interna del electroimán, que se hace notorio cuando se trabaja con corrientes elevadas. Esta asimetría en las pendientes provoca que la salida del derivador no sea simétrica alrededor de $V_{op}$. Por lo tanto, como luego se rectifica esta señal pulsada alrededor de $V_{op}$, la señal resultante presentará variaciones. El segundo problema es que la salida del derivador, con forma de onda pulsada, presenta un comportamiento ruidoso tanto en el nivel superior como en el inferior. Esto proviene de la conmutación auxiliar, que también es derivada. 
 
-Por lo tanto, a continuación se analiza en profundidad ambos inconvenientes y se plantean soluciones a los mismos: una compensación para los efectos de la resistencia interna y un filtro pasa bajos en la entrada del estimado.
+Por lo tanto, a continuación se analiza en profundidad ambos inconvenientes y se plantean soluciones a los mismos: un filtro pasa bajos en la entrada del estimador y una compensación para los efectos de la resistencia interna.
 
 \section{Diseño del filtro pasa bajos}
 
-Debido a que el derivador amplifica las señales de alta frecuencia es necesario agregar un filtro pasa bajos en su entrada. Como la señal que ingresa al derivador es $V_{iL}$, que es una onda triangular de frecuencia fundamental de $2\:kHz$, se permite el paso de sus componentes hasta la quinta armónica. Para su implementación se utiliza un filtro activo Butterworth de segundo orden, con una frecuencia de corte en $20\:kHz$. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el filtro utilizado y en la figura \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
+Debido a que el derivador amplifica las señales de alta frecuencia se decidió agregar un filtro pasa bajos en su entrada, que permita el paso de la onda triangular de corriente pero que filtre la frecuencia de conmutación auxiliar. 
+
+La señal que ingresa al derivador es $V_{IL_{feed}}$, que es una onda triangular de frecuencia fundamental variable entre $1\:kHz$ y $2\:kHz$. Por lo tanto se permite el paso de sus componentes frecuencia hasta la quinta armónica. De esta manera se diseña que la frecuencia de corte del filtro sea de $20\:kHz$.
+
+Para su implementación se utiliza un filtro activo Butterworth de segundo orden, con una frecuencia de corte en $20\:kHz$. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el circuito utilizado y en la figura \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
 
 \begin{figure}[H]
 	\centering
@@ -433,6 +437,19 @@ Debido a que el derivador amplifica las señales de alta frecuencia es necesario
 	\caption{Respuesta en frecuencia del filtro activo.}
 	\label{fig:img_Respuesta-en-frecuencia-del-filtro-activo}
 \end{figure}
+
+\colorbox{red}{hará falta aclarar qué software usamos para el diseño??}
+
+A continuación, en la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el resultado de una simulación agregando el filtro LPF en la entrada. Esta simulación fue realizada con las mismas condiciones de corriente, inductancia que la de la figura \ref{fig:img_simulacion_derivador+rectificador_ss}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{simulacion_con_lpf_entrada.png}
+	\caption{Simulacion del estimador con filtro pasa bajos en la entrada.}
+	\label{fig:img_simulacion_lpf_entrada}
+\end{figure}
+
+Se puede observar que en comparación de la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, la señal de salida del derivador es menos ruidosa. Si bien en la señal $V_{estim}$ no se observa gran diferencia, el agrego del filtro en la entrada mejora la estimación de posición.
 
 \section{Compensación de resistencia interna}
 

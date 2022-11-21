@@ -20,13 +20,19 @@ Por lo tanto, utilizando esta inductancia en la ecuación \ref{eq_derivada_corri
 	\frac{di_L(t)}{dt}= \frac{V_L}{L(Y_g)}=\frac{V_L}{-2.56*Y_{g}+0.027}
 \end{equation}
 
+Como se diseñó en el capítulo \ref{cap:ControladorCorriente}, la alimentación $V_L$ del electroimán tiene dos valores posibles $V_L=+V_{cc}$ o $V_L=-V{cc}$. Es por ello que se puede reescribir la expresión \ref{eq_derivada_corriente_3} en función de $V_{cc}$:
+
+\begin{equation} \label{eq_derivada_corriente_4}
+	\left|\frac{di_L(t)}{dt}\right|= \frac{V_{cc}}{L(Y_g)}=\frac{V_{cc}}{-2.56*Y_{g}+0.027}
+\end{equation}
+
 A partir de la expresión \ref{eq_derivada_corriente_3} se evalúa la derivada para distintos valores de distancia y se obtiene la tabla \ref{tab_derivada_linealizada}.
 
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{| c | c |}
 			\hline
-			$Y_g[\:mm]$ & $\frac{di_L(t)}{dt} [\:A/s]$\\ \hline
+			$Y_g[\:mm]$ & $\frac{di_L(t)}{dt} [\:\frac{A}{s}]$\\ \hline
 			2 & 1091.9 \\ \hline 
 			3 & 1235.8 \\ \hline 
 			4 & 1423.5 \\ \hline 
@@ -37,20 +43,21 @@ A partir de la expresión \ref{eq_derivada_corriente_3} se evalúa la derivada p
 	\end{center}
 \end{table}
 
-Al aplicar mínimos cuadrados a los valores de la tabla \ref{tab_derivada_linealizada} se obtiene la expresión linealizada de la pendiente:
+Se realiza una regresión por mínimos cuadrados a los valores de la tabla \ref{tab_derivada_linealizada} y se obtiene una expresión linealizada de la pendiente, que muestra en la ecuación \ref{eq_di-dt_lineal}.
+
 
 \begin{equation} \label{eq_di-dt_lineal}
-	{\left|\frac{{dI}_L}{dt}\right|}_{Lineal}=\ 194690\ *\ Y_g\:[m]+676\:A/s
+	{\left|\frac{di_L}{dt}\right|}_{Lineal}[\:\frac{A}{s}]= 194690 * Y_g\:[m]+676
 \end{equation}
 
-Al despejar la distancia de separación se obtiene:
+De la expresión \ref{eq_di-dt_lineal} se despeja la distancia de separación y se obtiene:
 
 \begin{equation} \label{eq_Yg_despejada}
-	Y_g=5.136*10^{-6}*{\left|\frac{{dI}_L}{dt}\right|}_{Lineal} - 3.472*10^{-3}
+	Y_g\:[m] =5.136*10^{-6}*{\left|\frac{di_L}{dt}\right|}_{Lineal} - 3.472*10^{-3}
 \end{equation}
 
 
-En la expresión \ref{eq_Yg_despejada} se puede observar que, para obtener una estimación de la distancia de separación, es necesario medir el módulo de la pendiente de la onda triangular de la corriente. Para ello, se implementa un circuito derivador que permita obtener la pendiente de la corriente y luego un circuito rectificador para obtener su módulo.
+En la expresión \ref{eq_Yg_despejada} se puede observar que para obtener una estimación de la distancia de separación, es necesario medir el módulo de la pendiente de la onda triangular de la corriente en el electroimán. Para realizar la estimación a partir de un circuito analógico se propone implementar un circuito derivador que permita obtener la pendiente de la corriente. Como la corriente tiene forma triangular, estará compuesta por un segmento creciente (pendiente positiva) y un segmento decreciente (pendiente negativa). Debido a que en la expresión \ref{eq_Yg_despejada} se necesita obtener su módulo, se agrega una etapa de rectificación a la salida del derivador.
 
 La forma de onda correspondiente a la salida de cada etapa a implementar se muestra en la figura \ref{fig:img_forma-de-onda-estimador}. En ella se observa que se parte con una onda triangular, correspondiente a la corriente que circula por el electroimán. Luego, al pasar por el derivador, se obtiene una onda pulsada, cuyos valor superior e inferior se corresponden con la pendiente de crecimiento y de decrecimiento de la corriente. Luego, al entrar a la etapa de rectificación se obtiene un valor constante y proporcional a la pendiente y, por ende, a la distancia de separación de entrehierro.
 
@@ -64,15 +71,14 @@ La forma de onda correspondiente a la salida de cada etapa a implementar se mues
 
 
 
-Debido a que la forma de medir la corriente del electroimán es a través del sensor de efecto Hall, cuya salida es $V_{IL_{feed}}$ (\ref{eq_salida_restador_hall_2}), es necesario tener en cuenta su ganancia $H_0$. Por lo tanto, la expresión a implementar circuitalmente resulta:
+Hasta ahora se planteó que la entrada al derivador es la corriente del electroimán. Sin embargo, esta no es medida de manera directa, sino que se mide a través del sensor de efecto Hall, cuya salida es $V_{IL_{feed}}$ (\ref{eq_salida_restador_hall_2}). Por lo tanto es necesario tener en cuenta su ganancia $H_0$ al momento de diseñar el estimador. La expresión a implementar circuitalmente resulta:
 
 \begin{equation} \label{eq_Yg_salida_sensor}
 	Y_g=\frac{5.136*10^{-6}}{H_0}*{\left|\frac{dV_{IL_{feed}}}{dt}\right|}_{Lineal} - 3.472*10^{-3}
 \end{equation}
 
 %Además se decidió agregar un LPF luego del rectificador para reducir las frecuencias no deseadas introducidas por el cambio de signo de la pendiente, las cuales generan saltos sobre un punto de operación en la tensión de salida del derivador.
-
-Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques_estimador}.
+El diagrama en bloques que describe cómo está conformado el estimador se muestra en la figura \ref{fig:img_diag-en-bloques_estimador}.
 
 \begin{figure}[H]
 	\centering
@@ -81,7 +87,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:img_diag-e
 \end{figure}
 \colorbox{red}{Ver si estan bien los nombres de las señales y los bloques en el diagrama}
 
-A continuación se describe la implementación circuital de cada una de las etapas que componen al diagrama en bloques \ref{fig:img_diag-en-bloques_estimador}.
+A continuación se diseñará la implementación circuital de cada una de las etapas que componen al diagrama en bloques \ref{fig:img_diag-en-bloques_estimador}.
 
 {
 	%Por lo tanto, en esta capítulo/sección.. se aborda el análisis de la implementación…
@@ -90,7 +96,7 @@ A continuación se describe la implementación circuital de cada una de las etap
 }
 
 
-\section{Modelo circuital del estimador de posición}
+\section{Diseño circuital del estimador de posición}
 
 \subsection{Circuito derivador}
 

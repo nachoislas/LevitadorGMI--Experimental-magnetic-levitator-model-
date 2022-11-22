@@ -118,21 +118,13 @@ La salida del circuito $V_{deriv}(t)$ ante su entrada $V_{IL_{feed}}$ es:
 	V_{deriv}(t)\ = V_{op} - \frac{dV_{IL_{feed}}}{dt}*C_1*R_1
 \end{equation}
 
-Teniendo en cuenta que $V_{IL_{feed}}=I_L*H_0+0.1\:V$, al hacer su derivada se pierde el término constante y podemos expresar la ecuación en función de $V_{IL}=I_L*H_0$, entonces $ \frac{dV_{IL_{feed}}}{dt}= \frac{dV_{IL}}{dt}$.
-
-\colorbox{red}{Para que se deja en función de ViL si en la expresión 4.7 lo volvemos a dejar en función de la corriente IL?}
+Teniendo en cuenta que $V_{IL_{feed}}=I_L*H_0+0.1\:V$, al hacer su derivada se pierde el término constante, entonces $ \frac{dV_{IL_{feed}}}{dt}= \frac{dV_{IL}}{dt}$ luego se expresa la ecuación en función de la corriente al reemplazar $V_{IL}=I_L*H_0$.
 
 \begin{equation} \label{eq_vyf1}
-	V_{deriv}(t)\ = 2.5V - \frac{dV_{IL}}{dt}*C_1*R_1
+	V_{deriv}(t)\ = 2.5V - \frac{dV_{IL}}{dt}*C_1*R_1 = 2.5\:V\ -\frac{dI_L}{dt}*H_0*C_1*R_1
 \end{equation}
 
-Al expresar la ecuación \ref{eq_vyf1} en función de la derivada de la corriente se obtiene:
-
-\begin{equation} \label{eq_vyf2}
-	V_{deriv}(t)\ =2.5\:V\ -\frac{di_L}{dt}*H_0*C_1*R_1
-\end{equation}
-
-Según la expresión \ref{eq_vyf2}, la salida del derivador $V_{deriv}$ excursionará alrededor de $V_{op}=2.5\:V$ con un valor máximo de $5\:V$ y un mínimo de $0\:V$. Cualquier valor que supere esos límites provocaría una saturación.
+Según la expresión \ref{eq_vyf1}, la salida del derivador $V_{deriv}$ excursionará alrededor de $V_{op}=2.5\:V$ con un valor máximo de $5\:V$ y un mínimo de $0\:V$. Cualquier valor que supere esos límites provocaría una saturación.
 
 Para evitar una saturación de la salida del derivador y teniendo en cuenta que $V_{deriv}(t)$ presenta variaciones alrededor del punto de operación de $2.5\:V$ se debe cumplir, para todos los casos posibles de pendiente en el rango de distancia de trabajo, que:
 
@@ -156,19 +148,16 @@ El derivador tiene como salida una onda pulsada, cuyo nivel superior es proporci
 
 Para los cálculos se utilizó $\tau = C_1*R_1= 25\:ms$, para dar un margen y evitar la saturación del amplificador operacional.  
 
-Con la ecuación \ref{eq_di-dt_lineal} y \ref{eq_vyf2}, y con una variación en torno a $2.5\:V$ se obtiene una expresión para la salida del derivador en función de la distancia de entrehierro:
+Con la ecuación \ref{eq_di-dt_lineal} y \ref{eq_vyf1}, y con una variación en torno a $2.5\:V$ se obtienen dos expresiónes para la salida del derivador en función de la distancia de entrehierro y el sentido de las pendientes.
 
 
-\begin{equation} \label{eq_Vyf-lineal}
-	V_{deriv}(Y_g)\:[V] =\ |H_0*C_1*R_1*\frac{di_L}{dt}| +2.5=0.2595*Y_g[mm]+3.4
-\end{equation}
+%\begin{equation} \label{eq_Vyf-lineal}
+%	V_{deriv}(Y_g)\:[V] =\ |H_0*C_1*R_1*\frac{di_L}{dt}| +2.5=0.2595*Y_g[mm]+3.4
+%\end{equation}
 
-\colorbox{red}{Esta bien que vaya el modulo en la ecuación de arriba?}CREO QUE IMPLICITAMENTE ASUMIMOS QUE DESPUÉS SE RECTIFICA, ENTONCES CONSIDERAMOS EL CASO DE PENDIENTE DECRECIENTE, QUE SE SUMA A LOS 2.5V
-
--------------------------------
 Para pendiente positiva, la salida del circuito derivador resulta:
 
-\begin{equation} %\label{eq_Vyf-lineal}
+\begin{equation} \label{eq_Vyf-lineal}
 	V_{deriv}(Y_g) = -0.2595*Y_g[mm] + 1.6\:V
 \end{equation}
 
@@ -179,26 +168,26 @@ Para pendiente negativa, la salida del circuito derivador resulta:
 	V_{deriv}(Y_g) = 0.2595*Y_g[mm] + 3.4\:V
 \end{equation}
 
-----------------------------------
+Se puede ver que para ambas ecuaciones la pendientes resultante es la misma pero con un signo negativo.
 
-A partir de la expresión \ref{eq_Vyf-lineal} se realizó la tabla \ref{tab_Vyf_vs_y} que muestra el valor de salida del derivador para cada distancia de entrehierro. Se puede observar  que para los posibles valores en los que el electroimán trabaja, el estimador posee un rango de salida ${\mathit{\Delta}{V_{deriv}}_{Lineal}}(5\:mm-2\:mm)= 0.78\:V$.
+A partir de la expresiónes \ref{eq_Vyf-lineal} se realizó la tabla \ref{tab_Vyf_vs_y} que muestra el valor de salida del derivador para cada distancia de entrehierro. Se puede observar que para los posibles valores en los que el electroimán trabaja y para ambas pendientes, el estimador posee el mismo rango de salida, lo cual era de esperarse. Este es ${\mathit{\Delta}{V_{deriv}}_{Lineal}}(5\:mm-2\:mm)= 0.78\:V$.
+
 
 \begin{table}[H]
 	\begin{center}
-		\begin{tabular}{| c | c |}
+		\begin{tabular}{| c | c | c |}
 			\hline
-			$Y_g[\:mm]$ & ${V_{deriv}(Y_g)}_{Lineal} [\:V]$\\ \hline
-			2 & 3.92 \\ \hline 
-			3 & 4.18 \\ \hline 
-			4 & 4.44 \\ \hline 
-			5 & 4.7 \\ \hline 
+			$Y_g[\:mm]$ & ${V_{deriv}(Y_g)}_{Lineal (+)} [\:V]$ & ${V_{deriv}(Y_g)}_{Lineal (-)} [\:V]$
+			\\ \hline
+			2 & 3.92 & 1.08\\ \hline 
+			3 & 4.18 & 0.82\\ \hline 
+			4 & 4.44 & 0.56\\ \hline 
+			5 & 4.7  & 0.30\\ \hline 
 		\end{tabular}
 		\caption{Tensión de salida del derivador ($V_{deriv}$) en función de la posición ($Y_g$).}
 		\label{tab_Vyf_vs_y}
 	\end{center}
 \end{table}
-
-\colorbox{red}{Esta tabla solo sería para los niveles superiores de la onda cuadrad..  Faltaría otra columna con los niveles inferiores..}
 
 \subsection{Elección de amplificador operacional}
 

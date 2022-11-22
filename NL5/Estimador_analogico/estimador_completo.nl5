@@ -4,34 +4,34 @@
   <c> CAUTION: DO NOT MODIFY THIS FILE !!! </c>
   <c>     ...if you don't know how...      </c>
   <c>======================================</c>
-  <Version ver="2" rev="7" build="4" date="01/11/2022" ID="1465331631" />
+  <Version ver="2" rev="7" build="4" date="01/11/2022" ID="341306543" />
   <Doc display="3" activeSheet="0">
-    <Properties title="No+title" revision="1.0" author="Javi" project="Unknown" organization="Javi" comments="" created="17%2f10%2f2021+17%3a04%3a35" modified="11%2f22%2f2022+5%3a03%3a59+PM" save="0" />
+    <Properties title="No+title" revision="1.0" author="Javi" project="Unknown" organization="Javi" comments="" created="17%2f10%2f2021+17%3a04%3a35" modified="11%2f22%2f2022+5%3a41%3a17+PM" save="0" />
     <CirWin state="2" />
     <Cmps>
       <Cmp type="C_C" id="15" name="C1" file_name="" view="0" node0="0" node1="25" model="C" ic="" c="1.2e-9" fs="1%2fs" />
-      <Cmp type="C_C" id="90" name="C2" file_name="" view="0" node0="0" node1="49" model="C" ic="" c="470e-12" fs="1%2fs" />
-      <Cmp type="C_C" id="86" name="C3" file_name="" view="0" node0="19" node1="45" model="C" ic="" c="1e-9" fs="1%2fs" />
-      <Cmp type="C_C" id="62" name="C4" file_name="" view="0" node0="46" node1="52" model="C" ic="" c="1e-6" fs="1%2fs" />
-      <Cmp type="C_C" id="80" name="C5" file_name="" view="0" node0="43" node1="44" model="C" ic="" c="10e-9" fs="1%2fs" />
-      <Cmp type="C_C" id="81" name="C6" file_name="" view="0" node0="0" node1="55" model="C" ic="" c="10e-9" fs="1%2fs" />
+      <Cmp type="C_C" id="90" name="C2" file_name="" view="0" node0="0" node1="48" model="C" ic="" c="470e-12" fs="1%2fs" />
+      <Cmp type="C_C" id="86" name="C3" file_name="" view="0" node0="19" node1="44" model="C" ic="" c="1e-9" fs="1%2fs" />
+      <Cmp type="C_C" id="62" name="C4" file_name="" view="0" node0="45" node1="51" model="C" ic="" c="1e-6" fs="1%2fs" />
+      <Cmp type="C_C" id="80" name="C5" file_name="" view="0" node0="17" node1="43" model="C" ic="" c="10e-9" fs="1%2fs" />
+      <Cmp type="C_C" id="81" name="C6" file_name="" view="0" node0="0" node1="47" model="C" ic="" c="10e-9" fs="1%2fs" />
       <Cmp type="D_D" id="43" name="D1" file_name="" view="0" node0="23" node1="8" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
       <Cmp type="D_D" id="46" name="D2" file_name="" view="0" node0="23" node1="9" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
       <Cmp type="D_D" id="44" name="D3" file_name="" view="0" node0="8" node1="0" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
       <Cmp type="D_D" id="45" name="D4" file_name="" view="0" node0="9" node1="0" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
-      <Cmp type="D_D" id="70" name="D5" file_name="" view="0" node0="18" node1="50" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
-      <Cmp type="D_D" id="71" name="D6" file_name="" view="0" node0="50" node1="16" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
+      <Cmp type="D_D" id="70" name="D5" file_name="" view="0" node0="18" node1="49" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
+      <Cmp type="D_D" id="71" name="D6" file_name="" view="0" node0="49" node1="16" model="Diode" vd="0" t="0" ts="0" ic="0" icq="0" />
       <Cmp type="L_L" id="26" name="L(y)" file_name="" view="0" node0="34" node1="33" model="L" l="8.44e-3" ic="" fs="s" />
       <Cmp type="L_L" id="27" name="Linf" file_name="" view="0" node0="35" node1="34" model="L" l="8e-3" ic="" fs="s" />
       <Cmp type="O_OD" id="6" name="O1" file_name="" view="0" node0="24" node1="3" node2="26" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
       <Cmp type="O_OD" id="10" name="O2" file_name="" view="0" node0="31" node1="4" node2="29" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
       <Cmp type="O_OD" id="17" name="O3" file_name="" view="0" node0="32" node1="5" node2="25" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
       <Cmp type="O_OD" id="31" name="O4" file_name="" view="0" node0="41" node1="13" node2="40" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
-      <Cmp type="O_OD" id="89" name="O5" file_name="" view="0" node0="49" node1="19" node2="19" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
-      <Cmp type="O_OD" id="91" name="O6" file_name="" view="0" node0="57" node1="21" node2="56" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
-      <Cmp type="O_OD" id="60" name="O7" file_name="" view="0" node0="21" node1="20" node2="46" model="OpAmp" k="1.7e+6" f1="35e+6" hi="100" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
-      <Cmp type="O_OD" id="68" name="O8" file_name="" view="0" node0="10" node1="50" node2="47" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
-      <Cmp type="O_OD" id="75" name="O9" file_name="" view="0" node0="48" node1="17" node2="44" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
+      <Cmp type="O_OD" id="89" name="O5" file_name="" view="0" node0="48" node1="19" node2="19" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
+      <Cmp type="O_OD" id="91" name="O6" file_name="" view="0" node0="55" node1="21" node2="54" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
+      <Cmp type="O_OD" id="60" name="O7" file_name="" view="0" node0="21" node1="20" node2="45" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
+      <Cmp type="O_OD" id="68" name="O8" file_name="" view="0" node0="10" node1="49" node2="46" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
+      <Cmp type="O_OD" id="75" name="O9" file_name="" view="0" node0="47" node1="17" node2="43" model="OpAmp" k="1.7e+6" f1="35e+6" hi="5" lo="0" hyst="100e-3" f="x" fs="1" comp_ic="0" func_ic="0" delay="0" opamp_ic="2.5" ic="2.5" />
       <Cmp type="R_R" id="2" name="R1" file_name="" view="0" node0="24" node1="2" model="R" r="10e+3" fs="1" />
       <Cmp type="R_R" id="3" name="R2" file_name="" view="0" node0="1" node1="24" model="R" r="3.2e+3" fs="1" />
       <Cmp type="R_R" id="5" name="R3" file_name="" view="0" node0="0" node1="24" model="R" r="4.7e+3" fs="1" />
@@ -44,27 +44,27 @@
       <Cmp type="R_R" id="16" name="R10" file_name="" view="0" node0="5" node1="25" model="R" r="10e+3" fs="1" />
       <Cmp type="R_R" id="18" name="R11" file_name="" view="0" node0="32" node1="5" model="R" r="10e+3" fs="1" />
       <Cmp type="R_R" id="19" name="R12" file_name="" view="0" node0="10" node1="32" model="R" r="2e+3" fs="1" />
-      <Cmp type="R_R" id="88" name="R13" file_name="" view="0" node0="45" node1="49" model="R" r="15e+3" fs="1" />
+      <Cmp type="R_R" id="88" name="R13" file_name="" view="0" node0="44" node1="48" model="R" r="15e+3" fs="1" />
       <Cmp type="R_R" id="29" name="R14" file_name="" view="0" node0="41" node1="14" model="R" r="10e+3" fs="1" />
       <Cmp type="R_R" id="30" name="R15" file_name="" view="0" node0="0" node1="41" model="R" r="10e+3" fs="1" />
       <Cmp type="R_R" id="32" name="R16" file_name="" view="0" node0="10" node1="40" model="R" r="10e+3" fs="1" />
       <Cmp type="R_R" id="33" name="R17" file_name="" view="0" node0="13" node1="40" model="R" r="10e+3" fs="1" />
-      <Cmp type="R_R" id="87" name="R18" file_name="" view="0" node0="13" node1="45" model="R" r="8.9e+3" fs="1" />
-      <Cmp type="R_R" id="56" name="R19" file_name="" view="0" node0="21" node1="56" model="R" r="309" fs="1" />
-      <Cmp type="R_R" id="57" name="R20" file_name="" view="0" node0="19" node1="56" model="R" r="1e+3" fs="1" />
-      <Cmp type="R_R" id="58" name="R21" file_name="" view="0" node0="10" node1="57" model="R" r="293" fs="1" />
-      <Cmp type="R_R" id="59" name="R22" file_name="" view="0" node0="0" node1="57" model="R" r="1e+3" fs="1" />
-      <Cmp type="R_R" id="61" name="R23" file_name="" view="0" node0="52" node1="19" model="R" r="10" fs="1" />
-      <Cmp type="R_R" id="63" name="R24" file_name="" view="0" node0="20" node1="46" model="R" r="25e+3" fs="1" />
-      <Cmp type="R_R" id="67" name="R25" file_name="" view="0" node0="47" node1="20" model="R" r="3.56e+3" fs="1" />
-      <Cmp type="R_R" id="69" name="R26" file_name="" view="0" node0="18" node1="47" model="R" r="3.56e+3" fs="1" />
-      <Cmp type="R_R" id="72" name="R27" file_name="" view="0" node0="47" node1="16" model="R" r="3.56e+3" fs="1" />
+      <Cmp type="R_R" id="87" name="R18" file_name="" view="0" node0="13" node1="44" model="R" r="8.9e+3" fs="1" />
+      <Cmp type="R_R" id="56" name="R19" file_name="" view="0" node0="21" node1="54" model="R" r="309" fs="1" />
+      <Cmp type="R_R" id="57" name="R20" file_name="" view="0" node0="19" node1="54" model="R" r="1e+3" fs="1" />
+      <Cmp type="R_R" id="58" name="R21" file_name="" view="0" node0="10" node1="55" model="R" r="293" fs="1" />
+      <Cmp type="R_R" id="59" name="R22" file_name="" view="0" node0="0" node1="55" model="R" r="1e+3" fs="1" />
+      <Cmp type="R_R" id="61" name="R23" file_name="" view="0" node0="51" node1="19" model="R" r="10" fs="1" />
+      <Cmp type="R_R" id="63" name="R24" file_name="" view="0" node0="20" node1="45" model="R" r="25e+3" fs="1" />
+      <Cmp type="R_R" id="67" name="R25" file_name="" view="0" node0="46" node1="20" model="R" r="3.56e+3" fs="1" />
+      <Cmp type="R_R" id="69" name="R26" file_name="" view="0" node0="18" node1="46" model="R" r="3.56e+3" fs="1" />
+      <Cmp type="R_R" id="72" name="R27" file_name="" view="0" node0="46" node1="16" model="R" r="3.56e+3" fs="1" />
       <Cmp type="R_R" id="73" name="R28" file_name="" view="0" node0="15" node1="16" model="R" r="1.8e+6" fs="1" />
       <Cmp type="R_R" id="74" name="R29" file_name="" view="0" node0="0" node1="18" model="R" r="1.8e+6" fs="1" />
-      <Cmp type="R_R" id="76" name="R30" file_name="" view="0" node0="18" node1="48" model="R" r="100e+3" fs="1" />
-      <Cmp type="R_R" id="77" name="R31" file_name="" view="0" node0="10" node1="48" model="R" r="100e+3" fs="1" />
-      <Cmp type="R_R" id="78" name="R32" file_name="" view="0" node0="16" node1="44" model="R" r="100e+3" fs="1" />
-      <Cmp type="R_R" id="79" name="R33" file_name="" view="0" node0="17" node1="44" model="R" r="100e+3" fs="1" />
+      <Cmp type="R_R" id="76" name="R30" file_name="" view="0" node0="18" node1="47" model="R" r="100e+3" fs="1" />
+      <Cmp type="R_R" id="77" name="R31" file_name="" view="0" node0="10" node1="47" model="R" r="100e+3" fs="1" />
+      <Cmp type="R_R" id="78" name="R32" file_name="" view="0" node0="16" node1="43" model="R" r="100e+3" fs="1" />
+      <Cmp type="R_R" id="79" name="R33" file_name="" view="0" node0="17" node1="43" model="R" r="100e+3" fs="1" />
       <Cmp type="R_R" id="25" name="RL" file_name="" view="0" node0="33" node1="8" model="R" r="200e-3" fs="1" />
       <Cmp type="S_LCS" id="20" name="S1" file_name="" view="0" node0="8" node1="23" node2="6" model="Switch" a="1" thr="5" hyst="0" ic="0" width="100e-3" roff="1e+3" ron="1" steps="10" slope="0" />
       <Cmp type="S_LCS" id="23" name="S2" file_name="" view="0" node0="9" node1="23" node2="7" model="Switch" a="1" thr="5" hyst="0" ic="0" width="100e-3" roff="1e+3" ron="1" steps="10" slope="0" />
@@ -103,7 +103,7 @@
     </Cmps>
     <Sheet name="Sheet1">
       <VC size="12" center="9,23" />
-      <Curs p="9,27" dir="3" />
+      <Curs p="9,29" dir="-1" />
       <Pcts>
         <Pct type="label" undo_id="1" id="4" p="-10,-7" text0="16,-24" text1="56,-13" textdir="0" />
         <Pct type="label" undo_id="2" id="49" p="-15,-3" text0="16,-24" text1="16,24" textdir="0" />
@@ -128,9 +128,9 @@
         <Pct type="label" undo_id="21" id="84" p="31,23" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="308" id="66" p="4,25" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="22" id="65" p="18,26" text0="16,-24" text1="16,24" textdir="0" />
+        <Pct type="label" undo_id="23" id="13" p="18,34" text0="16,-24" text1="16,24" textdir="0" disabled="true" />
         <Pct type="label" undo_id="24" id="13" p="22,28" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="25" id="13" p="42,29" text0="16,-24" text1="16,24" textdir="0" />
-        <Pct type="label" undo_id="23" id="13" p="18,34" text0="16,-24" text1="16,24" textdir="0" disabled="true" />
         <Pct type="label" undo_id="1002" id="64" p="3,35" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="label" undo_id="1003" id="13" p="-14,36" text0="16,-24" text1="16,24" textdir="0" />
         <Pct type="cmp" undo_id="26" id="24" p="37,-5" dir="1" mir="0" view="0" text0="24,-40" text1="42,-40" textdir="0" subcir="true" />
@@ -240,65 +240,46 @@
         <Pct type="dot" undo_id="317" p="-6,24" />
         <Pct type="dot" undo_id="318" p="2,25" />
         <Pct type="dot" undo_id="117" p="12,25" />
+        <Pct type="dot" undo_id="1644" p="42,25" />
         <Pct type="dot" undo_id="119" p="25,26" />
-        <Pct type="dot" undo_id="1265" p="9,27" />
         <Pct type="dot" undo_id="120" p="31,27" />
         <Pct type="dot" undo_id="1010" p="-4,34" />
         <Pct type="dot" undo_id="1011" p="-4,36" />
         <Pct type="line" undo_id="121" p0="21,-8" p1="52,-8" />
         <Pct type="line" undo_id="122" p0="21,-8" p1="21,0" />
-        <Pct type="line" undo_id="1237" p0="21,0" p1="21,6" />
         <Pct type="line" undo_id="123" p0="52,-8" p1="52,0" />
-        <Pct type="line" undo_id="1239" p0="52,0" p1="52,6" />
         <Pct type="line" undo_id="124" p0="-10,-7" p1="-10,-6" />
         <Pct type="line" undo_id="125" p0="27,-5" p1="30,-5" />
-        <Pct type="line" undo_id="1233" p0="30,-5" p1="37,-5" />
-        <Pct type="line" undo_id="1231" p0="37,-5" p1="44,-5" />
-        <Pct type="line" undo_id="1234" p0="44,-5" p1="46,-5" />
         <Pct type="line" undo_id="126" p0="27,-5" p1="27,-1" />
         <Pct type="line" undo_id="128" p0="30,-5" p1="30,-2" />
         <Pct type="line" undo_id="131" p0="44,-5" p1="44,-2" />
         <Pct type="line" undo_id="132" p0="46,-5" p1="46,-1" />
         <Pct type="line" undo_id="133" p0="-10,-4" p1="-10,-3" />
-        <Pct type="line" undo_id="1235" p0="-10,-3" p1="-10,-2" />
         <Pct type="line" undo_id="134" p0="12,-4" p1="15,-4" />
         <Pct type="line" undo_id="135" p0="12,-4" p1="12,-1" />
         <Pct type="line" undo_id="136" p0="17,-4" p1="19,-4" />
         <Pct type="line" undo_id="137" p0="19,-4" p1="19,0" />
-        <Pct type="line" undo_id="1219" p0="19,0" p1="19,3" />
         <Pct type="line" undo_id="138" p0="-15,-3" p1="-13,-3" />
         <Pct type="line" undo_id="139" p0="-15,-3" p1="-15,-2" />
         <Pct type="line" undo_id="140" p0="-11,-3" p1="-10,-3" />
-        <Pct type="line" undo_id="1236" p0="-10,-3" p1="-6,-3" />
         <Pct type="line" undo_id="143" p0="-3,-2" p1="-2,-2" />
-        <Pct type="line" undo_id="1217" p0="-2,-2" p1="-1,-2" />
         <Pct type="line" undo_id="145" p0="-2,-2" p1="-2,2" />
         <Pct type="line" undo_id="146" p0="1,-2" p1="3,-2" />
         <Pct type="line" undo_id="147" p0="-6,-1" p1="-6,2" />
-        <Pct type="line" undo_id="1240" p0="-6,2" p1="-6,3" />
         <Pct type="line" undo_id="148" p0="6,-1" p1="8,-1" />
-        <Pct type="line" undo_id="1218" p0="8,-1" p1="9,-1" />
         <Pct type="line" undo_id="150" p0="8,-1" p1="8,2" />
         <Pct type="line" undo_id="151" p0="11,-1" p1="12,-1" />
-        <Pct type="line" undo_id="1232" p0="12,-1" p1="15,-1" />
         <Pct type="line" undo_id="153" p0="2,0" p1="2,2" />
         <Pct type="line" undo_id="154" p0="2,0" p1="3,0" />
         <Pct type="line" undo_id="155" p0="18,0" p1="19,0" />
-        <Pct type="line" undo_id="1220" p0="19,0" p1="21,0" />
-        <Pct type="line" undo_id="1238" p0="21,0" p1="23,0" />
         <Pct type="line" undo_id="160" p0="25,0" p1="26,0" />
         <Pct type="line" undo_id="161" p0="30,0" p1="30,3" />
-        <Pct type="line" undo_id="1242" p0="30,3" p1="30,5" />
         <Pct type="line" undo_id="162" p0="44,0" p1="44,3" />
-        <Pct type="line" undo_id="1244" p0="44,3" p1="44,5" />
         <Pct type="line" undo_id="163" p0="47,0" p1="48,0" />
         <Pct type="line" undo_id="164" p0="50,0" p1="52,0" />
         <Pct type="line" undo_id="166" p0="15,1" p1="15,3" />
-        <Pct type="line" undo_id="1241" p0="15,3" p1="15,4" />
         <Pct type="line" undo_id="167" p0="27,1" p1="27,3" />
-        <Pct type="line" undo_id="1221" p0="27,3" p1="27,5" />
         <Pct type="line" undo_id="168" p0="46,1" p1="46,3" />
-        <Pct type="line" undo_id="1222" p0="46,3" p1="46,5" />
         <Pct type="line" undo_id="170" p0="-6,2" p1="-5,2" />
         <Pct type="line" undo_id="171" p0="-3,2" p1="-2,2" />
         <Pct type="line" undo_id="172" p0="2,2" p1="4,2" />
@@ -306,11 +287,9 @@
         <Pct type="line" undo_id="175" p0="15,3" p1="16,3" />
         <Pct type="line" undo_id="176" p0="18,3" p1="19,3" />
         <Pct type="line" undo_id="178" p0="27,3" p1="30,3" />
-        <Pct type="line" undo_id="1243" p0="30,3" p1="31,3" />
         <Pct type="line" undo_id="181" p0="33,3" p1="34,3" />
         <Pct type="line" undo_id="182" p0="36,3" p1="37,3" />
         <Pct type="line" undo_id="183" p0="41,3" p1="44,3" />
-        <Pct type="line" undo_id="1245" p0="44,3" p1="46,3" />
         <Pct type="line" undo_id="187" p0="2,4" p1="2,5" />
         <Pct type="line" undo_id="188" p0="37,4" p1="37,13" />
         <Pct type="line" undo_id="189" p0="37,4" p1="39,4" />
@@ -330,23 +309,17 @@
         <Pct type="line" undo_id="203" p0="12,9" p1="14,9" />
         <Pct type="line" undo_id="204" p0="14,9" p1="14,11" />
         <Pct type="line" undo_id="205" p0="13,11" p1="14,11" />
-        <Pct type="line" undo_id="1246" p0="14,11" p1="15,11" />
         <Pct type="line" undo_id="207" p0="17,11" p1="19,11" />
         <Pct type="line" undo_id="694" p0="-14,12" p1="-6,12" />
-        <Pct type="line" undo_id="1223" p0="-6,12" p1="9,12" />
-        <Pct type="line" undo_id="1247" p0="9,12" p1="10,12" />
         <Pct type="line" undo_id="693" p0="-14,12" p1="-14,24" />
         <Pct type="line" undo_id="211" p0="13,13" p1="14,13" />
-        <Pct type="line" undo_id="1248" p0="14,13" p1="15,13" />
         <Pct type="line" undo_id="213" p0="14,13" p1="14,14" />
         <Pct type="line" undo_id="214" p0="17,13" p1="19,13" />
-        <Pct type="line" undo_id="1224" p0="19,13" p1="37,13" />
         <Pct type="line" undo_id="216" p0="37,15" p1="37,17" />
         <Pct type="line" undo_id="217" p0="42,17" p1="43,17" />
         <Pct type="line" undo_id="218" p0="42,17" p1="42,19" />
-        <Pct type="line" undo_id="1249" p0="42,19" p1="42,21" />
+        <Pct type="line" undo_id="1547" p0="45,17" p1="48,17" />
         <Pct type="line" undo_id="220" p0="48,17" p1="48,19" />
-        <Pct type="line" undo_id="1250" p0="48,19" p1="48,22" />
         <Pct type="line" undo_id="221" p0="37,19" p1="37,21" />
         <Pct type="line" undo_id="223" p0="42,19" p1="43,19" />
         <Pct type="line" undo_id="224" p0="45,19" p1="48,19" />
@@ -354,57 +327,40 @@
         <Pct type="line" undo_id="321" p0="-10,20" p1="-10,24" />
         <Pct type="line" undo_id="322" p0="-1,20" p1="4,20" />
         <Pct type="line" undo_id="323" p0="4,20" p1="4,25" />
-        <Pct type="line" undo_id="1227" p0="4,25" p1="4,30" />
         <Pct type="line" undo_id="226" p0="12,20" p1="14,20" />
         <Pct type="line" undo_id="227" p0="12,20" p1="12,25" />
         <Pct type="line" undo_id="228" p0="16,20" p1="18,20" />
         <Pct type="line" undo_id="229" p0="18,20" p1="18,26" />
         <Pct type="line" undo_id="230" p0="25,21" p1="25,23" />
-        <Pct type="line" undo_id="1253" p0="25,23" p1="25,26" />
         <Pct type="line" undo_id="231" p0="25,21" p1="27,21" />
         <Pct type="line" undo_id="232" p0="29,21" p1="34,21" />
-        <Pct type="line" undo_id="1225" p0="34,21" p1="37,21" />
-        <Pct type="line" undo_id="1251" p0="37,21" p1="38,21" />
         <Pct type="line" undo_id="234" p0="34,21" p1="34,24" />
         <Pct type="line" undo_id="236" p0="40,21" p1="42,21" />
-        <Pct type="line" undo_id="1252" p0="42,21" p1="43,21" />
         <Pct type="line" undo_id="238" p0="46,22" p1="48,22" />
         <Pct type="line" undo_id="240" p0="25,23" p1="27,23" />
         <Pct type="line" undo_id="241" p0="29,23" p1="31,23" />
-        <Pct type="line" undo_id="1226" p0="31,23" p1="37,23" />
-        <Pct type="line" undo_id="1254" p0="37,23" p1="39,23" />
         <Pct type="line" undo_id="243" p0="31,23" p1="31,24" />
         <Pct type="line" undo_id="245" p0="37,23" p1="37,25" />
         <Pct type="line" undo_id="246" p0="41,23" p1="42,23" />
-        <Pct type="line" undo_id="1255" p0="42,23" p1="43,23" />
-        <Pct type="line" undo_id="248" p0="42,23" p1="42,26" />
+        <Pct type="line" undo_id="248" p0="42,23" p1="42,25" />
         <Pct type="line" undo_id="325" p0="-14,24" p1="-13,24" />
         <Pct type="line" undo_id="326" p0="-11,24" p1="-10,24" />
-        <Pct type="line" undo_id="1256" p0="-10,24" p1="-9,24" />
         <Pct type="line" undo_id="328" p0="-7,24" p1="-6,24" />
-        <Pct type="line" undo_id="1257" p0="-6,24" p1="-2,24" />
         <Pct type="line" undo_id="330" p0="-6,24" p1="-6,25" />
         <Pct type="line" undo_id="331" p0="1,25" p1="2,25" />
-        <Pct type="line" undo_id="1258" p0="2,25" p1="4,25" />
-        <Pct type="line" undo_id="1228" p0="4,25" p1="5,25" />
         <Pct type="line" undo_id="333" p0="2,25" p1="2,28" />
         <Pct type="line" undo_id="250" p0="7,25" p1="9,25" />
         <Pct type="line" undo_id="251" p0="11,25" p1="12,25" />
-        <Pct type="line" undo_id="1259" p0="12,25" p1="13,25" />
+        <Pct type="line" undo_id="1595" p0="42,25" p1="46,25" />
         <Pct type="line" undo_id="255" p0="46,25" p1="46,26" />
         <Pct type="line" undo_id="335" p0="-3,26" p1="-3,28" />
         <Pct type="line" undo_id="336" p0="-3,26" p1="-2,26" />
         <Pct type="line" undo_id="256" p0="16,26" p1="18,26" />
-        <Pct type="line" undo_id="1229" p0="18,26" p1="22,26" />
         <Pct type="line" undo_id="258" p0="24,26" p1="25,26" />
-        <Pct type="line" undo_id="1260" p0="25,26" p1="26,26" />
         <Pct type="line" undo_id="260" p0="31,26" p1="31,27" />
         <Pct type="line" undo_id="261" p0="34,26" p1="34,27" />
-        <Pct type="line" undo_id="262" p0="8,27" p1="9,27" />
         <Pct type="line" undo_id="1264" p0="9,27" p1="13,27" />
-        <Pct type="line" undo_id="1216" p0="9,27" p1="9,35" />
         <Pct type="line" undo_id="263" p0="29,27" p1="31,27" />
-        <Pct type="line" undo_id="1261" p0="31,27" p1="34,27" />
         <Pct type="line" undo_id="265" p0="37,27" p1="37,28" />
         <Pct type="line" undo_id="337" p0="-3,28" p1="2,28" />
         <Pct type="line" undo_id="266" p0="22,28" p1="26,28" />
@@ -415,28 +371,74 @@
         <Pct type="line" undo_id="1015" p0="-4,32" p1="-4,34" />
         <Pct type="line" undo_id="1016" p0="1,32" p1="3,32" />
         <Pct type="line" undo_id="1017" p0="3,32" p1="3,35" />
+        <Pct type="line" undo_id="1216" p0="9,27" p1="9,35" />
         <Pct type="line" undo_id="1018" p0="-14,34" p1="-7,34" />
         <Pct type="line" undo_id="1019" p0="-5,34" p1="-4,34" />
-        <Pct type="line" undo_id="1262" p0="-4,34" p1="-2,34" />
         <Pct type="line" undo_id="1021" p0="1,35" p1="3,35" />
-        <Pct type="line" undo_id="1230" p0="3,35" p1="9,35" />
         <Pct type="line" undo_id="1023" p0="-14,36" p1="-7,36" />
         <Pct type="line" undo_id="1024" p0="-5,36" p1="-4,36" />
-        <Pct type="line" undo_id="1263" p0="-4,36" p1="-2,36" />
         <Pct type="line" undo_id="1026" p0="-4,36" p1="-4,37" />
+        <Pct type="line" undo_id="1642" p0="-4,36" p1="-2,36" />
+        <Pct type="line" undo_id="1609" p0="3,35" p1="9,35" />
+        <Pct type="line" undo_id="1641" p0="-4,34" p1="-2,34" />
+        <Pct type="line" undo_id="1640" p0="31,27" p1="34,27" />
+        <Pct type="line" undo_id="1639" p0="25,26" p1="26,26" />
+        <Pct type="line" undo_id="1608" p0="18,26" p1="22,26" />
+        <Pct type="line" undo_id="1638" p0="12,25" p1="13,25" />
+        <Pct type="line" undo_id="1607" p0="4,25" p1="5,25" />
+        <Pct type="line" undo_id="1637" p0="2,25" p1="4,25" />
+        <Pct type="line" undo_id="1636" p0="-6,24" p1="-2,24" />
+        <Pct type="line" undo_id="1635" p0="-10,24" p1="-9,24" />
+        <Pct type="line" undo_id="1643" p0="42,25" p1="42,26" />
+        <Pct type="line" undo_id="1634" p0="42,23" p1="43,23" />
+        <Pct type="line" undo_id="1633" p0="37,23" p1="39,23" />
+        <Pct type="line" undo_id="1605" p0="31,23" p1="37,23" />
+        <Pct type="line" undo_id="1631" p0="42,21" p1="43,21" />
+        <Pct type="line" undo_id="1630" p0="37,21" p1="38,21" />
+        <Pct type="line" undo_id="1604" p0="34,21" p1="37,21" />
+        <Pct type="line" undo_id="1632" p0="25,23" p1="25,26" />
+        <Pct type="line" undo_id="1606" p0="4,25" p1="4,30" />
+        <Pct type="line" undo_id="1629" p0="48,19" p1="48,22" />
+        <Pct type="line" undo_id="1628" p0="42,19" p1="42,21" />
+        <Pct type="line" undo_id="1603" p0="19,13" p1="37,13" />
+        <Pct type="line" undo_id="1627" p0="14,13" p1="15,13" />
+        <Pct type="line" undo_id="1626" p0="9,12" p1="10,12" />
+        <Pct type="line" undo_id="1602" p0="-6,12" p1="9,12" />
+        <Pct type="line" undo_id="1625" p0="14,11" p1="15,11" />
+        <Pct type="line" undo_id="1624" p0="44,3" p1="46,3" />
+        <Pct type="line" undo_id="1622" p0="30,3" p1="31,3" />
+        <Pct type="line" undo_id="1601" p0="46,3" p1="46,5" />
+        <Pct type="line" undo_id="1600" p0="27,3" p1="27,5" />
+        <Pct type="line" undo_id="1620" p0="15,3" p1="15,4" />
+        <Pct type="line" undo_id="1623" p0="44,3" p1="44,5" />
+        <Pct type="line" undo_id="1621" p0="30,3" p1="30,5" />
+        <Pct type="line" undo_id="1617" p0="21,0" p1="23,0" />
+        <Pct type="line" undo_id="1599" p0="19,0" p1="21,0" />
+        <Pct type="line" undo_id="1611" p0="12,-1" p1="15,-1" />
+        <Pct type="line" undo_id="1597" p0="8,-1" p1="9,-1" />
+        <Pct type="line" undo_id="1619" p0="-6,2" p1="-6,3" />
+        <Pct type="line" undo_id="1596" p0="-2,-2" p1="-1,-2" />
+        <Pct type="line" undo_id="1615" p0="-10,-3" p1="-6,-3" />
+        <Pct type="line" undo_id="1598" p0="19,0" p1="19,3" />
+        <Pct type="line" undo_id="1614" p0="-10,-3" p1="-10,-2" />
+        <Pct type="line" undo_id="1613" p0="44,-5" p1="46,-5" />
+        <Pct type="line" undo_id="1610" p0="37,-5" p1="44,-5" />
+        <Pct type="line" undo_id="1612" p0="30,-5" p1="37,-5" />
+        <Pct type="line" undo_id="1618" p0="52,0" p1="52,6" />
+        <Pct type="line" undo_id="1616" p0="21,0" p1="21,6" />
       </Pcts>
     </Sheet>
     <Calc zero="10e-12" kmin="10e-3" nsr="false" ndo="false" os="false" timeout="0" low="0" high="5" thr="2.5" zparam="" />
     <Tran storage="1" last="false" storage_shift="true">
-      <Cursors enabled="true" locked="false" interval="false" left="42.3388674885e-3" right="48.6266178736e-3" active="true" />
+      <Cursors enabled="true" locked="false" interval="false" left="38.4735747304e-3" right="41.4608628659e-3" active="false" />
       <Table enabled="true" tran_table="false" time_table="true" time_header="false" vars="6143">
         <Width w0="4" w1="4" w2="4" w3="4" w4="4" w5="4" w6="4" w7="4" w8="4" w9="4" w10="4" w11="4" w12="4" />
         <TranTable l="0" t="0" w="0" h="0" usetran="false" seltraces="false" />
       </Table>
       <TranWin data_points="false" digital_labels="true" numbers="true" preview="false" preview_size="40" digital="false" digital_ratio="500e-3" split="true" legend="false" legend_x="1" legend_y="0" horgrid="true" vertgrid="true" vertscale="false" status_panels="7" phase="0" phase_y="600e-3" state="0" l="44" t="44" w="1161" h="364" table_height="120" />
-      <Settings start="38.15e-3" screen="3.75e-3" step="100e-9" dispstep="1e-3" savebeforestart="true" sampling="0" rununtil="false" rununtilf="" />
+      <Settings start="38.15e-3" screen="3.75e-3" step="1e-6" dispstep="1e-3" savebeforestart="true" sampling="0" rununtil="false" rununtilf="" />
       <Annotations />
-      <Scale start="38.1642526965e-3" screen="3.75e-3" scale="1" mid="-0" />
+      <Scale start="38.15e-3" screen="3.75e-3" scale="1" mid="-0" />
       <Traces activeTrace="2">
         <Trace type="1" id="26" color="0,0,255" mode="0" name="I(L(y))" tracename="" expr="I(L(y))" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="256e-3" mid="29.964" scale_history="256e-3%2c15.2%2c10.8%2c254e-3%2c1.43%2c11.3%2c30%2c14.7%2c530e-3%2c6.05" shift="0" width="5" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0">
           <Annotations>
@@ -449,14 +451,15 @@
             <Annotation align="-1" dir="0" offset="-23,-59" txt="Vderiv+%5bV%5d" t="40.7701078583e-3" output="0" offset_xy="-50,-50" offset_ed="-50,-50" offset_ny="-50,-50" offset_ni="-50,-50" offset_smith="-50,-50" />
           </Annotations>
         </Trace>
-        <Trace type="0" id="83" color="255,0,0" mode="0" name="V(Vestim)" tracename="" expr="V(Vestim)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="2.5" mid="2.5" scale_history="2.5%2c500e-3%2c1%2c2%2c990e-3%2c1.17%2c36e-3%2c10%2c5%2c120e-3" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0">
+        <Trace type="0" id="83" color="255,0,0" mode="0" name="V(Vestim)" tracename="" expr="V(Vestim)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="1.5" mid="3.5" scale_history="1.5%2c500e-3%2c2.5%2c1%2c2%2c990e-3%2c1.17%2c36e-3%2c10%2c5" shift="0" width="1" phwidth="1" plot="true" table="true" storage="true" tool="0" xy="false" out1="0">
           <Annotations>
             <Annotation align="-1" dir="0" offset="-20,55" txt="Vestim+%5bV%5d" t="40.7701078583e-3" output="0" offset_xy="-50,-50" offset_ed="-50,-50" offset_ny="-50,-50" offset_ni="-50,-50" offset_smith="-50,-50" />
           </Annotations>
         </Trace>
         <Trace type="0" id="13" color="128,0,128" mode="0" name="V(2V5)" tracename="" expr="V(2V5)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="2.5" mid="2.5" scale_history="2.5%2c890e-18%2c1%2c500e-9%2c500e-6%2c5e-3%2c3e-3%2c2e-3%2c1e-3%2c100e-3" shift="0" width="1" phwidth="1" plot="false" table="true" storage="true" tool="0" xy="false" out1="0" />
+        <Trace type="0" id="64" color="0,255,0" mode="0" name="V(Vbias)" tracename="" expr="V(Vbias)" dig_threshold="2.5" lines="true" data_points="false" bus_format="2" bus_bits="0" bus_content="false" bus_fp="0" bus_text="" scale="4.1e-3" mid="2.0062" scale_history="4.1e-3%2c10" shift="0" width="1" phwidth="1" plot="false" table="true" storage="true" tool="0" xy="false" out1="0" />
       </Traces>
-      <Log>Transient+log%0aStarted+%3a+11%2f21%2f2022+7%3a56%3a39+PM%0aFile+%3a+Z%3a%5chome%5cjavi%5cDocuments%5cgithub%5clevitador%5cNL5%5cEstimador_analogico%5cderivador%2brectificador%2blpf_entrada.nl5%0aC5+%3a+Floating+pin%0a%0a0+%3a+Init%0aComponents+%3d+83%0aNodes+%3d+38%0aRank+%3d+72%0a808.437e-9+%3a+Oscillations+at+node+20+%3a+O1%2c+R4%2c+R5%0aStopped+%3a+11%2f21%2f2022+8%3a00%3a02+PM</Log>
+      <Log>Transient+log%0aStarted+%3a+11%2f22%2f2022+5%3a41%3a19+PM%0aFile+%3a+Z%3a%5chome%5cjavi%5cDocuments%5cgithub%5clevitador%5cNL5%5cEstimador_analogico%5cestimador_completo.nl5%0aStopped+%3a+11%2f22%2f2022+5%3a41%3a19+PM%0a0+%3a+Init%0aComponents+%3d+89%0aNodes+%3d+39%0aRank+%3d+74%0a6.1425e-6+%3a+Oscillations+at+node+3+%3a+O1%2c+R4%2c+R6%2c+Ve</Log>
     </Tran>
     <Freq storage="1" last="false" storage_shift="true">
       <Cursors enabled="true" locked="false" interval="false" left="100" right="10e+3" active="true" />

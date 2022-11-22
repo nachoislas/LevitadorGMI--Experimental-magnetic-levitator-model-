@@ -57,7 +57,7 @@ De la expresión \ref{eq_di-dt_lineal} se despeja la distancia de separación y 
 \end{equation}
 
 
-En la expresión \ref{eq_Yg_despejada} se puede observar que para obtener una estimación de la distancia de separación, es necesario medir el módulo de la pendiente de la onda triangular de la corriente en el electroimán. Para realizar la estimación a partir de un circuito analógico se propone implementar un circuito derivador que permita obtener la pendiente de la corriente. Como la corriente tiene forma triangular, estará compuesta por un segmento creciente (pendiente positiva) y un segmento decreciente (pendiente negativa). Debido a que en la expresión \ref{eq_Yg_despejada} se necesita obtener su módulo, se agrega una etapa de rectificación a la salida del derivador.
+En la expresión \ref{eq_Yg_despejada} se puede observar que, para obtener una estimación de la distancia de separación, es necesario medir el módulo de la pendiente de la onda triangular de la corriente en el electroimán. Para realizar la estimación a partir de un circuito analógico se propone implementar un circuito derivador que permita obtener la pendiente de la corriente. Como la corriente tiene forma triangular, estará compuesta por un segmento creciente (pendiente positiva) y un segmento decreciente (pendiente negativa). Debido a que en la expresión \ref{eq_Yg_despejada} se necesita obtener su módulo, se agrega una etapa de rectificación a la salida del derivador.
 
 La forma de onda correspondiente a la salida de cada etapa a implementar se muestra en la figura \ref{fig:img_forma-de-onda-estimador}. En ella se observa que se parte con una onda triangular, correspondiente a la corriente que circula por el electroimán. Luego, al pasar por el derivador, se obtiene una onda pulsada, cuyos valor superior e inferior se corresponden con la pendiente de crecimiento y de decrecimiento de la corriente. Luego, al entrar a la etapa de rectificación se obtiene un valor constante y proporcional a la pendiente y, por ende, a la distancia de separación de entrehierro.
 
@@ -85,9 +85,9 @@ El diagrama en bloques que describe cómo está conformado el estimador se muest
 	\input{tikz/diagrama_bloques_basico_derivador.tex}
 	\caption{Diagrama en bloques simplificado del estimador.}	\label{fig:img_diag-en-bloques_estimador}
 \end{figure}
-\colorbox{red}{Ver si estan bien los nombres de las señales y los bloques en el diagrama}
+\colorbox{red}{Ver si están bien los nombres de las señales y los bloques en el diagrama}
 
-A continuación se diseñará la implementación circuital de cada una de las etapas que componen al diagrama en bloques \ref{fig:img_diag-en-bloques_estimador}.
+A continuación se diseña la implementación circuital de cada una de las etapas que componen al diagrama en bloques \ref{fig:img_diag-en-bloques_estimador}.
 
 {
 	%Por lo tanto, en esta capítulo/sección.. se aborda el análisis de la implementación…
@@ -255,7 +255,7 @@ A continuación se muestra la TLC del circuito derivador:
 
 \section{Etapa de rectificación}
 
-Como se mencionó en la introducción, es necesario obtener el valor absoluto de la salida del derivador para tener a la salida del estimador una señal aproximadamente continua. Es por ello que se implementa un circuito rectificador en la salida del derivador alrededor de $V_{op}=2.5\:V$.
+Como se mencionó en la \colorbox{red}{introducción}, es necesario obtener el valor absoluto de la salida del derivador para tener a la salida del estimador una señal aproximadamente continua. Es por ello que se implementa un circuito rectificador en la salida del derivador alrededor de $V_{op}=2.5\:V$.
 
 Para la implementación circuital del rectificador se decidió utilizar la misma topología usada en la versión anterior del prototipo, que se muestra en la figura \ref{fig:img_Circuito_estimador_de_posición_completo}. Este circuito está compuesto por tres etapas: rectificación, resta y filtrado. Para facilitar su comprensión se realiza un análisis de cada una de estas etapas por separado.
 
@@ -441,7 +441,7 @@ Para su implementación se utiliza un filtro activo Butterworth de segundo orden
 
 \colorbox{red}{hará falta aclarar qué software usamos para el diseño??}
 
-A continuación, en la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el resultado de una simulación agregando el filtro LPF en la entrada. Esta simulación fue realizada con las mismas condiciones de corriente, inductancia que la de la figura \ref{fig:img_simulacion_derivador+rectificador_ss}.
+A continuación, en la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el resultado de una simulación agregando el filtro LPF en la entrada. Esta simulación fue realizada con las mismas condiciones de corriente e inductancia que la de la figura \ref{fig:img_simulacion_derivador+rectificador_ss}.
 
 \begin{figure}[H]
 	\centering
@@ -450,7 +450,7 @@ A continuación, en la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el
 	\label{fig:img_simulacion_lpf_entrada}
 \end{figure}
 
-Se puede observar que en comparación de la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, la señal de salida del derivador es menos ruidosa. Si bien en la señal $V_{estim}$ no se observa gran diferencia, el agregado del filtro en la entrada mejora la estimación de posición.
+Se puede observar que, en comparación con la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, la señal de salida del derivador es menos ruidosa. Si bien en la señal $V_{estim}$ no se observa gran diferencia, el agregado del filtro en la entrada mejora la estimación de posición.
 
 \section{Compensación de resistencia interna}
 

@@ -450,7 +450,7 @@ A continuación, en la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el
 	\label{fig:img_simulacion_lpf_entrada}
 \end{figure}
 
-Se puede observar que en comparación de la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, la señal de salida del derivador es menos ruidosa. Si bien en la señal $V_{estim}$ no se observa gran diferencia, el agrego del filtro en la entrada mejora la estimación de posición.
+Se puede observar que en comparación de la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, la señal de salida del derivador es menos ruidosa. Si bien en la señal $V_{estim}$ no se observa gran diferencia, el agregado del filtro en la entrada mejora la estimación de posición.
 
 \section{Compensación de resistencia interna}
 
@@ -562,18 +562,30 @@ Para poder llegar a la expresión de la ecuación \ref{eq_Vbus-didt-RL-2} se deb
 
 Por lo tanto, al resolver la condición 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, al resolver la condición 2) con $V_{op}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$.
 
-En la figura \ref{fig:img_Formas_de_onda_obtenidas_en_la_simulación} se muestra como cambia la forma de onda.
+Se volvió a simular el circuito estimador con el agregador del circuito de compensación de resistencia interna. En la figura \ref{fig:img_Formas_de_onda_obtenidas_en_la_simulación} se muestra como cambia la forma de onda a la salida del rectificador.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{Formas-de-onda-obtenidas-en-la-simulación.png}
+	\includegraphics[scale=0.3]{simulacion_compensacion_IR.png}
 	\caption{Formas de onda obtenidas en la simulación.}
 	\label{fig:img_Formas_de_onda_obtenidas_en_la_simulación}
 \end{figure}
 
-\colorbox{red}{Esta simulación tiene puesto el filtro pasa bajo a la entrada?}
+\colorbox{red}{Esta simulación tiene puesto el filtro pasa bajo a la entrada?} sip, con filtro a la entrada y la señal que entra al compensador IR es la salida del filtro.
+
 La onda superior corresponde a la corriente en el electroimán, la que se encuentra al medio, a la salida del derivador y la inferior, a la onda rectificada con la corrección de la resistencia interna.
 
+En la figura \ref{fig:img_simulacion_completo} se muestra una simulación del estimador completo (con filtro a la salida).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{simulacion_completo.png}
+	\caption{Simulación del circuito estimador completo.}
+	\label{fig:img_simulacion_completo}
+\end{figure}
+\colorbox{red}{la salida roja queda 1v por encima con la compensación IR comparando con la que no tiene compensación (figura 4.16), no se si se notará}
+
+Se puede observar que la salida del estimador presenta menos oscilaciones. Usando cursores se midió una amplitud pico a pico de $97\:mV$. Sin la compensación resulta en $233\:mV$.
 
 \section{Simulación del estimador completo}
 

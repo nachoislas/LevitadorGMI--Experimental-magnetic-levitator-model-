@@ -4,7 +4,7 @@ Para que la placa de control pueda mantener la distancia de separación de entre
 
 En este capítulo se detalla la estrategia utilizada para realizar la estimación de posición a partir de la corriente del electroimán, junto con el diseño circuital y sus respectivas simulaciones. Finalmente se obtiene una función transferencia del bloque estimador que será luego utilizada para el diseño del compensador analógico.
 
-\section{Análisis de la estimación}
+\section{Análisis de la estimación}\label{analisis_de_estimacion}
 
 Como se analizó en el capítulo \ref{cap:ControladorCorriente}, para controlar el valor medio de la corriente se utiliza una fuente conmutada que alterna la polaridad de la tensión aplicada al electroimán. Esto genera una onda de corriente triangular superpuesta al valor medio deseado, cuyas pendientes de crecimiento y de decrecimiento contienen información de la distancia de separación de entrehierro. Por lo tanto, se decidió realizar una estimación de la distancia a partir de la medición de dichas pendientes.
 
@@ -244,7 +244,7 @@ A continuación se muestra la TLC del circuito derivador:
 
 \section{Etapa de rectificación}
 
-Como se mencionó en la \colorbox{red}{introducción}, es necesario obtener el valor absoluto de la salida del derivador para tener a la salida del estimador una señal aproximadamente continua. Es por ello que se implementa un circuito rectificador en la salida del derivador alrededor de $V_{op}=2.5\:V$.
+Como se mencionó en la sección \ref{analisis_de_estimacion}, es necesario obtener el valor absoluto de la salida del derivador para tener a la salida del estimador una señal aproximadamente continua. Es por ello que se implementa un circuito rectificador en la salida del derivador alrededor de $V_{op}=2.5\:V$.
 
 Para la implementación circuital del rectificador se decidió utilizar la misma topología usada en la versión anterior del prototipo, que se muestra en la figura \ref{fig:img_Circuito_estimador_de_posición_completo}. Este circuito está compuesto por tres etapas: rectificación, resta y filtrado. Para facilitar su comprensión se realiza un análisis de cada una de estas etapas por separado.
 

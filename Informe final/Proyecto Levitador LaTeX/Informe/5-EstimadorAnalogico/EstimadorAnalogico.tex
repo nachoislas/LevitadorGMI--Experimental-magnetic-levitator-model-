@@ -390,7 +390,7 @@ A continuación se realizan simulaciones del circuito estimador conformado por l
 	\label{fig:img_simulacion_derivador+rectificador}
 \end{figure}
 
-\subsection{Simulación en régimen permanente}
+\subsection{Simulación en régimen permanente} \label{sec_simulacion_estimador_basico}
 
 Se realizó una simulación del controlador de corriente junto con el estimador, utilizando $V_{IL_{ref}}=5\:V$, que resulta en una corriente media del electroimán $\overline{I_L}=30\:A$. En la figura \ref{fig:img_simulacion_derivador+rectificador_ss} se muestran las formas de onda de la corriente del electroimán, la salida del circuito derivador, y la salida del rectificador. 
 
@@ -471,7 +471,7 @@ Para el caso en que $V_{cc}=-24\:V$:
 
 Por lo tanto, sobre el electroimán se aplican dos tensiones distintas, en valor absoluto, durante la carga y descarga. Esto provoca que la rampa de corriente sea asimétrica.
 
-Como se planteó en la etapa de simulaciones, esta diferencia de pendientes provoca que la salida del derivador no tenga una excursión simétrica al rededor del punto de operación $V_{op}$. Es por ello que luego, al rectificar esta señal, se obtienen saltos de tensión.
+Como se planteó en la sección \ref{sec_simulacion_estimador_basico}, esta diferencia de pendientes provoca que la salida del derivador no tenga una excursión simétrica al rededor del punto de operación $V_{op}$. Es por ello que luego, al rectificar esta señal, se obtienen saltos de tensión.
 
 En la figura \ref{fig:img_simulacion_sin_compensacion_IR} se muestra la señal $V_{estim}$ sin su etapa de filtrado, para que se vea mas claro el efecto provocado al rectificar la salida del derivador. 
 \colorbox{red}{le saqué el filtro a la salida para que se vean mejor los saltos de tensión}
@@ -564,18 +564,6 @@ Se volvió a simular el circuito estimador con el agregador del circuito de comp
 
 La onda superior corresponde a la corriente en el electroimán, la que se encuentra al medio, a la salida del derivador y la inferior, a la onda rectificada con la corrección de la resistencia interna.
 
-En la figura \ref{fig:img_simulacion_completo} se muestra una simulación del estimador completo (con filtro a la salida).
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.3]{simulacion_completo.png}
-	\caption{Simulación del circuito estimador completo.}
-	\label{fig:img_simulacion_completo}
-\end{figure}
-\colorbox{red}{la salida roja queda 1v por encima con la compensación IR comparando con la que no tiene compensación (figura 4.16), no se si se notará}
-
-Se puede observar que la salida del estimador presenta menos oscilaciones. Usando cursores se midió una amplitud pico a pico de $97\:mV$. Sin la compensación resulta en $233\:mV$.
-
 \section{Simulación del estimador completo}
 
 Finalmente el circuito estimador completo queda...
@@ -589,14 +577,20 @@ Finalmente el circuito estimador completo queda...
 
 
 \colorbox{red}{la imagen de simulacion abajo sería vieja, pero se podría usar la 4.20 que acabo de hacer}
-En la figura \ref{fig:img_Simulación_final_del_estimado} se pueden observar tres formas de onda. La superior corresponde a la corriente del electroimán, la del medio a la salida del derivador y la inferior a la salida $V_{estim}$. Con el uso de los cursores se midió un ripple de $52.66\:mV $ en $V_{estim}$.
+En la figura \ref{fig:img_Simulación_final_del_estimado} se pueden observar tres formas de onda. La superior corresponde a la corriente del electroimán, la del medio a la salida del derivador y la inferior a la salida $V_{estim}$.
+
+En la figura \ref{fig:img_simulacion_completo} se muestra una simulación del estimador completo (con filtro a la salida).
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{Simulación-final-del-estimador.png}
-	\caption{Simulación final del estimador.}
-	\label{fig:img_Simulación_final_del_estimado}
+	\includegraphics[scale=0.3]{simulacion_completo.png}
+	\caption{Simulación del circuito estimador completo.}
+	\label{fig:img_simulacion_completo}
 \end{figure}
+\colorbox{red}{la salida roja queda 1v por encima con la compensación IR comparando con la que no tiene compensación (figura 4.16), no se si se notará}
+ESTO ES POR QUE LA SEÑAL vBIAS TAMBIÉN ES TRIANGULAR Y ENTRA AL DERIVADOR, SE DERIVA Y SE SUMA A LA DERIVADA DE LA VILFEED. LA SOLUCIÓN SERÍA AGREGAR UN CAPACITOR EN PARALELO A R4.
+
+Se puede observar que la salida del estimador presenta menos oscilaciones. Usando cursores se midió una amplitud pico a pico de $97\:mV$. Sin la compensación resulta en $233\:mV$.
 
 \colorbox{red}{A que se deben los picos en la onda pulsada? Tal ves podríamos aclararlo no?}
 

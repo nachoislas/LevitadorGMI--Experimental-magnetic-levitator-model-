@@ -14,7 +14,8 @@ En la sección \ref{sec_analisis_estimacion} se obtuvo una ecuación que relacio
 	\frac{di_L(t)}{dt}= \frac{V_L}{L(Y_g)}=\frac{V_L}{-2.56*Y_{g}+0.027}
 \end{equation}
 
-Como se diseñó en el capítulo \ref{cap:ControladorCorriente}, la alimentación $V_L$ del electroimán tiene dos valores posibles $V_L=+V_{cc}$ o $V_L=-V{cc}$. Es por ello que se puede reescribir la expresión \ref{eq_derivada_corriente_3} en función de $V_{cc}$:
+Debido a que la alimentación $V_L$ del electroimán tiene dos valores posibles $V_L=+V_{cc}$ o $V_L=-V{cc}$, se puede reescribir la expresión \ref{eq_derivada_corriente_3} en función de $V_{cc}$:
+\colorbox{red}{Y si ponemos directamente 24V?}
 
 \begin{equation} \label{eq_derivada_corriente_4}
 	\left|\frac{di_L(t)}{dt}\right|= \frac{V_{cc}}{L(Y_g)}=\frac{V_{cc}}{-2.56*Y_{g}+0.027}
@@ -44,7 +45,7 @@ Se realiza una regresión por mínimos cuadrados a los valores de la tabla \ref{
 	{\left|\frac{di_L}{dt}\right|}_{Lineal}[\:\frac{A}{s}]= 194690 * Y_g\:[m]+676
 \end{equation}
 
-De la expresión \ref{eq_di-dt_lineal} se despeja la distancia de separación y se obtiene:
+Al despejar la distancia de separación se obtiene:
 
 \begin{equation} \label{eq_Yg_despejada}
 	Y_g\:[m] =5.136*10^{-6}*{\left|\frac{di_L}{dt}\right|}_{Lineal} - 3.472*10^{-3}
@@ -90,12 +91,13 @@ A continuación se diseña la implementación circuital de cada una de las etapa
 
 
 \section{Diseño circuital del estimador de posición}
+\colorbox{red}{Breve resumen?}
 
 \subsection{Circuito derivador}
 
 Para poder obtener $\frac{dV_{IL_{feed}}}{dt}$ se utiliza un circuito derivador basado en un amplificador operacional como el que se muestra en la figura \ref{fig:img_Circuito-derivador}. Se decide utilizar amplificadores operacionales alimentados con una fuente de tensión simple de $5\:V$ con una excursión completa en su salida. 
 
-Debido a que $V_{IL_{feed}}$ es una onda triangular, su derivada será una onda pulsada. Por lo tanto, para poder representar valores de pendientes tanto positivos como negativos es necesario polarizar la salida del derivador en un punto de operación ($V_{op}$) para no perder información. Como la salida varía entre $0\:V$ y $5\:V$ se utiliza $V_{op}=2.5\:V$ para permitir excursión en ambos sentidos.
+Debido a que $V_{IL_{feed}}$ es una onda triangular, su derivada será una onda pulsada. Por lo tanto, para poder representar valores de pendientes tanto positivos como negativos es necesario polarizar la salida del derivador en un punto de operación ($V_{op}$) para no perder información. Como la salida varía entre $0\:V$ y $5\:V$ se utiliza $V_{op}=2.5\:V$ para permitir igual excursión en ambos sentidos.
 
 \begin{figure}[H]
 	\centering
@@ -112,6 +114,7 @@ La salida del circuito $V_{deriv}(t)$ ante su entrada $V_{IL_{feed}}$ es:
 \end{equation}
 
 Teniendo en cuenta que $V_{IL_{feed}}=I_L*H_0+0.1\:V$, al hacer su derivada se pierde el término constante, entonces $ \frac{dV_{IL_{feed}}}{dt}= \frac{dV_{IL}}{dt}$ luego se expresa la ecuación en función de la corriente al reemplazar $V_{IL}=I_L*H_0$.
+\colorbox{red}{Acomodar esto}
 
 \begin{equation} \label{eq_vyf1}
 	V_{deriv}(t)\ = 2.5V - \frac{dV_{IL}}{dt}*C_1*R_1 = 2.5\:V\ -\frac{dI_L}{dt}*H_0*C_1*R_1
@@ -125,7 +128,7 @@ Para evitar una saturación de la salida del derivador y teniendo en cuenta que 
 	\left|-\frac{dI_L}{dt}*H_0*C_1*R_1\right|\ \le 2.5\:V
 \end{equation}
 
-Por lo tanto, con la ecuación \ref{eq_derivada_corriente_2} y \ref{eq_vyf3}:
+Por lo tanto, con la ecuación \ref{eq_derivada_corriente_2} y \ref{eq_vyf3} se plantea que:
 
 \begin{equation} \label{eq_condicionC1-R1}
 	C_1*R_1\le\frac{2.5\ \:V\ *L_{min}}{V_{cc}*H_0}
@@ -183,7 +186,7 @@ A partir de la expresiones \ref{eq_Vyf-lineal-pos} y \ref{eq_Vyf-lineal-neg} se 
 
 \subsection{Circuito del derivador compensado}
 
-En esta sección se analiza la respuesta en frecuencia del circuito derivador. Para su implementación se propone utilizar el amplificador operacional MCP660. Este es internamente compensado, por lo que todos sus otros polos los tiene luego del cruce por $0\:dB$ de la ganancia. Para simplificar el análisis estos no se tienen en cuenta, ya que están fuera de la zona de interés. Su ganancia de lazo abierto es:
+En esta sección se analiza la respuesta en frecuencia del circuito derivador. Para su implementación se propone utilizar el amplificador operacional MCP660, el cual fue  también utilizado en el diseño circuital del controlador de corriente. Este es internamente compensado, por lo que todos sus otros polos los tiene luego del cruce por $0\:dB$ de la ganancia. Para simplificar el análisis estos no se tienen en cuenta, ya que están fuera de la zona de interés. Su ganancia de lazo abierto es:
 
 \begin{equation} \label{eq_Aw_1}
 	A(s)=\frac{1778279}{(\frac{s}{2\pi *20}+1)}
@@ -219,7 +222,7 @@ Debido a la inestabilidad del circuito derivador es necesario compensarlo median
 
 Al agregar esta compensación el circuito deja de comportarse como derivador a partir de la frecuencia del polo agregado en $\frac{1}{H(s)}$. Por lo tanto, esta frecuencia debe ser mayor a la quinta armónica de la onda triangular de corriente. De la tabla \ref{tab_mediciones} se obtiene que la frecuencia fundamental máxima a la que trabaja el sistema (para $Y_g=5\:mm$) es de $1632.35\:Hz$, por lo que al considerar su quinta armónica se obtiene una frecuencia de $8161\:Hz$. 
 
-Por lo tanto, se ubica el polo de la compensación en $16\:kHz$ para maximizar el ancho de banda del derivador con un margen de fase de aproximadamente 45º. Esto da como resultado $R_2=10\:\Omega$, $C_1=1\:uF$ y $R_1=25\: k\Omega$. El bode de la ganancia a lazo abierto del amplificador operacional junto con su red de realimentación $\frac{1}{H(s)}$ con el cero agregado se observa en la figura \ref{fig:img_MCP_compensado}.
+Por lo tanto, se ubica el polo de la compensación en $16\:kHz$ para maximizar el ancho de banda del derivador, logrando un margen de fase de aproximadamente 45º. Esto da como resultado $R_2=10\:\Omega$, $C_1=1\:uF$ y $R_1=25\: k\Omega$. El bode de la ganancia a lazo abierto del amplificador operacional junto con su red de realimentación $\frac{1}{H(s)}$ con el cero agregado se observa en la figura \ref{fig:img_MCP_compensado}.
 
 \begin{figure}[H]
 	\centering
@@ -251,7 +254,7 @@ Finalmente, en la figura \ref{fig:img_Transferencia-de-lazo-cerrado} se muestra 
 A continuación se muestra la TLC del circuito derivador:
 
 \begin{equation} \label{eq_TLC_derivador}
-	{TLC}_{derivador}=\frac{V_{deriv}}{V_{iL}}=\frac{-0.025*s}{1+(\frac{2*0.473}{94.5\: k})*s+(\frac{s}{94.5\:k})^2}
+	{TLC}_{derivador}=\frac{V_{deriv}}{V_{iL_{feed}}}=\frac{-0.025*s}{1+(\frac{2*0.473}{94.5\: k})*s+(\frac{s}{94.5\:k})^2}
 \end{equation} 
 
 \section{Etapa de rectificación}
@@ -269,7 +272,7 @@ Para la implementación circuital del rectificador se decidió utilizar la misma
 
 \subsection{Rectificador}
 
-Para entender el funcionamiento del rectificador, se comienza con el análisis de la primer etapa del circuito de la figura \ref{fig:img_Circuito_estimador_de_posición_completo}. Por lo tanto, se simplifica el circuito al mostrado en la figura \ref{fig:img_Rectificador_y_restador}. Se parte de la suposición de que en un amplificador operacionideal, la tensión diferencial ($V_d$) es igual a cero. De esta forma, como la entrada no inversora está fijada en $2.5\:V$, la misma tensión se encuentra en la entrada inversora.
+Para entender el funcionamiento del rectificador, se comienza con el análisis de la primer etapa del circuito de la figura \ref{fig:img_Circuito_estimador_de_posición_completo}. Por lo tanto, se simplifica el circuito al mostrado en la figura \ref{fig:img_Rectificador_y_restador}. Se parte de la suposición de que en un amplificador operacional ideal, la tensión diferencial ($V_d$) es igual a cero. De esta forma, como la entrada no inversora está fijada en $2.5\:V$, la misma tensión se encuentra en la entrada inversora.
 
 
 \begin{figure}[H]

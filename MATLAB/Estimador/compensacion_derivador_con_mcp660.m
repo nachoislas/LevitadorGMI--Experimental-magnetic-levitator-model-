@@ -1,7 +1,8 @@
 s = tf('s');
 p1 =2 * pi * 20;           %primer polo del operacional en rads
 %p2 = 2* pi * 60e6;          %segundo polo del operacional en rads
-Aw = 1.778279 * 1e6 * 1 / ((1+s/p1)) ;   %transferencia del operacional
+Ao = 10^(94/20)
+Aw = Ao * 1 / ((1+s/p1)) ;   %transferencia del operacional
 
 
 R1 = 25e3;                      

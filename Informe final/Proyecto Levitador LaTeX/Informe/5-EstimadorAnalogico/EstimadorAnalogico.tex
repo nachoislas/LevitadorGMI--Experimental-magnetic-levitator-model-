@@ -457,7 +457,7 @@ Se puede observar que, en comparación con la figura \ref{fig:img_simulacion_der
 
 El segundo inconveniente mencionado en la sección de simulaciones es la diferencia entre pendientes de crecimiento y de decrecimiento causada por la resistencia interna del electroimán. A continuación se analiza cómo esta corriente provoca este efecto, y qué solución se propone.
 
-Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión casi constante en su resistencia interna. Esto provoca que no siempre estén aplicados $\pm 24\:V$ al electroimán sino que, durante el $T_{ON}$ se aplican $+24\:V-I_L*R_L$ y durante el $T_{OFF}$ se aplican $-24\:V-I_L*R_L$. Esto genera que las pendientes sean distintas. Se puede reescribir la ecuación \ref{eq_derivada_corriente_3} para tener en cuenta el efecto mencionado:
+Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión constante en su resistencia interna. Esto provoca que no siempre estén aplicados $\pm 24\:V$ al electroimán sino que, durante el tiempo en que la corriente crece ($T_{ON}$) se aplican $+24\:V-I_L*R_L$ y durante el tiempo en que la corriente decrece ($T_{OFF}$) se aplican $-24\:V-I_L*R_L$. Esto genera que las pendientes sean distintas. Se puede reescribir la ecuación \ref{eq_derivada_corriente_3} para tener en cuenta el efecto mencionado:
 
 \begin{equation} \label{eq_Vbus-didt-RL}
 	\left|\frac{di_L}{dt}\right|=\left|\frac{\pm V_{cc}-R_L*I_L}{L(Y_g)}\right|
@@ -466,24 +466,31 @@ Al circular corriente siempre en el mismo sentido por el electroimán, se produc
 A modo de ejemplo se plantea el caso en que circula la corriente nominal de $21\:A$ y se muestran los valores de la tensión aplicada al electroimán en el semiciclo de crecimiento y del de decrecimiento:
 
 \begin{equation} \label{eq_Vbus-didt-RL-2}
-	\pm V_{cc}-R_L*I_L=\ \pm 24\:V-4.2\:V
+	\abs{V_L}=\abs{\pm V_{cc}-R_L*I_L}= \abs{\pm 24\:V-4.2\:V}
 \end{equation}
 
 Para el caso en que $V_{cc}=24\:V$:
 
 \begin{equation} \label{eq_Vbus-didt-RL-3}
-	V_{cc}-R_L*I_L=\ +24\:V-4.2\:V=\ 19.8\:V
+	\abs{V_L}=\abs{V_{cc}-R_L*I_L}=\abs{+24\:V-4.2\:V}= 19.8\:V
 \end{equation}
 
 Para el caso en que $V_{cc}=-24\:V$:
 
 \begin{equation} \label{eq_Vbus-didt-RL-4}
-	V_{cc}-R_L*I_L=\ -24\:V-4.2\:V=\ 28.2\:V
+	\abs{V_L}=\abs{V_{cc}-R_L*I_L}= \abs{-24\:V-4.2\:V}= 28.2\:V
 \end{equation}
 
 Por lo tanto, sobre el electroimán se aplican dos tensiones distintas, en valor absoluto, durante la carga y descarga. Esto provoca que la rampa de corriente sea asimétrica.
 
-Como se planteó en la sección \ref{sec_simulacion_estimador_basico}, esta diferencia de pendientes provoca que la salida del derivador no tenga una excursión simétrica al rededor del punto de operación $V_{op}$. Es por ello que luego, al rectificar esta señal, se obtienen saltos de tensión.
+Como se planteó en la sección \ref{sec_simulacion_estimador_basico}, esta diferencia de pendientes provoca que la salida del derivador no tenga una excursión simétrica al rededor del punto de operación $V_{op}=2.5\:V$. Este efecto se muestra con mayor detalle en la figura \ref{fig:img_simulacion_derivador_vmed}. El circuito de rectificador diseñado rectifica la señal del derivador suponiendo que la señal es simétrica alrededor de $V_{op}$. Pero como no lo es, se obtienen saltos de tensión.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{simulacion_derivador_vmed.png}
+	\caption{Salida del derivador mostrando valor medio y Vmed.}
+	\label{fig:img_simulacion_derivador_vmed}
+\end{figure}
 
 En la figura \ref{fig:img_simulacion_sin_compensacion_IR} se muestra la señal $V_{estim}$ sin su etapa de filtrado, para que se vea mas claro el efecto provocado al rectificar la salida del derivador. 
 \colorbox{red}{le saqué el filtro a la salida para que se vean mejor los saltos de tensión}
@@ -497,7 +504,7 @@ En la figura \ref{fig:img_simulacion_sin_compensacion_IR} se muestra la señal $
 	\label{fig:img_simulacion_sin_compensacion_IR}
 \end{figure}
 
-La solución a este problema es aumentar el punto de operación de la salida del derivador, de manera de compensar el término $\frac{R_L*I_L}{L(Y_g)}$ que se agrega.
+La solución a este problema es hacer que el valor $V_{med}$ mostrado en la figura \ref{fig:img_simulacion_derivador_vmed} coincida con $V_{op}$. Para lograrlo se debe modificar el punto de operación de la salida del derivador, de manera de compensar el término $\frac{R_L*I_L}{L(Y_g)}$ que se agrega.
 
 Para modificar el punto de operación se debe cambiar la tensión en la entrada no inversora del circuito derivador ($V_{bias}$) como se muestra en la figura \ref{fig:img_Esquema-circuital-del-derivador}. 
 
@@ -534,9 +541,11 @@ Si se despeja $V_{bias}$ se llega a:
 	V_{bias}\ =2.5\ \:V -\ H_0\ *I_L*\ \tau *\frac{\ R_L}{L(Y_g)}
 \end{equation}
 
-Se tiene $H_0 = 53.3\:\frac{mV}{A},\; R_L = 0.2\:\Omega$ y $\tau=C_1*R_1=25 \:ms$. Se utiliza la inductancia para $Y_g=4\:mm$ $L(4\:mm) = 16.44\:mHy$.
+Para generar la tensión $V_{bias}$ se debe implementar un circuito que mida la corriente del electroimán y entregue en su salida la tensión que indica la expresión \ref{eq_Vyf-Vbias4}. Como no se tiene acceso directo a la corriente del electroimán, sino que se tiene la tensión de realimentación de corriente $V_{IL_{feed}}=H_0*I_L+0.1\:V$, se utiliza esta tensión como entrada.
 
-$V_{IL_{feed}}$ es la tensión de salida del sensor de efecto Hall menos el punto de operación de $2.5\:V$. Sin embargo, debido al cambio de punto de operación agregado al sensor en la sección \ref{sec:ajuste_corrientes_negativas} para llevar su valor medio a $2.6\:V$, al restarle $2.5\:V$ no se produce una cancelación completa sino que quedan $0.1\:V$ de error. Por ello, para implementar la ecuación  \ref{eq_Vyf_Vbias3} se utiliza el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}. Este compensa la diferencia de pendientes, el error de $0.1\:V$ y genera $V_{bias}$ para ingresar al derivador.
+Se propone el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}.
+
+
 
 \begin{figure}[H]
 	\centering
@@ -546,6 +555,8 @@ $V_{IL_{feed}}$ es la tensión de salida del sensor de efecto Hall menos el punt
 \end{figure}
 
 \colorbox{red}{acá la que entra es la  vilfeedfiltrada}
+
+Se tiene $H_0 = 53.3\:\frac{mV}{A},\; R_L = 0.2\:\Omega$ y $\tau=C_1*R_1=25 \:ms$. Se utiliza la inductancia para $Y_g=4\:mm$ $L(4\:mm) = 16.44\:mHy$.
 
 A partir del circuito de la figura \ref{fig:img_Generación_de_Vbias} se obtiene:
 
@@ -574,6 +585,8 @@ Se volvió a simular el circuito estimador con el agregador del circuito de comp
 
 \colorbox{red}{Esta simulación tiene puesto el filtro pasa bajo a la entrada?} sip, con filtro a la entrada y la señal que entra al compensador IR es la salida del filtro.
 
+\colorbox{red}{faltaría agregar lo del filtrado, la imagen 4.22 ya tiene el capacitor puesto}
+
 La onda superior corresponde a la corriente en el electroimán, la que se encuentra al medio, a la salida del derivador y la inferior, a la onda rectificada con la corrección de la resistencia interna.
 
 \section{Simulación del estimador completo}
@@ -588,9 +601,6 @@ Finalmente el circuito estimador completo queda...
 \end{figure}
 
 
-\colorbox{red}{la imagen de simulacion abajo sería vieja, pero se podría usar la 4.20 que acabo de hacer}
-En la figura \ref{fig:img_Simulación_final_del_estimado} se pueden observar tres formas de onda. La superior corresponde a la corriente del electroimán, la del medio a la salida del derivador y la inferior a la salida $V_{estim}$.
-
 En la figura \ref{fig:img_simulacion_completo} se muestra una simulación del estimador completo (con filtro a la salida).
 
 \begin{figure}[H]
@@ -599,8 +609,6 @@ En la figura \ref{fig:img_simulacion_completo} se muestra una simulación del es
 	\caption{Simulación del circuito estimador completo.}
 	\label{fig:img_simulacion_completo}
 \end{figure}
-\colorbox{red}{la salida roja queda 1v por encima con la compensación IR comparando con la que no tiene compensación (figura 4.16), no se si se notará}
-ESTO ES POR QUE LA SEÑAL vBIAS TAMBIÉN ES TRIANGULAR Y ENTRA AL DERIVADOR, SE DERIVA Y SE SUMA A LA DERIVADA DE LA VILFEED. LA SOLUCIÓN SERÍA AGREGAR UN CAPACITOR EN PARALELO A R4.
 
 Se puede observar que la salida del estimador presenta menos oscilaciones. Usando cursores se midió una amplitud pico a pico de $97\:mV$. Sin la compensación resulta en $233\:mV$.
 

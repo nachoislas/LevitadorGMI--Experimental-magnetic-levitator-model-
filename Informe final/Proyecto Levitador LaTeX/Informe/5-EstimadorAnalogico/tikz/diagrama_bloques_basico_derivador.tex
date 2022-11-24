@@ -5,8 +5,8 @@
 	\node [block, right of=input] (derivador) {$DERIVADOR$};
 
 	\node [block, right of=derivador, 
-	node distance=4.5cm] (modulo) {$|.|$};
-	\node [output, right of=modulo] (output) {};
+	node distance=5.5cm] (modulo) {$RECTIFICADOR$};
+	\node [output, right of=modulo, node distance=3.5cm] (output) {};
 
 	% Once the nodes are placed, connecting them is easy. 
 	\draw [draw,->] (input) -- node[pos=0.1]{$V_{IL_{feed}}$} (derivador);

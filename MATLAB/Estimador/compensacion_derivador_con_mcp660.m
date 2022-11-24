@@ -15,7 +15,7 @@ R2 = 10; % calculada para polo en 16 kHz
 
 Hcomp = (1 + s*C*R2) / (1 + s*C*(R1+R2));   
 
-bode(Aw, 1/H, 1/Hcomp)
+bode(Aw, 1/Hcomp)
 
 
 %%

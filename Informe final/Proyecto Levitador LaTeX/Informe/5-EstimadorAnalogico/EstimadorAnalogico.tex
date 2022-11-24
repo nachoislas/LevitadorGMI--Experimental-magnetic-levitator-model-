@@ -113,11 +113,10 @@ La salida del circuito $V_{deriv}(t)$ ante su entrada $V_{IL_{feed}}$ es:
 	V_{deriv}(t)\ = V_{op} - \frac{dV_{IL_{feed}}}{dt}*C_1*R_1
 \end{equation}
 
-Teniendo en cuenta que $V_{IL_{feed}}=I_L*H_0+0.1\:V$, al hacer su derivada se pierde el término constante, entonces $ \frac{dV_{IL_{feed}}}{dt}= \frac{dV_{IL}}{dt}$ luego se expresa la ecuación en función de la corriente al reemplazar $V_{IL}=I_L*H_0$.
-\colorbox{red}{Acomodar esto}
+Teniendo en cuenta que $V_{IL_{feed}}=I_L*H_0+0.1\:V$, al hacer su derivada se pierde el término constante, entonces $ \frac{dV_{IL_{feed}}}{dt}= \frac{dI_L}{dt}*H_0$. Por lo tanto, se obtiene:
 
 \begin{equation} \label{eq_vyf1}
-	V_{deriv}(t)\ = 2.5V - \frac{dV_{IL}}{dt}*C_1*R_1 = 2.5\:V\ -\frac{dI_L}{dt}*H_0*C_1*R_1
+	V_{deriv}(t) = 2.5\:V\ -\frac{dI_L}{dt}*H_0*C_1*R_1
 \end{equation}
 
 Según la expresión \ref{eq_vyf1}, la salida del derivador $V_{deriv}$ excursionará alrededor de $V_{op}=2.5\:V$ con un valor máximo de $5\:V$ y un mínimo de $0\:V$. Cualquier valor que supere esos límites provocaría una saturación del amplificador operacional.
@@ -154,14 +153,14 @@ Con la ecuación \ref{eq_di-dt_lineal} y \ref{eq_vyf1}, y con una variación en 
 Para pendiente positiva, la salida del circuito derivador resulta:
 
 \begin{equation} \label{eq_Vyf-lineal-pos}
-	V_{deriv_{inf}}(Y_g) = -0.2595*Y_g[mm] + 1.6\:V
+	V_{deriv}(Y_g) = -0.2595*Y_g[mm] + 1.6\:V
 \end{equation}
 
 
 Para pendiente negativa:
 
 \begin{equation} \label{eq_Vyf-lineal-neg}
-	V_{deriv_{sup}}(Y_g) = 0.2595*Y_g[mm] + 3.4\:V
+	V_{deriv}(Y_g) = 0.2595*Y_g[mm] + 3.4\:V
 \end{equation}
 
 
@@ -182,6 +181,22 @@ A partir de la expresiones \ref{eq_Vyf-lineal-pos} y \ref{eq_Vyf-lineal-neg} se 
 		\label{tab_Vyf_vs_y}
 	\end{center}
 \end{table}
+
+Al observar los valores superiores e inferiores obtenidos en la tabla \ref{tab_Vyf_vs_y}, se puede ver que para cada valor de $Y_g$, los valores obtenidos tienen una excursión ($\Delta V_{deriv}$) simétrica alrededor de $2.5\:V$. Por lo tanto, se puede expresar la salida del derivador como se muestra en las expresiones \ref{eq_vderiv_pos} y \ref{eq_vderiv_neg}.
+
+Para pendiente positiva:
+
+\begin{equation}\label{eq_vderiv_pos}
+	V_{deriv}=2.5\:V - \abs{\Delta V_{deriv}}
+\end{equation} 
+
+
+Para pendiente negativa:
+
+\begin{equation}\label{eq_vderiv_neg}
+	V_{deriv}=2.5\:V + \abs{\Delta V_{deriv}}
+\end{equation} 
+
 
 
 \subsection{Circuito del derivador compensado}
@@ -285,7 +300,7 @@ Para la implementación circuital del rectificador se decidió utilizar la misma
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{Circuito-estimador-de-posición-completo.png}
+	\includegraphics[scale=0.6]{Circuito-estimador-de-posición-completo.png}
 	\caption{Circuito de rectificación, resta y filtrado.}
 	\label{fig:img_Circuito_estimador_de_posición_completo}
 \end{figure}
@@ -310,62 +325,36 @@ Al analizar la corriente en la resistencia $R_{25}$ (con sentido positivo hacia 
 
 En el caso de que $V_{deriv}$ $\mathrm{<}$ $2.5\:V$, la corriente será positiva. Esta misma corriente proviene desde la salida del operacional, a través del diodo $D_5$ y la resistencia $R_{26}$. Si se desprecia la tensión del diodo en directa se obtiene que la salida del operacional es igual a $V^+$:
 
-\begin{equation} \label{eq_V+}
-	V^+=I_{R25}*R_{26}+2.5\:V=\frac{2.5\:V-V_{deriv}\ }{R25}*R_{26}+2.5\:V\ 
+\begin{equation} 
+	V^+=I_{R25}*R_{26}+2.5\:V=\frac{2.5\:V-V_{deriv}\ }{R_{25}}*R_{26}+2.5\:V\ 
 \end{equation} 
 
 Como $R_{25}=R_{26}$
 
-\begin{equation} \label{eq_V+_2}
+\begin{equation} \label{eq_V+}
 	V^+\ =\ 2.5\:V\ -\ V_{deriv}\ +2.5\:V\ =\ 5\:V\ -\ V_{deriv}\ 
 \end{equation}
 
 Además, dado que el diodo $D_6$ queda polarizado en inversa y la caída de tensión en $R_{27}$ es despreciable, se obtiene que:
  
- \begin{equation} 
+ \begin{equation} \label{eq_V-}
  	V^- = 2.5\:V 
  \end{equation}
 
 Análogamente, si $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se puede encontrar:
 
-\begin{equation} \label{eq_V+_3}
+\begin{equation} \label{eq_V-_2}
 	V^- =5\:V-V_{deriv} 
 \end{equation}
 
-\begin{equation} 
+\begin{equation}  \label{eq_V+_2}
 	V^+ = 2.5\:V
 \end{equation}
 
 
 \subsection{Restador}
 
-Se utiliza un amplificador operacional en modo diferencial como restador. El circuito utilizado se observa en la figura \ref{fig:img_Restador} y se obtiene lo siguiente:
-
-Cuando $V_{deriv}$ $\mathrm{<}$ $2.5\:V$:
-\begin{equation*} 
-	\begin{aligned}
-		V_{estim}&=V^+-\ V^-\ +2.5\:V\\ 
-		V_{estim}&=(5\:V -\ V_{deriv})-(2.5\: V)+2.5\:V\\
-		V_{estim}&=5\: V\ -\ V_{deriv}\\ 
-	\end{aligned}
-\end{equation*}
-
-
-Cuando $V_{deriv}$ $\mathrm{>}$ $2.5\:V$: 
-\begin{equation*} 
-	\begin{aligned}
-		V_{estim}&=V^+-\ V^-+2.5V\\ 
-		V_{estim}&=2.5V\ -\ (5V-\ V_{deriv})+\ 2.5V\\
-		V_{estim}&=V_{deriv}\\
-	\end{aligned}
-\end{equation*}
-
-Si se toma a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2.5\: V$, al reemplazar en los dos casos se obtiene:
-\begin{equation} \label{eq_rest_3}
-	V_{estim}= 2.5\:V + |\mathit{\Delta}V_{deriv}|
-\end{equation}
-
-\colorbox{red}{La salida siempre esta por encima de 2.5V? No convendría quitarle 2.5v?}CREO QUE DA IGUAL, LO IMPORTANTE ES QUE EL POTENCIOMETRO DE REFERENCIA DE POSICIÓN TENGA VALORES SIMILARES.
+Se utiliza un amplificador operacional en modo diferencial como restador. El circuito utilizado se observa en la figura \ref{fig:img_Restador} y se analiza su funcionamiento para las dos condiciones de $V_{deriv}$.
 
 \begin{figure}[H]
 	\centering
@@ -373,6 +362,54 @@ Si se toma a $V_{deriv}$ como $V_{deriv}=\mathit{\Delta}V_{deriv}\ +\ 2.5\: V$, 
 	\caption{Circuito restador.}
 	\label{fig:img_Restador}
 \end{figure}
+
+La salida del restador está dada por:
+
+\begin{equation} \label{eq_salida_restador}
+		V_{estim}=V^+-V^-+2.5\:V
+\end{equation}
+
+Cuando $V_{deriv}$ $\mathrm{<}$ $2.5\:V$, se reemplazan los valores de $V^+$ y $V^-$ por los obtenidos en \ref{eq_V+} y \ref{eq_V-} respectivamente:
+
+\begin{equation*} 
+	\begin{aligned}
+		V_{estim}&=(5\:V -\ V_{deriv})-(2.5\: V)+2.5\:V\\
+		V_{estim}&=5\: V\ -\ V_{deriv}\\ 
+	\end{aligned}
+\end{equation*}
+
+En este caso,  según la expresión \ref{eq_vderiv_pos}, $V_{deriv} = 2.5\:V - \abs{\Delta V_{deriv}}$. Por lo tanto:
+
+\begin{equation*} 
+	\begin{aligned}
+		V_{estim}&=5\:V -(2.5\:V - \abs{\Delta V_{deriv}}) = 2.5\:V + \abs{\Delta V_{deriv}}		
+	\end{aligned}
+\end{equation*}
+
+Cuando $V_{deriv}$ $\mathrm{>}$ $2.5\:V$, se reemplazan los valores de $V^+$ y $V^-$ de la ecuación \ref{eq_salida_restador} por los obtenidos en \ref{eq_V+_2} y \ref{eq_V-_2} respectivamente:
+
+\begin{equation*} 
+	\begin{aligned}
+		V_{estim}&=2.5V\ -\ (5V-\ V_{deriv})+\ 2.5V\\
+		V_{estim}&=V_{deriv}\\
+	\end{aligned}
+\end{equation*}
+
+En este caso,  según la expresión \ref{eq_vderiv_neg}, $V_{deriv} = 2.5\:V + \abs{\Delta V_{deriv}}$. Por lo tanto:
+
+\begin{equation*} 
+	\begin{aligned}
+		V_{estim}&=2.5\:V + \abs{\Delta V_{deriv}}		
+	\end{aligned}
+\end{equation*}
+
+Finalmente, la tensión de salida del restador, para cualquier valor de $V_{deriv}$ se puede expresar como:
+
+\begin{equation*} 
+	\begin{aligned}
+		V_{estim}&=2.5\:V + \abs{\Delta V_{deriv}}		
+	\end{aligned}
+\end{equation*}
 
 \subsection{Filtrado}
 
@@ -392,19 +429,13 @@ En el restador se implementa un filtrado adicional a la señal de salida como se
 	V_{estim} \approx \frac{1}{1+s*C*R}*\ |\mathit{\Delta}V_{deriv}|\ +2.5\:V
 \end{equation}
 
+Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar cualquier posible ripple. Por ello, se elige una frecuencia de corte de $1\:kr/s$ por lo que se debe cumplir que:
 
+\begin{equation}\label{eq_filtro_restador}
+	 \frac{1}{C*R}=1\:kr/s
+\end{equation}
 
-Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar cualquier posible ripple. Por ello, se escogen los siguientes valores para los componentes:
-
-\colorbox{red}{Tal vez habría que poner como conseguimos estos valores.. algún bode o simulación?}podriamos decir que elegimos un ancho de banda de 1krad/s y en base a eso salen los componentes.
-
-\begin{enumerate}
-	\item  $C=10\: nF$
-	
-	\item  $R=100\:\Omega$
-	
-	\item  $\frac{1}{2*\pi *C*R}=159.2\: Hz$
-\end{enumerate}
+A partir de la expresión \ref{eq_filtro_restador}, se elige $C=10\: nF$ resultando en una resistencia $R=100\:k\Omega$.
 
 \begin{figure}[H]
 	\centering

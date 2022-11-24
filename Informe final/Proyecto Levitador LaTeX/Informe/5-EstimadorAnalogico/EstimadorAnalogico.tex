@@ -192,7 +192,27 @@ En esta sección se analiza la respuesta en frecuencia del circuito derivador. P
 	A(s)=\frac{1778279}{(\frac{s}{2\pi *20}+1)}
 \end{equation} 
 
-La red de realimentación $H(s)$ utilizada para la implementación del derivador de la figura \ref{fig:img_Circuito-derivador}, resulta:
+La estabilidad del circuito derivador puede analizarse a partir del diagrama en bloques que se muestra a continuación:
+
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_bloques_derivador_aw.tex}
+	\caption{Diagrama en bloques del circuito derivador.}	\label{fig:img_diag-en-bloques_derivador}
+\end{figure}
+
+
+
+La red de realimentación $H(s)$ y la ganancia de entrada $G_{in}(s)$ están dadas por el circuito formado por $C_1$ y $R_1$ en la figura \ref{fig:img_Circuito-derivador}.
+
+\begin{equation}
+	G_{in}(s)=\frac{s*C_1*R_1}{1+s*C_1*R_1}
+\end{equation}
+
+\begin{equation}
+	H(s)=\frac{1}{1+s*C_1*R_1}
+\end{equation}
+
+Para el análisis de estabilidad se realiza el diagrama de Bode de la ganancia del amplificador operacional ($A(s)$) junto con la inversa de la ganancia de realimentación, que resulta:
 
 \begin{equation} \label{eq_Aw_2}
 	\frac{1}{H(s)}=1+s*C_1*R_1
@@ -207,7 +227,7 @@ En la figura \ref{fig:img_MCP_sin_compensar} se muestra el diagrama de Bode de A
 	\label{fig:img_MCP_sin_compensar}
 \end{figure}
 
-Debido a la inestabilidad del circuito derivador es necesario compensarlo mediante el agregado de un polo en $\frac{1}{H(s)}$ de forma tal que, cuando ambas curvas se crucen, la suma de fase sea menor a 180º. Esto se logra agregando una resistencia ($R_2$) en serie al capacitor, como se observa en la figura \ref{fig:img_Circuito_derivador_compensado}. De esta forma, la red de realimentación resulta:
+Debido a la inestabilidad del circuito derivador es necesario compensarlo mediante el agregado de un polo en $\frac{1}{H(s)}$ de forma tal que, cuando ambas curvas se crucen, la suma de fase sea menor a 180º. Esto se logra agregando una resistencia ($R_2$) en serie al capacitor, como se observa en la figura \ref{fig:img_Circuito_derivador_compensado}. De esta forma, la inversa de la red de realimentación resulta:
 
 \begin{equation} \label{eq_MCP_compensado}
 	\frac{1}{H(s)}=\frac{1+s*C_1*(R_1+R_2)}{1+s*C_1*R_2}

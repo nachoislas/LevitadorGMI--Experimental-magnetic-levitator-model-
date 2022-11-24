@@ -1,0 +1,20 @@
+%Acá se define eñ diagrama en bloques completo
+\begin{tikzpicture}[auto, node distance=3.5cm,>=latex']
+	% We start by placing the blocks
+	\node [input, name=input] {};
+	\node [block, right of=input] (Gin) {$G_{in}(s)$};
+	\node [sum, right of=Gin, node distance=3.5cm] (suma) {+};
+	
+	\node [block, right of=suma] (amplificador) {$A(s)$};
+	\node [output, right of=amplificador] (output) {};
+	\node [block, below of=amplificador] (realimentacion) {$H(s)$};
+	
+	
+	% Once the nodes are placed, connecting them is easy. 
+	\draw [draw,->] (input) -- node[pos=0.1]{$V_{IL_{feed}}$} (Gin);
+	\draw [draw,->] (Gin) -- node[pos=0.9]{-}(suma);
+	\draw [draw,->] (suma) -- (amplificador);
+	\draw [draw,->] (amplificador) -- node[name=y]{$V_{deriv}$} (output);
+	\draw [->] (y) |- (realimentacion);
+	\draw [->] (realimentacion) -| node[pos=0.99]{-} (suma);
+\end{tikzpicture}

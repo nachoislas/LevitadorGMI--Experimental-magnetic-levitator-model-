@@ -659,24 +659,25 @@ Finalmente el circuito estimador completo y la simulación se muestran en las fi
 
 Se puede observar que la salida del estimador $V_{estim}$ es una señal aproximadamente continua. Mediante la utilización de los cursores se midió una variación de $97\:mV$ en torno al valor medio, resultando en una mejora con respecto a la simulación realizada en la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, en la que las variaciones de amplitud eran de $233\:mV$.
 
-En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se muestran valores medidos y los calculados teóricamente (\ref{tab_Vyf_vs_y}) de $V_{estim}$ en función de la posición.
-
+Se realizó la tabla \ref{tab_Resultados_de_simulación_del_estimador} que muestra el valor resultante y los calculados teóricamente (\ref{tab_Vyf_vs_y}) de $V_{estim}$ en la simulación para distintos casos de distancia de entrehierro. En ella también se agrega una columna con los valores teóricos calculados en \ref{tab_derivada_linealizada} para realizar una comparación.
 \colorbox{red}{Agregar valores teoricos y medidos y hacer análisis de la diferencia entre ellos, y calcular la pendiente...}
 
 \begin{table}[H]
 	\begin{center}
-		\begin{tabular}{| c | c | c |}
+		\begin{tabular}{| c | c | c | c |}
 			\hline
-			$Y_g\:[mm]$ & $L(Y_g)\:[mHy]$ & $V_{estim}\:[V]$ \\ \hline 
-			2 & 22.64 & 3.86 \\ \hline 
-			3 & 18.8 & 4.13 \\ \hline 
-			4 & 16.44 & 4.36 \\ \hline 
-			5 & 14.9 & 4.55 \\ \hline 
+			$Y_g\:[mm]$ & $L(Y_g)\:[mHy]$ & $V_{estim_{teorico}}\:[V]$ & $V_{estim_{simulado}}\:[V]$ \\ \hline 
+			2 & 22.64 & 3.92 &3.58 \\ \hline 
+			3 & 18.8 & 4.18 &3.82 \\ \hline 
+			4 & 16.44 & 4.44 &3.93 \\ \hline 
+			5 & 14.9 & 4.7 &4.06 \\ \hline 
 		\end{tabular}
 		\caption{Resultados de simulación del estimador.}
 		\label{tab_Resultados_de_simulación_del_estimador}
 	\end{center}
 \end{table}
+
+En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se observa que los valores obtenidos en simulación son menores que los calculados teóricamente. Esta diferencia se debe a que para los cálculos teóricos se utilizó $V_{cc}=24$, pero por la conmutación auxiliar es menos..... sigo maañana
 
 
 

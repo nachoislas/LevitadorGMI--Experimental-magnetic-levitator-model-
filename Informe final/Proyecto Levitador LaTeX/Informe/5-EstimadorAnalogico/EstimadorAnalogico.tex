@@ -312,7 +312,7 @@ Para entender el funcionamiento del rectificador, se comienza con el análisis d
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Rectificador-y-restador.png}
+	\includegraphics[scale=0.6]{Rectificador-y-restador.png}
 	\caption{Circuito rectificador.}
 	\label{fig:img_Rectificador_y_restador}
 \end{figure}
@@ -413,13 +413,17 @@ Finalmente, la tensión de salida del restador, para cualquier valor de $V_{deri
 
 \subsection{Filtrado}
 
-En el restador se implementa un filtrado adicional a la señal de salida como se observa en la figura  \ref{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}. De esta \'{u}ltima etapa, si se considera $C_5=C_6=C\ $y $R_{33}=R_{31}=R$, se obtiene:
+En el restador se implementa un filtrado adicional a la señal de salida como se observa en la figura  \ref{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}. 
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159.png}
+	\caption{Esquema circuital del restador con una etapa de filtrado.}
+	\label{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}
+\end{figure}
 
+De esta última etapa, si se considera $C_5=C_6=C\ $y $R_{33}=R_{31}=R$, se obtiene:
 
-\begin{equation}
-	V_{estim}=\frac{1}{1+s*C*R}*{(V}^+-V^-\ +\ 2.5\:V)
-\end{equation}
 
 \begin{equation} \label{eq_Vestim_1}
 	V_{estim}=\frac{1}{1+s*C*R}*(2.5\: V\ +\ |\mathit{\Delta}V_{deriv}|)
@@ -429,7 +433,7 @@ En el restador se implementa un filtrado adicional a la señal de salida como se
 	V_{estim} \approx \frac{1}{1+s*C*R}*\ |\mathit{\Delta}V_{deriv}|\ +2.5\:V
 \end{equation}
 
-Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar cualquier posible ripple. Por ello, se elige una frecuencia de corte de $1\:kr/s$ por lo que se debe cumplir que:
+Puesto que la salida $V_{estim}$ debe ser una señal continua, es importante eliminar cualquier posible ripple. Por ello, se elige una frecuencia de corte de $1\:kr/s$ por lo que se debe cumplir que:
 
 \begin{equation}\label{eq_filtro_restador}
 	 \frac{1}{C*R}=1\:kr/s
@@ -437,28 +441,20 @@ Puesto que la salida $V_{estim}$ debe ser una continua, es importante eliminar c
 
 A partir de la expresión \ref{eq_filtro_restador}, se elige $C=10\: nF$ resultando en una resistencia $R=100\:k\Omega$.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159.png}
-	\caption{Esquema circuital del restador con una etapa de filtrado en $159.2\: Hz$.}
-	\label{fig:img_Esquema-circuital-del-restador-con-una-etapa-de-filtrado-en-159}
-\end{figure}
-
-
 \section{Simulaciones de derivador y rectificador}
 
 A continuación se realizan simulaciones del circuito estimador conformado por los bloques derivador, rectificador y filtrado. Para ello se utilizó el software NL5 y se anexó el circuito estimador dentro del controlador de corriente. En la figura \ref{fig:img_simulacion_derivador+rectificador} se muestra el circuito utilizado para la simulación.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.75]{simulacion_derivador+rectificador.png}
+	\includegraphics[scale=0.35]{simulacion_derivador+rectificador.png}
 	\caption{Circuito utilizado para simulación.}
 	\label{fig:img_simulacion_derivador+rectificador}
 \end{figure}
 
 \subsection{Simulación en régimen permanente} \label{sec_simulacion_estimador_basico}
 
-Se realizó una simulación del controlador de corriente junto con el estimador, utilizando $V_{IL_{ref}}=5\:V$, que resulta en una corriente media del electroimán $\overline{I_L}=30\:A$. En la figura \ref{fig:img_simulacion_derivador+rectificador_ss} se muestran las formas de onda de la corriente del electroimán, la salida del circuito derivador, y la salida del rectificador. 
+Se realizó una simulación del controlador de corriente junto con el estimador, utilizando $V_{IL_{ref}}=5\:V$, que resulta en una corriente media del electroimán de $30\:A$. En la figura \ref{fig:img_simulacion_derivador+rectificador_ss} se muestran las formas de onda de la corriente del electroimán, la salida del circuito derivador, y la salida del rectificador. 
 
 \begin{figure}[H]
 	\centering
@@ -467,7 +463,7 @@ Se realizó una simulación del controlador de corriente junto con el estimador,
 	\label{fig:img_simulacion_derivador+rectificador_ss}
 \end{figure}
 
-Al observar la figura \ref{fig:img_simulacion_derivador+rectificador_ss} es posible notar dos problemas. El primero es que la forma de onda de corriente presenta pendientes de crecimiento y de decrecimiento asimétricas. Esto es provocado por el efecto de la resistencia interna del electroimán, que se hace notorio cuando se trabaja con corrientes elevadas. Esta asimetría en las pendientes provoca que la salida del derivador no sea simétrica alrededor de $V_{op}$. Por lo tanto, como luego se rectifica esta señal pulsada alrededor de $V_{op}$, la señal resultante presentará variaciones. El segundo problema es que la salida del derivador, con forma de onda pulsada, presenta un comportamiento ruidoso tanto en el nivel superior como en el inferior. Esto proviene de la conmutación auxiliar, que también es derivada. 
+Al observar la figura \ref{fig:img_simulacion_derivador+rectificador_ss} es posible notar dos problemas. El primero es que la forma de onda de corriente presenta pendientes de crecimiento y de decrecimiento asimétricas. Esto es provocado por el efecto de la resistencia interna del electroimán, que se hace notorio cuando se trabaja con corrientes elevadas. Esta asimetría en las pendientes provoca que la salida del derivador no sea simétrica alrededor de $V_{op}$. Por lo tanto, como luego se rectifica esta señal pulsada alrededor de $V_{op}$, la señal resultante presentará variaciones, que según mediciones realizadas con los cursores de la simulación se determinó que su amplitud es de $233\:mV$. El segundo problema es que la salida del derivador, con forma de onda pulsada, presenta un comportamiento ruidoso tanto en el nivel superior como en el inferior. Esto proviene principalmente de la conmutación auxiliar, que también es amplificada por el derivador. 
 
 Por lo tanto, a continuación se analiza en profundidad ambos inconvenientes y se plantean soluciones a los mismos: un filtro pasa bajos en la entrada del estimador y una compensación para los efectos de la resistencia interna.
 
@@ -486,7 +482,6 @@ Para su implementación se utiliza un filtro activo Butterworth de segundo orden
 	\label{fig:img_Filtro-para-la-entrada-del-derivador}
 \end{figure}
 
-\colorbox{red}{deberíamos cambiar la imagen poniendo los nombres de la señal que entra (vilfeed) y la que sale (vilfiltrada)}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=1]{Filtro-Activo.png}
@@ -494,9 +489,7 @@ Para su implementación se utiliza un filtro activo Butterworth de segundo orden
 	\label{fig:img_Respuesta-en-frecuencia-del-filtro-activo}
 \end{figure}
 
-\colorbox{red}{hará falta aclarar qué software usamos para el diseño??}
-
-A continuación, en la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el resultado de una simulación agregando el filtro LPF en la entrada. Esta simulación fue realizada con las mismas condiciones de corriente e inductancia que la de la figura \ref{fig:img_simulacion_derivador+rectificador_ss}.
+En la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el resultado de una simulación agregando el filtro pasa bajos en la entrada. Se puede observar que, en comparación con la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, la señal de salida del derivador es menos ruidosa. Esta simulación fue realizada con las mismas condiciones de corriente e inductancia que en la figura \ref{fig:img_simulacion_derivador+rectificador_ss}.
 
 \begin{figure}[H]
 	\centering
@@ -505,13 +498,13 @@ A continuación, en la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el
 	\label{fig:img_simulacion_lpf_entrada}
 \end{figure}
 
-Se puede observar que, en comparación con la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, la señal de salida del derivador es menos ruidosa. Si bien en la señal $V_{estim}$ no se observa gran diferencia, el agregado del filtro en la entrada mejora la estimación de posición.
+
 
 \section{Compensación de resistencia interna}
 
-El segundo inconveniente mencionado en la sección de simulaciones es la diferencia entre pendientes de crecimiento y de decrecimiento causada por la resistencia interna del electroimán. A continuación se analiza cómo esta corriente provoca este efecto, y qué solución se propone.
+El segundo inconveniente mencionado en la sección \ref{sec_simulacion_estimador_basico} es la diferencia entre pendientes de crecimiento y de decrecimiento causada por la resistencia interna del electroimán. A continuación se analiza cómo esta corriente provoca dicho efecto, y qué solución se propone.
 
-Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión constante en su resistencia interna. Esto provoca que no siempre estén aplicados $\pm 24\:V$ al electroimán sino que, durante el tiempo en que la corriente crece ($T_{ON}$) se aplican $+24\:V-I_L*R_L$ y durante el tiempo en que la corriente decrece ($T_{OFF}$) se aplican $-24\:V-I_L*R_L$. Esto genera que las pendientes sean distintas. Se puede reescribir la ecuación \ref{eq_derivada_corriente_3} para tener en cuenta el efecto mencionado:
+Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión constante en su resistencia interna. Esto provoca que no siempre estén aplicados $\pm V_{cc}$ al electroimán sino que, durante el tiempo en que la corriente crece ($T_{ON}$) se aplican $+V_{cc}-I_L*R_L$ y durante el tiempo en que la corriente decrece ($T_{OFF}$) se aplican $-V_{cc}-I_L*R_L$. Esto genera que las pendientes sean distintas. Se puede reescribir la ecuación \ref{eq_derivada_corriente_3} para tener en cuenta el efecto mencionado, considerando que $I_L$ corresponde al valor medio de la corriente del electroimán:
 
 \begin{equation} \label{eq_Vbus-didt-RL}
 	\left|\frac{di_L}{dt}\right|=\left|\frac{\pm V_{cc}-R_L*I_L}{L(Y_g)}\right|
@@ -537,7 +530,7 @@ Para el caso en que $V_{cc}=-24\:V$:
 
 Por lo tanto, sobre el electroimán se aplican dos tensiones distintas, en valor absoluto, durante la carga y descarga. Esto provoca que la rampa de corriente sea asimétrica.
 
-Como se planteó en la sección \ref{sec_simulacion_estimador_basico}, esta diferencia de pendientes provoca que la salida del derivador no tenga una excursión simétrica al rededor del punto de operación $V_{op}=2.5\:V$. Este efecto se muestra con mayor detalle en la figura \ref{fig:img_simulacion_derivador_vmed}. El circuito de rectificador diseñado rectifica la señal del derivador suponiendo que la señal es simétrica alrededor de $V_{op}$. Pero como no lo es, se obtienen saltos de tensión.
+Como se planteó en la sección \ref{sec_simulacion_estimador_basico}, esta diferencia de pendientes provoca que la salida del derivador no tenga una excursión simétrica al rededor del punto de operación $V_{op}=2.5\:V$. Este efecto se muestra con mayor detalle en la figura \ref{fig:img_simulacion_derivador_vmed}.
 
 \begin{figure}[H]
 	\centering
@@ -546,8 +539,7 @@ Como se planteó en la sección \ref{sec_simulacion_estimador_basico}, esta dife
 	\label{fig:img_simulacion_derivador_vmed}
 \end{figure}
 
-En la figura \ref{fig:img_simulacion_sin_compensacion_IR} se muestra la señal $V_{estim}$ sin su etapa de filtrado, para que se vea mas claro el efecto provocado al rectificar la salida del derivador. 
-\colorbox{red}{le saqué el filtro a la salida para que se vean mejor los saltos de tensión}
+En la figura \ref{fig:img_simulacion_sin_compensacion_IR} se muestra la señal $V_{estim}$ sin la etapa de filtrado del restador, para que se vea mas claro el efecto provocado al rectificar la salida del derivador. 
 
 %Debido a que luego se utilizará un rectificador de onda completa, se desea que la rectificación de cada una de estas pendientes resulte en el mismo valor. En la figura \ref{fig:img_Forma-de-onda-luego-de-rectificar-sin-compensación-IR} se muestra el efecto luego de la rectificación sin realizar ninguna compensación.
 
@@ -569,37 +561,33 @@ Para modificar el punto de operación se debe cambiar la tensión en la entrada 
 	\label{fig:img_Esquema-circuital-del-derivador}
 \end{figure}
 
-Se tiene que la pendiente de bajada de la onda triangular, en módulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversión de signo), queda por encima del punto de operación, y la pendiente de subida, por debajo. Por ello, se debe compensar el punto de operación para que la forma de onda sea simétrica alrededor de $2.5\:V$. 
+La pendiente de bajada de la onda triangular, en módulo, es mayor que la de subida. Por lo tanto, al derivarla (con la inversión de signo), queda por encima del punto de operación, y la pendiente de subida, por debajo. Por ello, se debe compensar el punto de operación para que la forma de onda sea simétrica alrededor de $2.5\:V$. 
 
 Para la pendiente de bajada, la salida del derivador es:
 
 \begin{equation} \label{eq_Vyf-Vbias}
-	{Vyf}_{off}\ =\ V_{bias}+H_0\ *\ \tau *\frac{\abs{V_{cc}}\ +\ I_L*R_L}{L(Y_g)}\ 
+	V_{deriv_{sup}} =\ V_{bias}+H_0\ *\ \tau *\frac{\abs{V_{cc}}\ +\ I_L*R_L}{L(Y_g)}\ 
 \end{equation}
 
-Para la pendiente de subida se tiene:
+Para la pendiente de subida:
 
 \begin{equation} \label{eq_Vyf-Vbias2}
-	{Vyf}_{on}\ =\ V_{bias}\ -\ H_0\ *\ \tau *\frac{\abs{V_{cc}} -\ I_L*R_L}{L(Y_g)}
+	V_{deriv_{inf}} =\ V_{bias}\ -\ H_0\ *\ \tau *\frac{\abs{V_{cc}} -\ I_L*R_L}{L(Y_g)}
 \end{equation}
 
 Se desea que se cumpla:
 
 \begin{equation} \label{eq_Vyf_Vbias3}
-	{Vyf}_{off}\ -2.5\ \:V=\ 2.5\ V\ -{Vyf}_{on}
+	V_{deriv_{sup}} -2.5\:V=\ 2.5\:V\ - V_{deriv_{inf}}
 \end{equation}
 
 Si se despeja $V_{bias}$ se llega a:
 
 \begin{equation} \label{eq_Vyf-Vbias4}
-	V_{bias}\ =2.5\ \:V -\ H_0\ *I_L*\ \tau *\frac{\ R_L}{L(Y_g)}
+	V_{bias}\ =2.5 \:V -\ H_0\ *I_L*\ \tau *\frac{\ R_L}{L(Y_g)}
 \end{equation}
 
-Para generar la tensión $V_{bias}$ se debe implementar un circuito que mida la corriente del electroimán y entregue en su salida la tensión que indica la expresión \ref{eq_Vyf-Vbias4}. Como no se tiene acceso directo a la corriente del electroimán, sino que se tiene la tensión de realimentación de corriente $V_{IL_{feed}}=H_0*I_L+0.1\:V$, se utiliza esta tensión como entrada.
-
-Se propone el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}.
-
-
+Para generar la tensión $V_{bias}$ se debe implementar un circuito que mida el valor medio de la corriente del electroimán y entregue en su salida la tensión que indica la expresión \ref{eq_Vyf-Vbias4}. Como no se tiene acceso directo a la corriente del electroimán, sino que se tiene la tensión de realimentación de corriente $V_{IL_{feed}}=H_0*I_L+0.1\:V$, se utiliza esta tensión como entrada. Se propone el circuito de la figura \ref{fig:img_Generación_de_Vbias}.
 
 \begin{figure}[H]
 	\centering
@@ -608,17 +596,28 @@ Se propone el circuito mostrado en la figura \ref{fig:img_Generación_de_Vbias}.
 	\label{fig:img_Generación_de_Vbias}
 \end{figure}
 
-\colorbox{red}{acá la que entra es la  vilfeedfiltrada}
+El capacitor $C_1$ cumple la función de obtener el valor medio de la señal de entrada, que tiene forma triangular con frecuencia mínima de $1\:kHz$. Se elige su valor para que, junto con la resistencia $R_4$, filtre la frecuencia fundamental de la onda triangular. Por lo tanto, se ubica la frecuencia de corte una decada por debajo y se impone la siguiente condición de diseño:
 
-Se tiene $H_0 = 53.3\:\frac{mV}{A},\; R_L = 0.2\:\Omega$ y $\tau=C_1*R_1=25 \:ms$. Se utiliza la inductancia para $Y_g=4\:mm$ $L(4\:mm) = 16.44\:mHy$.
+\begin{equation} \label{eq_capacitor_IR}
+	\frac{1}{2*\pi*C_1*R_4}=100\:Hz
+\end{equation}
+
+
 
 A partir del circuito de la figura \ref{fig:img_Generación_de_Vbias} se obtiene:
 
 \begin{equation} \label{eq_Vyf-Vbias3}
-	V_{bias} =-\frac{R_4}{R_3}(H_0I_L+ 0.1\:V)+V_{op}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2})
+	V_{bias} =V_{op}(1+\frac{ R_4}{R_3(1+sC_1R_4)})(\frac{R_1}{R_1+R_2})-\frac{R_4(V_{IL_{feed}})}{R_3(1+s C_1R_4)}
 \end{equation}
 
-Para poder llegar a la expresión de la ecuación \ref{eq_Vbus-didt-RL-2} se debe cumplir que:
+Como se mencionó previamente, el capacitor $C_1$ junto con $R_4$ se encargan de filtrar las señales de entrada y obtener a la salida del circuito su valor medio. Por lo tanto, para simplificar el análisis, se plantea la siguiente ecuación:
+
+\begin{equation} 
+	V_{bias} =V_{op}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2})-\frac{R_4(I_L*H_0+0.1\:V)}{R_3}
+\end{equation}
+
+
+Para poder llegar a la expresión de la ecuación \ref{eq_Vyf-Vbias4} se debe cumplir que:
 
 \begin{enumerate}
 	\item  $-\frac{R_4}{R_3}=- \tau *\frac{R_L}{L}= -0.304$  
@@ -626,9 +625,11 @@ Para poder llegar a la expresión de la ecuación \ref{eq_Vbus-didt-RL-2} se deb
 	\item  $-\frac{R_4}{R_3}(0.1V)+V_{op}(1+\frac{ R_4}{R_3})(\frac{R_1}{R_1+R_2}) = 2.5V$     
 \end{enumerate}
 
-Por lo tanto, al resolver la condición 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, al resolver la condición 2) con $V_{op}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$.
+Se sabe que $H_0 = 53.3\:\frac{mV}{A},\; R_L = 0.2\:\Omega$ y $\tau=C_1*R_1=25 \:ms$. Se utiliza la inductancia $L(4\:mm) = 16.44\:mHy$.
 
-Se volvió a simular el circuito estimador con el agregador del circuito de compensación de resistencia interna. En la figura \ref{fig:img_Formas_de_onda_obtenidas_en_la_simulación} se muestra como cambia la forma de onda a la salida del rectificador.
+Por lo tanto, al resolver la condición 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, al resolver la condición 2) con $V_{op}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$. Finalmente, siguiendo la condición \ref{eq_capacitor_IR}, se determina $C_1=5.14\mu F$.
+
+Se simuló nuevamente el circuito estimador con el agregado de la compensación de resistencia interna. En la figura \ref{fig:img_Formas_de_onda_obtenidas_en_la_simulación} se muestra cómo mejoró la forma de onda a la salida del rectificador.
 
 \begin{figure}[H]
 	\centering
@@ -637,15 +638,10 @@ Se volvió a simular el circuito estimador con el agregador del circuito de comp
 	\label{fig:img_Formas_de_onda_obtenidas_en_la_simulación}
 \end{figure}
 
-\colorbox{red}{Esta simulación tiene puesto el filtro pasa bajo a la entrada?} sip, con filtro a la entrada y la señal que entra al compensador IR es la salida del filtro.
-
-\colorbox{red}{faltaría agregar lo del filtrado, la imagen 4.22 ya tiene el capacitor puesto}
-
-La onda superior corresponde a la corriente en el electroimán, la que se encuentra al medio, a la salida del derivador y la inferior, a la onda rectificada con la corrección de la resistencia interna.
 
 \section{Simulación del estimador completo}
 
-Finalmente el circuito estimador completo queda...
+Finalmente el circuito estimador completo y la simulación se muestran en las figuras \ref{fig:img_circuito_final_del_estimador} y \ref{fig:img_simulacion_completo} respectivamente.
 
 \begin{figure}[H]
 \centering
@@ -654,9 +650,6 @@ Finalmente el circuito estimador completo queda...
 \label{fig:img_circuito_final_del_estimador}
 \end{figure}
 
-
-En la figura \ref{fig:img_simulacion_completo} se muestra una simulación del estimador completo (con filtro a la salida).
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.3]{simulacion_completo.png}
@@ -664,16 +657,9 @@ En la figura \ref{fig:img_simulacion_completo} se muestra una simulación del es
 	\label{fig:img_simulacion_completo}
 \end{figure}
 
-Se puede observar que la salida del estimador presenta menos oscilaciones. Usando cursores se midió una amplitud pico a pico de $97\:mV$. Sin la compensación resulta en $233\:mV$.
+Se puede observar que la salida del estimador $V_{estim}$ es una señal continua. Mediante la utilización de los cursores se midió una variación de $97\:mV$ en torno al valor medio.
 
-\colorbox{red}{A que se deben los picos en la onda pulsada? Tal ves podríamos aclararlo no?}
-
-
-\colorbox{red}{Ponerle los nombres de las señales en la simulacion}
-
-
-\colorbox{red}{Podríamos agregar la imagen del circuito completo?}
-
+Se puede observar que la salida del estimador presenta menos oscilaciones. Usando cursores se midió una amplitud pico a pico de $97\:mV$, resultando en una mejora con respecto a la simulación realizada en la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, en la que las variaciones de amplitud eran de $233\:mV$.
 
 
 En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se muestran valores medidos de $V_{estim}$ en función de la posición.

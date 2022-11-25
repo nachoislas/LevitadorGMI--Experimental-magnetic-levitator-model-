@@ -14,11 +14,10 @@ En la sección \ref{sec_analisis_estimacion} se obtuvo una ecuación que relacio
 	\frac{di_L(t)}{dt}= \frac{V_L}{L(Y_g)}=\frac{V_L}{-2.56*Y_{g}+0.027}
 \end{equation}
 
-Debido a que la alimentación $V_L$ del electroimán tiene dos valores posibles $V_L=+V_{cc}$ o $V_L=-V{cc}$, se puede reescribir la expresión \ref{eq_derivada_corriente_3} en función de $V_{cc}$:
-\colorbox{red}{Y si ponemos directamente 24V?}
+Debido a que la alimentación $V_L$ del electroimán tiene dos valores posibles $V_L=+24\:V$ o $V_L=-24\:V$, se puede reescribir la expresión \ref{eq_derivada_corriente_3}:
 
 \begin{equation} \label{eq_derivada_corriente_4}
-	\left|\frac{di_L(t)}{dt}\right|= \frac{V_{cc}}{L(Y_g)}=\frac{V_{cc}}{-2.56*Y_{g}+0.027}
+	\left|\frac{di_L(t)}{dt}\right|= \frac{24\:V}{L(Y_g)}=\frac{24\:V}{-2.56*Y_{g}+0.027}
 \end{equation}
 
 A partir de la expresión \ref{eq_derivada_corriente_4} se evalúa la derivada para distintos valores de distancia y se obtiene la tabla \ref{tab_derivada_linealizada}.
@@ -91,7 +90,7 @@ A continuación se diseña la implementación circuital de cada una de las etapa
 
 
 \section{Diseño circuital del estimador de posición}
-\colorbox{red}{Breve resumen?}
+\colorbox{red}{Breve resumen en todas las sections?}
 
 \subsection{Circuito derivador}
 
@@ -722,9 +721,20 @@ Utilizando el resultado de \ref{eq_dvil_yg_2} en \ref{eq_vestim_dvil} se llega a
 	V_{estim}=0.025*194690*0.0533 * \frac{Y_{g}}{1 + \frac{s}{1\:kr/s}}=259.6*\frac{Y_{g}}{1 + \frac{s}{1\:kr/s}}	
 \end{equation}
 
-Finalmente, al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\:{kHz} \simeq 60 \:{kr/s}$ se obtiene:
+Finalmente, la transferencia se puede expresar como:
 
 \begin{equation} \label{eq_TLC_deriv_7}
-	H_{estim}=\frac{V_{estim}}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\:k})*{(1+\frac{s}{60\: k})}^2}
+	H_{estim}=\frac{V_{estim}}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\:k})}
 \end{equation}
+
+En la figura \ref{fig:img_bode_estimdaor_final} se muestra el diagrama de bode de la transferencia del estimador de distancia de entrehierro.
+
+\colorbox{red}{VEr si ponemos algo mas. Desp preguntar a walter si esto esta bien o ohay que considerar el polo doble de la etapa de filtrado...}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{bode_estimador.png}
+	\caption{Diagrama de Bode de la transferencia del estimador de distancia de separación de entrehierro.}
+	\label{fig:img_bode_estimdaor_final}
+\end{figure}
 

@@ -596,7 +596,7 @@ Para generar la tensión $V_{bias}$ se debe implementar un circuito que mida el 
 	\label{fig:img_Generación_de_Vbias}
 \end{figure}
 
-El capacitor $C_1$ cumple la función de obtener el valor medio de la señal de entrada, que tiene forma triangular con frecuencia mínima de $1\:kHz$. Se elige su valor para que, junto con la resistencia $R_4$, filtre la frecuencia fundamental de la onda triangular. Por lo tanto, se ubica la frecuencia de corte una decada por debajo y se impone la siguiente condición de diseño:
+El capacitor $C_1$ cumple la función de obtener el valor medio de la señal de entrada, que tiene forma triangular con frecuencia mínima de $1\:kHz$. Se elige su valor para que, junto con la resistencia $R_4$, filtre la frecuencia fundamental de la onda triangular. Por lo tanto, se ubica la frecuencia de corte una década por debajo y se impone la siguiente condición de diseño:
 
 \begin{equation} \label{eq_capacitor_IR}
 	\frac{1}{2*\pi*C_1*R_4}=100\:Hz
@@ -657,10 +657,7 @@ Finalmente el circuito estimador completo y la simulación se muestran en las fi
 	\label{fig:img_simulacion_completo}
 \end{figure}
 
-Se puede observar que la salida del estimador $V_{estim}$ es una señal continua. Mediante la utilización de los cursores se midió una variación de $97\:mV$ en torno al valor medio.
-
-Se puede observar que la salida del estimador presenta menos oscilaciones. Usando cursores se midió una amplitud pico a pico de $97\:mV$, resultando en una mejora con respecto a la simulación realizada en la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, en la que las variaciones de amplitud eran de $233\:mV$.
-
+Se puede observar que la salida del estimador $V_{estim}$ es una señal aproximadamente continua. Mediante la utilización de los cursores se midió una variación de $97\:mV$ en torno al valor medio, resultando en una mejora con respecto a la simulación realizada en la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, en la que las variaciones de amplitud eran de $233\:mV$.
 
 En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se muestran valores medidos de $V_{estim}$ en función de la posición.
 

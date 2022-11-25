@@ -659,8 +659,9 @@ Finalmente el circuito estimador completo y la simulación se muestran en las fi
 
 Se puede observar que la salida del estimador $V_{estim}$ es una señal aproximadamente continua. Mediante la utilización de los cursores se midió una variación de $97\:mV$ en torno al valor medio, resultando en una mejora con respecto a la simulación realizada en la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, en la que las variaciones de amplitud eran de $233\:mV$.
 
-En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se muestran valores medidos de $V_{estim}$ en función de la posición.
+En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se muestran valores medidos y los calculados teóricamente (\ref{tab_Vyf_vs_y}) de $V_{estim}$ en función de la posición.
 
+\colorbox{red}{Agregar valores teoricos y medidos y hacer análisis de la diferencia entre ellos, y calcular la pendiente...}
 
 \begin{table}[H]
 	\begin{center}
@@ -677,46 +678,50 @@ En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se muestran valore
 	\end{center}
 \end{table}
 
-\colorbox{red}{Podríamos agregar los valores teóricos a la tabla, ademas de la simulación}
+
 
 \section{Transferencia final del estimador de posición}
 
 El comportamiento del circuito estimador no es lineal.  Por lo tanto, para poder modelar una función transferencia, se deben tomar ciertas consideraciones. La parte del derivador es lineal, por lo que se puede modelar su transferencia como:
 \begin{equation}\label{eq_v-estim}
-	V_{estim}=-0.025*\frac{dVi_L}{dt} 
+	V_{deriv}=-0.025*\frac{dV_{IL_{feed}}}{dt} 
 \end{equation}
 
 A partir de la expresión \ref{eq_v-estim} se puede determinar que, además de realizarse la derivada, se introduce una inversión de signo. De esta forma, una pendiente positiva a la entrada resulta en valores menores a $2.5\:V$ a la salida, mientras que una pendiente negativa produce una tensión mayor a $2.5\:V$.
 
-Luego, el bloque rectificador y restador se encarga de calcular el valor absoluto de esta señal (en torno a los $2.5\:V$). Al considerar que la pendiente aumenta a medida que lo hace la distancia de separación, se puede concluir que el bloque estimador no produce inversión de signo. Por lo tanto, se debe considerar solamente la ganancia del derivador y el polo que introduce la etapa de restador. Finalmente, para poder obtener una estimación de la posición, se utiliza la expresión linealizada \ref{eq_di-dt_lineal} que relaciona la derivada de la corriente con el entrehierro:
+Luego, el bloque rectificador y restador se encarga de calcular el valor absoluto de esta señal (en torno a los $2.5\:V$). Al considerar que la pendiente aumenta a medida que lo hace la distancia de separación, se puede concluir que el bloque estimador no produce inversión de signo. Por lo tanto, se debe considerar solamente la ganancia del derivador y el polo que introduce la etapa de restador. Por lo tanto la salida del estimador en función de la salida del derivador queda:
+
+\begin{equation} \label{eq_vestim_dvil}
+	V_{estim}=0.025*\abs{\frac{dV_{IL_{feed}}}{dt}}*\frac{1}{1+\frac{s}{1\:kr/s}} 
+\end{equation}
+
+
+Finalmente, para poder obtener una estimación de la posición, se utiliza la expresión linealizada \ref{eq_di-dt_lineal} que relaciona la derivada de la corriente con el entrehierro:
 
 \begin{equation} \label{eq_dil_yg}
-	\frac{dI_{L}}{dt} = 194690 * Y_{g}
+	\abs{\frac{dI_{L}}{dt}} = 194690 * Y_{g}
 \end{equation}
 
 
 Al considerar la ganancia que tiene el sensor de efecto Hall sobre la corriente:
 
 \begin{equation} \label{eq_dil_dvil}
-	\frac{dI_{L}}{dt} =\frac{dVi_{L}}{dt}*\frac{1}{0.0533}
+	\abs{\frac{dV_{IL_{feed}}}{dt}}= H_0*\frac{dI_{L}}{dt} 
 \end{equation}
 
-Por lo tanto al utilizar \ref{eq_dvil_yg} en \ref{eq_dil_yg} se obtiene \ref{eq_dvil_yg}.
+Por lo tanto al reemplazar la expresión \ref{eq_dil_yg} en \ref{eq_dil_dvil} se obtiene \ref{eq_dvil_yg_2}.
 
-\begin{equation} \label{eq_dvil_yg}
-	\frac{dVi_{L}}{dt} = 0.0533*194690*Y_{g}
+\begin{equation} \label{eq_dvil_yg_2}
+	\abs{\frac{dV_{IL_{feed}}}{dt}} = H_0*194690*Y_{g}
 \end{equation}
 
-
-En base al resultado anterior, se llega a:
-
-
+Utilizando el resultado de \ref{eq_dvil_yg_2} en \ref{eq_vestim_dvil} se llega a:
 
 \begin{equation}
-	V_{estim}=0.025*194690*0.0533 * \frac{Y_{g}}{1 + \frac{s}{1\:k}}=259.6*\frac{Y_{g}}{1 + \frac{s}{1\:k}}	
+	V_{estim}=0.025*194690*0.0533 * \frac{Y_{g}}{1 + \frac{s}{1\:kr/s}}=259.6*\frac{Y_{g}}{1 + \frac{s}{1\:kr/s}}	
 \end{equation}
 
-Finalmente, al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\: \:{kHz}\ \simeq 60\: \:{krad/s}$ se obtiene:
+Finalmente, al considerar la etapa de filtrado de la entrada, que tiene dos polos en $2\pi *10\:{kHz} \simeq 60 \:{kr/s}$ se obtiene:
 
 \begin{equation} \label{eq_TLC_deriv_7}
 	H_{estim}=\frac{V_{estim}}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\:k})*{(1+\frac{s}{60\: k})}^2}

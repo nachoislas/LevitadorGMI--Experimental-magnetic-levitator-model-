@@ -1,4 +1,5 @@
 %% Controlador por adelanto de fase
+s = tf('s');
 
 %%Variables, cambiar segun se desee
 m=30; %%kilogramos
@@ -8,8 +9,12 @@ y=4; %%ya esta en mm;
 pint=0.1;
 Kint=50;
 
+%fltro butter
+W0=126457
+alpha=89703
+GfiltroButter=(W0*W0)/(s^2+2*alpha*s+W0^2)
+
 %Constantes
-s = tf('s');
 Kin = 0.32;
 H = 53.33/1000;
 R = 0.2;
@@ -20,7 +25,7 @@ k=1.76715e-5;
 %% Calulo de las transferencias de cada bloque
 Gplanta = -(2/y0)*(sqrt(k*9.8/m))/(s^2-(2*9.8/y0));
 GiL = (Kin/H) / (1 + s/(R/L));                  
-Hestim = 259.6 / ((1 + s/1e3) * (1 + s/60e3)^2 );
+Hestim = (259.6 / ((1 + s/1e3)))*GfiltroButter;
 
 Gtotal = Gplanta * GiL * Hestim;
 

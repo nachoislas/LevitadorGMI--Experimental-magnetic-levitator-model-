@@ -130,7 +130,23 @@ Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-de
 	\label{fig:nyquist-analog-para-k-10}
 \end{figure}
 
-\noindent En la figura \ref{fig:rta-escalon-k-10-m-30} se puede observar la respuesta al escalón del sistema con masa de 30 Kg.
+\subsection{Transferencia de lazo cerrado}
+
+Finalmente se puede expresar la función transferencia de lazo cerrado del lazo de control interno como:
+%
+%-3.6301e05 (s+1000) (s+44.3)^2
+%------------------------------------------------------------------
+%(s+304.3) (s+115.6) (s^2 + 44.84s + 2588) (s^2 + 2352s + 1.498e06)
+
+
+\begin{equation}
+	TLC_{interna}(s)=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_{p}*G_{iL}}{1-G_c*G_{p}*G_{iL}*H_{estim}}
+	%	\frac{-3.6301*}{den}
+\end{equation}
+
+Por último se simuló la respuesta del sistema a un escalón de amplitud unitaria en la señal $V_{ref_c}$. La salida es un valor de distancia de entrehierro $Y_g$ en metros. En la figura \ref{fig:rta-escalon-k-10-m-30} se puede observar la respuesta al escalón del sistema con masa de $30\:kg$.
+
+\colorbox{red}{Ver como acomodar lo de la respuesta al escalon (y para 1kg tambien)}
 
 \begin{figure}[H]
 	\centering
@@ -147,7 +163,7 @@ Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-de
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.80]{bodecompensado1kg.png}
-	\caption{Diagrama de Bode de $GH_T*G_C$ para $M=1\:kg$.}
+	\caption{Diagrama de Bode de $GH_T*G_c$ para $M=1\:kg$.}
 	\label{fig:bode-analog-para-M-1Kg}
 \end{figure}
 

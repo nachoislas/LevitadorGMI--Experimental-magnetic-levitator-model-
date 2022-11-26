@@ -1,42 +1,58 @@
 \chapter{Compensador analógico} \chapterlabel{Informe/6-CompensadorAnalogico} \label{cap:Compensador Analogico}
 
-En este capítulo se analiza la dinámica de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. Se diseña un compensador por adelanto de fase que logra la estabilidad incluso para los casos extremos de funcionamiento del sistema. Luego, se agrega un lazo de realimentación con un integrador que permite eliminar el error en régimen permanente.
-
-\section{Descripción general}
-
-
-\noindent Se plantea una compensación compuesta por dos lazos de control como se muestra en la figura \ref{fig:diag-en-bloques-comp}. El lazo de control interno está basado en un controlador por adelanto de fase que cumple la función de estabilizar el sistema. El lazo de control externo contiene un integrador con el objetivo de eliminar el error de posición en régimen permanente.
+En este capítulo se analiza la dinámica de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. Debido a la naturaleza inestable de la planta se propone una estrategia de control que logre estabilizar el sistema mediante un lazo de control interno y luego, mediante un lazo externo, mejorar su comportamiento. 
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{Diagrama-en-bloques-comp.png}
-	\caption{Diagrama del sistema completo.}
+	\caption{Diagrama simplificado del sistema completo.}
 	\label{fig:diag-en-bloques-comp}
 \end{figure}
+\colorbox{red}{Agregar diagrama generico con: compensador interno, externo, planta  H y Gin}
 
 \section{Lazo de realimentación interno}
 
-\subsection{Análisis de estabilidad con masa de 30 kg}
+En esta sección se diseña el control del lazo de realimentación interno del sistema que está compuesto por las etapas mostradas en la figura asd. 
 
-\noindent Para realizar el análisis de estabilidad se parte de las transferencias de la planta $G_{p}(s)$ para una masa de 30 kg (\ref{eq_transferencia_planta_m}), de la del controlador de corriente $G_{iL}(s)$ (\ref{eq_TLC-cc}) y de la del lazo de realimentación $H_{estim}(s)$ (\ref{eq_TLC_deriv_7}). A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrada en la expresión \ref{eq_GT2}.
+\colorbox{red}{diagrama interno} 
+
+Las funciones transferencias de cada bloque del diagrama asddas están dadas por:
+
+\begin{equation*}
+	G_{iL}(s) =\frac{I_L[A]}{V_{IL_{ref}}[V]}=\frac{6}{1+\frac{s}{12.17}}
+\end{equation*}
+
+\begin{equation*} 
+	G_{p}(M,s)=\frac{Y_g[m]}{I_L[A]}=-\sqrt{\frac{30}{M}}*\frac{1.201}{s^{2}-4900}
+\end{equation*}
+
+\begin{equation*} 
+	H_{estim}(s)=\frac{V_{estim}[V]}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\:kr/s})}
+\end{equation*}
+
+A continuación se diseña el bloque del compensador interno $G_C$ para lograr la estabilidad del sistema.
+
+\subsection{Análisis de estabilidad}
+
+Para realizar el análisis de estabilidad se parte de las transferencias de la planta $G_{p}(s)$ para una masa de $30\:kg$, de la del controlador de corriente $G_{iL}(s)$ y de la del lazo de realimentación $H_{estim}(s)$. A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrada en la expresión \ref{eq_GT2}.
 
 \begin{equation*} \label{eq_GT1}
-	GH_T(s)=G_{p}(s)*G_{iL}(s)*H_{estim} 
+	GH_T(s)=G_{p}(s)*G_{iL}(s)*H_{estim}(s) 
 \end{equation*}
 
 \begin{equation} \label{eq_GT2}
-		GH_T(s)=\frac{0.38}{(1-(\frac{s}{70})^2)(\frac{s}{12.17\ }+1)(1+\frac{s}{1\:k}){(1+\frac{s}{60\:k})}^2 }	
+		GH_T(s)=\frac{0.38}{(1-(\frac{s}{70\:r/s})^2)(\frac{s}{12.17\:r/s }+1)(1+\frac{s}{1\:kr/s}) }	
 \end{equation}
 
-\noindent A continuación se procede a analizar la respuesta en frecuencia de $GH_T$ y a diseñar un compensador adecuado. Luego, se verificará la estabilidad para una masa de $1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
+\noindent A continuación se procede a analizar la respuesta en frecuencia de $GH_T(s)$ y a diseñar un compensador adecuado. Luego, se verificará la estabilidad para una masa de $1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
 
 
 \noindent Con la transferencia de la ecuación  \ref{eq_GT2} se  grafica el diagrama de Bode y el diagrama de Nyquist. Estos se muestran en las figuras \ref{fig:Diag_Bode_lazo_abierto_30kg} y \ref{fig:Diag_Nyquist_lazo_abierto_30kg} respectivamente.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{bode_planta_30kg.png}
+	\includegraphics[scale=0.8]{bode_planta_30kg.png}
 	\caption{Diagrama de Bode de lazo abierto $GH_T$ con $M=\:30 kg$.}
 	\label{fig:Diag_Bode_lazo_abierto_30kg}
 \end{figure}
@@ -48,38 +64,17 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 	\label{fig:Diag_Nyquist_lazo_abierto_30kg}
 \end{figure}
 
-\noindent Para poder observar mejor la forma del Nyquist se hace un acercamiento en torno al origen como se muestra en la figura \ref{fig:Diag_Nyquist_lazo_abierto_zoom_30kg}.
+A partir del diagrama de la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} se puede analizar su estabilidad por medio del criterio de Nyquist. Este analiza, para un sistema con realimentación negativa, la cantidad de giros de $1+GH_T$ alrededor del origen. Lo que es equivalente a analizar los giros de GH alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg}. 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{nyquist_planta_zoom_30kg.png}
-	\caption{Acercamiento del diagrama de Nyquist de $GH_T$ con $M=30\:kg$.}
-	\label{fig:Diag_Nyquist_lazo_abierto_zoom_30kg}
-\end{figure}
+Es posible notar que no hay giros alrededor de -1. Por lo tanto, considerando que $GH_{T}$ tiene un polo en el semiplano derecho es posible determinar que el sistema realimentado es inestable.
 
-\noindent En la figura \ref{fig:rlocus_m30kg} se puede observar el lugar de raíces de $GH_{T}$ y en la \ref{fig:rlocus_m30kg_zoom} se muestra un acercamiento.
+Para lograr estabilizar este sistema se debe utilizar realimentación positiva en el diagrama en bloques, de manera que ahora se deben observar los giros de $1-GH_T$ alrededor del origen, que equivale a observar $GH_T$ alrededor del punto $+1+j0$. Además, se debe generar una zona en el diagrama de Nyquist donde exista un giro alrededor de 1 en sentido antihorario. Para ello, es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist debe tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.45]{rlocus_planta_30kg.png}
-	\caption{Lugar de raíces de $GH_{T}$ con $M=30\:kg$.}
-	\label{fig:rlocus_m30kg}
-\end{figure}
+A partir del diagrama de Nyquist de la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} es posible notar que no hay giros alrededor de -1. Por lo tanto, considerando que $GH_{T}$ tiene un polo en el semiplano derecho es posible determinar que el sistema realimentado es inestable.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.45]{rlocus_planta_30kg_zoom.png}
-	\caption{Acercamiento del lugar de raíces de $GH_T$ con $M=30\:kg$.}
-	\label{fig:rlocus_m30kg_zoom}
-\end{figure}
+\colorbox{red}{Corregir esto}
 
-\noindent Como se observa en la figura \ref{fig:rlocus_m30kg_zoom}, $GH_{T}$ tiene un polo en el semiplano derecho. A partir del Nyquist se puede determinar:
-
-\noindent Zona 1: $Z=N+P=0+1=1$ $\mathrm{\to}$ Inestable 
-
-\noindent Zona 2: $Z=N+P=1+1=2$ $\mathrm{\to}$ Inestable
-
-\noindent Por lo tanto, no es posible que el sistema sea estable. Para lograrlo se debe realimentar positivamente y generar una zona en el diagrama de Nyquist donde $N=-1$. Para ello es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist debe tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
+De esta forma, para lograr la estabilidad se debe realimentar positivamente y generar una zona en el diagrama de Nyquist donde exista un giro alrededor de -1 en sentido antihorario. Sin embargo, debido a que ahora se utiliza realimentación positiva, el diagrama de Nyquist debe analizarse en torno al 1 positivo. Para generar el giro en sentido antihorario es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist debe tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
 
 \begin{figure}[H]
 	\centering
@@ -89,18 +84,18 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 \end{figure}
 
 \subsection{Diseño de la red de adelanto de fase}
+Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-analog} se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente $200\:r/s$. Esto se logra mediante el uso de dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
 
-\noindent Para poder lograr el aumento de fase mencionado se utiliza una red de adelanto de fase. Se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente $200\:rad/s$. Esto se logra mediante el uso de dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
 
 \noindent De esta forma, las ecuaciones de dise\~{n}o resultan:
 
 \begin{equation*}
 	\begin{aligned}
-		&W_0 =200\:rad/s\\
+		&W_0 =200\:r/s\\
 		&{\varphi }_{max} =65\textrm{º}\\
 		&\alpha =\frac{1+sen({\varphi }_{max})}{1-sen{(\varphi }_{max})}=20.346491\\
-		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\:rad/s\\
-		&W_p =\sqrt{\alpha }*W_0=902.1\: rad/s\\
+		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\:r/s\\
+		&W_p =\sqrt{\alpha }*W_0=902.1\: r/s\\
 	\end{aligned}
 \end{equation*} 
 \noindent Finalmente, se llega a la transferencia del controlador:
@@ -109,7 +104,7 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 	G_c(s)=K*{[20.346*\frac{(s+44.3)}{(s+902.1)}]}^2
 \end{equation} 
 
-\noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_C$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $15.6\:dB$ hasta $35\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $15.6\:dB$ y la m\'{a}xima es de $35\:dB - 14\:dB = 21\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$.
+\noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_C$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $15.7\:dB$ y la m\'{a}xima es de $35.5\:dB - 14\:dB = 21.5\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:r/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$.
 
 
 \begin{figure}[H]

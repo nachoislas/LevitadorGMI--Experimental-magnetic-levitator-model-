@@ -89,10 +89,7 @@ A continuación se diseña la implementación circuital de cada una de las etapa
 }
 
 
-\section{Diseño circuital del estimador de posición}
-\colorbox{red}{Breve resumen en todas las sections?}
-
-\subsection{Circuito derivador}
+\section{Diseño del circuito derivador}
 
 Para poder obtener $\frac{dV_{IL_{feed}}}{dt}$ se utiliza un circuito derivador basado en un amplificador operacional como el que se muestra en la figura \ref{fig:img_Circuito-derivador}. Se decide utilizar amplificadores operacionales alimentados con una fuente de tensión simple de $5\:V$ con una excursión completa en su salida. 
 
@@ -198,7 +195,7 @@ Para pendiente negativa:
 
 
 
-\subsection{Circuito del derivador compensado}
+\subsection{Análisis de estabilidad y compensación}
 
 En esta sección se analiza la respuesta en frecuencia del circuito derivador. Para su implementación se propone utilizar el amplificador operacional MCP660, el cual fue también elegido para el diseño circuital del controlador de corriente. Este es internamente compensado, por lo que todos sus otros polos los tiene luego del cruce por $0\:dB$ de la ganancia. Para simplificar el análisis estos no se tienen en cuenta, ya que están fuera de la zona de interés. Su ganancia de lazo abierto es:
 
@@ -288,7 +285,11 @@ Finalmente, en la figura \ref{fig:img_Transferencia-de-lazo-cerrado} se muestra 
 A continuación se muestra la TLC del circuito derivador:
 
 \begin{equation} \label{eq_TLC_derivador}
-	{TLC}_{derivador}=\frac{V_{deriv}}{V_{iL_{feed}}}=\frac{-0.025*s}{1+(\frac{2*0.473}{94.5\: k})*s+(\frac{s}{94.5\:k})^2}
+	{TLC}_{derivador}=\frac{V_{deriv}}{V_{iL_{feed}}}=\frac{G_{in}*A(s)}{1+A(s)*H(s)}
+\end{equation} 
+
+\begin{equation} \label{eq_TLC_derivador}
+	{TLC}_{derivador}=\frac{-0.025*s}{1+(\frac{2*0.473}{94.5\: k})*s+(\frac{s}{94.5\:k})^2}
 \end{equation} 
 
 \section{Etapa de rectificación}
@@ -470,9 +471,9 @@ Por lo tanto, a continuación se analiza en profundidad ambos inconvenientes y s
 
 Debido a que el derivador amplifica las señales de alta frecuencia se decidió agregar un filtro pasa bajos en su entrada, que permita el paso de la onda triangular de corriente pero que filtre la frecuencia de conmutación auxiliar. 
 
-La señal que ingresa al derivador es $V_{IL_{feed}}$, que es una onda triangular de frecuencia fundamental variable entre $1\:kHz$ y $2\:kHz$. Por lo tanto se permite el paso de sus componentes frecuencia hasta la quinta armónica. De esta manera se diseña que la frecuencia de corte del filtro sea de $20\:kHz$.
+La señal que ingresa al derivador es $V_{IL_{feed}}$, que es una onda triangular de frecuencia fundamental variable entre $1\:kHz$ y $2\:kHz$. Por lo tanto, se permite el paso de sus componentes frecuencia hasta la quinta armónica. De esta manera se diseña que la frecuencia de corte del filtro sea de $20\:kHz$.
 
-Para su implementación se utiliza un filtro activo Butterworth de segundo orden, con una frecuencia de corte en $20\:kHz$. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el circuito utilizado y en la figura \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
+Mediante la utilización del software FilterLab se diseña un filtro activo Butterworth de segundo orden, con una frecuencia de corte en $20\:kHz$ y ganancia unitaria. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el circuito utilizado y en la \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
 
 \begin{figure}[H]
 	\centering
@@ -493,7 +494,7 @@ En la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el resultado de una
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.3]{simulacion_con_lpf_entrada.png}
-	\caption{Simulacion del estimador con filtro pasa 	bajos en la entrada.}
+	\caption{Simulación del estimador con filtro pasa 	bajos en la entrada.}
 	\label{fig:img_simulacion_lpf_entrada}
 \end{figure}
 
@@ -659,7 +660,6 @@ Finalmente el circuito estimador completo y la simulación se muestran en las fi
 Se puede observar que la salida del estimador $V_{estim}$ es una señal aproximadamente continua. Mediante la utilización de los cursores se midió una variación de $97\:mV$ en torno al valor medio, resultando en una mejora con respecto a la simulación realizada en la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, en la que las variaciones de amplitud eran de $233\:mV$.
 
 Se realizó la tabla \ref{tab_Resultados_de_simulación_del_estimador} que muestra el valor resultante y los calculados teóricamente (\ref{tab_Vyf_vs_y}) de $V_{estim}$ en la simulación para distintos casos de distancia de entrehierro. En ella también se agrega una columna con los valores teóricos calculados en \ref{tab_derivada_linealizada} para realizar una comparación.
-\colorbox{red}{Agregar valores teoricos y medidos y hacer análisis de la diferencia entre ellos, y calcular la pendiente...}
 
 \begin{table}[H]
 	\begin{center}
@@ -678,8 +678,7 @@ Se realizó la tabla \ref{tab_Resultados_de_simulación_del_estimador} que muest
 
 En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se observa que los valores obtenidos en simulación son menores que los calculados teóricamente. La diferencia es causada por el agregado de la oscilación auxiliar en el diseño del controlador de corriente (\ref{sec_oscilador_auxiliar}). Esta conmutación superpuesta a la alimentación del electroimán provoca que el valor medio de $V_L$ no sea exactamente $V_{cc}$, sino que se puede calcular como $V_L=V_{cc}*d$, donde $d=0.9$ es el ciclo de trabajo de la conmutación auxiliar. Se obtiene $V_L=21.6\:V$. Esta disminución en la alimentación genera una menor pendiente en la forma de onda triangular, por lo tanto la salida del derivador disminuye con respecto a la esperada teóricamente. 
 
-
-\section{Transferencia final del estimador de posición}
+\section{Transferencia final del estimador de distancia de entrehierro}
 
 El comportamiento del circuito estimador no es lineal.  Por lo tanto, para poder modelar una función transferencia, se deben tomar ciertas consideraciones. La parte del derivador es lineal, por lo que se puede modelar su transferencia como:
 \begin{equation}\label{eq_v-estim}
@@ -727,8 +726,6 @@ Finalmente, la transferencia se puede expresar como:
 \end{equation}
 
 En la figura \ref{fig:img_bode_estimdaor_final} se muestra el diagrama de bode de la transferencia del estimador de distancia de entrehierro.
-
-\colorbox{red}{VEr si ponemos algo mas. Desp preguntar a walter si esto esta bien o ohay que considerar el polo doble de la etapa de filtrado...}
 
 \begin{figure}[H]
 	\centering

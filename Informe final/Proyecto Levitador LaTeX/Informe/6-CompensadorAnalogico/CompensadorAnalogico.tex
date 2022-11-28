@@ -48,7 +48,7 @@ Para realizar el análisis de estabilidad se parte de las transferencias de la p
 \noindent A continuación se procede a analizar la respuesta en frecuencia de $GH_T(s)$ y a diseñar un compensador adecuado. Luego, se verificará la estabilidad para una masa de $1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
 
 
-\noindent Con la transferencia de la ecuación  \ref{eq_GT2} se  grafica el diagrama de Bode y el diagrama de Nyquist. Estos se muestran en las figuras \ref{fig:Diag_Bode_lazo_abierto_30kg} y \ref{fig:Diag_Nyquist_lazo_abierto_30kg} respectivamente.
+\noindent Con la transferencia de la ecuación  \ref{eq_GT2} se  grafica el diagrama de Bode y el de Nyquist. Estos se muestran en las figuras \ref{fig:Diag_Bode_lazo_abierto_30kg} y \ref{fig:Diag_Nyquist_lazo_abierto_30kg} respectivamente.
 
 \begin{figure}[H]
 	\centering
@@ -63,6 +63,28 @@ Para realizar el análisis de estabilidad se parte de las transferencias de la p
 	\caption{Diagrama de Nyquist de $GH_T$ con $M=30\:kg$.}
 	\label{fig:Diag_Nyquist_lazo_abierto_30kg}
 \end{figure}
+
+
+%------------------
+
+El sistema presenta realimentación negativa. Por lo tanto, para analizar su estabilidad por medio del criterio de Nyquist, se debe determinar la cantidad de giros de $GH_T$ alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} y la cantidad de polos en el semiplano derecho de la función transferencia $GH_T$. El sistema resultará estable si se cumple la condición 123123, donde N es la cantidad de giros, y z y p corresponden a ..
+
+N = z -p
+%----------------------------
+
+
+A partir del diagrama de la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} 
+
+El sistema presenta realimentación negativa. Por lo tanto, para analizar su estabilidad por medio del criterio de Nyquist, se debe determinar la cantidad de giros de $GH_T$ alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg}. Es posible notar que no hay giros alrededor de este punto. Por lo tanto, considerando que $GH_{T}$ tiene un polo en el semiplano derecho es posible determinar que el sistema realimentado es inestable.
+
+%Si L(s) es internamente estable y tiene un total de P polos inestables (en bucle abierto), el bucle cerrado ser´a estable sí y sólo sí −1 es rodeado P veces en sentido antihorario por el grafo de L(jω).
+
+
+ Por lo tanto, a partir de la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} y la ecuación \label{eq_GT2}, es posible determinar que no hay giros alrededor del punto $-1+j0$ y que existe un polo en el semiplano derecho. Por lo tanto, considerando que $GH_{T}$ tiene un polo en el semiplano derecho es posible determinar que el sistema realimentado es inestable.
+
+ 
+
+Este analiza, para un sistema con realimentación negativa, la cantidad de giros de $1+GH_T$ alrededor del origen. Lo que es equivalente a analizar los giros de GH alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg}. 
 
 A partir del diagrama de la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} se puede analizar su estabilidad por medio del criterio de Nyquist. Este analiza, para un sistema con realimentación negativa, la cantidad de giros de $1+GH_T$ alrededor del origen. Lo que es equivalente a analizar los giros de GH alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg}. 
 

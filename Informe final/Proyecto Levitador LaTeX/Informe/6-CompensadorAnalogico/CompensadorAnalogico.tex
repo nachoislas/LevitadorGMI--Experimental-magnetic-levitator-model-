@@ -93,9 +93,14 @@ Como se observa en el diagrama en bloques de la figura \ref{fig:diag-interno}, p
 \end{equation}
 
 
-Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros alrededor del punto $-1+j0$ ($N=0$), resulta que $Z=1$. Por lo tanto, la transferencia de lazo cerrado ($TLC_{interna}$) presenta un comportamiento inestable. En la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} se puede observar que no existe ningún valor de $K>0$ que haga que el contorno de $G_c*GH_T$ rodee el punto $-1+j0$. Por lo tanto, se propone implementar un compensador con $K<0$, lo que equivale a considerar $K>0$ y realimentación positiva del lazo de control interno. De esta forma se obtiene el diagrama en bloques de la figura \colorbox{red}{asdasda}
+Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros alrededor del punto $-1+j0$ ($N=0$), resulta que $Z=1$. Por lo tanto, la transferencia de lazo cerrado ($TLC_{interna}$) presenta un comportamiento inestable. En la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} se puede observar que no existe ningún valor de $K>0$ que haga que el contorno de $G_c*GH_T$ rodee el punto $-1+j0$. Por lo tanto, se propone implementar un compensador con $K<0$, lo que equivale a considerar $K>0$ y realimentación positiva del lazo de control interno. De esta forma se obtiene el diagrama en bloques de la figura \ref{fig:diag-interno_realimentacion_positiva}
 
-\colorbox{red}{poner diagrama en bloques con realimetnacion postivia}
+
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_lazo_interno_realimentacion_positiva.tex}
+	\caption{Diagrama en bloques del lazo de compensación interno considerando realimentación positiva.}	\label{fig:diag-interno_realimentacion_positiva}
+\end{figure}
 
 Siguiendo el criterio de estabilidad de Nyquist, al utilizar realimentación positiva, la cantidad de giros (N) debe analizarse alrededor del punto $1+j0$. Si estos son en sentido horario, N será positivo, caso contrario será negativo. Al variar el valor de K, es posible hacer que el punto $1+j0$ quede contenido en la zona 1 o en la zona 2 de la figura \colorbox{red}{asdasda}. 
 

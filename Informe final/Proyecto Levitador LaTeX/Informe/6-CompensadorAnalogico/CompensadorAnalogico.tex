@@ -102,9 +102,14 @@ Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros
 	\caption{Diagrama en bloques del lazo de compensación interno considerando realimentación positiva.}	\label{fig:diag-interno_realimentacion_positiva}
 \end{figure}
 
-Siguiendo el criterio de estabilidad de Nyquist, al utilizar realimentación positiva, la cantidad de giros (N) debe analizarse alrededor del punto $1+j0$. Si estos son en sentido horario, N será positivo, caso contrario será negativo. Al variar el valor de K, es posible hacer que el punto $1+j0$ quede contenido en la zona 1 o en la zona 2 de la figura \colorbox{red}{asdasda}. 
+Siguiendo el criterio de estabilidad de Nyquist, al utilizar realimentación positiva, la cantidad de giros (N) debe analizarse alrededor del punto $1+j0$. Si estos son en sentido horario, N será positivo, caso contrario será negativo. Al variar el valor de K, es posible hacer que el punto $1+j0$ quede contenido en la zona 1 o en la zona 2 de la figura \ref{fig:nyquist-con-zonas}. 
 
-\colorbox{red}{Poner Nyquist con zona 1 y 2}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{nyquist_con_zonas.png}
+	\caption{Diagrama de Nyquist con zonas marcadas.}	
+	\label{fig:nyquist-con-zonas}
+\end{figure}
 
 Si el punto queda dentro de la zona 1, el número de giros es $N=1$. Por lo tanto, se plantea:
 

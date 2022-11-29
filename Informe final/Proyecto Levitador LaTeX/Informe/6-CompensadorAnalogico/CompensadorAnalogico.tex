@@ -287,13 +287,20 @@ Para encontrar el valor adecuado de $k_{int}$ se grafica el lugar de raíces de 
 
 A partir del lugar de raíces se puede determina que el sistema resulta inestable para cualquier valor de $k_{int}>0$ puesto que la TLC interna del sistema presenta una ganancia negativa. Por lo tanto, debe utilizarse un valor de $k_{int}>0$, o bien seguir con $k_{int}>0$ pero con realimentación positiva. 
 
-Por lo tanto, al considerar una ganancia para el integrador $k_{int}>0$ y realimentación positiva se plantea el diagrama en bloques de la figura asdasd.
+Por lo tanto, al considerar una ganancia para el integrador $k_{int}>0$ y realimentación positiva se plantea el diagrama en bloques de la figura \colorbox{red}{asdasd}.
 
 \colorbox{red}{Agregar diagrama en bloqeus con realimentación positiva del lazo externo}
 
-EL lugar de raices........
+EL lugar de raíces resulta:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{rlocusconintegrador30kg.png}
+	\caption{Lugar de raíces con el integrador.}
+	\label{fig:lugar-de-raices-con-integrador-analog}
+\end{figure}
  
-\noindent En la figura \ref{fig:lugar-de-raices-con-integrador-analog} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($k_{int}$) debe ser menor a 669. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $k_{int}=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $16.6 \:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
+\noindent En la figura \ref{fig:lugar-de-raices-con-integrador-analog} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($k_{int}$) debe ser menor a 669. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} se muestra la respuesta al escalón del sistema compensado con el integrador para una ganancia de $k_{int}=1$. Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $16.6 \:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relación aceptable entre el tiempo de respuesta y el sobrepico.
 
 \begin{figure}[H]
 	\centering

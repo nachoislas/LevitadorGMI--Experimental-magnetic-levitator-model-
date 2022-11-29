@@ -39,7 +39,7 @@ minimum height=2.5em, minimum width=3em]
 	\draw [draw,->] (planta) -- node[name=y]{$Y_g$} (output);
 %	\draw [draw,->] (amplificador) -- node[name=y]{$V_{deriv}$} (output);
 	\draw [->] (y) |- (realimentacion_interna);
-	\draw [->] (realimentacion_interna) -| node[pos=0.25]{$V_{estim}$}  node[pos=0.99]{-} (suma_interna);
+	\draw [->] (realimentacion_interna) -| node[pos=0.25]{$V_{estim}$}  node[pos=0.99]{+} (suma_interna);
 %	\draw [->] (y) |- (realimentacion_externa);
 %	\draw [->] (realimentacion_externa) -| node[pos=0.25]{$V_{estim}$} node[pos=0.99]{-} (suma_externa);
 \end{tikzpicture}

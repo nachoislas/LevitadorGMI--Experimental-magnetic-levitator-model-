@@ -1,14 +1,9 @@
 \chapter{Compensador analógico} \chapterlabel{Informe/6-CompensadorAnalogico} \label{cap:Compensador Analogico}
 
-En este capítulo se analiza la dinámica de la planta y se utilizan distintas estrategias para conseguir que el sistema presente el comportamiento deseado. Debido a la naturaleza inestable de la planta se propone una estrategia de control que logre estabilizar el sistema mediante un lazo de control interno($G_c$) y luego, mediante un lazo externo($G_ext$), mejorar su comportamiento. 
+En este capítulo se analiza la dinámica de la planta que se desea controlar y se utilizan distintas estrategias de análisis y compensación para conseguir que el sistema de levitación presente el comportamiento deseado. 
 
+Como se mencionó en la sección \ref{sec_modelo_estados}, el fenómeno de levitación magnética presenta un comportamiento inestable. Es por ello que se debe implementar un lazo de control que logre estabilizar el sistema. Se propone una estrategia de control mediante la implementación de un lazo de control interno ($G_c$) y luego, mediante un lazo de control externo ($G_{ext}$), mejorar su respuesta temporal. En la figura \ref{fig:diag-en-bloques-comp} se muestra un diagrama en bloques genérico de la compensación planteada.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.8]{Diagrama-en-bloques-comp.png}
-	\caption{Diagrama simplificado del sistema completo.}
-	\label{fig:diag-en-bloques-comp_viejo}
-\end{figure}
 
 \begin{figure}[H]
 	\centering
@@ -20,8 +15,7 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 
 \section{Lazo de realimentación interno}
 
-En esta sección se diseña el control del lazo de realimentación interno del sistema que está compuesto por las etapas mostradas en la figura asd. 
-
+En esta sección se diseña el control del lazo de realimentación interno. Está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, $G_{IL}$ es la transferencia del controlador de corriente, $G_p$ es la transferencia de la planta y $H_{estim}$ es la ganancia del estimador de distancia de entrehierro.
 
 \begin{figure}[H]
 	\centering
@@ -29,7 +23,7 @@ En esta sección se diseña el control del lazo de realimentación interno del s
 	\caption{Diagrama en bloques del lazo de compensación interno.}	\label{fig:diag-interno}
 \end{figure}
 
-Las funciones transferencias de cada bloque del diagrama asddas están dadas por:
+Las funciones transferencia de cada bloque del diagrama \ref{fig:diag-interno} están dadas por:
 
 \begin{equation*}
 	G_{iL}(s) =\frac{I_L[A]}{V_{IL_{ref}}[V]}=\frac{6}{1+\frac{s}{12.17}}
@@ -43,7 +37,7 @@ Las funciones transferencias de cada bloque del diagrama asddas están dadas por
 	H_{estim}(s)=\frac{V_{estim}[V]}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\:kr/s})}
 \end{equation*}
 
-A continuación se diseña el bloque del compensador interno $G_C(s)$ para lograr la estabilidad del sistema.
+A continuación se analiza la estabilidad de la planta y se diseña el bloque del compensador interno $G_C(s)$ para lograr estabilizarla.
 
 \subsection{Análisis de estabilidad}
 

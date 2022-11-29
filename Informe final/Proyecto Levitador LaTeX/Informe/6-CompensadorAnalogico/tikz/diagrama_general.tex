@@ -19,9 +19,9 @@ minimum height=2.5em, minimum width=3em]
 	\node [input, name=input] {};
 	\node [buffer, right=of input](F){F};
 	\node [sum, right of=F, node distance=1.5cm] (suma_externa) {+};
-	\node [block, right=of suma_externa, text width=2.5cm] (externo) {COMP. EXTERNO};
+	\node [block, right=of suma_externa, text width=2.5cm] (externo) {$G_{ext}$};
 	\node [sum, right=of externo] (suma_interna) {+};
-	\node[block, right=of suma_interna, text width=2.5cm] (interno) {COMP. INTERNO};
+	\node[block, right=of suma_interna, text width=2.5cm] (interno) {$G_c$};
 	\node [block, right=of interno] (gil) {$G_{IL}$};
 	\node [block, right=of gil] (planta) {$G_p$};
 	\node [block, below=of interno] (realimentacion_interna) {$H_{estim}$};

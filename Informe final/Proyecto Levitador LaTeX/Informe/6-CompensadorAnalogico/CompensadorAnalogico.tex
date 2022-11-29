@@ -316,7 +316,7 @@ Por lo tanto, al considerar una ganancia para el integrador $k_{int}>0$ y realim
 
 \colorbox{red}{Agregar diagrama en bloqeus con realimentación positiva del lazo externo}
 
-EL lugar de raíces resulta:
+El lugar de raíces resulta:
 
 \begin{figure}[H]
 	\centering
@@ -354,11 +354,15 @@ EL lugar de raíces resulta:
 
 \colorbox{red}{Poner TLC externa}
 
+\colorbox{red}{agregar error al escalón, para verificar que el polo en el integrador genera ese error}
+
 \section{Implementación circuital}
+
+En esta sección se aborda el diseño circuital de la etapa de compensación, tanto de la red doble de adelanto de fase correspondiente al lazo de control interno, como el integrador correspondiente al lazo externo.
 
 \subsection{Implementación circuital de la red de adelanto de fase}
 
-\noindent Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Consiste en  un polo y un cero con ganancia unitaria (si Ra = Rb). Luego, se agrega la ganancia como una etapa separada.
+\noindent Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Consiste en  un polo y un cero con ganancia unitaria (si $R_a = R_b$). Luego, se agrega la ganancia como una etapa separada.
 
 \begin{figure}[H]
 	\centering
@@ -386,7 +390,9 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 
 \subsection{Implementación circuital del integrador}
 
-\noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología y los valores utilizados en cada componente para el diseño del circuito integrador. 
+\noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología y los valores utilizados en cada componente para el diseño del circuito integrador.
+
+\colorbox{red}{podríamos poner la transferencia genérica y calcular los componentes...} 
 
 \begin{figure}[H]
 	\centering
@@ -395,9 +401,15 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 	\label{fig:circuito-integrador}
 	\end{figure}
 \section{Etapa de entrada}
+
+
+
 \subsection{Cálculo de ganancia de entrada}
 
-\noindent La ganancia de la TLC correspondiente a la ganancia de contínua total de los bloques con el integrador ya incorporado, resulta:
+\colorbox{red}{Esto capaz queda mejor antes de los diseños circuitales de los compensadores}
+
+
+\noindent La ganancia de la TLC \colorbox{red}{externa?}correspondiente a la ganancia de continua total de los bloques con el integrador ya incorporado, resulta:
 
 \begin{equation} 
 	G_{TLC_{final}} \simeq \frac{1}{H_{estim}} = - \frac{1}{259.6}
@@ -409,6 +421,8 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 	\caption{Diagrama en bloques final.}
 	\label{fig:diag-bloques-compensador}
 \end{figure}
+
+\colorbox{red}{Creo que habría qeu modificar la imagen y hacerla como las de arriba}
 
 \noindent Por lo tanto, con $F=-1$ y los rangos de posición de $2\:mm$ a $5\:mm$ como mínimo y máximo respectivamente se llega a lo siguiente:
 
@@ -437,6 +451,8 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 \end{table}
 
 \subsection{Implementación circuital}
+
+\colorbox{red}{Tal vez tendríamos que poner esto con los demás diseños circuitales..}
 
 \noindent Para poder modificar la distancia de separación se ingresa al sistema con una tensión variable, la cual corresponde a una posición de referencia. Para ello se utiliza el circuito mostrado en la figura \ref{fig:etapa-de-entrada}.
 

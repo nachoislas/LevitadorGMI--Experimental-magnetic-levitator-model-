@@ -18,7 +18,7 @@ minimum height=2.5em, minimum width=3em]
 	% We start by placing the blocks
 	\node [input, name=input] {};
 	\node [sum, right of=input, node distance=1.5cm] (suma_interna) {+};
-	\node[block, right=of suma_internaD] (interno) {$G_c$};
+	\node[block, right=of suma_interna] (interno) {$G_c$};
 	\node [block, right=of interno] (gil) {$G_{IL}$};
 	\node [block, right=of gil] (planta) {$G_p$};
 	\node [block, below=of gil] (realimentacion_interna) {$H_{estim}$};

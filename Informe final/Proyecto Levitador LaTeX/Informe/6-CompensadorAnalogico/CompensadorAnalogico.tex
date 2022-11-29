@@ -7,21 +7,26 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 	\centering
 	\includegraphics[scale=0.8]{Diagrama-en-bloques-comp.png}
 	\caption{Diagrama simplificado del sistema completo.}
-	\label{fig:diag-en-bloques-comp}
+	\label{fig:diag-en-bloques-comp_viejo}
 \end{figure}
-\colorbox{red}{Agregar diagrama generico con: compensador interno, externo, planta  H y Gin}
+
+\begin{figure}[H]
+	\centering
+	\scalebox{0.8}{\input{tikz/diagrama_general.tex}}
+	\caption{Diagrama en bloques del compensador propuesto.}	\label{fig:diag-en-bloques-comp}
+\end{figure}
+
+\colorbox{red}{poner nombres corrrectos de señales}
 
 \section{Lazo de realimentación interno}
 
 En esta sección se diseña el control del lazo de realimentación interno del sistema que está compuesto por las etapas mostradas en la figura asd. 
 
-\colorbox{red}{cambiar imagen por diagrama interno} 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.8]{Diagrama-en-bloques-comp.png}
-	\caption{Diagrama simplificado del sistema completo.}
-	\label{fig:diag-interno}
+	\input{tikz/diagrama_lazo_interno.tex}
+	\caption{Diagrama en bloques del lazo de compensación interno.}	\label{fig:diag-interno}
 \end{figure}
 
 Las funciones transferencias de cada bloque del diagrama asddas están dadas por:

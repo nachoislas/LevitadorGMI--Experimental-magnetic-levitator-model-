@@ -15,7 +15,14 @@ En este capítulo se analiza la dinámica de la planta y se utilizan distintas e
 
 En esta sección se diseña el control del lazo de realimentación interno del sistema que está compuesto por las etapas mostradas en la figura asd. 
 
-\colorbox{red}{diagrama interno} 
+\colorbox{red}{cambiar imagen por diagrama interno} 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{Diagrama-en-bloques-comp.png}
+	\caption{Diagrama simplificado del sistema completo.}
+	\label{fig:diag-interno}
+\end{figure}
 
 Las funciones transferencias de cada bloque del diagrama asddas están dadas por:
 
@@ -35,68 +42,75 @@ A continuación se diseña el bloque del compensador interno $G_C$ para lograr l
 
 \subsection{Análisis de estabilidad}
 
-Para realizar el análisis de estabilidad se parte de las transferencias de la planta $G_{p}(s)$ para una masa de $30\:kg$, de la del controlador de corriente $G_{iL}(s)$ y de la del lazo de realimentación $H_{estim}(s)$. A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrada en la expresión \ref{eq_GT2}.
+Para realizar el análisis de estabilidad se parte de las transferencias de la planta $G_{p}(s)$ para una masa de $30\:kg$, la del controlador de corriente $G_{iL}(s)$ y la del lazo de realimentación $H_{estim}(s)$. A partir de ellas se obtiene  la transferencia a lazo abierto total $GH_T(s)$ mostrada en la expresión \ref{eq_GT2}.
 
 \begin{equation*} \label{eq_GT1}
 	GH_T(s)=G_{p}(s)*G_{iL}(s)*H_{estim}(s) 
 \end{equation*}
 
 \begin{equation} \label{eq_GT2}
-		GH_T(s)=\frac{0.38}{(1-(\frac{s}{70\:r/s})^2)(\frac{s}{12.17\:r/s }+1)(1+\frac{s}{1\:kr/s}) }	
+		GH_T(s)=\frac{0.38}{(1-(\frac{s}{70\:r/s})^2)(1+\frac{s}{12.17\:r/s })(1+\frac{s}{1\:kr/s}) }	
 \end{equation}
 
 \noindent A continuación se procede a analizar la respuesta en frecuencia de $GH_T(s)$ y a diseñar un compensador adecuado. Luego, se verificará la estabilidad para una masa de $1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
 
+Para comenzar el análisis se considera un compensador $G_c=K$, donde K es una constante positiva. Por lo tanto, se plantea:
 
-\noindent Con la transferencia de la ecuación  \ref{eq_GT2} se  grafica el diagrama de Bode y el de Nyquist. Estos se muestran en las figuras \ref{fig:Diag_Bode_lazo_abierto_30kg} y \ref{fig:Diag_Nyquist_lazo_abierto_30kg} respectivamente.
+\begin{equation} \label{eq_GT3}
+	G_c*GH_T(s)=\frac{K*0.38}{(1-(\frac{s}{70\:r/s})^2)(1+\frac{s}{12.17\:r/s })(1+\frac{s}{1\:kr/s}) }	
+\end{equation}
+
+A partir de la transferencia de la ecuación  \ref{eq_GT3}, con $K=1$, se  grafica el diagrama de Bode y el de Nyquist. Estos se muestran en las figuras \ref{fig:Diag_Bode_lazo_abierto_30kg} y \ref{fig:Diag_Nyquist_lazo_abierto_30kg} respectivamente.
+
+
+%\noindent Con la transferencia de la ecuación  \ref{eq_GT2} se  grafica el diagrama de Bode  en la figura \ref{fig:Diag_Bode_lazo_abierto_30kg}. El criterio de estabilidad de Bode dice que para determinar la estabilidad de un sistema en un diagrama de Bode se debe observar si la magnitud es mayor a 0dB antes de que la fase alcance -180º. En este caso nuestro sistema es de no mínima fase... \colorbox{red}{ver si dejamos esto o vamos directo a nyquist}
+
+Como la transferencia de la planta $GH_T$ tiene un polo en el semiplano derecho del plano "S" no es posible determinar su estabilidad por medio del diagrama de Bode. Por lo tanto, se analiza la estabilidad por medio del criterio de Nyquist.
+
+Como se observa en la figura \ref{fig:diag-interno}, para compensar al sistema se planteó una realimentación negativa. Por lo tanto, para analizar su estabilidad  se debe determinar la cantidad de giros (N) de $G_c*GH_T$ alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} y la cantidad de polos (P) en el semiplano derecho de la función transferencia $G_c*GH_T$. El sistema resultará estable si se cumple la condición \ref{eq_condicion_Nyquist}, donde Z representa la cantidad de ceros en el semiplano derecho de $1+G_c*GH_T(s)$.
+
+\begin{equation}\label{eq_condicion_Nyquist}
+	Z=N+P=0
+\end{equation}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{bode_planta_30kg.png}
-	\caption{Diagrama de Bode de lazo abierto $GH_T$ con $M=\:30 kg$.}
+	\caption{Diagrama de Bode de lazo abierto $G_c*GH_T$ con $M=\:30 kg$.}
 	\label{fig:Diag_Bode_lazo_abierto_30kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{nyquist_planta_30kg.png}
-	\caption{Diagrama de Nyquist de $GH_T$ con $M=30\:kg$.}
+	\caption{Diagrama de Nyquist de $G_c*GH_T$ con $M=30\:kg$.}
 	\label{fig:Diag_Nyquist_lazo_abierto_30kg}
 \end{figure}
 
+Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros alrededor del punto $-1+j0$ ($N=0$), resulta que $Z=1$. Por lo tanto, la transferencia de lazo cerrado ($TLC_{interna}$) presenta un comportamiento inestable. En la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} se puede observar que no existe ningún valor de $K>0$ que haga que el contorno de $G_c*GH_T$ rodee el punto $-1+j0$. Por lo tanto, se propone implementar un compensador con $K<0$, lo que equivale a considerar $K>0$ y realimentación positiva del lazo de control interno. De esta forma se obtiene el diagrama en bloques de la figura asdasd
 
-%------------------
+\colorbox{red}{poner diagrama en bloques con realimetnacion postivia}
 
-El sistema presenta realimentación negativa. Por lo tanto, para analizar su estabilidad por medio del criterio de Nyquist, se debe determinar la cantidad de giros de $GH_T$ alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} y la cantidad de polos en el semiplano derecho de la función transferencia $GH_T$. El sistema resultará estable si se cumple la condición 123123, donde N es la cantidad de giros, y z y p corresponden a ..
+Siguiendo el criterio de estabilidad de Nyquist, al utilizar realimentación positiva, la cantidad de giros (N) debe analizarse alrededor del punto $1+j0$. Si estos son en sentido horario, N será un número positivo, caso contrario será negativo. Al variar el valor de K, es posible hacer que el punto $1+j0$ quede contenido en la zona 1 o en la zona 2 de la figura asddas. 
 
-N = z -p
-%----------------------------
+\colorbox{red}{Poner Nyquist con zona 1 y 2}
 
+Si el punto queda dentro de la zona 1, el número de giros es $N=1$. Por lo tanto, se plantea:
 
-A partir del diagrama de la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} 
-
-El sistema presenta realimentación negativa. Por lo tanto, para analizar su estabilidad por medio del criterio de Nyquist, se debe determinar la cantidad de giros de $GH_T$ alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg}. Es posible notar que no hay giros alrededor de este punto. Por lo tanto, considerando que $GH_{T}$ tiene un polo en el semiplano derecho es posible determinar que el sistema realimentado es inestable.
-
-%Si L(s) es internamente estable y tiene un total de P polos inestables (en bucle abierto), el bucle cerrado ser´a estable sí y sólo sí −1 es rodeado P veces en sentido antihorario por el grafo de L(jω).
+\begin{equation*}
+	N = 1 ==> Z = N + P = 2
+\end{equation*}
 
 
- Por lo tanto, a partir de la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} y la ecuación \label{eq_GT2}, es posible determinar que no hay giros alrededor del punto $-1+j0$ y que existe un polo en el semiplano derecho. Por lo tanto, considerando que $GH_{T}$ tiene un polo en el semiplano derecho es posible determinar que el sistema realimentado es inestable.
+Si el punto queda dentro de la zona 2, el número de giros es $N=0$. Por lo tanto, se plantea:
 
- 
+\begin{equation*}
+	N = 0 ==> Z = N + P = 1
+\end{equation*}
 
-Este analiza, para un sistema con realimentación negativa, la cantidad de giros de $1+GH_T$ alrededor del origen. Lo que es equivalente a analizar los giros de GH alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg}. 
+Debido a que en ambas zonas Z resulta mayor que cero, el sistema realimentado no puede ser estabilizado con ningún valor K.
 
-A partir del diagrama de la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} se puede analizar su estabilidad por medio del criterio de Nyquist. Este analiza, para un sistema con realimentación negativa, la cantidad de giros de $1+GH_T$ alrededor del origen. Lo que es equivalente a analizar los giros de GH alrededor del punto $-1+j0$ en la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg}. 
-
-Es posible notar que no hay giros alrededor de -1. Por lo tanto, considerando que $GH_{T}$ tiene un polo en el semiplano derecho es posible determinar que el sistema realimentado es inestable.
-
-Para lograr estabilizar este sistema se debe utilizar realimentación positiva en el diagrama en bloques, de manera que ahora se deben observar los giros de $1-GH_T$ alrededor del origen, que equivale a observar $GH_T$ alrededor del punto $+1+j0$. Además, se debe generar una zona en el diagrama de Nyquist donde exista un giro alrededor de 1 en sentido antihorario. Para ello, es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist debe tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
-
-A partir del diagrama de Nyquist de la figura \ref{fig:Diag_Nyquist_lazo_abierto_30kg} es posible notar que no hay giros alrededor de -1. Por lo tanto, considerando que $GH_{T}$ tiene un polo en el semiplano derecho es posible determinar que el sistema realimentado es inestable.
-
-\colorbox{red}{Corregir esto}
-
-De esta forma, para lograr la estabilidad se debe realimentar positivamente y generar una zona en el diagrama de Nyquist donde exista un giro alrededor de -1 en sentido antihorario. Sin embargo, debido a que ahora se utiliza realimentación positiva, el diagrama de Nyquist debe analizarse en torno al 1 positivo. Para generar el giro en sentido antihorario es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist debe tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
+Para lograr estabilizar este sistema se debe generar una zona en el diagrama de Nyquist donde exista un giro alrededor de 1 en sentido antihorario. Para ello, es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$.  Para que esto se cumpla, el diagrama de Nyquist debe tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
 
 \begin{figure}[H]
 	\centering
@@ -105,8 +119,24 @@ De esta forma, para lograr la estabilidad se debe realimentar positivamente y ge
 	\label{fig:nyquist-deseado-analog}
 \end{figure}
 
+De esta manera se generan cuatro zonas. Sin embargo, solo en la zona 2 se genera un giro en sentido antihorario ($N=-1$) como es deseado, por lo que resulta:
+
+\begin{equation*}
+	N = -1 ==> Z = N + P = 0
+\end{equation*}
+
+%Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-analog} se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. Para ello, se propone implementar un compensador por adelanto de fase.
+
+Por lo tanto, para lograr que el diagrama de Nyquist tenga la forma deseada, se propone implementar un compensador por adelanto de fase.
+
+\colorbox{red}{Ver como terminaomos esta seccion y la enganchamos con la que viene}
+
+
 \subsection{Diseño de la red de adelanto de fase}
-Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-analog} se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente $200\:r/s$. Esto se logra mediante el uso de dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una.
+
+Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-analog} se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. 
+
+De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente $200\:r/s$. Esto se logra mediante el uso de dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una. 
 
 
 \noindent De esta forma, las ecuaciones de dise\~{n}o resultan:
@@ -154,33 +184,35 @@ Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-de
 
 \subsection{Transferencia de lazo cerrado}
 
-Finalmente se puede expresar la función transferencia de lazo cerrado del lazo de control interno como:
+Finalmente se puede expresar la función transferencia del lazo de control interno como:
 %
 %-3.6301e05 (s+1000) (s+44.3)^2
 %------------------------------------------------------------------
 %(s+304.3) (s+115.6) (s^2 + 44.84s + 2588) (s^2 + 2352s + 1.498e06)
 
+\colorbox{red}{escribir tlc, o mostrar ganancia en contínua que es negativ}
 
 \begin{equation}
 	TLC_{interna}(s)=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_{p}*G_{iL}}{1-G_c*G_{p}*G_{iL}*H_{estim}}
 	%	\frac{-3.6301*}{den}
 \end{equation}
 
-Por último se simuló la respuesta del sistema a un escalón de amplitud unitaria en la señal $V_{ref_c}$. La salida es un valor de distancia de entrehierro $Y_g$ en metros. En la figura \ref{fig:rta-escalon-k-10-m-30} se puede observar la respuesta al escalón del sistema con masa de $30\:kg$.
-
-\colorbox{red}{Ver como acomodar lo de la respuesta al escalon (y para 1kg tambien)}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.80]{Respuesta-al-escalon-K-10-M-30Kg.png}
-	\caption{Respuesta al escalón para $M=30\:kg$.}
-	\label{fig:rta-escalon-k-10-m-30}
-\end{figure}
+%Por último se simuló la respuesta del sistema a un escalón de amplitud unitaria en la señal $V_{ref_c}$. La salida es un valor de distancia de entrehierro $Y_g$ en metros. En la figura \ref{fig:rta-escalon-k-10-m-30} se puede observar la respuesta al escalón del sistema con masa de $30\:kg$.
+%
+%\colorbox{red}{Ver como acomodar lo de la respuesta al escalon (y para 1kg tambien)}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.80]{Respuesta-al-escalon-K-10-M-30Kg.png}
+%	\caption{Respuesta al escalón para $M=30\:kg$.}
+%	\label{fig:rta-escalon-k-10-m-30}
+%\end{figure}
 
 \subsection{Verificación de estabilidad con masa de 1 kg}
 
-\noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$ con el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-analog-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
+%\noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$ con el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-analog-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
 
+\noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$ con el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. A partir de ellos, es posible verificar que el sistema resulta estable para todo el rango de masas en el que opera el sistema. Sin embargo, se puede observar que el margen de fase es menor que $45º$, por lo que el sistema puede presentar un transitorio con oscilaciones amortiguadas. De esta forma, se propone implementar un lazo de control externo que permita mejorar dicha respuesta.
 
 \begin{figure}[H]
 	\centering
@@ -196,12 +228,91 @@ Por último se simuló la respuesta del sistema a un escalón de amplitud unitar
 	\label{fig:nyquist-analog-para-M-1Kg}
 \end{figure}
 
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.80]{rtaescaloncompensado1kg.png}
+%	\caption{Respuesta al escalón para $M=1\:kg$.}
+%	\label{fig:respuesta-analog-al-escalon-para-M-1Kg}
+%\end{figure}
+
+
+
+\section{Lazo de realimentación externo}
+
+\noindent Se plantea un lazo de realimentaci\'{o}n externo como se muestra en la  figura \colorbox{red}{poner referencia a imagen del diagrama simplificada}. En el lazo de realimentaci\'{o}n interno act\'{u}a el compensador por adelanto de fase dise\~{n}ado previamente y, en el externo, un controlador del tipo integral. De esta forma, se logra suavizar la respuesta al escal\'{o}n del sistema y eliminar el error en r\'{e}gimen permanente.
+
+
+\noindent Para el an\'{a}lisis se considera como realimentaci\'{o}n: 
+
+\[H_{estim}=\frac{V_{estim}}{Y_g[m]}= \frac{259.6}{(1 + \frac{s}{1\:k})
+}\] 
+
+\noindent La cadena de avance con masa de $30\:kg$ es:
+
+\begin{equation} \label{eq_cadena_avance_integrador}
+	G[M=30]=TLC_{interna}(s)[M=30]*G_{integ}
+\end{equation}
+
+
+\noindent Se  pretende diseñar un compensador del tipo integrador cuya transferencia es de la forma:
+\begin{equation}
+	G_{integ}= \frac{k_{int}}{s}
+\end{equation}
+
+El problema de este integrador ideal es que presenta una ganancia infinita en contínua. Por lo tanto, se propone implementar un compensador con un polo $p_{int}$ en baja frecuencia, que actúe como integrador a las frecuencias de la planta, pero que tenga ganancia finita en contínua.  Sin embargo, esta modificación provoca que la cancelación del error en régimen permanente no sea completa. Por lo tanto, se decide ubicar el polo en $0.1\:rad/s$ y la transferencia a implementar resulta.
+
+\begin{equation}
+	G_{integ}=\frac{k_{int}}{1+\frac{s}{p_{int}}}=\frac{k_{int}}{1+\frac{s}{0.1\:r/s}}	
+\end{equation}
+
+
+%, pero de todas maneras sea pequeña en comparación con la distancia de separación.
+
+%Debido a que no usamos un integrador ideal, la respuesta al escalón presentará un cierto error.
+Para encontrar el valor adecuado de $k_{int}$ se grafica el lugar de raíces de la expresión \label{eq_cadena_avance_integrador} considerando $k_{int}=1$. En la figura \ref{fig:lugar-de-raices-con-integrador-analog} se muestra el lugar de raíces.
+
+\colorbox{red}{hacer imagen de lugar de raices con realimentacin negativa}
+
+Se puede observar que ningún valor de $k_{int}$ logra estabilizar el sistema. Por lo tanto para este lazo de realimentación externo también debe utilizarse realimentación positiva, puesto que la TLC interna del sistema presenta una ganancia negativa.
+
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.80]{rtaescaloncompensado1kg.png}
-	\caption{Respuesta al escalón para $M=1\:kg$.}
-	\label{fig:respuesta-analog-al-escalon-para-M-1Kg}
+	\includegraphics[scale=0.5]{rlocusconintegrador30kg.png}
+	\caption{Lugar de raíces con el integrador.}
+	\label{fig:lugar-de-raices-con-integrador-analog}
 \end{figure}
+
+\noindent En la figura \ref{fig:lugar-de-raices-con-integrador-analog} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($k_{int}$) debe ser menor a 669. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $k_{int}=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $16.6 \:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.85]{stepresponseintegradorkint_1_m_30.png}
+	\caption{Respuesta al escalón con integrador con $K_{int} =1$ y $M=30\:kg$.}
+	\label{fig:respuesta-al-escalon-con-k-1-M-30-analog}
+\end{figure}
+
+\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-50-M-30}, se observa la respuesta al escalón para una ganancia del integrador de $k_{int}=50$ que resulta en un tiempo de establecimiento de $0.6\:s$ y un sobrepico de 0\%. Por lo tanto, se adopta este valor de ganancia para el diseño del integrador.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.85]{stepresponseintegradorkint_50_m_30.png}
+	\caption{Respuesta al escalón con integrador para $K_{int}=50$ y $M = 30\:kg$.}
+	\label{fig:respuesta-al-escalon-con-k-50-M-30}
+\end{figure}
+
+\noindent La respuesta al escal\'{o}n cuando la masa es de $1 \:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-50-M-1}. All\'{i} se puede observar que el tiempo de establecimiento es de $0.74\:s$ y que no presenta sobrepicos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.85]{stepresponseintegradorkint_50_m_1.png}
+	\caption{Respuesta al escalón con integrador para $K_{int} =50$ y $M = 1 \:kg$.}
+	\label{fig:respuesta-al-escalon-con-k-50-M-1}
+\end{figure}
+
+\colorbox{red}{Poner TLC externa}
+
+\section{Implementación circuital}
 
 \subsection{Implementación circuital de la red de adelanto de fase}
 
@@ -230,70 +341,6 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 	\caption{Etapa de ganancia del compensador.}
 	\label{fig:ganancia-compensador}
 \end{figure}
-
-\section{Lazo del realimentación externo}
-\subsection{Diseño del integrador}
-
-\noindent Se plantea un lazo de realimentaci\'{o}n externo como se muestra en la  figura \ref{fig:diag-en-bloques-comp}. En el lazo de realimentaci\'{o}n interno act\'{u}a el compensador por adelanto de fase dise\~{n}ado previamente y, en el externo, un controlador del tipo integral. De esta forma, se logra suavizar la respuesta al escal\'{o}n del sistema y eliminar el error en r\'{e}gimen permanente.
-
-
-\noindent Para el an\'{a}lisis se considera como realimentaci\'{o}n: 
-
-\[H_{estim}=\frac{V_{estim}}{Y[m]}= - \frac{259.6}{(1 + \frac{s}{1\:k})*(1+\frac{s}{60\:k})^2}\] 
-
-\noindent La cadena de avance con masa de $30\:kg$ es:
-
-\[G[m=30]=TLC_{interna}(s)[m=30]*G_{integ}\] 
-
-\noindent Se  plantea un compensador del tipo :
-
-\[G_{integ}\ =\ k_{int}\ *\ \frac{1}{(1+(\frac{s}{p_{int}}))}\]
-
-\noindent Debido a que un integrador con polo en el origen tiene una ganancia infinita en contínua, no sería adecuado implementarlo de esta manera en el circuito. Por lo tanto, se ubica el polo en $0.1\:rad/s$ de forma tal que permita limitar dicha ganancia y ser de carácter integrativo para las frecuencias de la planta. Sin embargo, esta modificación provoca que la cancelación del error en régimen permanente no sea completa.
-%, pero de todas maneras sea pequeña en comparación con la distancia de separación.
-
-%Debido a que no usamos un integrador ideal, la respuesta al escalón presentará un cierto error.
-
-Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio del lugar de raíces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador-analog}.
-
-\noindent Para este lazo de realimentación externo también debe utilizarse realimentación positiva, puesto que la TLC interna del sistema presenta una ganancia negativa.
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{rlocusconintegrador30kg.png}
-	\caption{Lugar de raíces con el integrador.}
-	\label{fig:lugar-de-raices-con-integrador-analog}
-\end{figure}
-
-\noindent En la figura \ref{fig:lugar-de-raices-con-integrador-analog} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 669. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int}=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $16.6 \:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.85]{stepresponseintegradorkint_1_m_30.png}
-	\caption{Respuesta al escalón con integrador con $K_{int} =1$ y $M=30\:kg$.}
-	\label{fig:respuesta-al-escalon-con-k-1-M-30-analog}
-\end{figure}
-
-\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-50-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int}=50$ que resulta en un tiempo de establecimiento de $0.6\:s$ y un \textsl{overshoot} de 0\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.85]{stepresponseintegradorkint_50_m_30.png}
-	\caption{Respuesta al escalón con integrador para $K_{int}=50$ y $M = 30\:kg$.}
-	\label{fig:respuesta-al-escalon-con-k-50-M-30}
-\end{figure}
-
-\noindent La respuesta al escal\'{o}n cuando la masa es de $1 \:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-50-M-1}. All\'{i} se puede observar que el tiempo de establecimiento es de $0.74\:s$ y que no presenta sobrepicos.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.85]{stepresponseintegradorkint_50_m_1.png}
-	\caption{Respuesta al escalón con integrador para $K_{int} =50$ y $M = 1 \:kg$.}
-	\label{fig:respuesta-al-escalon-con-k-50-M-1}
-\end{figure}
-
-
 
 \subsection{Implementación circuital del integrador}
 
@@ -327,7 +374,7 @@ Inicialmente se analiza la estabilidad del sistema con $K_{int} = 1$ por medio d
 	Y_g[m] = F * (-\frac{1}{259.6})*V_{in} =\frac{1}{259.6}*V_{in} 
 \end{equation}
 
-\noindent La realimentación tiene un \textsl{set-point} de $3.4\:V$. Por lo tanto, se le suma a $V_{in}$ el mismo valor.
+\noindent La realimentación tiene un punto de operación de $3.4\:V$. Por lo tanto, se le suma a $V_{in}$ el mismo valor.
 
 \noindent Los valores finales son:
 

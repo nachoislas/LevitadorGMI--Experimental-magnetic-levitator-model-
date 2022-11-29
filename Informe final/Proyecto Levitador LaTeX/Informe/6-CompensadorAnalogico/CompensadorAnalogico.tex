@@ -257,7 +257,15 @@ Finalmente se puede expresar la función transferencia del lazo de control inter
 
 \section{Lazo de realimentación externo}
 
-\noindent Se plantea un lazo de realimentación externo como se muestra en la  figura \colorbox{red}{poner referencia a imagen del diagrama simplificada}. En el lazo de realimentación interno actúa el compensador por adelanto de fase diseñado previamente y, en el externo, un controlador del tipo integral. Esto permite suavizar la respuesta al escalón del sistema y eliminar el error en régimen permanente.
+\noindent Se plantea un lazo de realimentación externo como se muestra en la  figura \colorbox{red}{poner referencia a imagen del diagrama simplificada}. 
+
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_lazo_externo_simplificado.tex}
+	\caption{Diagrama en bloques del lazo de compensación interno.}	\label{fig:diag-externo}
+\end{figure}
+
+En el lazo de realimentación interno actúa el compensador por adelanto de fase diseñado previamente y, en el externo, un controlador del tipo integral. Esto permite suavizar la respuesta al escalón del sistema y eliminar el error en régimen permanente.
 
 
 \noindent Para el an\'{a}lisis se considera como realimentaci\'{o}n: 

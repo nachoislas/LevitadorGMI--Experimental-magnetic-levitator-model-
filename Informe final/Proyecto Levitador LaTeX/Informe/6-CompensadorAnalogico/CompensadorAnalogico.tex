@@ -393,7 +393,21 @@ Al observar la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} es posi
 	\label{fig:respuesta-al-escalon-con-k-50-M-1}
 \end{figure}
 
+Finalmente se puede expresar la función transferencia del lazo de control externo como:
 
+\begin{equation}
+	TLC_{externa}(s)=\frac{Y_g}{V_{ref}}=\frac{G_{ext}*TLC_{interna}}{1-G_{ext}*TLC_{interna}*H_{estim}}
+	%	\frac{-3.6301*}{den}
+\end{equation}
+
+\begin{equation*}
+\resizebox{.99\hsize}{!}
+{
+$
+TLC_{externa}(s)=\frac{4.7119e08*(s+1000)^2*(s+44.3)^2}{(s+1000)(s+311.7)(s+108)(s+6.128)(s^2 + 39.85s + 3039)(s^2 + 2351s + 1.497e06)}
+$
+}
+\end{equation*}
 
 \colorbox{red}{Poner TLC externa}
 

@@ -10,9 +10,10 @@ pint=0.1;
 Kint=50;
 
 %fltro butter
-W0=126457
-alpha=89703
-GfiltroButter=(W0*W0)/(s^2+2*alpha*s+W0^2)
+W0=126457;
+alpha=89703;
+GfiltroButter=(W0*W0)/(s^2+2*alpha*s+W0^2);
+GfiltroButter=1;
 
 %Constantes
 Kin = 0.32;
@@ -21,13 +22,21 @@ R = 0.2;
 k=1.76715e-5;
 [y0,L] = distandinduc(y);
 
-
 %% Calulo de las transferencias de cada bloque
 Gplanta = -(2/y0)*(sqrt(k*9.8/m))/(s^2-(2*9.8/y0));
 GiL = (Kin/H) / (1 + s/(R/L));                  
 Hestim = (259.6 / ((1 + s/1e3)))*GfiltroButter;
 
 Gtotal = Gplanta * GiL * Hestim;
+
+%% nyquist falopa
+%ggg=        4.7692e08*(s+60.74)*(s+35.37)/((s+902.1)*(s+877.2)*(s+528.4)*(s+364.3))
+%nyquist(Gtotal*ggg);
+%txt = 'Zona 1';
+%text(0.15,0,txt,'FontSize',14)
+%txt = 'Zona 2';
+%text(0.4,0,txt,'FontSize',14)
+
 
 %% Ganancia de Gtotal
 dcgain(Gtotal);
@@ -39,8 +48,14 @@ pole(Gtotal);
 figure (1);
 grid on;
 bode(Gtotal);
+txt = 'Zona 1';
+text(100,10,txt,'FontSize',14)
 figure (2);
 nyquist(Gtotal);
+txt = 'Zona 1';
+text(0.15,0,txt,'FontSize',14)
+txt = 'Zona 2';
+text(0.4,0,txt,'FontSize',14)
 
 %% Lugar de raices de Gtotal
 figure(3);

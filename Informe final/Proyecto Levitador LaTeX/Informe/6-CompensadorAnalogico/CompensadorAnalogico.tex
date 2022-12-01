@@ -41,11 +41,11 @@ La transferencia de lazo cerrado ($TLC_{interna}$) del diagrama \ref{fig:diag-in
 	TLC_{interna}=\frac{Y_g[m]}{V_{ref_c}[V]}=\frac{G_c*G_{IL}*G_p}{1+G_c*G_{IL}*G_p*H_{estim}}
 \end{equation}
 
-A continuación se analiza la estabilidad de la planta considerando una masa $M=30\:kg$ y se diseña el bloque del compensador interno $G_C(s)$ para lograr estabilizarla. Luego, se verificará la estabilidad con este mismo compensador para una masa $M=1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
+A continuación se analiza la estabilidad de la planta considerando una masa $M=30\:kg$ y se diseña el bloque del compensador interno $G_c(s)$ para lograr estabilizarla. Luego, se verificará la estabilidad con este mismo compensador para una masa $M=1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
 
 \subsection{Análisis de estabilidad}
 
-Para realizar el análisis de estabilidad se parte de las transferencias de la planta $G_{p}(s)$ para una masa de $30\:kg$, del controlador de corriente $G_{IL}(s)$ y del lazo de realimentación $H_{estim}(s)$. A partir de ellas se obtiene la transferencia a lazo abierto $GH_T(s)$ de la expresión \ref{eq_GT2}, que presenta un polo con parte real positiva en $70\:r/s$.
+Para realizar el análisis de estabilidad se parte de las transferencias de la planta $G_{p}(s)$ para una masa de $30\:kg$, del controlador de corriente $G_{IL}(s)$ y del lazo de realimentación $H_{estim}(s)$. A partir de ellas se obtiene la transferencia a lazo abierto $GH_T(s)$ de la expresión \ref{eq_GT2}, que presenta cuatro polos, con uno de ellos con parte real positiva en $70\:r/s$.
 
 \begin{equation*}
 	GH_T(s)=G_{p}(s)*G_{iL}(s)*H_{estim}(s) 
@@ -100,7 +100,7 @@ Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros
 \end{figure}
 
 
-La transferencia de lazo cerrado del sistema ahora queda como:
+La realimentación positiva se genera al sumar la señal $V_{estim}$ con la señal de entrada del sistema. La transferencia de lazo cerrado del diagrama en bloques ahora se define como:
 
 \begin{equation}
 	TLC_{interna}=\frac{Y_g[m]}{V_{ref_c}[V]}=\frac{G_c*G_{IL}*G_p}{1-G_c*G_{IL}*G_p*H_{estim}}
@@ -128,7 +128,7 @@ Si el punto queda dentro de la zona 2, el número de giros es $N=0$. Por lo tant
 	Z = N + P = 1
 \end{equation*}
 
-Debido a que en ambas zonas Z resulta mayor que cero, el sistema realimentado no puede ser estabilizado con ningún valor de K. Para lograrlo se debe generar una zona en el diagrama de Nyquist donde exista un giro alrededor de $1 + j0$ en sentido antihorario de forma tal que $N=-1$ y resulte $Z=0$. Para ello, es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$. Para que esto se cumpla, el diagrama de Nyquist debe tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
+Debido a que en ambas zonas Z resulta mayor que cero, el sistema realimentado no puede ser estabilizado con ningún valor de K. Para lograrlo se debe implementar un compensador $G_c$ que sea capaz de generar una zona en el diagrama de Nyquist donde exista un giro alrededor de $1 + j0$ en sentido antihorario de forma tal que $N=-1$ y resulte $Z=0$. Para ello, es necesario aumentar la fase para que pueda superar el valor de 0$\mathrm{{}^\circ}$. Para que esto se cumpla, el diagrama de Nyquist debe tener una forma como la  mostrada en la figura \ref{fig:nyquist-deseado-analog}.
 
 \begin{figure}[H]
 	\centering
@@ -137,7 +137,7 @@ Debido a que en ambas zonas Z resulta mayor que cero, el sistema realimentado no
 	\label{fig:nyquist-deseado-analog}
 \end{figure}
 
-De esta manera se generan cuatro zonas. Sin embargo, solo en la zona 2 se genera un giro en sentido antihorario ($N=-1$) como es deseado, por lo que resulta:
+De esta manera se identifican cuatro zonas en las que puede estar ubicado el punto $1+j0$. Sin embargo, solo en la zona 2 se genera un giro en sentido antihorario ($N=-1$) como es deseado, por lo que resulta:
 
 \begin{equation*}
 	Z = N + P = 0
@@ -145,7 +145,7 @@ De esta manera se generan cuatro zonas. Sin embargo, solo en la zona 2 se genera
 
 %Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-analog} se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. Para ello, se propone implementar un compensador por adelanto de fase.
 
-Por lo tanto, a continuación se diseña un compensador para lograr que el diagrama de Nyquist tenga la forma deseada.
+A continuación se diseñará el compensador $G_c$ para lograr que el diagrama de Nyquist tenga la forma deseada y así, estabilizar el sistema.
 
 
 \subsection{Diseño de compensador}
@@ -177,13 +177,13 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 	G_c(s)=K*{[20.346*\frac{(s+44.3)}{(s+902.1)}]}^2
 \end{equation} 
 
-\noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_C$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $15.7\:dB$ y la m\'{a}xima es de $35.5\:dB - 14\:dB = 21.5\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:r/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$.
+\noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_c$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $15.7\:dB$ y la m\'{a}xima es de $35.5\:dB - 14\:dB = 21.5\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:r/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Bode-k-1-M-30.png}
-	\caption{Diagrama de Bode de $GH_T*G_C$ para $K=1$ y $M=30\:kg$.}
+	\caption{Diagrama de Bode de $GH_T*G_c$ para $K=1$ y $M=30\:kg$.}
 	\label{fig:bode-analog-compensado-para-k-1}
 \end{figure}
 
@@ -192,14 +192,14 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{Bode-k-10-M-30.png}
-	\caption{Diagrama de Bode de $GH_{T}*G_C$ para $K=10$ y $M=30\:kg$.}
+	\caption{Diagrama de Bode de $GH_{T}*G_c$ para $K=10$ y $M=30\:kg$.}
 	\label{fig:bode-analog-compensado-para-k-10}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{Nyquist-k-10-M-30.png}
-	\caption{Diagrama de Nyquist de $GH_T*G_C$ para $K=\:10$ y $M=30\:kg$.}
+	\caption{Diagrama de Nyquist de $GH_T*G_c$ para $K=\:10$ y $M=30\:kg$.}
 	\label{fig:nyquist-analog-para-k-10}
 \end{figure}
 
@@ -264,7 +264,7 @@ En la figura \ref{fig:ubicacion_polos_y_ceros} se muestra la ubicación de los p
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.55]{nyquistcompensado1kg.png}
-	\caption{Diagrama de Nyquist de $GH_T*G_C$ para $M=1\:kg$.}
+	\caption{Diagrama de Nyquist de $GH_T*G_c$ para $M=1\:kg$.}
 	\label{fig:nyquist-analog-para-M-1Kg}
 \end{figure}
 

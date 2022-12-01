@@ -32,7 +32,7 @@ minimum height=2.5em, minimum width=3em]
 %	% Once the nodes are placed, connecting them is easy. 
 	\draw [draw,->] (input) -- node[pos=0.2]{$V_{y_{ref}}$} (F);
 	\draw [draw,->] (F) --  node[pos=0.9]{$+$}(suma_interna);
-	\draw [draw,->] (suma_interna) -- (interno);
+	\draw [draw,->] (suma_interna) -- node{$Ve_{ext}$} (interno);
 	\draw [draw,->] (interno) -- node{$V_{ref_c}$} (tlc_interna);
 	\draw [draw,->] (tlc_interna) -- node[name=y]{$Y_g$} (output);
 %	\draw [draw,->] (amplificador) -- node[name=y]{$V_{deriv}$} (output);

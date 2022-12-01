@@ -14,7 +14,6 @@ Como se mencionó en la sección \ref{sec_modelo_estados}, el fenómeno de levit
 
 En esta sección se diseña el control del lazo de realimentación interno, que está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, $G_{IL}$ a la transferencia del controlador de corriente, $G_p$ a la transferencia de la planta y $H_{estim}$ a la del estimador de distancia de entrehierro.
 
-\colorbox{red}{A la señal de error ponerle el nombre: $Ve_{int}$}
 
 \begin{figure}[H]
 	\centering
@@ -100,7 +99,6 @@ Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros
 	\caption{Diagrama en bloques del lazo de compensación interno considerando realimentación positiva.}	\label{fig:diag-interno_realimentacion_positiva}
 \end{figure}
 
-\colorbox{red}{A la señal de error ponerle el nombre: $Ve_{int}$}
 
 La transferencia de lazo cerrado del sistema ahora queda como:
 

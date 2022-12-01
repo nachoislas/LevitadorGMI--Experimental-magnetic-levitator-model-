@@ -33,7 +33,7 @@ minimum height=2.5em, minimum width=3em]
 %	\draw [draw,->] (input) -- node[pos=0.2]{$V_{y_{ref}}$} (F);
 	\draw [draw,->] (input) -- node[pos=0.2]{$V_{ref_c}$} node[pos=0.9]{$+$}(suma_interna);
 
-	\draw [draw,->] (suma_interna) -- node{} (interno);
+	\draw [draw,->] (suma_interna) -- node{$Ve_{int}$} (interno);
 	\draw [draw,->] (interno) -- node{$V_{IL{ref}}$} (gil);
 	\draw [draw,->] (gil) -- node{$I_L$} (planta);
 	\draw [draw,->] (planta) -- node[name=y]{$Y_g$} (output);

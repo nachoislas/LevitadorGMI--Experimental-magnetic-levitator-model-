@@ -12,7 +12,7 @@ Como se mencionó en la sección \ref{sec_modelo_estados}, el fenómeno de levit
 
 \section{Diseño del lazo de realimentación interno}
 
-En esta sección se diseña el control del lazo de realimentación interno, que está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, $G_{IL}$ es la transferencia del controlador de corriente, $G_p$ es la transferencia de la planta y $H_{estim}$ la del estimador de distancia de entrehierro.
+En esta sección se diseña el control del lazo de realimentación interno, que está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, $G_{IL}$ a la transferencia del controlador de corriente, $G_p$ a la transferencia de la planta y $H_{estim}$ a la del estimador de distancia de entrehierro.
 
 \begin{figure}[H]
 	\centering
@@ -204,6 +204,13 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 \end{figure}
 
 \subsection{Transferencia de lazo cerrado}
+\colorbox{red}{Esto no tendría que ir después de la verificación del compensador para masa de 1kg?}
+
+
+\colorbox{red}{¿Habría que aclarar que la TLC y el lugar de raíces está hecho para una masa de 30Kg?}
+
+\colorbox{red}{¿Habría que mencionar que la TLC tiene ganancia negativa?}
+
 
 Finalmente se puede expresar la función transferencia del lazo de control interno como:
 %
@@ -270,7 +277,7 @@ En la figura \ref{fig:ubicacion_polos_y_ceros} se muestra la ubicación de los p
 
 
 
-\section{Lazo de realimentación externo}
+\section{Diseño del lazo de realimentación externo}
 
 \noindent Se plantea un lazo de realimentación externo como se muestra en la figura \ref{fig:diag-externo}. 
 
@@ -417,6 +424,8 @@ Al observar la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} es posi
 \noindent La realimentación tiene un punto de operación de $3.4\:V$. Por lo tanto, se le suma a $V_{y_{ref}}$ el mismo valor.
 
 \noindent Los valores finales son:
+
+\colorbox{red}{¿Agregamos los valores de salida teóricos? como para comparar el error?... podríamos agregar en la tabal de abajo una columna para el valor teórico y otra para el error relativo}
 
 
 \begin{table}[H]

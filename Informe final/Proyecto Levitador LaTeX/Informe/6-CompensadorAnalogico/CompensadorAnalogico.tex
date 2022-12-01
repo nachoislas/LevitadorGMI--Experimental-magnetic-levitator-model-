@@ -79,7 +79,7 @@ Utilizando la transferencia de la ecuación \ref{eq_GT3}, con $K=1$, se  grafica
 \end{figure}
 
 
-%\noindent Con la transferencia de la ecuación  \ref{eq_GT2} se  grafica el diagrama de Bode  en la figura \ref{fig:Diag_Bode_lazo_abierto_30kg}. El criterio de estabilidad de Bode dice que para determinar la estabilidad de un sistema en un diagrama de Bode se debe observar si la magnitud es mayor a 0dB antes de que la fase alcance -180º. En este caso nuestro sistema es de no mínima fase... \colorbox{red}{ver si dejamos esto o vamos directo a nyquist}
+%\noindent Con la transferencia de la ecuación  \ref{eq_GT2} se  grafica el diagrama de Bode  en la figura \ref{fig:Diag_Bode_lazo_abierto_30kg}. El criterio de estabilidad de Bode dice que para determinar la estabilidad de un sistema en un diagrama de Bode se debe observar si la magnitud es mayor a 0dB antes de que la fase alcance -180°. En este caso nuestro sistema es de no mínima fase... \colorbox{red}{ver si dejamos esto o vamos directo a nyquist}
 
 Como la transferencia de la planta $GH_T$ tiene un polo en el semiplano derecho del plano ``S'' no es posible determinar su estabilidad por medio del diagrama de Bode. Por lo tanto, se analiza la estabilidad por medio del criterio de Nyquist.
 
@@ -150,9 +150,9 @@ A continuación se diseñará el compensador $G_c$ para lograr que el diagrama d
 
 \subsection{Diseño de compensador}
 
-Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-analog} se debe tener en cuenta que el m\'{o}dulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. 
+Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-analog} se utilizará una estrategia de compensación por adelanto de fase. Esta consiste en observar el diagrama de bode de la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} y elegir una frecuencia en la que se desee aumentar la fase para lograr la estabilidad. Se debe tener en cuenta que el módulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. 
 
-De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide adelantar la fase 100º en aproximadamente $200\:r/s$. Esto se logra mediante el uso de un compensador compuesto por dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una. 
+De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se decide generar un adelanto de fase de por lo menos 100° en la frecuencia $200\:r/s$. Esto se logra mediante el uso de un compensador compuesto por dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una. 
 
 Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$), de manera que el cero se encuentra a una frecuencia menor que el polo, permitiendo un aumento de fase a la frecuencia deseada $W_0$. Su transferencia es la siguiente:
 
@@ -165,7 +165,7 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 \begin{equation*}
 	\begin{aligned}
 		&W_0 =200\:r/s\\
-		&{\varphi }_{max} =65\textrm{º}\\
+		&{\varphi }_{max} =65\textrm{°}\\
 		&\alpha =\frac{1+sen({\varphi }_{max})}{1-sen{(\varphi }_{max})}=20.346491\\
 		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\:r/s\\
 		&W_p =\sqrt{\alpha }*W_0=902.1\: r/s\\
@@ -177,7 +177,9 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 	G_c(s)=K*{[20.346*\frac{(s+44.3)}{(s+902.1)}]}^2
 \end{equation} 
 
-\noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_c$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $15.7\:dB$ y la m\'{a}xima es de $35.5\:dB - 14\:dB = 21.5\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:r/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$.
+\noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_c$ con $K=1$. Se puede observar que se logró aumentar la fase de la manera deseada. Para finalizar el diseño del compensador se debe elegir un valor apropiado para la ganancia $K$.
+
+La ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia mínima es de $15.7\:dB$ y la máxima es de $35.5\:dB - 14\:dB = 21.5\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:r/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$. Se elige este valor para priorizar la estabilidad para el caso de masa máxima, con la desventaja de que se obtiene un menor margen de fase para el caso de masa mínima. \colorbox{red}{capaz esto lo sacamos}
 
 
 \begin{figure}[H]
@@ -187,7 +189,7 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 	\label{fig:bode-analog-compensado-para-k-1}
 \end{figure}
 
-\noindent En la figura \ref{fig:bode-analog-compensado-para-k-10} se muestra el diagrama de Bode al considerar la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad, puesto que en el primer cruce por 0º, la magnitud es mayor a 0 dB y en el segundo cruce, menor. Además, en la figura \ref{fig:nyquist-analog-para-k-10} se puede ver que el punto $1+j0$ queda dentro de la zona en la que $N=-1$, que resulta en $Z=0$.
+\noindent En la figura \ref{fig:bode-analog-compensado-para-k-10} se muestra el diagrama de Bode al considerar la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad, puesto que en el primer cruce por 0°, la magnitud es mayor a 0 dB y en el segundo cruce, menor. Además, en la figura \ref{fig:nyquist-analog-para-k-10} se grafica el diagrama de Nyquist para el sistema con el compensador. En él se puede ver que el punto $1+j0$ queda dentro de la zona en la que $N=-1$, que resulta en $Z=0$.
 
 \begin{figure}[H]
 	\centering
@@ -203,55 +205,12 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 	\label{fig:nyquist-analog-para-k-10}
 \end{figure}
 
-\subsection{Transferencia de lazo cerrado}
-\colorbox{red}{Esto no tendría que ir después de la verificación del compensador para masa de 1kg?}
-
-
-\colorbox{red}{¿Habría que aclarar que la TLC y el lugar de raíces está hecho para una masa de 30Kg?}
-
-\colorbox{red}{¿Habría que mencionar que la TLC tiene ganancia negativa?}
-
-
-Finalmente se puede expresar la función transferencia del lazo de control interno como:
-%
-%-3.6301e05 (s+1000) (s+44.3)^2
-%------------------------------------------------------------------
-%(s+304.3) (s+115.6) (s^2 + 44.84s + 2588) (s^2 + 2352s + 1.498e06)
-
-
-\begin{equation}
-	TLC_{interna}(s)=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_{p}*G_{iL}}{1-G_c*G_{p}*G_{iL}*H_{estim}}
-	%	\frac{-3.6301*}{den}
-\end{equation}
-
-\begin{equation*}
-	TLC_{interna}(s)=\frac{-3.6301*10^5(s+1000)(s+44.3)^2}{(s+304.3) (s+115.6) (s^2 + 44.84s + 2588) (s^2 + 2352s + 1.498*10^6)}	
-\end{equation*}
-
-En la figura \ref{fig:ubicacion_polos_y_ceros} se muestra la ubicación de los polos y ceros de la $TLC_{interna}$. En ella se ve que todos se encuentran en el semiplano izquierdo. 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.85]{ubicacion_polos_ceros.png}
-	\caption{Ubicación de polos y ceros de la transferencia de lazo cerrado interna.}
-	\label{fig:ubicacion_polos_y_ceros}
-\end{figure}
-%Por último se simuló la respuesta del sistema a un escalón de amplitud unitaria en la señal $V_{ref_c}$. La salida es un valor de distancia de entrehierro $Y_g$ en metros. En la figura \ref{fig:rta-escalon-k-10-m-30} se puede observar la respuesta al escalón del sistema con masa de $30\:kg$.
-%
-%\colorbox{red}{Ver como acomodar lo de la respuesta al escalon (y para 1kg tambien)}
-%
-%\begin{figure}[H]
-%	\centering
-%	\includegraphics[scale=0.80]{Respuesta-al-escalon-K-10-M-30Kg.png}
-%	\caption{Respuesta al escalón para $M=30\:kg$.}
-%	\label{fig:rta-escalon-k-10-m-30}
-%\end{figure}
 
 \subsection{Verificación de estabilidad con masa de 1 kg}
 
 %\noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$ con el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-analog-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
 
-\noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$ con el compensador previamente diseñado. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. A partir de ellos, es posible verificar que el sistema resulta estable para todo el rango de masas en el que opera el sistema. Sin embargo, se puede observar que el margen de fase es menor que 45º, por lo que el sistema puede presentar un transitorio con oscilaciones amortiguadas. A raiz de esto, se propone implementar un lazo de control externo que permita mejorar dicha respuesta.
+\noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$ con el compensador previamente diseñado. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. A partir de ellos, es posible verificar que el sistema resulta estable para todo el rango de masas en el que opera el sistema. Sin embargo, se puede observar que el margen de fase es menor que 45°, por lo que el sistema puede presentar un transitorio con oscilaciones amortiguadas. A raiz de esto, se propone implementar un lazo de control externo que permita mejorar dicha respuesta.
 
 \begin{figure}[H]
 	\centering
@@ -275,7 +234,51 @@ En la figura \ref{fig:ubicacion_polos_y_ceros} se muestra la ubicación de los p
 %	\label{fig:respuesta-analog-al-escalon-para-M-1Kg}
 %\end{figure}
 
+\subsection{Transferencia de lazo cerrado}
+\colorbox{red}{Esto no tendría que ir después de la verificación del compensador para masa de 1kg?} si
 
+
+\colorbox{red}{¿Habría que aclarar que la TLC y el lugar de raíces está hecho para una masa de 30Kg?} claro, es verdad. nos cambiará algo en el diseño del externo?
+
+\colorbox{red}{¿Habría que mencionar que la TLC tiene ganancia negativa?} sip
+
+
+Finalmente se puede expresar la función transferencia del lazo de control interno como:
+%
+%-3.6301e05 (s+1000) (s+44.3)^2
+%------------------------------------------------------------------
+%(s+304.3) (s+115.6) (s^2 + 44.84s + 2588) (s^2 + 2352s + 1.498e06)
+
+
+\begin{equation}
+	TLC_{interna}(s)=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_{p}*G_{iL}}{1-G_c*G_{p}*G_{iL}*H_{estim}}
+	%	\frac{-3.6301*}{den}
+\end{equation}
+
+\begin{equation*}
+	TLC_{interna}(s)=\frac{-3.6301*10^5(s+1000)(s+44.3)^2}{(s+304.3) (s+115.6) (s^2 + 44.84s + 2588) (s^2 + 2352s + 1.498*10^6)}	
+\end{equation*}
+
+Es importante notar que la ganancia de la transferencia de lazo cerrado es negativa, ya que debe tenerse en cuenta para el diseño del lazo de compensación externo.
+
+En la figura \ref{fig:ubicacion_polos_y_ceros} se muestra la ubicación de los polos y ceros de la $TLC_{interna}$. En ella se ve que todos se encuentran en el semiplano izquierdo. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.85]{ubicacion_polos_ceros.png}
+	\caption{Ubicación de polos y ceros de la transferencia de lazo cerrado interna.}
+	\label{fig:ubicacion_polos_y_ceros}
+\end{figure}
+%Por último se simuló la respuesta del sistema a un escalón de amplitud unitaria en la señal $V_{ref_c}$. La salida es un valor de distancia de entrehierro $Y_g$ en metros. En la figura \ref{fig:rta-escalon-k-10-m-30} se puede observar la respuesta al escalón del sistema con masa de $30\:kg$.
+%
+%\colorbox{red}{Ver como acomodar lo de la respuesta al escalon (y para 1kg tambien)}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.80]{Respuesta-al-escalon-K-10-M-30Kg.png}
+%	\caption{Respuesta al escalón para $M=30\:kg$.}
+%	\label{fig:rta-escalon-k-10-m-30}
+%\end{figure}
 
 \section{Diseño del lazo de realimentación externo}
 

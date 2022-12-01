@@ -14,6 +14,8 @@ Como se mencionó en la sección \ref{sec_modelo_estados}, el fenómeno de levit
 
 En esta sección se diseña el control del lazo de realimentación interno, que está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, $G_{IL}$ a la transferencia del controlador de corriente, $G_p$ a la transferencia de la planta y $H_{estim}$ a la del estimador de distancia de entrehierro.
 
+\colorbox{red}{A la señal de error ponerle el nombre: $Ve_{int}$}
+
 \begin{figure}[H]
 	\centering
 	\input{tikz/diagrama_lazo_interno.tex}
@@ -97,6 +99,8 @@ Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros
 	\input{tikz/diagrama_lazo_interno_realimentacion_positiva.tex}
 	\caption{Diagrama en bloques del lazo de compensación interno considerando realimentación positiva.}	\label{fig:diag-interno_realimentacion_positiva}
 \end{figure}
+
+\colorbox{red}{A la señal de error ponerle el nombre: $Ve_{int}$}
 
 La transferencia de lazo cerrado del sistema ahora queda como:
 
@@ -287,6 +291,9 @@ En la figura \ref{fig:ubicacion_polos_y_ceros} se muestra la ubicación de los p
 	\caption{Diagrama en bloques del lazo de compensación externo.}	\label{fig:diag-externo}
 \end{figure}
 
+\colorbox{red}{A la señal de error ponerle el nombre: $Ve_{ext}$}
+
+
 En el lazo de realimentación interno actúa el compensador por adelanto de fase previamente diseñado y, en el externo, un controlador del tipo integral. Esto permite suavizar la respuesta al escalón del sistema y eliminar el error en régimen permanente.
 
 
@@ -345,6 +352,8 @@ Para determinar el valor de ganancia $K_{int}$ máxima a partir del cual el polo
 En la figura \ref{fig:lugar-de-raices-con-integrador-analog_inestable_acercamiento} se observa que el valor máximo de ganancia es $K_{int}=0.74$. Si bien el sistema resultaría estable para valores menores a este, su respuesta temporal sería demasiado lenta. 
 
 Por lo tanto, se propone utilizar realimentación positiva en el diagrama en bloques de la figura \ref{fig:diag-externo}, obteniendo así el que se muestra la figura \ref{fig:diag-externo_real_positiva}. De esta forma, el polo de baja frecuencia cambia el sentido de desplazamiento y el lugar de raíces resulta como se muestra en la \ref{fig:lugar-de-raices-con-integrador-analog}.
+
+\colorbox{red}{A la señal de error ponerle el nombre: $Ve_{ext}$}
 
 \begin{figure}[H]
 	\centering
@@ -458,12 +467,12 @@ En esta sección se aborda el diseño circuital de la etapa de compensación, ta
 	\label{fig:red-adelanto-fase}
 \end{figure}
 
-\colorbox{red}{Ver los nombres de entrada y salida, punto de operacion y capacitores de desacople..}
+\colorbox{red}{Ver punto de operacion..}
 
 \noindent La transferencia de lazo cerrado de esta etapa es:
 
 \begin{equation} 
-	\frac{V_{out}}{V_{in}}= - \frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}
+	\frac{Vaf_{out}}{Vaf_{in}}= - \frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}
 \end{equation}
 
 \noindent Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. Luego, la ganancia del compensador se obtiene con una etapa amplificadora.

@@ -132,7 +132,7 @@ Debido a que en ambas zonas Z resulta mayor que cero, el sistema realimentado no
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{Nyquist-deseado-analog.png}
+	\includegraphics[scale=0.7]{Nyquist-deseado-analog.png}
 	\caption{Forma del diagrama de Nyquist deseado.}
 	\label{fig:nyquist-deseado-analog}
 \end{figure}
@@ -235,12 +235,6 @@ La ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproxima
 %\end{figure}
 
 \subsection{Transferencia de lazo cerrado}
-\colorbox{red}{Esto no tendría que ir después de la verificación del compensador para masa de 1kg?} si
-
-
-\colorbox{red}{¿Habría que aclarar que la TLC y el lugar de raíces está hecho para una masa de 30Kg?} claro, es verdad. nos cambiará algo en el diseño del externo?
-
-\colorbox{red}{¿Habría que mencionar que la TLC tiene ganancia negativa?} sip
 
 
 Finalmente se puede expresar la función transferencia del lazo de control interno como:
@@ -255,20 +249,52 @@ Finalmente se puede expresar la función transferencia del lazo de control inter
 	%	\frac{-3.6301*}{den}
 \end{equation}
 
+Para el caso de trabajar con masa de $30\:kg$, la $TLC_{interna}$ resulta:
+
 \begin{equation*}
-	TLC_{interna}(s)=\frac{-3.6301*10^5(s+1000)(s+44.3)^2}{(s+304.3) (s+115.6) (s^2 + 44.84s + 2588) (s^2 + 2352s + 1.498*10^6)}	
+	\resizebox{.99\hsize}{!}
+	{
+		$
+		TLC_{interna}(s)=\frac{-3.6301*10^5(s+1000)(s+44.3)^2}{(s+304.3) (s+115.6) (s^2 + 44.84s + 2588) (s^2 + 2352s + 1.498*10^6)}
+		$
+	}
 \end{equation*}
 
-Es importante notar que la ganancia de la transferencia de lazo cerrado es negativa, ya que debe tenerse en cuenta para el diseño del lazo de compensación externo.
 
-En la figura \ref{fig:ubicacion_polos_y_ceros} se muestra la ubicación de los polos y ceros de la $TLC_{interna}$. En ella se ve que todos se encuentran en el semiplano izquierdo. 
+Para el caso de trabajar con masa de $1\:kg$, resulta:
+
+
+\begin{equation*}
+	\resizebox{.99\hsize}{!}
+	{
+		$
+		TLC_{interna}(s)=\frac{-1.9883*10^6 (s+1000) (s+44.3)^2}{(s^2 + 88.82s + 2127) (s^2 + 18.19s + 2.117*10^5) (s^2 + 2709s + 2.142*10^6)}	
+		$
+	}
+\end{equation*}
+
+
+
+En las figuras \ref{fig:ubicacion_polos_y_ceros} y \ref{fig:ubicacion_polos_y_ceros_1kg} se muestra la ubicación de los polos y ceros de la $TLC_{interna}$ para el caso de masa de $30\:kg$ y $1\:kg$, respectivamente. En ellas se ve que todos se encuentran en el semiplano izquierdo. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{ubicacion_polos_ceros.png}
-	\caption{Ubicación de polos y ceros de la transferencia de lazo cerrado interna.}
+	\caption{Ubicación de polos y ceros de la transferencia de lazo cerrado interna con $M=30\:kg$.}
 	\label{fig:ubicacion_polos_y_ceros}
 \end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.85]{ubicacion_polos_ceros_1kg.png}
+	\caption{Ubicación de polos y ceros de la transferencia de lazo cerrado interna con $M=1\:kg$.}
+	\label{fig:ubicacion_polos_y_ceros_1kg}
+\end{figure}
+
+
+Es importante notar que la ganancia de la transferencia de lazo cerrado en ambos casos es negativa. Esto debe tenerse en cuenta para el diseño del lazo de compensación externo.
+
+
 %Por último se simuló la respuesta del sistema a un escalón de amplitud unitaria en la señal $V_{ref_c}$. La salida es un valor de distancia de entrehierro $Y_g$ en metros. En la figura \ref{fig:rta-escalon-k-10-m-30} se puede observar la respuesta al escalón del sistema con masa de $30\:kg$.
 %
 %\colorbox{red}{Ver como acomodar lo de la respuesta al escalon (y para 1kg tambien)}
@@ -396,10 +422,103 @@ Al observar la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} es posi
 	\label{fig:respuesta-al-escalon-con-k-50-M-1}
 \end{figure}
 
+Si bien para estas simulaciones se consideró que $F=-1$, a continuación se realiza el análisis para darle un valor mas apropiado.
+
+\section{Cálculo de ganancia de entrada F}
+
+Para que la tensión de referencia de posición $V_{y_{ref}}$ se corresponda con el valor deseado de distancia de entrehierro $Y_g$ se utiliza el bloque nombrado F en la figura \ref{fig:diag-externo_real_positiva}. 
+
+Como se vio en la sección \ref{seccopn-estim-completo} la salida del estimador para cada valor de posición toma los  valores mostrados en la tabla \ref{tab_Resultados_de_simulación_del_estimador}. Estos fueron obtenidos a partir de la siguiente ecuación:
+
+\begin{equation}
+	V_{estim}=Y_g*H_{estim}+3.4V
+\end{equation}
+
+
+Por lo tanto se utilizan los mismos valores de $V_{estim}$ para la tensión de entrada $V_{y_{ref}}$. De esta forma, se obtiene la tabla \ref{tension-ref-vs-separacion-deseada}.
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| c | c |}
+			\hline
+			$Y_{g_{deseado}}\:[mm]$ & $V_{y_{ref}}[V]$\\ \hline
+			2 &	3.92 \\ \hline
+			3 & 4.18\\ \hline
+			4 & 4.44 \\ \hline
+			5 & 4.7\\ \hline
+		\end{tabular}
+		\caption{Tensión de referencia $[V_{y_{ref}}]$ Vs separación deseada [$Y_g$].}
+		\label{tension-ref-vs-separacion-deseada}
+	\end{center}
+\end{table}
+
+Debido a que en la compensación del lazo externo se utiliza un integrador no ideal, se producirá error en la posición de salida $Y_g$ con respecto a la tensión de referencia  $V_{y_{ref}}$ en régimen permanente. Sin embargo, es posible elegir un valor de F para que este error sea nulo para un determinado valor de tensión de entrada. Por lo tanto, se decide eliminar el error para una posición de salida de $4\:mm$.
+
+Para calcular el valor de F adecuado se debe obtener el valor en régimen permanente de la señal $V_{e_{ext}}$ mostrada en el diagrama de la figura \ref{fig:lugar-de-raices-con-integrador-analog}. Este puede ser calculado como:
+
+\begin{equation} \label{eq_veext_ss}
+	Ve_{ext_{ss}}=\frac{V_{y_{ref}}*F}{1-k_p}
+\end{equation}
+
+Donde: 
+
+\begin{equation*}
+	k_p=\lim\limits_{s \to 0}[G_{ext}(s)*TLC_{interna}(s)*H_{estim}(s)]=-67.78
+\end{equation*}
+
+La señal $Ve_{ext}$ puede calcularse como:
+
+\begin{equation} \label{eq_veext_2}
+	Ve_{ext}=V_{y_{ref}}*F+V_{estim}
+\end{equation}
+
+Entonces, al diseñar F tal que la salida para $4\:mm$ coincida con el valor en la referencia ($V_{y_{ref}}=4.44\:V$), resulta  $V_{estim}=4.44\:V$. A partir de las ecuaciones \ref{eq_veext_ss} y \ref{eq_veext_2} se plantea:
+
+\begin{equation}
+	V_{y_{ref}}*F+V_{estim}=\frac{V_{y_{ref}}*F}{1-k_p}
+\end{equation}
+
+Al despejar el valor de F se obtiene:
+
+\begin{equation}
+	F=-\frac{V_{y_{ref}}}{V_{estim}}*\frac{1}{1-\frac{1}{1-k_p}}=-1.015
+\end{equation}
+
+
+En la tabla asdasd se muestra el valor de salida $Y_{g_{real}}$ obtenido para cada valor de $V_{y_{ref}}$ en la entrada.
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{| c | c | c | c |}
+			\hline
+			$Y_{g_{deseado}}\:[mm]$ & $V_{y_{ref}}[V]$& $V_{estim}[V]$& $Y_{g_{real}}\:[mm]$\\ \hline
+			2 &	3.92 & 3.9179 & 1.99 \\ \hline
+			3 & 4.18 & 4.1778 & 2.99\\ \hline
+			4 & 4.44 & 4.43 & 3.99 \\ \hline
+			5 & 4.7 & 4.697 & 4.99\\ \hline	
+		\end{tabular}
+		\caption{Tensión de referencia $[V_{y_{ref}}]$ Vs separación deseada [$Y_g$].}
+		\label{tension-ref-vs-separacion-deseada}
+	\end{center}
+\end{table}
+
+Los valores de $V_{estim}$ y $Y_{g_{real}}$ fueron calculados como:
+
+\begin{equation}
+	V_{estim}=V_{y_{ref}}*F*(\frac{1}{1-k_p}-1)
+\end{equation}
+
+\begin{equation}
+	Y_{g_{real}}=\frac{V_{estim}-3.4\:V}{H{estim}(s=0)}
+\end{equation}
+
+
+%La realimentación tiene un punto de operación de $3.4\:V$. Por lo tanto, se le suma a $V_{y_{ref}}$ el mismo valor.
+
 Finalmente se puede expresar la función transferencia del lazo de control externo como:
 
 \begin{equation}
-	TLC_{externa}(s)=\frac{Y_g}{V_{ref}}=\frac{G_{ext}*TLC_{interna}}{1-G_{ext}*TLC_{interna}*H_{estim}}
+	TLC_{externa}(s)=\frac{Y_g}{V_{y_{ref}}}=\frac{G_{ext}*TLC_{interna}}{1-G_{ext}*TLC_{interna}*H_{estim}}
 	%	\frac{-3.6301*}{den}
 \end{equation}
 
@@ -430,21 +549,6 @@ Entonces en este caso se está suponiendo que en régimen permanente $V_{y_{ref}
 Los valores finales son:
 
 \colorbox{red}{¿Agregamos los valores de salida teóricos? como para comparar el error?... podríamos agregar en la tabal de abajo una columna para el valor teórico y otra para el error relativo}
-
-\begin{table}[H]
-	\begin{center}
-		\begin{tabular}{| c | c |}
-			\hline
-			$Y_g\:[mm]$ & $V_{y_{ref}}[V]$\\ \hline
-			5 & 4.7\\ \hline
-			4 & 4.44 \\ \hline
-			3 & 4.18\\ \hline
-			2 &	3.92 \\ \hline		
-		\end{tabular}
-		\caption{Tensión de referencia $[V_{y_{ref}}]$ Vs separación deseada [$Y_g$].}
-		\label{tension-ref-vs-separacion-deseada}
-	\end{center}
-\end{table}
 
 Para diseñar el bloque F se debe obtener la ganancia de la $TLC_{externa}$ correspondiente a su valor de continua. Resulta:
 

@@ -412,33 +412,24 @@ $
 }
 \end{equation*}
 
+\colorbox{red}{me parece que no se puede calcular la tlc sin antes calcular el F. podríamos dejar F genérico arriba.}
 
 
 
-\section{Cálculo de ganancia de entrada}
 
-La ganancia de la $TLC_{externa}$ correspondiente a la ganancia de continua total de los bloques con el integrador ya incorporado, resulta:
+\section{Cálculo de ganancia de entrada F}
 
-\begin{equation} 
-	G_{TLC_{final}} \simeq \frac{1}{H_{estim}} = - \frac{1}{259.6}
-\end{equation}
+Para poder mapear correctamente la tensión de referencia de posición $V_{y_{ref}}$ con el valor deseado de distancia de entrehierro $Y_g$ se utiliza el bloque nombrado F en la figura \ref{fig:diag-externo_real_positiva}. Es necesario diseñar qué valor de ganancia tendrá para lograr la correspondencia.
 
-Por lo tanto, con el bloque $F$ mostrado en la figura \ref{fig:diag-externo_real_positiva} con un valor de $-1$ y los rangos de posición de $2\:mm$ a $5\:mm$ como mínimo y máximo respectivamente se llega a lo siguiente:
+Antes de diseñar el bloque F se debe caracterizar cómo será la señal en su entrada $V_{y_{ref}}$. Como se diseñó el sistema para tener error nulo en régimen permanente, es apropiado diseñar la señal de referencia para que coincida con la salida del estimador de distancia de entrehierro. Por lo tanto, como se vio en la sección \ref{seccopn-estim-completo} la salida del estimador para cada valor de posición toma los  valores mostrados en la tabla \ref{tab_Resultados_de_simulación_del_estimador}. Por lo tanto se mapea la tensión de entrada $V_{y_{ref}}$ con los mismos valores que toma $V_{estim}$ para cada $Y_{g}$ .
 
-\begin{equation} 
-	Y_g[m] = F * (-\frac{1}{259.6})*V_{y_{ref}} =\frac{1}{259.6}*V_{y_{ref}} 
-\end{equation}
+\colorbox{red}{recordar que $V_{estim}=H_{estim}*Y_g+3.4\:V$??}
 
-Como se vio en la sección \ref{seccopn-estim-completo} la salida del estimador para cada valor de posición toma los  valores mostrados en la tabla \ref{tab_Resultados_de_simulación_del_estimador}. Por lo tanto se mapea la tensión de entrada $V_{y_{ref}}$ con los mismos valores que toma $V_{estim}$ para cada $Y_{g}$ .
-
-
-
-%La realimentación tiene un punto de operación de $3.4\:V$. Por lo tanto, se le suma a $V_{y_{ref}}$ el mismo valor.
+Entonces en este caso se está suponiendo que en régimen permanente $V_{y_{ref}}$ y $V_{estim}$ toman el mismo valor... es decir queremos que $TLC_{externa_{ss}}=\frac{1}{H_{estim}}$
 
 Los valores finales son:
 
 \colorbox{red}{¿Agregamos los valores de salida teóricos? como para comparar el error?... podríamos agregar en la tabal de abajo una columna para el valor teórico y otra para el error relativo}
-
 
 \begin{table}[H]
 	\begin{center}
@@ -455,11 +446,49 @@ Los valores finales son:
 	\end{center}
 \end{table}
 
-El error en régimen permanente excitando la entrada con un escalón unitario se puede calcular como
+Para diseñar el bloque F se debe obtener la ganancia de la $TLC_{externa}$ correspondiente a su valor de continua. Resulta:
+
+\begin{equation} 
+	TLC_{externa_{ss}}=-1*\frac{F}{H_{estim}} = -1*\frac{F}{259.6}
+\end{equation}
+
+Por lo tanto, como se mencionó en el comienzo de esta sección, para obtener $TLC_{externa_{ss}}=\frac{1}{H_{estim}}$ resulta que $F=-1$.  \colorbox{red}{en realidad mas o menos... hay un muy pequeño error que podríamos haber cancelado con F, pero ya fue sino}
+
+%la con el bloque $F$ mostrado en la figura \ref{fig:diag-externo_real_positiva} con un valor de $-1$ y los rangos de posición de $2\:mm$ a $5\:mm$ como mínimo y máximo respectivamente se llega a lo siguiente:
+
+\begin{equation} 
+	Y_g[m] = F * (-\frac{1}{259.6})*V_{y_{ref}} =\frac{1}{259.6}*V_{y_{ref}} 
+\end{equation}
+
+
+
+
+
+%La realimentación tiene un punto de operación de $3.4\:V$. Por lo tanto, se le suma a $V_{y_{ref}}$ el mismo valor.
+
+
+\subsection{Error de posición en régimen permanente}
+
+Como se diseñó un compensador externo que no es un integrador ideal, el sistema puede presentar cierto error en la distancia de entrehierro con respecto a la que se utiliza como referencia. En esta sección se calcula ese error para verificar que sea aceptable.
+
+La señal $V_{e_{ext}}$ (del diagrama \ref{fig:diag-externo_real_positiva}), al estabilizarse el sistema en régimen permanente toma un valor que puede calcularse como:
 
 \begin{equation*}
-	e_{rp}=\frac{1}{1-\lim\limits_{s \to 0}[G_{ext}*TLC_{interna}*H_{estim}]}=0.0145
+	V_{e_{ext_{ss}}}=\frac{1}{1-\lim\limits_{s \to 0}[G_{ext}*TLC_{interna}*H_{estim}]}=0.0145
 \end{equation*}
+
+Esta señal se puede escribir en función de la tensión de referencia y la realimentada como:
+
+\begin{equation}
+	V_{e_{ext_{ss}}}=V_{estim}+F*V_{y_{ref}}=V_{estim}-V_{y_{ref}}	
+\end{equation}
+
+Por lo tanto se puede armar una tabla que muestra la distancia de entrehierro que se obtiene para cada valor de señal de referencia....
+
+\colorbox{red}{acá ponemos la tabla. me quedó +0.1mm de error para todas las posiciones}
+
+
+
 \colorbox{red}{Ver q onda hacer la tabla de error que queremos con algo mas como para que este datos sea util y tener el valor constante que va a tomar el error para cada posición}
 
 \section{Implementación circuital}

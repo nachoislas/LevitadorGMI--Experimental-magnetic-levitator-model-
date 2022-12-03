@@ -753,7 +753,7 @@ Se obtiene:
 \end{equation}
 
 \begin{equation} 
-	G^- = \frac{R_b}{R_a + R_b + R_{th}}
+	G^- = - \frac{R_a + R_{th}}{R_a + R_b + R_{th}}
 \end{equation}
 
 Si se toma en consideración que $Ra>>R_{th}$ estas ecuaciones se pueden reducir a: 
@@ -763,7 +763,7 @@ Si se toma en consideración que $Ra>>R_{th}$ estas ecuaciones se pueden reducir
 \end{equation}
 
 \begin{equation} 
-	G^- = \frac{R_b}{R_a + R_b}
+	G^- =- \frac{R_a}{R_a + R_b}
 \end{equation} 
   
 Si se disnia el bloque $H$ de forma tal de que $A_w>>1/H$ sea mayor en la banda de interés se puede aproximar la salida a $1/H$. De esta forma  asignando los polos y la ganancia de la ecuación XD (eq del compensador) se obtiene que:
@@ -792,7 +792,7 @@ A continuación se realiza el diagrama de bode del bloque $A_w$ y $1/H$.
 Como se puede ver el $A_w >> 1/H$ en la banda de interes. Finalmente aproximando la tlc interna a $1/H$ y multiplicando la entrada por el bloque $G^-$ se obtiene una transferencia:
 
 \begin{equation} 
-	tlc = \frac{G^-}{H}  = \frac{SC_xR_x+1}{SC_x[R_1+R_x]+1}=\frac{\frac{s}{44.3}+1}{\frac{s}{902.1}+1}
+	tlc = G^- * \frac{1}{H}  =- \frac{R_a}{R_b} * \frac{SC_x[R_1+R_x]+1}{SC_xR_x+1}=\frac{\frac{s}{44.3}+1}{\frac{s}{902.1}+1}
 \end{equation}
  
 

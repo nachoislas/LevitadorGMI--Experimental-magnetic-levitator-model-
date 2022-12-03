@@ -20,7 +20,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\caption{Diagrama en bloques de la implementación digital.}
 	\label{fig:diag-en-bloques-digital}
 \end{figure}
-
+\colorbox{red}{dejar un solo diagrama y cambiar lo de abajo}
 \noindent Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
 
 \begin{equation} 
@@ -42,12 +42,11 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \noindent La forma de onda de la salida del sensor es triangular y presenta una frecuencia variable en función de la distancia de separación. Se puede calcular como:
 
 \begin{equation} \label{eq_frecuencia-de-muestreo}
-	F_{SW}(Y_g)=\frac{V_{BUS}}{2 * L(Y_g) * \Delta I_H}
+	F_{planta}(Y_g)=\frac{V_{BUS}}{2 * L(Y_g) * \Delta I_H}
 \end{equation}
 
 
-
- Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de inductancia ($L\:[mHy]$) obtenidos en las mediciones realizadas sobre el electroimán (ver tabla \ref{tab_mediciones_inductancia}), se calcula la frecuencia de conmutación  $(F_{SW}\:[Hz])$. Los resultados se muestran en la tabla \ref{frecuencias-calculadas}.
+ Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de inductancia ($L\:[mHy]$) obtenidos en las mediciones realizadas sobre el electroimán (ver tabla \ref{tab_mediciones_inductancia}), se calcula la frecuencia de conmutación  $(F_{planta}\:[Hz])$. Los resultados se muestran en la tabla \ref{frecuencias-calculadas}.
 
 
 
@@ -55,12 +54,11 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\begin{center}
 		\begin{tabular}{| c | c | c |}
 			\hline
-			$Y_g\:[mm]$ & $L\:[mHy]$ & $F_{SW}\:[Hz]$\\ \hline
+			$Y_g\:[mm]$ & $L\:[mHy]$ & $F_{planta}\:[Hz]$\\ \hline
 			2 & 22.64 & 1060\\ \hline
 			3 & 18.8 & 1276\\ \hline
-			4.4 & 15.5 & 1548\\ \hline
-			5.2 & 14.7 & 1632\\ \hline		
-			6.5 & 14.4 & 1666\\ \hline
+			4 & 16.44 & 1459\\ \hline
+			5 & 14.9 & 1632\\ \hline
 		\end{tabular}
 		\caption{Valores de frecuencia calculados a partir de las mediciones de inductancia realizadas.}
 		\label{frecuencias-calculadas}
@@ -181,19 +179,19 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 \section{Resolución en posición}
 
-\noindent Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L[Y_g]$) que se traduce en un cambio de frecuencia ($\Delta f_{SW}$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
+\noindent Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L[Y_g]$) que se traduce en un cambio de frecuencia ($\Delta F_{planta}$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
 
 
-\noindent A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y_g=2.1\:mm$. Esta resulta en $f_{SW}[2.1\:mm] = 1104.8\:Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $f_{SW}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un ($\Delta Y_g$) mínimo de  $0.1\:mm$. Este valor puede obtenerse como:
+\noindent A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y_g=2.1\:mm$. Esta resulta en $F_{planta}[2.1\:mm] = 1104.8\:Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $F_{planta}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un ($\Delta Y_g$) mínimo de  $0.1\:mm$. Este valor puede obtenerse como:
 
 \begin{equation} 
-	\Delta F_{SW} = f_{SW}[2.1\:mm] - f_{SW}[2\:mm] = 44.8\:Hz
+	\Delta F_{planta} = F_{planta}[2.1\:mm] - F_{planta}[2\:mm] = 44.8\:Hz
 \end{equation}
 
 \noindent Las pendientes para el peor caso se da con la menor variación de tensión entre muestras. Es decir, para el caso de frecuencia mínima. En la ecuación \ref{eq_pendiente} se muestra el cálculo de la pendiente de la onda triangular en función de la frecuencia de conmutación.
 
 \begin{equation} \label{eq_pendiente}
-	P(f_{SW}) = \frac{\Delta V}{T_{SW}/2} = 2*K_h*\Delta i_L*f_{SW} = 2 * 0.0533 * 0.5 * f_{SW}
+	P(F_{planta}) = \frac{\Delta V}{T_{SW}/2} = 2*K_h*\Delta i_L*F_{planta} = 2 * 0.0533 * 0.5 * F_{planta}
 \end{equation}
 
 \noindent A partir de la ecuación \ref{eq_pendiente} es posible obtener el valor de la pendiente para la mínima frecuencia de conmutación y la de su incremento correspondiente a una variación en la posición de $0.1\:mm$. Esta situación se representa en la figura \ref{fig:variacion-de-pendiente}.
@@ -201,7 +199,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \begin{equation} 
 	\begin{aligned}
 		&P(f_{SW_{min}}) = 56.49\:[V/s] \\
-		&P(f_{SW_{min}} + \Delta f_{SW}) = 58.89\:[V/s] \\
+		&P(f_{SW_{min}} + \Delta F_{planta}) = 58.89\:[V/s] \\
 	\end{aligned}
 \end{equation}
 
@@ -216,7 +214,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 \begin{equation} 
 	\begin{aligned}
-		V1 &= P(f_{SW_{min}} + \Delta f_{SW})* T_S \\
+		V1 &= P(f_{SW_{min}} + \Delta F_{planta})* T_S \\
 		V2 &= P(f_{SW_{min}})* T_S \\		 
 	\end{aligned}
 \end{equation}
@@ -224,7 +222,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \noindent Al considerar $F_s = 25\:kHz$:
 
 \begin{equation} 
-	\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta f_{SW}) - P(f_{SW_{min}})] = 96\:\mu V
+	\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta F_{planta}) - P(f_{SW_{min}})] = 96\:\mu V
 \end{equation}
 
 
@@ -252,7 +250,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \noindent Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
 
 \begin{equation} 
-	P(F_{SW}) = 50 * [0.0533 * 0.5 * (F_{SW}*2)]\:[\frac{V}{s}]
+	P(F_{planta}) = 50 * [0.0533 * 0.5 * (F_{planta}*2)]\:[\frac{V}{s}]
 \end{equation}
 
 \noindent Al reemplazar para el incremento de frecuencia se obtiene: 
@@ -260,7 +258,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \begin{equation} 
 	\begin{aligned}
 		&P(f_{SW_{min}}) = 2824.9 \: [\frac{V}{s}]\\
-		&P(f_{SW_{min}} + \Delta f_{SW}) = 2944.29 \: [\frac{V}{s}]\\		 
+		&P(f_{SW_{min}} + \Delta F_{planta}) = 2944.29 \: [\frac{V}{s}]\\		 
 	\end{aligned}
 \end{equation}
 
@@ -270,7 +268,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \begin{equation} 
 	\resizebox{.8\hsize}{!}
 	{
-	$\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta f_{SW}) - P(f_{SW_{min}})] = 0.1177\:V - 0.1129\:V = 4.7\:mV$
+	$\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta F_{planta}) - P(f_{SW_{min}})] = 0.1177\:V - 0.1129\:V = 4.7\:mV$
 	}
 \end{equation}
 
@@ -345,17 +343,26 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 	\label{fig:DAC-estimador}
 \end{figure}
 
-\section{Transferencias de la planta y del controlador de corriente}
+\section{Diseño del controlador digital}
+
+Para poder diseñar un compensador digital para un sistema continuo, se puede utilizar la transformada bilineal para poder aplicar técnicas de compensación´´on analógica en un sistema discreto.
+
+ \colorbox{red}{Redactar bien esta parte}
+Por medio de la transformada bilinal es posible diseñar un compensador en el dominio analógico y luego, con su transformada inversa, obtener el compensador en el dominio discreto. Por lo tanto se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema.  
+
+\subsection{Transferencias de la planta y del controlador de corriente}
 
 \noindent Para el an\'{a}lisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio anal\'{o}gico para una masa de $30 \:kg$.
 
 \begin{equation} 
 	\begin{aligned}
-	G_T(s)[M=30kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
+		G_T(s)[M=30kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
 	\end{aligned}
 \end{equation}
 
 \noindent Al aplicar la transformada z por invarianza al impulso, con una $f_s=3.5\:kHz$, se obtiene:
+
+\colorbox{red}{Escribir la expresión de la transformada bilienal}
 
 \begin{equation} 
 	G_T(Z)[M=30\:kg] =\frac{-3.2057*10^{-10}(z+3.729)(z+0.2677)}{(z-0.9966)(z-0.9806) (z-1.02)}
@@ -366,19 +373,34 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \begin{equation}
 	\resizebox{.8\hsize}{!}
 	{
-	$G_T(w)[M=30\:kg]\ \ =\frac{-8.0207*10^{-11}(w-1.238*10^4)(w-7143)(w+1.237*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}$
+		$G_T(w)[M=30\:kg]\ \ =\frac{-8.0207*10^{-11}(w-1.238*10^4)(w-7143)(w+1.237*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}$
 	}
 \end{equation}
 
 
 \noindent Con las expresiones en $[w]$ es posible diseñar un controlador en el dominio analógico y luego transformarlo al digital.
 
+\subsection{Diseño del compensador}
 
-\section{Diseño del compensador}
+Se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema.  
 
-\subsection{Análisis de estabilidad con masa de 30 kg}
+Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital}
+
+\colorbox{red}{modificar diagrama en bloques}
+\begin{figure}[H]
+	\centering
+	\scalebox{0.8}{\input{tikz/diagrama_general_digital.tex}}
+	\caption{Diagrama en bloques de estrategia de compensación propuesta.}	\label{fig:diag-en-bloques-comp_digital}
+\end{figure}
+\colorbox{red}{Poner GT en reemplazo de todos los bloques}
+
+\subsection{Análisis de estabilidad}
+
+\subsection{Análisis de estabilidad}
 
 \noindent Para el análisis del compensador digital se parte de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ y de la del lazo de realimentación $H(w)$. A partir de ellas se obtiene la transferencia a lazo abierto total $GH_{T}(w)=G_{T}(w)*H(w)$ mostrado en la ecuación \ref{eq:GtHW}.
+
+\colorbox{red}{Ver si ya mencionamos que H=1. Si ya lo mencionamos, redactar lo de arriba para que quede bien}
  
 \begin{equation}
 	\label{eq:GtHW}  

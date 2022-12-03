@@ -1,0 +1,50 @@
+\tikzset{%
+	buffer/.style={
+		draw,
+		shape border rotate=270,
+		regular polygon,
+		regular polygon sides=3,
+		fill=blue!20,
+		node distance=2cm,
+		minimum height=4em
+	}
+}
+
+\tikzstyle{block} = [draw, fill=blue!20, rectangle, 
+minimum height=2.5em, minimum width=3em]
+
+%Acá se define eñ diagrama en bloques completo
+\begin{tikzpicture}[auto, node distance=1cm,>=latex']
+	% We start by placing the blocks
+	\node [input, name=input] {};
+	\node [buffer, right=of input](F){F};
+	\node [sum, right of=F, node distance=1.5cm] (suma_externa) {+};
+	\node [block, right=of suma_externa] (externo) {$G_{ext}(w)$};
+	\node [sum, right=of externo] (suma_interna) {+};
+	\node[block, right=of suma_interna] (interno) {$G_c(w)$};
+	\node [block, right=of interno] (gil) {$G_{IL}(w)$};
+	\node [block, right=of gil] (planta) {$G_p(w)$};
+	\node [coordinate, below=of interno] (realimentacion_interna) {$H_{estim}(w)$};
+	
+	\node [coordinate, below=2cm of externo] (realimentacion_externa) {$H_{estim}$};
+%	
+%	\node [block, right of=suma] (amplificador) {$A(s)$};
+	\node [output, right of=planta, node distance=3cm] (output) {};
+%	\node [block, below of=amplificador] (realimentacion) {$H(s)$};
+%	
+%	
+%	% Once the nodes are placed, connecting them is easy. 
+	\draw [draw,->] (input) -- node[pos=0.2]{$V_{y_{ref}}$} (F);
+	\draw [draw,->] (F) -- node[pos=0.9]{$+$}(suma_externa);
+	\draw [draw,->] (suma_externa) -- (externo);
+	\draw [draw,->] (externo) -- node[pos=0.95]{$+$} (suma_interna);
+	\draw [draw,->] (suma_interna) -- (interno);
+	\draw [draw,->] (interno) -- (gil);
+	\draw [draw,->] (gil) -- (planta);
+	\draw [draw,->] (planta) -- node[name=y]{$Y_g$} (output);
+%	\draw [draw,->] (amplificador) -- node[name=y]{$V_{deriv}$} (output);
+	\draw [-] (y) |- (realimentacion_interna);
+	\draw [->] (realimentacion_interna) -|  node[pos=0.99]{$-$} (suma_interna);
+	\draw [-] (y) |- (realimentacion_externa);
+	\draw [->] (realimentacion_externa) -|  node[pos=0.99]{$-$} (suma_externa);
+\end{tikzpicture}

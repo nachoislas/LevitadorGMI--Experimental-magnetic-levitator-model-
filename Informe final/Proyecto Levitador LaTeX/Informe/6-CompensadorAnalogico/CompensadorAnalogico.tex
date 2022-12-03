@@ -634,7 +634,7 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) se utiliza un circuito basado en un amplificador operacional. Este tiene una red de realimentación RC para que su transferencia de lazo cerrado tenga el polo del compensador. Como se utiliza un amplificador operacional con alimentación simple de $5\:V$, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto se desea implementar la función:
 
 \begin{equation}
-	V_{ref_c}=2.5\:V+V_{e_{ext}}*K_{int}*\frac{1}{1+\frac{s}{p_{int}}}
+	V_{ref_c}=2.5\:V+V_{e_{ext}}*\frac{K_{int}}{1+\frac{s}{p_{int}}}
 \end{equation}
  
 \noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología y los valores utilizados en cada componente para el diseño del circuito integrador.
@@ -668,21 +668,39 @@ Si se considera que la tensión de $2.5\:V$ en la entrada no inversora es contin
 
 De \ref{eq_salida_integrador_2} se pueden plantear tres ecuaciones de diseño:
 
-\begin{equation}
+\begin{equation} \label{eq_polo_integrador}
+	\frac{1}{1+s*\tau 0}=\frac{1}{1+\frac{s}{p_{int}}}
+\end{equation}
+
+\begin{equation} \label{eq_ganancia_integrador}
 	\frac{R_{300}}{R_{305}}=50
 \end{equation}
 
-\begin{equation}
-	\frac{1}{1+s*\tau 0}=\frac{1}{1+s*p_{int}}
-\end{equation}
 
-\begin{equation}
+\begin{equation} \label{eq_ganancia_vop_integrador}
 	2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})=2.5\:V
 \end{equation}
 
-\colorbox{red}{por ahora no terminé}
+Se comienza con el diseño del polo del circuito utilizando la ecuación \ref{eq_polo_integrador}. Se obtiene:
 
-	
+\begin{equation}
+	R_{300}*C_{300}=\frac{1}{0.1r/s}
+\end{equation}
+
+Se elige el valor del componente $C_{300}=22\:\mu F$, lo que resulta en $R_{300}=454.5k\:\Omega$, que se aproxima al valor comercial mas cercano $R_{300}=459\:k\Omega$.
+
+Luego se resuelve la ecuación \ref{eq_ganancia_integrador} para obtener el valor de $R_{305}=9.18\:k\Omega$, que se aproxima al valor comercial $R_{305}=9.2\:k\Omega$.
+
+Finalmente se resuelve la ecuación \ref{eq_ganancia_vop_integrador} para obtener la relación $R_{307}=50*R_{311}$. Por lo tanto se elige $R_{311}=9.2\:k\Omega$ y se obtiene $R_{307}=459\:k\Omega$.
+
+
+Con este circuito se obtiene la función transferencia del compensador, sin considerar el punto de operación:
+
+\begin{equation} \label{eq_gexterno_circuito}
+	G_{ext_{circuito}}=-\frac{50}{1+\frac{s}{0.1r/s}}
+\end{equation}
+
+Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado, por lo tanto debe cancelarse este signo en una etapa siguiente.
 
 
 \subsection{Implementación circuital de la ganancia de entrada y sumador}

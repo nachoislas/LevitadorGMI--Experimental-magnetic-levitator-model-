@@ -552,19 +552,15 @@ En esta sección se aborda el diseño circuital de la etapa de compensación pla
 	\label{fig:etapa-de-entrada}
 \end{figure}
 
-
+\colorbox{red}{Agregar Vyref}
 Se utiliza una resistencia variable de $1\:k\Omega$ y dos con valores fijos. Para poder excursionar la tensión de referencia entre $3.92\:V$ y $4.7\:V$, los valores de las resistencias $R_1$ y $R_3$ deben ser de $4911\:\Omega$ y $313.5\:\Omega$ respectivamente. 
 
 Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:\Omega$ y en $R_3 = 4990 \:\Omega$.
 
 De esta forma, el valor de tensión máximo para la referencia de posición queda en $4.69\:V$ y el mínimo en $3.96\:V$.
 
-Luego, la etapa del sumador se muestra en la figura \ref{fig:etapa-de-entrada-sumador}.
-
-\colorbox{red}{desarrollar mas eso y aclarar lo de la ganancia F}
-
 \subsection{Implementación circuital de la ganancia de entrada y sumador}
-
+\colorbox{red}{hacer breve intro}
 
 \begin{figure}[H]
 	\centering
@@ -629,7 +625,7 @@ Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) 
 
 \noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología y los valores utilizados en cada componente para el diseño del circuito integrador.
 
-\colorbox{red}{podríamos poner la transferencia genérica y calcular los componentes...} 
+
 
 \begin{figure}[H]
 	\centering
@@ -696,6 +692,7 @@ Es importante notar que la transferencia del circuito agrega una inversión de s
 
 \colorbox{red}{acavendría el sumador del lazo interno}
 
+\colorbox{red}{cambiar vref por vrefc}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Circuito_sumador_lazo_interno.png}
@@ -819,4 +816,6 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 	\label{fig:ganancia-compensador}
 \end{figure}
 
+\colorbox{red}{Agregar imagen con las dos redes y la ganancoa, la señal de entreda es Veint}
 
+\colorbox{red}{Hacer bode de la red de adelanto de fase con NL5 o ver de simularlo de alguna otra manera}

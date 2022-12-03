@@ -556,12 +556,19 @@ Para cada etapa del compensador por adelanto se utiliza la topología mostrada e
 Para realizar el análisis se debe obtener los bloques de avance($A_w$) y realimentación ($H$) mostrados en la figura XD que corresponden a:
 
 \begin{equation} 
-	H = \frac{V_d}{V_0}=\frac{V^- - V^-}{Vaf_{out}}
+	H = \frac{V_d}{V_af_{out}}=\frac{V^- - V^-}{Vaf_{out}}
 \end{equation}
 
 \begin{equation} 
 	G^- = \frac{V_d}{Vaf_{in}}=\frac{V^- - V^-}{Vaf_{in}}
 \end{equation}
+
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_lazo_compensador.tex}
+	\caption{Diagrama interno en bloques del lazo del bloque del compensador.}	
+	\label{fig:diag-diagrama_lazo_compensador}
+\end{figure}
 
 Para obtener estas ecuaciones se realiza la un thevening en el nodo XD mostrado en la figura obteniéndose su $V_{th}$ y $R_{th}$.
 

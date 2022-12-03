@@ -92,7 +92,7 @@ integrador=Kint/(1+(s/pint));
 figure(7)
 rlocus(-tlc*Hestim*integrador)
 figure(8)
-tlcConIntegrador = -dcgain(Hestim) * feedback(integrador*tlc, Hestim, 1);
+tlcConIntegrador = feedback(integrador*tlc, Hestim, 1);
 errorEscalonintegrador=1/(1-dcgain(integrador*tlc*Hestim));
 error_porcentual=dcgain(integrador*tlc)*errorEscalonintegrador;
 step(tlcConIntegrador);

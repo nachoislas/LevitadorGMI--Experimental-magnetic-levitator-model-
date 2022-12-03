@@ -539,7 +539,8 @@ En esta sección se aborda el diseño circuital de la etapa de compensación, ta
 
 \subsection{Implementación circuital de la red de adelanto de fase}
 
-\noindent Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Consiste en  un polo y un cero con ganancia unitaria (si $R_a = R_b$). Luego, se agrega la ganancia como una etapa separada.
+Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en (eq del compensador). A continuación se hace un análisis de este circuito y la eleccion de los componentes. 
+%Consiste en  un polo y un cero con ganancia unitaria (si $R_a = R_b$). Luego, se agrega la ganancia como una etapa separada.
 
 \begin{figure}[H]
 	\centering
@@ -548,13 +549,59 @@ En esta sección se aborda el diseño circuital de la etapa de compensación, ta
 	\label{fig:red-adelanto-fase}
 \end{figure}
 
-\noindent La salida de esta etapa es:
+Para realizar el análisis se debe obtener los bloques de avance($A_w$) y realimentación ($H$) mostrados en la figura XD que corresponden a:
 
+\begin{equation} 
+	H = \frac{V_d}{V_0}=\frac{V^- - V^-}{Vaf_{out}}
+\end{equation}
+
+\begin{equation} 
+	G^- = \frac{V_d}{Vaf_{in}}=\frac{V^- - V^-}{Vaf_{in}}
+\end{equation}
+
+Para obtener estas ecuaciones se realiza la un thevening en el nodo XD mostrado en la figura obteniéndose su $V_{th}$ y $R_{th}$.
+
+\begin{equation} 
+	V_{th} = Vaf_{in}= \frac{SC_xR_x+1}{SC_x[R_1+R_x]+1}
+\end{equation}
+
+\begin{equation} 
+	R_{th} = [R_1 // R_x+(\frac{1}{SC_x})]
+\end{equation}
+
+\colorbox{red}{aca se puede acer un dibujito de como queda el circuito con el thevening y la realimentacion}
+
+Luego se resuelve el circuito obteniendo las transferencias mostradas en las eq X1 y X2.
+
+Se obtiene:
+
+\begin{equation} 
+	H = \frac{SC_xR_x+1}{SC_x[R_1+R_x]+1} * \frac{R_b}{R_a + R_b + R_{th}}
+\end{equation}
+
+\begin{equation} 
+	G^- = \frac{R_b}{R_a + R_b + R_{th}}
+\end{equation}
+
+Si se toma en consideración que $Ra>>R_{th}$ estas ecuaciones se pueden reducir a: 
+
+\begin{equation} 
+	H = \frac{SC_xR_x+1}{SC_x[R_1+R_x]+1} * \frac{R_b}{R_a + R_b}
+\end{equation}
+
+\begin{equation} 
+	G^- = \frac{R_b}{R_a + R_b}
+\end{equation} 
+  
+La salida de esta etapa es:
+
+\colorbox{red}{por ahora hasta aca}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{equation} 
 	Vaf_{out}= 2.5\:V* (1+\frac{R_a}{R_b})- Vaf_{in}*\frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}
 \end{equation}
 
-\noindent La transferencia de lazo cerrado de esta etapa sin considerar su punto de operación es:
+La transferencia de lazo cerrado de esta etapa sin considerar su punto de operación es:
 
 \begin{equation} 
 	\frac{Vaf_{out}}{Vaf_{in}}= - \frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}

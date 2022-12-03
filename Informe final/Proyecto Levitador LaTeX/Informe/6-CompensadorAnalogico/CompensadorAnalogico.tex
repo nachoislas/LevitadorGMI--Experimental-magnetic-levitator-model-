@@ -673,8 +673,37 @@ Luego, la etapa del sumador se muestra en la figura \ref{fig:etapa-de-entrada-su
 \end{equation*}
 
 
+Se desea que la salida sea de la forma:
+
+\begin{equation*} 
+	Ve_{ext}= 2.5\:V + V_{estim} + F*V_{ref}
+\end{equation*}
+
+Por lo tanto, se obtienen las siguientes expresiones de diseño:
 
 
+\begin{equation} \label{eq_relacion1}
+	\frac{R_3//R_5}{R_1+R_3//R_5}*(1+\frac{R_2}{R_4})=1
+\end{equation}
 
+\begin{equation} \label{eq_relacion2}
+	\frac{R_1//R_5}{R_3+R_1//R_5}*(1+\frac{R_2}{R_4})=1
+\end{equation}
 
+\begin{equation} \label{eq_relacion3} 
+	\frac{R_2}{R_4}=\abs{F}=1.015
+\end{equation}
 
+Por lo tanto, al igualar la expresión \ref{eq_relacion1} y \ref{eq_relacion2}, y reemplazar con \ref{eq_relacion3}, se obtiene:
+
+\begin{equation*} 
+	R_1 = R_3
+\end{equation*}
+
+\begin{equation*} 
+	R_6=\frac{R_1*R_3}{R_1*1.015-R_3}
+\end{equation*}
+
+Se elije $R_1=R_3=1\:k\Omega$, resultando en $R_6=66.7\:k\Omega$.
+
+Para obtener el valor de $F=1.015$ a partir del cociente entre  $R_2$  y $R_4$, se utilizan resistencias de $1015\:\Omega$ y $1000\:\Omega$, respectivamente. Estas deben ser de alta precisión...\colorbox{red}{ver como terminamos esto}

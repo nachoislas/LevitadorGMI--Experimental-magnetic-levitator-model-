@@ -404,7 +404,11 @@ Al observar la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} es posi
 
 
 
-\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-50-M-30}, se observa la respuesta al escalón para una ganancia del integrador de $K_{int}=50$ que resulta en un tiempo de establecimiento de $0.6\:s$ y un sobrepico de 0\%. Por lo tanto, se adopta este valor de ganancia para el diseño del integrador.
+\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-50-M-30}, se observa la respuesta al escalón para una ganancia del integrador de $K_{int}=50$ que resulta en un tiempo de establecimiento de $0.6\:s$ y un sobrepico de 0\%. Por lo tanto, se adopta este valor de ganancia para el diseño del integrador. Finalmente la transferencia del compensador externo queda:
+
+\begin{equation} \label{eq_gexterno}
+	G_{ext}=\frac{50}{1+\frac{s}{0.1\:r/s}}	
+\end{equation}
 
 \begin{figure}[H]
 	\centering
@@ -620,6 +624,12 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 
 \subsection{Implementación circuital del integrador}
 
+Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) se utiliza un circuito basado en un amplificador operacional. Este tiene una red de realimentación RC para que su transferencia de lazo cerrado tenga el polo del compensador. Como se utiliza un amplificador operacional con alimentación simple de $5\:V$, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto se desea implementar la función:
+
+\begin{equation}
+	V_{ref_c}=2.5\:V+V_{e_{ext}}*K_{int}*\frac{1}{1+\frac{s}{p_{int}}}
+\end{equation}
+ 
 \noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología y los valores utilizados en cada componente para el diseño del circuito integrador.
 
 \colorbox{red}{podríamos poner la transferencia genérica y calcular los componentes...} 
@@ -630,6 +640,42 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 	\caption{Implementación circuital del integrador.}
 	\label{fig:circuito-integrador}
 	\end{figure}
+
+A continuación se plantea cómo está formada la salida del circuito con respecto a cada una de sus entradas. Para simplificar la escritura de las ecuaciones se define $X_{300}$ como la relación entre el paralelo de $R_{300}$ y la reactancia de $C_{300}$ y $\tau 0 = R_{300}*C_{300}$:
+
+\begin{equation}
+	X_{300} = R_{300} // \frac{1}{s*C_{300}} = \frac{R_{300}}{1+s*\tau 0}
+\end{equation}
+
+La salida del circuito de la figura está dada por:
+
+\begin{equation} \label{eq_salida_integrador}
+	V_{ref_c}=2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{X_{300}}{R_{305}})-V_{e_{ext}}*\frac{X_{300}}{R_{305}}
+\end{equation}
+
+Si se considera que la tensión de $2.5\:V$ en la entrada no inversora es continua, se puede considerar que el término de $X_{300}$ es constante con valor $R_{300}$. Por lo tanto se puede reescribir la ecuación \ref{eq_salida_integrador} como:
+
+\begin{equation} \label{eq_salida_integrador_2}
+	V_{ref_c}=2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})-V_{e_{ext}}*\frac{R_{300}}{R_{305}}*\frac{1}{1+s*\tau 0}
+\end{equation}
+
+De \ref{eq_salida_integrador_2} se pueden plantear tres ecuaciones de diseño:
+
+\begin{equation}
+	\frac{R_{300}}{R_{305}}=50
+\end{equation}
+
+\begin{equation}
+	\frac{1}{1+s*\tau 0}=\frac{1}{1+s*p_{int}}
+\end{equation}
+
+\begin{equation}
+	2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})=2.5\:V
+\end{equation}
+
+\colorbox{red}{por ahora no terminé}
+
+	
 
 
 \subsection{Implementación circuital de la ganancia de entrada y sumador}

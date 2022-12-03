@@ -539,7 +539,161 @@ $
 
 \section{Implementación circuital}
 
-En esta sección se aborda el diseño circuital de la etapa de compensación, tanto de la red doble de adelanto de fase correspondiente al lazo de control interno, como el integrador correspondiente al lazo externo.
+En esta sección se aborda el diseño circuital de la etapa de compensación planteada en el diagrama \ref{fig:diag-en-bloques-comp}. Se realiza el diseño en orden desde la entrada $V_{y_{ref}}$ hasta llegar al compensador del lazo interno.
+
+
+\subsection{Implementación circuital de la ganancia de entrada y sumador}
+
+
+\noindent Para poder modificar la distancia de separación se ingresa al sistema con una tensión variable, la cual corresponde a una posición de referencia. Para ello se utiliza el circuito mostrado en la figura \ref{fig:etapa-de-entrada}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{Etapa-de-entrada.png}
+	\caption{ Etapa de entrada.}
+	\label{fig:etapa-de-entrada}
+\end{figure}
+
+
+Se utiliza una resistencia variable de $1\:k\Omega$ y dos con valores fijos. Para poder excursionar la tensión de referencia entre $3.92\:V$ y $4.7\:V$, los valores de las resistencias $R_1$ y $R_3$ deben ser de $4911\:\Omega$ y $313.5\:\Omega$ respectivamente. 
+
+Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:\Omega$ y en $R_3 = 4990 \:\Omega$.
+
+De esta forma, el valor de tensión máximo para la referencia de posición queda en $4.69\:V$ y el mínimo en $3.96\:V$.
+
+Luego, la etapa del sumador se muestra en la figura \ref{fig:etapa-de-entrada-sumador}.
+
+\colorbox{red}{desarrollar mas eso y aclarar lo de la ganancia F}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Etapa-de-entrada-sumador.png}
+	\caption{Circuito sumador.}
+	\label{fig:etapa-de-entrada-sumador}
+\end{figure}
+
+
+\begin{equation*}
+	\resizebox{.99\hsize}{!}
+	{
+		$
+		Ve_{ext}= [2.5\:V (\frac{R_3//R_5}{R_1+R_3//R_5})+V_{estim}(\frac{R_1//R_5}{R_3+R_1//R_5})](1+\frac{R_2}{R_4})-V_{y_{ref}}(\frac{R_2}{R_4})
+		$
+	}
+\end{equation*}
+
+
+Se desea que la salida sea de la forma:
+
+\begin{equation*} 
+	Ve_{ext}= 2.5\:V + V_{estim} + F*V_{ref}
+\end{equation*}
+
+Por lo tanto, se obtienen las siguientes expresiones de diseño:
+
+
+\begin{equation} \label{eq_relacion1}
+	\frac{R_3//R_5}{R_1+R_3//R_5}*(1+\frac{R_2}{R_4})=1
+\end{equation}
+
+\begin{equation} \label{eq_relacion2}
+	\frac{R_1//R_5}{R_3+R_1//R_5}*(1+\frac{R_2}{R_4})=1
+\end{equation}
+
+\begin{equation} \label{eq_relacion3} 
+	\frac{R_2}{R_4}=\abs{F}=1.015
+\end{equation}
+
+Por lo tanto, al igualar la expresión \ref{eq_relacion1} y \ref{eq_relacion2}, y reemplazar con \ref{eq_relacion3}, se obtiene:
+
+\begin{equation*} 
+	R_1 = R_3
+\end{equation*}
+
+\begin{equation*} 
+	R_6=\frac{R_1*R_3}{R_1*1.015-R_3}
+\end{equation*}
+
+Se elije $R_1=R_3=1\:k\Omega$, resultando en $R_6=66.7\:k\Omega$.
+
+Para obtener el valor de $F=1.015$ a partir del cociente entre  $R_2$  y $R_4$, se utilizan resistencias de $1015\:\Omega$ y $1000\:\Omega$, respectivamente. Estas deben ser de alta precisión...\colorbox{red}{ver como terminamos esto}
+
+\subsection{Implementación circuital del integrador}
+
+Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) se utiliza un circuito basado en un amplificador operacional. Este tiene una red de realimentación RC para que su transferencia de lazo cerrado tenga el polo del compensador. Como se utiliza un amplificador operacional con alimentación simple de $5\:V$, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto se desea implementar la función:
+
+\begin{equation}
+	V_{ref_c}=2.5\:V+V_{e_{ext}}*\frac{K_{int}}{1+\frac{s}{p_{int}}}
+\end{equation}
+
+\noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología y los valores utilizados en cada componente para el diseño del circuito integrador.
+
+\colorbox{red}{podríamos poner la transferencia genérica y calcular los componentes...} 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{Circuito-integrador.png}
+	\caption{Implementación circuital del integrador.}
+	\label{fig:circuito-integrador}
+\end{figure}
+
+A continuación se plantea cómo está formada la salida del circuito con respecto a cada una de sus entradas. Para simplificar la escritura de las ecuaciones se define $X_{300}$ como la relación entre el paralelo de $R_{300}$ y la reactancia de $C_{300}$ y $\tau 0 = R_{300}*C_{300}$:
+
+\begin{equation}
+	X_{300} = R_{300} // \frac{1}{s*C_{300}} = \frac{R_{300}}{1+s*\tau 0}
+\end{equation}
+
+La salida del circuito de la figura está dada por:
+
+\begin{equation} \label{eq_salida_integrador}
+	V_{ref_c}=2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{X_{300}}{R_{305}})-V_{e_{ext}}*\frac{X_{300}}{R_{305}}
+\end{equation}
+
+Si se considera que la tensión de $2.5\:V$ en la entrada no inversora es continua, se puede considerar que el término de $X_{300}$ es constante con valor $R_{300}$. Por lo tanto se puede reescribir la ecuación \ref{eq_salida_integrador} como:
+
+\begin{equation} \label{eq_salida_integrador_2}
+	V_{ref_c}=2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})-V_{e_{ext}}*\frac{R_{300}}{R_{305}}*\frac{1}{1+s*\tau 0}
+\end{equation}
+
+De \ref{eq_salida_integrador_2} se pueden plantear tres ecuaciones de diseño:
+
+\begin{equation} \label{eq_polo_integrador}
+	\frac{1}{1+s*\tau 0}=\frac{1}{1+\frac{s}{p_{int}}}
+\end{equation}
+
+\begin{equation} \label{eq_ganancia_integrador}
+	\frac{R_{300}}{R_{305}}=50
+\end{equation}
+
+
+\begin{equation} \label{eq_ganancia_vop_integrador}
+	2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})=2.5\:V
+\end{equation}
+
+Se comienza con el diseño del polo del circuito utilizando la ecuación \ref{eq_polo_integrador}. Se obtiene:
+
+\begin{equation}
+	R_{300}*C_{300}=\frac{1}{0.1r/s}
+\end{equation}
+
+Se elige el valor del componente $C_{300}=22\:\mu F$, lo que resulta en $R_{300}=454.5k\:\Omega$, que se aproxima al valor comercial mas cercano $R_{300}=459\:k\Omega$.
+
+Luego se resuelve la ecuación \ref{eq_ganancia_integrador} para obtener el valor de $R_{305}=9.18\:k\Omega$, que se aproxima al valor comercial $R_{305}=9.2\:k\Omega$.
+
+Finalmente se resuelve la ecuación \ref{eq_ganancia_vop_integrador} para obtener la relación $R_{307}=50*R_{311}$. Por lo tanto se elige $R_{311}=9.2\:k\Omega$ y se obtiene $R_{307}=459\:k\Omega$.
+
+
+Con este circuito se obtiene la función transferencia del compensador, sin considerar el punto de operación:
+
+\begin{equation} \label{eq_gexterno_circuito}
+	G_{ext_{circuito}}=-\frac{50}{1+\frac{s}{0.1r/s}}
+\end{equation}
+
+Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado, por lo tanto debe cancelarse este signo en una etapa siguiente.
+
+\subsection{Etapa sumador lazo interno}
+
+\colorbox{red}{acavendría el sumador del lazo interno}
 
 \subsection{Implementación circuital de la red de adelanto de fase}
 
@@ -659,134 +813,4 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 	\label{fig:ganancia-compensador}
 \end{figure}
 
-\subsection{Implementación circuital del integrador}
 
-Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) se utiliza un circuito basado en un amplificador operacional. Este tiene una red de realimentación RC para que su transferencia de lazo cerrado tenga el polo del compensador. Como se utiliza un amplificador operacional con alimentación simple de $5\:V$, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto se desea implementar la función:
-
-\begin{equation}
-	V_{ref_c}=2.5\:V+V_{e_{ext}}*K_{int}*\frac{1}{1+\frac{s}{p_{int}}}
-\end{equation}
- 
-\noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología y los valores utilizados en cada componente para el diseño del circuito integrador.
-
-\colorbox{red}{podríamos poner la transferencia genérica y calcular los componentes...} 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Circuito-integrador.png}
-	\caption{Implementación circuital del integrador.}
-	\label{fig:circuito-integrador}
-	\end{figure}
-
-A continuación se plantea cómo está formada la salida del circuito con respecto a cada una de sus entradas. Para simplificar la escritura de las ecuaciones se define $X_{300}$ como la relación entre el paralelo de $R_{300}$ y la reactancia de $C_{300}$ y $\tau 0 = R_{300}*C_{300}$:
-
-\begin{equation}
-	X_{300} = R_{300} // \frac{1}{s*C_{300}} = \frac{R_{300}}{1+s*\tau 0}
-\end{equation}
-
-La salida del circuito de la figura está dada por:
-
-\begin{equation} \label{eq_salida_integrador}
-	V_{ref_c}=2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{X_{300}}{R_{305}})-V_{e_{ext}}*\frac{X_{300}}{R_{305}}
-\end{equation}
-
-Si se considera que la tensión de $2.5\:V$ en la entrada no inversora es continua, se puede considerar que el término de $X_{300}$ es constante con valor $R_{300}$. Por lo tanto se puede reescribir la ecuación \ref{eq_salida_integrador} como:
-
-\begin{equation} \label{eq_salida_integrador_2}
-	V_{ref_c}=2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})-V_{e_{ext}}*\frac{R_{300}}{R_{305}}*\frac{1}{1+s*\tau 0}
-\end{equation}
-
-De \ref{eq_salida_integrador_2} se pueden plantear tres ecuaciones de diseño:
-
-\begin{equation}
-	\frac{R_{300}}{R_{305}}=50
-\end{equation}
-
-\begin{equation}
-	\frac{1}{1+s*\tau 0}=\frac{1}{1+s*p_{int}}
-\end{equation}
-
-\begin{equation}
-	2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})=2.5\:V
-\end{equation}
-
-\colorbox{red}{por ahora no terminé}
-
-	
-
-
-\subsection{Implementación circuital de la ganancia de entrada y sumador}
-
-
-\noindent Para poder modificar la distancia de separación se ingresa al sistema con una tensión variable, la cual corresponde a una posición de referencia. Para ello se utiliza el circuito mostrado en la figura \ref{fig:etapa-de-entrada}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.8]{Etapa-de-entrada.png}
-	\caption{ Etapa de entrada.}
-	\label{fig:etapa-de-entrada}
-\end{figure}
-
- 
-Se utiliza una resistencia variable de $1\:k\Omega$ y dos con valores fijos. Para poder excursionar la tensión de referencia entre $3.92\:V$ y $4.7\:V$, los valores de las resistencias $R_1$ y $R_3$ deben ser de $4911\:\Omega$ y $313.5\:\Omega$ respectivamente. 
-
-Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:\Omega$ y en $R_3 = 4990 \:\Omega$.
-
-De esta forma, el valor de tensión máximo para la referencia de posición queda en $4.69\:V$ y el mínimo en $3.96\:V$.
- 
-Luego, la etapa del sumador se muestra en la figura \ref{fig:etapa-de-entrada-sumador}.
-
-\colorbox{red}{desarrollar mas eso y aclarar lo de la ganancia F}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Etapa-de-entrada-sumador.png}
-	\caption{Circuito sumador.}
-	\label{fig:etapa-de-entrada-sumador}
-\end{figure}
-
-
-\begin{equation*}
-	\resizebox{.99\hsize}{!}
-	{
-		$
-		Ve_{ext}= [2.5\:V (\frac{R_3//R_5}{R_1+R_3//R_5})+V_{estim}(\frac{R_1//R_5}{R_3+R_1//R_5})](1+\frac{R_2}{R_4})-V_{y_{ref}}(\frac{R_2}{R_4})
-		$
-	}
-\end{equation*}
-
-
-Se desea que la salida sea de la forma:
-
-\begin{equation*} 
-	Ve_{ext}= 2.5\:V + V_{estim} + F*V_{ref}
-\end{equation*}
-
-Por lo tanto, se obtienen las siguientes expresiones de diseño:
-
-
-\begin{equation} \label{eq_relacion1}
-	\frac{R_3//R_5}{R_1+R_3//R_5}*(1+\frac{R_2}{R_4})=1
-\end{equation}
-
-\begin{equation} \label{eq_relacion2}
-	\frac{R_1//R_5}{R_3+R_1//R_5}*(1+\frac{R_2}{R_4})=1
-\end{equation}
-
-\begin{equation} \label{eq_relacion3} 
-	\frac{R_2}{R_4}=\abs{F}=1.015
-\end{equation}
-
-Por lo tanto, al igualar la expresión \ref{eq_relacion1} y \ref{eq_relacion2}, y reemplazar con \ref{eq_relacion3}, se obtiene:
-
-\begin{equation*} 
-	R_1 = R_3
-\end{equation*}
-
-\begin{equation*} 
-	R_6=\frac{R_1*R_3}{R_1*1.015-R_3}
-\end{equation*}
-
-Se elije $R_1=R_3=1\:k\Omega$, resultando en $R_6=66.7\:k\Omega$.
-
-Para obtener el valor de $F=1.015$ a partir del cociente entre  $R_2$  y $R_4$, se utilizan resistencias de $1015\:\Omega$ y $1000\:\Omega$, respectivamente. Estas deben ser de alta precisión...\colorbox{red}{ver como terminamos esto}

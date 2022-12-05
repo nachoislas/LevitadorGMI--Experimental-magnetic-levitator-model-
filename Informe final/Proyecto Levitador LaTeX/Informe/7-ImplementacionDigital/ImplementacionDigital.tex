@@ -66,7 +66,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \end{table}
 
 
-\noindent Para la estimación de la posición es necesario medir la pendiente de la onda triangular. Por lo tanto, para reconstruir su forma de onda es necesario que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5º armónica para el caso de la mayor frecuencia. Por lo tanto, se adopta 2.5 veces. Es decir:
+\noindent Para la estimación de la posición es necesario medir la pendiente de la onda triangular. Por lo tanto, para reconstruir su forma de onda es necesario que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5° armónica para el caso de la mayor frecuencia. Por lo tanto, se adopta 2.5 veces. Es decir:
 
 \begin{equation} 
 	F_S \geq 2.5 * 5 * f_{max} \Rightarrow  F_S \geq 2.5 * 5 * 1666 Hz \Rightarrow F_S \geq 20825 Hz
@@ -443,30 +443,30 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
  
 
 
-\noindent En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T(w)*G_C(w)$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $64\:dB$ hasta $88.6\:dB$. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $64\:dB$ y la m\'{a}xima es de $88.6\:dB - 14\:dB = 74.6\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=68.4\:dB\ \equiv \ 2630\:veces$.
+\noindent En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T(w)*G_c(w)$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $64\:dB$ hasta $88.6\:dB$. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $64\:dB$ y la m\'{a}xima es de $88.6\:dB - 14\:dB = 74.6\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=68.4\:dB\ \equiv \ 2630\:veces$.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Bode-compensado-para-k-1.png}
-	\caption{Diagrama de Bode de $GH_T(w)*G_C(w)$ para $K=1$ y $M=30\:kg$.}
+	\caption{Diagrama de Bode de $GH_T(w)*G_c(w)$ para $K=1$ y $M=30\:kg$.}
 	\label{fig:bode-compensado-para-k-1}
 \end{figure}
 
 
-\noindent En la figura \ref{fig:bode-compensado-para-k-2630} se muestra el diagrama de Bode considerando la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad puesto que en el primer cruce por 0º la magnitud es mayor a $0\:dB$ y, en el segundo cruce, menor. Adem\'{a}s, en la figura \ref{fig:nyquist-para-k-2630} se puede ver que la forma del diagrama de Nyquist es como la deseada.
+\noindent En la figura \ref{fig:bode-compensado-para-k-2630} se muestra el diagrama de Bode considerando la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad puesto que en el primer cruce por 0° la magnitud es mayor a $0\:dB$ y, en el segundo cruce, menor. Adem\'{a}s, en la figura \ref{fig:nyquist-para-k-2630} se puede ver que la forma del diagrama de Nyquist es como la deseada.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.75]{Bode-compensado-para-k-2630.png}
-	\caption{Diagrama de Bode de $GH_T(w)*G_C(w)$ para $K=2630$ y $M=30\:kg$.}
+	\caption{Diagrama de Bode de $GH_T(w)*G_c(w)$ para $K=2630$ y $M=30\:kg$.}
 	\label{fig:bode-compensado-para-k-2630}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.55]{Nyquist-para-k-2630.png}
-	\caption{Diagrama de Nyquist de $GH_T(w)*G_C(w)$ para $K=2630$ y $M=30\:kg$.}
+	\caption{Diagrama de Nyquist de $GH_T(w)*G_c(w)$ para $K=2630$ y $M=30\:kg$.}
 	\label{fig:nyquist-para-k-2630}
 \end{figure}
 
@@ -488,14 +488,14 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.85]{Bode-para-M-1Kg.png}
-	\caption{Diagrama de Bode de $GH_T(w)*G_C(w)$ para $M=1\:kg$.}
+	\caption{Diagrama de Bode de $GH_T(w)*G_c(w)$ para $M=1\:kg$.}
 	\label{fig:bode-para-M-1Kg}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Nyquist-para-M-1Kg.png}
-	\caption{Diagrama de Nyquist de $GH_T(w)*G_C(w)$ para $M=1\:kg$.}
+	\caption{Diagrama de Nyquist de $GH_T(w)*G_c(w)$ para $M=1\:kg$.}
 	\label{fig:nyquist-para-M-1Kg}
 \end{figure}
 

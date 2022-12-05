@@ -428,7 +428,7 @@ Al observar la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} es posi
 
 Si bien para estas simulaciones se consideró que $F=-1$, a continuación se realiza el análisis para darle un valor mas apropiado.
 
-\section{Cálculo de ganancia de entrada F}
+\section{Cálculo de ganancia de entrada F} \label{sec_calculo_F}
 
 Para que la tensión de referencia de posición $V_{y_{ref}}$ se corresponda con el valor deseado de distancia de entrehierro $Y_g$ se utiliza el bloque nombrado F en la figura \ref{fig:diag-externo_real_positiva}. 
 
@@ -456,7 +456,9 @@ Por lo tanto se utilizan los mismos valores de $V_{estim}$ para la tensión de e
 	\end{center}
 \end{table}
 
-Debido a que en la compensación del lazo externo se utiliza un integrador no ideal, se producirá error en la posición de salida $Y_g$ con respecto a la tensión de referencia  $V_{y_{ref}}$ en régimen permanente. Sin embargo, es posible elegir un valor de F para que este error sea nulo para un determinado valor de tensión de entrada. Por lo tanto, se decide eliminar el error para una posición de salida de $4\:mm$.
+Debido a que en la compensación del lazo externo se utiliza un controlador con un polo en baja frecuencia, que si bien se aproxima como un integrador para la planta, no genera un error nulo en régimen permanente. Por lo tanto, se producirá una diferencia en la posición de salida $Y_g$ con respecto a la deseada según la tensión de referencia  $V_{y_{ref}}$. 
+
+Para lograr que no haya diferencia entre la posición de salida y la deseada se debe elegir un valor de ganancia adecuado para el bloque F. Su correcta elección permite que este error sea nulo para un determinado valor de tensión de referencia de posición en la entrada. Por lo tanto, se decide diseñar el bloque F para eliminar el error para una posición de salida $Y_g=4\:mm$.
 
 Para calcular el valor de F adecuado se debe obtener el valor en régimen permanente de la señal $V_{e_{ext}}$ mostrada en el diagrama de la figura \ref{fig:lugar-de-raices-con-integrador-analog}. Este puede ser calculado como:
 
@@ -489,7 +491,17 @@ Al despejar el valor de F se obtiene:
 \end{equation}
 
 
-En la tabla \ref{tension-ref-vs-separacion-real} se muestra el valor de salida $Y_{g_{real}}$ obtenido para cada valor de $V_{y_{ref}}$ en la entrada. Estos valores fueron calculados utilizando el software MATLAB para conservar la precisión.
+En la tabla \ref{tension-ref-vs-separacion-real} se muestra el valor de salida $Y_{g_{real}}$ obtenido para cada valor de $V_{y_{ref}}$ en la entrada. Estos valores fueron calculados utilizando el software MATLAB para no perder precisión en las cifras decimales.
+
+Los valores de $V_{estim}$ y $Y_{g_{real}}$ fueron calculados como:
+
+\begin{equation}
+	V_{estim}=V_{y_{ref}}*F*(\frac{1}{1-k_p}-1)
+\end{equation}
+
+\begin{equation}
+	Y_{g_{real}}=\frac{V_{estim}-3.4\:V}{H{estim}(s=0)}
+\end{equation}
 
 \begin{table}[H]
 	\begin{center}
@@ -506,15 +518,8 @@ En la tabla \ref{tension-ref-vs-separacion-real} se muestra el valor de salida $
 	\end{center}
 \end{table}
 
-Los valores de $V_{estim}$ y $Y_{g_{real}}$ fueron calculados como:
+De la tabla \ref{tension-ref-vs-separacion-real} se puede ver que los valores de distancia de entrehierro real tienen una diferencia menor al $1\%$ del valor deseado.´
 
-\begin{equation}
-	V_{estim}=V_{y_{ref}}*F*(\frac{1}{1-k_p}-1)
-\end{equation}
-
-\begin{equation}
-	Y_{g_{real}}=\frac{V_{estim}-3.4\:V}{H{estim}(s=0)}
-\end{equation}
 
 
 %La realimentación tiene un punto de operación de $3.4\:V$. Por lo tanto, se le suma a $V_{y_{ref}}$ el mismo valor.
@@ -537,13 +542,22 @@ $
 \end{equation*}
 
 \colorbox{red}{poner un nuevo diagrama en bloques de todo el sistema completo}
+
+A continuación se muestra el diagrama en bloques de la estrategia de control considerando las modificaciones realizadas en el signo de la realimentación.
+
+\begin{figure}[H]
+	\centering
+	\scalebox{0.8}{\input{tikz/diagrama_general_final.tex}}
+	\caption{Diagrama en bloques de estrategia de compensación finalizado.}	\label{fig:diag-en-bloques-comp_final}
+\end{figure}
+
 \section{Implementación circuital}
 
-En esta sección se aborda el diseño circuital de la etapa de compensación planteada en el diagrama \ref{fig:diag-en-bloques-comp}. Se realiza el diseño en orden desde la entrada $V_{y_{ref}}$ hasta llegar al compensador del lazo interno.
+En esta sección se aborda el diseño circuital de la etapa de compensación planteada en el diagrama \ref{fig:diag-en-bloques-comp_final}. Se realiza el diseño en orden desde la entrada $V_{y_{ref}}$ hasta llegar al compensador del lazo interno.
 
 \subsection{Generación de tensión de referencia de posición}
 
-\noindent Para poder modificar la distancia de separación se ingresa al sistema con una tensión variable, la cual corresponde a una posición de referencia. Para ello se utiliza el circuito mostrado en la figura \ref{fig:etapa-de-entrada}.
+\noindent Para poder modificar la distancia de separación se ingresa al sistema con una tensión variable $V_{y_{ref}}$, que se corresponde acon una posición de referencia. En el circuito esta tensión es generada por un potenciómetro, que puede ser modificado por el usuario. Para generarla se utiliza el circuito mostrado en la figura \ref{fig:etapa-de-entrada}.
 
 \begin{figure}[H]
 	\centering
@@ -560,7 +574,21 @@ Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:
 De esta forma, el valor de tensión máximo para la referencia de posición queda en $4.69\:V$ y el mínimo en $3.96\:V$.
 
 \subsection{Implementación circuital de la ganancia de entrada y sumador}
-\colorbox{red}{hacer breve intro}
+\colorbox{red}{hacer breve intro} 
+
+Luego de la etapa de generación de $V_{y_{ref}}$ se encuentra la etapa que la multiplica por el bloque F y realiza la suma con la señal realimentada $V_{estim}$. Este circuito estará implementado a partir de la utilización de amplificadores operacionales alimentados con fuente simple de $5\:V$, al igual que en el resto de las etapas. Es por ello que se debe tener la consideración de que la salida de esta etapa tenga un punto de operación de $2.5\:V$. Por lo tanto el circuito debe implementar la función:
+
+\begin{equation*} 
+	Ve_{ext}= 2.5\:V + V_{estim} + F*V_{y_{ref}}
+\end{equation*}
+
+Como se diseñó en la sección \ref{sec_calculo_F}, el valor de F es negativo. Por lo tanto se puede implementar la función:
+
+\begin{equation*} 
+	Ve_{ext}= 2.5\:V + V_{estim} - \abs{F}*V_{y_{ref}}
+\end{equation*}
+
+Para lograrlo se utiliza la topología circuital mostrada en la figura \ref{fig:etapa-de-entrada-sumador}.
 
 \begin{figure}[H]
 	\centering
@@ -568,7 +596,9 @@ De esta forma, el valor de tensión máximo para la referencia de posición qued
 	\caption{Circuito sumador.}
 	\label{fig:etapa-de-entrada-sumador}
 \end{figure}
+\colorbox{red}{convendrá poner el seguidor en la etapa de generación de Vyref?? sino ya fue}
 
+Se utiliza un amplificador operacional en modo seguidor de la señal $V_{r_{ref}}$ para evitar generar una carga sobre el potenciómetro. Luego, esta señal ingresa a la entrada inversora del amplificador operacional ya que se sabe que $F<0$, lo que e
 
 \begin{equation*}
 	\resizebox{.99\hsize}{!}
@@ -579,12 +609,6 @@ De esta forma, el valor de tensión máximo para la referencia de posición qued
 	}
 \end{equation*}
 
-
-Se desea que la salida sea de la forma:
-
-\begin{equation*} 
-	Ve_{ext}= 2.5\:V + V_{estim} + F*V_{ref}
-\end{equation*}
 
 Por lo tanto, se obtienen las siguientes expresiones de diseño:
 

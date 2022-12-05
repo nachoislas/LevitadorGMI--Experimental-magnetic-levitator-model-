@@ -175,6 +175,7 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 
 \begin{equation}  
 	G_c(s)=K*{[20.346*\frac{(s+44.3)}{(s+902.1)}]}^2
+	\label{eq:transferencia-del-compensador}
 \end{equation} 
 
 \noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_c$ con $K=1$. Se puede observar que se logró aumentar la fase de la manera deseada. Para finalizar el diseño del compensador se debe elegir un valor apropiado para la ganancia $K$.
@@ -577,13 +578,13 @@ De esta forma, el valor de tensión máximo para la referencia de posición qued
 \subsection{Implementación circuital de la ganancia de entrada y sumador}
 \colorbox{red}{hacer breve intro} 
 
-Luego de la etapa de generación de $V_{y_{ref}}$ se encuentra la etapa que la multiplica por el bloque F y realiza la suma con la señal realimentada $V_{estim}$. Este circuito estará implementado a partir de la utilización de amplificadores operacionales alimentados con fuente simple de $5\:V$, al igual que en el resto de las etapas. Es por ello que se debe tener la consideración de que la salida de esta etapa tenga un punto de operación de $2.5\:V$. Por lo tanto el circuito debe implementar la función:
+Luego de la etapa de generación de $V_{y_{ref}}$ se encuentra una etapa de ganancia representada por bloque F y luego se realiza la suma con la señal realimentada $V_{estim}$. Este circuito estará implementado a partir de la utilización de amplificadores operacionales alimentados con fuente simple de $5\:V$, al igual que en el resto de las etapas. Es por ello que se debe tener la consideración de que la salida de esta etapa tenga un punto de operación de $2.5\:V$. Por lo tanto el circuito debe implementar la función:
 
 \begin{equation*} 
 	Ve_{ext}= 2.5\:V + V_{estim} + F*V_{y_{ref}}
 \end{equation*}
 
-Como se diseñó en la sección \ref{sec_calculo_F}, el valor de F es negativo. Por lo tanto se puede implementar la función:
+Como se diseñó en la sección \ref{sec_calculo_F}, el valor de F es negativo. Por lo tanto se puede reescribir la función como:
 
 \begin{equation*} 
 	Ve_{ext}= 2.5\:V + V_{estim} - \abs{F}*V_{y_{ref}}
@@ -778,13 +779,13 @@ Para realizar el análisis se debe obtener los bloques de avance ($A_w$) y reali
 
 
 \begin{equation} 
-	H = \frac{V_d}{V_af_{out}}=\frac{V^- - V^-}{Vaf_{out}}
+	H = \frac{V_d}{V_af_{out}}=\frac{V^+ - V^-}{Vaf_{out}}
+	\label{eq:h_del_compensador}
 \end{equation} 
 
-\colorbox{red}{sería $V^+-V^-$?}
-
 \begin{equation} 
-	G^- = \frac{V_d}{Vaf_{in}}=\frac{V^- - V^-}{Vaf_{in}}
+	G^- = \frac{V_d}{Vaf_{in}}=\frac{V^+ - V^-}{Vaf_{in}}
+	\label{eq:G_del_compensador}
 \end{equation}
 
 \colorbox{red}{sería $V^+-V^-$?  y $G^-$ se define como negativo?}
@@ -796,7 +797,7 @@ Para realizar el análisis se debe obtener los bloques de avance ($A_w$) y reali
 	\label{fig:diag-diagrama_lazo_compensador}
 \end{figure}
 
-Para obtener estas ecuaciones se realiza la un thevening en el nodo XD mostrado en la figura obteniéndose su $V_{th}$ y $R_{th}$.
+Para obtener estas ecuaciones se realiza la un thevening en el nodo $V_{th}$ mostrado en la figura \ref{fig:red-adelanto-fase} obteniéndose su $V_{th}$ y $R_{th}$.
 
 \begin{equation} 
 	V_{th} = Vaf_{in}= \frac{SC_xR_x+1}{SC_x[R_1+R_x]+1}
@@ -808,7 +809,7 @@ Para obtener estas ecuaciones se realiza la un thevening en el nodo XD mostrado 
 
 \colorbox{red}{aca se puede acer un dibujito de como queda el circuito con el thevening y la realimentacion}
 
-Luego se resuelve el circuito obteniendo las transferencias mostradas en las eq X1 y X2.
+Luego se resuelve el circuito obteniendo las transferencias mostradas en las ecuaciones \ref{eq:h_del_compensador} y \ref{eq:g_del_compensador}.
 
 Se obtiene:
 
@@ -830,7 +831,7 @@ Si se toma en consideración que $Ra>>R_{th}$ estas ecuaciones se pueden reducir
 	G^- =- \frac{R_a}{R_a + R_b}
 \end{equation} 
   
-Si se diseña el bloque $H$ de forma tal de que $A_w>>1/H$ sea mayor en la banda de interés se puede aproximar la salida a $1/H$. De esta forma  asignando los polos y la ganancia de la ecuación XD (eq del compensador) se obtiene que:
+Si se diseña el bloque $H$ de forma tal de que $A_w>>1/H$ sea mayor en la banda de interés se puede aproximar la salida a $1/H$. De esta forma  asignando los polos y la ganancia de la ecuación \ref{eq:transferencia-del-compensador} se obtiene que:
 
 \begin{equation} 
 	\frac{R_b}{R_a+R_b}= 1 
@@ -866,13 +867,7 @@ Considerando el punto de operación de $2.5V$ en la entrada no inversora se obti
 	Vaf_{out}= 2.5\:V* (1+\frac{R_a}{R_b})- Vaf_{in}*\frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}
 \end{equation}
 
-La transferencia de lazo cerrado de esta etapa sin considerar su punto de operación es:
-
-\begin{equation} 
-	\frac{Vaf_{out}}{Vaf_{in}}= - \frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}
-\end{equation}
-
-\noindent Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. 
+Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. 
 
 
 \subsubsection{Ganancia de compensador interno}

@@ -563,31 +563,30 @@ En esta sección se aborda el diseño circuital de la etapa de compensación pla
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.8]{Etapa-de-entrada.png}
+	\includegraphics[scale=0.7]{Etapa-de-entrada.png}
 	\caption{ Etapa de entrada.}
 	\label{fig:etapa-de-entrada}
 \end{figure}
 
-\colorbox{red}{Agregar Vyref}
-Se utiliza una resistencia variable de $1\:k\Omega$ y dos con valores fijos. Para poder excursionar la tensión de referencia entre $3.92\:V$ y $4.7\:V$, los valores de las resistencias $R_1$ y $R_3$ deben ser de $4911\:\Omega$ y $313.5\:\Omega$ respectivamente. 
+Se utiliza una resistencia variable ($R_2$) de $1\:k\Omega$ y dos con valores fijos ($R_1$ y $R_3$). Para poder excursionar la tensión de referencia entre $3.92\:V$ y $4.7\:V$, los valores de las resistencias $R_1$ y $R_3$ deben ser de $4911\:\Omega$ y $313.5\:\Omega$ respectivamente. 
 
-Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:\Omega$ y en $R_3 = 4990 \:\Omega$.
+Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:\Omega$ y en $R_3 = 4990 \:\Omega$. De esta forma, el valor de tensión máximo para la referencia de posición queda en $4.69\:V$ y el mínimo en $3.96\:V$.
 
-De esta forma, el valor de tensión máximo para la referencia de posición queda en $4.69\:V$ y el mínimo en $3.96\:V$.
+Por otro lado, se utiliza un amplificador operacional en modo seguidor de la señal $V_{r_{ref}}$ para evitar generar una carga sobre el potenciómetro. 
 
 \subsection{Implementación circuital de la ganancia de entrada y sumador}
 
-Luego de la etapa de generación de $V_{y_{ref}}$ se encuentra una etapa de ganancia representada por el bloque F que se muestra en la figura \ref{fig:diag-en-bloques-comp_final} y luego se realiza la suma con la señal realimentada $V_{estim}$. Este circuito estará implementado a partir de la utilización de amplificadores operacionales alimentados con fuente simple de $5\:V$, al igual que en el resto de las etapas. Es por ello que se debe tener la consideración de que la salida de esta etapa tenga un punto de operación de $2.5\:V$. Por lo tanto el circuito debe implementar la función:
+Como se observa en el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_final}, luego de la etapa de generación de $V_{y_{ref}}$ se encuentra una etapa de ganancia, representada por el bloque F, junto con la suma de la señal realimentada $V_{estim}$. Este circuito estará implementado a partir de la utilización de amplificadores operacionales alimentados con fuente simple de $5\:V$, al igual que en el resto de las etapas. Es por ello que se debe tener la consideración de que la salida de esta etapa tenga un punto de operación de $2.5\:V$. Por lo tanto el circuito debe implementar la función:
 
 \begin{equation*} 
 	Ve_{ext}= 2.5\:V + V_{estim} + F*V_{y_{ref}}
 \end{equation*}
 
-Como se diseñó en la sección \ref{sec_calculo_F}, el valor de F es negativo. Por lo tanto se puede reescribir la función como:
+Como se analizó en la sección \ref{sec_calculo_F}, el valor de F es negativo. Por lo tanto, se puede reescribir la función como:
 
-\begin{equation*} 
+\begin{equation} \label{eq_transferencia_veext}
 	Ve_{ext}= 2.5\:V + V_{estim} - \abs{F}*V_{y_{ref}}
-\end{equation*}
+\end{equation}
 
 Para lograrlo se utiliza la topología circuital mostrada en la figura \ref{fig:etapa-de-entrada-sumador}.
 
@@ -597,9 +596,8 @@ Para lograrlo se utiliza la topología circuital mostrada en la figura \ref{fig:
 	\caption{Circuito sumador.}
 	\label{fig:etapa-de-entrada-sumador}
 \end{figure}
-\colorbox{red}{convendrá poner el seguidor en la etapa de generación de Vyref?? sino ya fue } Ya fue jeje
 
-Se utiliza un amplificador operacional en modo seguidor de la señal $V_{r_{ref}}$ para evitar generar una carga sobre el potenciómetro. Luego, esta señal ingresa a la entrada inversora del amplificador operacional ya que se sabe que $F<0$, lo que resulta:
+La señal $V_{y_{ref}}$ ingresa a la entrada inversora del amplificador operacional ya que F debe ser menor que cero. Por lo tanto, a la salida del circuito se obtiene:
 
 \begin{equation*}
 	\resizebox{.99\hsize}{!}
@@ -611,7 +609,7 @@ Se utiliza un amplificador operacional en modo seguidor de la señal $V_{r_{ref}
 \end{equation*}
 
 
-Por lo tanto, se obtienen las siguientes expresiones de diseño:
+Por lo tanto, al igualar los coeficientes con la ecuación \ref{eq_transferencia_veext} se obtienen las siguientes expresiones de diseño:
 
 
 \begin{equation} \label{eq_relacion1}
@@ -626,7 +624,7 @@ Por lo tanto, se obtienen las siguientes expresiones de diseño:
 	\frac{R_2}{R_4}=\abs{F}=1.015
 \end{equation}
 
-Por lo tanto, al igualar la expresión \ref{eq_relacion1} y \ref{eq_relacion2}, y reemplazar con \ref{eq_relacion3}, se obtiene:
+Al igualar la expresión \ref{eq_relacion1} y \ref{eq_relacion2}, y reemplazar con \ref{eq_relacion3}, se obtiene:
 
 \begin{equation*} 
 	R_1 = R_3
@@ -690,7 +688,7 @@ De \ref{eq_salida_integrador_2} se plantean tres ecuaciones de diseño:
 	2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})=2.5\:V
 \end{equation}
 
-Se comienza con el diseño del polo del circuito utilizando la ecuación \ref{eq_polo_integrador}. Se obtiene:
+Se comienza con el diseño del polo del circuito utilizando la ecuación \ref{eq_polo_integrador} y se obtiene:
 
 \begin{equation}
 	R_{300}*C_{300}=\frac{1}{0.1r/s}
@@ -709,21 +707,22 @@ Con este circuito se obtiene la función transferencia del compensador, sin cons
 	G_{ext_{circuito}}=-\frac{50}{1+\frac{s}{0.1r/s}}
 \end{equation}
 
-Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado, por lo tanto debe cancelarse este signo en una etapa siguiente.
+Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado,. Por lo tanto, debe cancelarse este signo en la siguiente etapa, que corresponde al sumador del lazo de realimentación interno.
+
+
+\colorbox{red}{No haría falta agregar el bode del integrador?}
 
 \subsection{Etapa sumador lazo interno}
 
 Una vez obtenida la salida del compensador externo, esta ingresa a un sumador con la señal de realimentación, para que luego el resultado ingrese al lazo de control interno.
 
-En el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_final} esta señal ingresa al sumador con signo positivo. Sin embargo, en la etapa anterior se generó una inversión de signo que no estaba contemplada en el diagrama en bloques. Es por ello que se decide utilizar esta etapa de sumador para cancelar esta inversión de signo. La función que se debe implementar es:
+En el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_final} esta señal ingresa al sumador con signo positivo. Sin embargo, en la etapa anterior se generó una inversión de signo que no estaba contemplada en el diagrama en bloques. Es por ello que se decide utilizar esta etapa de sumador para cancelar dicha inversión. Además, debido a que se utiliza un amplificador operacional alimentado con fuente simple, también se agrega el punto de operación de $2.5\:V$ en la salida. Por lo tanto, la función que se debe implementar es:
 
 \begin{equation}
-	Ve_{int}=V_{estim}-V_{ref_c}
+	Ve_{int}=2.5\:V+V_{estim}-V_{ref_c}
 \end{equation}
 
-\colorbox{red}{cambiar vref por vrefc}
-
-El circuito utilizado para implementar la función se muestra en la figura \ref{fig:circuito-sumador-lazo-interno}. Debido a que se utiliza un circuito con amplificador operacional alimentado con fuente simple, también se agrega el punto de operación de $2.5\:V$ en la salida.
+El circuito utilizado para implementar la función se muestra en la figura \ref{fig:circuito-sumador-lazo-interno}. 
 
 \begin{figure}[H]
 	\centering
@@ -738,7 +737,7 @@ Para que este circuito genere correctamente la función deseada, se analiza su s
 	Ve_{int}=2.5\:V*\frac{R_{304}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})+V_{estim}*\frac{R_{302}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})-V_{ref_c}*\frac{R_{308}}{R_{306}}
 \end{equation*}
 
-Se pueden plantear las siguientes ecuaciones de diseño:
+Al igualar los coeficientes con la ecuación \ref{fig:circuito-sumador-lazo-interno} se pueden plantear las siguientes ecuaciones de diseño:
 
 \begin{equation}
 	\frac{R_{308}}{R_{306}}=1
@@ -752,7 +751,7 @@ Se pueden plantear las siguientes ecuaciones de diseño:
 	\frac{R_{302}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})=1
 \end{equation}
 
-De resolver este conjunto de ecuaciones se obtiene el resultado de que todas las resistencias deben tener el mismo valor. Por lo tanto se elige que sean todas de $1\:k\Omega$. \colorbox{red}{era 1k?? verificar}
+Al resolver este conjunto de ecuaciones se obtiene que todas las resistencias deben tener el mismo valor. Por lo tanto, se elige que todas sean de $1\:k\Omega$. \colorbox{red}{era 1k?? verificar}
 
 \subsection{Compensador interno}
 \colorbox{red}{capazz podríamos plantear el diseño de este compensador como compuesto por dos etapas de  adelanto y una ganancia. entonces diseñamos primero la de adelanto, después la ganancia y finalmente ponemos el circuito de todo junto}
@@ -762,7 +761,7 @@ A continuación se realiza el diseño de cada una de las etapas internas por sep
 
 \subsubsection{Implementación circuital de la red de adelanto de fase}
 
-Para cada red de adelanto de fase se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en \ref{eq_tf_adelanto}. A continuación se hace un análisis de este circuito y la elección de los componentes. 
+Para cada red de adelanto de fase se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en \ref{eq_tf_adelanto}. A continuación se analiza el circuito propuesto y se determinan los valores de los componentes. 
 %Consiste en  un polo y un cero con ganancia unitaria (si $R_a = R_b$). Luego, se agrega la ganancia como una etapa separada.
 
 \begin{figure}[H]
@@ -793,6 +792,7 @@ Para realizar el análisis se debe obtener los bloques de avance ($A_w$) y reali
 	\caption{Diagrama en bloques interno del lazo del compensador.}	
 	\label{fig:diag-diagrama_lazo_compensador}
 \end{figure}
+\colorbox{red}{Ver si se puede distribuir mejor los bloques en el diagrama}
 
 Para obtener estas ecuaciones se realiza la un thevening en el nodo $V_{th}$ mostrado en la figura \ref{fig:red-adelanto-fase} obteniéndose su $V_{th}$ y $R_{th}$.
 

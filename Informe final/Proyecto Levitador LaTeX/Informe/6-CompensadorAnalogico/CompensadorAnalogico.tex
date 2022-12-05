@@ -427,6 +427,7 @@ Al observar la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} es posi
 \end{figure}
 
 Si bien para estas simulaciones se consideró que $F=-1$, a continuación se realiza el análisis para darle un valor mas apropiado.
+\colorbox{red}{Mejorar el parrafito de arriba}
 
 \section{Cálculo de ganancia de entrada F} \label{sec_calculo_F}
 
@@ -439,7 +440,7 @@ Como se vio en la sección \ref{seccopn-estim-completo} la salida del estimador 
 \end{equation}
 
 
-Por lo tanto se utilizan los mismos valores de $V_{estim}$ para la tensión de entrada $V_{y_{ref}}$. De esta forma, se obtiene la tabla \ref{tension-ref-vs-separacion-deseada}.
+Por lo tanto, se utilizan los mismos valores de $V_{estim}$ para la tensión de entrada $V_{y_{ref}}$. De esta forma, se obtiene la tabla \ref{tension-ref-vs-separacion-deseada}.
 
 \begin{table}[H]
 	\begin{center}
@@ -456,7 +457,7 @@ Por lo tanto se utilizan los mismos valores de $V_{estim}$ para la tensión de e
 	\end{center}
 \end{table}
 
-Debido a que en la compensación del lazo externo se utiliza un controlador con un polo en baja frecuencia, que si bien se aproxima como un integrador para la planta, no genera un error nulo en régimen permanente. Por lo tanto, se producirá una diferencia en la posición de salida $Y_g$ con respecto a la deseada según la tensión de referencia  $V_{y_{ref}}$. 
+En la compensación del lazo externo se utiliza un controlador con un polo en baja frecuencia, que si bien se aproxima como un integrador para la planta, no genera un error nulo en régimen permanente. Por lo tanto, se producirá una diferencia en la posición de salida $Y_g$ con respecto a la deseada según la tensión de referencia  $V_{y_{ref}}$. 
 
 Para lograr que no haya diferencia entre la posición de salida y la deseada se debe elegir un valor de ganancia adecuado para el bloque F. Su correcta elección permite que este error sea nulo para un determinado valor de tensión de referencia de posición en la entrada. Por lo tanto, se decide diseñar el bloque F para eliminar el error para una posición de salida $Y_g=4\:mm$.
 
@@ -518,7 +519,7 @@ Los valores de $V_{estim}$ y $Y_{g_{real}}$ fueron calculados como:
 	\end{center}
 \end{table}
 
-De la tabla \ref{tension-ref-vs-separacion-real} se puede ver que los valores de distancia de entrehierro real tienen una diferencia menor al $1\%$ del valor deseado.´
+De la tabla \ref{tension-ref-vs-separacion-real} se puede ver que los valores de distancia de entrehierro real tienen una diferencia menor al $1\%$ del valor deseado.
 
 
 
@@ -557,7 +558,7 @@ En esta sección se aborda el diseño circuital de la etapa de compensación pla
 
 \subsection{Generación de tensión de referencia de posición}
 
-\noindent Para poder modificar la distancia de separación se ingresa al sistema con una tensión variable $V_{y_{ref}}$, que se corresponde acon una posición de referencia. En el circuito esta tensión es generada por un potenciómetro, que puede ser modificado por el usuario. Para generarla se utiliza el circuito mostrado en la figura \ref{fig:etapa-de-entrada}.
+\noindent Para poder modificar la distancia de separación se ingresa al sistema con una tensión variable $V_{y_{ref}}$, que se corresponde con una posición de referencia. En el circuito, esta tensión es generada por un potenciómetro que puede ser modificado por el usuario. Para generarla se utiliza el circuito mostrado en la figura \ref{fig:etapa-de-entrada}.
 
 \begin{figure}[H]
 	\centering
@@ -598,7 +599,7 @@ Para lograrlo se utiliza la topología circuital mostrada en la figura \ref{fig:
 \end{figure}
 \colorbox{red}{convendrá poner el seguidor en la etapa de generación de Vyref?? sino ya fue}
 
-Se utiliza un amplificador operacional en modo seguidor de la señal $V_{r_{ref}}$ para evitar generar una carga sobre el potenciómetro. Luego, esta señal ingresa a la entrada inversora del amplificador operacional ya que se sabe que $F<0$, lo que e
+Se utiliza un amplificador operacional en modo seguidor de la señal $V_{r_{ref}}$ para evitar generar una carga sobre el potenciómetro. Luego, esta señal ingresa a la entrada inversora del amplificador operacional ya que se sabe que $F<0$, lo que resulta:
 
 \begin{equation*}
 	\resizebox{.99\hsize}{!}
@@ -637,19 +638,17 @@ Por lo tanto, al igualar la expresión \ref{eq_relacion1} y \ref{eq_relacion2}, 
 
 Se elije $R_1=R_3=1\:k\Omega$, resultando en $R_6=66.7\:k\Omega$.
 
-Para obtener el valor de $F=1.015$ a partir del cociente entre  $R_2$  y $R_4$, se utilizan resistencias de $1015\:\Omega$ y $1000\:\Omega$, respectivamente. Estas deben ser de alta precisión...\colorbox{red}{ver como terminamos esto}
+Para obtener el valor de $F=1.015$ a partir del cociente entre  $R_2$  y $R_4$, se utilizan resistencias de $1015\:\Omega$ y $1000\:\Omega$, respectivamente.
 
 \subsection{Implementación circuital del integrador}
 
-Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) se utiliza un circuito basado en un amplificador operacional. Este tiene una red de realimentación RC para que su transferencia de lazo cerrado tenga el polo del compensador. Como se utiliza un amplificador operacional con alimentación simple de $5\:V$, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto se desea implementar la función:
+Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) se utiliza un circuito basado en un amplificador operacional. Este tiene una red de realimentación RC para que su transferencia de lazo cerrado tenga el polo del compensador. Como se utiliza un amplificador operacional con alimentación simple de $5\:V$, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto, se implementa la función:
 
 \begin{equation}
 	V_{ref_c}=2.5\:V+V_{e_{ext}}*\frac{K_{int}}{1+\frac{s}{p_{int}}}
 \end{equation}
 
-\noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología y los valores utilizados en cada componente para el diseño del circuito integrador.
-
-
+\noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología utilizada para el diseño del circuito integrador.
 
 \begin{figure}[H]
 	\centering
@@ -676,7 +675,7 @@ Si se considera que la tensión de $2.5\:V$ en la entrada no inversora es contin
 	V_{ref_c}=2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})-V_{e_{ext}}*\frac{R_{300}}{R_{305}}*\frac{1}{1+s*\tau 0}
 \end{equation}
 
-De \ref{eq_salida_integrador_2} se pueden plantear tres ecuaciones de diseño:
+De \ref{eq_salida_integrador_2} se plantean tres ecuaciones de diseño:
 
 \begin{equation} \label{eq_polo_integrador}
 	\frac{1}{1+s*\tau 0}=\frac{1}{1+\frac{s}{p_{int}}}
@@ -712,11 +711,15 @@ Con este circuito se obtiene la función transferencia del compensador, sin cons
 
 Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado, por lo tanto debe cancelarse este signo en una etapa siguiente.
 
+\colorbox{red}{En que etapa se cancela?}
+
 \subsection{Etapa sumador lazo interno}
 
 \colorbox{red}{acavendría el sumador del lazo interno}
 
 \colorbox{red}{cambiar vref por vrefc}
+
+\colorbox{red}{Acá habría qeu hacer una intro o algo tambien...}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Circuito_sumador_lazo_interno.png}
@@ -726,7 +729,7 @@ Es importante notar que la transferencia del circuito agrega una inversión de s
 
 \subsection{Implementación circuital de la red de adelanto de fase}
 
-Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en (eq del compensador). A continuación se hace un análisis de este circuito y la eleccion de los componentes. 
+Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en (eq del compensador). A continuación se hace un análisis de este circuito y la elección de los componentes. 
 %Consiste en  un polo y un cero con ganancia unitaria (si $R_a = R_b$). Luego, se agrega la ganancia como una etapa separada.
 
 \begin{figure}[H]
@@ -736,7 +739,8 @@ Para cada etapa del compensador por adelanto se utiliza la topología mostrada e
 	\label{fig:red-adelanto-fase}
 \end{figure}
 
-Para realizar el análisis se debe obtener los bloques de avance($A_w$) y realimentación ($H$) mostrados en la figura XD que corresponden a:
+Para realizar el análisis se debe obtener los bloques de avance ($A_w$) y realimentación ($H$) mostrados en la figura XD que corresponden a:
+
 
 \begin{equation} 
 	H = \frac{V_d}{V_af_{out}}=\frac{V^- - V^-}{Vaf_{out}}
@@ -749,7 +753,7 @@ Para realizar el análisis se debe obtener los bloques de avance($A_w$) y realim
 \begin{figure}[H]
 	\centering
 	\input{tikz/diagrama_lazo_compensador.tex}
-	\caption{Diagrama interno en bloques del lazo del bloque del compensador.}	
+	\caption{Diagrama en bloques interno del lazo del compensador.}	
 	\label{fig:diag-diagrama_lazo_compensador}
 \end{figure}
 
@@ -787,7 +791,7 @@ Si se toma en consideración que $Ra>>R_{th}$ estas ecuaciones se pueden reducir
 	G^- =- \frac{R_a}{R_a + R_b}
 \end{equation} 
   
-Si se disnia el bloque $H$ de forma tal de que $A_w>>1/H$ sea mayor en la banda de interés se puede aproximar la salida a $1/H$. De esta forma  asignando los polos y la ganancia de la ecuación XD (eq del compensador) se obtiene que:
+Si se diseña el bloque $H$ de forma tal de que $A_w>>1/H$ sea mayor en la banda de interés se puede aproximar la salida a $1/H$. De esta forma  asignando los polos y la ganancia de la ecuación XD (eq del compensador) se obtiene que:
 
 \begin{equation} 
 	\frac{R_b}{R_a+R_b}= 1 

@@ -18,7 +18,7 @@ minimum height=2.5em, minimum width=3em]
 	% We start by placing the blocks
 	\node [input, name=input] {};
 	\node [buffer, right=of input](F){F};
-	\node [sum, right of=F, node distance=1.5cm] (suma_externa) {+};
+	\node [sum, right of=F, node distance=2cm] (suma_externa) {+};
 	\node [block, right=of suma_externa] (externo) {$G_{ext}$};
 	\node [sum, right=of externo] (suma_interna) {+};
 	\node[block, right=of suma_interna] (interno) {$G_c$};

@@ -351,6 +351,10 @@ El problema de este integrador es que presenta una ganancia infinita en continua
 Sin embargo, es importante tener en cuenta que la ubicación de un polo en baja frecuencia provoca que la cancelación del error en régimen permanente no sea completa.
 
 \colorbox{red}{Ver de verificar el error al escalón mas adelante y referenciarlo a esta parte}
+a
+
+\colorbox{red}{Yo lo del parrafo del error lo pondria al final de la seccion como  una conclusion o algo asi y despues aclararia lo de que vamos a corregir el error con la ganancia F}
+
 %, pero de todas maneras sea pequeña en comparación con la distancia de separación.
 
 %Debido a que no usamos un integrador ideal, la respuesta al escalón presentará un cierto error.
@@ -541,8 +545,6 @@ $
 }
 \end{equation*}
 
-\colorbox{red}{poner un nuevo diagrama en bloques de todo el sistema completo}
-
 A continuación se muestra el diagrama en bloques de la estrategia de control considerando las modificaciones realizadas en el signo de la realimentación.
 
 \begin{figure}[H]
@@ -574,9 +576,8 @@ Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:
 De esta forma, el valor de tensión máximo para la referencia de posición queda en $4.69\:V$ y el mínimo en $3.96\:V$.
 
 \subsection{Implementación circuital de la ganancia de entrada y sumador}
-\colorbox{red}{hacer breve intro} 
 
-Luego de la etapa de generación de $V_{y_{ref}}$ se encuentra una etapa de ganancia representada por bloque F y luego se realiza la suma con la señal realimentada $V_{estim}$. Este circuito estará implementado a partir de la utilización de amplificadores operacionales alimentados con fuente simple de $5\:V$, al igual que en el resto de las etapas. Es por ello que se debe tener la consideración de que la salida de esta etapa tenga un punto de operación de $2.5\:V$. Por lo tanto el circuito debe implementar la función:
+Luego de la etapa de generación de $V_{y_{ref}}$ se encuentra una etapa de ganancia representada por el bloque F que se muestra en la figura \ref{fig:diag-en-bloques-comp_final} y luego se realiza la suma con la señal realimentada $V_{estim}$. Este circuito estará implementado a partir de la utilización de amplificadores operacionales alimentados con fuente simple de $5\:V$, al igual que en el resto de las etapas. Es por ello que se debe tener la consideración de que la salida de esta etapa tenga un punto de operación de $2.5\:V$. Por lo tanto el circuito debe implementar la función:
 
 \begin{equation*} 
 	Ve_{ext}= 2.5\:V + V_{estim} + F*V_{y_{ref}}
@@ -596,7 +597,7 @@ Para lograrlo se utiliza la topología circuital mostrada en la figura \ref{fig:
 	\caption{Circuito sumador.}
 	\label{fig:etapa-de-entrada-sumador}
 \end{figure}
-\colorbox{red}{convendrá poner el seguidor en la etapa de generación de Vyref?? sino ya fue}
+\colorbox{red}{convendrá poner el seguidor en la etapa de generación de Vyref?? sino ya fue } Ya fue jeje
 
 Se utiliza un amplificador operacional en modo seguidor de la señal $V_{r_{ref}}$ para evitar generar una carga sobre el potenciómetro. Luego, esta señal ingresa a la entrada inversora del amplificador operacional ya que se sabe que $F<0$, lo que resulta:
 
@@ -709,8 +710,6 @@ Con este circuito se obtiene la función transferencia del compensador, sin cons
 \end{equation}
 
 Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado, por lo tanto debe cancelarse este signo en una etapa siguiente.
-
-\colorbox{red}{En que etapa se cancela?} justo en la que sigue
 
 \subsection{Etapa sumador lazo interno}
 
@@ -851,7 +850,7 @@ A continuación se realiza el diagrama de bode del bloque $A_w$ y $1/H$.
 	\caption{Lazo de realimentación.}
 	\label{fig:bode_compensador_cadena_avance}
 \end{figure}
- 
+\colorbox{red}{aca no dije nada de la estabilidad capaz se puede decir algo aunque no sume mucho Xd tipo mfase=90 grados q opinan?}
 Como se puede ver el $A_w >> 1/H$ en la banda de interes. Finalmente aproximando la tlc interna a $1/H$ y multiplicando la entrada por el bloque $G^-$ se obtiene una transferencia:
 
 \begin{equation} 

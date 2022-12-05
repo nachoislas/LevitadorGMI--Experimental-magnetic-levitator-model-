@@ -156,7 +156,7 @@ De esta forma, al observar la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} se de
 
 Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$), de manera que el cero se encuentra a una frecuencia menor que el polo, permitiendo un aumento de fase a la frecuencia deseada $W_0$. Su transferencia es la siguiente:
 
-\begin{equation}
+\begin{equation} \label{eq_tf_adelanto}
 	G_{af}(s)=\alpha*\frac{(s + W_c)}{(s + W_p)}
 \end{equation}
 
@@ -711,15 +711,22 @@ Con este circuito se obtiene la función transferencia del compensador, sin cons
 
 Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado, por lo tanto debe cancelarse este signo en una etapa siguiente.
 
-\colorbox{red}{En que etapa se cancela?}
+\colorbox{red}{En que etapa se cancela?} justo en la que sigue
 
 \subsection{Etapa sumador lazo interno}
 
-\colorbox{red}{acavendría el sumador del lazo interno}
+Una vez obtenida la salida del compensador externo, esta ingresa a un sumador con la señal de realimentación, para que luego el resultado ingrese al lazo de control interno.
+
+En el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_final} esta señal ingresa al sumador con signo positivo. Sin embargo, en la etapa anterior se generó una inversión de signo que no estaba contemplada en el diagrama en bloques. Es por ello que se decide utilizar esta etapa de sumador para cancelar esta inversión de signo. La función que se debe implementar es:
+
+\begin{equation}
+	Ve_{int}=V_{estim}-V_{ref_c}
+\end{equation}
 
 \colorbox{red}{cambiar vref por vrefc}
 
-\colorbox{red}{Acá habría qeu hacer una intro o algo tambien...}
+El circuito utilizado para implementar la función se muestra en la figura \ref{fig:circuito-sumador-lazo-interno}. Debido a que se utiliza un circuito con amplificador operacional alimentado con fuente simple, también se agrega el punto de operación de $2.5\:V$ en la salida.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Circuito_sumador_lazo_interno.png}
@@ -727,9 +734,37 @@ Es importante notar que la transferencia del circuito agrega una inversión de s
 	\label{fig:circuito-sumador-lazo-interno}
 \end{figure}
 
-\subsection{Implementación circuital de la red de adelanto de fase}
+Para que este circuito genere correctamente la función deseada, se analiza su salida en función de sus componentes:
 
-Para cada etapa del compensador por adelanto se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en (eq del compensador). A continuación se hace un análisis de este circuito y la elección de los componentes. 
+\begin{equation*}
+	Ve_{int}=2.5\:V*\frac{R_{304}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})+V_{estim}*\frac{R_{302}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})-V_{ref_c}*\frac{R_{308}}{R_{306}}
+\end{equation*}
+
+Se pueden plantear las siguientes ecuaciones de diseño:
+
+\begin{equation}
+	\frac{R_{308}}{R_{306}}=1
+\end{equation}
+
+\begin{equation}
+	\frac{R_{304}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})=1
+\end{equation}
+
+\begin{equation}
+	\frac{R_{302}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})=1
+\end{equation}
+
+De resolver este conjunto de ecuaciones se obtiene el resultado de que todas las resistencias deben tener el mismo valor. Por lo tanto se elige que sean todas de $1\:k\Omega$. \colorbox{red}{era 1k?? verificar}
+
+\subsection{Compensador interno}
+\colorbox{red}{capazz podríamos plantear el diseño de este compensador como compuesto por dos etapas de  adelanto y una ganancia. entonces diseñamos primero la de adelanto, después la ganancia y finalmente ponemos el circuito de todo junto}
+En esta sección se realizará el diseño del compensador del lazo de control interno. Este puede ser dividido en tres etapas internas: dos redes de adelanto de fase conectadas en cascada seguidas de una ganancia.
+
+A continuación se realiza el diseño de cada una de las etapas internas por separado.
+
+\subsubsection{Implementación circuital de la red de adelanto de fase}
+
+Para cada red de adelanto de fase se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en \ref{eq_tf_adelanto}. A continuación se hace un análisis de este circuito y la elección de los componentes. 
 %Consiste en  un polo y un cero con ganancia unitaria (si $R_a = R_b$). Luego, se agrega la ganancia como una etapa separada.
 
 \begin{figure}[H]
@@ -744,11 +779,15 @@ Para realizar el análisis se debe obtener los bloques de avance ($A_w$) y reali
 
 \begin{equation} 
 	H = \frac{V_d}{V_af_{out}}=\frac{V^- - V^-}{Vaf_{out}}
-\end{equation}
+\end{equation} 
+
+\colorbox{red}{sería $V^+-V^-$?}
 
 \begin{equation} 
 	G^- = \frac{V_d}{Vaf_{in}}=\frac{V^- - V^-}{Vaf_{in}}
 \end{equation}
+
+\colorbox{red}{sería $V^+-V^-$?  y $G^-$ se define como negativo?}
 
 \begin{figure}[H]
 	\centering
@@ -817,7 +856,7 @@ A continuación se realiza el diagrama de bode del bloque $A_w$ y $1/H$.
 Como se puede ver el $A_w >> 1/H$ en la banda de interes. Finalmente aproximando la tlc interna a $1/H$ y multiplicando la entrada por el bloque $G^-$ se obtiene una transferencia:
 
 \begin{equation} 
-	tlc = G^- * \frac{1}{H}  =- \frac{R_a}{R_b} * \frac{SC_x[R_1+R_x]+1}{SC_xR_x+1}=\frac{\frac{s}{44.3}+1}{\frac{s}{902.1}+1}
+	tlc = G^- * \frac{1}{H}  =- \frac{R_a}{R_b} * \frac{SC_x[R_1+R_x]+1}{SC_xR_x+1}=-\frac{\frac{s}{44.3}+1}{\frac{s}{902.1}+1}
 \end{equation}
  
 
@@ -833,7 +872,12 @@ La transferencia de lazo cerrado de esta etapa sin considerar su punto de operac
 	\frac{Vaf_{out}}{Vaf_{in}}= - \frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}
 \end{equation}
 
-\noindent Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. Luego, la ganancia del compensador se obtiene con una etapa amplificadora.
+\noindent Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. 
+
+
+\subsubsection{Ganancia de compensador interno}
+
+Luego, la ganancia del compensador se obtiene con una etapa amplificadora.
 Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compensador}. Para lograr una ganancia de $K=10$ se utiliza $R_{322} = 1\:k\Omega$ y $R_{323} = 10\:k\Omega$.
 
 
@@ -844,6 +888,8 @@ Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compen
 	\label{fig:ganancia-compensador}
 \end{figure}
 
+
+Finalmente se muestra el circuito de todas las etapas del compensador interno...
 \colorbox{red}{Agregar imagen con las dos redes y la ganancoa, la señal de entreda es Veint}
 
 \colorbox{red}{Hacer bode de la red de adelanto de fase con NL5 o ver de simularlo de alguna otra manera}

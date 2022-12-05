@@ -761,7 +761,7 @@ A continuación se realiza el diseño de cada una de las etapas internas por sep
 
 \subsubsection{Implementación circuital de la red de adelanto de fase}
 
-Para cada red de adelanto de fase se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en \ref{eq_tf_adelanto}. A continuación se analiza el circuito propuesto y se determinan los valores de los componentes. 
+Para cada red de adelanto de fase se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en \ref{eq_tf_adelanto}. A continuación se analiza el circuito propuesto y se determinan los valores de cada componente. 
 %Consiste en  un polo y un cero con ganancia unitaria (si $R_a = R_b$). Luego, se agrega la ganancia como una etapa separada.
 
 \begin{figure}[H]
@@ -794,7 +794,7 @@ Para realizar el análisis se debe obtener los bloques de avance ($A_w$) y reali
 \end{figure}
 \colorbox{red}{Ver si se puede distribuir mejor los bloques en el diagrama}
 
-Para obtener estas ecuaciones se realiza la un thevening en el nodo $V_{th}$ mostrado en la figura \ref{fig:red-adelanto-fase} obteniéndose su $V_{th}$ y $R_{th}$.
+Para obtener estas ecuaciones se plantea un circuito de Thevening equivalente en el nodo $V_{th}$ mostrado en la figura \ref{fig:red-adelanto-fase} obteniéndose su $V_{th}$ y $R_{th}$.
 
 \begin{equation} 
 	V_{th} = Vaf_{in}= \frac{SC_xR_x+1}{SC_x[R_1+R_x]+1}
@@ -806,9 +806,7 @@ Para obtener estas ecuaciones se realiza la un thevening en el nodo $V_{th}$ mos
 
 \colorbox{red}{aca se puede acer un dibujito de como queda el circuito con el thevening y la realimentacion}
 
-Luego se resuelve el circuito obteniendo las transferencias mostradas en las ecuaciones \ref{eq:h_del_compensador} y \ref{eq:g_del_compensador}.
-
-Se obtiene:
+Luego se resuelve el circuito obteniendo las transferencias mostradas en las ecuaciones \ref{eq:h_del_compensador} y \ref{eq:g_del_compensador}. Por lo tanto, se obtiene:
 
 \begin{equation} 
 	H = \frac{SC_xR_x+1}{SC_x[R_1+R_x]+1} * \frac{R_b}{R_a + R_b + R_{th}}
@@ -818,7 +816,7 @@ Se obtiene:
 	G^- = - \frac{R_a + R_{th}}{R_a + R_b + R_{th}}
 \end{equation}
 
-Si se toma en consideración que $Ra>>R_{th}$ estas ecuaciones se pueden reducir a: 
+Si se considera que $Ra>>R_{th}$ estas ecuaciones se pueden reducir a: 
 
 \begin{equation} 
 	H = \frac{SC_xR_x+1}{SC_x[R_1+R_x]+1} * \frac{R_b}{R_a + R_b}
@@ -851,10 +849,10 @@ A continuación se realiza el diagrama de bode del bloque $A_w$ y $1/H$.
 	\label{fig:bode_compensador_cadena_avance}
 \end{figure}
 \colorbox{red}{aca no dije nada de la estabilidad capaz se puede decir algo aunque no sume mucho Xd tipo mfase=90 grados q opinan?}
-Como se puede ver el $A_w >> 1/H$ en la banda de interes. Finalmente aproximando la tlc interna a $1/H$ y multiplicando la entrada por el bloque $G^-$ se obtiene una transferencia:
+Como se puede ver el $A_w >> 1/H$ en la banda de interes. Finalmente aproximando la transferencia de lazo cerrado interna $TLC_{af}$ a $1/H$ y multiplicando la entrada por el bloque $G^-$ se obtiene una transferencia:
 
 \begin{equation} 
-	tlc = G^- * \frac{1}{H}  =- \frac{R_a}{R_b} * \frac{SC_x[R_1+R_x]+1}{SC_xR_x+1}=-\frac{\frac{s}{44.3}+1}{\frac{s}{902.1}+1}
+	TLC_{af} = G^- * \frac{1}{H}  =- \frac{R_a}{R_b} * \frac{SC_x[R_1+R_x]+1}{SC_xR_x+1}=-\frac{\frac{s}{44.3}+1}{\frac{s}{902.1}+1}
 \end{equation}
  
 
@@ -866,13 +864,15 @@ Considerando el punto de operación de $2.5V$ en la entrada no inversora se obti
 
 Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. 
 
+\colorbox{red}{Tal vez habría que validar qeu Ra es mucho mayor a RTh?}
+
 
 \subsubsection{Ganancia de compensador interno}
 
 Luego, la ganancia del compensador se obtiene con una etapa amplificadora.
 Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compensador}. Para lograr una ganancia de $K=10$ se utiliza $R_{322} = 1\:k\Omega$ y $R_{323} = 10\:k\Omega$.
 
-
+\colorbox{red}{Planteamos la trrasferencia primeo?}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Ganancia-compensador.png}

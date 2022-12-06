@@ -828,7 +828,7 @@ Si se diseña el bloque $H$ de forma tal de que $A_w>>1/H$ sea mayor en la banda
 	\frac{1}{C_x [R_x + R_1]} = 44.3
 \end{equation} 
 
-En la figura \ref{fig:bode_compensador_cadena_avance} se muestra el diagrama de bode del bloque $A_w$ y $1/H$.
+En la figura \ref{fig:bode_compensador_cadena_avance} se muestra el diagrama de bode del bloque $A_w$ y $1/H$. Se puede ver que $A_w >> 1/H$ en la banda de interés y que el sistema resulta estable ya que el margen de fase resultante es de 90 grados.
  
 \begin{figure}[H]
 	\centering
@@ -836,8 +836,8 @@ En la figura \ref{fig:bode_compensador_cadena_avance} se muestra el diagrama de 
 	\caption{Lazo de realimentación.}
 	\label{fig:bode_compensador_cadena_avance}
 \end{figure}
-\colorbox{red}{aca no dije nada de la estabilidad capaz se puede decir algo aunque no sume mucho Xd tipo mfase=90 grados q opinan?}
-Como se puede ver el $A_w >> 1/H$ en la banda de interes. Finalmente aproximando la transferencia de lazo cerrado interna $TLC_{af}$ a $1/H$ y multiplicando la entrada por el bloque $G^-$ se obtiene una transferencia:
+
+Finalmente aproximando la transferencia de lazo cerrado interna $TLC_{af}$ a $1/H$ y multiplicando la entrada por el bloque $G^-$ se obtiene una transferencia:
 
 \begin{equation} 
 	TLC_{af} = G^- * \frac{1}{H}  =- \frac{R_a}{R_b} * \frac{SC_x[R_1+R_x]+1}{SC_xR_x+1}=-\frac{\frac{s}{44.3}+1}{\frac{s}{902.1}+1}

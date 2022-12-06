@@ -7,11 +7,11 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \section{Descripción general}
 
-\noindent La implementación digital consiste en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un DAC y un ADC, ambos de 12 bits y $3.3\:V$ de referencia. 
+ La implementación digital consiste en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un DAC y un ADC, ambos de 12 bits y $3.3\:V$ de referencia. 
 
-\noindent En la figura \ref{fig:diag-en-bloques-digital} se muestra un diagrama en bloques general de la implementación digital del sistema. Es posible observar que se ingresa al microcontrolador a través de un ADC, con una tensión de referencia ($V_{ref}$) proporcional a la distancia de separación deseada. Esa posición de referencia es comparada con la posición estimada $Y(z)$ y el resultado $e(z)$ es afectado por el compensador digital $C(z)$. Por medio de un DAC, la salida del compensador ingresa al controlador de corriente $G_{iL}(s)$, el cual actúa sobre la planta $G_P(s)$, y modifica la distancia de separación.
+ En la figura \ref{fig:diag-en-bloques-digital} se muestra un diagrama en bloques general de la implementación digital del sistema. Es posible observar que se ingresa al microcontrolador a través de un ADC, con una tensión de referencia ($V_{ref}$) proporcional a la distancia de separación deseada. Esa posición de referencia es comparada con la posición estimada $Y(z)$ y el resultado $e(z)$ es afectado por el compensador digital $C(z)$. Por medio de un DAC, la salida del compensador ingresa al controlador de corriente $G_{iL}(s)$, el cual actúa sobre la planta $G_P(s)$, y modifica la distancia de separación.
 
-\noindent Por medio de un ADC y el sensor de efecto Hall, se muestrea una tensión proporcional a la corriente que circula por el electroimán. De esta forma, es posible obtener una posición estimada $Y(z)$ al multiplicar esta tensión por la transferencia $H(Z)$.
+ Por medio de un ADC y el sensor de efecto Hall, se muestrea una tensión proporcional a la corriente que circula por el electroimán. De esta forma, es posible obtener una posición estimada $Y(z)$ al multiplicar esta tensión por la transferencia $H(Z)$.
 
 
 \begin{figure}[H]
@@ -21,7 +21,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\label{fig:diag-en-bloques-digital}
 \end{figure}
 \colorbox{red}{dejar un solo diagrama y cambiar lo de abajo}
-\noindent Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
+ Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
 
 \begin{equation} 
 	G_T(s) = G_P(s) * G_{iL}(s).
@@ -37,9 +37,9 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \section{Determinación de la frecuencia de muestreo}
 
-\noindent Se desea realizar una estimación de la posición del electroimán $Y(z)$  a partir de las muestras tomadas por el ADC de la tensión de salida del sensor de efecto Hall.
+ Se desea realizar una estimación de la posición del electroimán $Y(z)$  a partir de las muestras tomadas por el ADC de la tensión de salida del sensor de efecto Hall.
 
-\noindent La forma de onda de la salida del sensor es triangular y presenta una frecuencia variable en función de la distancia de separación. Se puede calcular como:
+ La forma de onda de la salida del sensor es triangular y presenta una frecuencia variable en función de la distancia de separación. Se puede calcular como:
 
 \begin{equation} \label{eq_frecuencia-de-muestreo}
 	F_{planta}(Y_g)=\frac{V_{BUS}}{2 * L(Y_g) * \Delta I_H}
@@ -66,18 +66,18 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \end{table}
 
 
-\noindent Para la estimación de la posición es necesario medir la pendiente de la onda triangular. Por lo tanto, para reconstruir su forma de onda es necesario que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5° armónica para el caso de la mayor frecuencia. Por lo tanto, se adopta 2.5 veces. Es decir:
+ Para la estimación de la posición es necesario medir la pendiente de la onda triangular. Por lo tanto, para reconstruir su forma de onda es necesario que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5° armónica para el caso de la mayor frecuencia. Por lo tanto, se adopta 2.5 veces. Es decir:
 
 \begin{equation} 
 	F_S \geq 2.5 * 5 * f_{max} \Rightarrow  F_S \geq 2.5 * 5 * 1666 Hz \Rightarrow F_S \geq 20825 Hz
 \end{equation}
 
-\noindent De esta forma, se adopta una frecuencia de muestreo para el ADC de  $25 \:kHz$. Por lo tanto, es posible obtener 15 muestras en un período de la triangular para el caso de la frecuencia máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la frecuencia mínima, se pueden tomar 23 muestras en un ciclo, que se traduce en 11 muestras para la pendiente de subida o bajada. 
+ De esta forma, se adopta una frecuencia de muestreo para el ADC de  $25 \:kHz$. Por lo tanto, es posible obtener 15 muestras en un período de la triangular para el caso de la frecuencia máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la frecuencia mínima, se pueden tomar 23 muestras en un ciclo, que se traduce en 11 muestras para la pendiente de subida o bajada. 
 
 
 \section{Adquisición y procesamiento de las muestras}
 
-\noindent Al considerar el caso de máxima frecuencia, en el que solo se pueden tomar 7 muestras durante el tiempo de crecimiento o decrecimiento, se describe el procedimiento para determinar la posición estimada.
+ Al considerar el caso de máxima frecuencia, en el que solo se pueden tomar 7 muestras durante el tiempo de crecimiento o decrecimiento, se describe el procedimiento para determinar la posición estimada.
 
 
 \begin{figure}[H]
@@ -88,16 +88,16 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \end{figure}
 
 
-\noindent Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada del sensor de efecto Hall, se almacena en un buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
+ Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada del sensor de efecto Hall, se almacena en un buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
 
-\noindent Cada vez que el buffer se completa, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
+ Cada vez que el buffer se completa, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
 
-\noindent En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores de mayor vejez. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados teniendo en cuenta el tiempo transcurrido ($K$ períodos de muestreo), y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido hasta que se obtiene nueva estimación. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en “N” períodos luego de la última actualización, siendo “N” la cantidad de muestras que se almacenaron en el buffer incompleto.
+ En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores de mayor vejez. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados teniendo en cuenta el tiempo transcurrido ($K$ períodos de muestreo), y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido hasta que se obtiene nueva estimación. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en “N” períodos luego de la última actualización, siendo “N” la cantidad de muestras que se almacenaron en el buffer incompleto.
 
-\noindent Luego de detectar un cambio de pendiente, el
+ Luego de detectar un cambio de pendiente, el
 proceso vuelve a iniciar con el buffer vacío.
 
-\noindent Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de posición con frecuencia de actualización variable. Esto es importante al momento de diseñar un compensador digital para el sistema. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor, por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $25/7 \:kHz = 3.5\:kHz$.
+ Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de posición con frecuencia de actualización variable. Esto es importante al momento de diseñar un compensador digital para el sistema. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor, por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $25/7 \:kHz = 3.5\:kHz$.
 
 \section{Estimación digital de la posición}
 
@@ -107,7 +107,7 @@ A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de s
 	Y_g = 5.136*10^{-6}*|\frac{di_L}{dt}|- 3.472*10^{-3} [m]
 \end{equation}
 
-\noindent Es importante notar que la resistencia interna del electroimán ($R_L$) genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que para el de bajada. De esta forma, la onda triangular presenta diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC. Es decir:
+ Es importante notar que la resistencia interna del electroimán ($R_L$) genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que para el de bajada. De esta forma, la onda triangular presenta diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC. Es decir:
 
 
 \begin{equation} \label{eq_derivada_real}
@@ -121,20 +121,20 @@ Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_
 \end{equation}
 
 
-\noindent Al aproximar la derivada real como la resta entre la muestra de corriente en un instante menos el anterior sobre el período de muestreo y al utilizar \ref{eq_derivada_teorica} en \ref{eq_yg_vs_derivada}, se obtiene:
+ Al aproximar la derivada real como la resta entre la muestra de corriente en un instante menos el anterior sobre el período de muestreo y al utilizar \ref{eq_derivada_teorica} en \ref{eq_yg_vs_derivada}, se obtiene:
 
 \begin{equation} 
 	Y_g[n] = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-K]}{K*T_S}+\frac{R_LDD*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
 \end{equation}
 
-\noindent Al considerar a $V_h$ como la tensión entregada por el sensor de efecto Hall, proporcional a la corriente que circula por el electroimán multiplicada por una ganancia $K_h$ de $53.3\:mV/A$, con  ($\hat{V_h}$)  correspondiente a la componente alterna de tensión y ($\bar{V_h}$) a la continua, resulta:
+ Al considerar a $V_h$ como la tensión entregada por el sensor de efecto Hall, proporcional a la corriente que circula por el electroimán multiplicada por una ganancia $K_h$ de $53.3\:mV/A$, con  ($\hat{V_h}$)  correspondiente a la componente alterna de tensión y ($\bar{V_h}$) a la continua, resulta:
 
 
 \begin{equation} 
 	V_h[n] = \bar{V_h}[n] + \hat{V_h}[n] = K_h * (\bar{I_L}[n] + \hat{I_L}[n])
 \end{equation}
 
-\noindent Para la estimación de la posición se utiliza el término de alterna mientras que para compensar el error introducido por la resistencia interna del electroimán se utiliza el de continua. Por lo tanto, se obtiene:
+ Para la estimación de la posición se utiliza el término de alterna mientras que para compensar el error introducido por la resistencia interna del electroimán se utiliza el de continua. Por lo tanto, se obtiene:
 
 \begin{equation}
 	\resizebox{.8\hsize}{!}
@@ -143,16 +143,16 @@ Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_
 	}
 \end{equation}
 
-\noindent El término $\bar{V_h}[n]$ se obtiene de sensar el valor medio de tensión entregado por el sensor de efecto Hall mediante un canal del ADC.
+ El término $\bar{V_h}[n]$ se obtiene de sensar el valor medio de tensión entregado por el sensor de efecto Hall mediante un canal del ADC.
 
-\noindent Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtiene a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
+ Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtiene a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
 
 
 \begin{equation} \label{eq_inductancia}
 	L(Y_g)[n] = -2.56*Y_g[n]+0.0271\:Hy
 \end{equation}
 
-\noindent Por lo tanto, la ecuación correspondiente en el tiempo discreto resulta:
+ Por lo tanto, la ecuación correspondiente en el tiempo discreto resulta:
 
 \begin{equation}
 	\resizebox{.8\hsize}{!}
@@ -171,30 +171,30 @@ Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_
 \end{equation}
 
 
-\noindent El número de muestras está representado por ``n''. Es decir, $V_h[n]$ se refiere a la muestra más reciente en el buffer y $V_h[n-K]$ a la más vieja.
+ El número de muestras está representado por ``n''. Es decir, $V_h[n]$ se refiere a la muestra más reciente en el buffer y $V_h[n-K]$ a la más vieja.
 
 Es importante notar que los coeficientes del estimador deben calcularse justo antes de realizar una nueva estimación,  en función de la cantidad de muestras que se utilizan para el cálculo de la pendiente. Si bien el estimador presenta una frecuencia de actualización variable, los coeficientes del compensador digital no se ven modificados ya que se calculan teniendo en cuenta la frecuencia de actualización más lenta.
 
-\noindent Por otro lado, el bloque $H_D$ mostrado en la figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
+ Por otro lado, el bloque $H_D$ mostrado en la figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
 
 \section{Resolución en posición}
 
-\noindent Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L[Y_g]$) que se traduce en un cambio de frecuencia ($\Delta F_{planta}$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
+ Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L[Y_g]$) que se traduce en un cambio de frecuencia ($\Delta F_{planta}$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
 
 
-\noindent A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y_g=2.1\:mm$. Esta resulta en $F_{planta}[2.1\:mm] = 1104.8\:Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $F_{planta}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un ($\Delta Y_g$) mínimo de  $0.1\:mm$. Este valor puede obtenerse como:
+ A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y_g=2.1\:mm$. Esta resulta en $F_{planta}[2.1\:mm] = 1104.8\:Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $F_{planta}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un ($\Delta Y_g$) mínimo de  $0.1\:mm$. Este valor puede obtenerse como:
 
 \begin{equation} 
 	\Delta F_{planta} = F_{planta}[2.1\:mm] - F_{planta}[2\:mm] = 44.8\:Hz
 \end{equation}
 
-\noindent Las pendientes para el peor caso se da con la menor variación de tensión entre muestras. Es decir, para el caso de frecuencia mínima. En la ecuación \ref{eq_pendiente} se muestra el cálculo de la pendiente de la onda triangular en función de la frecuencia de conmutación.
+ Las pendientes para el peor caso se da con la menor variación de tensión entre muestras. Es decir, para el caso de frecuencia mínima. En la ecuación \ref{eq_pendiente} se muestra el cálculo de la pendiente de la onda triangular en función de la frecuencia de conmutación.
 
 \begin{equation} \label{eq_pendiente}
 	P(F_{planta}) = \frac{\Delta V}{T_{SW}/2} = 2*K_h*\Delta i_L*F_{planta} = 2 * 0.0533 * 0.5 * F_{planta}
 \end{equation}
 
-\noindent A partir de la ecuación \ref{eq_pendiente} es posible obtener el valor de la pendiente para la mínima frecuencia de conmutación y la de su incremento correspondiente a una variación en la posición de $0.1\:mm$. Esta situación se representa en la figura \ref{fig:variacion-de-pendiente}.
+ A partir de la ecuación \ref{eq_pendiente} es posible obtener el valor de la pendiente para la mínima frecuencia de conmutación y la de su incremento correspondiente a una variación en la posición de $0.1\:mm$. Esta situación se representa en la figura \ref{fig:variacion-de-pendiente}.
 
 \begin{equation} 
 	\begin{aligned}
@@ -210,7 +210,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 	\label{fig:variacion-de-pendiente}
 \end{figure}
 
-\noindent Por lo tanto, para poder diferenciar las pendientes, la resolución del ADC debe ser menor o igual a $\Delta V$.
+ Por lo tanto, para poder diferenciar las pendientes, la resolución del ADC debe ser menor o igual a $\Delta V$.
 
 \begin{equation} 
 	\begin{aligned}
@@ -219,7 +219,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 	\end{aligned}
 \end{equation}
 
-\noindent Al considerar $F_s = 25\:kHz$:
+ Al considerar $F_s = 25\:kHz$:
 
 \begin{equation} 
 	\Delta V_{ADC} = T_S * [P(f_{SW_{min}} + \Delta F_{planta}) - P(f_{SW_{min}})] = 96\:\mu V
@@ -227,18 +227,18 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 
 
-\noindent Este resultado indica que, al usar un ADC de 12 bits, se necesitaría una tensión de referencia $V_{ref} = 0.39\:V$. Sin embargo, este valor resulta demasiado bajo y no sirve si se quiere medir la tensión de salida del sensor de efecto Hall de manera directa. Por lo tanto, se decide diseñar un circuito que permita realizar la estimación manteniendo la tensión de referencia en $3.3\:V$
+ Este resultado indica que, al usar un ADC de 12 bits, se necesitaría una tensión de referencia $V_{ref} = 0.39\:V$. Sin embargo, este valor resulta demasiado bajo y no sirve si se quiere medir la tensión de salida del sensor de efecto Hall de manera directa. Por lo tanto, se decide diseñar un circuito que permita realizar la estimación manteniendo la tensión de referencia en $3.3\:V$
 
-\noindent La corriente que circula por el electroimán presenta una componente de continua y otra de alterna. La primera excursiona entre $0\:A$ y $30\:A$ mientras que la segunda varía entre $\pm 250\:mA$ en torno al valor medio, con forma de onda triangular. Por lo tanto, se realiza una adquisición separada de ambas componentes de la tensión de salida del sensor de efecto Hall con el ADC, sin el \textsl{set-point} de $2.5\:V$.
+ La corriente que circula por el electroimán presenta una componente de continua y otra de alterna. La primera excursiona entre $0\:A$ y $30\:A$ mientras que la segunda varía entre $\pm 250\:mA$ en torno al valor medio, con forma de onda triangular. Por lo tanto, se realiza una adquisición separada de ambas componentes de la tensión de salida del sensor de efecto Hall con el ADC, sin el \textsl{set-point} de $2.5\:V$.
 
-\noindent A la  salida del sensor de efecto Hall se obtiene una señal cuyo valor medio varía entre $0\:V$ y $1.6\:V$, y un valor de alterna de $26.7\:mV_{pp}$.
+ A la  salida del sensor de efecto Hall se obtiene una señal cuyo valor medio varía entre $0\:V$ y $1.6\:V$, y un valor de alterna de $26.7\:mV_{pp}$.
 
-\noindent Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima ganancia posible es de 60 veces para la componente de alterna. Por otro lado, para medir con la resolución en posición deseada de $0.1\:mm$ se debe amplificar la señal triangular 9 veces como mínimo.
+ Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima ganancia posible es de 60 veces para la componente de alterna. Por otro lado, para medir con la resolución en posición deseada de $0.1\:mm$ se debe amplificar la señal triangular 9 veces como mínimo.
 
-\noindent Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de $3.17\:V$ (es decir, $0.67\:V$ sobre el \textsl{set-point}).
+ Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de $3.17\:V$ (es decir, $0.67\:V$ sobre el \textsl{set-point}).
 
 
-\noindent Las características del circuito son:
+ Las características del circuito son:
 
 \begin{itemize}
 	\item Ganancia: 50
@@ -247,13 +247,13 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 	\item Frecuencia de corte superior: $12,5\:kHz$
 \end{itemize}
 
-\noindent Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
+ Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
 
 \begin{equation} 
 	P(F_{planta}) = 50 * [0.0533 * 0.5 * (F_{planta}*2)]\:[\frac{V}{s}]
 \end{equation}
 
-\noindent Al reemplazar para el incremento de frecuencia se obtiene: 
+ Al reemplazar para el incremento de frecuencia se obtiene: 
 
 \begin{equation} 
 	\begin{aligned}
@@ -262,7 +262,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 	\end{aligned}
 \end{equation}
 
-\noindent Por lo tanto, resulta:
+ Por lo tanto, resulta:
 
 
 \begin{equation} 
@@ -273,16 +273,16 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 \end{equation}
 
 
-\noindent De esta manera, como la resolución del ADC es de $0.8\:mV$, resulta suficiente para identificar el mínimo cambio de pendiente.
+ De esta manera, como la resolución del ADC es de $0.8\:mV$, resulta suficiente para identificar el mínimo cambio de pendiente.
 
 
 \section{Acondicionamiento de señales para el ADC}
 
 \subsection{Referencia de posición}
 
-\noindent Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en la placa de control  e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Esta señal de referencia es también utilizada por el compensador analógico. Debido a que entrega una tensión entre $3.96\:V$ y $4.69\:V$, se implementa un circuito de acondicionamiento.
+ Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en la placa de control  e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Esta señal de referencia es también utilizada por el compensador analógico. Debido a que entrega una tensión entre $3.96\:V$ y $4.69\:V$, se implementa un circuito de acondicionamiento.
 
-\noindent A la señal de entrada se le resta el \textsl{set-point} de $2.5\:V$, para lograr señales que van desde $1.42\:V$ a $2.2\:V$. Luego, dentro del microcontrolador, se debe mapear el valor leído por el ADC con la posición deseada utilizando la ganancia del estimador analógico según la expresión \ref{eq_y-ref-dig}. Además se implementa un filtro \textsl{anti-aliasing} con frecuencia de corte en $9.9\:kHz$.
+ A la señal de entrada se le resta el \textsl{set-point} de $2.5\:V$, para lograr señales que van desde $1.42\:V$ a $2.2\:V$. Luego, dentro del microcontrolador, se debe mapear el valor leído por el ADC con la posición deseada utilizando la ganancia del estimador analógico según la expresión \ref{eq_y-ref-dig}. Además se implementa un filtro \textsl{anti-aliasing} con frecuencia de corte en $9.9\:kHz$.
 
 \begin{equation} \label{eq_y-ref-dig}
 	Y_{ref}\ =\frac{Vpo{s_{ref}}_{ADC}\ +\ 2.5\:V}{259.6}\:[m]
@@ -297,7 +297,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 \subsection{Componente  alterna de corriente del electroimán}
 
-\noindent Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de $100\:Hz$, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12\:kHz$, que actúa como filtro \textsl{anti-aliasing}. Luego, la salida es amplificada con una ganancia de 50 veces (para mejorar la medición de la pendiente por el ADC) y se agrega un \textsl{set-point} de $2.5\:V$.
+ Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de $100\:Hz$, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12\:kHz$, que actúa como filtro \textsl{anti-aliasing}. Luego, la salida es amplificada con una ganancia de 50 veces (para mejorar la medición de la pendiente por el ADC) y se agrega un \textsl{set-point} de $2.5\:V$.
 
 \begin{figure}[H]
 	\centering
@@ -309,7 +309,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 \subsection{Componente  contínua de corriente del electroimán}
 
-\noindent Para obtener la componente de contínua se utiliza un filtro pasa-bajos con frecuencia de corte en $106\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
+ Para obtener la componente de contínua se utiliza un filtro pasa-bajos con frecuencia de corte en $106\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
 
 
 \begin{figure}[H]
@@ -322,11 +322,11 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 \section{Acondicionamiento de señales para el DAC}
 
-\noindent Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utiliza el DAC del microcontrolador. La tensión entregada es afectada por una circuitería de filtrado, ganancia y protección como se muestra en las figuras \ref{fig:DAC-compensador} y \ref{fig:DAC-estimador}. Debido a que el DAC se actualiza con una frecuencia mínima de $3.5\:kHz$, se utilizan filtros con frecuencia de corte en $1.75\:kHz$.
+ Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utiliza el DAC del microcontrolador. La tensión entregada es afectada por una circuitería de filtrado, ganancia y protección como se muestra en las figuras \ref{fig:DAC-compensador} y \ref{fig:DAC-estimador}. Debido a que el DAC se actualiza con una frecuencia mínima de $3.5\:kHz$, se utilizan filtros con frecuencia de corte en $1.75\:kHz$.
 
-\noindent Por otro lado, como el controlador de corriente funciona con tensiones de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0.66$, mapeando así los $5\:V$ a $3.3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento.
+ Por otro lado, como el controlador de corriente funciona con tensiones de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0.66$, mapeando así los $5\:V$ a $3.3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento.
 
-\noindent De esta forma, se logra convertir correctamente la señal digital en analógica.
+ De esta forma, se logra convertir correctamente la señal digital en analógica.
 
 
 \begin{figure}[H]
@@ -345,14 +345,14 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 \section{Diseño del controlador digital}
 
-Para poder diseñar un compensador digital para un sistema continuo, se puede utilizar la transformada bilineal para poder aplicar técnicas de compensación´´on analógica en un sistema discreto.
+Para poder diseñar un compensador digital para un sistema continuo, se puede utilizar la transformada bilineal para poder aplicar técnicas de compensación analógica en un sistema discreto.
 
- \colorbox{red}{Redactar bien esta parte}
+\colorbox{red}{Redactar bien esta parte}
 Por medio de la transformada bilinal es posible diseñar un compensador en el dominio analógico y luego, con su transformada inversa, obtener el compensador en el dominio discreto. Por lo tanto se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema.  
 
 \subsection{Transferencias de la planta y del controlador de corriente}
 
-\noindent Para el an\'{a}lisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio anal\'{o}gico para una masa de $30 \:kg$.
+ Para el an\'{a}lisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio anal\'{o}gico para una masa de $30 \:kg$.
 
 \begin{equation} 
 	\begin{aligned}
@@ -360,7 +360,7 @@ Por medio de la transformada bilinal es posible diseñar un compensador en el do
 	\end{aligned}
 \end{equation}
 
-\noindent Al aplicar la transformada z por invarianza al impulso, con una $f_s=3.5\:kHz$, se obtiene:
+ Al aplicar la transformada z por invarianza al impulso, con una $f_s=3.5\:kHz$, se obtiene:
 
 \colorbox{red}{Escribir la expresión de la transformada bilienal}
 
@@ -368,7 +368,7 @@ Por medio de la transformada bilinal es posible diseñar un compensador en el do
 	G_T(Z)[M=30\:kg] =\frac{-3.2057*10^{-10}(z+3.729)(z+0.2677)}{(z-0.9966)(z-0.9806) (z-1.02)}
 \end{equation}
 
-\noindent Luego, al usar la transformada bilineal para volver al dominio anal\'{o}gico:
+Luego, al usar la transformada bilineal ($Z=\frac{1+wT/2}{1-wT/2}$), con $T=1/f_s$, para volver al dominio analógico:
 
 \begin{equation}
 	\resizebox{.8\hsize}{!}
@@ -378,7 +378,7 @@ Por medio de la transformada bilinal es posible diseñar un compensador en el do
 \end{equation}
 
 
-\noindent Con las expresiones en $[w]$ es posible diseñar un controlador en el dominio analógico y luego transformarlo al digital.
+ Con las expresiones en $[w]$ es posible diseñar un controlador en el dominio analógico y luego transformarlo al digital.
 
 \subsection{Diseño del compensador}
 
@@ -386,19 +386,17 @@ Se decide usar la misma estrategia utilizada en el compensador analógico, plant
 
 Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital}
 
-
 \begin{figure}[H]
 	\centering
 	\scalebox{0.8}{\input{tikz/diagrama_general_digital.tex}}
 	\caption{Diagrama en bloques de estrategia de compensación propuesta.}	\label{fig:diag-en-bloques-comp_digital}
 \end{figure}
 
-
 \subsection{Análisis de estabilidad}
 
 \subsection{Análisis de estabilidad}
 
-\noindent Para el análisis del compensador digital se parte de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ y de la del lazo de realimentación $H(w)$. A partir de ellas se obtiene la transferencia a lazo abierto total $GH_{T}(w)=G_{T}(w)*H(w)$ mostrado en la ecuación \ref{eq:GtHW}.
+ Para el análisis del compensador digital se parte de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ y de la del lazo de realimentación $H(w)$. A partir de ellas se obtiene la transferencia a lazo abierto total $GH_{T}(w)=G_{T}(w)*H(w)$ mostrado en la ecuación \ref{eq:GtHW}.
 
 \colorbox{red}{Ver si ya mencionamos que H=1. Si ya lo mencionamos, redactar lo de arriba para que quede bien}
  
@@ -408,9 +406,9 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 \end{equation} 
 
 
-\noindent A continuación se procede a analizar la respuesta en frecuencia de $GH_{T}(w)$ y a diseñar un compensador adecuado. Luego, al igual que para el compensador analógico, se verificará la estabilidad para la mínima masa  con la  que trabaja el sistema.
+ A continuación se procede a analizar la respuesta en frecuencia de $GH_{T}(w)$ y a diseñar un compensador adecuado. Luego, al igual que para el compensador analógico, se verificará la estabilidad para la mínima masa  con la  que trabaja el sistema.
 
-\noindent A partir de la transferencia de la ecuación  \ref{eq:GtHW} se  grafica el lugar de raíces y el diagrama de Nyquist que se muestran en las figuras \ref{fig:lugar-de-raices} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
+ A partir de la transferencia de la ecuación  \ref{eq:GtHW} se  grafica el lugar de raíces y el diagrama de Nyquist que se muestran en las figuras \ref{fig:lugar-de-raices} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
 
 \begin{figure}[H]
 	\centering
@@ -426,15 +424,15 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 	\label{fig:nyquist-lazo-abierto-digital}
 \end{figure}
 
-\noindent Dado que ${GH}_{T}(w)$ tiene un polo en el semiplano derecho, a partir del Nyquist se puede determinar:
+ Dado que ${GH}_{T}(w)$ tiene un polo en el semiplano derecho, a partir del Nyquist se puede determinar:
 
-\noindent Zona 1: $Z=N+P=0+1=1$ $\mathrm{\to}$ Inestable 
+ Zona 1: $Z=N+P=0+1=1$ $\mathrm{\to}$ Inestable 
 
-\noindent Zona 2: $Z=N+P=1+1=2$ $\mathrm{\to}$ Inestable
+ Zona 2: $Z=N+P=1+1=2$ $\mathrm{\to}$ Inestable
 
-\noindent Dada la similitud de la planta en [w] con la planta del compensador analógico, se decide utilizar la misma estrategia de compensación con la misma ubicación de polos y ceros del compensador.	
+ Dada la similitud de la planta en [w] con la planta del compensador analógico, se decide utilizar la misma estrategia de compensación con la misma ubicación de polos y ceros del compensador.	
 
-\noindent Finalmente se llega a la transferencia del controlador:
+ Finalmente se llega a la transferencia del controlador:
 
 
  \begin{equation}  
@@ -443,7 +441,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
  
 
 
-\noindent En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T(w)*G_c(w)$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $64\:dB$ hasta $88.6\:dB$. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $64\:dB$ y la m\'{a}xima es de $88.6\:dB - 14\:dB = 74.6\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=68.4\:dB\ \equiv \ 2630\:veces$.
+ En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T(w)*G_c(w)$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $64\:dB$ hasta $88.6\:dB$. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $64\:dB$ y la m\'{a}xima es de $88.6\:dB - 14\:dB = 74.6\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=68.4\:dB\ \equiv \ 2630\:veces$.
 
 
 \begin{figure}[H]
@@ -454,7 +452,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 \end{figure}
 
 
-\noindent En la figura \ref{fig:bode-compensado-para-k-2630} se muestra el diagrama de Bode considerando la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad puesto que en el primer cruce por 0° la magnitud es mayor a $0\:dB$ y, en el segundo cruce, menor. Adem\'{a}s, en la figura \ref{fig:nyquist-para-k-2630} se puede ver que la forma del diagrama de Nyquist es como la deseada.
+ En la figura \ref{fig:bode-compensado-para-k-2630} se muestra el diagrama de Bode considerando la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad puesto que en el primer cruce por 0° la magnitud es mayor a $0\:dB$ y, en el segundo cruce, menor. Adem\'{a}s, en la figura \ref{fig:nyquist-para-k-2630} se puede ver que la forma del diagrama de Nyquist es como la deseada.
 
 \begin{figure}[H]
 	\centering
@@ -470,7 +468,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 	\label{fig:nyquist-para-k-2630}
 \end{figure}
 
-\noindent En la figura \ref{fig:respuesta-al-escalon-para-M-30} se puede observar la respuesta al escal\'{o}n del sistema con masa de $30\:kg$.
+ En la figura \ref{fig:respuesta-al-escalon-para-M-30} se puede observar la respuesta al escal\'{o}n del sistema con masa de $30\:kg$.
 
 
 \begin{figure}[H]
@@ -482,7 +480,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 
 \subsection{Análisis de estabilidad con masa de 1 kg}
 
-\noindent En esta secci\'{o}n se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$, utilizando el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-para-M-1Kg} y \ref{fig:nyquist-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que efectivamente el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
+ En esta secci\'{o}n se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$, utilizando el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-para-M-1Kg} y \ref{fig:nyquist-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que efectivamente el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
 
 
 \begin{figure}[H]
@@ -508,7 +506,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 
 \section{Diseño de lazo de realimentación externo}
 
-\noindent Se plantea un lazo de realimentaci\'{o}n externo como se muestra en la  figura \ref{fig:diagrama-del-sistema-completo}.
+ Se plantea un lazo de realimentaci\'{o}n externo como se muestra en la  figura \ref{fig:diagrama-del-sistema-completo}.
 
 \begin{figure}[H]
 	\centering
@@ -518,20 +516,20 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 \end{figure}
 
 
-\noindent En el lazo de realimentaci\'{o}n interno act\'{u}a el compensador por adelanto de fase dise\~{n}ado previamente y, en el externo, un controlador del tipo integral. De esta forma, se logra suavizar la respuesta al escal\'{o}n del sistema y eliminar el error en r\'{e}gimen permanente.
+ En el lazo de realimentaci\'{o}n interno act\'{u}a el compensador por adelanto de fase dise\~{n}ado previamente y, en el externo, un controlador del tipo integral. De esta forma, se logra suavizar la respuesta al escal\'{o}n del sistema y eliminar el error en r\'{e}gimen permanente.
 
 
-\noindent Para el an\'{a}lisis se considera $H(w)=1$ como realimentaci\'{o}n. La cadena de avance con masa de $30\:kg$ es:
+ Para el an\'{a}lisis se considera $H(w)=1$ como realimentaci\'{o}n. La cadena de avance con masa de $30\:kg$ es:
 
 \[G(W)[M=30]=Tlc(W)[M=30]*G_{integ}\] 
 
-\noindent Se  plantea un compensador del tipo :
+ Se  plantea un compensador del tipo :
 
 \[G_{integ}\ =\ k_{int}\ *\ \frac{1}{w}\] 
 
-\noindent La ganancia del bloque de entrada (F) se establece igual a la ganancia del estimador (H) pero cambiada de signo, debido a que la transferencia de lazo cerrado tiene una inversi\'{o}n de fase. Por lo tanto, se toma $F=-H=-1$.
+ La ganancia del bloque de entrada (F) se establece igual a la ganancia del estimador (H) pero cambiada de signo, debido a que la transferencia de lazo cerrado tiene una inversi\'{o}n de fase. Por lo tanto, se toma $F=-H=-1$.
 
-\noindent Inicialmente se adopta $k_{int} = 1$ para poder evaluar, por medio de lugar de ra\'{i}ces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador}, la estabilidad del sistema. Para este lazo de realimentaci\'{o}n externo tambi\'{e}n debe utilizarse realimentaci\'{o}n positiva puesto que los polos de la TLC interna est\'{a}n en el semiplano izquierdo pero presenta una inversi\'{o}n de signo.
+ Inicialmente se adopta $k_{int} = 1$ para poder evaluar, por medio de lugar de ra\'{i}ces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador}, la estabilidad del sistema. Para este lazo de realimentaci\'{o}n externo tambi\'{e}n debe utilizarse realimentaci\'{o}n positiva puesto que los polos de la TLC interna est\'{a}n en el semiplano izquierdo pero presenta una inversi\'{o}n de signo.
 
 
 \begin{figure}[H]
@@ -542,7 +540,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 \end{figure}
 
 
-\noindent En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 115. Por lo tanto, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int}=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $3\:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
+ En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 115. Por lo tanto, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int}=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $3\:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
 
 
 \begin{figure}[H]
@@ -553,7 +551,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 \end{figure}
 
 
-\noindent En la figura \ref{fig:respuesta-al-escalon-con-k-20-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int}=20$ que resulta en un tiempo de establecimiento de $0.22\:s$ y un \textsl{overshoot} de 4.41\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
+ En la figura \ref{fig:respuesta-al-escalon-con-k-20-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int}=20$ que resulta en un tiempo de establecimiento de $0.22\:s$ y un \textsl{overshoot} de 4.41\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
 
 \begin{figure}[H]
 	\centering
@@ -563,7 +561,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 \end{figure}
 
 
-\noindent La respuesta al escal\'{o}n cuando la masa es de $1\:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de $0.104\:s$ y el de establecimiento de $0.196\:s$. Adem\'{a}s, es posible notar que no presenta sobrepicos.
+ La respuesta al escal\'{o}n cuando la masa es de $1\:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de $0.104\:s$ y el de establecimiento de $0.196\:s$. Adem\'{a}s, es posible notar que no presenta sobrepicos.
 
 
 
@@ -577,9 +575,9 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 
 \section{Cálculo de los coeficientes del controlador}
 
-\noindent Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a las transferencias del compensador por adelanto de fase $C(w)$ y al integrador $G_{integ}(w)$.
+ Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a las transferencias del compensador por adelanto de fase $C(w)$ y al integrador $G_{integ}(w)$.
 
-\noindent Por lo tanto, se obtiene:
+ Por lo tanto, se obtiene:
 
 \begin{equation} \label{GrindEQ__5_6_} 
 	C(z)=\ \ \frac{U(z)}{e(z)}=\frac{8.6896*10^5(z-0.9877)^2}{\ (z-0.7757)^2}\  
@@ -589,7 +587,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 	G_{integ}(z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0028(\ z\ +\ 1)}{\ (z\ -\ 1)} 
 \end{equation} 
 
-\noindent Si se considera $H(z)=1$ se obtiene que:
+ Si se considera $H(z)=1$ se obtiene que:
 
 \begin{equation} \label{GrindEQ__5_39_} 
 	e(z)=e_f(Z)+Y_f(z) 
@@ -600,7 +598,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 \end{equation} 
 
 
-\noindent Al aplicar la partir de las ecuaciones \ref{GrindEQ__5_6_} y \ref{GrindEQ__5_7_} se obtiene las expresiones a implementar en el microcontrolador:
+ Al aplicar la partir de las ecuaciones \ref{GrindEQ__5_6_} y \ref{GrindEQ__5_7_} se obtiene las expresiones a implementar en el microcontrolador:
 
 \begin{equation} 
 	\begin{aligned}\label{eq_U-coef}
@@ -614,7 +612,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 \end{equation} 
 
 
-\noindent Luego, para dejar el algoritmo de control en funci\'{o}n de las entradas del sistema, se debe reemplazar en las ecuaciones \ref{eq_U-coef} y \ref{eq_e-coef} las expresiones mencionadas en las ecuaciones \ref{GrindEQ__5_10_} y \ref{GrindEQ__5_11_}
+ Luego, para dejar el algoritmo de control en funci\'{o}n de las entradas del sistema, se debe reemplazar en las ecuaciones \ref{eq_U-coef} y \ref{eq_e-coef} las expresiones mencionadas en las ecuaciones \ref{GrindEQ__5_10_} y \ref{GrindEQ__5_11_}
 
 \begin{equation} \label{GrindEQ__5_10_} 
 	e[n]=e_f[n]+Y_f[n] 
@@ -626,7 +624,7 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 
 \section{Conexi\'{o}n entre el PCB y el microcontrolador}
 
-\noindent Se utiliza un conector tipo DB9 hembra como v\'{i}a de conexi\'{o}n para las distintas salidas y entradas digitales. Adem\'{a}s, en la placa se dispone de un led que se enciende cuando  se detecta una correcta conexi\'{o}n con el microcontrolador.
+ Se utiliza un conector tipo DB9 hembra como v\'{i}a de conexi\'{o}n para las distintas salidas y entradas digitales. Adem\'{a}s, en la placa se dispone de un led que se enciende cuando  se detecta una correcta conexi\'{o}n con el microcontrolador.
 
 
 

@@ -350,11 +350,6 @@ El problema de este integrador es que presenta una ganancia infinita en continua
 
 Sin embargo, es importante tener en cuenta que la ubicación de un polo en baja frecuencia provoca que la cancelación del error en régimen permanente no sea completa.
 
-\colorbox{red}{Ver de verificar el error al escalón mas adelante y referenciarlo a esta parte}
-a
-
-\colorbox{red}{Yo lo del parrafo del error lo pondria al final de la seccion como  una conclusion o algo asi y despues aclararia lo de que vamos a corregir el error con la ganancia F}
-
 %, pero de todas maneras sea pequeña en comparación con la distancia de separación.
 
 %Debido a que no usamos un integrador ideal, la respuesta al escalón presentará un cierto error.
@@ -710,8 +705,6 @@ Con este circuito se obtiene la función transferencia del compensador, sin cons
 Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado,. Por lo tanto, debe cancelarse este signo en la siguiente etapa, que corresponde al sumador del lazo de realimentación interno.
 
 
-\colorbox{red}{No haría falta agregar el bode del integrador?}
-
 \subsection{Etapa sumador lazo interno}
 
 Una vez obtenida la salida del compensador externo, esta ingresa a un sumador con la señal de realimentación, para que luego el resultado ingrese al lazo de control interno.
@@ -751,10 +744,10 @@ Al igualar los coeficientes con la ecuación \ref{fig:circuito-sumador-lazo-inte
 	\frac{R_{302}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})=1
 \end{equation}
 
-Al resolver este conjunto de ecuaciones se obtiene que todas las resistencias deben tener el mismo valor. Por lo tanto, se elige que todas sean de $1\:k\Omega$. \colorbox{red}{era 1k?? verificar}
+Al resolver este conjunto de ecuaciones se obtiene que todas las resistencias deben tener el mismo valor. Por lo tanto, se elige que todas sean de $1\:k\Omega$.
 
 \subsection{Compensador interno}
-\colorbox{red}{capazz podríamos plantear el diseño de este compensador como compuesto por dos etapas de  adelanto y una ganancia. entonces diseñamos primero la de adelanto, después la ganancia y finalmente ponemos el circuito de todo junto}
+
 En esta sección se realizará el diseño del compensador del lazo de control interno. Este puede ser dividido en tres etapas internas: dos redes de adelanto de fase conectadas en cascada seguidas de una ganancia.
 
 A continuación se realiza el diseño de cada una de las etapas internas por separado.
@@ -784,8 +777,6 @@ Para realizar el análisis se debe obtener los bloques de avance ($A_w$) y reali
 	\label{eq:g_del_compensador}
 \end{equation}
 
-\colorbox{red}{sería $V^+-V^-$?  y $G^-$ se define como negativo?}
-
 \begin{figure}[H]
 	\centering
 	\input{tikz/diagrama_lazo_compensador.tex}
@@ -801,10 +792,8 @@ Para obtener estas ecuaciones se plantea un circuito de Thevening equivalente en
 \end{equation}
 
 \begin{equation} 
-	R_{th} = [R_1 // R_x+(\frac{1}{SC_x})]
+	R_{th} = R_1 //[R_x+(\frac{1}{SC_x})]
 \end{equation}
-
-\colorbox{red}{aca se puede acer un dibujito de como queda el circuito con el thevening y la realimentacion}
 
 Luego se resuelve el circuito obteniendo las transferencias mostradas en las ecuaciones \ref{eq:h_del_compensador} y \ref{eq:g_del_compensador}. Por lo tanto, se obtiene:
 
@@ -840,7 +829,7 @@ Si se diseña el bloque $H$ de forma tal de que $A_w>>1/H$ sea mayor en la banda
 	\frac{1}{C_x [R_x + R_1]} = 44.3
 \end{equation} 
 
-A continuación se realiza el diagrama de bode del bloque $A_w$ y $1/H$.
+En la figura \ref{fig:bode_compensador_cadena_avance} se muestra el diagrama de bode del bloque $A_w$ y $1/H$.
  
 \begin{figure}[H]
 	\centering
@@ -864,21 +853,49 @@ Considerando el punto de operación de $2.5V$ en la entrada no inversora se obti
 
 Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. 
 
-\colorbox{red}{Tal vez habría que validar qeu Ra es mucho mayor a RTh?}
-
-
 \subsubsection{Ganancia de compensador interno}
 
-Luego, la ganancia del compensador se obtiene con una etapa amplificadora.
-Para ello, se utiliza el circuito mostrado en la figura \ref{fig:ganancia-compensador}. Para lograr una ganancia de $K=10$ se utiliza $R_{322} = 1\:k\Omega$ y $R_{323} = 10\:k\Omega$.
+La ganancia del compensador se obtiene con una etapa amplificadora por medio de un circuito como el que se muestra en la figura \ref{fig:ganancia-compensador}.
 
-\colorbox{red}{Planteamos la trrasferencia primeo?}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{Ganancia-compensador.png}
+	\includegraphics[scale=0.5]{Ganancia-compensador.png}
 	\caption{Etapa de ganancia del compensador.}
 	\label{fig:ganancia-compensador}
 \end{figure}
+
+Una de las entrada al circuito es señal $Vaf_{out}$, que está compuesta por un termino de alterna $\hat{Vaf_{out}}$ superpuesta a un punto de operación de $2.5\:V$ ($\overline{Vaf_{out}}$). Por lo tanto, debido a que solo se desea amplificar el termino de alterna, se agrega en la entrada inversora del amplificador operacional una señal que elimine dicho punto de operación. Además, como se utiliza una fuente de alimentación simple para el circuito, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto, la función a implementar resulta:
+
+\begin{equation} \label{eq_sum_int_1}
+	V_{IL_{ref}}=2.5\:V+10*\hat{Vaf_{out}}
+\end{equation}
+
+La salida del circuito de la figura \ref{fig:ganancia-compensador} en función de sus entradas es:
+
+\begin{equation}\label{eq_sum_int_2}
+	\resizebox{.8\hsize}{!}
+	{
+		$
+		V_{IL_{ref}}=(2.5\:V\frac{R_{321}}{R_{321}+R_{319}}+Vaf_{out}\frac{R_{319}}{R_{321}+R_{319}})(1+\frac{R_{323}}{R_{322}})-2.5\:V\frac{R_{323}}{R_{322}}
+		$
+	}
+\end{equation}
+
+Por lo tanto, a partir de las expresiones \ref{eq_sum_int_1} y \ref{eq_sum_int_2} surgen las siguientes ecuaciones de diseño:
+
+\begin{equation}
+	\frac{R_{323}}{R_{322}}=10
+\end{equation}
+
+\begin{equation} 
+	(\frac{R_{321}}{R_{321}+R_{319}})*(1+\frac{R_{323}}{R_{322}}) = 1
+\end{equation}
+
+\begin{equation} 
+(\frac{R_{319}}{R_{321}+R_{319}})*(1+\frac{R_{323}}{R_{322}}) = 10
+\end{equation}
+
+Para lograr una ganancia de $10$ se elige $R_{322} = 1\:k\Omega$ y resulta $R_{323} = 10\:k\Omega$. Luego, resolviendo el resto de ecuaciones se llega a $R_{319}=10\:k\Omega$ y $R_{321}=1\:k\Omega$.
 
 
 Finalmente se muestra el circuito de todas las etapas del compensador interno...

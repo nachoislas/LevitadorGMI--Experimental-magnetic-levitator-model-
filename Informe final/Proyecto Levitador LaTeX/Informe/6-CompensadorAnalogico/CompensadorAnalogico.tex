@@ -133,7 +133,7 @@ Debido a que en ambas zonas Z resulta mayor que cero, el sistema realimentado no
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{Nyquist-deseado-analog.png}
-	\caption{Forma del diagrama de Nyquist deseado.}
+	\caption{Diagrama de Nyquist deseado.}
 	\label{fig:nyquist-deseado-analog}
 \end{figure}
 
@@ -148,7 +148,7 @@ De esta manera se identifican cuatro zonas en las que puede estar ubicado el pun
 A continuación se diseñará el compensador $G_c$ para lograr que el diagrama de Nyquist tenga la forma deseada y así, estabilizar el sistema.
 
 
-\subsection{Diseño de compensador}
+\subsection{Diseño del compensador}
 
 Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-analog} se utilizará una estrategia de compensación por adelanto de fase. Esta consiste en observar el diagrama de bode de la figura \ref{fig:Diag_Bode_lazo_abierto_30kg} y elegir una frecuencia en la que se desee aumentar la fase para lograr la estabilidad. Se debe tener en cuenta que el módulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. 
 
@@ -180,7 +180,8 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 
 \noindent En la figura \ref{fig:bode-analog-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T*G_c$ con $K=1$. Se puede observar que se logró aumentar la fase de la manera deseada. Para finalizar el diseño del compensador se debe elegir un valor apropiado para la ganancia $K$.
 
-La ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia mínima es de $15.7\:dB$ y la máxima es de $35.5\:dB - 14\:dB = 21.5\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:r/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$. Se elige este valor para priorizar la estabilidad para el caso de masa máxima, con la desventaja de que se obtiene un menor margen de fase para el caso de masa mínima. \colorbox{red}{capaz esto lo sacamos}
+La ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproximadamente. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia mínima es de $15.7\:dB$ y la máxima es de $35.5\:dB - 14\:dB = 21.5\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:r/s$, lo que significa que $K=20\:dB\ \equiv \ 10\: veces$. 
+%Se elige este valor para priorizar la estabilidad para el caso de masa máxima, con la desventaja de que se obtiene un menor margen de fase para el caso de masa mínima. 
 
 
 \begin{figure}[H]
@@ -190,7 +191,7 @@ La ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproxima
 	\label{fig:bode-analog-compensado-para-k-1}
 \end{figure}
 
-\noindent En la figura \ref{fig:bode-analog-compensado-para-k-10} se muestra el diagrama de Bode al considerar la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad, puesto que en el primer cruce por 0°, la magnitud es mayor a 0 dB y en el segundo cruce, menor. Además, en la figura \ref{fig:nyquist-analog-para-k-10} se grafica el diagrama de Nyquist para el sistema con el compensador. En él se puede ver que el punto $1+j0$ queda dentro de la zona en la que $N=-1$, que resulta en $Z=0$.
+\noindent En la figura \ref{fig:bode-analog-compensado-para-k-10} se muestra el diagrama de Bode al considerar la ganancia del compensador. En ella se puede observar que se  cumple con el criterio de estabilidad, puesto que en el primer cruce por 0°, la magnitud es mayor a $0\:dB$ y en el segundo cruce, menor. Además, en la figura \ref{fig:nyquist-analog-para-k-10} se grafica el diagrama de Nyquist para el sistema con el compensador. En él se puede ver que el punto $1+j0$ queda dentro de la zona en la que $N=-1$, que resulta en $Z=0$.
 
 \begin{figure}[H]
 	\centering
@@ -207,11 +208,11 @@ La ganancia $K$ puede adoptar valores desde $15.7\:dB$ hasta $35.5\:dB$ aproxima
 \end{figure}
 
 
-\subsection{Verificación de estabilidad con masa de 1 kg}
+\subsection{Verificación de estabilidad con masa mínima}
 
 %\noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$ con el compensador dise\~{n}ado para el caso de masa m\'{a}xima. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. Adem\'{a}s, en la figura \ref{fig:respuesta-analog-al-escalon-para-M-1Kg} puede observarse la respuesta al escal\'{o}n. A partir de ellos, es posible verificar que el sistema resulta estable para todo el rango de masas en el que opera el sistema. 
 
-\noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$ con el compensador previamente diseñado. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. A partir de ellos, es posible verificar que el sistema resulta estable para todo el rango de masas en el que opera el sistema. Sin embargo, se puede observar que el margen de fase es menor que 45°, por lo que el sistema puede presentar un transitorio con oscilaciones amortiguadas. A raiz de esto, se propone implementar un lazo de control externo que permita mejorar dicha respuesta.
+\noindent Se verifica la estabilidad del sistema  para el caso en que la masa sea de $1\:kg$ con el compensador previamente diseñado. Para ello, se analizan los diagramas de Bode y Nyquist mostrados en las figuras \ref{fig:bode-analog-para-M-1Kg} y \ref{fig:nyquist-analog-para-M-1Kg}. A partir de ellos, es posible verificar que el sistema resulta estable para todo el rango de masas en el que opera el sistema. Sin embargo, se puede observar que el margen de fase es menor que 45°, por lo que el sistema puede presentar un transitorio con oscilaciones amortiguadas. A raíz de esto, se propone implementar un lazo de control externo que permita mejorar dicha respuesta.
 
 \begin{figure}[H]
 	\centering
@@ -358,7 +359,7 @@ Para encontrar el valor adecuado de $K_{int}$ se grafica el lugar de raíces de 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{rlocusconintegrador30kg_inestable.png}
-	\caption{Lugar de raíces de $GH_{externo}$}.
+	\caption{Lugar de raíces de $GH_{externo}$.}
 	\label{fig:lugar-de-raices-con-integrador-analog_inestable}
 \end{figure}
 
@@ -427,7 +428,7 @@ Al observar la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30-analog} es posi
 \end{figure}
 
 
-\section{Cálculo de ganancia de entrada F} \label{sec_calculo_F}
+\subsection{Cálculo de ganancia de entrada} \label{sec_calculo_F}
 
 Para que la tensión de referencia de posición $V_{y_{ref}}$ se corresponda con el valor deseado de distancia de entrehierro $Y_g$ se utiliza el bloque nombrado F en la figura \ref{fig:diag-externo_real_positiva}. 
 
@@ -522,7 +523,7 @@ De la tabla \ref{tension-ref-vs-separacion-real} se puede ver que los valores de
 
 
 %La realimentación tiene un punto de operación de $3.4\:V$. Por lo tanto, se le suma a $V_{y_{ref}}$ el mismo valor.
-\section{Transferencia de lazo cerrado externo}
+\subsection{Transferencia de lazo cerrado}
 
 Finalmente se puede expresar la función transferencia del lazo de control externo como:
 
@@ -558,7 +559,7 @@ En esta sección se aborda el diseño circuital de la etapa de compensación pla
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{Etapa-de-entrada.png}
+	\includegraphics[scale=0.6]{Etapa-de-entrada.png}
 	\caption{ Etapa de entrada.}
 	\label{fig:etapa-de-entrada}
 \end{figure}
@@ -569,7 +570,7 @@ Por lo tanto, al adoptar un valor comercial para ellas, resulta en $R_1 = 316 \:
 
 Por otro lado, se utiliza un amplificador operacional en modo seguidor de la señal $V_{r_{ref}}$ para evitar generar una carga sobre el potenciómetro. 
 
-\subsection{Implementación circuital de la ganancia de entrada y sumador}
+\subsection{Ganancia de entrada y sumador}
 
 Como se observa en el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_final}, luego de la etapa de generación de $V_{y_{ref}}$ se encuentra una etapa de ganancia, representada por el bloque F, junto con la suma de la señal realimentada $V_{estim}$. Este circuito estará implementado a partir de la utilización de amplificadores operacionales alimentados con fuente simple de $5\:V$, al igual que en el resto de las etapas. Es por ello que se debe tener la consideración de que la salida de esta etapa tenga un punto de operación de $2.5\:V$. Por lo tanto el circuito debe implementar la función:
 
@@ -633,7 +634,7 @@ Se elije $R_1=R_3=1\:k\Omega$, resultando en $R_6=66.7\:k\Omega$.
 
 Para obtener el valor de $F=1.015$ a partir del cociente entre  $R_2$  y $R_4$, se utilizan resistencias de $1015\:\Omega$ y $1000\:\Omega$, respectivamente.
 
-\subsection{Implementación circuital del integrador}
+\subsection{Compensador externo}
 
 Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) se utiliza un circuito basado en un amplificador operacional. Este tiene una red de realimentación RC para que su transferencia de lazo cerrado tenga el polo del compensador. Como se utiliza un amplificador operacional con alimentación simple de $5\:V$, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto, se implementa la función:
 
@@ -641,12 +642,12 @@ Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) 
 	V_{ref_c}=2.5\:V+V_{e_{ext}}*\frac{K_{int}}{1+\frac{s}{p_{int}}}
 \end{equation}
 
-\noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología utilizada para el diseño del circuito integrador.
+\noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología utilizada para el diseño del circuito externo.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Circuito-integrador.png}
-	\caption{Implementación circuital del integrador.}
+	\caption{Implementación circuital del compensador externo.}
 	\label{fig:circuito-integrador}
 \end{figure}
 
@@ -705,7 +706,7 @@ Con este circuito se obtiene la función transferencia del compensador, sin cons
 Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado,. Por lo tanto, debe cancelarse este signo en la siguiente etapa, que corresponde al sumador del lazo de realimentación interno.
 
 
-\subsection{Etapa sumador lazo interno}
+\subsection{Sumador del lazo interno}
 
 Una vez obtenida la salida del compensador externo, esta ingresa a un sumador con la señal de realimentación, para que luego el resultado ingrese al lazo de control interno.
 
@@ -752,14 +753,14 @@ En esta sección se realizará el diseño del compensador del lazo de control in
 
 A continuación se realiza el diseño de cada una de las etapas internas por separado.
 
-\subsubsection{Implementación circuital de la red de adelanto de fase}
+\subsubsection{Red de adelanto de fase}
 
 Para cada red de adelanto de fase se utiliza la topología mostrada en la figura \ref{fig:red-adelanto-fase}. Se desea obtener una transferencia como la calculada en \ref{eq_tf_adelanto}. A continuación se analiza el circuito propuesto y se determinan los valores de cada componente. 
 %Consiste en  un polo y un cero con ganancia unitaria (si $R_a = R_b$). Luego, se agrega la ganancia como una etapa separada.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.55]{Red-adelanto-fase.png}
+	\includegraphics[scale=0.5]{Red-adelanto-fase.png}
 	\caption{Diseño circuital de una red de adelanto de fase.}
 	\label{fig:red-adelanto-fase}
 \end{figure}
@@ -784,7 +785,7 @@ Para realizar el análisis se debe obtener los bloques de avance ($A_w$) y reali
 	\label{fig:diag-diagrama_lazo_compensador}
 \end{figure}
 
-Para obtener estas ecuaciones se plantea un circuito de Thevening equivalente en el nodo $V_{th}$ mostrado en la figura \ref{fig:red-adelanto-fase} obteniéndose su $V_{th}$ y $R_{th}$.
+Para obtener estas ecuaciones se plantea un circuito de Thevenin equivalente en el nodo $V_{th}$ mostrado en la figura \ref{fig:red-adelanto-fase} obteniéndose su $V_{th}$ y $R_{th}$.
 
 \begin{equation} 
 	V_{th} = Vaf_{in}= \frac{SC_xR_x+1}{SC_x[R_1+R_x]+1}
@@ -833,7 +834,7 @@ En la figura \ref{fig:bode_compensador_cadena_avance} se muestra el diagrama de 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{bode_compensador_cadena_avance.png}
-	\caption{Lazo de realimentación.}
+	\caption{Diagrama de bode del bloque $A_w$ y $1/H$.}
 	\label{fig:bode_compensador_cadena_avance}
 \end{figure}
 
@@ -863,7 +864,7 @@ La ganancia del compensador se obtiene con una etapa amplificadora por medio de 
 	\label{fig:ganancia-compensador}
 \end{figure}
 
-Una de las entrada al circuito es señal $Vaf_{out}$, que está compuesta por un termino de alterna $\hat{Vaf_{out}}$ superpuesta a un punto de operación de $2.5\:V$ ($\overline{Vaf_{out}}$). Por lo tanto, debido a que solo se desea amplificar el termino de alterna, se agrega en la entrada inversora del amplificador operacional una señal que elimine dicho punto de operación. Además, como se utiliza una fuente de alimentación simple para el circuito, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto, la función a implementar resulta:
+Una de las entrada al circuito es señal $Vaf_{out}$, que está compuesta por un término de alterna $\hat{Vaf_{out}}$ superpuesta a un punto de operación de $2.5\:V$ ($\overline{Vaf_{out}}$). Por lo tanto, debido a que solo se desea amplificar el término de alterna, se agrega en la entrada inversora del amplificador operacional una señal que elimine dicho punto de operación. Además, como se utiliza una fuente de alimentación simple para el circuito, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto, la función a implementar resulta:
 
 \begin{equation} \label{eq_sum_int_1}
 	V_{IL_{ref}}=2.5\:V+10*\hat{Vaf_{out}}
@@ -904,7 +905,7 @@ Finalmente en la figura \ref{fig:circuito_completo_comp_int} se muestra el circu
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{circuito_completo_comp-an.png}
+	\includegraphics[scale=0.45]{circuito_completo_comp-an.png}
 	\caption{Circuito completo del compensador interno.}
 	\label{fig:circuito_completo_comp_int}
 \end{figure}

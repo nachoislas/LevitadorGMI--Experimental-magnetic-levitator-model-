@@ -64,7 +64,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 Como se menciono previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para desarrollar un controlador de forma digital. 
 
-Al tomar muestras se esta discretizando una senial continua, para hacer esto, se utilizan conversores analógico digitales que mantienen el valor de esta entre muestra y muestra. Este tipo de reconstrucción de senial también se lo llama $ROC$ y se lo puede modelar con la siguiente ecuación:
+Al tomar muestras se esta discretizando una señal continua, para hacer esto, se utilizan conversores analógico digitales que mantienen el valor de esta entre muestra y muestra. Este tipo de reconstrucción de señal también se lo llama $ROC$ y se lo puede modelar con la siguiente ecuación:
 
 \begin{equation*}
 	ROC(s)=\frac{1-e^{-s*T_s}}{s}
@@ -75,26 +75,6 @@ Luego para una entrada($R(s)$) representada por un tren de pulsos con distinto v
 \begin{equation*}
 	\frac{Y(z)}{R(z)}=\frac{1-e^{-s*T_s}}{s}
 \end{equation*}
-
-
-
-\section{Consideraciones para el dominio discreto}
-
-Como se menciono previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para desarrollar un controlador de forma digital. 
-
-Al tomar muestras se esta discretizando una senial continua, para hacer esto, se utilizan conversores analógico digitales que mantienen el valor de esta entre muestra y muestra. Este tipo de reconstrucción de senial también se lo llama $ROC$ y se lo puede modelar con la siguiente ecuación:
-
-\begin{equation*}
-	ROC(s)=\frac{1-e^{-s*T_s}}{s}
-\end{equation*}
-
-Luego para una entrada($R(s)$) representada por un tren de pulsos con distinto valor para cada periodo de muestreo $T_s$ se puede aplicar la transformada Z y expresar la salida como:
-
-\begin{equation*}
-	\frac{Y(z)}{R(z)}=\frac{1-e^{-s*T_s}}{s}
-\end{equation*}
-
-
 
 \section{Diseño de algoritmo de estimación}
 
@@ -152,10 +132,9 @@ Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de induct
  Para la estimación de distancia de entrehierro es necesario medir la pendiente de la onda triangular sin alterar demasiado su forma. Debido a que la conversión realizada por el ADC recorta el contenido de frecuencia de la señal a partir de la mitad de frecuencia de muestreo, se debe elegir esta última de manera que se conserve la información de la pendiente.  Por lo tanto, para reconstruirla correctamente se decide que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5° armónica para el caso de distancia de entrehierro en que $F_{planta}$ es la mayor. Para tener cierto margen, se adopta que la frecuencia de muestreo sea 2.5 veces superior. Es decir:
 
 \begin{equation} 
-	F_{ADC} \geq 2.5 * 5 * F_{planta_{max}} \Rightarrow  F_{ADC} \geq 2.5 * 5 * 1666 Hz \Rightarrow F_{ADC} \geq 20825\:Hz
+	F_{ADC} \geq 2.5 * 5 * F_{planta_{max}} \Rightarrow  F_{ADC} \geq 2.5 * 5 * 1632\:Hz \Rightarrow F_{ADC} \geq 20400\:Hz
 \end{equation}
 
-\colorbox{red}{esta de 1666 no coincide con la de 5mm en la tabla pero igual no nos modificaría el resultado}
 
  De esta forma, se adopta una frecuencia de muestreo para el ADC de  $25\:kHz$. Con este valor es posible obtener 15 muestras en un período de la triangular para el caso de $F_{planta}$ máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la $F_{planta}$ mínima, se pueden tomar 23 muestras en un ciclo. Esto se traduce en 11 muestras para la pendiente de subida o bajada. 
 
@@ -380,7 +359,7 @@ Para realizar la separación de las componentes de la señal $V_h$ se utiliza un
 
  Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en la placa de control  e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Esta señal de referencia es también utilizada por el compensador analógico. Debido a que entrega una tensión entre $3.96\:V$ y $4.69\:V$, se implementa un circuito de acondicionamiento.
 
- A la señal de entrada se le resta el \textsl{set-point} de $2.5\:V$, para lograr señales que van desde $1.42\:V$ a $2.2\:V$. Luego, dentro del microcontrolador, se debe mapear el valor leído por el ADC con la posición deseada utilizando la ganancia del estimador analógico según la expresión \ref{eq_y-ref-dig}. Además se implementa un filtro \textsl{anti-aliasing} con frecuencia de corte en $9.9\:kHz$.
+ A la señal de entrada se le resta el punto de operación de $2.5\:V$, para lograr señales que van desde $1.42\:V$ a $2.2\:V$. Luego, dentro del microcontrolador, se debe asignar cada valor leído por el ADC a una distancia de separación deseada utilizando la ganancia del estimador analógico según la expresión \ref{eq_y-ref-dig}. Además se implementa un filtro \textsl{anti-aliasing} con frecuencia de corte en $9.9\:kHz$. \colorbox{red}{Pq elegimos esta frecuencia? Habría que justificarlos creo}
 
 \begin{equation} \label{eq_y-ref-dig}
 	Y_{ref}\ =\frac{Vpo{s_{ref}}_{ADC}\ +\ 2.5\:V}{259.6}\:[m]
@@ -401,26 +380,33 @@ Para realizar la separación de las componentes de la señal $V_h$ se utiliza un
 \end{figure}
 
 
-Considerando:
+Se considera que:
 
 \begin{equation*} 
-	X=\frac{1}{sc_{408}}//R_{411}=\frac{1}{sc_{409}}//R_{414}
+	Z=\frac{1}{sc_{408}}//R_{411}=\frac{1}{sc_{409}}//R_{414}
 \end{equation*}
 
 La salida del circuito queda como:
 
-
 \begin{equation*} 
-	V_{pos\_Ref\_ADC}=\frac{X}{X+R_{413}}V_{pos\_Ref}-\frac{X}{R_{412}}*2.5\:V
+	V_{pos\_Ref\_ADC}=\frac{Z}{Z+R_{413}}(1+\frac{Z}{R_{412}})V_{pos\_Ref}-\frac{Z}{R_{412}}*2.5\:V
 \end{equation*}
 
-Si se considera que $R_{412}=R_{413}=R_{412}$ se obtiene:
+Si se considera que $R_{412}=R_{413}$ resulta:
 
-
+%y que $2.5\:V$ es una señal continua se obtiene:
 \begin{equation*} 
-	V_{pos\_Ref\_ADC}=\frac{1}{1+sC_{408}R_{411}}(V_{pos\_Ref}-2.5\:V)
+	V_{pos\_Ref\_ADC}=\frac{Z}{R_{412}}V_{pos\_Ref}-\frac{Z}{R_{412}}*2.5\:V
 \end{equation*}
 
+
+Si se considera que $R_{411}=R_{412}$ y que $2.5\:V$ es una señal continua se obtiene:
+
+\begin{equation*} 
+	V_{pos\_Ref\_ADC}=\frac{1}{1+sC_{408}R_{411}}V_{pos\_Ref}-2.5\:V
+\end{equation*}
+
+Por lo tanto, para obtener una frecuencia de corte para el filtro \textsl{anti-aliasing} de $9.9\:kHz$ se elige $R_{411}=50\:k\Omega$ y resulta $C_{408}=1.6\:nF$. De esta forma, se obtiene que $R_{412}=R_{413}=R_{414}=50\:k\Omega$ y que $C_{409}=1.6\:nF$.
 
 
 \subsection{Componente  alterna de corriente del electroimán}

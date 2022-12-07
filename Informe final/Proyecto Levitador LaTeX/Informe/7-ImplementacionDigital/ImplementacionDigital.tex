@@ -147,14 +147,13 @@ Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva 
 
 \subsection{Estimación digital de la posición}
 
-A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de separación con la pendiente de la corriente en el electroimán, se despeja la posición ($Y_g$) y se obtiene:
+En el capitulo \ref{cap:Estimador Analogico} se analizó la relación entre la distancia del entrehierro con la pendiente de la corriente en el electroimán. Se llegó a la expresión \ref{eq_Yg_despejada}, que se repite a continuación:
 
 \begin{equation} \label{eq_yg_vs_derivada}
 	Y_g = 5.136*10^{-6}*|\frac{di_L}{dt}|- 3.472*10^{-3} [m]
 \end{equation}
 
- Es importante notar que la resistencia interna del electroimán ($R_L$) genera una caída de tensión cuando circula corriente. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que para el de bajada. De esta forma, la onda triangular presenta diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC. Es decir:
-
+A partir de la expresión \ref{eq_yg_vs_derivada} se puede obtener la distancia de entrehierro midiendo la pendiente de la corriente. Sin embargo, esta expresión fue calculada suponiendo que no se generaba una caída de tensión en la resistencia interna del electroimán ($R_L$), obteniendo una pendiente teórica. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que para el de bajada. De esta forma, la onda triangular presenta diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC. La relación entre esta y la teórica se da por:
 
 \begin{equation} \label{eq_derivada_real}
 	(\frac{di_L}{dt})_{Real}=(\frac{di_L}{dt})_{Teorica}-\frac{R_L*I_L}{L(Y_g)}
@@ -167,20 +166,20 @@ Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_
 \end{equation}
 
 
- Al aproximar la derivada real como la resta entre la muestra de corriente en un instante menos el anterior sobre el período de muestreo y al utilizar \ref{eq_derivada_teorica} en \ref{eq_yg_vs_derivada}, se obtiene:
+Para calcular la derivada real de la pendiente dentro del microcontrolador se aproxima como la resta entre la muestra de corriente en un instante ($I_L[n]$) menos la muestra mas vieja en el buffer ($I_L[n-K]$) sobre el intervalo de tiempo transcurrido entre ellas ($K*T_S=\frac{K}{F_S}$). Al considerar este cálculo de la derivada y utilizar \ref{eq_derivada_teorica} en \ref{eq_yg_vs_derivada}, se obtiene:
 
-\begin{equation} 
-	Y_g[n] = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-K]}{K*T_S}+\frac{R_LDD*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
+\begin{equation} \label{eq_yg_vs_IL}
+	Y_g[n] = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-K]}{K*T_S}+\frac{R_L*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
 \end{equation}
 
- Al considerar a $V_h$ como la tensión entregada por el sensor de efecto Hall, proporcional a la corriente que circula por el electroimán multiplicada por una ganancia $K_h$ de $53.3\:mV/A$, con  ($\hat{V_h}$)  correspondiente a la componente alterna de tensión y ($\bar{V_h}$) a la continua, resulta:
+$V_h$ es la tensión proporcional a la corriente que circula por el electroimán multiplicada por la ganancia $K_h=53.3\:mV/A$. Esta señal se puede separar en dos componentes: $\hat{V_h}$  correspondiente a la componente alterna de tensión y $\bar{V_h}$ a la continua:
 
 
 \begin{equation} 
 	V_h[n] = \bar{V_h}[n] + \hat{V_h}[n] = K_h * (\bar{I_L}[n] + \hat{I_L}[n])
 \end{equation}
 
- Para la estimación de la posición se utiliza el término de alterna mientras que para compensar el error introducido por la resistencia interna del electroimán se utiliza el de continua. Por lo tanto, se obtiene:
+ Para la estimación de la posición se utiliza el término de alterna mientras que para compensar el error introducido por la resistencia interna del electroimán se utiliza el de continua. Por lo tanto reemplazando $I_L=\frac{V_h}{K_h}$ en la ecuación \ref{eq_yg_vs_IL}, se obtiene:
 
 \begin{equation}
 	\resizebox{.8\hsize}{!}
@@ -189,9 +188,9 @@ Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_
 	}
 \end{equation}
 
- El término $\bar{V_h}[n]$ se obtiene de sensar el valor medio de tensión entregado por el sensor de efecto Hall mediante un canal del ADC.
+El término $\bar{V_h}[n]$ se obtiene de sensar el valor medio de la tensión $V_h$ mediante un canal del ADC.
 
- Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtiene a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
+Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtuvo a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
 
 
 \begin{equation} \label{eq_inductancia}
@@ -217,13 +216,14 @@ Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_
 \end{equation}
 
 
- El número de muestras está representado por ``n''. Es decir, $V_h[n]$ se refiere a la muestra más reciente en el buffer y $V_h[n-K]$ a la más vieja.
+El número de muestras está representado por ``n''. Es decir, $V_h[n]$ se refiere a la muestra más reciente en el buffer y $V_h[n-K]$ a la más vieja.
 
 Es importante notar que los coeficientes del estimador deben calcularse justo antes de realizar una nueva estimación,  en función de la cantidad de muestras que se utilizan para el cálculo de la pendiente. Si bien el estimador presenta una frecuencia de actualización variable, los coeficientes del compensador digital no se ven modificados ya que se calculan teniendo en cuenta la frecuencia de actualización más lenta.
 
- Por otro lado, el bloque $H_D$ mostrado en la figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
+Por otro lado, el bloque $H_D$ mostrado en la figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
+ \colorbox{red}{si sacamos la figura hay que ver de modificar esto o sacarlo}
 
-\section{Resolución en posición}
+\subsection{Resolución en posición}
 
  Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L[Y_g]$) que se traduce en un cambio de frecuencia ($\Delta F_{planta}$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
 

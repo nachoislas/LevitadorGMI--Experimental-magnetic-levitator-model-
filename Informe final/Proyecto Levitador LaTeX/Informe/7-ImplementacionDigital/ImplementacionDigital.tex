@@ -39,6 +39,24 @@ Abstrayéndose de la matemática que se realiza dentro del microcontrolador para
 
 \colorbox{blue}{acá arrancaría con una sección general que sea algoritmo de estimación y dentro de ella iría lo de frecuencia de muestreo, etc...}
 
+\section{Consideraciones para el dominio discreto}
+
+Como se menciono previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para desarrollar un controlador de forma digital. 
+
+Al tomar muestras se esta discretizando una senial continua, para hacer esto, se utilizan conversores analógico digitales que mantienen el valor de esta entre muestra y muestra. Este tipo de reconstrucción de senial también se lo llama $ROC$ y se lo puede modelar con la siguiente ecuación:
+
+\begin{equation*}
+	ROC(s)=\frac{1-e^{-s*T_s}}{s}
+\end{equation*}
+
+Luego para una entrada($R(s)$) representada por un tren de pulsos con distinto valor para cada periodo de muestreo $T_s$ se puede aplicar la transformada Z y expresar la salida como:
+
+\begin{equation*}
+	\frac{Y(z)}{R(z)}=\frac{1-e^{-s*T_s}}{s}
+\end{equation*}
+
+
+
 \section{Diseño de algoritmo de estimación}
 
 En esta sección se diseña el algoritmo que realiza la estimación de distancia de entrehierro $Y_g$ a partir de las muestras tomadas por el ADC de la tensión de salida del sensor de efecto Hall.

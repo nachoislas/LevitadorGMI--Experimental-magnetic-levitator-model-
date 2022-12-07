@@ -7,11 +7,11 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \section{Descripción general}
 
- La implementación digital consiste en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un DAC y un ADC, ambos de 12 bits y $3.3\:V$ de referencia. 
+ La implementación digital consiste en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un conversor digital analógico (DAC) y un conversor analógico digital (ADC), ambos de 12 bits y $3.3\:V$ de referencia. 
 
- En la figura \ref{fig:diag-en-bloques-digital} se muestra un diagrama en bloques general de la implementación digital del sistema. Es posible observar que se ingresa al microcontrolador a través de un ADC, con una tensión de referencia ($V_{ref}$) proporcional a la distancia de separación deseada. Esa posición de referencia es comparada con la posición estimada $Y(z)$ y el resultado $e(z)$ es afectado por el compensador digital $C(z)$. Por medio de un DAC, la salida del compensador ingresa al controlador de corriente $G_{iL}(s)$, el cual actúa sobre la planta $G_P(s)$, y modifica la distancia de separación.
+ En la figura \ref{fig:diag-en-bloques-digital} se muestra un diagrama en bloques general de la implementación digital del sistema. Todos los bloques dentro del microcontrolador están representados por funciones transferencia en el dominio de la variable Z. \colorbox{red}{creo que sería medio complicado explicar qué es z}. Es posible observar que se ingresa al microcontrolador a través de un ADC, con una tensión de referencia ($V_{y_{ref}}$) proporcional a la distancia de separación deseada, que es la misma utilizada en la implementación analógica. Esta es multiplicada por la ganancia de entrada $G_{in}$ y luego es comparada con la posición estimada $Y(z)$. El resultado $e(z)$ es la entrada del compensador digital $C(z)$. Por medio de un DAC, la salida del compensador digital ingresa al controlador de corriente $G_{IL}(s)$, que actúa sobre la planta $G_P(s)$, y modifica la distancia de separación.
 
- Por medio de un ADC y el sensor de efecto Hall, se muestrea una tensión proporcional a la corriente que circula por el electroimán. De esta forma, es posible obtener una posición estimada $Y(z)$ al multiplicar esta tensión por la transferencia $H(Z)$.
+ Por medio de un ADC y el sensor de efecto Hall, se muestrea una tensión proporcional a la corriente que circula por el electroimán. Se implementa un algoritmo de estimación dentro del microcontrolador que permite obtener una posición estimada $Y(z)$. Este está representado por la transferencia $H(Z)$.
 
 
 \begin{figure}[H]
@@ -21,6 +21,8 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\label{fig:diag-en-bloques-digital}
 \end{figure}
 \colorbox{red}{dejar un solo diagrama y cambiar lo de abajo}
+
+\colorbox{blue}{yo dejaría el de arriba que representa mejor que la entrada al sistema digital es la corriente. pero el de abajo nos sirve para el diseño del compensador también}
  Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
 
 \begin{equation} 

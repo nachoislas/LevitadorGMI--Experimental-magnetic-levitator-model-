@@ -9,35 +9,74 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
  La implementación digital consiste en realizar la estimación de posición y el control de la planta por medio de un microcontrolador. Se utiliza un kit de desarrollo basado en el microcontrolador STM32F072, que contiene un conversor digital analógico (DAC) y un conversor analógico digital (ADC), ambos de 12 bits y $3.3\:V$ de referencia. 
 
- En la figura \ref{fig:diag-en-bloques-digital} se muestra un diagrama en bloques general de la implementación digital del sistema. Todos los bloques dentro del microcontrolador están representados por funciones transferencia en el dominio de la variable Z. \colorbox{red}{creo que sería medio complicado explicar qué es z}. Es posible observar que se ingresa al microcontrolador a través de un ADC, con una tensión de referencia ($V_{y_{ref}}$) proporcional a la distancia de separación deseada, que es la misma utilizada en la implementación analógica. Esta es multiplicada por la ganancia de entrada $G_{in}$ y luego es comparada con la posición estimada $Y(z)$. El resultado $e(z)$ es la entrada del compensador digital $C(z)$. Por medio de un DAC, la salida del compensador digital ingresa al controlador de corriente $G_{IL}(s)$, que actúa sobre la planta $G_P(s)$, y modifica la distancia de separación.
+ En la figura \ref{fig:diag-en-bloques-digital} se muestra un diagrama en bloques general de la implementación digital del sistema. Es posible observar que se ingresa al microcontrolador a través de un canal del ADC, con una tensión de referencia ($V_{y_{ref}}$) proporcional a la distancia de separación deseada, que es la misma utilizada en la implementación analógica. Además, se ingresa por medio de otro canal del ADC con la tensión de salida del sensor de efecto hall ($V_{IL_{feed}}$). Por otro lado, mediante un DAC, se ingresa al controlador de corriente $G_{IL}(s)$, que actúa sobre la planta $G_P(s)$, y modifica la distancia de separación.
 
- Por medio de un ADC y el sensor de efecto Hall, se muestrea una tensión proporcional a la corriente que circula por el electroimán. Se implementa un algoritmo de estimación dentro del microcontrolador que permite obtener una posición estimada $Y(z)$. Este está representado por la transferencia $H(Z)$.
+% Por medio de un ADC y el sensor de efecto Hall, se muestrea una tensión proporcional a la corriente que circula por el electroimán. Se implementa un algoritmo de estimación dentro del microcontrolador que permite obtener una posición estimada $Y(z)$. Este está representado por la transferencia $H(Z)$.
 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{Diagrama-en-bloques-digital.png}
+	\includegraphics[scale=0.5]{Diagrama-en-bloques-digital2.png}
 	\caption{Diagrama en bloques de la implementación digital.}
 	\label{fig:diag-en-bloques-digital}
 \end{figure}
-\colorbox{red}{dejar un solo diagrama y cambiar lo de abajo}
 
-\colorbox{blue}{yo dejaría el de arriba que representa mejor que la entrada al sistema digital es la corriente. pero el de abajo nos sirve para el diseño del compensador también}
 
-Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
+%\colorbox{blue}{yo dejaría el de arriba que representa mejor que la entrada al sistema digital es la corriente. pero el de abajo nos sirve para el diseño del compensador también}
+%
+%Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
 
-\begin{equation} 
-	G_T(s) = G_P(s) * G_{iL}(s).
-\end{equation}
+%\begin{equation} 
+%	G_T(s) = G_P(s) * G_{iL}(s).
+%\end{equation}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Diagrama-en-bloques-digital-simplificado.png}
-	\caption{Diagrama en bloques de la etapa digital simplificado.}
-	\label{fig:diag-en-bloques-digital-simplif}
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{Diagrama-en-bloques-digital-simplificado.png}
+%	\caption{Diagrama en bloques de la etapa digital simplificado.}
+%	\label{fig:diag-en-bloques-digital-simplif}
+%\end{figure}
+%
+%\colorbox{blue}{acá arrancaría con una sección general que sea algoritmo de estimación y dentro de ella iría lo de frecuencia de muestreo, etc...}
 
-\colorbox{blue}{acá arrancaría con una sección general que sea algoritmo de estimación y dentro de ella iría lo de frecuencia de muestreo, etc...}
+% En la figura \ref{fig:diag-en-bloques-digital} se muestra un diagrama en bloques general de la implementación digital del sistema. Todos los bloques dentro del microcontrolador están representados por funciones transferencia en el dominio de la variable Z. \colorbox{red}{creo que sería medio complicado explicar qué es z}. Es posible observar que se ingresa al microcontrolador a través de un ADC, con una tensión de referencia ($V_{y_{ref}}$) proporcional a la distancia de separación deseada, que es la misma utilizada en la implementación analógica. Esta es multiplicada por la ganancia de entrada $G_{in}$ y luego es comparada con la posición estimada $Y(z)$. El resultado $e(z)$ es la entrada del compensador digital $C(z)$. Por medio de un DAC, la salida del compensador digital ingresa al controlador de corriente $G_{IL}(s)$, que actúa sobre la planta $G_P(s)$, y modifica la distancia de separación.
+%
+%Por medio de un ADC y el sensor de efecto Hall, se muestrea una tensión proporcional a la corriente que circula por el electroimán. Se implementa un algoritmo de estimación dentro del microcontrolador que permite obtener una posición estimada $Y(z)$. Este está representado por la transferencia $H(Z)$.
+%
+%\colorbox{blue}{yo dejaría el de arriba que representa mejor que la entrada al sistema digital es la corriente. pero el de abajo nos sirve para el diseño del compensador también}
+% Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
+%
+%\begin{equation} 
+%	G_T(s) = G_P(s) * G_{iL}(s).
+%\end{equation}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.5]{Diagrama-en-bloques-digital-simplificado.png}
+%	\caption{Diagrama en bloques de la etapa digital simplificado.}
+%	\label{fig:diag-en-bloques-digital-simplif}
+%\end{figure}
+%
+%\colorbox{blue}{acá arrancaría con una sección general que sea algoritmo de estimación y dentro de ella iría lo de frecuencia de muestreo, etc...}
+
+
+\section{Consideraciones para el dominio discreto}
+
+Como se menciono previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para desarrollar un controlador de forma digital. 
+
+Al tomar muestras se esta discretizando una senial continua, para hacer esto, se utilizan conversores analógico digitales que mantienen el valor de esta entre muestra y muestra. Este tipo de reconstrucción de senial también se lo llama $ROC$ y se lo puede modelar con la siguiente ecuación:
+
+\begin{equation*}
+	ROC(s)=\frac{1-e^{-s*T_s}}{s}
+\end{equation*}
+
+Luego para una entrada($R(s)$) representada por un tren de pulsos con distinto valor para cada periodo de muestreo $T_s$ se puede aplicar la transformada Z y expresar la salida como:
+
+\begin{equation*}
+	\frac{Y(z)}{R(z)}=\frac{1-e^{-s*T_s}}{s}
+\end{equation*}
+
+
 
 \section{Consideraciones para el dominio discreto}
 

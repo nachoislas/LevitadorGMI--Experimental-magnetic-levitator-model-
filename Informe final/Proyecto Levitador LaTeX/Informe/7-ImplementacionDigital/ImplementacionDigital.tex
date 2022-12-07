@@ -295,6 +295,29 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 	\label{fig:circuito-ref-posicion}
 \end{figure}
 
+
+Considerando:
+
+\begin{equation*} 
+	X=\frac{1}{sc_{408}}//R_{411}=\frac{1}{sc_{409}}//R_{414}
+\end{equation*}
+
+La salida del circuito queda como:
+
+
+\begin{equation*} 
+	V_{pos\_Ref\_ADC}=\frac{X}{X+R_{413}}V_{pos\_Ref}-\frac{X}{R_{412}}*2.5\:V
+\end{equation*}
+
+Si se considera que $R_{412}=R_{413}=R_{412}$ se obtiene:
+
+
+\begin{equation*} 
+	V_{pos\_Ref\_ADC}=\frac{1}{1+sC_{408}R_{411}}(V_{pos\_Ref}-2.5\:V)
+\end{equation*}
+
+
+
 \subsection{Componente  alterna de corriente del electroimán}
 
  Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de $100\:Hz$, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12\:kHz$, que actúa como filtro \textsl{anti-aliasing}. Luego, la salida es amplificada con una ganancia de 50 veces (para mejorar la medición de la pendiente por el ADC) y se agrega un \textsl{set-point} de $2.5\:V$.

@@ -36,19 +36,42 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\label{fig:diag-en-bloques-digital-simplif}
 \end{figure}
 
+\colorbox{blue}{acá arrancaría con una sección general que sea algoritmo de estimación y dentro de ella iría lo de frecuencia de muestreo, etc...}
 
-\section{Determinación de la frecuencia de muestreo}
+\section{Diseño de algoritmo de estimación}
 
- Se desea realizar una estimación de la posición del electroimán $Y(z)$  a partir de las muestras tomadas por el ADC de la tensión de salida del sensor de efecto Hall.
+En esta sección se diseña el algoritmo que realiza la estimación de distancia de entrehierro $Y_g$ a partir de las muestras tomadas por el ADC de la tensión de salida del sensor de efecto Hall.
 
- La forma de onda de la salida del sensor es triangular y presenta una frecuencia variable en función de la distancia de separación. Se puede calcular como:
+La señal que entra al ADC es la salida del sensor de efecto Hall $V_{IL_{feed}}$, que está dada por:
+
+\begin{equation*}
+	V_{IL_{feed}}=K_h*I_L+0.1\:V
+\end{equation*}
+
+Donde $K_h$ es la ganancia del sensor de efecto Hall. Como la señal $V_{IL_{feed}}$ tiene un punto de operación de $0.1\:V$, se decide realizar el análisis adoptando una nueva señal $V_h$ tal que:
+
+\begin{equation*}
+	V_h=V_{IL_{feed}}-0.1\:V=K_h*I_L
+\end{equation*}
+
+\colorbox{blue}{pongo acá Vh por que la usamos mas abajo en la estimación}
+
+La conversión entre la señal $V_{IL_{feed}}$ y $V_h$ será realizada por una etapa circuital de acondicionamiento de la señal de entrada al ADC.
+
+La estimación de distancia de entrehierro se obtendrá al medir la pendiente de la señal $V_h$. Dentro del microcontrolador se implementa un algoritmo para procesar las muestras y calcular la distancia estimada. 
+
+\subsection{Determinación de la frecuencia de muestreo}
+
+El ADC toma muestras de la señal en su entrada de manera periódica. Es importante realizar un análisis de cuál es la frecuencia con la que debe tomarlas, de manera de obtener una señal adecuada para realizar la estimación.
+
+Como se vio en el capitulo \ref{cap:ControladorCorriente}, la forma de onda de la salida del sensor de efecto Hall es triangular y presenta una frecuencia de conmutación ($F_{planta}$) que varía en función de la distancia de entrehierro. Se puede calcular como:
 
 \begin{equation} \label{eq_frecuencia-de-muestreo}
-	F_{planta}(Y_g)=\frac{V_{BUS}}{2 * L(Y_g) * \Delta I_H}
+	F_{planta}(Y_g)=\frac{V_{cc}}{2 * L(Y_g) * \Delta I_L}
 \end{equation}
 
 
- Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de inductancia ($L\:[mHy]$) obtenidos en las mediciones realizadas sobre el electroimán (ver tabla \ref{tab_mediciones_inductancia}), se calcula la frecuencia de conmutación  $(F_{planta}\:[Hz])$. Los resultados se muestran en la tabla \ref{frecuencias-calculadas}.
+Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de inductancia ($L\:[mHy]$) obtenidos en las mediciones realizadas sobre el electroimán (ver tabla \ref{tab_mediciones_inductancia}), se calcula la frecuencia de conmutación  $(F_{planta}\:[Hz])$. Los resultados se muestran en la tabla \ref{frecuencias-calculadas}.
 
 
 
@@ -68,13 +91,15 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 \end{table}
 
 
- Para la estimación de la posición es necesario medir la pendiente de la onda triangular. Por lo tanto, para reconstruir su forma de onda es necesario que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5° armónica para el caso de la mayor frecuencia. Por lo tanto, se adopta 2.5 veces. Es decir:
+ Para la estimación de distancia de entrehierro es necesario medir la pendiente de la onda triangular sin alterar demasiado su forma. Debido a que la conversión realizada por el ADC recorta el contenido de frecuencia de la señal a partir de la mitad de frecuencia de muestreo, se debe elegir esta última de manera que se conserve la información de la pendiente.  Por lo tanto, para reconstruirla correctamente se decide que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5° armónica para el caso de distancia de entrehierro en que $F_{planta}$ es la mayor. Para tener cierto margen, se adopta que la frecuencia de muestreo sea 2.5 veces superior. Es decir:
 
 \begin{equation} 
-	F_S \geq 2.5 * 5 * f_{max} \Rightarrow  F_S \geq 2.5 * 5 * 1666 Hz \Rightarrow F_S \geq 20825 Hz
+	F_S \geq 2.5 * 5 * F_{planta_{max}} \Rightarrow  F_S \geq 2.5 * 5 * 1666 Hz \Rightarrow F_S \geq 20825 Hz
 \end{equation}
 
- De esta forma, se adopta una frecuencia de muestreo para el ADC de  $25 \:kHz$. Por lo tanto, es posible obtener 15 muestras en un período de la triangular para el caso de la frecuencia máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la frecuencia mínima, se pueden tomar 23 muestras en un ciclo, que se traduce en 11 muestras para la pendiente de subida o bajada. 
+\colorbox{red}{esta de 1666 no coincide con la de 5mm en la tabla pero igual no nos modificaría el resultado}
+
+ De esta forma, se adopta una frecuencia de muestreo para el ADC de  $25 \:kHz$. Con este valor es posible obtener 15 muestras en un período de la triangular para el caso de $F_{planta}$ máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la $F_{planta}$ mínima, se pueden tomar 23 muestras en un ciclo. Esto se traduce en 11 muestras para la pendiente de subida o bajada. 
 
 
 \section{Adquisición y procesamiento de las muestras}
@@ -351,6 +376,7 @@ Si se considera que $R_{412}=R_{413}=R_{412}$ se obtiene:
 
  Para obtener la componente de continua se utiliza un filtro pasa-bajos con frecuencia de corte en $106\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
 
+\colorbox{blue}{esta señal Vilfeed es la que tiene los 0.1V sumados? no me acuerdo si después lo cancelabamos dentro del micro}
 
 \begin{figure}[H]
 	\centering

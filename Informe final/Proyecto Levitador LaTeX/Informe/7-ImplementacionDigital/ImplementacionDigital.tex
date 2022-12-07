@@ -330,9 +330,9 @@ Si se considera que $R_{412}=R_{413}=R_{412}$ se obtiene:
 	\label{fig:componente-corriente-alterna}
 \end{figure}
 
-\subsection{Componente  contínua de corriente del electroimán}
+\subsection{Componente continua de corriente del electroimán}
 
- Para obtener la componente de contínua se utiliza un filtro pasa-bajos con frecuencia de corte en $106\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
+ Para obtener la componente de continua se utiliza un filtro pasa-bajos con frecuencia de corte en $106\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
 
 
 \begin{figure}[H]
@@ -342,6 +342,10 @@ Si se considera que $R_{412}=R_{413}=R_{412}$ se obtiene:
 	}
 	\label{fig:componente-corriente-continua}
 \end{figure}
+
+\begin{equation*}
+	Vi\_Feed\_valor\_medio\_ADC=\frac{1}{1+sC_{401}R_{401}}*Vi\_Feed
+\end{equation*}
 
 \section{Acondicionamiento de señales para el DAC}
 

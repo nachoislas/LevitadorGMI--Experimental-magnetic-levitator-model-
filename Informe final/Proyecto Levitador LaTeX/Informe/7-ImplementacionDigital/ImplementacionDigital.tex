@@ -94,17 +94,17 @@ Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de induct
  Para la estimación de distancia de entrehierro es necesario medir la pendiente de la onda triangular sin alterar demasiado su forma. Debido a que la conversión realizada por el ADC recorta el contenido de frecuencia de la señal a partir de la mitad de frecuencia de muestreo, se debe elegir esta última de manera que se conserve la información de la pendiente.  Por lo tanto, para reconstruirla correctamente se decide que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5° armónica para el caso de distancia de entrehierro en que $F_{planta}$ es la mayor. Para tener cierto margen, se adopta que la frecuencia de muestreo sea 2.5 veces superior. Es decir:
 
 \begin{equation} 
-	F_S \geq 2.5 * 5 * F_{planta_{max}} \Rightarrow  F_S \geq 2.5 * 5 * 1666 Hz \Rightarrow F_S \geq 20825 Hz
+	F_{ADC} \geq 2.5 * 5 * F_{planta_{max}} \Rightarrow  F_{ADC} \geq 2.5 * 5 * 1666 Hz \Rightarrow F_{ADC} \geq 20825\:Hz
 \end{equation}
 
 \colorbox{red}{esta de 1666 no coincide con la de 5mm en la tabla pero igual no nos modificaría el resultado}
 
- De esta forma, se adopta una frecuencia de muestreo para el ADC de  $25 \:kHz$. Con este valor es posible obtener 15 muestras en un período de la triangular para el caso de $F_{planta}$ máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la $F_{planta}$ mínima, se pueden tomar 23 muestras en un ciclo. Esto se traduce en 11 muestras para la pendiente de subida o bajada. 
+ De esta forma, se adopta una frecuencia de muestreo para el ADC de  $25\:kHz$. Con este valor es posible obtener 15 muestras en un período de la triangular para el caso de $F_{planta}$ máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la $F_{planta}$ mínima, se pueden tomar 23 muestras en un ciclo. Esto se traduce en 11 muestras para la pendiente de subida o bajada. 
 
 
-\section{Adquisición y procesamiento de las muestras}
+\subsection{Adquisición y procesamiento de las muestras}
 
- Al considerar el caso de máxima frecuencia, en el que solo se pueden tomar 7 muestras durante el tiempo de crecimiento o decrecimiento, se describe el procedimiento para determinar la posición estimada.
+En esta sección se desarrolla el algoritmo ideado para estimar la distancia de entrehierro. Este se puede observar en el diagrama de flujo \ref{fig:procesamiento-muestras-adquiridas}. Se realiza un análisis para el caso de máxima frecuencia de conmutación, en el que solo se pueden tomar 7 muestras durante el tiempo de crecimiento o decrecimiento.
 
 
 \begin{figure}[H]
@@ -115,18 +115,18 @@ Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de induct
 \end{figure}
 
 
- Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada del sensor de efecto Hall, se almacena en un buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
+Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada de la señal $V_h$ se almacena en un \colorbox{red}{vector en memoria podría ser en español?}buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
 
- Cada vez que el buffer se completa, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
+Cada vez que el buffer se completa, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
 
- En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores mas antiguos. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados teniendo en cuenta el tiempo transcurrido ($K$ períodos de muestreo), y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido hasta que se obtiene nueva estimación. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en “N” períodos luego de la última actualización, siendo “N” la cantidad de muestras que se almacenaron en el buffer incompleto.
+En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores mas antiguos. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados teniendo en cuenta el tiempo transcurrido ($K$ períodos de muestreo), y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido hasta que se obtiene nueva estimación. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en “N” períodos luego de la última actualización, siendo “N” la cantidad de muestras que se almacenaron en el buffer incompleto.
 
- Luego de detectar un cambio de pendiente, el
+Luego de detectar un cambio de pendiente, el
 proceso vuelve a iniciar con el buffer vacío.
 
- Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de posición con frecuencia de actualización variable. Esto es importante al momento de diseñar un compensador digital para el sistema. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor, por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $25/7 \:kHz = 3.5\:kHz$.
+Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de distancia de entrehierro con frecuencia de actualización variable. Esto será importante luego al momento de diseñar el compensador digital. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor. Por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $F_S=25/7 \:kHz = 3.5\:kHz$.
 
-\section{Estimación digital de la posición}
+\subsection{Estimación digital de la posición}
 
 A partir de la expresión \ref{eq_di-dt_lineal}, que relaciona la distancia de separación con la pendiente de la corriente en el electroimán, se despeja la posición ($Y_g$) y se obtiene:
 

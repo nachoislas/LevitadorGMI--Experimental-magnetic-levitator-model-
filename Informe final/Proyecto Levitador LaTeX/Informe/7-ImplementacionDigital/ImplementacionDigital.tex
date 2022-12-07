@@ -494,10 +494,22 @@ Si se considera que $R_{412}=R_{413}=R_{412}$ se obtiene:
 
 \section{Diseño del controlador digital}
 
-Para poder diseñar un compensador digital para un sistema continuo, se puede utilizar la transformada bilineal para poder aplicar técnicas de compensación analógica en un sistema discreto.
+Se desea implementar un algoritmo de compensación dentro del microcontrolador. Este se ejecuta cada vez que se obtiene una nueva estimación de distancia de entrehierro. Recibe en su entrada un valor correspondiente a la diferencia entre la señal de referencia y la realimentación. Este valor se denomina $e[n]$. El algoritmo de compensación realiza cálculos a partir de esta entrada y obtiene en su salida una señal $u[n]$. La relación entre $u[n]$ y $e[n]$ es una ecuación en diferencias, cuya transformada discreta (z) es la función transferencia del compensador ($C(z)$).
+
+\begin{equation*}
+	C(z)=\frac{U(z)}{E(z)}
+\end{equation*}
+
+Entonces se tiene un compensador en el dominio discreto, pero se desea controlar una planta que es continua. La forma de comunicar la salida del compensador con la entrada de la planta es mediante la utilización de un DAC. Este conlleva la ¿desventaja? de que su salida se actualiza cada intervalos de tiempo discretos. Este efecto se conoce como retenedor de orden cero (ROC), y genera un dDDeterioro en la estabilidad del sistema. El compensador que se diseñe debe tener en cuenta este efecto.
+
+
+
+Para poder diseñar un compensador digital para un sistema continuo, se pueden aplicar técnicas de diseño que permiten modelar la planta continua a la vez que se tiene en cuenta el efecto del ROC. De esta manera se pueden aplicar técnicas de compensación para sistemas analógicos.
 
 \colorbox{red}{Redactar bien esta parte}
 Por medio de la transformada bilinal es posible diseñar un compensador en el dominio analógico y luego, con su transformada inversa, obtener el compensador en el dominio discreto. Por lo tanto se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema.  
+
+\colorbox{red}{ponemos diagrama general de la compensación?}
 
 \subsection{Transferencias de la planta y del controlador de corriente}
 

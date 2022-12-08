@@ -953,33 +953,62 @@ Para implementar el algoritmo de control en el microcontrolador se aplica la tra
 \colorbox{red}{Ver si es necesario poner aca la ecuacion en diferencias}
 
 
+\section{Diseño del lazo de realimentación externo}
 
-\colorbox{red}{Aca empieza lazo externo}
- Se plantea un lazo de realimentaci\'{o}n externo como se muestra en la  figura \ref{fig:diagrama-del-sistema-completo}.
+\noindent Se plantea un lazo de realimentación externo como se muestra en la figura \ref{fig:diag-externo_dig}. 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{Diagrama-del-sistema-completo.png}
-	\caption{Diagrama del sistema completo.}
-	\label{fig:diagrama-del-sistema-completo}
+	\input{tikz/diagrama_lazo_externo_simplificado_dig.tex}
+	\caption{Diagrama en bloques del lazo de compensación externo.}	\label{fig:diag-externo_dig}
 \end{figure}
 
+En el lazo de realimentación interno actúa el compensador por adelanto de fase previamente diseñado y, en el externo, un controlador del tipo integral. Esto permite suavizar la respuesta al escalón del sistema y eliminar el error en régimen permanente.
 
- En el lazo de realimentaci\'{o}n interno act\'{u}a el compensador por adelanto de fase dise\~{n}ado previamente y, en el externo, un controlador del tipo integral. De esta forma, se logra suavizar la respuesta al escal\'{o}n del sistema y eliminar el error en r\'{e}gimen permanente.
 
 
- Para el an\'{a}lisis se considera $H(w)=1$ como realimentaci\'{o}n. La cadena de avance con masa de $30\:kg$ es:
+\noindent La cadena de avance con masa de $30\:kg$ es:
 
-\[G(W)[M=30]=Tlc(W)[M=30]*G_{integ}\] 
+\begin{equation} \label{eq_cadena_avance_integrador}
+	G=TLC_{interna}(w)[M=30\:kg]*G_{ext}
+\end{equation}
 
- Se  plantea un compensador del tipo :
+La transferencia a lazo abierto resulta:
 
-\[G_{integ}\ =\ k_{int}\ *\ \frac{1}{w}\] 
+\begin{equation} \label{eq_lazo_abierto_externo}
+	GH_{externo}=TLC_{interna}(w)[M=30\:kg]*G_{ext}
+\end{equation}
 
- La ganancia del bloque de entrada (F) se establece igual a la ganancia del estimador (H) pero cambiada de signo, debido a que la transferencia de lazo cerrado tiene una inversi\'{o}n de fase. Por lo tanto, se toma $F=-H=-1$.
+Se plantea un compensador del tipo integrador cuya transferencia es:
+\begin{equation}
+	G_{ext}= \frac{K_{int}}{w}
+\end{equation}
 
- Inicialmente se adopta $k_{int} = 1$ para poder evaluar, por medio de lugar de ra\'{i}ces mostrado en la figura \ref{fig:lugar-de-raices-con-integrador}, la estabilidad del sistema. Para este lazo de realimentaci\'{o}n externo tambi\'{e}n debe utilizarse realimentaci\'{o}n positiva puesto que los polos de la TLC interna est\'{a}n en el semiplano izquierdo pero presenta una inversi\'{o}n de signo.
 
+Para encontrar el valor adecuado de $K_{int}$ se grafica el lugar de raíces de la expresión \ref{eq_lazo_abierto_externo} considerando $K_{int}=1$. En la figura \ref{fig:lugar-de-raices-con-integrador_real_neg} se muestra un acercamiento del lugar de raíces en la zona del origen.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{Lugar-de-raices-con-integrador_real_neg.png}
+	\caption{Lugar de raíces con el integrador.}
+	\label{fig:lugar-de-raices-con-integrador_real_neg}
+\end{figure}
+
+\colorbox{red}{ver si aclaramos algo sobre si es lugar de raices continuo y discreto}
+
+
+
+
+En la figura \ref{fig:lugar-de-raices-con-integrador_real_neg} se puede observar que, el sistema resultaría inestable para cualquier valor de $K_{int}$, ya que el polo ubicado en $w=0$ se movería hacia el semiplano derecho. Por lo tanto, se propone utilizar realimentación positiva en el diagrama en bloques de la figura \ref{fig:diag-externo_dig}, obteniendo así el que se muestra la figura \ref{fig:diag-externo_real_positiva_dig}. De esta forma, el polo del integrador cambia el sentido de desplazamiento y el lugar de raíces resulta como se muestra en la \ref{fig:lugar-de-raices-con-integrador}.
+
+
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_lazo_externo_realim_positiva_dig.tex}
+	\caption{Diagrama en bloques del lazo de compensación externo con realimentación positiva.}	
+	\label{fig:diag-externo_real_positiva_dig}
+\end{figure}
 
 \begin{figure}[H]
 	\centering
@@ -988,8 +1017,9 @@ Para implementar el algoritmo de control en el microcontrolador se aplica la tra
 	\label{fig:lugar-de-raices-con-integrador}
 \end{figure}
 
+\colorbox{red}{Ver de aclarar como pasamos de Vyref valores de posición...}
 
- En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 115. Por lo tanto, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escal\'{o}n del sistema compensado con el integrador para una ganancia de $K_{int}=1$.  Es posible observar que, si bien no presenta oscilaciones, el tiempo de establecimiento es de aproximadamente $3\:s$. Por lo tanto, se decide aumentar el valor de ganancia hasta obtener una relaci\'{o}n aceptable entre el tiempo de respuesta y el sobrepico.
+\noindent En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 107. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escalón del sistema compensado con el integrador para una ganancia de $K_{int}=1$. Por otro lado, para obtener una salida positiva es necesario considerar el bloque F del diagrama \ref{fig:diag-externo_real_positiva_dig} como una ganancia unitaria negativa.
 
 
 \begin{figure}[H]
@@ -1000,41 +1030,90 @@ Para implementar el algoritmo de control en el microcontrolador se aplica la tra
 \end{figure}
 
 
- En la figura \ref{fig:respuesta-al-escalon-con-k-20-M-30}, se observa la respuesta al escal\'{o}n para una ganancia del integrador de $K_{int}=20$ que resulta en un tiempo de establecimiento de $0.22\:s$ y un \textsl{overshoot} de 4.41\%. Por lo tanto, se adopta este valor de ganancia para el dise\~{n}o del integrador.
+Al observar la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} es posible notar que la respuesta al escalón, si bien no posee oscilaciones, tiene un tiempo de establecimiento de  $2.94\:s$. Por lo tanto, para que el sistema presente mayor velocidad de respuesta, se decide aumentar el valor de ganancia hasta obtener una relación aceptable entre este tiempo y el sobrepico.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.85]{Respuesta-al-escalon-con-k-20-M-30.png}
-	\caption{Respuesta al escalón con integrador para $K_{int} =20$ y $M = 30\:kg$.}
-	\label{fig:respuesta-al-escalon-con-k-20-M-30}
-\end{figure}
+En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuesta al escalón para una ganancia del integrador de $K_{int}=5$ que resulta en un tiempo de establecimiento de $0.626\:s$ sin sobrepicos. Por lo tanto, se adopta este valor de ganancia para el diseño del integrador. Finalmente la transferencia del compensador externo queda:
 
-
- La respuesta al escal\'{o}n cuando la masa es de $1\:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-20-M-1}. All\'{i} se puede observar que el tiempo de crecimiento es de $0.104\:s$ y el de establecimiento de $0.196\:s$. Adem\'{a}s, es posible notar que no presenta sobrepicos.
-
+\begin{equation} \label{eq_gexterno}
+	G_{ext}=\frac{5}{w}	
+\end{equation}
 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.85]{Respuesta-al-escalon-con-k-20-M-1.png}
-	\caption{Respuesta al escalón con integrador para $K_{int} =20$ y $M=1\:kg$.}
-	\label{fig:respuesta-al-escalon-con-k-20-M-1}
+	\includegraphics[scale=0.7]{Respuesta-al-escalon-con-k-5-M-30.png}
+	\caption{Respuesta al escalón con integrador para $K_{int} =5$ y $M = 30\:kg$.}
+	\label{fig:respuesta-al-escalon-con-k-5-M-30}
 \end{figure}
+
+
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.4]{Diagrama-del-sistema-completo.png}
+%	\caption{Diagrama del sistema completo.}
+%	\label{fig:diagrama-del-sistema-completo}
+%\end{figure}
+
+
+
+ La respuesta al escal\'{o}n cuando la masa es de $1\:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-5-M-1}. Allí se puede observar que el tiempo de establecimiento es de $0.752\:s$ y tampoco presenta sobrepicos.
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.85]{Respuesta-al-escalon-con-k-5-M-1.png}
+	\caption{Respuesta al escalón con integrador para $K_{int} =5$ y $M=1\:kg$.}
+	\label{fig:respuesta-al-escalon-con-k-5-M-1}
+\end{figure}
+
+\section{Cálculo de ganancia de entrada}
+
+\colorbox{red}{Ver si ponemos algo de la ganancia de entrada}
+
+
+\subsection{Transferencia de lazo cerrado}
+
+Finalmente se puede expresar la función transferencia del lazo de control externo como:
+
+\begin{equation}
+	TLC_{externa}(w)=\frac{Y_g}{V_{y_{ref}}}=\frac{F*G_{ext}*TLC_{interna}}{1-G_{ext}*TLC_{interna}}
+	%	\frac{-3.6301*}{den}
+\end{equation}
+
+%   0.00043659 (s+1.237e04) (s-1.238e04) (s-7143) (s+44.34)^2
+%-----------------------------------------------------------
+%(s+1196) (s+474.7) (s+99.01) (s+6.03) (s^2 + 39.87s + 2768)
+Considerando que $F=-1$ y el caso de masa $M=30\:kg$ la transferencia de lazo cerrado queda:
+
+\begin{equation*}
+	\resizebox{.99\hsize}{!}
+	{
+		$
+		TLC_{externa}(w)=\frac{4.37*10^{-4} (w+1.24*10^{4}) (w-1.24*10^{4}) (w-7143) (w+44.34)^2}{(w+1196) (w+474.7) (w+99.01) (w+6.03) (w^2 + 39.87w + 2768)}
+		$
+	}
+\end{equation*}
+
 
 
 \section{Cálculo de los coeficientes del controlador}
 
- Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a las transferencias del compensador por adelanto de fase $C(w)$ y al integrador $G_{integ}(w)$.
+ Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a la transferencia del compensador externo $G_{ext}(w)$.
 
- Por lo tanto, se obtiene:
+Por lo tanto, se obtiene:
 
-\begin{equation} \label{GrindEQ__5_6_} 
-	C(z)=\ \ \frac{U(z)}{e(z)}=\frac{8.6896*10^5(z-0.9877)^2}{\ (z-0.7757)^2}\  
+
+%0.0007 + 0.0007 z^-1
+%--------------------
+%1 - z^-1
+
+\begin{equation} \label{eq_comp_externo_z} 
+	G_{ext}(z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0007(1+z^{-1})}{1-z^{-1}} 
 \end{equation} 
 
-\begin{equation} \label{GrindEQ__5_7_} 
-	G_{integ}(z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0028(\ z\ +\ 1)}{\ (z\ -\ 1)} 
-\end{equation} 
+\colorbox{red}{rehacer lo de abajo}
 
  Si se considera $H(z)=1$ se obtiene que:
 

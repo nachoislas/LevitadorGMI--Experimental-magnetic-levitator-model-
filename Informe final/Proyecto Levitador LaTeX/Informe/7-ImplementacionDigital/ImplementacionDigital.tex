@@ -590,7 +590,7 @@ Para comenzar el análisis se considera un compensador $G_c=K$, donde K es una c
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.75]{diag_bode_planta_en_w.png}
+	\includegraphics[scale=0.8]{diag_bode_planta_en_w.png}
 	\caption{Diagrama de Bode de lazo abierto $G_c*GH_{T}(w)$ con $M=30\:kg$.}
 	\label{fig:bode_digital}
 \end{figure}
@@ -598,26 +598,62 @@ Para comenzar el análisis se considera un compensador $G_c=K$, donde K es una c
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.75]{Nyquist-lazo-abierto-digital.png}
-	\caption{Diagrama de Nyquist de $GH_{T}(w)$ con $M=30\:kg$.}
+	\caption{Diagrama de Nyquist de $G_c*GH_{T}(w)$ con $M=30\:kg$.}
 	\label{fig:nyquist-lazo-abierto-digital}
 \end{figure}
 
- Dado que ${GH}_{T}(w)$ tiene un polo en el semiplano derecho, a partir del Nyquist se puede determinar:
+Como la transferencia de la planta $GH_T$ tiene un polo en el semiplano derecho del plano ``w'' no es posible determinar su estabilidad por medio del diagrama de Bode. Por lo tanto, se analiza la estabilidad por medio del criterio de Nyquist.
+
+Como se observa en el diagrama en bloques de la figura \ref{fig:diag-interno_dig}, para compensar al sistema se planteó una realimentación negativa. Por lo tanto, para analizar su estabilidad según Nyquist se deben determinar la cantidad de giros (N) de $G_c*GH_T$ alrededor del punto $-1+j0$ en la figura \ref{fig:nyquist-lazo-abierto-digital} y la cantidad de polos (P) en el semiplano derecho de la función transferencia $G_c*GH_T$. El sistema resultará estable si se cumple la condición \ref{eq_condicion_Nyquist}, donde Z representa la cantidad de ceros en el semiplano derecho de $1+G_c*GH_T(w)$.
+
+\begin{equation}\label{eq_condicion_Nyquist}
+	Z=N+P=0
+\end{equation}
+
+
+Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros alrededor del punto $-1+j0$ ($N=0$), resulta que $Z=1$. Por lo tanto, la transferencia de lazo cerrado ($TLC_{interna}$) presenta un comportamiento inestable. En la figura \ref{fig:nyquist-lazo-abierto-digital} se puede observar que no existe ningún valor de $K>0$ que haga que el contorno de $G_c*GH_T$ rodee el punto $-1+j0$. Por lo tanto, se propone implementar un compensador con $K<0$, para invertir el contorno de $G_c*GH_T$. Esto resulta equivalente a considerar $K>0$ y usar realimentación positiva en el lazo de control interno. De esta forma se obtiene el diagrama en bloques de la figura \ref{fig:diag-interno_dig_realimentacion_positiva}.
+
+
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_lazo_interno.tex}
+	\caption{Diagrama en bloques del lazo de compensación interno.}	\label{fig:diag-interno_dig_realimentacion_positiva}
+\end{figure}
+
+\colorbox{red}{rehacer diagrama con relaimentacion positiva}
+
+La realimentación positiva se genera al sumar la señal $Y_g$ con la señal de entrada del sistema. La transferencia de lazo cerrado del diagrama en bloques ahora se define como:
+
+\begin{equation}
+	TLC_{interna}=\frac{Y_g[m]}{V_{ref_c}[V]}=\frac{G_c*G_T}{1-G_c*G_T}
+\end{equation}
+
+Siguiendo el criterio de estabilidad de Nyquist, al utilizar realimentación positiva, la cantidad de giros (N) debe analizarse alrededor del punto $1+j0$. Si estos son en sentido horario, N será positivo, caso contrario será negativo. Al variar el valor de K, es posible hacer que el punto $1+j0$ quede contenido en la zona 1 o en la zona 2 de la figura \ref{fig:nyquist-con-zonas}. 
+
+
+
+\colorbox{red}{---------------------------------}
+Como se explicó en la sección \ref{sec_analisis_estab_analog}, la estabilidad se analiza por medio del criterio de Nyquist. Teniendo en cuenta que ${GH}_{T}(w)$ tiene un polo en el semiplano derecho,se puede plantear 2 zonas.
+Para la zona 1, la 
 
  Zona 1: $Z=N+P=0+1=1$ $\mathrm{\to}$ Inestable 
 
  Zona 2: $Z=N+P=1+1=2$ $\mathrm{\to}$ Inestable
-
- Dada la similitud de la planta en [w] con la planta del compensador analógico, se decide utilizar la misma estrategia de compensación con la misma ubicación de polos y ceros del compensador.	
-
- Finalmente se llega a la transferencia del controlador:
-
+ 
+ Dada la similitud de la planta en [w] con la planta del compensador analógico, se decide utilizar una realimentación positiva y utilizar un compensador por adelanto de fase
+ con la misma ubicación de polos y ceros que el compensador analógico. Finalmente se llega a la transferencia del controlador:
+ 
 
  \begin{equation}  
  	G_c(w)=K*{[20.346*\frac{(w+44.3)}{(w+902.1)}]}^2
  \end{equation} 
  
-
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_lazo_interno_realimentacion_positiva_dig.tex}
+	\caption{Diagrama en bloques del lazo de compensación interno considerando realimentación positiva.}	\label{fig:diag-interno_realimentacion_positiva_dig}
+\end{figure}
+\colorbox{red}{corregir diagrama}
 
  En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T(w)*G_c(w)$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $64\:dB$ hasta $88.6\:dB$. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $64\:dB$ y la m\'{a}xima es de $88.6\:dB - 14\:dB = 74.6\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=68.4\:dB\ \equiv \ 2630\:veces$.
 

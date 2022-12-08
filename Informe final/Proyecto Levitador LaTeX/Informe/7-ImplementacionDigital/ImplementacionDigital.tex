@@ -136,7 +136,7 @@ Donde $K_h$ es la ganancia del sensor de efecto Hall. Como la señal $V_{IL_{fee
 
 \colorbox{blue}{pongo acá Vh por que la usamos mas abajo en la estimación}
 
-La conversión entre la señal $V_{IL_{feed}}$ y $V_h$ será realizada por una etapa circuital de acondicionamiento de la señal de entrada al ADC.
+La conversión entre la señal $V_{IL_{feed}}$ y $V_h$ será realizada dentro del microcontrolador luego de muestrear la señal de entrada con ADC.
 
 La estimación de distancia de entrehierro se obtendrá al medir la pendiente de la señal $V_h$. Dentro del microcontrolador se implementa un algoritmo para procesar las muestras y calcular la distancia estimada. 
 
@@ -345,7 +345,7 @@ A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica}
 
 Al usar un ADC de 12 bits, se necesitaría una tensión de referencia $V_{ref} = 0.39\:V$ para lograr la resolución de $96\:\mu V$. Sin embargo, este valor resulta demasiado bajo y no sirve si se quiere medir la tensión de salida del sensor de efecto Hall de manera directa. Por lo tanto, se decide diseñar un circuito que permita realizar la estimación manteniendo la tensión de referencia en $3.3\:V$ y teniendo una resolución $\Delta V_{ADC}=0.8\:mV$.
 
-\subsection{Adaptación de señal de entrada al ADC}
+\subsection{Adaptación de señal de entrada al ADC}\label{sec_adaptacion_señal_vh_ADC}
 
 En esta sección se analiza una estrategia para poder medir la señal $V_h$ con la precisión deseada.
 
@@ -377,7 +377,7 @@ Para realizar la separación de las componentes de la señal $V_h$ se utiliza un
 	\item Frecuencia de corte superior: $12,5\:kHz$
 \end{itemize}
 
-La frecuencia de  corte superior de $12,5\:kHz$ corresponde a la de un filtro antialiasing. El uso de estos filtros antes de la discretización de los datos es necesario ya que al hacerlo aparece una réplica espectral de la señal muestreada desplazada a la frecuencia de muestreo y a sus n-múltiplos. Esta réplica puede mezclarse con la señal deseada. 
+La frecuencia de  corte superior de $12,5\:kHz$ corresponde a la de un filtro anti-solapamiento. El uso de estos filtros antes de la discretización de los datos es necesario ya que al hacerlo aparece una réplica espectral de la señal muestreada desplazada a la frecuencia de muestreo y a sus n-múltiplos. Esta réplica puede mezclarse con la señal deseada. 
 
 Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
 
@@ -412,19 +412,32 @@ Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
 
 \subsection{Referencia de posición}
 
- Para indicar al microcontrolador la distancia de separación deseada se utiliza una señal continua como referencia que se ajusta desde un potenciómetro ubicado en la placa de control  e ingresa al circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Esta señal de referencia es también utilizada por el compensador analógico. Debido a que entrega una tensión entre $3.96\:V$ y $4.69\:V$, se implementa un circuito de acondicionamiento.
+\colorbox{red}{cambiar VposRef por Vyref y Vposrefadc por Vyrefadc}
 
- A la señal de entrada se le resta el punto de operación de $2.5\:V$, para lograr señales que van desde $1.42\:V$ a $2.2\:V$. Luego, dentro del microcontrolador, se debe asignar cada valor leído por el ADC a una distancia de separación deseada utilizando la ganancia del estimador analógico según la expresión \ref{eq_y-ref-dig}. Además se implementa un filtro \textsl{anti-aliasing} con frecuencia de corte en $9.9\:kHz$. \colorbox{red}{Pq elegimos esta frecuencia? Habría que justificarlos creo}
+ Para indicar al microcontrolador la distancia de separación deseada se utiliza la señal  $V_{y_{ref}}$ proveniente del potenciómetro ubicado en la placa de control. Esta señal de referencia es también utilizada por el compensador analógico y la correspondencia entre ella y la distancia de entrehierro deseada es:
+ 
+ \begin{equation} \label{eq_vyref_vs_yg}
+ 	V_{y_{ref}}=Y_g*259.6+3.4\:V
+ \end{equation}
+ 
+Esta señal tiene una tensión que varía entre $3.96\:V$ y $4.69\:V$ para valores de $Y_g$ entre $2\:mm$ y $5\:mm$, que resulta mayor a la que puede leer el ADC. Por este motivo se implementa un circuito que permita llevarla a valores de tensión adecuados para su correcto funcionamiento. 
+
+Se implementa un circuito que le resta el punto de operación de $2.5\:V$  para lograr señales que van desde $1.42\:V$ a $2.2\:V$ y se obtiene en su salida la señal $Vpos_{ref_{ADC}}$.
+
+Luego, dentro del microcontrolador, se asigna cada valor leído por el ADC a una distancia de separación deseada ($Y_{ref}$), según la fórmula \ref{eq_y-ref-dig}.
 
 \begin{equation} \label{eq_y-ref-dig}
-	Y_{ref}\ =\frac{Vpo{s_{ref}}_{ADC}\ +\ 2.5\:V}{259.6}\:[m]
+	Y_{ref}\ =\frac{Vpos_{ref_{ADC}} +2.5 - 3.4\:V}{259.6}\:[m]=\frac{Vpos_{ref_{ADC}} - 0.9\:V}{259.6}\:[m]
 \end{equation}
+
+Para obtener la tensión $Vpos_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $1\:kHz$ para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
+
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Circuito-ref-posicion.png}
 	\caption{Circuito acondicionador para referencia de posición.}
-
+	
 \end{figure}
 
 \begin{figure}[H]
@@ -435,13 +448,23 @@ Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
 \end{figure}
 
 
-Se considera que:
+
+
+
+%
+%Como se ve en la expresión \ref{eq_vyref_vs_yg}, la señal tiene un punto de operación de $3.4\:V$. Por lo tanto si se implementa un circuito de acondicionamiento que le reste este valor, se obtiene una señal apta para el ADC.
+%  
+%  
+%Se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. A la señal de entrada se le resta el punto de operación de $3.4\:V$, para lograr señales que van desde $0.56\:V$ a $1.29\:V$. Luego, dentro del microcontrolador, se debe asignar cada valor leído por el ADC a una distancia de separación deseada ($Y_{ref}$) utilizando la ganancia del estimador analógico según la expresión \ref{eq_y-ref-dig}.
+ \colorbox{red}{hacer referencia a capitulos anteriores para justificar el calculo de Yref}
+ 
+A continuación se analiza la salida de este circuito en función de sus entradas para diseñar los valores de sus componentes. Para simplificar el análisis se define:
 
 \begin{equation*} 
 	Z=\frac{1}{sc_{408}}//R_{411}=\frac{1}{sc_{409}}//R_{414}
 \end{equation*}
 
-La salida del circuito queda como:
+Por lo tanto, la salida del circuito se puede expresar como:
 
 \begin{equation*} 
 	V_{pos\_Ref\_ADC}=\frac{Z}{Z+R_{413}}(1+\frac{Z}{R_{412}})V_{pos\_Ref}-\frac{Z}{R_{412}}*2.5\:V
@@ -455,22 +478,22 @@ Si se considera que $R_{412}=R_{413}$ resulta:
 \end{equation*}
 
 
-Si se considera que $R_{411}=R_{412}$ y que $2.5\:V$ es una señal continua se obtiene:
+Como se desea ganancia unitaria, se define que $R_{411}=R_{412}$ y se obtiene:
 
 \begin{equation*} 
-	V_{pos\_Ref\_ADC}=\frac{1}{1+sC_{408}R_{411}}V_{pos\_Ref}-2.5\:V
+	V_{pos\_Ref\_ADC}=\frac{1}{1+sC_{408}R_{411}}(V_{pos\_Ref}-2.5\:V)
 \end{equation*}
 
-\begin{equation*} 
-	\frac{V_{pos\_Ref\_ADC}}{V_{pos\_Ref}}=\frac{R_{411}*(R_{413}+R_{414})}{R_{413}*(R_{411}+R_{412})}*\frac{sC_{408}(R_{411}//R_{412})+1}{(sC_B(R_{413}//R_{414})+1)*(sC_{408}R_{411}+1)}
-\end{equation*}
+%\begin{equation*} 
+%	\frac{V_{pos\_Ref\_ADC}}{V_{pos\_Ref}}=\frac{R_{411}*(R_{413}+R_{414})}{R_{413}*(R_{411}+R_{412})}*\frac{sC_{408}(R_{411}//R_{412})+1}{(sC_B(R_{413}//R_{414})+1)*(sC_{408}R_{411}+1)}
+%\end{equation*}
 
-Por lo tanto, para obtener una frecuencia de corte para el filtro \textsl{anti-aliasing} de $9.9\:kHz$ se elige $R_{411}=50\:k\Omega$ y resulta $C_{408}=1.6\:nF$. De esta forma, se obtiene que $R_{412}=R_{413}=R_{414}=50\:k\Omega$ y que $C_{409}=1.6\:nF$.
+Por lo tanto, para obtener una frecuencia de corte para el filtro de $1\:kHz$ se elige $R_{411}=10\:k\Omega$ y resulta $C_{408}=16\:nF$. De esta forma, se obtiene que $R_{412}=R_{413}=R_{414}=10\:k\Omega$ y que $C_{409}=16\:nF$.
 
 
 \subsection{Componente  alterna de corriente del electroimán}
 
- Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de $100\:Hz$, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12\:kHz$, que actúa como filtro \textsl{anti-aliasing}. Luego, la salida es amplificada con una ganancia de 50 veces (para mejorar la medición de la pendiente por el ADC) y se agrega un \textsl{set-point} de $2.5\:V$.
+ Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de $100\:Hz$, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12\:kHz$, que actúa como filtro anti-solapamiento. Luego, la salida es amplificada con una ganancia de 50 veces, según se calculó en la sección \ref{sec_adaptacion_señal_vh_ADC} y se agrega un \textsl{set-point} de $2.5\:V$.
 
 \begin{figure}[H]
 	\centering
@@ -488,58 +511,100 @@ Por lo tanto, para obtener una frecuencia de corte para el filtro \textsl{anti-a
 	\label{fig:componente-corriente-alterna}
 \end{figure}
 
-Para resolver este circuito se plantea lo siguiente:
+Para resolver este circuito se plantea:
 
 \begin{equation*} 
-	Z_1=Z_{C_{402}}//R_{404}
+	Z_1=\frac{1}{sC_{404}}+R_{405}=\frac{1}{sC_{406}}+R_{409}
 \end{equation*}
 
 \begin{equation*} 
-	Z_2=Z_{C_{404}}+R_{405}
+	Z_2=\frac{1}{sC_{402}}//R_{404}=\frac{1}{sC_{407}}//R_{408}
+\end{equation*}
+
+La salida en función de sus entradas resulta:
+
+\begin{equation*} 
+	V_{IfeedADC} =\frac{Z_2}{Z_1}*Vi_{feed}+2.5\:V
 \end{equation*}
 
 \begin{equation*} 
-	Z_3=Z_{C_{407}}//R_{408}
+	V_{IfeedADC} =\frac{sC_{404}R_{404}}{(1+sC_{402}R_{404})(1+sC_{404}R_{405})}*Vi_{feed}+2.5\:V
 \end{equation*}
 
+Para lograr la frecuencia de corte inferior de $100\:Hz$ es necesario definir correctamente los valores de los componentes correspondientes $Z_1$. Para ello, se plantea la siguiente ecuación:
+
 \begin{equation*} 
-	Z_4=Z_{C_{406}}+R_{409}
+	100\:Hz=\frac{1}{2\pi C_{404}R_{405}}
 \end{equation*}
 
-Luego con estas impedancias se plantean las ecuaciones para los nodos:
+Se elige $R_{405}=1\:k\Omega$ por lo que resulta $C_{404}=1.6\:\mu F$. De esta forma se obtiene $R_{409}=1\:k\Omega$ y $C_{406}=1.6\:\mu F$.
+
+Debido a la acción del cero en el origen, la ganancia del circuito ira en aumento hasta alcanzar la frecuencia del primero polo ubicado en $100\:Hz$. Una vez alcanzado, la ganancia permanecerá constante. Ese valor es la ganancia resultante en la banda de paso. Como se desea que sea de 50, se plantea la siguiente ecuación:
 
 \begin{equation*} 
-	V^- = \frac{Z_3}{Z_3+Z_4}
+	\frac{1}{2\pi C_{404}R_{404}}=\frac{100\:Hz}{50}
 \end{equation*}
 
+Por lo tanto, resulta $R_{404}=50\:K\Omega$. De esta forma se obtiene $R_{408}=50\:K\Omega$
+
+Finalmente, para lograr una frecuencia de corte superior de $12\:KHz$ se plantea:
+
 \begin{equation*} 
-	V^+ = \frac{Z_2}{Z_2+Z_1}
+	12\:kHz=\frac{1}{2\pi C_{402}R_{404}}
 \end{equation*}
 
-Adoptando $Vd=V^+-V^-$, planteando la cadena de avance($A_w$),  realimentacion($H$), $G^-$ y suponiendo que $A_w>>1/H$ se puede expresar la ecuacion final como:
+Por lo tanto, se obtiene $C_{402}=270\:pF$. De esta forma resulta $C_{407}=270\:pF$.
 
-\begin{equation*} 
-	V_{IfeedADC} = \frac{Z_2}{Z_2+Z_1}*\frac{Z_3+Z_4}{Z_3} *Vi_{feed}
-\end{equation*}
 
-Considerando que $Z_4+Z_3 = Z_2+Z_1$ y simplificando se obiene que: 
 
-\begin{equation*} 
-	V_{IfeedADC} = \frac{Z_2}{Z_3}*Vi_{feed}=\frac{Z_{C_{404}}+R_{405}}{Z_{C_{407}}//R_{408}}*Vi_{feed}
-\end{equation*}
-
-Que es igual a:
-
-\begin{equation*} 
-	V_{IfeedADC} = \frac{(sC_{404}R_{405}+1)*(sC_{407}R_{408}+1)}{SC_{404}R_{408}}*Vi_{feed}
-\end{equation*} 
+%\begin{equation*} 
+%	Z_1=Z_{C_{402}}//R_{404}
+%\end{equation*}
+%
+%\begin{equation*} 
+%	Z_2=Z_{C_{404}}+R_{405}
+%\end{equation*}
+%
+%\begin{equation*} 
+%	Z_3=Z_{C_{407}}//R_{408}
+%\end{equation*}
+%
+%\begin{equation*} 
+%	Z_4=Z_{C_{406}}+R_{409}
+%\end{equation*}
+%
+%Luego con estas impedancias se plantean las ecuaciones para los nodos:
+%
+%\begin{equation*} 
+%	V^- = \frac{Z_3}{Z_3+Z_4}
+%\end{equation*}
+%
+%\begin{equation*} 
+%	V^+ = \frac{Z_2}{Z_2+Z_1}
+%\end{equation*}
+%
+%Adoptando $Vd=V^+-V^-$, planteando la cadena de avance($A_w$),  realimentacion($H$), $G^-$ y suponiendo que $A_w>>1/H$ se puede expresar la ecuacion final como:
+%
+%\begin{equation*} 
+%	V_{IfeedADC} = \frac{Z_2}{Z_2+Z_1}*\frac{Z_3+Z_4}{Z_3} *Vi_{feed}
+%\end{equation*}
+%
+%Considerando que $Z_4+Z_3 = Z_2+Z_1$ y simplificando se obiene que: 
+%
+%\begin{equation*} 
+%	V_{IfeedADC} = \frac{Z_2}{Z_3}*Vi_{feed}=\frac{Z_{C_{404}}+R_{405}}{Z_{C_{407}}//R_{408}}*Vi_{feed}
+%\end{equation*}
+%
+%Que es igual a:
+%
+%\begin{equation*} 
+%	V_{IfeedADC} = \frac{(sC_{404}R_{405}+1)*(sC_{407}R_{408}+1)}{SC_{404}R_{408}}*Vi_{feed}
+%\end{equation*} 
 
 
 \subsection{Componente continua de corriente del electroimán}
 
- Para obtener la componente de continua se utiliza un filtro pasa-bajos con frecuencia de corte en $106\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
-
-\colorbox{blue}{esta señal Vilfeed es la que tiene los 0.1V sumados? no me acuerdo si después lo cancelabamos dentro del micro}
+ Para obtener la componente de continua se utiliza un filtro pasa-bajos con frecuencia de corte en $100\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
 
 \begin{figure}[H]
 	\centering
@@ -549,6 +614,8 @@ Que es igual a:
 
 \end{figure}
 
+\colorbox{red}{verificvar que la impedancia de entrada del ADC no afecta la transferencia del filtro}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Componente-corriente-continua_dig.png}
@@ -557,9 +624,18 @@ Que es igual a:
 	\label{fig:componente-corriente-continua}
 \end{figure}
 
+La señal de salida puede ser expresada en función de su entrada como:
+
 \begin{equation*}
 	Vi\_Feed\_mean\_ADC=\frac{1}{1+sC_{401}R_{401}}*Vi\_Feed
 \end{equation*}
+Por lo tanto, como se desea una frecuencia de corte de $100\:Hz$ se plantea la siguiente ecuación:
+\begin{equation*} 
+	\frac{1}{2\pi C_{401}R_{401}}=100\:Hz
+\end{equation*}
+
+Al elegir una resistencia $R_{401}=10\:k\Omega$ resulta en $C_{401}=160\:nF$
+
 
 \section{Circuitos de acondicionamiento de señales para el DAC}
 

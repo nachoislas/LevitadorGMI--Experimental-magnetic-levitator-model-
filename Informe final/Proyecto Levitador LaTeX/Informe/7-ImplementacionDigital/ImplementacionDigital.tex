@@ -848,30 +848,46 @@ Para el caso de trabajar con masa de $1\:kg$, resulta:
 
 
 
-En las figuras \ref{fig:ubicacion_polos_y_ceros} y \ref{fig:ubicacion_polos_y_ceros_1kg} se muestra la ubicación de los polos y ceros de la $TLC_{interna}$ para el caso de masa de $30\:kg$ y $1\:kg$, respectivamente. En ellas se ve que todos se encuentran en el semiplano izquierdo. 
+En las figuras \ref{fig:ubicacion_polos_y_ceros_dig} y \ref{fig:ubicacion_polos_y_ceros_1kg_dig} se muestra la ubicación de los polos y ceros de la $TLC_{interna}$ para el caso de masa de $30\:kg$ y $1\:kg$, respectivamente. En ellas se ve que todos los polos se encuentran en el semiplano izquierdo. 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.85]{ubicacion_polos_ceros.png}
+	\includegraphics[scale=0.85]{ubicacion_polos_ceros_dig.png}
 	\caption{Ubicación de polos y ceros de la transferencia de lazo cerrado interna con $M=30\:kg$.}
-	\label{fig:ubicacion_polos_y_ceros}
+	\label{fig:ubicacion_polos_y_ceros_dig}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.85]{ubicacion_polos_ceros_1kg.png}
+	\includegraphics[scale=0.85]{ubicacion_polos_ceros_1kg_dig.png}
 	\caption{Ubicación de polos y ceros de la transferencia de lazo cerrado interna con $M=1\:kg$.}
-	\label{fig:ubicacion_polos_y_ceros_1kg}
+	\label{fig:ubicacion_polos_y_ceros_1kg_dig}
 \end{figure}
 
 
 Es importante notar que la ganancia de la transferencia de lazo cerrado en ambos casos es negativa. Esto debe tenerse en cuenta para el diseño del lazo de compensación externo.
 
 
+\subsubsection{Cálculo de los coeficientes del controlador}
+
+Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a la transferencia del compensador por adelanto de fase $G_c(w)$. Por lo tanto, se obtiene:
+
+% 8.69e05 z^2 - 1.716e06 z + 8.477e05
+%-----------------------------------
+%z^2 - 1.551 z + 0.6018
+%
+%
+%  8.69e05 - 1.716e06 z^-1 + 8.477e05 z^-2
+%---------------------------------------
+%1 - 1.551 z^-1 + 0.6018 z^-2
+
+\begin{equation} \label{eq_coeficientes_interno} 
+	G_c(z)=\ \ \frac{U(z)}{e(z)}=\frac{8.69*10^5- 1.72*10^6z^{-1} + 8.48*10^5z^{-2}}{1-1.551 z^{-1} + 0.6018 z^{-2}}\  
+\end{equation} 
 
 
 
-
+\colorbox{red}{Ver si es necesario poner aca la ecuacion en diferencias}
 
 
 

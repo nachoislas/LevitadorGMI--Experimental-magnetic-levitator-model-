@@ -480,13 +480,13 @@ Por lo tanto, para obtener una frecuencia de corte para el filtro \textsl{anti-a
 
 \section{Diseño del controlador digital}
 
-Se desea implementar un algoritmo de compensación dentro del microcontrolador. Este se ejecuta cada vez que se obtiene una nueva estimación de distancia de entrehierro. Recibe en su entrada un valor correspondiente a la diferencia entre la señal de referencia y la realimentación. Este valor se denomina $e[n]$. El algoritmo de compensación realiza cálculos a partir de esta entrada y obtiene en su salida una señal $u[n]$. La relación entre $u[n]$ y $e[n]$ es una ecuación en diferencias, cuya transformada discreta (z) es la función transferencia del compensador ($C(z)$).
+Se desea implementar un algoritmo de compensación dentro del microcontrolador. Este se ejecuta cada vez que se obtiene una nueva estimación de distancia de entrehierro. Recibe en su entrada un valor correspondiente a la diferencia entre la señal de referencia y la realimentación. Este valor se denomina $e[n]$. El algoritmo de compensación realiza cálculos a partir de esta entrada y obtiene en su salida una señal $u[n]$. La relación entre $u[n]$ y $e[n]$ es una ecuación en diferencias, cuya transformada discreta (z) es la función transferencia del compensador ($G_c(z)$).
 
 \begin{equation*}
-	C(z)=\frac{U(z)}{E(z)}
+	G_c(z)=\frac{U(z)}{E(z)}
 \end{equation*}
 
-Entonces se tiene un compensador en el dominio discreto, pero se desea controlar una planta que es continua. La forma de comunicar la salida del compensador con la entrada de la planta es mediante la utilización de un DAC. Este conlleva la ¿desventaja? de que su salida se actualiza cada intervalos de tiempo discretos. Este efecto se conoce como retenedor de orden cero (ROC), y genera un dDDeterioro en la estabilidad del sistema. El compensador que se diseñe debe tener en cuenta este efecto.
+Entonces se tiene un compensador en el dominio discreto, pero se desea controlar una planta que es continua. La forma de comunicar la salida del compensador con la entrada de la planta es mediante la utilización de un DAC. Este conlleva la ¿desventaja? de que su salida se actualiza cada intervalos de tiempo discretos. Este efecto se conoce como retenedor de orden cero (ROC), y genera un deterioro en la estabilidad del sistema. El compensador que se diseñe debe tener en cuenta este efecto.
 
 
 
@@ -495,7 +495,7 @@ Para poder diseñar un compensador digital para un sistema continuo, se pueden a
 \colorbox{red}{Redactar bien esta parte}
 Por medio de la transformada bilinal es posible diseñar un compensador en el dominio analógico y luego, con su transformada inversa, obtener el compensador en el dominio discreto. Por lo tanto se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema.  
 
-\colorbox{red}{ponemos diagrama general de la compensación?}
+\colorbox{red}{ponemos diagrama general de la compensación?}en este diagrama ponemos el H y aclaramos que es =1 como se disñó en al secciòn...
 
 \subsection{Transferencias de la planta y del controlador de corriente}
 
@@ -507,15 +507,17 @@ Por medio de la transformada bilinal es posible diseñar un compensador en el do
 	\end{aligned}
 \end{equation}
 
- Al aplicar la transformada z por invarianza al impulso, con una $f_s=3.5\:kHz$, se obtiene:
+Para incluir el efecto del ROC a esta transferencia se aplica la transformada z por el método de invarianza al impulso. Con una $f_s=3.5\:kHz$, se obtiene:
+ 
+ \colorbox{red}{Hacer referencia a cuando elegimos esta frecuencia}
 
-\colorbox{red}{Escribir la expresión de la transformada bilienal}
+\colorbox{red}{Escribir la expresión de la transformada z invarianza al impulso}
 
 \begin{equation} 
-	G_T(Z)[M=30\:kg] =\frac{-3.2057*10^{-10}(z+3.729)(z+0.2677)}{(z-0.9966)(z-0.9806) (z-1.02)}
+	G_T(z)[M=30\:kg] =\frac{-3.2057*10^{-10}(z+3.729)(z+0.2677)}{(z-0.9966)(z-0.9806) (z-1.02)}
 \end{equation}
 
-Luego, al usar la transformada bilineal ($Z=\frac{1+wT/2}{1-wT/2}$), con $T=1/f_s$, para volver al dominio analógico:
+Luego, se utiliza la transformada bilineal ($z=\frac{1+wT/2}{1-wT/2}$) para obtener una transferencia en el dominio analógico de la variable $w$. Considerando $T=1/f_s$:
 
 \begin{equation}
 	\resizebox{.8\hsize}{!}
@@ -525,7 +527,9 @@ Luego, al usar la transformada bilineal ($Z=\frac{1+wT/2}{1-wT/2}$), con $T=1/f_
 \end{equation}
 
 
- Con las expresiones en $[w]$ es posible diseñar un controlador en el dominio analógico y luego transformarlo al digital.
+ Con las expresiones en $[w]$ es posible diseñar un controlador utilizando técnicas de diseño en el dominio analógico y luego transformarlo al digital nuevamente con la transformada bilineal inversa.
+ 
+ \colorbox{red}{chequear cual es la inversa y cual la directa}
 
 \subsection{Diseño del compensador}
 
@@ -539,9 +543,27 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 	\caption{Diagrama en bloques de estrategia de compensación propuesta.}	\label{fig:diag-en-bloques-comp_digital}
 \end{figure}
 
-\subsection{Análisis de estabilidad}
+\subsection{Diseño del lazo de realimentación interno}
 
-\subsection{Análisis de estabilidad}
+En esta sección se diseña el control del lazo de realimentación interno, que está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno_dig}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, $G_{T}$ a la transferencia del controlador de corriente junto con la de la planta.
+
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_lazo_interno.tex}
+	\caption{Diagrama en bloques del lazo de compensación interno.}	\label{fig:diag-interno_dig}
+\end{figure}
+
+\colorbox{red}{Corregir diagrama en bloques, poner GT y sacar Hestim}
+
+La transferencia de lazo cerrado ($TLC_{interna}$) del diagrama \ref{fig:diag-interno_dig} queda definida como:
+
+\begin{equation}
+	TLC_{interna}=\frac{Y_g[m]}{V_{ref_c}[V]}=\frac{G_c*G_T}{1+G_c*G_T}
+\end{equation}
+
+A continuación se analiza la estabilidad de la planta considerando una masa $M=30\:kg$ y se diseña el bloque del compensador interno $G_c(w)$ para lograr estabilizarla. Luego, se verificará la estabilidad con este mismo compensador para una masa $M=1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
+
+\subsubsection{Análisis de estabilidad}
 
  Para el análisis del compensador digital se parte de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ y de la del lazo de realimentación $H(w)$. A partir de ellas se obtiene la transferencia a lazo abierto total $GH_{T}(w)=G_{T}(w)*H(w)$ mostrado en la ecuación \ref{eq:GtHW}.
 
@@ -554,14 +576,23 @@ Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bl
 
 
  A continuación se procede a analizar la respuesta en frecuencia de $GH_{T}(w)$ y a diseñar un compensador adecuado. Luego, al igual que para el compensador analógico, se verificará la estabilidad para la mínima masa  con la  que trabaja el sistema.
+ 
+Para comenzar el análisis se considera un compensador $G_c=K$, donde K es una constante positiva. Por lo tanto, se plantea la transferencia de lazo abierto teniendo en cuenta el compensador:
+ 
+ \begin{equation} \label{eq_GT3_dig}
+ 	G_c*GH_T(w)=\frac{-8.5*10^{-11}*K*(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)} 
+ \end{equation}.
+\colorbox{red}{hacer resize de la ecuacion}
 
- A partir de la transferencia de la ecuación  \ref{eq:GtHW} se  grafica el lugar de raíces y el diagrama de Nyquist que se muestran en las figuras \ref{fig:lugar-de-raices} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
+\colorbox{red}{Pasar esta expresión a lla forma de 1+w/p}
+
+ A partir de la transferencia de la ecuación  \ref{eq_GT3_dig} se  grafica el diagrama de Bode y el de Nyquist considerando $K=1$. Estos se muestran en las figuras \ref{fig:bode_digital} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.75]{diag_bode_planta_en_w.png}
-	\caption{Diagrama de Bode de lazo abierto $GH_{T}(w)$ con $M=30\:kg$.}
-	\label{fig:lugar-de-raices}
+	\caption{Diagrama de Bode de lazo abierto $G_c*GH_{T}(w)$ con $M=30\:kg$.}
+	\label{fig:bode_digital}
 \end{figure}
 
 \begin{figure}[H]

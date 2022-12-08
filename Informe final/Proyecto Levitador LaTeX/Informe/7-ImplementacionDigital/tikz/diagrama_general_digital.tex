@@ -21,15 +21,15 @@ minimum height=2.5em, minimum width=3em]
 	\node [sum, right of=F, node distance=1.5cm] (suma_externa) {+};
 	\node [block, right=of suma_externa] (externo) {$G_{ext}(w)$};
 	\node [sum, right=of externo] (suma_interna) {+};
-	\node[block, right=of suma_interna] (interno) {$G_T(w)$};
+	\node[block, right=of suma_interna] (interno) {$G_c(w)$};
 	%\node [block, right=of interno] (gil) {$G_{IL}(w)$};
-	%\node [block, right=of gil] (planta) {$G_p(w)$};
+	\node [block, right=of interno] (planta) {$G_T(w)$};
 	\node [coordinate, below=of interno] (realimentacion_interna) {$H_{estim}(w)$};
 	
 	\node [coordinate, below=2cm of externo] (realimentacion_externa) {$H_{estim}$};
 %	
 %	\node [block, right of=suma] (amplificador) {$A(s)$};
-	\node [output, right of=interno, node distance=3cm] (output) {};
+	\node [output, right of=planta, node distance=3cm] (output) {};
 %	\node [block, below of=amplificador] (realimentacion) {$H(s)$};
 %	
 %	
@@ -39,9 +39,9 @@ minimum height=2.5em, minimum width=3em]
 	\draw [draw,->] (suma_externa) -- (externo);
 	\draw [draw,->] (externo) -- node[pos=0.95]{$+$} (suma_interna);
 	\draw [draw,->] (suma_interna) -- (interno);
-	%\draw [draw,->] (interno) -- (gil);
+	\draw [draw,->] (interno) -- (planta);
 	%\draw [draw,->] (gil) -- (planta);
-	\draw [draw,->] (interno) -- node[name=y]{$Y_g$} (output);
+	\draw [draw,->] (planta) -- node[name=y]{$Y_g$} (output);
 %	\draw [draw,->] (amplificador) -- node[name=y]{$V_{deriv}$} (output);
 	\draw [-] (y) |- (realimentacion_interna);
 	\draw [->] (realimentacion_interna) -|  node[pos=0.99]{$-$} (suma_interna);

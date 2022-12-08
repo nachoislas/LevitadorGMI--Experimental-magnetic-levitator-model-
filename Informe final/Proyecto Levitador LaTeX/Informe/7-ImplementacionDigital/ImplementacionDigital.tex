@@ -488,6 +488,53 @@ Por lo tanto, para obtener una frecuencia de corte para el filtro \textsl{anti-a
 	\label{fig:componente-corriente-alterna}
 \end{figure}
 
+Para resolver este circuito se plantea lo siguiente:
+
+\begin{equation*} 
+	Z_1=Z_{C_{402}}//R_{404}
+\end{equation*}
+
+\begin{equation*} 
+	Z_2=Z_{C_{404}}+R_{405}
+\end{equation*}
+
+\begin{equation*} 
+	Z_3=Z_{C_{407}}//R_{408}
+\end{equation*}
+
+\begin{equation*} 
+	Z_4=Z_{C_{406}}+R_{409}
+\end{equation*}
+
+Luego con estas impedancias se plantean las ecuaciones para los nodos:
+
+\begin{equation*} 
+	V^- = \frac{Z_3}{Z_3+Z_4}
+\end{equation*}
+
+\begin{equation*} 
+	V^+ = \frac{Z_2}{Z_2+Z_1}
+\end{equation*}
+
+Adoptando $Vd=V^+-V^-$, planteando la cadena de avance($A_w$),  realimentacion($H$), $G^-$ y suponiendo que $A_w>>1/H$ se puede expresar la ecuacion final como:
+
+\begin{equation*} 
+	V_{IfeedADC} = \frac{Z_2}{Z_2+Z_1}*\frac{Z_3+Z_4}{Z_3} *Vi_{feed}
+\end{equation*}
+
+Considerando que $Z_4+Z_3 = Z_2+Z_1$ y simplificando se obiene que: 
+
+\begin{equation*} 
+	V_{IfeedADC} = \frac{Z_2}{Z_3}*Vi_{feed}=\frac{Z_{C_{404}}+R_{405}}{Z_{C_{407}}//R_{408}}*Vi_{feed}
+\end{equation*}
+
+Que es igual a:
+
+\begin{equation*} 
+	V_{IfeedADC} = \frac{(sC_{404}R_{405}+1)*(sC_{407}R_{408}+1)}{SC_{404}R_{408}}*Vi_{feed}
+\end{equation*} 
+
+
 \subsection{Componente continua de corriente del electroimán}
 
  Para obtener la componente de continua se utiliza un filtro pasa-bajos con frecuencia de corte en $106\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}

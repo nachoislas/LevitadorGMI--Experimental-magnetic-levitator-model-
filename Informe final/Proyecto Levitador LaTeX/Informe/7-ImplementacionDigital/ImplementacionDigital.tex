@@ -62,19 +62,61 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \section{Consideraciones para el dominio discreto}
 
-Como se menciono previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para desarrollar un controlador de forma digital. 
+Como se menciono previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para implementar un algoritmo de compensación dentro del microcontrolador. 
 
-Al tomar muestras se esta discretizando una señal continua, para hacer esto, se utilizan conversores analógico digitales que mantienen el valor de esta entre muestra y muestra. Este tipo de reconstrucción de señal también se lo llama $ROC$ y se lo puede modelar con la siguiente ecuación:
+Como se ve en la figura \ref{fig:diag-en-bloques-digital} se tiene un compensador en el dominio discreto, pero se desea controlar una planta que es continua. Para convertir senales analógicas a discretas y viceversa para poder ser utilizadas en el algoritmo de control se utilizan conversores analógico digitales ($ADC$) y conversores digital analógicos ($DAC$) 
+
+Para hacer esta conversion los dispositivos mencionados mantienen el valor entre muestra y muestra, actualizando el valor de la senial en cada intervalo de tiempo discreto. Este efecto se lo conoce como retenedor de orden cero ($ROC$) y se lo puede modelar con la siguiente ecuación:
 
 \begin{equation*}
 	ROC(s)=\frac{1-e^{-s*T_s}}{s}
 \end{equation*}
 
-Luego para una entrada($R(s)$) representada por un tren de pulsos con distinto valor para cada periodo de muestreo $T_s$ se puede aplicar la transformada Z y expresar la salida como:
+Luego de realizar la conversión, teniendo en cuenta el efecto del $ROC$, como se esta trabajando en con un modelo discreto se debe aplicar la transformada $Z$ de las seniales continuas. Por lo tanto ahora las seniales muestreadas en el microcontorlador para una entrada entrada($R(t)$) en el plano S son:
 
 \begin{equation*}
-	\frac{Y(z)}{R(z)}=\frac{1-e^{-s*T_s}}{s}
+	R(z)= Z[ROC(s)*R(s)]
 \end{equation*}
+
+Trabajando en el plano Z se puede diseniar un compensación digital ($G_c(z)$) a partir de las diferencia ($E(z)$) entre las seniales de entrada al microcontrolador  correspondientes a la señal de referencia ($V_{iLref}$) y la de realimentación de la corriente ($V_{iLfeed}$).  
+
+\begin{equation*}
+	G_c(z)=\frac{U(z)}{E(z)}
+\end{equation*}
+
+Para poder diseñar esta compensación digital, se pueden aplicar herramientas que permiten aplicar técnicas de diseño para sistemas continuos y obtener su equivalente en el plano transformado Z para ser implementado en el microcontrolador.
+
+Esta herramienta es la transformada bilineal. Por medio de esta es posible diseñar un compensador con técnicas de compensación analógico y luego, con su transformada inversa, obtener el compensador en el dominio discreto. Esta transformada consiste en aplicar la siguiente ecuación: 
+
+\begin{equation*}
+	z=\frac{1+sT_s}{1-sT_s}
+\end{equation*}
+
+
+\subsection{Transferencias de la planta y del controlador de corriente}
+
+Para el análisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio analógico para una masa de $30 \:kg$.
+
+\begin{equation} 
+	\begin{aligned}
+		G_T(s)[M=30kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
+	\end{aligned}
+\end{equation}
+
+Para incluir el efecto del ROC a esta transferencia se aplica la transformada z por el método de invarianza al impulso. Aplicando propiedades se obtiene que 
+
+\begin{equation*}
+	\frac{Y(z)}{R(z)}=Z[\frac{(1-e^{-s*T_s})}{s}*G_T(s)]=(1-z^{-1})*Z[\frac{G_T(s)}{s}])
+\end{equation*}
+
+Para obtener esta transformada es necesario conocer la frecuencia de muestreo $F_s$. A continuación se hara un análisis de cual sera el algoritmo de control y se escoge una $F_s$ para luego obtener la transferencia del controlador $G_c(z)$.
+\colorbox{red}{Hacer referencia a cuando elegimos esta frecuencia}
+
+\colorbox{red}{Escribir la expresión de la transformada z invarianza al impulso}
+
+Por lo tanto se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema.  
+
+\colorbox{red}{ponemos diagrama general de la compensación?}en este diagrama ponemos el H y aclaramos que es =1 como se disñó en al secciòn...
 
 \section{Diseño de algoritmo de estimación}
 
@@ -479,6 +521,21 @@ Por lo tanto, para obtener una frecuencia de corte para el filtro \textsl{anti-a
 \end{figure}
 
 \section{Diseño del controlador digital}
+
+
+Como se menciono previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para desarrollar un controlador de forma digital. 
+
+Al tomar muestras se esta discretizando una señal continua, para hacer esto, se utilizan conversores analógico digitales que mantienen el valor de esta entre muestra y muestra. Este tipo de reconstrucción de señal también se lo llama $ROC$ y se lo puede modelar con la siguiente ecuación:
+
+\begin{equation*}
+	ROC(s)=\frac{1-e^{-s*T_s}}{s}
+\end{equation*}
+
+Luego para una entrada($R(s)$) representada por un tren de pulsos con distinto valor para cada periodo de muestreo $T_s$ que ingresa a un sistema que posee una transferencia $G(s)$ se puede aplicar la transformada Z y expresar la salida como:
+
+\begin{equation*}
+	\frac{Y(z)}{R(z)}=Z[\frac{(1-e^{-s*T_s})}{s}*G(s)]=(1-z^{-1})*Z[\frac{G(s)}{s}])
+\end{equation*}
 
 Se desea implementar un algoritmo de compensación dentro del microcontrolador. Este se ejecuta cada vez que se obtiene una nueva estimación de distancia de entrehierro. Recibe en su entrada un valor correspondiente a la diferencia entre la señal de referencia y la realimentación. Este valor se denomina $e[n]$. El algoritmo de compensación realiza cálculos a partir de esta entrada y obtiene en su salida una señal $u[n]$. La relación entre $u[n]$ y $e[n]$ es una ecuación en diferencias, cuya transformada discreta (z) es la función transferencia del compensador ($G_c(z)$).
 

@@ -931,26 +931,7 @@ En las figuras \ref{fig:ubicacion_polos_y_ceros_dig} y \ref{fig:ubicacion_polos_
 Es importante notar que la ganancia de la transferencia de lazo cerrado en ambos casos es negativa. Esto debe tenerse en cuenta para el diseño del lazo de compensación externo.
 
 
-\subsubsection{Cálculo de los coeficientes del controlador}
 
-Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a la transferencia del compensador por adelanto de fase $G_c(w)$. Por lo tanto, se obtiene:
-
-% 8.69e05 z^2 - 1.716e06 z + 8.477e05
-%-----------------------------------
-%z^2 - 1.551 z + 0.6018
-%
-%
-%  8.69e05 - 1.716e06 z^-1 + 8.477e05 z^-2
-%---------------------------------------
-%1 - 1.551 z^-1 + 0.6018 z^-2
-
-\begin{equation} \label{eq_coeficientes_interno} 
-	G_c(z)=\ \ \frac{U(z)}{e(z)}=\frac{8.69*10^5- 1.72*10^6z^{-1} + 8.48*10^5z^{-2}}{1-1.551 z^{-1} + 0.6018 z^{-2}}\  
-\end{equation} 
-
-
-
-\colorbox{red}{Ver si es necesario poner aca la ecuacion en diferencias}
 
 
 \section{Diseño del lazo de realimentación externo}
@@ -1098,13 +1079,25 @@ Considerando que $F=-1$ y el caso de masa $M=30\:kg$ la transferencia de lazo ce
 
 
 
-\section{Cálculo de los coeficientes del controlador}
-
- Para implementar el algoritmo de control en el microcontrolador se aplica la transformada bilineal inversa a la transferencia del compensador externo $G_{ext}(w)$.
-
-Por lo tanto, se obtiene:
+\subsection{Cálculo de los coeficientes del controlador}
 
 
+Se desea implementar el algoritmo de control en un microcontrolador. Esto significa obtener la señal de control $u[n]$ a partir de las entradas del sistema que son la referencia de posición ($Vref$) y la estimación ($Y[n]$). 
+
+Para ello se obtienen las funciones transferencia de los compensadores diseñados en el dominio discreto (z). Para obtenerlas se aplica la transformada bilineal inversa a las transferencias del compensador por adelanto de fase $G_c(w)$ y al integrador $G_{ext}$. De esta forma, observando el diagrama de la figura \colorbox{red}{Ver diagrama} se plantea:
+
+% 8.69e05 z^2 - 1.716e06 z + 8.477e05
+%-----------------------------------
+%z^2 - 1.551 z + 0.6018
+%
+%
+%  8.69e05 - 1.716e06 z^-1 + 8.477e05 z^-2
+%---------------------------------------
+%1 - 1.551 z^-1 + 0.6018 z^-2
+
+\begin{equation} \label{eq_coeficientes_interno} 
+	G_c(z)=\ \ \frac{U(z)}{e(z)}=\frac{8.69*10^5- 1.72*10^6z^{-1} + 8.48*10^5z^{-2}}{1-1.551 z^{-1} + 0.6018 z^{-2}}\  
+\end{equation} 
 %0.0007 + 0.0007 z^-1
 %--------------------
 %1 - z^-1
@@ -1113,25 +1106,12 @@ Por lo tanto, se obtiene:
 	G_{ext}(z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0007(1+z^{-1})}{1-z^{-1}} 
 \end{equation} 
 
-\colorbox{red}{rehacer lo de abajo}
-
- Si se considera $H(z)=1$ se obtiene que:
-
-\begin{equation} \label{GrindEQ__5_39_} 
-	e(z)=e_f(Z)+Y_f(z) 
-\end{equation} 
-
-\begin{equation} \label{GrindEQ__5_40_} 
-	e_i(z)=F*Vref+Y_f(z) 
-\end{equation} 
-
-
- Al aplicar la partir de las ecuaciones \ref{GrindEQ__5_6_} y \ref{GrindEQ__5_7_} se obtiene las expresiones a implementar en el microcontrolador:
+Al aplicar la transformada inversa a las expresiones \ref{eq_coeficientes_interno} y \ref{eq_comp_externo_z} se obtiene:
 
 \begin{equation} 
 	\begin{aligned}\label{eq_U-coef}
-	U[n]=&8.651*10^5e[n]-\ 1.709*10^6e[n-1]+\ 0.843*10^6e[n-2]+\\
-		 &+1.5514\ U[n-1]-\ 0.60171U[n-2]\\ 
+		U[n]=&8.651*10^5e[n]-\ 1.709*10^6e[n-1]+\ 0.843*10^6e[n-2]+\\
+		&+1.5514\ U[n-1]-\ 0.60171U[n-2]\\ 
 	\end{aligned}
 \end{equation}
 
@@ -1139,8 +1119,7 @@ Por lo tanto, se obtiene:
 	e_f[n]=0.0028*e_i[n]\ +\ {0.0028*e}_i[n-1]+e_f[n-1] 
 \end{equation} 
 
-
- Luego, para dejar el algoritmo de control en funci\'{o}n de las entradas del sistema, se debe reemplazar en las ecuaciones \ref{eq_U-coef} y \ref{eq_e-coef} las expresiones mencionadas en las ecuaciones \ref{GrindEQ__5_10_} y \ref{GrindEQ__5_11_}
+Luego, para dejar el algoritmo de control en funci\'{o}n de las entradas del sistema, se debe reemplazar en las ecuaciones \ref{eq_U-coef} y \ref{eq_e-coef} las expresiones mencionadas en las ecuaciones \ref{GrindEQ__5_10_} y \ref{GrindEQ__5_11_}
 
 \begin{equation} \label{GrindEQ__5_10_} 
 	e[n]=e_f[n]+Y_f[n] 
@@ -1150,9 +1129,12 @@ Por lo tanto, se obtiene:
 	e_i[n]=F*Vref+Y_f[n] 
 \end{equation} 
 
+
 \section{Conexi\'{o}n entre el PCB y el microcontrolador}
 
  Se utiliza un conector tipo DB9 hembra como v\'{i}a de conexi\'{o}n para las distintas salidas y entradas digitales. Adem\'{a}s, en la placa se dispone de un led que se enciende cuando  se detecta una correcta conexi\'{o}n con el microcontrolador.
+ 
+ \colorbox{red}{Ver de pasarlo a la sección del PCB y agregar tambien lo de capacitores de desacople, jumpers, leds, etc...}
 
 
 

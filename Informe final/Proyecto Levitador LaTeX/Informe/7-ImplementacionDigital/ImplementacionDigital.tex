@@ -21,6 +21,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\label{fig:diag-en-bloques-digital}
 \end{figure}
 
+\colorbox{red}{acá agregamos la salida del estimador por el DAC también?}
 
 %\colorbox{blue}{yo dejaría el de arriba que representa mejor que la entrada al sistema digital es la corriente. pero el de abajo nos sirve para el diseño del compensador también}
 %
@@ -66,19 +67,19 @@ Como se menciono previamente para la implementación digital se van a tomar mues
 
 Como se ve en la figura \ref{fig:diag-en-bloques-digital} se tiene un compensador en el dominio discreto, pero se desea controlar una planta que es continua. Para convertir senales analógicas a discretas y viceversa para poder ser utilizadas en el algoritmo de control se utilizan conversores analógico digitales ($ADC$) y conversores digital analógicos ($DAC$) 
 
-Para hacer esta conversion los dispositivos mencionados mantienen el valor entre muestra y muestra, actualizando el valor de la senial en cada intervalo de tiempo discreto. Este efecto se lo conoce como retenedor de orden cero ($ROC$) y se lo puede modelar con la siguiente ecuación:
+Para hacer esta conversion los dispositivos mencionados mantienen el valor entre muestra y muestra, actualizando el valor de la señal en cada intervalo de tiempo discreto. Este efecto se lo conoce como retenedor de orden cero ($ROC$) y se lo puede modelar con la siguiente ecuación:
 
 \begin{equation*}
 	ROC(s)=\frac{1-e^{-s*T_s}}{s}
 \end{equation*}
 
-Luego de realizar la conversión, teniendo en cuenta el efecto del $ROC$, como se esta trabajando en con un modelo discreto se debe aplicar la transformada $Z$ de las seniales continuas. Por lo tanto ahora las seniales muestreadas en el microcontorlador para una entrada entrada($R(t)$) en el plano S son:
+Luego de realizar la conversión, teniendo en cuenta el efecto del $ROC$, como se esta trabajando en con un modelo discreto se debe aplicar la transformada $Z$ de las señales continuas. Por lo tanto ahora las señales muestreadas en el microcontrolador para una entrada entrada($R(t)$) en el plano S son:
 
 \begin{equation*}
 	R(z)= Z[ROC(s)*R(s)]
 \end{equation*}
 
-Trabajando en el plano Z se puede diseniar un compensación digital ($G_c(z)$) a partir de las diferencia ($E(z)$) entre las seniales de entrada al microcontrolador  correspondientes a la señal de referencia ($V_{iLref}$) y la de realimentación de la corriente ($V_{iLfeed}$).  
+Trabajando en el plano Z se puede diseñar un compensación digital ($G_c(z)$) a partir de las diferencia ($E(z)$) entre las señales de entrada al microcontrolador  correspondientes a la señal de referencia ($V_{iLref}$) y la de realimentación de la corriente ($V_{iLfeed}$).  
 
 \begin{equation*}
 	G_c(z)=\frac{U(z)}{E(z)}

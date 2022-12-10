@@ -181,7 +181,7 @@ Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de induct
  De esta forma, se adopta una frecuencia de muestreo para el ADC de  $25\:kHz$. Con este valor es posible obtener 15 muestras en un período de la triangular para el caso de $F_{planta}$ máxima. Como la señal crece o decrece durante medio ciclo, se pueden tomar 7 muestras para identificar la pendiente. En el caso de que la señal presente la $F_{planta}$ mínima, se pueden tomar 23 muestras en un ciclo. Esto se traduce en 11 muestras para la pendiente de subida o bajada. 
 
 
-\subsection{Adquisición y procesamiento de las muestras}
+\subsection{Adquisición y procesamiento de las muestras} \label{sec_adquisicion_y_procesamiento}
 
 En esta sección se desarrolla el algoritmo ideado para estimar la distancia de entrehierro. Este se puede observar en el diagrama de flujo \ref{fig:procesamiento-muestras-adquiridas}. Se realiza un análisis para el caso de máxima frecuencia de conmutación, en el que solo se pueden tomar 7 muestras durante el tiempo de crecimiento o decrecimiento.
 
@@ -639,11 +639,15 @@ Al elegir una resistencia $R_{401}=10\:k\Omega$ resulta en $C_{401}=160\:nF$
 
 \section{Circuitos de acondicionamiento de señales para el DAC}
 
- Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utiliza el DAC del microcontrolador. La tensión entregada es afectada por una circuitería de filtrado, ganancia y protección como se muestra en las figuras \ref{fig:DAC-compensador} y \ref{fig:DAC-estimador}. Debido a que el DAC se actualiza con una frecuencia mínima de $3.5\:kHz$, se utilizan filtros con frecuencia de corte en $1.75\:kHz$.
+ Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utiliza el DAC del microcontrolador. El DAC utilizado entrega una tensión de salida que puede variar entre $0\:V$ y $3.3\:V$, y se actualiza con una frecuencia mínima de $3.5\:kHz$ como se mencionó en la sección \ref{sec_adquisicion_y_procesamiento}. Se agrega circuitería de filtrado, ganancia y protección en las salidas del DAC para hacerlas aptas para ingresar a las etapas analógicas.
+ 
+ , como se muestra en las figuras \ref{fig:DAC-compensador} y \ref{fig:DAC-estimador}. . Por lo tanto, se utilizan filtros con frecuencia de corte en $1.75\:kHz$.
 
- Por otro lado, como el controlador de corriente funciona con tensiones de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0.66$, mapeando así los $5\:V$ a $3.3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento.
+\subsection{Salida del compensador}
 
- De esta forma, se logra convertir correctamente la señal digital en analógica.
+La salida de la etapa de compensador digital es convertida en una señal analógica por el DAC y luego de esta etapa de adaptación ingresa a la etapa de controlador de corriente. Como el controlador de corriente funciona con tensiones de referencia de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0.66$, mapeando así los $5\:V$ a $3.3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento. Además, la salida del DAC es filtrada con un filtro pasa bajos con frecuencia de corte en $1.75\:kHz$ para eliminar los saltos de tensión que provoca el ROC.
+
+De esta forma, se logra convertir correctamente la señal digital en analógica. En la figura \ref{fig:DAC-compensador} se muestra la implementación del circuito.
 
 
 \begin{figure}[H]
@@ -681,7 +685,12 @@ Para que la frecuencia de corte del filtro se encuentre en $1.75\:kHz$, se plant
 
 De esta forma, se obtiene $C_{400}=18\:nF$. 
 
-\colorbox{red}{Aclaramos para que se usa R403?}
+\colorbox{red}{Aclaramos para que se usa R403?} capaz la sacamos de la imgen jeje	
+
+
+\subsection{Salida del estimador}
+
+La salida del estimador digital se obtiene a través del DAC para poder observarla mediante un osciloscopio en el PCB. Para diseñar la etapa de adaptación se utilizan los mismos criterios que para el circuito \ref{fig:DAC-compensador}. Por lo tanto, el circuito utilizado se muestra en la figura \ref{fig:DAC-estimador}. Por lo tanto, resulta: $C_{403}=18\:nF$, $R_{407}=5\:k\Omega$ y $R_{406}=10\:k\Omega$.
 
 \begin{figure}[H]
 	\centering
@@ -695,8 +704,6 @@ De esta forma, se obtiene $C_{400}=18\:nF$.
 	\caption{Circuito acondicionador para la salida del DAC correspondiente al estimador digital.}
 	\label{fig:DAC-estimador}
 \end{figure}
-
-Para el dimensionamiento de los valores de los componentes del circuito de la figura \ref{fig:DAC-estimador} se utilizan los mismos criterios que para el circuito \ref{fig:DAC-compensador}. por lo tanto, resulta: $C_{403}=18\:nF$, $R_{407}=5\:k\Omega$ y $R_{406}=10\:k\Omega$.
 
 \colorbox{red}{Aclaramos para que se usa R410?}
 

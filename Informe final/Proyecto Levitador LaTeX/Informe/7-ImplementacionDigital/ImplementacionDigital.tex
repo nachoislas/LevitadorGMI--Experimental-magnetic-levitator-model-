@@ -650,15 +650,55 @@ Al elegir una resistencia $R_{401}=10\:k\Omega$ resulta en $C_{401}=160\:nF$
 	\centering
 	\includegraphics[scale=0.5]{DAC-compensador.png}
 	\caption{Circuito acondicionador para la salida del DAC correspondiente al compensador.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{DAC-compensador_dig.png}
+	\caption{Circuito acondicionador para la salida del DAC correspondiente al compensador.}
 	\label{fig:DAC-compensador}
 \end{figure}
+
+La salida del circuito en función de su entrada es:
+
+\begin{equation*} 
+	V_{comp\_D}=(\frac{R_{402}}{R_{400}} *\frac{1}{1+sC_{400}R_{402}}+1)*V_{comp\_DAC}
+\end{equation*}
+
+Para conseguir una ganancia en continua de  $\frac{5V}{3.3V}$ se plantea:
+
+\begin{equation*} 
+	\frac{R_{402}}{R_{400}} +1 = \frac{5V}{3.3V}
+\end{equation*}
+
+Por lo tanto, se elige $R_{400}=10\:k\Omega$ y resulta $R_{402}=5\:k\Omega$. 
+
+Para que la frecuencia de corte del filtro se encuentre en $1.75\:kHz$, se plantea:
+
+\begin{equation*} 
+	\frac{1}{2\pi C_{400}R_{402}}=1.75\:kHz
+\end{equation*}
+
+De esta forma, se obtiene $C_{400}=18\:nF$. 
+
+\colorbox{red}{Aclaramos para que se usa R403?}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{DAC-estimador.png}
 	\caption{Circuito acondicionador para la salida del DAC correspondiente al estimador digital.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{DAC-estimador_dig.png}
+	\caption{Circuito acondicionador para la salida del DAC correspondiente al estimador digital.}
 	\label{fig:DAC-estimador}
 \end{figure}
+
+Para el dimensionamiento de los valores de los componentes del circuito de la figura \ref{fig:DAC-estimador} se utilizan los mismos criterios que para el circuito \ref{fig:DAC-compensador}. por lo tanto, resulta: $C_{403}=18\:nF$, $R_{407}=5\:k\Omega$ y $R_{406}=10\:k\Omega$.
+
+\colorbox{red}{Aclaramos para que se usa R410?}
 
 \section{Diseño del controlador digital}
 

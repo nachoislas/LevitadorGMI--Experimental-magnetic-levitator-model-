@@ -684,7 +684,6 @@ Este controlador que se va a diseñar tiene como entradas la señal de referenci
 \subsection{Transferencias de la planta y del controlador de corriente}
 
  Para el análisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ (\ref{eq_transferencia_planta_m}) y del controlador de corriente $G_{iL}(s) $ (\ref{eq_TLC-cc}) en el dominio analógico para una masa de $30 \:kg$.
- \colorbox{red}{Chequear eq} -> están bien
 
 \begin{equation} 
 	\begin{aligned}
@@ -1068,7 +1067,7 @@ En la figura \ref{fig:lugar-de-raices-con-integrador_real_neg} se puede observar
 	\label{fig:lugar-de-raices-con-integrador}
 \end{figure}
 
-\colorbox{red}{Ver de aclarar como pasamos de Vyref valores de posición...}
+\colorbox{red}{Ver de aclarar como pasamos de Vyref valores de posición...Esto aca o directamente lo ponmos en la seccion de Ganancia de ENTRDA}
 
 \noindent En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 107. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escalón del sistema compensado con el integrador para una ganancia de $K_{int}=1$. Por otro lado, para obtener una salida positiva es necesario considerar el bloque F del diagrama \ref{fig:diag-externo_real_positiva_dig} como una ganancia unitaria negativa.
 
@@ -1089,7 +1088,7 @@ En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuest
 	G_{ext}(w)=\frac{5}{w}	
 \end{equation}
 
-\colorbox{red}{creo que sería mas correcto poner la transferencia final del compensador en z}
+\colorbox{red}{creo que sería mas correcto poner la transferencia final del compensador en z --> Para mi no se si sirve de mucho en Z xq esto después hay que multiplicarlo por las transferencias(de la tlc interna) en W y pasar todo eso junto a Z}
 
 \begin{figure}[H]
 	\centering
@@ -1124,7 +1123,7 @@ En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuest
 
 \colorbox{red}{Ver si ponemos algo de la ganancia de entrada}
 
-Tenemos que mapear la tensión de referencia Vyref con la salida del estimador que sería en mm. Podemos hacer que F tenga la ganancia para convertir de Vyref a Y o hacer que esa conversión se haga apenas se lee la señal del ADC y después que F sea -1
+Tenemos que mapear la tensión de referencia Vyref con la salida del estimador que sería en mm. Podemos hacer que F tenga la ganancia para convertir de Vyref a Y o hacer que esa conversión se haga apenas se lee la señal del ADC y después que F sea -1. NO SERIA LO MISMO? osea multplicar la senial por una constante y despues por menos uno XD
 
 
 \subsection{Transferencia de lazo cerrado}

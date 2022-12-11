@@ -89,11 +89,11 @@ Una vez obtenido el modelo discreto de la planta con el efecto del ROC, se propo
 
 
 \begin{equation*}
-	z=\frac{1+sT_s}{1-sT_s}
+	z=\frac{1+\frac{sT_s}{2}}{1-\frac{sT_s}{2}}
 \end{equation*}
 
 
-Una vez diseñado el compensador en el dominio analógico, se aplica la transformada bilineal inversa y se obtiene su equivalente en el plano transformado Z para ser implementado en el microcontrolador.
+Una vez diseñado el compensador en el dominio analógico, se aplica la transformada bilineal inversa y se obtiene su equivalente en el plano transformado Z para ser implementado en el microcontrolador. Este compensador $D(z)$ es luego convertido, por medio de la transformada Z inversa, a una ecuación en diferencias que relaciona la salida $u[n]$ con la entrada $e[n]$. 
 
 
 \colorbox{red}{Releer y ver si quedó bien}
@@ -706,7 +706,7 @@ Para incluir el efecto del ROC a esta transferencia se aplica la transformada z 
 	G_T(z)[M=30\:kg] =\frac{-3.2057*10^{-10}(z+3.729)(z+0.2677)}{(z-0.9966)(z-0.9806) (z-1.02)}
 \end{equation}
 
-Luego, se utiliza la transformada bilineal ($z=\frac{1+wT_s/2}{1-wT_s/2}$) para obtener una transferencia en el dominio analógico de la variable $w$. Considerando $T_s=1/F_s$:
+Luego, se utiliza la transformada bilineal ($z=\frac{1+\frac{wT_s}{2}}{1-\frac{wT_s}{2}}$) para obtener una transferencia en el dominio analógico de la variable $w$. Considerando $T_s=1/F_s$:
 
 \begin{equation} \label{eq_Gtotal_w_m30}
 	\resizebox{.8\hsize}{!}

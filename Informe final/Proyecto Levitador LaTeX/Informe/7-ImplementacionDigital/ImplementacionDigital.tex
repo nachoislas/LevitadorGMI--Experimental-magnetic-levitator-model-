@@ -64,23 +64,28 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 Como se mencionó previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para implementar un algoritmo de compensación dentro del microcontrolador. 
 
-Se desea implementar un compensador en el dominio discreto y controlar una planta continua. Para ello, es necesario convertir señales analógicas a discretas para poder utilizarlas en el algoritmo de control y viceversa para actuar sobre la planta. Para esto se utilizan conversores analógico digitales ($ADC$) y conversores digital analógicos ($DAC$). 
+Se desea implementar un compensador en el dominio discreto y controlar una planta continua. Para ello, es necesario convertir señales analógicas a discretas para poder utilizarlas en el algoritmo de control y viceversa para actuar sobre la planta. Para esto se utilizan conversores analógico digitales ($ADC$) y conversores digital analógicos ($DAC$). En la figura \ref{fig:diag-general-digital} se muestra un diagrama en bloques de un sistema de control con un compensador digital D(z) que controla una planta continua $G(s)$.
 
-Para hacer esta conversión los dispositivos mencionados mantienen el valor entre cada muestra, actualizando el valor de la señal en cada intervalo de tiempo discreto ($T_s$). Este efecto se lo conoce como retenedor de orden cero ($ROC$) y se lo puede modelar con la ecuación \ref{eq_retenedor_orden-0}. Es importante tener en cuenta el efecto que agrega el $ROC$ sobre la planta al momento de diseñar el compensador, ya que puede afectar la estabilidad del sistema.
+\begin{figure}[H]
+	\centering
+	\input{tikz/diagrama_control_discreto.tex}
+	\caption{Diagrama en bloques de controlador digital.}	\label{fig:diag-general-digital}
+\end{figure}
+
+
+Para hacer la conversión entre el dominio digital al analógico, el DAC mantiene el valor entre cada muestra, actualizando el valor de la señal en cada intervalo de tiempo discreto ($T_s$). Este efecto se lo conoce como retenedor de orden cero ($ROC$) y se lo puede modelar con la ecuación \ref{eq_retenedor_orden-0}. Es importante tener en cuenta el efecto que agrega el $ROC$ sobre la planta al momento de diseñar el compensador, ya que puede afectar la estabilidad del sistema.
 
 \begin{equation}\label{eq_retenedor_orden-0}
 	ROC(s)=\frac{1-e^{-s*T_s}}{s}
 \end{equation}
 
-Se ingresa al sistema con una señal continua $R(t)$ cuya transformada de Laplace es $R(s)$. Sin embargo, luego de ser discretizada por el conversor analógico digital se obtiene la señal $R(z)$. Esta puede obtenerse al aplicar la transformada Z a la señal de entrada. Por lo tanto, la señal discretizada teniendo en cuenta el efecto de la ROC, resulta:
+Para diseñar un compensador digital es necesario obtener una representación discreta de la planta que se quiere controlar, agregando la dinámica del ROC. Esta se puede obtener a través de la transformada Z por el método de invarianza al impulso:
 
 \begin{equation*}
-	R(z)= Z[ROC(s)*R(s)]
+	G(z)= Z[ROC(s)*G(s)]
 \end{equation*}
 
-Para diseñar un compensador digital, es necesario obtener la transformada Z de la planta analógica que se desea controlar para obtener su equivalente discreto (considerando el efecto del $ROC$). 
-
-Se propone diseñar el compensador digital mediante el uso técnicas de diseño de compensadores analógicos. Para ello se hace uso de la transformada bilineal. Esta se aplica sobre la transformada z de la planta por medio de la siguiente expresión:
+Una vez obtenido el modelo discreto de la planta con el efecto del ROC, se propone diseñar el compensador digital mediante el uso técnicas de diseño de compensadores analógicos. Para ello se hace uso de la transformada bilineal. Esta se aplica sobre la representación discreta de la planta por medio de la siguiente expresión:
 
 
 \begin{equation*}

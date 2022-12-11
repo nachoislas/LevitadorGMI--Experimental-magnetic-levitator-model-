@@ -1,0 +1,39 @@
+\tikzset{%
+	buffer/.style={
+		draw,
+		shape border rotate=270,
+		regular polygon,
+		regular polygon sides=3,
+		fill=blue!20,
+		node distance=2cm,
+		minimum height=4em
+	}
+}
+
+\tikzstyle{block} = [draw, fill=blue!20, rectangle, 
+minimum height=2.5em, minimum width=3em]
+
+%Acá se define eñ diagrama en bloques completo
+\begin{tikzpicture}[auto, node distance=1cm,>=latex']
+	% We start by placing the blocks
+	\node [input, name=input] {R(z)};
+	\node [sum, right of=input, node distance=1.5cm] (suma_externa) {+};
+	\node [block, right=of suma_externa] (compensador) {$D(z)$};
+	\node[block, right=of compensador] (dac) {DAC};
+	%\node [block, right=of interno] (gil) {$G_{IL}(w)$};
+	\node [block, right=of dac] (planta) {$G(s)$};
+	\node [block, below=of dac] (realimentacion) {ADC};
+	
+	\node [output, right of=planta, node distance=3cm] (output) {};
+
+%	% Once the nodes are placed, connecting them is easy. 
+	\draw [draw,->] (input) -- node[pos=0.2]{$R(z)$} node[pos=0.9]{$+$}(suma_externa);
+	\draw [draw,->] (suma_externa) -- node{$E(z)$} (compensador);
+	\draw [draw,->] (compensador) -- node{$U(z)$} (dac);
+	\draw [draw,->] (dac) -- node{$U(s)$} (planta);
+	%\draw [draw,->] (gil) -- (planta);
+	\draw [draw,->] (planta) -- node[name=y]{$C(s)$} (output);
+%	\draw [draw,->] (amplificador) -- node[name=y]{$V_{deriv}$} (output);
+	\draw [-] (y) |- (realimentacion);
+	\draw [->] (realimentacion) -| node[pos=0.25]{$C(z)$} node[pos=0.99]{$-$} (suma_externa);
+\end{tikzpicture}

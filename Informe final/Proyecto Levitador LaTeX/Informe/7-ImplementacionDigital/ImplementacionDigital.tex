@@ -412,7 +412,7 @@ En esta sección se realiza el diseño circuital de las etapas de acondicionamie
 
  Para convertir los valores analógicos de las señales de referencia de posición y salida del sensor de efecto Hall, se utiliza el ADC del microcontrolador con una tensión de referencia de $3.3\:V$ y una frecuencia de muestreo de $25\:kHz$. Se agrega circuitería de filtrado, ganancia y protección en las entradas del ADC para hacerlas aptas para ingresar al microcontrolador.
  
-\subsubsection{Referencia de posición}
+\subsubsection{Referencia de posición} \label{sec_referencia_pos}
 
  Para indicar al microcontrolador la distancia de separación deseada se utiliza la señal  $V_{y_{ref}}$ proveniente del potenciómetro ubicado en la placa de control. Esta señal de referencia es también utilizada por el compensador analógico y la correspondencia entre ella y la distancia de entrehierro deseada es:
  
@@ -668,6 +668,12 @@ La salida del estimador digital se obtiene a través del DAC para poder observar
 \section{Diseño del controlador digital}
 
 En esta sección se realiza el diseño del controlador digital teniendo en cuenta los aspectos mencionados en la sección  \ref{consideraciones_sistemas_discretos} sobre el trabajo con sistemas discretos.
+
+\colorbox{red}{creo que vamos a tener que poner que la entrada a los diagramas en bloques es Yref, que se calcula en la sección \ref{sec_referencia_pos}. Es eso o decir que el bloque F implementa la ecuación \ref{eq_y-ref-dig}}
+
+Este controlador que se va a diseñar tiene como entradas la señal de referencia de posición $Y_ref$ y la señal de posición estimada $Y_g$.
+
+%Un controlador digital se define como una función transferencia C(z)=U(z)/E(z). Para implementarlo dentro del microcontrolador se convierte la función transferencia en una ecuación en diferencias utilizando la transformada z inversa. Este es implementado dentro del microcontrolador por medio de un algoritmo que recibe una señal e[n] en su entrada y calcula la señal u[n].
 
 
 \subsection{Transferencias de la planta y del controlador de corriente}
@@ -1109,9 +1115,11 @@ En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuest
 	\label{fig:respuesta-al-escalon-con-k-5-M-1}
 \end{figure}
 
-\section{Cálculo de ganancia de entrada}
+\subsection{Cálculo de ganancia de entrada}
 
 \colorbox{red}{Ver si ponemos algo de la ganancia de entrada}
+
+Tenemos que mapear la tensión de referencia Vyref con la salida del estimador que sería en mm. Podemos hacer que F tenga la ganancia para convertir de Vyref a Y o hacer que esa conversión se haga apenas se lee la señal del ADC y después que F sea -1
 
 
 \subsection{Transferencia de lazo cerrado}

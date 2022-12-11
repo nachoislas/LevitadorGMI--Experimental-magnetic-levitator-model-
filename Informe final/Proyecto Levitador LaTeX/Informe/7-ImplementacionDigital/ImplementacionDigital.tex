@@ -21,8 +21,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\label{fig:diag-en-bloques-digital}
 \end{figure}
 
-\colorbox{red}{acá agregamos la salida del estimador por el DAC también?}
-
+\colorbox{red}{Agregar la salida Yg}
 %\colorbox{blue}{yo dejaría el de arriba que representa mejor que la entrada al sistema digital es la corriente. pero el de abajo nos sirve para el diseño del compensador también}
 %
 %Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
@@ -61,63 +60,58 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 %\colorbox{blue}{acá arrancaría con una sección general que sea algoritmo de estimación y dentro de ella iría lo de frecuencia de muestreo, etc...}
 
 
-\section{Consideraciones para el dominio discreto}
+\section{Consideraciones para el dominio discreto}\label{consideraciones_sistemas_discretos}
 
-Como se menciono previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para implementar un algoritmo de compensación dentro del microcontrolador. 
+Como se mencionó previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para implementar un algoritmo de compensación dentro del microcontrolador. 
 
-Como se ve en la figura \ref{fig:diag-en-bloques-digital} se tiene un compensador en el dominio discreto, pero se desea controlar una planta que es continua. Para convertir senales analógicas a discretas y viceversa para poder ser utilizadas en el algoritmo de control se utilizan conversores analógico digitales ($ADC$) y conversores digital analógicos ($DAC$) 
+Se desea implementar un compensador en el dominio discreto y controlar una planta continua. Para ello, es necesario convertir señales analógicas a discretas para poder utilizarlas en el algoritmo de control y viceversa para actuar sobre la planta. Para esto se utilizan conversores analógico digitales ($ADC$) y conversores digital analógicos ($DAC$). 
 
-Para hacer esta conversion los dispositivos mencionados mantienen el valor entre muestra y muestra, actualizando el valor de la señal en cada intervalo de tiempo discreto. Este efecto se lo conoce como retenedor de orden cero ($ROC$) y se lo puede modelar con la siguiente ecuación:
+Para hacer esta conversión los dispositivos mencionados mantienen el valor entre cada muestra, actualizando el valor de la señal en cada intervalo de tiempo discreto ($T_s$). Este efecto se lo conoce como retenedor de orden cero ($ROC$) y se lo puede modelar con la ecuación \ref{eq_retenedor_orden-0}. Es importante tener en cuenta el efecto que agrega el $ROC$ sobre la planta al momento de diseñar el compensador, ya que puede afectar la estabilidad del sistema.
 
-\begin{equation*}
+\begin{equation}\label{eq_retenedor_orden-0}
 	ROC(s)=\frac{1-e^{-s*T_s}}{s}
-\end{equation*}
+\end{equation}
 
-Luego de realizar la conversión, teniendo en cuenta el efecto del $ROC$, como se esta trabajando en con un modelo discreto se debe aplicar la transformada $Z$ de las señales continuas. Por lo tanto ahora las señales muestreadas en el microcontrolador para una entrada entrada($R(t)$) en el plano S son:
+Se ingresa al sistema con una señal continua $R(t)$ cuya transformada de Laplace es $R(s)$. Sin embargo, luego de ser discretizada por el conversor analógico digital se obtiene la señal $R(z)$. Esta puede obtenerse al aplicar la transformada Z a la señal de entrada. Por lo tanto, la señal discretizada teniendo en cuenta el efecto de la ROC, resulta:
 
 \begin{equation*}
 	R(z)= Z[ROC(s)*R(s)]
 \end{equation*}
 
-Trabajando en el plano Z se puede diseñar un compensación digital ($G_c(z)$) a partir de las diferencia ($E(z)$) entre las señales de entrada al microcontrolador  correspondientes a la señal de referencia ($V_{iLref}$) y la de realimentación de la corriente ($V_{iLfeed}$).  
+Para diseñar un compensador digital, es necesario obtener la transformada Z de la planta analógica que se desea controlar para obtener su equivalente discreto (considerando el efecto del $ROC$). 
 
-\begin{equation*}
-	G_c(z)=\frac{U(z)}{E(z)}
-\end{equation*}
+Se propone diseñar el compensador digital mediante el uso técnicas de diseño de compensadores analógicos. Para ello se hace uso de la transformada bilineal. Esta se aplica sobre la transformada z de la planta por medio de la siguiente expresión:
 
-Para poder diseñar esta compensación digital, se pueden aplicar herramientas que permiten aplicar técnicas de diseño para sistemas continuos y obtener su equivalente en el plano transformado Z para ser implementado en el microcontrolador.
-
-Esta herramienta es la transformada bilineal. Por medio de esta es posible diseñar un compensador con técnicas de compensación analógico y luego, con su transformada inversa, obtener el compensador en el dominio discreto. Esta transformada consiste en aplicar la siguiente ecuación: 
 
 \begin{equation*}
 	z=\frac{1+sT_s}{1-sT_s}
 \end{equation*}
 
 
-\subsection{Transferencias de la planta y del controlador de corriente}
+Una vez diseñado el compensador en el dominio analógico, se aplica la transformada bilineal inversa y se obtiene su equivalente en el plano transformado Z para ser implementado en el microcontrolador.
 
-Para el análisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio analógico para una masa de $30 \:kg$.
 
-\begin{equation} 
-	\begin{aligned}
-		G_T(s)[M=30kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
-	\end{aligned}
-\end{equation}
+\colorbox{red}{Releer y ver si quedó bien}
 
-Para incluir el efecto del ROC a esta transferencia se aplica la transformada z por el método de invarianza al impulso. Aplicando propiedades se obtiene que 
+%\subsection{Transferencias de la planta y del controlador de corriente}
+%
+%Para el análisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio analógico para una masa de $30 \:kg$.
+%
+%\begin{equation} 
+%	\begin{aligned}
+%		G_T(s)[M=30kg]&=G_P(s)*G_{iL}(s)&=\frac{-87.7}{\ (s-70)\ (s+70)\ (s+12.17)}\\
+%	\end{aligned}
+%\end{equation}
+%
+%Para incluir el efecto del ROC a esta transferencia se aplica la transformada z por el método de invarianza al impulso. 
+%
+%\begin{equation*}
+%	G_T(z)=Z\{\frac{(1-e^{-s*T_s})}{s}*G_T(s)\}=(1-z^{-1})*Z\{\frac{G_T(s)}{s}\})
+%\end{equation*}
+%
+%Para obtener esta transformada es necesario conocer el período de muestreo $T_s=\frac{1}{F_s}$. A continuación se hará un análisis de cual será el algoritmo de control y se escoge una $F_s$ para luego obtener la transferencia del controlador $G_c(z)$.
 
-\begin{equation*}
-	\frac{Y(z)}{R(z)}=Z[\frac{(1-e^{-s*T_s})}{s}*G_T(s)]=(1-z^{-1})*Z[\frac{G_T(s)}{s}])
-\end{equation*}
 
-Para obtener esta transformada es necesario conocer la frecuencia de muestreo $F_s$. A continuación se hara un análisis de cual sera el algoritmo de control y se escoge una $F_s$ para luego obtener la transferencia del controlador $G_c(z)$.
-\colorbox{red}{Hacer referencia a cuando elegimos esta frecuencia}
-
-\colorbox{red}{Escribir la expresión de la transformada z invarianza al impulso}
-
-Por lo tanto se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema.  
-
-\colorbox{red}{ponemos diagrama general de la compensación?}en este diagrama ponemos el H y aclaramos que es =1 como se disñó en al secciòn...
 
 \section{Diseño de algoritmo de estimación}
 
@@ -135,7 +129,6 @@ Donde $K_h$ es la ganancia del sensor de efecto Hall. Como la señal $V_{IL_{fee
 	V_h=V_{IL_{feed}}-0.1\:V=K_h*I_L
 \end{equation*}
 
-\colorbox{blue}{pongo acá Vh por que la usamos mas abajo en la estimación}
 
 La conversión entre la señal $V_{IL_{feed}}$ y $V_h$ será realizada dentro del microcontrolador luego de muestrear la señal de entrada con ADC.
 
@@ -184,8 +177,7 @@ Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de induct
 
 \subsection{Adquisición y procesamiento de las muestras} \label{sec_adquisicion_y_procesamiento}
 
-En esta sección se desarrolla el algoritmo ideado para estimar la distancia de entrehierro. Este se puede observar en el diagrama de flujo \ref{fig:procesamiento-muestras-adquiridas}. Se realiza un análisis para el caso de máxima frecuencia de conmutación, en el que solo se pueden tomar 7 muestras durante el tiempo de crecimiento o decrecimiento.
-
+En esta sección se desarrolla el algoritmo ideado para estimar la distancia de entrehierro. Este se puede observar en el diagrama de flujo \ref{fig:procesamiento-muestras-adquiridas}.
 
 \begin{figure}[H]
 	\centering
@@ -194,17 +186,21 @@ En esta sección se desarrolla el algoritmo ideado para estimar la distancia de 
 	\label{fig:procesamiento-muestras-adquiridas}
 \end{figure}
 
+\colorbox{red}{Borrar del diagrama lo de la compensación de resistencia interna}
+Cada muestra de tensión tomada de la señal $V_h$ se almacena en un vector de 7 posiciones. Se elige este tamaño considerando el caso extremo de frecuencia, en el que solo se pueden obtener 7 muestras por semiciclo. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
 
-Como se observa en el diagrama de flujo de la figura \ref{fig:procesamiento-muestras-adquiridas}, cada muestra de tensión tomada de la señal $V_h$ se almacena en un \colorbox{red}{vector en memoria podría ser en español?}buffer de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
+Cada vez que el vector se completa, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
 
-Cada vez que el buffer se completa, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
-
-En caso de haber completado las 7 posiciones del buffer y la pendiente persiste con el mismo signo, el buffer comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores mas antiguos. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el buffer, con lo cual se calcula la derivada con los valores extremos almacenados teniendo en cuenta el tiempo transcurrido ($K$ períodos de muestreo), y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el buffer, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido hasta que se obtiene nueva estimación. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en “N” períodos luego de la última actualización, siendo “N” la cantidad de muestras que se almacenaron en el buffer incompleto.
+En caso de haber completado las 7 posiciones del vector y la pendiente persiste con el mismo signo, el vector comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores mas antiguos. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el vector, con lo cual se calcula la derivada con los valores extremos almacenados teniendo en cuenta el tiempo transcurrido ($K$ períodos de muestreo), y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el vector, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido hasta que se obtiene una nueva estimación. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en ``$n-1$'' períodos luego de la última actualización, siendo “n” la cantidad de muestras que se almacenaron en el vector incompleto ($n>1$).
 
 Luego de detectar un cambio de pendiente, el
-proceso vuelve a iniciar con el buffer vacío.
+proceso vuelve a iniciar con el vector vacío.
 
 Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de distancia de entrehierro con frecuencia de actualización variable. Esto será importante luego al momento de diseñar el compensador digital. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor. Por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $F_S=25/7 \:kHz = 3.5\:kHz$.
+
+%La derivada se calcula con todos los valores disponbles en el vector. No importa si es la segunda vez que se esta completando el vector..
+%El compensador se actualiza cada vez que se obtiene una nueva estimación. Por lo tanto, puede ser cada 7 períodos o menos (buffer incompleto).
+
 
 \subsection{Estimación digital de la posición}
 
@@ -227,7 +223,7 @@ Por lo tanto al despejar la derivada teórica de la expresión \ref{eq_derivada_
 \end{equation}
 
 
-Para calcular la derivada real de la pendiente dentro del microcontrolador se aproxima como la resta entre la muestra de corriente en un instante ($I_L[n]$) menos la muestra mas vieja en el buffer ($I_L[n-K]$) sobre el intervalo de tiempo transcurrido entre ellas ($K*T_S=\frac{K}{F_S}$). Al considerar este cálculo de la derivada y utilizar \ref{eq_derivada_teorica} en \ref{eq_yg_vs_derivada}, se obtiene:
+Para calcular la derivada real de la pendiente dentro del microcontrolador se aproxima como la resta entre la muestra de corriente en un instante ($I_L[n]$) menos la muestra mas antigua en el vector ($I_L[n-K]$) sobre el intervalo de tiempo transcurrido entre ellas ($K*T_S=\frac{K}{F_S}$). Al considerar este cálculo de la derivada y utilizar \ref{eq_derivada_teorica} en \ref{eq_yg_vs_derivada}, se obtiene:
 
 \begin{equation} \label{eq_yg_vs_IL}
 	Y_g[n] = 5.136*10^{-6}* |\frac{I_L[n]-I_L[n-K]}{K*T_S}+\frac{R_L*I_L[n]}{L(Y_g)[n-1]}| - 3.472*10^{-3} [m]
@@ -277,12 +273,10 @@ Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado
 \end{equation}
 
 
-El número de muestras está representado por ``n''. Es decir, $V_h[n]$ se refiere a la muestra más reciente en el buffer y $V_h[n-K]$ a la más vieja.
+Donde $V_h[n]$ se refiere a la muestra más reciente en el vector y $V_h[n-K]$ a la más antigua.
 
 Es importante notar que los coeficientes del estimador deben calcularse justo antes de realizar una nueva estimación,  en función de la cantidad de muestras que se utilizan para el cálculo de la pendiente. Si bien el estimador presenta una frecuencia de actualización variable, los coeficientes del compensador digital no se ven modificados ya que se calculan teniendo en cuenta la frecuencia de actualización más lenta.
 
-Por otro lado, el bloque $H_D$ mostrado en la figura \ref{fig:diag-en-bloques-digital-simplif} resulta en una transferencia unitaria.
- \colorbox{red}{si sacamos la figura hay que ver de modificar esto o sacarlo}
 
 \subsection{Resolución en posición}
 
@@ -357,28 +351,29 @@ Se propone realizar una adquisición separada de ambas componentes de la tensió
 Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima ganancia posible es de 60 veces para la componente de alterna.
 
 \begin{equation*}
-	3,3 \:V = \frac{26.7\:mV_{pp}}{2}*G_{max}+2,5\:V
+	3.3 \:V = \frac{26.7\:mV_{pp}}{2}*G_{max}+2.5\:V
 \end{equation*}
 
 
 Por otro lado, para medir con la resolución en posición deseada de $0.1\:mm$ se la debe amplificar 9 veces como mínimo.
 
 \begin{equation*}
-	0,8\:mV_{pp} = 96\:\mu V * 9
+	0.8\:mV_{pp} = 96\:\mu V * 9
 \end{equation*}
 
 Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de $3.17\:V$ (es decir, $0.67\:V$ sobre el punto de operación).
 
-Para realizar la separación de las componentes de la señal $V_h$ se utiliza un circuito con las siguientes características:
+Para realizar la separación de las componentes de la señal $V_h$ se utiliza un circuito con una ganancia de 50, un punto de operación de $2.5\:V$ en la salida, una frecuencia de corte inferior de $100\:Hz$ para bloquear el valor medio y una frecuencia de corte superior de $12.5\:kHz$ correspondiente a la mitad de la frecuencia de muestreo del ADC. De esta forma, se evita el solapamiento de la señal muestreada.
 
-\begin{itemize}
-	\item Ganancia: 50
-	\item \textsl{set-point} de $2.5\:V$
-	\item Frecuencia de corte inferior: $100\:Hz$
-	\item Frecuencia de corte superior: $12,5\:kHz$
-\end{itemize}
+%La frecuencia de  corte superior de $12.5\:kHz$ corresponde a la de un filtro anti-solapamiento. El uso de estos filtros antes de la discretización de los datos es necesario ya que al hacerlo aparece una réplica espectral de la señal muestreada desplazada a la frecuencia de muestreo y a sus n-múltiplos. Esta réplica puede mezclarse con la señal deseada. 
+%\begin{itemize}
+%	\item Ganancia: 50
+%	\item \textsl{set-point} de $2.5\:V$
+%	\item Frecuencia de corte inferior: $100\:Hz$
+%	\item Frecuencia de corte superior: $12.5\:kHz$
+%\end{itemize}
 
-La frecuencia de  corte superior de $12,5\:kHz$ corresponde a la de un filtro anti-solapamiento. El uso de estos filtros antes de la discretización de los datos es necesario ya que al hacerlo aparece una réplica espectral de la señal muestreada desplazada a la frecuencia de muestreo y a sus n-múltiplos. Esta réplica puede mezclarse con la señal deseada. 
+
 
 Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
 
@@ -388,32 +383,35 @@ Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
 
  Al reemplazar para el incremento de frecuencia se obtiene: 
 
-\begin{equation} 
+\begin{equation*} 
 	\begin{aligned}
 		&P(F_{planta_{min}}) = 2824.9 \: [\frac{V}{s}]\\
 		&P(F_{planta_{min}} + \Delta F_{planta}) = 2944.29 \: [\frac{V}{s}]\\		 
 	\end{aligned}
-\end{equation}
+\end{equation*}
 
  Por lo tanto, resulta:
 
 
-\begin{equation} 
-	\resizebox{.8\hsize}{!}
+\begin{equation*} 
+	\resizebox{.9\hsize}{!}
 	{
 	$\Delta V_{ADC} = T_S * [P(F_{planta_{min}} + \Delta F_{planta}) - P(F_{planta_{min}})] = 0.1177\:V - 0.1129\:V = 4.7\:mV$
 	}
-\end{equation}
+\end{equation*}
 
 
  De esta manera, como la resolución del ADC es de $0.8\:mV$, resulta suficiente para identificar el mínimo cambio de pendiente.
 
 
-\section{Circuitos de acondicionamiento de señales para el ADC}
+\section{Circuitos de acondicionamiento de señales para el microcontrolador}
+En esta sección se realiza el diseño circuital de las etapas de acondicionamiento correspondientes a las señales que interactúan entre el microcontrolador y el sistema analógico. Se implementan protecciones de sobre tensión en las entradas del microcontrolador, filtros anti-solapamiento y de reconstrucción de señales y ganancias para adecuar niveles de tensión.
 
-\subsection{Referencia de posición}
+\subsection{Circuitos de acondicionamiento de señales para el ADC}
 
-\colorbox{red}{cambiar VposRef por Vyref y Vposrefadc por Vyrefadc}
+ Para convertir los valores analógicos de las señales de referencia de posición y salida del sensor de efecto Hall, se utiliza el ADC del microcontrolador con una tensión de referencia de $3.3\:V$ y una frecuencia de muestreo de $25\:kHz$. Se agrega circuitería de filtrado, ganancia y protección en las entradas del ADC para hacerlas aptas para ingresar al microcontrolador.
+ 
+\subsubsection{Referencia de posición}
 
  Para indicar al microcontrolador la distancia de separación deseada se utiliza la señal  $V_{y_{ref}}$ proveniente del potenciómetro ubicado en la placa de control. Esta señal de referencia es también utilizada por el compensador analógico y la correspondencia entre ella y la distancia de entrehierro deseada es:
  
@@ -423,23 +421,16 @@ Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
  
 Esta señal tiene una tensión que varía entre $3.96\:V$ y $4.69\:V$ para valores de $Y_g$ entre $2\:mm$ y $5\:mm$, que resulta mayor a la que puede leer el ADC. Por este motivo se implementa un circuito que permita llevarla a valores de tensión adecuados para su correcto funcionamiento. 
 
-Se implementa un circuito que le resta el punto de operación de $2.5\:V$  para lograr señales que van desde $1.42\:V$ a $2.2\:V$ y se obtiene en su salida la señal $Vpos_{ref_{ADC}}$.
+Se implementa un circuito que le resta el punto de operación de $2.5\:V$  para lograr señales que van desde $1.42\:V$ a $2.2\:V$ y se obtiene en su salida la señal $Vy_{ref_{ADC}}$.
 
 Luego, dentro del microcontrolador, se asigna cada valor leído por el ADC a una distancia de separación deseada ($Y_{ref}$), según la fórmula \ref{eq_y-ref-dig}.
 
 \begin{equation} \label{eq_y-ref-dig}
-	Y_{ref}\ =\frac{Vpos_{ref_{ADC}} +2.5 - 3.4\:V}{259.6}\:[m]=\frac{Vpos_{ref_{ADC}} - 0.9\:V}{259.6}\:[m]
+	Y_{ref}\ =\frac{Vy_{ref_{ADC}} +2.5 - 3.4\:V}{259.6}\:[m]=\frac{Vy_{ref_{ADC}} - 0.9\:V}{259.6}\:[m]
 \end{equation}
 
-Para obtener la tensión $Vpos_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $1\:kHz$ para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
+Para obtener la tensión $Vy_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $1\:kHz$ para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Circuito-ref-posicion.png}
-	\caption{Circuito acondicionador para referencia de posición.}
-	
-\end{figure}
 
 \begin{figure}[H]
 	\centering
@@ -448,16 +439,12 @@ Para obtener la tensión $Vpos_{ref_{ADC}}$ se utiliza el circuito mostrado en l
 	\label{fig:circuito-ref-posicion}
 \end{figure}
 
-
-
-
-
+\colorbox{red}{Cambiar nombre a imagen Vyref y VyrefADC}
 %
 %Como se ve en la expresión \ref{eq_vyref_vs_yg}, la señal tiene un punto de operación de $3.4\:V$. Por lo tanto si se implementa un circuito de acondicionamiento que le reste este valor, se obtiene una señal apta para el ADC.
 %  
 %  
 %Se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. A la señal de entrada se le resta el punto de operación de $3.4\:V$, para lograr señales que van desde $0.56\:V$ a $1.29\:V$. Luego, dentro del microcontrolador, se debe asignar cada valor leído por el ADC a una distancia de separación deseada ($Y_{ref}$) utilizando la ganancia del estimador analógico según la expresión \ref{eq_y-ref-dig}.
- \colorbox{red}{hacer referencia a capitulos anteriores para justificar el calculo de Yref}
  
 A continuación se analiza la salida de este circuito en función de sus entradas para diseñar los valores de sus componentes. Para simplificar el análisis se define:
 
@@ -468,41 +455,34 @@ A continuación se analiza la salida de este circuito en función de sus entrada
 Por lo tanto, la salida del circuito se puede expresar como:
 
 \begin{equation*} 
-	V_{pos\_Ref\_ADC}=\frac{Z}{Z+R_{413}}(1+\frac{Z}{R_{412}})V_{pos\_Ref}-\frac{Z}{R_{412}}*2.5\:V
+	Vy_{ref_{ADC}}=\frac{Z}{Z+R_{413}}(1+\frac{Z}{R_{412}})Vy_{ref}-\frac{Z}{R_{412}}*2.5\:V
 \end{equation*}
 
 Si se considera que $R_{412}=R_{413}$ resulta:
 
 %y que $2.5\:V$ es una señal continua se obtiene:
 \begin{equation*} 
-	V_{pos\_Ref\_ADC}=\frac{Z}{R_{412}}V_{pos\_Ref}-\frac{Z}{R_{412}}*2.5\:V
+	Vy_{ref_{ADC}}=\frac{Z}{R_{412}}Vy_{Ref}-\frac{Z}{R_{412}}*2.5\:V
 \end{equation*}
 
 
 Como se desea ganancia unitaria, se define que $R_{411}=R_{412}$ y se obtiene:
 
 \begin{equation*} 
-	V_{pos\_Ref\_ADC}=\frac{1}{1+sC_{408}R_{411}}(V_{pos\_Ref}-2.5\:V)
+	Vy_{ref_{ADC}}=\frac{1}{1+sC_{408}R_{411}}(Vy_{Ref}-2.5\:V)
 \end{equation*}
 
 %\begin{equation*} 
-%	\frac{V_{pos\_Ref\_ADC}}{V_{pos\_Ref}}=\frac{R_{411}*(R_{413}+R_{414})}{R_{413}*(R_{411}+R_{412})}*\frac{sC_{408}(R_{411}//R_{412})+1}{(sC_B(R_{413}//R_{414})+1)*(sC_{408}R_{411}+1)}
+%	\frac{Vy_{ref_{ADC}}}{Vy_{Ref}}=\frac{R_{411}*(R_{413}+R_{414})}{R_{413}*(R_{411}+R_{412})}*\frac{sC_{408}(R_{411}//R_{412})+1}{(sC_B(R_{413}//R_{414})+1)*(sC_{408}R_{411}+1)}
 %\end{equation*}
 
 Por lo tanto, para obtener una frecuencia de corte para el filtro de $1\:kHz$ se elige $R_{411}=10\:k\Omega$ y resulta $C_{408}=16\:nF$. De esta forma, se obtiene que $R_{412}=R_{413}=R_{414}=10\:k\Omega$ y que $C_{409}=16\:nF$.
 
 
-\subsection{Componente  alterna de corriente del electroimán}
+\subsubsection{Componente  alterna de corriente del electroimán}
 
- Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de $100\:Hz$, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12\:kHz$, que actúa como filtro anti-solapamiento. Luego, la salida es amplificada con una ganancia de 50 veces, según se calculó en la sección \ref{sec_adaptacion_señal_vh_ADC} y se agrega un \textsl{set-point} de $2.5\:V$.
+ Para obtener solamente la componente alterna de la corriente, se implementa un circuito con característica pasa-banda que se muestra en la figura \ref{fig:componente-corriente-alterna}. La frecuencia de corte inferior  es de $100\:Hz$, con el objetivo de eliminar el valor medio de señal. Por otro lado, la superior es de $12\:kHz$, que actúa como filtro anti-solapamiento. Luego, la salida es amplificada con una ganancia de 50 veces, según se calculó en la sección \ref{sec_adaptacion_señal_vh_ADC} y se agrega un punto de operación de $2.5\:V$.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Componente-corriente-alterna.png}
-	\caption{ Circuito acondicionador para componente alterna de corriente del electroimán.
-	}
-
-\end{figure}
 
 \begin{figure}[H]
 	\centering
@@ -532,7 +512,7 @@ La salida en función de sus entradas resulta:
 	V_{IfeedADC} =\frac{sC_{404}R_{404}}{(1+sC_{402}R_{404})(1+sC_{404}R_{405})}*Vi_{feed}+2.5\:V
 \end{equation*}
 
-Para lograr la frecuencia de corte inferior de $100\:Hz$ es necesario definir correctamente los valores de los componentes correspondientes $Z_1$. Para ello, se plantea la siguiente ecuación:
+Para lograr la frecuencia de corte inferior de $100\:Hz$ es necesario definir correctamente los valores de los componentes correspondientes a $Z_1$. Para ello, se plantea la siguiente ecuación:
 
 \begin{equation*} 
 	100\:Hz=\frac{1}{2\pi C_{404}R_{405}}
@@ -603,19 +583,10 @@ Por lo tanto, se obtiene $C_{402}=270\:pF$. De esta forma resulta $C_{407}=270\:
 %\end{equation*} 
 
 
-\subsection{Componente continua de corriente del electroimán}
+\subsubsection{Componente continua de corriente del electroimán}
 
  Para obtener la componente de continua se utiliza un filtro pasa-bajos con frecuencia de corte en $100\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Componente-corriente-continua.png}
-	\caption{Circuito acondicionador para componente continua de corriente del electroimán.
-	}
-
-\end{figure}
-
-\colorbox{red}{verificvar que la impedancia de entrada del ADC no afecta la transferencia del filtro}
 
 \begin{figure}[H]
 	\centering
@@ -638,24 +609,15 @@ Por lo tanto, como se desea una frecuencia de corte de $100\:Hz$ se plantea la s
 Al elegir una resistencia $R_{401}=10\:k\Omega$ resulta en $C_{401}=160\:nF$
 
 
-\section{Circuitos de acondicionamiento de señales para el DAC}
+\subsection{Circuitos de acondicionamiento de señales para el DAC}
 
  Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utiliza el DAC del microcontrolador. El DAC utilizado entrega una tensión de salida que puede variar entre $0\:V$ y $3.3\:V$, y se actualiza con una frecuencia mínima de $3.5\:kHz$ como se mencionó en la sección \ref{sec_adquisicion_y_procesamiento}. Se agrega circuitería de filtrado, ganancia y protección en las salidas del DAC para hacerlas aptas para ingresar a las etapas analógicas.
  
- , como se muestra en las figuras \ref{fig:DAC-compensador} y \ref{fig:DAC-estimador}. . Por lo tanto, se utilizan filtros con frecuencia de corte en $1.75\:kHz$.
-
-\subsection{Salida del compensador}
+\subsubsection{Salida del compensador}
 
 La salida de la etapa de compensador digital es convertida en una señal analógica por el DAC y luego de esta etapa de adaptación ingresa a la etapa de controlador de corriente. Como el controlador de corriente funciona con tensiones de referencia de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0.66$, mapeando así los $5\:V$ a $3.3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento. Además, la salida del DAC es filtrada con un filtro pasa bajos con frecuencia de corte en $1.75\:kHz$ para eliminar los saltos de tensión que provoca el ROC.
 
 De esta forma, se logra convertir correctamente la señal digital en analógica. En la figura \ref{fig:DAC-compensador} se muestra la implementación del circuito.
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{DAC-compensador.png}
-	\caption{Circuito acondicionador para la salida del DAC correspondiente al compensador.}
-\end{figure}
 
 \begin{figure}[H]
 	\centering
@@ -689,15 +651,9 @@ De esta forma, se obtiene $C_{400}=18\:nF$.
 \colorbox{red}{Aclaramos para que se usa R403?} capaz la sacamos de la imgen jeje	
 
 
-\subsection{Salida del estimador}
+\subsubsection{Salida del estimador}
 
-La salida del estimador digital se obtiene a través del DAC para poder observarla mediante un osciloscopio en el PCB. Para diseñar la etapa de adaptación se utilizan los mismos criterios que para el circuito \ref{fig:DAC-compensador}. Por lo tanto, el circuito utilizado se muestra en la figura \ref{fig:DAC-estimador}. Por lo tanto, resulta: $C_{403}=18\:nF$, $R_{407}=5\:k\Omega$ y $R_{406}=10\:k\Omega$.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{DAC-estimador.png}
-	\caption{Circuito acondicionador para la salida del DAC correspondiente al estimador digital.}
-\end{figure}
+La salida del estimador digital se obtiene a través del DAC para poder observarla mediante un osciloscopio en el PCB. Para diseñar la etapa de adaptación se utilizan los mismos criterios que para el circuito \ref{fig:DAC-compensador}. Por lo tanto, el circuito utilizado se muestra en la figura \ref{fig:DAC-estimador} cuyos valores para los componentes resultan: $C_{403}=18\:nF$, $R_{407}=5\:k\Omega$ y $R_{406}=10\:k\Omega$.
 
 \begin{figure}[H]
 	\centering
@@ -710,41 +666,12 @@ La salida del estimador digital se obtiene a través del DAC para poder observar
 
 \section{Diseño del controlador digital}
 
+En esta sección se realiza el diseño del controlador digital teniendo en cuenta los aspectos mencionados en la sección  \ref{consideraciones_sistemas_discretos} sobre el trabajo con sistemas discretos.
 
-Como se menciono previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para desarrollar un controlador de forma digital. 
-
-Al tomar muestras se esta discretizando una señal continua, para hacer esto, se utilizan conversores analógico digitales que mantienen el valor de esta entre muestra y muestra. Este tipo de reconstrucción de señal también se lo llama $ROC$ y se lo puede modelar con la siguiente ecuación:
-
-\begin{equation*}
-	ROC(s)=\frac{1-e^{-s*T_s}}{s}
-\end{equation*}
-
-Luego para una entrada($R(s)$) representada por un tren de pulsos con distinto valor para cada periodo de muestreo $T_s$ que ingresa a un sistema que posee una transferencia $G(s)$ se puede aplicar la transformada Z y expresar la salida como:
-
-\begin{equation*}
-	\frac{Y(z)}{R(z)}=Z[\frac{(1-e^{-s*T_s})}{s}*G(s)]=(1-z^{-1})*Z[\frac{G(s)}{s}])
-\end{equation*}
-
-Se desea implementar un algoritmo de compensación dentro del microcontrolador. Este se ejecuta cada vez que se obtiene una nueva estimación de distancia de entrehierro. Recibe en su entrada un valor correspondiente a la diferencia entre la señal de referencia y la realimentación. Este valor se denomina $e[n]$. El algoritmo de compensación realiza cálculos a partir de esta entrada y obtiene en su salida una señal $u[n]$. La relación entre $u[n]$ y $e[n]$ es una ecuación en diferencias, cuya transformada discreta (z) es la función transferencia del compensador ($G_c(z)$).
-
-\begin{equation*}
-	G_c(z)=\frac{U(z)}{E(z)}
-\end{equation*}
-
-Entonces se tiene un compensador en el dominio discreto, pero se desea controlar una planta que es continua. La forma de comunicar la salida del compensador con la entrada de la planta es mediante la utilización de un DAC. Este conlleva la ¿desventaja? de que su salida se actualiza cada intervalos de tiempo discretos. Este efecto se conoce como retenedor de orden cero (ROC), y genera un deterioro en la estabilidad del sistema. El compensador que se diseñe debe tener en cuenta este efecto.
-
-
-
-Para poder diseñar un compensador digital para un sistema continuo, se pueden aplicar técnicas de diseño que permiten modelar la planta continua a la vez que se tiene en cuenta el efecto del ROC. De esta manera se pueden aplicar técnicas de compensación para sistemas analógicos.
-
-\colorbox{red}{Redactar bien esta parte}
-Por medio de la transformada bilinal es posible diseñar un compensador en el dominio analógico y luego, con su transformada inversa, obtener el compensador en el dominio discreto. Por lo tanto se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema.  
-
-\colorbox{red}{ponemos diagrama general de la compensación?}en este diagrama ponemos el H y aclaramos que es =1 como se disñó en al secciòn...
 
 \subsection{Transferencias de la planta y del controlador de corriente}
 
- Para el an\'{a}lisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ y del controlador de corriente $G_{iL}(s)\ $ en dominio anal\'{o}gico para una masa de $30 \:kg$.
+ Para el análisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ (\ref{eq_transferencia_planta_m}) y del controlador de corriente $G_{iL}(s) $ (\ref{eq_TLC-cc}) en el dominio analógico para una masa de $30 \:kg$.
 
 \begin{equation} 
 	\begin{aligned}
@@ -752,17 +679,21 @@ Por medio de la transformada bilinal es posible diseñar un compensador en el do
 	\end{aligned}
 \end{equation}
 
-Para incluir el efecto del ROC a esta transferencia se aplica la transformada z por el método de invarianza al impulso. Con una $f_s=3.5\:kHz$, se obtiene:
- 
- \colorbox{red}{Hacer referencia a cuando elegimos esta frecuencia}
 
-\colorbox{red}{Escribir la expresión de la transformada z invarianza al impulso}
+
+Para incluir el efecto del ROC a esta transferencia se aplica la transformada z por el método de invarianza al impulso. 
+
+\begin{equation*}
+	G_T(z)=Z\{\frac{(1-e^{-s*T_s})}{s}*G_T(s)\}=(1-z^{-1})*Z\{\frac{G_T(s)}{s}\})
+\end{equation*}
+
+ Como se mencionó en la sección \ref{sec_adquisicion_y_procesamiento}, se utiliza una frecuencia de muestreo  $F_s=3.5\:kHz$. Por lo tanto, se obtiene:
 
 \begin{equation} 
 	G_T(z)[M=30\:kg] =\frac{-3.2057*10^{-10}(z+3.729)(z+0.2677)}{(z-0.9966)(z-0.9806) (z-1.02)}
 \end{equation}
 
-Luego, se utiliza la transformada bilineal ($z=\frac{1+wT/2}{1-wT/2}$) para obtener una transferencia en el dominio analógico de la variable $w$. Considerando $T=1/f_s$:
+Luego, se utiliza la transformada bilineal ($z=\frac{1+wT_s/2}{1-wT_s/2}$) para obtener una transferencia en el dominio analógico de la variable $w$. Considerando $T_s=1/F_s$:
 
 \begin{equation}
 	\resizebox{.8\hsize}{!}
@@ -772,15 +703,13 @@ Luego, se utiliza la transformada bilineal ($z=\frac{1+wT/2}{1-wT/2}$) para obte
 \end{equation}
 
 
- Con las expresiones en $[w]$ es posible diseñar un controlador utilizando técnicas de diseño en el dominio analógico y luego transformarlo al digital nuevamente con la transformada bilineal inversa.
- 
- \colorbox{red}{chequear cual es la inversa y cual la directa}
+Con las expresiones en $[w]$ es posible diseñar un controlador utilizando técnicas de diseño en el dominio analógico y luego transformarlo al digital nuevamente con la transformada bilineal inversa.
+
+
 
 \subsection{Diseño del compensador}
 
-Se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema.  
-
-Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital}
+Se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema. Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital}.
 
 \begin{figure}[H]
 	\centering

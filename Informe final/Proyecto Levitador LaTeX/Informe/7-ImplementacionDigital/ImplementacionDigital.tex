@@ -673,7 +673,7 @@ En esta sección se realiza el diseño del controlador digital teniendo en cuent
 \subsection{Transferencias de la planta y del controlador de corriente}
 
  Para el análisis del compensador digital se parte de las transferencias de la planta $G_P(s)$ (\ref{eq_transferencia_planta_m}) y del controlador de corriente $G_{iL}(s) $ (\ref{eq_TLC-cc}) en el dominio analógico para una masa de $30 \:kg$.
- \colorbox{red}{Chequear eq}
+ \colorbox{red}{Chequear eq} -> están bien
 
 \begin{equation} 
 	\begin{aligned}
@@ -697,7 +697,7 @@ Para incluir el efecto del ROC a esta transferencia se aplica la transformada z 
 
 Luego, se utiliza la transformada bilineal ($z=\frac{1+wT_s/2}{1-wT_s/2}$) para obtener una transferencia en el dominio analógico de la variable $w$. Considerando $T_s=1/F_s$:
 
-\begin{equation}
+\begin{equation} \label{eq_Gtotal_w_m30}
 	\resizebox{.8\hsize}{!}
 	{
 		$G_T(w)[M=30\:kg]\ \ =\frac{-8.0207*10^{-11}(w-1.238*10^4)(w-7143)(w+1.237*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}$
@@ -719,9 +719,12 @@ Se decide usar la misma estrategia utilizada en el compensador analógico, plant
 	\caption{Diagrama en bloques de estrategia de compensación propuesta.}	\label{fig:diag-en-bloques-comp_digital}
 \end{figure}
 
+\colorbox{red}{aclaramos que se considera H=1?}
+En el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital} la realimentación es unitaria ya que el algoritmo encargado de la estimación de distancia de entrehierro entrega directamente el valor estimado.
+
 \subsection{Diseño del lazo de realimentación interno}
 
-En esta sección se diseña el control del lazo de realimentación interno, que está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno_dig}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, $G_{T}$ a la transferencia del controlador de corriente junto con la de la planta.
+En esta sección se diseña el control del lazo de realimentación interno, que está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno_dig}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, $G_{T}$ a la transferencia del controlador de corriente junto con la de la planta. Todas las transferencias pertenecen al dominio de la variable [w].
 
 \begin{figure}[H]
 	\centering
@@ -729,7 +732,7 @@ En esta sección se diseña el control del lazo de realimentación interno, que 
 	\caption{Diagrama en bloques del lazo de compensación interno.}	\label{fig:diag-interno_dig}
 \end{figure}
 
-\colorbox{red}{Corregir diagrama en bloques, poner GT y sacar Hestim}
+\colorbox{red}{ver si cambiamos lso nombres de las señales}
 
 La transferencia de lazo cerrado ($TLC_{interna}$) del diagrama \ref{fig:diag-interno_dig} queda definida como:
 
@@ -741,9 +744,9 @@ A continuación se analiza la estabilidad de la planta considerando una masa $M=
 
 \subsubsection{Análisis de estabilidad}
 
- Para el análisis del compensador digital se parte de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ y de la del lazo de realimentación $H(w)$. A partir de ellas se obtiene la transferencia a lazo abierto total $GH_{T}(w)=G_{T}(w)*H(w)$ mostrado en la ecuación \ref{eq:GtHW}.
+ Para el análisis de la estabilidad de la planta se debe obtener la transferencia de lazo abierto total $GH_T(w)=G_T(w)*H(w)$. Se tiene la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ calculada en \ref{eq_Gtotal_w_m30} y la del lazo de realimentación $H(w)=1$. A partir de ellas se obtiene la transferencia a lazo abierto total $GH_{T}(w)=G_{T}(w)*H(w)$ mostrada en la ecuación \ref{eq:GtHW}.
 
-\colorbox{red}{Ver si ya mencionamos que H=1. Si ya lo mencionamos, redactar lo de arriba para que quede bien}
+\colorbox{red}{Ver si ya mencionamos que H=1. Si ya lo mencionamos, redactar lo de arriba para que quede bien} --> ahí traté de acomodarlo. arriba puse que la realimentación es unitaria.
  
 \begin{equation}
 	\label{eq:GtHW}  
@@ -756,11 +759,14 @@ A continuación se analiza la estabilidad de la planta considerando una masa $M=
 Para comenzar el análisis se considera un compensador $G_c=K$, donde K es una constante positiva. Por lo tanto, se plantea la transferencia de lazo abierto teniendo en cuenta el compensador:
  
  \begin{equation} \label{eq_GT3_dig}
- 	G_c*GH_T(w)=\frac{-8.5*10^{-11}*K*(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)} 
- \end{equation}.
-\colorbox{red}{hacer resize de la ecuacion}
+ 		\resizebox{.85\hsize}{!}
+ 	{
+ 	$G_c*GH_T(w)=\frac{-8.5*10^{-11}*K*(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}$ 
+ }
+ \end{equation}
+\colorbox{red}{hacer resize de la ecuacion} -> creo que ahí quedó bien
 
-\colorbox{red}{Pasar esta expresión a lla forma de 1+w/p}
+\colorbox{red}{Pasar esta expresión a lla forma de 1+w/p} -> creo que al final lo dejamos como está
 
  A partir de la transferencia de la ecuación  \ref{eq_GT3_dig} se  grafica el diagrama de Bode y el de Nyquist considerando $K=1$. Estos se muestran en las figuras \ref{fig:bode_digital} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
 
@@ -792,11 +798,9 @@ Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros
 
 \begin{figure}[H]
 	\centering
-	\input{tikz/diagrama_lazo_interno.tex}
-	\caption{Diagrama en bloques del lazo de compensación interno.}	\label{fig:diag-interno_dig_realimentacion_positiva}
+	\input{tikz/diagrama_lazo_interno_realimentacion_positiva_dig.tex}
+	\caption{Diagrama en bloques del lazo de compensación interno con realimentación positiva.}	\label{fig:diag-interno_dig_realimentacion_positiva}
 \end{figure}
-
-\colorbox{red}{rehacer diagrama con relaimentacion positiva}
 
 La realimentación positiva se genera al sumar la señal $Y_g$ con la señal de entrada del sistema. La transferencia de lazo cerrado del diagrama en bloques ahora se define como:
 
@@ -999,23 +1003,23 @@ Es importante notar que la ganancia de la transferencia de lazo cerrado en ambos
 	\caption{Diagrama en bloques del lazo de compensación externo.}	\label{fig:diag-externo_dig}
 \end{figure}
 
-En el lazo de realimentación interno actúa el compensador por adelanto de fase previamente diseñado y, en el externo, un controlador del tipo integral. Esto permite suavizar la respuesta al escalón del sistema y eliminar el error en régimen permanente.
+En el lazo de realimentación interno actúa el compensador por adelanto de fase previamente diseñado y, en el externo, se propone diseñar un controlador del tipo integral. Esto permite suavizar la respuesta al escalón del sistema y eliminar el error en régimen permanente. Para el diseño de este lazo de compensación se sigue trabajando con las transferencias en el dominio de la variable w. Finalmente se realizará la conversión de la compensación al dominio discreto.
 
 
 
 \noindent La cadena de avance con masa de $30\:kg$ es:
 
-\begin{equation} \label{eq_cadena_avance_integrador}
+\begin{equation} \label{eq_cadena_avance_integrador_dig}
 	G=TLC_{interna}(w)[M=30\:kg]*G_{ext}
 \end{equation}
 
 La transferencia a lazo abierto resulta:
 
-\begin{equation} \label{eq_lazo_abierto_externo}
+\begin{equation} \label{eq_lazo_abierto_externo_dig}
 	GH_{externo}=TLC_{interna}(w)[M=30\:kg]*G_{ext}
 \end{equation}
 
-Se plantea un compensador del tipo integrador cuya transferencia es:
+Se plantea un compensador del tipo integrador cuya transferencia en dominio de la variable [w] es:
 \begin{equation}
 	G_{ext}= \frac{K_{int}}{w}
 \end{equation}
@@ -1027,11 +1031,11 @@ Para encontrar el valor adecuado de $K_{int}$ se grafica el lugar de raíces de 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.7]{Lugar-de-raices-con-integrador_real_neg.png}
-	\caption{Lugar de raíces con el integrador.}
+	\caption{Lugar de raíces con el integrador para las transferencias en el dominio de la variable w.}
 	\label{fig:lugar-de-raices-con-integrador_real_neg}
 \end{figure}
 
-\colorbox{red}{ver si aclaramos algo sobre si es lugar de raices continuo y discreto}
+\colorbox{red}{ver si aclaramos algo sobre si es lugar de raices continuo y discreto} 
 
 
 
@@ -1070,10 +1074,11 @@ Al observar la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} es posible not
 
 En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuesta al escalón para una ganancia del integrador de $K_{int}=5$ que resulta en un tiempo de establecimiento de $0.626\:s$ sin sobrepicos. Por lo tanto, se adopta este valor de ganancia para el diseño del integrador. Finalmente la transferencia del compensador externo queda:
 
-\begin{equation} \label{eq_gexterno}
+\begin{equation} \label{eq_gexterno_dig}
 	G_{ext}=\frac{5}{w}	
 \end{equation}
 
+\colorbox{red}{creo que sería mas correcto poner la transferencia final del compensador en z}
 
 \begin{figure}[H]
 	\centering

@@ -437,7 +437,7 @@ En esta sección se realiza el diseño circuital de las etapas de acondicionamie
 
 \subsection{Circuitos de acondicionamiento de señales para el ADC}
 
- Para convertir los valores analógicos de las señales de referencia de posición y salida del sensor de efecto Hall, se utiliza el ADC del microcontrolador con una tensión de referencia de $3.3\:V$ y una frecuencia de muestreo de $25\:kHz$. Se agrega circuitería de filtrado, ganancia y protección en las entradas del ADC para hacerlas aptas para ingresar al microcontrolador.
+ Para convertir los valores analógicos de las señales de referencia de posición y salida del sensor de efecto Hall a valores discretos, se utiliza el ADC del microcontrolador con una tensión de referencia de $3.3\:V$ y una frecuencia de muestreo de $25\:kHz$. Se agrega circuitería de filtrado, ganancia y protección en las entradas del ADC para hacerlas aptas para ingresar al microcontrolador.
  
 \subsubsection{Referencia de posición} \label{sec_referencia_pos}
 
@@ -459,17 +459,16 @@ Luego, dentro del microcontrolador, se asigna cada valor leído por el ADC a una
 
 De esta manera se obtiene la señal $Y_{ref}$ que varía entre valores de $2\:mm$ y $5\:mm$, según la tensión de entrada al ADC.
 
-Para obtener la tensión $Vy_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $1\:kHz$ para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
+Para obtener la tensión $Vy_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $1\:kHz$ \colorbox{red}{Podríamos ponerle 100Hz no?} para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.8]{Circuito-ref-posicion_dig.png}
+	\includegraphics[scale=0.5]{Circuito-ref-posicion_dig.png}
 	\caption{Circuito acondicionador para referencia de posición.}
 	\label{fig:circuito-ref-posicion}
 \end{figure}
 
-\colorbox{red}{Cambiar nombre a imagen Vyref y VyrefADC} - listo
 %
 %Como se ve en la expresión \ref{eq_vyref_vs_yg}, la señal tiene un punto de operación de $3.4\:V$. Por lo tanto si se implementa un circuito de acondicionamiento que le reste este valor, se obtiene una señal apta para el ADC.
 %  
@@ -516,7 +515,7 @@ Por lo tanto, para obtener una frecuencia de corte para el filtro de $1\:kHz$ se
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{Componente-corriente-alterna_dig.png}
+	\includegraphics[scale=0.45]{Componente-corriente-alterna_dig.png}
 	\caption{ Circuito acondicionador para componente alterna de corriente del electroimán.
 	}
 	\label{fig:componente-corriente-alterna}
@@ -550,15 +549,15 @@ Para lograr la frecuencia de corte inferior de $100\:Hz$ es necesario definir co
 
 Se elige $R_{405}=1\:k\Omega$ por lo que resulta $C_{404}=1.6\:\mu F$. De esta forma se obtiene $R_{409}=1\:k\Omega$ y $C_{406}=1.6\:\mu F$.
 
-Debido a la acción del cero en el origen, la ganancia del circuito ira en aumento hasta alcanzar la frecuencia del primero polo ubicado en $100\:Hz$. Una vez alcanzado, la ganancia permanecerá constante. Ese valor es la ganancia resultante en la banda de paso. Como se desea que sea de 50, se plantea la siguiente ecuación:
+Debido a la acción del cero en el origen, la ganancia del circuito ira en aumento hasta alcanzar la frecuencia del primer polo ubicado en $100\:Hz$. Una vez alcanzado, la ganancia permanecerá constante. Ese valor es la ganancia resultante en la banda de paso. Como se desea que sea de 50, se plantea la siguiente ecuación:
 
 \begin{equation*} 
 	\frac{1}{2\pi C_{404}R_{404}}=\frac{100\:Hz}{50}
 \end{equation*}
 
-Por lo tanto, resulta $R_{404}=50\:K\Omega$. De esta forma se obtiene $R_{408}=50\:K\Omega$
+Por lo tanto, resulta $R_{404}=50\:k\Omega$. De esta forma se obtiene $R_{408}=50\:k\Omega$.
 
-Finalmente, para lograr una frecuencia de corte superior de $12\:KHz$ se plantea:
+Finalmente, para lograr una frecuencia de corte superior de $12\:kHz$ se plantea:
 
 \begin{equation*} 
 	12\:kHz=\frac{1}{2\pi C_{402}R_{404}}
@@ -615,12 +614,12 @@ Por lo tanto, se obtiene $C_{402}=270\:pF$. De esta forma resulta $C_{407}=270\:
 
 \subsubsection{Componente continua de corriente del electroimán}
 
- Para obtener la componente de continua se utiliza un filtro pasa-bajos con frecuencia de corte en $100\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}
+ Para obtener la componente de continua se utiliza un filtro pasa-bajos con frecuencia de corte en $100\:Hz$. Se eligió esta frecuencia para que se ubique por lo menos una década por debajo de la frecuencia fundamental de la onda triangular. La implementación circuital puede observarse en la figura \ref{fig:componente-corriente-continua}.
 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{Componente-corriente-continua_dig.png}
+	\includegraphics[scale=0.45]{Componente-corriente-continua_dig.png}
 	\caption{Circuito acondicionador para componente continua de corriente del electroimán.
 	}
 	\label{fig:componente-corriente-continua}
@@ -629,29 +628,30 @@ Por lo tanto, se obtiene $C_{402}=270\:pF$. De esta forma resulta $C_{407}=270\:
 La señal de salida puede ser expresada en función de su entrada como:
 
 \begin{equation*}
-	Vi\_Feed\_mean\_ADC=\frac{1}{1+sC_{401}R_{401}}*Vi\_Feed
+	Vi\_feed\_mean\_ADC=\frac{1}{1+sC_{401}R_{401}}*Vi\_feed
 \end{equation*}
+
 Por lo tanto, como se desea una frecuencia de corte de $100\:Hz$ se plantea la siguiente ecuación:
 \begin{equation*} 
 	\frac{1}{2\pi C_{401}R_{401}}=100\:Hz
 \end{equation*}
 
-Al elegir una resistencia $R_{401}=10\:k\Omega$ resulta en $C_{401}=160\:nF$
+Al elegir una resistencia $R_{401}=10\:k\Omega$ resulta en $C_{401}=160\:nF$.
 
 
 \subsection{Circuitos de acondicionamiento de señales para el DAC}
 
- Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utiliza el DAC del microcontrolador. El DAC utilizado entrega una tensión de salida que puede variar entre $0\:V$ y $3.3\:V$, y se actualiza con una frecuencia mínima de $3.5\:kHz$ como se mencionó en la sección \ref{sec_adquisicion_y_procesamiento}. Se agrega circuitería de filtrado, ganancia y protección en las salidas del DAC para hacerlas aptas para ingresar a las etapas analógicas.
+ Para convertir los valores digitales de la estimación de posición y de la compensación al dominio analógico, se utiliza el DAC del microcontrolador. Este entrega una tensión de salida que puede variar entre $0\:V$ y $3.3\:V$, y se actualiza con una frecuencia mínima de $3.5\:kHz$ como se mencionó en la sección \ref{sec_adquisicion_y_procesamiento}. Se agrega circuitería de filtrado, ganancia y protección en las salidas del DAC para hacerlas aptas para ingresar a las etapas analógicas.
  
 \subsubsection{Salida del compensador}
 
-La salida de la etapa de compensador digital es convertida en una señal analógica por el DAC y luego de esta etapa de adaptación ingresa a la etapa de controlador de corriente. Como el controlador de corriente funciona con tensiones de referencia de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0.66$, mapeando así los $5\:V$ a $3.3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento. Además, la salida del DAC es filtrada con un filtro pasa bajos con frecuencia de corte en $1.75\:kHz$ para eliminar los saltos de tensión que provoca el ROC.
+La salida del compensador digital es convertida en una señal analógica por medio del DAC. Luego de pasar por un circuito de adaptación, esta señal ingresa a la etapa del controlador de corriente. Debido a que esta última funciona con tensiones de referencia de hasta $5\:V$ en su entrada y el compensador fue diseñado teniendo en cuenta este nivel de tensión, se agrega una ganancia por firmware de $0.66$, haciendo corresponder así los $5\:V$ a $3.3\:V$, que es la máxima tensión entregada por el DAC. Luego, para compensar esta ganancia y no afectar a la transferencia de la planta, se la afecta por un factor de $\frac{5V}{3.3V}$ por medio del circuito de acondicionamiento. Además, a la salida del DAC se coloca un filtro pasa bajos con frecuencia de corte en $1.75\:kHz$ para eliminar los saltos de tensión provocados por el ROC.
 
 De esta forma, se logra convertir correctamente la señal digital en analógica. En la figura \ref{fig:DAC-compensador} se muestra la implementación del circuito.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{DAC-compensador_dig.png}
+	\includegraphics[scale=0.45]{DAC-compensador_dig.png}
 	\caption{Circuito acondicionador para la salida del DAC correspondiente al compensador.}
 	\label{fig:DAC-compensador}
 \end{figure}
@@ -678,8 +678,6 @@ Para que la frecuencia de corte del filtro se encuentre en $1.75\:kHz$, se plant
 
 De esta forma, se obtiene $C_{400}=18\:nF$. 
 
-\colorbox{red}{Aclaramos para que se usa R403?} capaz la sacamos de la imgen jeje	- listo
-
 
 \subsubsection{Salida del estimador}
 
@@ -692,7 +690,6 @@ La salida del estimador digital se obtiene a través del DAC para poder observar
 	\label{fig:DAC-estimador}
 \end{figure}
 
-\colorbox{red}{Aclaramos para que se usa R410?}
 
 \section{Diseño del controlador digital}
 

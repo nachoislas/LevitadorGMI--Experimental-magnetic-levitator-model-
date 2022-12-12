@@ -21,7 +21,6 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 	\label{fig:diag-en-bloques-digital}
 \end{figure}
 
-\colorbox{red}{Agregar la salida Yg}
 %\colorbox{blue}{yo dejaría el de arriba que representa mejor que la entrada al sistema digital es la corriente. pero el de abajo nos sirve para el diseño del compensador también}
 %
 %Abstrayéndose de la matemática que se realiza dentro del microcontrolador para la estimación de posición, se puede simplificar el diagrama al que se muestra en la figura \ref{fig:diag-en-bloques-digital-simplif}, en la que:
@@ -62,7 +61,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 \section{Consideraciones para el dominio discreto}\label{consideraciones_sistemas_discretos}
 
-Como se mencionó previamente para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para implementar un algoritmo de compensación dentro del microcontrolador. 
+Como se mencionó previamente, para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para implementar un algoritmo de compensación dentro del microcontrolador. 
 
 Se desea implementar un compensador en el dominio discreto y controlar una planta continua. Para ello, es necesario convertir señales analógicas a discretas para poder utilizarlas en el algoritmo de control y viceversa para actuar sobre la planta. Para esto se utilizan conversores analógico digitales ($ADC$) y conversores digital analógicos ($DAC$). En la figura \ref{fig:diag-general-digital} se muestra un diagrama en bloques de un sistema de control con un compensador digital D(z) que controla una planta continua $G(s)$.
 
@@ -71,6 +70,12 @@ Se desea implementar un compensador en el dominio discreto y controlar una plant
 	\input{tikz/diagrama_control_discreto.tex}
 	\caption{Diagrama en bloques de controlador digital.}	\label{fig:diag-general-digital}
 \end{figure}
+
+\colorbox{red}{¿Habría que agregar un ADC en la entrada con Vyref antes de R(z)?}
+
+
+\colorbox{red}{¿Que sería C(s)?}
+
 
 
 Para hacer la conversión entre el dominio digital al analógico, el DAC mantiene el valor entre cada muestra, actualizando el valor de la señal en cada intervalo de tiempo discreto ($T_s$). Este efecto se lo conoce como retenedor de orden cero ($ROC$) y se lo puede modelar con la ecuación \ref{eq_retenedor_orden-0}. Es importante tener en cuenta el efecto que agrega el $ROC$ sobre la planta al momento de diseñar el compensador, ya que puede afectar la estabilidad del sistema.
@@ -91,6 +96,8 @@ Una vez obtenido el modelo discreto de la planta con el efecto del ROC, se propo
 \begin{equation*}
 	z=\frac{1+\frac{sT_s}{2}}{1-\frac{sT_s}{2}}
 \end{equation*}
+
+\colorbox{red}{Esto sería w en vez de s, no?}
 
 
 Una vez diseñado el compensador en el dominio analógico, se aplica la transformada bilineal inversa y se obtiene su equivalente en el plano transformado Z para ser implementado en el microcontrolador. Este compensador $D(z)$ es luego convertido, por medio de la transformada Z inversa, a una ecuación en diferencias que relaciona la salida $u[n]$ con la entrada $e[n]$. 
@@ -118,7 +125,7 @@ Una vez diseñado el compensador en el dominio analógico, se aplica la transfor
 
 
 
-\section{Diseño de algoritmo de estimación}
+\section{Diseño del algoritmo de estimación}
 
 En esta sección se diseña el algoritmo que realiza la estimación de distancia de entrehierro $Y_g$ a partir de las muestras tomadas por el ADC de la tensión de salida del sensor de efecto Hall.
 
@@ -192,8 +199,7 @@ En esta sección se desarrolla el algoritmo ideado para estimar la distancia de 
 	\label{fig:procesamiento-muestras-adquiridas}
 \end{figure}
 
-\colorbox{red}{Borrar del diagrama lo de la compensación de resistencia interna}
-Cada muestra de tensión tomada de la señal $V_h$ se almacena en un vector de 7 posiciones. Se elige este tamaño considerando el caso extremo de frecuencia, en el que solo se pueden obtener 7 muestras por semiciclo. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
+Cada muestra de tensión tomada de la señal $V_h$ se almacena en un vector de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
 
 Cada vez que el vector se completa, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
 

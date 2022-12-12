@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------------------
-Gerber File Extension Report For: Levitador Magnetico.GBR   2/4/2022  12:57:28
+Gerber File Extension Report For: Levitador Magnetico.GBR   12/12/2022  19:53:11
 ------------------------------------------------------------------------------------------
 
 
@@ -7,9 +7,9 @@ Gerber File Extension Report For: Levitador Magnetico.GBR   2/4/2022  12:57:28
 Layer Extension     Layer Description                      
 ------------------------------------------------------------------------------------------
 .GTL                Top Layer                               
-.GBL                Bottom Layer                            
-.GTP                Top Paste                               
 .GTO                Top Overlay                             
+.GTP                Top Paste                               
+.GBL                Bottom Layer                            
 .GTS                Top Solder                              
 .GBS                Bottom Solder                           
 .GBP                Bottom Paste                            

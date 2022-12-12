@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------------------------------------------
-NCDrill File Report For: Levitador Magnetico.PcbDoc   2/4/2022  12:57:32
+NCDrill File Report For: Levitador Magnetico.PcbDoc   12/12/2022  19:54:23
 ----------------------------------------------------------------------------------------------------------------------------------
 
 Layer Pair : Top Layer to Bottom Layer
@@ -7,9 +7,9 @@ ASCII RoundHoles File : Levitador Magnetico.TXT
 
 Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
 ----------------------------------------------------------------------------------------------------------------------------------
-T1      0.3mm (12mil)                                             Round             2289      PTH        0.00mm (0.00inch)
+T1      0.3mm (12mil)                                             Round             2260      PTH        0.00mm (0.00inch)
 T2      0.71mm (28mil)                                            Round             9         PTH        0.00mm (0.00inch)
-T3      0.711mm (28mil)                                           Round             167       PTH        0.00mm (0.00inch)
+T3      0.711mm (28mil)                                           Round             168       PTH        0.00mm (0.00inch)
 T4      0.8mm (31mil)                                             Round             12        PTH        0.00mm (0.00inch)
 T5      0.9mm (35mil)                                             Round             59        PTH        0.00mm (0.00inch)
 T6      1mm (39mil)                                               Round             12        PTH        0.00mm (0.00inch)
@@ -19,6 +19,6 @@ T9      2.4mm (94mil)                                             Round         
 T10     3.26mm (128mil)                                           Round             2         PTH        0.00mm (0.00inch)
 T11     3.68mm (145mil)                                           Round             2         PTH        0.00mm (0.00inch)
 ----------------------------------------------------------------------------------------------------------------------------------
-Totals                                                                              2566
+Totals                                                                              2538
 
-Total Processing Time (hh:mm:ss) : 00:00:01
+Total Processing Time (hh:mm:ss) : 00:00:00

@@ -199,16 +199,31 @@ En esta sección se desarrolla el algoritmo ideado para estimar la distancia de 
 	\label{fig:procesamiento-muestras-adquiridas}
 \end{figure}
 
+%Cada muestra de tensión tomada de la señal $V_h$ se almacena en un vector de 7 posiciones. Se elige este tamaño considerando el caso extremo de frecuencia, en el que solo se pueden obtener 7 muestras por semiciclo. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
+%
+%Cada vez que el vector se completa, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
+%
+%En caso de haber completado las 7 posiciones del vector y la pendiente persiste con el mismo signo, el vector comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores mas antiguos. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el vector, con lo cual se calcula la derivada con los valores extremos almacenados teniendo en cuenta el tiempo transcurrido ($K$ períodos de muestreo), y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el vector, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido hasta que se obtiene una nueva estimación. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en ``$n-1$'' períodos luego de la última actualización, siendo “n” la cantidad de muestras que se almacenaron en el vector incompleto ($n>1$).
+%
+%Luego de detectar un cambio de pendiente, el
+%proceso vuelve a iniciar con el vector vacío.
+%
+%Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de distancia de entrehierro con frecuencia de actualización variable. Esto será importante luego al momento de diseñar el compensador digital. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor. Por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $F_S=25/7 \:kHz = 3.5\:kHz$.
+
 Cada muestra de tensión tomada de la señal $V_h$ se almacena en un vector de 7 posiciones. Para poder discernir entre pendientes de bajada y de subida, se verifica en cada muestra si el valor leído es mayor o menor al almacenado en la posición anterior. En caso de que sea mayor al anterior, significa que se está muestreando la pendiente positiva de la onda triangular. La distinción entre pendientes positivas y negativas es importante puesto que permite aplicar la compensación de la resistencia interna al igual que se realiza en el estimador analógico. 
 
 Cada vez que el vector se completa, se realiza el cálculo de la derivada con el valor máximo y mínimo almacenado. Con este resultado, se hace la estimación de la posición y se actualiza la entrada al compensador digital.
 
-En caso de haber completado las 7 posiciones del vector y la pendiente persiste con el mismo signo, el vector comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores mas antiguos. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se detecte un cambio de pendiente antes de completar nuevamente el vector, con lo cual se calcula la derivada con los valores extremos almacenados teniendo en cuenta el tiempo transcurrido ($K$ períodos de muestreo), y se actualiza la entrada al compensador. La segunda, es que se vuelva a completar el vector, en cuyo caso también se hace la actualización. La diferencia entre estas dos situaciones es el tiempo transcurrido hasta que se obtiene una nueva estimación. En este último, se hace cada 7 períodos de muestreo mientras que en el primero se realiza en ``$n-1$'' períodos luego de la última actualización, siendo “n” la cantidad de muestras que se almacenaron en el vector incompleto ($n>1$).
+En caso de haber completado las 7 posiciones del vector y la pendiente persiste con el mismo signo, el vector comienza a llenarse nuevamente desde la posición inicial, sobrescribiendo los valores mas antiguos. Por lo tanto, pueden ocurrir dos situaciones. La primera es que se vuelva a completar el vector y la segunda es que se detecte un cambio de pendiente antes de completarlo. En ambos casos, el cálculo de la estimación se realiza con los valores extremos almacenados. Sin embargo, la diferencia radica en el tiempo transcurrido entre actualizaciones del compensador. En el primero se realiza cada 7 períodos de muestreo ($7*T_s$) mientras que en el segundo cada K períodos ($K*T_s$), donde “$K=n-1$” y $n$ representa la cantidad de muestras que se almacenaron en el vector incompleto ($n>1$).
 
-Luego de detectar un cambio de pendiente, el
-proceso vuelve a iniciar con el vector vacío.
+Luego de detectar un cambio de pendiente, el proceso vuelve a iniciar con el vector vacío. En caso de que se detecte un cambio de pendiente antes de completar por primera vez el vector, el calculo de la estimación se realiza con los valores extremos almacenados teniendo en cuenta el tiempo trascurrido ($K*T_s$), con $n>1$. En este caso, el tiempo de actualización del compensador también es de ($K*T_s$).
 
-Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de distancia de entrehierro con frecuencia de actualización variable. Esto será importante luego al momento de diseñar el compensador digital. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor. Por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $F_S=25/7 \:kHz = 3.5\:kHz$.
+Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva estimación en 7 periodos de muestreo del ADC, o incluso en menos. Por lo tanto se tiene un estimador de distancia de entrehierro con frecuencia de actualización variable. Esto será importante luego al momento de diseñar el compensador digital. Para hacerlo, se debe considerar el caso en que la frecuencia de actualización es la menor. Por lo tanto el compensador digital se debe diseñar con una frecuencia de muestreo de $F_S=(25\:kHz)/7 = 3.5\:kHz$.
+
+
+
+
+
 
 %La derivada se calcula con todos los valores disponbles en el vector. No importa si es la segunda vez que se esta completando el vector..
 %El compensador se actualiza cada vez que se obtiene una nueva estimación. Por lo tanto, puede ser cada 7 períodos o menos (buffer incompleto).

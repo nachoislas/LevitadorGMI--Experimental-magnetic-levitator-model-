@@ -230,7 +230,7 @@ Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva 
 
 \subsection{Estimación digital de la posición}
 
-En el capitulo \ref{cap:Estimador Analogico} se analizó la relación entre la distancia del entrehierro con la pendiente de la corriente en el electroimán. Se llegó a la expresión \ref{eq_Yg_despejada}, que se repite a continuación:
+En el capitulo \ref{cap:Estimador Analogico} se analizó la relación entre la distancia de entrehierro con la pendiente de la corriente en el electroimán. Se llegó a la expresión \ref{eq_Yg_despejada}, que se repite a continuación:
 
 \begin{equation} \label{eq_yg_vs_derivada}
 	Y_g = 5.136*10^{-6}*|\frac{di_L}{dt}|- 3.472*10^{-3} [m]
@@ -271,7 +271,8 @@ $V_h$ es la tensión proporcional a la corriente que circula por el electroimán
 	}
 \end{equation}
 
-El término $\bar{V_h}[n]$ se obtiene de sensar el valor medio de la tensión $V_h$ mediante un canal del ADC.
+Los términos $\bar{V_h}[n]$ y $\hat{V_h}[n]$ se obtienen al sensar el valor medio y el de alterna de la tensión $V_h$ mediante dos canales del ADC, uno para cada señal.
+\colorbox{red}{Esa aclaración de arriba capaz esta de mas?mm}
 
 Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtuvo a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
 
@@ -282,21 +283,21 @@ Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado
 
  Por lo tanto, la ecuación correspondiente en el tiempo discreto resulta:
 
-\begin{equation}
-	\resizebox{.8\hsize}{!}
+\begin{equation*}
+	\resizebox{.95\hsize}{!}
 	{
 	$Y_g[n] = 5.136*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-K]}{K*K_h*T_S} + \frac{R_L*\bar{V_h}[n]}{K_h*(2.56*Y_g[n-1]+0.0271)}|-3.472*10^{-3}\:[m]$
 	}
-\end{equation}
+\end{equation*}
 
-\begin{equation}
-	\resizebox{.8\hsize}{!}
+\begin{equation*}
+	\resizebox{.95\hsize}{!}
 	{
 	$
 	Y_g[n] = 96.3*10^{-6}*|\frac{\hat{V_h}[n]-\hat{V_h}[n-K]}{K*T_S} + \frac{R_L*\bar{V_h}[n]}{(2.56*Y_g[n-1]+0.0271)}|-3.472*10^{-3}\:[m]
 	$
 	}
-\end{equation}
+\end{equation*}
 
 
 Donde $V_h[n]$ se refiere a la muestra más reciente en el vector y $V_h[n-K]$ a la más antigua.
@@ -339,9 +340,7 @@ A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica}
 	\label{fig:variacion-de-pendiente}
 \end{figure}
 
-\colorbox{red}{en el texto antes deciamos Fplanta y fsw como que eran lo mismo. cambié todas por Fplanta pero en la imagen quedó com fsw... que hacemos?}
-
- Por lo tanto, para poder diferenciar las pendientes, la resolución del ADC debe ser menor o igual a $\Delta V$.
+Por lo tanto, para poder diferenciar las pendientes, la resolución del ADC debe ser menor o igual a $\Delta V$.
 
 \begin{equation} 
 	\begin{aligned}
@@ -349,7 +348,7 @@ A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica}
 		V2 &= P(F_{planta_{min}})* T_{ADC} \\		 
 	\end{aligned}
 \end{equation}
-
+\colorbox{red}{Le ponemos Fadc o Fs??}
  Al considerar $F_{ADC} = 25\:kHz$:
 
 \begin{equation} 
@@ -380,12 +379,15 @@ Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima g
 	3.3 \:V = \frac{26.7\:mV_{pp}}{2}*G_{max}+2.5\:V
 \end{equation*}
 
+Por otro lado, es necesario determinar la ganancia mínima que debe tener el circuito para que un cambio en la distancia de separación de $0.1\:mm$ pueda ser detectado por el ADC cuya resolución es de $\Delta V_{ADC}=0.8\:mV$.
 
-Por otro lado, para medir con la resolución en posición deseada de $0.1\:mm$ se la debe amplificar 9 veces como mínimo.
+Por lo tanto se plantea:
 
-\begin{equation*}
-	0.8\:mV_{pp} = 96\:\mu V * 9
-\end{equation*}
+\begin{equation}\label{eq_ganancia_minima_adc}
+	 96\:\mu V * G_{min} > \Delta V_{ADC} 
+\end{equation}
+
+De la ecuación \ref{eq_ganancia_minima_adc} se obtiene que la ganancia mínima debe ser de 9 veces.
 
 Por lo tanto, se adopta una ganancia de 50, y se obtiene una excursión máxima de $3.17\:V$ (es decir, $0.67\:V$ sobre el punto de operación).
 

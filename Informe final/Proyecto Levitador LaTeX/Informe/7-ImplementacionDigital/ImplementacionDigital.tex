@@ -339,8 +339,8 @@ Por lo tanto, para poder diferenciar las pendientes, la resolución del ADC debe
 		V2 &= P(F_{planta_{min}})* T_{ADC} \\		 
 	\end{aligned}
 \end{equation}
-\colorbox{red}{Le ponemos Fadc o Fs??}
- Al considerar $F_{ADC} = 25\:kHz$:
+
+Al considerar $F_{ADC} = 25\:kHz$:
 
 \begin{equation} 
 	\Delta V_{ADC} = T_{ADC} * [P(F_{planta_{min}} + \Delta F_{planta}) - P(F_{planta_{min}})] = 96\:\mu V
@@ -450,7 +450,7 @@ Luego, dentro del microcontrolador, se asigna cada valor leído por el ADC a una
 
 De esta manera se obtiene la señal $Y_{ref}$ que varía entre valores de $2\:mm$ y $5\:mm$, según la tensión de entrada al ADC.
 
-Para obtener la tensión $Vy_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $100\:Hz$ para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
+Para obtener la tensión $Vy_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $100\:Hz$ para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo Zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
 
 
 \begin{figure}[H]

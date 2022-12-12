@@ -794,9 +794,9 @@ Para comenzar el análisis se considera un compensador $G_c=K$, donde K es una c
 
 Como la transferencia de la planta $GH_T$ tiene un polo en el semiplano derecho del plano ``w'' no es posible determinar su estabilidad por medio del diagrama de Bode. Por lo tanto, se analiza la estabilidad por medio del criterio de Nyquist.
 
-Como se observa en el diagrama en bloques de la figura \ref{fig:diag-interno_dig}, para compensar al sistema se planteó una realimentación negativa. Por lo tanto, para analizar su estabilidad según Nyquist se deben determinar la cantidad de giros (N) de $G_c*GH_T$ alrededor del punto $-1+j0$ en la figura \ref{fig:nyquist-lazo-abierto-digital} y la cantidad de polos (P) en el semiplano derecho de la función transferencia $G_c*GH_T$. El sistema resultará estable si se cumple la condición \ref{eq_condicion_Nyquist}, donde Z representa la cantidad de ceros en el semiplano derecho de $1+G_c*GH_T(w)$.
+Como se observa en el diagrama en bloques de la figura \ref{fig:diag-interno_dig}, para compensar al sistema se planteó una realimentación negativa. Por lo tanto, para analizar su estabilidad según Nyquist se deben determinar la cantidad de giros (N) de $G_c*GH_T$ alrededor del punto $-1+j0$ en la figura \ref{fig:nyquist-lazo-abierto-digital} y la cantidad de polos (P) en el semiplano derecho de la función transferencia $G_c*GH_T$. El sistema resultará estable si se cumple la condición \ref{eq_condicion_Nyquist_dig}, donde Z representa la cantidad de ceros en el semiplano derecho de $1+G_c*GH_T(w)$.
 
-\begin{equation}\label{eq_condicion_Nyquist}
+\begin{equation}\label{eq_condicion_Nyquist_dig}
 	Z=N+P=0
 \end{equation}
 
@@ -884,7 +884,7 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 
 \begin{equation}  
 	G_c(s)=K*{[20.346*\frac{(s+44.3)}{(s+902.1)}]}^2
-	\label{eq:transferencia-del-compensador}
+	\label{eq:transferencia-del-compensador_dig}
 \end{equation} 
 
 En la figura \ref{fig:bode-compensado-para-k-1} se muestra el diagrama de bode de ${GH}_T(w)*G_c(w)$ con $K=1$. Se puede observar que la ganancia $K$ puede adoptar valores desde $64\:dB$ hasta $88.6\:dB$. Al considerar que el sistema debe soportar una masa variable entre $1\:kg$ y $30\:kg$, y que la ganancia de la transferencia de la planta para $1\:kg$ es de $5.5$ veces ($14\:dB$) mayor que para $30\:kg$, se debe adoptar una ganancia del compensador que mantenga la estabilidad para estos dos casos. Es decir, la ganancia m\'{i}nima es de $64\:dB$ y la m\'{a}xima es de $88.6\:dB - 14\:dB = 74.6\:dB$. Por lo tanto, se elige que el cruce por cero de la ganancia se encuentre ahora en $88\:rad/s$, lo que significa que $K=68.4\:dB\ \equiv \ 2630\:veces$.
@@ -911,6 +911,14 @@ En la figura \ref{fig:bode-compensado-para-k-2630} se muestra el diagrama de Bod
 	\caption{Diagrama de Nyquist de $GH_T(w)*G_c(w)$ para $K=2630$ y $M=30\:kg$.}
 	\label{fig:nyquist-para-k-2630}
 \end{figure}
+
+Finalmente, la transferencia del compensador diseñado en el dominio de w queda como:
+
+\begin{equation}  
+	G_c(s)=1.09*10^6*{[\frac{(s+44.3)}{(s+902.1)}]}^2
+	\label{eq:transferencia-del-compensador_dig_final}
+\end{equation} 
+
 
 \subsubsection{Análisis de estabilidad con masa mínima}
 
@@ -1145,14 +1153,13 @@ Considerando que $F=-1$ y el caso de masa $M=30\:kg$ la transferencia de lazo ce
 
 \subsection{Cálculo de los coeficientes del controlador}
 
-Se necesita implementar, en el microcontrolador, el algoritmo de control representado en el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital_completo}. Para ello, es necesario obtener las transferencias $G_{ext}(z)$ y $G_c(z)$ a partir de la transformada bilineal inversa de las transferencias del compensador por adelanto de fase $G_c(w)$ y del integrador $G_{ext}(w)$. 
+Se necesita implementar, en el microcontrolador, el algoritmo de control representado en el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital_completo}. Para ello, es necesario obtener las transferencias $G_{ext}(z)$ y $G_c(z)$ a partir de la transformada bilineal inversa de las transferencias del compensador por adelanto de fase $G_c(w)$ (\ref{eq:transferencia-del-compensador_dig_final}) y del integrador $G_{ext}(w)$ (\ref{eq_gexterno_dig}). 
 
 \begin{figure}[H]
 	\centering
 	\scalebox{0.8}{\input{tikz/diagrama_general_digital_completo.tex}}
 	\caption{Diagrama en bloques del sistema de control digital completo.}	\label{fig:diag-en-bloques-comp_digital_completo}
 \end{figure}
-\colorbox{red}{rehacer con nombre sde señales, signo positivo, y transferencias en z y planta en s}
 
 Las transferencias en el dominio discreto resultan: 
 
@@ -1177,12 +1184,12 @@ Las transferencias en el dominio discreto resultan:
 \end{equation} 
 
 
-Al aplicar la transformada inversa a las expresiones \ref{eq_coeficientes_interno} y \ref{eq_comp_externo_z} se obtiene:
+Al aplicar la transformada Z inversa a las expresiones \ref{eq_coeficientes_interno} y \ref{eq_comp_externo_z} se obtiene:
 
 \begin{equation} 
 	\begin{aligned}\label{eq_U-coef}
-		V_{IL_{ref}}[n]=&8.651*10^5Ve_{int}[n]-\ 1.709*10^6Ve_{int}[n-1]+\ 0.843*10^6Ve_{int}[n-2]+\\
-		&+1.5514\ V_{IL_{ref}}[n-1]-\ 0.60171V_{IL_{ref}}[n-2]\\ 
+		V_{IL_{ref}}[n]=&8.69*10^5Ve_{int}[n]-\ 1.72*10^6Ve_{int}[n-1]+\ 0.848*10^6Ve_{int}[n-2]+\\
+		&+1.551\ V_{IL_{ref}}[n-1]-\ 0.6018V_{IL_{ref}}[n-2]\\ 
 	\end{aligned}
 \end{equation}
 

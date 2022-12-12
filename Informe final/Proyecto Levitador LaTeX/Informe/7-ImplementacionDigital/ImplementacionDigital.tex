@@ -63,7 +63,7 @@ Por otra parte, se diseñan los circuitos de interfaz encargados de muestrear, r
 
 Como se mencionó previamente, para la implementación digital se van a tomar muestras de la señales de la planta y se las van a utilizar para implementar un algoritmo de compensación dentro del microcontrolador. 
 
-Se desea implementar un compensador en el dominio discreto y controlar una planta continua. Para ello, es necesario convertir señales analógicas a discretas para poder utilizarlas en el algoritmo de control y viceversa para actuar sobre la planta. Para esto se utilizan conversores analógico digitales ($ADC$) y conversores digital analógicos ($DAC$). En la figura \ref{fig:diag-general-digital} se muestra un diagrama en bloques de un sistema de control con un compensador digital D(z) que controla una planta continua $G(s)$.
+Se desea implementar un compensador en el dominio discreto y controlar una planta continua. Para ello, es necesario convertir señales analógicas a discretas para poder utilizarlas en el algoritmo de control y viceversa para actuar sobre la planta. Para esto se utilizan conversores analógico digitales ($ADC$) y conversores digital analógicos ($DAC$). En la figura \ref{fig:diag-general-digital} se muestra un diagrama en bloques de un sistema de control con un compensador digital D(z) que controla una planta continua $G(s)$ cuya salida es la señal $C(s)$ y que es la variable que se desea controlar.
 
 \begin{figure}[H]
 	\centering
@@ -71,10 +71,10 @@ Se desea implementar un compensador en el dominio discreto y controlar una plant
 	\caption{Diagrama en bloques de controlador digital.}	\label{fig:diag-general-digital}
 \end{figure}
 
-\colorbox{red}{¿Habría que agregar un ADC en la entrada con Vyref antes de R(z)?}
+\colorbox{red}{¿Habría que agregar un ADC en la entrada con Vyref antes de R(z)?} yo creo que no haría falta porque este es un diagrama genérico que estaba en la pag de teoria de control, no es una representación de nuestro sistema. La entrada puede ser ya una señal digital
 
 
-\colorbox{red}{¿Que sería C(s)?}
+\colorbox{red}{¿Que sería C(s)?} una señal de salida, aparecía así en el diagrama de teoría de control
 
 
 
@@ -90,14 +90,13 @@ Para diseñar un compensador digital es necesario obtener una representación di
 	G(z)= Z[ROC(s)*G(s)]
 \end{equation*}
 
-Una vez obtenido el modelo discreto de la planta con el efecto del ROC, se propone diseñar el compensador digital mediante el uso técnicas de diseño de compensadores analógicos. Para ello se hace uso de la transformada bilineal. Esta se aplica sobre la representación discreta de la planta por medio de la siguiente expresión:
+Una vez obtenido el modelo discreto de la planta con el efecto del ROC, se propone diseñar el compensador digital mediante el uso técnicas de diseño de compensadores analógicos. Para ello se hace uso de la transformada bilineal para convertir la transferencia en el dominio de Z, a una nueva variable W que es del tipo analógico. Esta se aplica sobre la representación discreta de la planta por medio de la siguiente expresión:
 
 
 \begin{equation*}
-	z=\frac{1+\frac{sT_s}{2}}{1-\frac{sT_s}{2}}
+	z=\frac{1+\frac{wT_s}{2}}{1-\frac{wT_s}{2}}
 \end{equation*}
 
-\colorbox{red}{Esto sería w en vez de s, no?}
 
 
 Una vez diseñado el compensador en el dominio analógico, se aplica la transformada bilineal inversa y se obtiene su equivalente en el plano transformado Z para ser implementado en el microcontrolador. Este compensador $D(z)$ es luego convertido, por medio de la transformada Z inversa, a una ecuación en diferencias que relaciona la salida $u[n]$ con la entrada $e[n]$. 

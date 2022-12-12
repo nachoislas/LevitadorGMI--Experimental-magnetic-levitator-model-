@@ -447,13 +447,15 @@ En esta sección se realiza el diseño circuital de las etapas de acondicionamie
  
 Esta señal tiene una tensión que varía entre $3.96\:V$ y $4.69\:V$ para valores de $Y_g$ entre $2\:mm$ y $5\:mm$, que resulta mayor a la que puede leer el ADC. Por este motivo se implementa un circuito que permita llevarla a valores de tensión adecuados para su correcto funcionamiento. 
 
-Se implementa un circuito que le resta el punto de operación de $2.5\:V$  para lograr señales que van desde $1.42\:V$ a $2.2\:V$ y se obtiene en su salida la señal $Vy_{ref_{ADC}}$.
+Se implementa un circuito que le resta el punto de operación de $2.5\:V$  para lograr niveles de tensión que van desde $1.42\:V$ a $2.2\:V$ y se obtiene en su salida la señal $Vy_{ref_{ADC}}$.
 
-Luego, dentro del microcontrolador, se asigna cada valor leído por el ADC a una distancia de separación deseada ($Y_{ref}$), según la fórmula \ref{eq_y-ref-dig}.
+Luego, dentro del microcontrolador, se asigna cada valor leído por el ADC a una distancia de separación deseada ($Y_{ref}$), según la fórmula \ref{eq_y-ref-dig}. Esta será luego utilizada como referencia del sistema de control digital.
 
 \begin{equation} \label{eq_y-ref-dig}
 	Y_{ref}\ =\frac{Vy_{ref_{ADC}} +2.5 - 3.4\:V}{259.6}\:[m]=\frac{Vy_{ref_{ADC}} - 0.9\:V}{259.6}\:[m]
 \end{equation}
+
+De esta manera se obtiene la señal $Y_{ref}$ que varía entre valores de $2\:mm$ y $5\:mm$, según la tensión de entrada al ADC.
 
 Para obtener la tensión $Vy_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $1\:kHz$ para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
 
@@ -692,13 +694,9 @@ La salida del estimador digital se obtiene a través del DAC para poder observar
 
 \section{Diseño del controlador digital}
 
-En esta sección se realiza el diseño del controlador digital teniendo en cuenta los aspectos mencionados en la sección  \ref{consideraciones_sistemas_discretos} sobre el trabajo con sistemas discretos.
+En esta sección se realiza el diseño del controlador digital teniendo en cuenta los aspectos mencionados en la sección  \ref{consideraciones_sistemas_discretos} sobre el trabajo con sistemas discretos. En la figura asdds se muestra un diagrama general del sistema de control.
 
-\colorbox{red}{creo que vamos a tener que poner que la entrada a los diagramas en bloques es Yref, que se calcula en la sección \ref{sec_referencia_pos}. Es eso o decir que el bloque F implementa la ecuación \ref{eq_y-ref-dig}}
-
-Este controlador que se va a diseñar tiene como entradas la señal de referencia de posición $Y_ref$ y la señal de posición estimada $Y_g$.
-
-%Un controlador digital se define como una función transferencia C(z)=U(z)/E(z). Para implementarlo dentro del microcontrolador se convierte la función transferencia en una ecuación en diferencias utilizando la transformada z inversa. Este es implementado dentro del microcontrolador por medio de un algoritmo que recibe una señal e[n] en su entrada y calcula la señal u[n].
+Este controlador que se va a diseñar tiene como entrada la señal de referencia de posición $Y_{ref}$ calculada en \ref{sec_referencia_pos} y se realimenta la señal de posición estimada $Y_g$.
 
 
 \subsection{Transferencias de la planta y del controlador de corriente}
@@ -1087,8 +1085,6 @@ En la figura \ref{fig:lugar-de-raices-con-integrador_real_neg} se puede observar
 	\label{fig:lugar-de-raices-con-integrador}
 \end{figure}
 
-\colorbox{red}{Ver de aclarar como pasamos de Vyref valores de posición...Esto aca o directamente lo ponmos en la seccion de Ganancia de ENTRDA}
-
 \noindent En la figura \ref{fig:lugar-de-raices-con-integrador} se puede observar que, para que se mantenga la estabilidad del sistema, la ganancia del integrador ($K_{int}$) debe ser menor a 107. Teniendo esto en cuenta, en la figura \ref{fig:respuesta-al-escalon-con-k-1-M-30} se muestra la respuesta al escalón del sistema compensado con el integrador para una ganancia de $K_{int}=1$. Por otro lado, para obtener una salida positiva es necesario considerar el bloque F del diagrama \ref{fig:diag-externo_real_positiva_dig} como una ganancia unitaria negativa.
 
 
@@ -1108,7 +1104,7 @@ En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuest
 	G_{ext}(w)=\frac{5}{w}	
 \end{equation}
 
-\colorbox{red}{creo que sería mas correcto poner la transferencia final del compensador en z --> Para mi no se si sirve de mucho en Z xq esto después hay que multiplicarlo por las transferencias(de la tlc interna) en W y pasar todo eso junto a Z}
+\colorbox{red}{creo que sería mas correcto poner la transferencia final del compensador en z --> Para mi no se si sirve de mucho en Z xq esto después hay que multiplicarlo por las transferencias(de la tlc interna) en W y pasar todo eso junto a Z} solamente las transferencias de los compensadores se pasan a z, no se multiplica todo junto
 
 \begin{figure}[H]
 	\centering
@@ -1141,10 +1137,13 @@ En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuest
 
 \subsection{Cálculo de ganancia de entrada}
 
-\colorbox{red}{Ver si ponemos algo de la ganancia de entrada}
+Como se utiliza un controlador del tipo integrador, la señal a la salida del sumador ($Ve_{ext}$) será igual a cero en régimen permanente. Por lo tanto, como se desea que la salida $Y_g$ sea exactamente la misma que indica la referencia $Y_{ref}$, se debe cumplir la siguiente ecuación:
 
-Tenemos que mapear la tensión de referencia Vyref con la salida del estimador que sería en mm. Podemos hacer que F tenga la ganancia para convertir de Vyref a Y o hacer que esa conversión se haga apenas se lee la señal del ADC y después que F sea -1. NO SERIA LO MISMO? osea multplicar la senial por una constante y despues por menos uno XD
+\begin{equation}
+	Y_{ref}*F+Y_g=0
+\end{equation}
 
+Como $Y_{ref}=Y_g$, se obtiene $F=-1$.
 
 \subsection{Transferencia de lazo cerrado}
 

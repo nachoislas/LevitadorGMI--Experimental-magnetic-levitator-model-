@@ -1119,8 +1119,7 @@ En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuest
 
 
 
- La respuesta al escal\'{o}n cuando la masa es de $1\:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-5-M-1}. Allí se puede observar que el tiempo de establecimiento es de $0.752\:s$ y tampoco presenta sobrepicos.
-
+ La respuesta al escalón cuando la masa es de $1\:kg$ se muestra en la figura \ref{fig:respuesta-al-escalon-con-k-5-M-1}. Allí se puede observar que el tiempo de establecimiento es de $0.752\:s$ y tampoco presenta sobrepicos.
 
 
 \begin{figure}[H]
@@ -1134,11 +1133,10 @@ En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuest
 
 Como se utiliza un controlador del tipo integrador, la señal a la salida del sumador ($Ve_{ext}$) será igual a cero en régimen permanente. Por lo tanto, como se desea que la salida $Y_g$ sea exactamente la misma que indica la referencia $Y_{ref}$, se debe cumplir la siguiente ecuación:
 
-\begin{equation}
+\begin{equation}\label{eq_ganancia_F_digital_yref_yg}
 	Y_{ref}*F+Y_g=0
 \end{equation}
 
-<<<<<<< HEAD
 Dado que la la entrada de posición $Y_{ref}$ es en realidad una tensión  $V_{yref}$ ,la cual es la misma que se utiliza como entrada para el compensador analógico, es necesario mapear esta tensión a un valor de posición deseado.
 
 Por lo tanto utilizando la tabla \ref{tension-ref-vs-separacion-deseada} se mapea la tensión $V_{yref}$ a $Y_{gdeseado}$. Para hacerlo se obtiene una recta en función de $V_{yref}$ que resulta en:
@@ -1161,18 +1159,18 @@ Considerando que la ganancia F solo afecta a $V_{yref}$ como $F=-3,846154E^{-3}$
 
 De esta forma se mapea la tensión $V_{yref}$ a el $Y_g$ deseado.
 
-=======
-Como $Y_{ref}=Y_g$, se obtiene $F=-1$.
->>>>>>> parent of f750cea (cambios calculo de F para mapeo)
 
 \subsection{Transferencia de lazo cerrado}
 
 Finalmente se puede expresar la función transferencia del lazo de control externo como:
 
+
 \begin{equation}
 	TLC_{externa}(w)=\frac{Y_g}{V_{y_{ref}}}=\frac{F*G_{ext}*TLC_{interna}}{1-G_{ext}*TLC_{interna}}
 	%	\frac{-3.6301*}{den}
 \end{equation}
+
+\colorbox{red}{Esta TLC EN REALIDAD ES DE $Y_{ref}$ a $Y_{G}$ y esta bien lo unico q hace el F es hacer un mapeo y agregar el signo menos ver si lo poenmos antes o despues de haber calculado el F}
 
 %   0.00043659 (s+1.237e04) (s-1.238e04) (s-7143) (s+44.34)^2
 %-----------------------------------------------------------

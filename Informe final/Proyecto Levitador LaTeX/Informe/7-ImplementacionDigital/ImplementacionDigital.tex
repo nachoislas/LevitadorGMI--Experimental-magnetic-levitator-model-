@@ -693,9 +693,10 @@ La salida del estimador digital se obtiene a través del DAC para poder observar
 
 \section{Diseño del controlador digital}
 
-En esta sección se realiza el diseño del controlador digital teniendo en cuenta los aspectos mencionados en la sección  \ref{consideraciones_sistemas_discretos} sobre el trabajo con sistemas discretos. En la figura asdds se muestra un diagrama general del sistema de control.
+En esta sección se realiza el diseño del controlador digital teniendo en cuenta los aspectos mencionados en la sección  \ref{consideraciones_sistemas_discretos} sobre el trabajo con sistemas discretos. En la figura \colorbox{red}{asdds} se muestra un diagrama general del sistema de control.
 
 Este controlador que se va a diseñar tiene como entrada la señal de referencia de posición $Y_{ref}$ calculada en \ref{sec_referencia_pos} y se realimenta la señal de posición estimada $Y_g$.
+\colorbox{red}{Acá creo que faltaría el diagrama, no?}
 
 
 \subsection{Transferencias de la planta y del controlador de corriente}
@@ -751,7 +752,7 @@ En el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital} la
 
 \subsection{Diseño del lazo de realimentación interno}
 
-En esta sección se diseña el control del lazo de realimentación interno, que está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno_dig}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, $G_{T}$ a la transferencia del controlador de corriente junto con la de la planta. Todas las transferencias pertenecen al dominio de la variable [w].
+En esta sección se diseña el control del lazo de realimentación interno, que está compuesto por las etapas mostradas en la figura \ref{fig:diag-interno_dig}. Donde $G_c$ corresponde a la transferencia del compensador que se desea diseñar, y $G_{T}$ a la transferencia del controlador de corriente junto con la de la planta. Todas las transferencias pertenecen al dominio de la variable [w].
 
 \begin{figure}[H]
 	\centering
@@ -767,21 +768,18 @@ La transferencia de lazo cerrado ($TLC_{interna}$) del diagrama \ref{fig:diag-in
 	TLC_{interna}=\frac{Y_g[m]}{V_{ref_c}[V]}=\frac{G_c*G_T}{1+G_c*G_T}
 \end{equation}
 
-A continuación se analiza la estabilidad de la planta considerando una masa $M=30\:kg$ y se diseña el bloque del compensador interno $G_c(w)$ para lograr estabilizarla. Luego, se verificará la estabilidad con este mismo compensador para una masa $M=1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
+A continuación se analiza el comportamiento de la planta considerando una masa $M=30\:kg$ y se diseña el bloque del compensador interno $G_c(w)$ para lograr estabilizarla. Luego, se verificará la estabilidad con este mismo compensador para una masa $M=1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
 
 \subsubsection{Análisis de estabilidad}
 
- Para el análisis de la estabilidad de la planta se debe obtener la transferencia de lazo abierto total $GH_T(w)=G_T(w)*H(w)$. Se tiene la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ calculada en \ref{eq_Gtotal_w_m30} y la del lazo de realimentación $H(w)=1$. A partir de ellas se obtiene la transferencia a lazo abierto total $GH_{T}(w)=G_{T}(w)*H(w)$ mostrada en la ecuación \ref{eq:GtHW}.
+ Para el análisis de la estabilidad de la planta se debe obtener la transferencia de lazo abierto total $GH_T(w)=G_T(w)*H(w)$. Por lo tanto, a partir de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ calculada en \ref{eq_Gtotal_w_m30} y la del lazo de realimentación $H(w)=1$ se obtiene la expresión mostrada en la ecuación \ref{eq:GtHW}.
 
-\colorbox{red}{Ver si ya mencionamos que H=1. Si ya lo mencionamos, redactar lo de arriba para que quede bien} --> ahí traté de acomodarlo. arriba puse que la realimentación es unitaria.
+\colorbox{red}{Ver si quedó bien el parrafo de arriba..}
  
 \begin{equation}
 	\label{eq:GtHW}  
 	GH_{T}(w)=\frac{-8.5*10^{-11}(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)} 
 \end{equation} 
-
-
- A continuación se procede a analizar la respuesta en frecuencia de $GH_{T}(w)$ y a diseñar un compensador adecuado. Luego, al igual que para el compensador analógico, se verificará la estabilidad para la mínima masa  con la  que trabaja el sistema.
  
 Para comenzar el análisis se considera un compensador $G_c=K$, donde K es una constante positiva. Por lo tanto, se plantea la transferencia de lazo abierto teniendo en cuenta el compensador:
  
@@ -791,9 +789,7 @@ Para comenzar el análisis se considera un compensador $G_c=K$, donde K es una c
  	$G_c*GH_T(w)=\frac{-8.5*10^{-11}*K*(w-1.21*10^4)(w-7000)(w+1.21*10^4)}{\ (w-70)\ (w+70)\ (w+12.17)}$ 
  }
  \end{equation}
-\colorbox{red}{hacer resize de la ecuacion} -> creo que ahí quedó bien
 
-\colorbox{red}{Pasar esta expresión a lla forma de 1+w/p} -> creo que al final lo dejamos como está
 
  A partir de la transferencia de la ecuación  \ref{eq_GT3_dig} se  grafica el diagrama de Bode y el de Nyquist considerando $K=1$. Estos se muestran en las figuras \ref{fig:bode_digital} y \ref{fig:nyquist-lazo-abierto-digital} respectivamente.
 
@@ -878,7 +874,7 @@ A continuación se diseñará el compensador $G_c$ para lograr que el diagrama d
 
 \subsubsection{Diseño del compensador}
 
-Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-dig} se utilizará una estrategia de compensación por adelanto de fase. Esta consiste en observar el diagrama de bode de la figura \ref{fig:bode_digital} y elegir una frecuencia en la que se desee aumentar la fase para lograr la estabilidad. Se debe tener en cuenta que el módulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. 
+Para lograr el comportamiento del sistema como en la figura 	\ref{fig:nyquist-deseado-dig} se utiliza una estrategia de compensación por adelanto de fase. Esta consiste en observar el diagrama de bode de la figura \ref{fig:bode_digital} y elegir una frecuencia en la que se desee aumentar la fase para lograr la estabilidad. Se debe tener en cuenta que el módulo de la transferencia de lazo abierto en el primer cruce de la fase por 0$\mathrm{{}^\circ}$ debe ser mayor a $0\:dB$ y, en el segundo cruce, menor. 
 
 De esta forma, al observar la figura \ref{fig:bode_digital} se decide generar un adelanto de fase de por lo menos 100° en la frecuencia $200\:r/s$. Esto se logra mediante el uso de un compensador compuesto por dos redes de adelanto de fase de 65$\mathrm{{}^\circ}$ cada una. 
 
@@ -1172,7 +1168,7 @@ Considerando que $F=-1$ y el caso de masa $M=30\:kg$ la transferencia de lazo ce
 \subsection{Cálculo de los coeficientes del controlador}
 
 
-Se desea implementar el algoritmo de control en un microcontrolador. Esto significa obtener la señal de control $u[n]$ a partir de las entradas del sistema que son la referencia de posición ($Vref$) y la estimación ($Y[n]$). 
+Se desea implementar el algoritmo de control en un microcontrolador. Por lo tanto, es necesario obtener la señal de control $u[n]$ a partir de las entradas del sistema que son la referencia de posición ($Vref$) y la estimación ($Y[n]$). 
 
 Para ello se obtienen las funciones transferencia de los compensadores diseñados en el dominio discreto (z). Para obtenerlas se aplica la transformada bilineal inversa a las transferencias del compensador por adelanto de fase $G_c(w)$ y al integrador $G_{ext}$. De esta forma, observando el diagrama de la figura \colorbox{red}{Ver diagrama} se plantea:
 

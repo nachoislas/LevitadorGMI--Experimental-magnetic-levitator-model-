@@ -71,12 +71,6 @@ Se desea implementar un compensador en el dominio discreto y controlar una plant
 	\caption{Diagrama en bloques de controlador digital.}	\label{fig:diag-general-digital}
 \end{figure}
 
-\colorbox{red}{¿Habría que agregar un ADC en la entrada con Vyref antes de R(z)?} yo creo que no haría falta porque este es un diagrama genérico que estaba en la pag de teoria de control, no es una representación de nuestro sistema. La entrada puede ser ya una señal digital
-
-
-\colorbox{red}{¿Que sería C(s)?} una señal de salida, aparecía así en el diagrama de teoría de control
-
-
 
 Para hacer la conversión entre el dominio digital al analógico, el DAC mantiene el valor entre cada muestra, actualizando el valor de la señal en cada intervalo de tiempo discreto ($T_s$). Este efecto se lo conoce como retenedor de orden cero ($ROC$) y se lo puede modelar con la ecuación \ref{eq_retenedor_orden-0}. Es importante tener en cuenta el efecto que agrega el $ROC$ sobre la planta al momento de diseñar el compensador, ya que puede afectar la estabilidad del sistema.
 
@@ -101,8 +95,6 @@ Una vez obtenido el modelo discreto de la planta con el efecto del ROC, se propo
 
 Una vez diseñado el compensador en el dominio analógico, se aplica la transformada bilineal inversa y se obtiene su equivalente en el plano transformado Z para ser implementado en el microcontrolador. Este compensador $D(z)$ es luego convertido, por medio de la transformada Z inversa, a una ecuación en diferencias que relaciona la salida $u[n]$ con la entrada $e[n]$. 
 
-
-\colorbox{red}{Releer y ver si quedó bien}
 
 %\subsection{Transferencias de la planta y del controlador de corriente}
 %
@@ -272,7 +264,6 @@ $V_h$ es la tensión proporcional a la corriente que circula por el electroimán
 \end{equation}
 
 Los términos $\bar{V_h}[n]$ y $\hat{V_h}[n]$ se obtienen al sensar el valor medio y el de alterna de la tensión $V_h$ mediante dos canales del ADC, uno para cada señal.
-\colorbox{red}{Esa aclaración de arriba capaz esta de mas?mm}
 
 Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtuvo a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
 
@@ -309,7 +300,7 @@ Es importante notar que los coeficientes del estimador deben calcularse justo an
 
 En esta sección se analiza cuál es la resolución en posición que se puede obtener con el algoritmo de estimación diseñado.
 
-Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L(Y_g)$) que se traduce en un cambio de frecuencia ($\Delta F_{planta}$). Para poder detectar el mínimo cambio de posición en un período de muestreo se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
+Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L(Y_g)$) que se traduce en un cambio de frecuencia ($\Delta F_{planta}$). Para poder detectar el mínimo cambio de posición en un período de muestreo ($T_{ADC}$) se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
 
 
 A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y_g=2.1\:mm$. Esta resulta en $F_{planta}[2.1\:mm] = 1104.8\:Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $F_{planta}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un ($\Delta Y_g$) mínimo de  $0.1\:mm$. Este valor puede obtenerse como:
@@ -352,7 +343,7 @@ Por lo tanto, para poder diferenciar las pendientes, la resolución del ADC debe
  Al considerar $F_{ADC} = 25\:kHz$:
 
 \begin{equation} 
-	\Delta V_{ADC} = T_S * [P(F_{planta_{min}} + \Delta F_{planta}) - P(F_{planta_{min}})] = 96\:\mu V
+	\Delta V_{ADC} = T_{ADC} * [P(F_{planta_{min}} + \Delta F_{planta}) - P(F_{planta_{min}})] = 96\:\mu V
 \end{equation}
 
 
@@ -459,7 +450,7 @@ Luego, dentro del microcontrolador, se asigna cada valor leído por el ADC a una
 
 De esta manera se obtiene la señal $Y_{ref}$ que varía entre valores de $2\:mm$ y $5\:mm$, según la tensión de entrada al ADC.
 
-Para obtener la tensión $Vy_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $1\:kHz$ \colorbox{red}{Podríamos ponerle 100Hz no?} para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
+Para obtener la tensión $Vy_{ref_{ADC}}$ se utiliza el circuito mostrado en la figura \ref{fig:circuito-ref-posicion}. Este tiene, además, un filtro con frecuencia de corte en $100\:Hz$ para evitar que ingrese ruido en la medición. Por otro lado, se coloca un diodo zener polarizado en inversa de $3.6\:V$ a la salida del amplificador operacional para evitar que la tensión que ingresa al ADC sea superior a la máxima admisible. Este diodo es colocado a la salida de todos los circuitos que ingresan al ADC.
 
 
 \begin{figure}[H]
@@ -505,7 +496,7 @@ Como se desea ganancia unitaria, se define que $R_{411}=R_{412}$ y se obtiene:
 %	\frac{Vy_{ref_{ADC}}}{Vy_{Ref}}=\frac{R_{411}*(R_{413}+R_{414})}{R_{413}*(R_{411}+R_{412})}*\frac{sC_{408}(R_{411}//R_{412})+1}{(sC_B(R_{413}//R_{414})+1)*(sC_{408}R_{411}+1)}
 %\end{equation*}
 
-Por lo tanto, para obtener una frecuencia de corte para el filtro de $1\:kHz$ se elige $R_{411}=10\:k\Omega$ y resulta $C_{408}=16\:nF$. De esta forma, se obtiene que $R_{412}=R_{413}=R_{414}=10\:k\Omega$ y que $C_{409}=16\:nF$.
+Por lo tanto, para obtener una frecuencia de corte para el filtro de $100\:Hz$ se elige $R_{411}=100\:k\Omega$ y resulta $C_{408}=16\:nF$. De esta forma, se obtiene que $R_{412}=R_{413}=R_{414}=100\:k\Omega$ y que $C_{409}=16\:nF$.
 
 
 \subsubsection{Componente  alterna de corriente del electroimán}
@@ -693,11 +684,9 @@ La salida del estimador digital se obtiene a través del DAC para poder observar
 
 \section{Diseño del controlador digital}
 
-En esta sección se realiza el diseño del controlador digital teniendo en cuenta los aspectos mencionados en la sección  \ref{consideraciones_sistemas_discretos} sobre el trabajo con sistemas discretos. En la figura \colorbox{red}{asdds} se muestra un diagrama general del sistema de control.
+En esta sección se realiza el diseño del controlador digital teniendo en cuenta los aspectos mencionados en la sección  \ref{consideraciones_sistemas_discretos} sobre el trabajo con sistemas discretos. 
 
 Este controlador que se va a diseñar tiene como entrada la señal de referencia de posición $Y_{ref}$ calculada en \ref{sec_referencia_pos} y se realimenta la señal de posición estimada $Y_g$.
-\colorbox{red}{Acá creo que faltaría el diagrama, no?}
-
 
 \subsection{Transferencias de la planta y del controlador de corriente}
 
@@ -747,7 +736,6 @@ Se decide usar la misma estrategia utilizada en el compensador analógico, plant
 	\caption{Diagrama en bloques de estrategia de compensación propuesta.}	\label{fig:diag-en-bloques-comp_digital}
 \end{figure}
 
-\colorbox{red}{aclaramos que se considera H=1?}
 En el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital} la realimentación es unitaria ya que el algoritmo encargado de la estimación de distancia de entrehierro entrega directamente el valor estimado.
 
 \subsection{Diseño del lazo de realimentación interno}
@@ -760,7 +748,6 @@ En esta sección se diseña el control del lazo de realimentación interno, que 
 	\caption{Diagrama en bloques del lazo de compensación interno.}	\label{fig:diag-interno_dig}
 \end{figure}
 
-\colorbox{red}{ver si cambiamos lso nombres de las señales}
 
 La transferencia de lazo cerrado ($TLC_{interna}$) del diagrama \ref{fig:diag-interno_dig} queda definida como:
 
@@ -773,8 +760,6 @@ A continuación se analiza el comportamiento de la planta considerando una masa 
 \subsubsection{Análisis de estabilidad}
 
  Para el análisis de la estabilidad de la planta se debe obtener la transferencia de lazo abierto total $GH_T(w)=G_T(w)*H(w)$. Por lo tanto, a partir de la transferencia de la ganancia de avance $G_{T}(w)$ para una masa de $30\:kg$ calculada en \ref{eq_Gtotal_w_m30} y la del lazo de realimentación $H(w)=1$ se obtiene la expresión mostrada en la ecuación \ref{eq:GtHW}.
-
-\colorbox{red}{Ver si quedó bien el parrafo de arriba..}
  
 \begin{equation}
 	\label{eq:GtHW}  
@@ -1058,11 +1043,6 @@ Para encontrar el valor adecuado de $K_{int}$ se grafica el lugar de raíces de 
 	\label{fig:lugar-de-raices-con-integrador_real_neg}
 \end{figure}
 
-\colorbox{red}{ver si aclaramos algo sobre si es lugar de raices continuo y discreto} 
-
-
-
-
 En la figura \ref{fig:lugar-de-raices-con-integrador_real_neg} se puede observar que, el sistema resultaría inestable para cualquier valor de $K_{int}$, ya que el polo ubicado en $w=0$ se movería hacia el semiplano derecho. Por lo tanto, se propone utilizar realimentación positiva en el diagrama en bloques de la figura \ref{fig:diag-externo_dig}, obteniendo así el que se muestra la figura \ref{fig:diag-externo_real_positiva_dig}. De esta forma, el polo del integrador cambia el sentido de desplazamiento y el lugar de raíces resulta como se muestra en la \ref{fig:lugar-de-raices-con-integrador}.
 
 
@@ -1098,8 +1078,6 @@ En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuest
 \begin{equation} \label{eq_gexterno_dig}
 	G_{ext}(w)=\frac{5}{w}	
 \end{equation}
-
-\colorbox{red}{creo que sería mas correcto poner la transferencia final del compensador en z --> Para mi no se si sirve de mucho en Z xq esto después hay que multiplicarlo por las transferencias(de la tlc interna) en W y pasar todo eso junto a Z} solamente las transferencias de los compensadores se pasan a z, no se multiplica todo junto
 
 \begin{figure}[H]
 	\centering
@@ -1145,7 +1123,7 @@ Como $Y_{ref}=Y_g$, se obtiene $F=-1$.
 Finalmente se puede expresar la función transferencia del lazo de control externo como:
 
 \begin{equation}
-	TLC_{externa}(w)=\frac{Y_g}{V_{y_{ref}}}=\frac{F*G_{ext}*TLC_{interna}}{1-G_{ext}*TLC_{interna}}
+	TLC_{externa}(w)=\frac{Y_g}{Y_{ref}}=\frac{F*G_{ext}*TLC_{interna}}{1-G_{ext}*TLC_{interna}}
 	%	\frac{-3.6301*}{den}
 \end{equation}
 
@@ -1167,10 +1145,16 @@ Considerando que $F=-1$ y el caso de masa $M=30\:kg$ la transferencia de lazo ce
 
 \subsection{Cálculo de los coeficientes del controlador}
 
+Se necesita implementar, en el microcontrolador, el algoritmo de control representado en el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital_completo}. Para ello, es necesario obtener las transferencias $G_{ext}(z)$ y $G_c(z)$ a partir de la transformada bilineal inversa de las transferencias del compensador por adelanto de fase $G_c(w)$ y del integrador $G_{ext}(w)$. 
 
-Se desea implementar el algoritmo de control en un microcontrolador. Por lo tanto, es necesario obtener la señal de control $u[n]$ a partir de las entradas del sistema que son la referencia de posición ($Vref$) y la estimación ($Y[n]$). 
+\begin{figure}[H]
+	\centering
+	\scalebox{0.8}{\input{tikz/diagrama_general_digital_completo.tex}}
+	\caption{Diagrama en bloques del sistema de control digital completo.}	\label{fig:diag-en-bloques-comp_digital_completo}
+\end{figure}
+\colorbox{red}{rehacer con nombre sde señales, signo positivo, y transferencias en z y planta en s}
 
-Para ello se obtienen las funciones transferencia de los compensadores diseñados en el dominio discreto (z). Para obtenerlas se aplica la transformada bilineal inversa a las transferencias del compensador por adelanto de fase $G_c(w)$ y al integrador $G_{ext}$. De esta forma, observando el diagrama de la figura \colorbox{red}{Ver diagrama} se plantea:
+Las transferencias en el dominio discreto resultan: 
 
 % 8.69e05 z^2 - 1.716e06 z + 8.477e05
 %-----------------------------------
@@ -1182,45 +1166,46 @@ Para ello se obtienen las funciones transferencia de los compensadores diseñado
 %1 - 1.551 z^-1 + 0.6018 z^-2
 
 \begin{equation} \label{eq_coeficientes_interno} 
-	G_c(z)=\ \ \frac{U(z)}{e(z)}=\frac{8.69*10^5- 1.72*10^6z^{-1} + 8.48*10^5z^{-2}}{1-1.551 z^{-1} + 0.6018 z^{-2}}\  
+	G_c(z)=\ \ \frac{V_{IL_{ref}}(z)}{Ve_{int}(z)}=\frac{8.69*10^5- 1.72*10^6z^{-1} + 8.48*10^5z^{-2}}{1-1.551 z^{-1} + 0.6018 z^{-2}}\  
 \end{equation} 
 %0.0007 + 0.0007 z^-1
 %--------------------
 %1 - z^-1
 
 \begin{equation} \label{eq_comp_externo_z} 
-	G_{ext}(z)=\frac{e_f(z)}{e_i(z)}\ =\frac{0.0007(1+z^{-1})}{1-z^{-1}} 
+	G_{ext}(z)=\frac{Vref_c(z)}{Ve_{ext}(z)}\ =\frac{0.0007(1+z^{-1})}{1-z^{-1}} 
 \end{equation} 
+
 
 Al aplicar la transformada inversa a las expresiones \ref{eq_coeficientes_interno} y \ref{eq_comp_externo_z} se obtiene:
 
 \begin{equation} 
 	\begin{aligned}\label{eq_U-coef}
-		U[n]=&8.651*10^5e[n]-\ 1.709*10^6e[n-1]+\ 0.843*10^6e[n-2]+\\
-		&+1.5514\ U[n-1]-\ 0.60171U[n-2]\\ 
+		V_{IL_{ref}}[n]=&8.651*10^5Ve_{int}[n]-\ 1.709*10^6Ve_{int}[n-1]+\ 0.843*10^6Ve_{int}[n-2]+\\
+		&+1.5514\ V_{IL_{ref}}[n-1]-\ 0.60171V_{IL_{ref}}[n-2]\\ 
 	\end{aligned}
 \end{equation}
 
 \begin{equation} \label{eq_e-coef} 
-	e_f[n]=0.0028*e_i[n]\ +\ {0.0028*e}_i[n-1]+e_f[n-1] 
+	Vref_c[n]=0.0007*Ve_{ext}[n] +0.0007*Ve_{ext}[n-1]+Vref_c[n-1] 
 \end{equation} 
 
-Luego, para dejar el algoritmo de control en funci\'{o}n de las entradas del sistema, se debe reemplazar en las ecuaciones \ref{eq_U-coef} y \ref{eq_e-coef} las expresiones mencionadas en las ecuaciones \ref{GrindEQ__5_10_} y \ref{GrindEQ__5_11_}
+Luego, para dejar el algoritmo de control en funci\'{o}n de las entradas del sistema, se debe reemplazar en las ecuaciones \ref{eq_U-coef} y \ref{eq_e-coef} las expresiones mencionadas en las ecuaciones \ref{GrindEQ__5_10_} y \ref{GrindEQ__5_11_}.
 
 \begin{equation} \label{GrindEQ__5_10_} 
-	e[n]=e_f[n]+Y_f[n] 
+	Ve_{int}[n]=Vref_c[n]+Y_g[n] 
 \end{equation} 
 
 \begin{equation} \label{GrindEQ__5_11_} 
-	e_i[n]=F*Vref+Y_f[n] 
+	Ve_{ext}[n]=F*Y_{ref}+Y_g[n] 
 \end{equation} 
 
-
-\section{Conexi\'{o}n entre el PCB y el microcontrolador}
-
- Se utiliza un conector tipo DB9 hembra como v\'{i}a de conexi\'{o}n para las distintas salidas y entradas digitales. Adem\'{a}s, en la placa se dispone de un led que se enciende cuando  se detecta una correcta conexi\'{o}n con el microcontrolador.
- 
- \colorbox{red}{Ver de pasarlo a la sección del PCB y agregar tambien lo de capacitores de desacople, jumpers, leds, etc...}
+%
+%\section{Conexi\'{o}n entre el PCB y el microcontrolador}
+%
+% Se utiliza un conector tipo DB9 hembra como v\'{i}a de conexi\'{o}n para las distintas salidas y entradas digitales. Adem\'{a}s, en la placa se dispone de un led que se enciende cuando  se detecta una correcta conexi\'{o}n con el microcontrolador.
+% 
+% \colorbox{red}{Ver de pasarlo a la sección del PCB y agregar tambien lo de capacitores de desacople, jumpers, leds, etc...}
 
 
 

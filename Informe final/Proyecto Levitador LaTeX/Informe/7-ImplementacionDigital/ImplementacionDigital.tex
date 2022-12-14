@@ -726,7 +726,7 @@ Con las expresiones en $[w]$ es posible diseñar un controlador utilizando técn
 
 
 
-\subsection{Diseño del compensador}
+\subsection{Descripción general}
 
 Se decide usar la misma estrategia utilizada en el compensador analógico, planteando dos lazos de realimentación: uno interno y otro externo. El primero con el objetivo de estabilizar la planta y el segundo para mejorar la respuesta temporal del sistema. Por lo tanto, se plantea el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital}.
 
@@ -1009,7 +1009,7 @@ Es importante notar que la ganancia de la transferencia de lazo cerrado en ambos
 
 
 
-\section{Diseño del lazo de realimentación externo}
+\subsection{Diseño del lazo de realimentación externo}
 
 \noindent Se plantea un lazo de realimentación externo como se muestra en la figura \ref{fig:diag-externo_dig}. 
 
@@ -1116,7 +1116,7 @@ En la figura \ref{fig:respuesta-al-escalon-con-k-5-M-30}, se observa la respuest
 	\label{fig:respuesta-al-escalon-con-k-5-M-1}
 \end{figure}
 
-\subsection{Cálculo de ganancia de entrada}
+\subsubsection{Cálculo de ganancia de entrada}
 
 Como se utiliza un controlador del tipo integrador, la señal a la salida del sumador ($Ve_{ext}$) será igual a cero en régimen permanente. Por lo tanto, como se desea que la salida $Y_g$ sea exactamente la misma que indica la referencia $Y_{ref}$, se debe cumplir la siguiente ecuación:
 
@@ -1126,7 +1126,7 @@ Como se utiliza un controlador del tipo integrador, la señal a la salida del su
 
 Como $Y_{ref}=Y_g$, se obtiene $F=-1$.
 
-\subsection{Transferencia de lazo cerrado}
+\subsubsection{Transferencia de lazo cerrado}
 
 Finalmente se puede expresar la función transferencia del lazo de control externo como:
 
@@ -1151,7 +1151,7 @@ Considerando que $F=-1$ y el caso de masa $M=30\:kg$ la transferencia de lazo ce
 
 
 
-\subsection{Cálculo de los coeficientes del controlador}
+\section{Cálculo de los coeficientes del controlador}
 
 Se necesita implementar, en el microcontrolador, el algoritmo de control representado en el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_digital_completo}. Para ello, es necesario obtener las transferencias $G_{ext}(z)$ y $G_c(z)$ a partir de la transformada bilineal inversa de las transferencias del compensador por adelanto de fase $G_c(w)$ (\ref{eq:transferencia-del-compensador_dig_final}) y del integrador $G_{ext}(w)$ (\ref{eq_gexterno_dig}). 
 

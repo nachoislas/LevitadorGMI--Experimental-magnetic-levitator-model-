@@ -144,6 +144,11 @@ figure(15)
 tlcConIntegradorDigital = -1 * feedback(TlcDigitalSinIntegrador*integradorDigital, 1, 1);
 step(tlcConIntegradorDigital);
 
+%%Paso compensador digital a Z para simulink
+CtotalZ = zpk(c2d(CtotalW, Ts,'tustin'));
+intZ    = zpk(c2d(integradorDigital, Ts,'tustin'));
+
+
 %% funciones
 function [y0,L] = distandinduc(y)
     switch y

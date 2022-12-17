@@ -10,15 +10,27 @@ Por otra parte, se describen las consideraciones y circuitos utilizados para las
 
 \subsection{Fuente de alimentación externa de 24 V}
 
-\noindent La fuente externa se encarga de alimentar todo el circuito. Debe ser capaz de suministrar $24\:V$ y hasta $30\:A$. Para ello se puede utilizar una fuente de laboratorio o baterías.
+La fuente externa se encarga de alimentar todo el circuito. Debe ser capaz de suministrar $24\:V$ y hasta $30\:A$. Para ello se puede utilizar una fuente de laboratorio o baterías. Esta fuente se conecta a la placa de control mediante una bornera dispuesta en el borde del PCB. Además, se agrega un fusible para proteger la placa ante sobre-consumo y un diodo para evitar que se dañe cuando se ingresa con polaridad invertida.
 
 \subsection{Fuente de alimentación interna de 12 V}
 
-\noindent La fuente de $12\:V$ se encarga de alimentar al regulador de $5\:V$ y al \textsl{driver} del puente H. Debido a los bajos consumos de potencia y bajo costo, se utiliza una fuente lineal. Por lo tanto, se decide utilizar el integrado L78M12CDT-TR.
+La fuente de $12\:V$ se encarga de alimentar al regulador de $5\:V$ y al \textsl{driver} del puente H. Debido a los bajos consumos de potencia y bajo costo, se utiliza una fuente lineal. Por lo tanto, se decide utilizar el integrado L78M12CDT-TR.
+
 
 \subsection{Fuente de alimentación interna de 5 V}
 
 La fuente de $5\:V$ se encarga de alimentar los operacionales, el sensor de efecto Hall, el inversor y el regulador de tensión de $2.5\:V$. Debido a los bajos consumos de potencia y bajo costo, se utiliza una fuente lineal. Por lo tanto, se decide utilizar el integrado L78M05CDT.
+
+\section{Conexión entre placa de control y microcontrolador}
+
+Se utiliza un conector tipo DB9 hembra como vía de conexión para las distintas salidas y entradas digitales. Además, en la placa se dispone de un led que se enciende cuando  se detecta una correcta conexión con el microcontrolador.
+
+\section{Puntos de prueba y jumpers}
+
+Se agregan puntos de prueba sobre el PCB para poder medir señales de interés como las de control de los gates de los MOSFET del puente H, la salida del comparador con histéresis, la salida del derivador en la etapa del estimador, entre otros. Cada punto de prueba está referenciado en los esquemáticos como TP.
+
+Por otro lado, se agregan jumpers con el objetivo de hacer mediciones a cada etapa por separado. Cada uno de ellos está referenciado en los esquemáticos como P.
+ 
 
 \section{Esquemáticos}
 

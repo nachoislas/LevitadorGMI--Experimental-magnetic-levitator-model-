@@ -1,9 +1,12 @@
 \chapter{Diseño del circuito impreso} \chapterlabel{Informe/8-PCB} \label{cap:PCB}
 
-En este capítulo se mencionan los criterios tenidos en cuenta para el diseño del circuito impreso. Además, se muestran los esquemáticos y las imágenes del PCB desarrollados para la implementación de la placa de control mediante el uso del software Altium Designer. 
+%En este capítulo se mencionan los criterios tenidos en cuenta para el diseño del circuito impreso. Además, se muestran los esquemáticos y las imágenes del PCB desarrollados para la implementación de la placa de control mediante el uso del software Altium Designer. 
 
-Por otra parte, se describen las consideraciones y circuitos utilizados para las fuentes de alimentación del sistema.
+%Por otra parte, se describen las consideraciones y circuitos utilizados para las fuentes de alimentación del sistema.
 
+En este capítulo se describen las consideraciones y circuitos utilizados para las fuentes de alimentación del sistema. Ademas se mencionan cuales son los conectores, puntos de prueba y jumpers que posee el PCB.
+
+Luego se mencionan los criterios tenidos en cuenta para el diseño del circuito impreso. Además, se muestran los esquemáticos y las imágenes del PCB desarrollados para la implementación de la placa de control mediante el uso del software Altium Designer.
 
 
 \section{Fuentes de alimentación}
@@ -95,6 +98,7 @@ Por otro lado, se agregan jumpers con el objetivo de hacer mediciones a cada eta
 Para el diseño del PCB se tuvieron en cuenta los siguientes aspectos:
 
 \begin{itemize}
+	\item Se realizó el diseño en una placa de 2 capas para reducir el costo de fabricación.
 	\item Se utilizó un plano de masa para la etapa de potencia y otro para el resto del circuito. Se intentó reducir al mínimo las conexiones entre ambos planos con el objetivo de disminuir el ruido inducido por la etapa de potencia en el resto del circuito.
 	\item Se mantuvo separada la etapa de potencia con las de pequeña señal.
 	\item Se intentó reducir al mínimo la longitud de las pistas de las señales críticas como la tensión de salida del sensor de efecto Hall.
@@ -102,7 +106,6 @@ Para el diseño del PCB se tuvieron en cuenta los siguientes aspectos:
 	\item Se quitó la capa \textsl{Top Solder} en la etapa de potencia correspondiente al puente H para mejorar la disipación.
 	\item Se utilizaron vias stitching en los planos de masa sobre la placa para mejorar la aislación entre componentes y reducir el acople por campos electromagnéticos.
 	\item Se ``acostaron'' los MOSFET sobre la placa para ayudar a su disipación de potencia.
-	\item Se realizó el diseño en una placa de 2 capas para reducir el costo de fabricación.
 	\item Para optimizar el tamaño de la placa, se rutearon las pistas de manera organizada. Para ello, se intentó que las pistas verticales se realicen en la capa superior mientras que las horizontales, en la inferior.
 	\item El proyecto se dividió en 7 esquemáticos. Cada uno de ellos se asocia a una etapa en específico (compensación analógica, controlador de corriente, estimador analógico, etc). 
 	\item  Los componentes de cada esquemático tiene asociado un rango de valores determinados para los \textsl{designators}. Es decir, todos los componentes con \textsl{designators} entre 0 y 99 pertenecen al primer esquemático, los de 100 a 199 al segundo, y así sucesivamente.  De esta forma, con solo ver el \textsl{designators} en el PCB es posible determinar, fácilmente, a qué etapa pertenece.  

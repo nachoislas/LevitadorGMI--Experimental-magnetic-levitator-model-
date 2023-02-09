@@ -47,9 +47,9 @@ Como se mencionó previamente, para el desarrollo del proyecto se utiliza un ele
 
 \subsection{Modelado de inductancia del electroimán}
 
-\noindent Las dos piezas del electroimán, junto con el entrehierro que las separa, conforman un circuito magnético. Debido a la alta permeabilidad del material ($\mu_{r}$) por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas.
+Las dos piezas del electroimán, junto con el entrehierro que las separa, conforman un circuito magnético. Debido a la alta permeabilidad del material ($\mu_{r}$) por el que están hechas, el flujo magnético circula dentro del volumen del núcleo y solo lo hace por el aire cuando atraviesa la separación de las piezas.
 
-\noindent Debido a la simetría del electroimán, el flujo magnético total generado en su rama central se divide en dos para circular por cada rama lateral como se observa en la figura \ref{fig:img_flujo}.
+Debido a la simetría del electroimán, el flujo magnético total generado en su rama central se divide en dos para circular por cada rama lateral como se observa en la figura \ref{fig:img_flujo}.
 
 \begin{figure}[H]
 	\centering
@@ -80,7 +80,7 @@ Donde:
 \begin{itemize}
 	\item $l_{m}$: longitud del circuito magnético dentro del electroimán.
 	\item $l_{A}$: longitud del circuito magnético en el entrehierro.
-	\item $\mu_{o}$: permeabilidad magnética del vacio ($4 \pi * 10^{-7}\:Hy/m$).
+	\item $\mu_{o}$: permeabilidad magnética del vacio ($4 \pi * 10^{-7}\:H/m$).
 	\item $\mu_{r}$: permeabilidad magnética relativa del material del electroimán. Su valor es aproximadamente igual a $4000 * \mu_{o}$.
 	
 \end{itemize}
@@ -215,13 +215,13 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e 
 \noindent A partir de la ecuación \ref{eq_inductancia_vs_y}, se realiza una expansión por serie de Taylor linealizada en torno al punto $Y_{g}=Y_{0}=4\:mm$ y se obtiene:
 
 \begin{equation} \label{eq_inductancia_lineal_teorica}
-	L(y_{g})=-2.2089*Y_{g}+0.0177\:Hy
+	L(Y_{g})=-2.2089[\:\frac{H}{m}]*Y_{g}\:[m]+0.0177\:[H]
 \end{equation}
 
 \noindent Donde:
 \begin{itemize}
 	\item $Y_{g}$: distancia del entrehierro en metros [m].
-	\item L: inductancia resultante en Henry [Hy].
+	\item L: inductancia resultante en Henry [H].
 \end{itemize}
 
 \section{Mediciones sobre el electroimán}
@@ -248,14 +248,14 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e 
 
 \subsection{Medición de inductancia}
 
-\noindent Se realizó una caracterización de la inductancia en función del entrehierro. Para hacerlo se utilizó un medidor LCR y láminas de cartón de espesor conocido. La medición consistió en apilar dichas láminas entre ambas piezas del electroimán, donde la suma total de los espesores de las láminas es $Y[mm]$ y luego tomar el valor de inductancia entregado por el medidor $(L(Y_{g})[mHy])$. De esta forma, se obtuvieron los siguientes resultados:
+\noindent Se realizó una caracterización de la inductancia en función del entrehierro. Para hacerlo se utilizó un medidor LCR y láminas de cartón de espesor conocido. La medición consistió en apilar dichas láminas entre ambas piezas del electroimán, donde la suma total de los espesores de las láminas es $Y[mm]$ y luego tomar el valor de inductancia entregado por el medidor $(L(Y_{g})[mH])$. De esta forma, se obtuvieron los siguientes resultados:
 
 \begin{table} [H]
 	\begin{center}
 		\begin{tabular}{| c | c | c | c | c | c | c | c | c | c |}
 			\hline			
 			$Y[mm]$ & 0 & 1 & 2 & 3 & 4 & 5 & 6.5 & 8.23 & $\infty$ \\ \hline
-			$L(Y_{g})[mHy]$ & 76.45 & 33.42 & 22.64 & 18.8 & 16.44 & 14.9 & 14.4 & 12.4 & 8.89\\ \hline
+			$L(Y_{g})[mH]$ & 76.45 & 33.42 & 22.64 & 18.8 & 16.44 & 14.9 & 14.4 & 12.4 & 8.89\\ \hline
 		\end{tabular}
 		\caption{Valores de inductancia medidos en función del entrehierro.}
 		\label{tab_mediciones_inductancia}
@@ -276,13 +276,13 @@ Si se considera las condiciones mas exigentes para el sistema, con $M=30\:kg$ e 
 
 \begin{equation}
 	\label{eq_induct_practica}
-	L(Y_g)=-2.56*Y_{g}+0.027\:Hy
+	L(Y_g)=-2.56\:[\frac{H}{m}]*Y_{g}\:[m]+0.027\:[H]
 \end{equation}
 
 \noindent Donde:
 \begin{itemize}
 	\item $Y_{g}$: distancia del entrehierro en metros [m].
-	\item L: inductancia resultante en Henry [Hy].
+	\item L: inductancia resultante en Henry [H].
 \end{itemize}
 
 Se puede observar que la expresión obtenida tiene una pendiente similar a la teórica (\ref{eq_inductancia_vs_y}), pero con un valor en el término independiente mayor. Una de las razones de ello es no haber considerado la inductancia de dispersión en el electroimán al momento del modelado. Es decir, no haber tenido en cuenta a las líneas de flujo magnético que se cierran dentro de la pieza en forma de ”E”, y no llegan a atravesar la pieza ”I”.  

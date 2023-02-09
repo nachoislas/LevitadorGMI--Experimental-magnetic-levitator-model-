@@ -459,7 +459,7 @@ Existen una gran variedad de estos sensores en el mercado, cada uno con diferent
 	\item El ancho de banda debe ser mucho mayor al polo de la frecuencia de conmutación del controlador de corriente ($1\:kHz$) para poder conservar la forma de onda de la corriente triangular a medir. Por lo tanto, debe ser al menos de $100\:kHz$.	
 \end{itemize}
 
-A partir de estas características se decidió utilizar el sensor HO 15-NP-0000 \cite{HO15-NP}. Este permite medir una corriente de $\pm 37.5\:A$ con un ancho de banda de $250\:kHz$ y una transresistencia de $H(s)=H_0=53.33\:mV/A$ en todo  el rango de corriente. Además, presenta alta inmunidad a interferencias externas. Por otro lado, requiere una fuente de alimentación simple de $5\:V$.
+A partir de estas características se decidió utilizar un sensor de efecto Hall detallado en \cite{HO15-NP}. Este permite medir una corriente de $\pm 37.5\:A$ con un ancho de banda de $250\:kHz$ y una transresistencia de $H(s)=H_0=53.33\:mV/A$ en todo  el rango de corriente. Además, presenta alta inmunidad a interferencias externas. Por otro lado, requiere una fuente de alimentación simple de $5\:V$.
 
 Este sensor tiene la capacidad de medir tanto corrientes en sentido positivo, como negativo. Para ello admite una tensión de operación ($V_{op}$) de $2.5\:V$, la cual se corresponde a la salida cuando la corriente es nula. Cuando la circulación de corriente es en sentido positivo, la salida del sensor resulta en una tensión mayor a $2.5\:V$ y, para negativas, menor.
 
@@ -585,9 +585,9 @@ En la figura \ref{fig:img_bootstrap} se observa solo una de las mitades del puen
 
 El \textsl{bootstrap driver} consiste en un capacitor ($C_{BS}$), un diodo, y la circuitería interna del HIP4081A. Para garantizar el correcto funcionamiento del \textsl{bootstrap}, al encender el sistema, la secuencia de inicio del HIP4081A enciende las dos salidas de la parte inferior del puente H: ALO y BLO con el fin de encender $Q_2$ y $Q_4$ durante un tiempo que se conoce como periodo de refresco de \textsl{bootstrap}. De esta forma, los capacitores de \textsl{bootstrap} de ambos lados quedan conectados entre $12\:V$ y GND y se pueden cargar completamente. Durante este tiempo, las salidas a los \textsl{gates} AHO y BHO se mantienen en bajo continuamente lo que asegura que no se produzca corriente de cortocircuito durante el período nominal de refresco del \textsl{bootstrap}. Una vez finalizado, las salidas responden normalmente al estado de las señales de entrada de control.
 
-Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra en funcionamiento: con el transistor $Q_2$ encendido (ALO = $V_{CC}$), $Q_1$ apagado (AHO = AHS = $0\:V$) y la corriente circulando de izquierda a derecha como lo indica la figura \ref{fig:img_bootstrap}. En ese caso, el capacitor $C_{BS}$ se carga a $12\:V$, ya que en un terminal tiene la fuente de $12\:V$ (a través del diodo $D_{BS}$) y el otro está conectado a GND por medio de $Q_2$.
+Para comprender su funcionamiento se hará un breve análisis del sistema. Para ello, se parte de la suposición de que el sistema se encuentra en funcionamiento: en la figura \ref{fig:img_topologia-puenteH},  el transistor $Q2$ se encuentra encendido (ALO = $V{CC}$), $Q1$ apagado (AHO = AHS = $0:V$) . De esta manera la corriente circula desde tierra, por Q3, pasa por la carga y luego por Q2. Para simplificar el entendimiento del bootstrap, se utiliza la figura \ref{fig:imgbootstrap}, que muestra solo la mitad del puente, y se enfoca en el capacitor de bootstrap que acompaña a Q1. En ese caso, el capacitor $C{BS}$ se carga a $12:V$, ya que en un terminal tiene la fuente de $12:V$ (a través del diodo $D{BS}$) y el otro está conectado a GND por medio de $Q_2$.
 
-Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, el valor medio de la corriente mantiene su sentido y circula por los diodos antiparalelos del MOSFET inferior del lado A y el superior del lado B. Esto provoca que el \textsl{source} del transistor superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de $Q_2$. 
+Una vez que se apaga el transistor inferior, empieza a transcurrir el tiempo muerto. Debido a que la carga es inductiva, la corriente no puede cambiar instantáneamente, por lo tanto encuentra un camino de circulación a través de los diodos antiparalelos del MOSFET inferior del lado A y el superior del lado B. Esto provoca que el \textsl{source} del transistor superior del lado A tenga una tensión negativa igual a la caída de tensión en directa del diodo antiparalelo de $Q_2$. 
 
 Una vez finalizado el tiempo muerto, se enciende $Q_1$. Para ello, la señal AHO se pone en nivel alto. Durante el tiempo que $Q_1$ pasa de estar apagado a encendido, la tensión en el \textsl{source} cambia de $-V_d$ a $V_{cc}$ de manera gradual mientras se carga el \textsl{gate}, y AHO pasa a ser igual a AHB, que es igual a la tensión entregada por el capacitor de \textsl{bootstrap} sumada a la tensión en el \textsl{source} de $Q_1$. De esta manera se logra una tensión de $36\:V$ con respecto a GND en el \textsl{gate} y genera una diferencia entre \textsl{gate} y \textsl{source} de $12\:V$.
 
@@ -1184,7 +1184,7 @@ I_L = V_{IL_{ref}} * \frac{K_{in}}{H_0} = V_{IL_{ref}} * 6\:\frac{A}{V}
 F_{planta} = \frac{V_{cc}}{2*\Delta I_L * L(Y_g)}
 \end{equation}
 
-\noindent Para $Y_g = 4 \:mm $ se tiene una inductancia $L(4\:mm) = 16.44 \:mHy$ , lo cual resulta en una frecuencia $F_{planta}= 1460\:Hz$ .
+\noindent Para $Y_g = 4 \:mm $ se tiene una inductancia $L(4\:mm) = 16.44 \:mH$ , lo cual resulta en una frecuencia $F_{planta}= 1460\:Hz$ .
 
 \subsection{Ancho de banda del controlador}\label{esccion_AB_Controlador} 
 
@@ -1194,10 +1194,10 @@ F_{planta} = \frac{V_{cc}}{2*\Delta I_L * L(Y_g)}
 \omega _{polo} = \frac{R_L}{L(Y_g)}
 \end{equation}
 
-\noindent Al tomar las condiciones del problema en el punto de linealización con $Y_{0}=4\:mm$, resulta una inductancia $L = 7.55 \:mHy + 8.89 \:mHy$. Luego, al considerar la resistencia del bobinado $R_L=0.2\:\Omega$, se calcula la ubicación del polo:
+\noindent Al tomar las condiciones del problema en el punto de linealización con $Y_{0}=4\:mm$, resulta una inductancia $L = 7.55 \:mH + 8.89 \:mH$. Luego, al considerar la resistencia del bobinado $R_L=0.2\:\Omega$, se calcula la ubicación del polo:
 
 \begin{equation} 
-\omega _{polo} = \frac{0.2\:\Omega}{16.44 \:mHy} = 12.17 \:rad/s
+\omega _{polo} = \frac{0.2\:\Omega}{16.44 \:mH} = 12.17 \:rad/s
 \end{equation}
 
 \noindent La tabla \ref{tab_mediciones} muestra  entre qué valores de frecuencia se ve afectada la forma de onda al modificarse la distancia de separación.
@@ -1215,7 +1215,7 @@ F_{planta} = \frac{V_{cc}}{2*\Delta I_L * L(Y_g)}
 	\begin{center}
 		\begin{tabular}{| c | c | c | c | c |}
 			\hline
-			$Y_g\:[mm]$ & $L(Y_g)\:[mHy]$ & $\Delta T\:[ms]$ & $F_{planta}\:[Hz]$ & $\omega _{polo}\:[rad/s]$\\ \hline
+			$Y_g\:[mm]$ & $L(Y_g)\:[mH]$ & $\Delta T\:[ms]$ & $F_{planta}\:[Hz]$ & $\omega _{polo}\:[rad/s]$\\ \hline
 			0 & 76.45 & 1.59 & 313.93 & 2.62\\ \hline
 			1 & 33.42 & 0.70 & 718.13 & 5.98\\ \hline
 			2 & 22.64 &	0.47 & 1060.07 & 8.83\\ \hline

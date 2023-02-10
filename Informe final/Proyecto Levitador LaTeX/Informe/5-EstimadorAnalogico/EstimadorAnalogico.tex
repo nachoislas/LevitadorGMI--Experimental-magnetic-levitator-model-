@@ -41,13 +41,13 @@ Se realiza una regresión por mínimos cuadrados a los valores de la tabla \ref{
 
 
 \begin{equation} \label{eq_di-dt_lineal}
-	{\left|\frac{di_L}{dt}\right|}_{Lineal}[\:\frac{A}{s}]= 194690 * Y_g\:[m]+676
+	{\left|\frac{di_L}{dt}\right|}_{Lineal}\:[\frac{A}{s}]= 194690\:[\frac{A}{s*m}] * Y_g\:[m]+676\:[\frac{A}{s}]
 \end{equation}
 
 Al despejar la distancia de separación se obtiene:
 
 \begin{equation} \label{eq_Yg_despejada}
-	Y_g\:[m] =5.136*10^{-6}*{\left|\frac{di_L}{dt}\right|}_{Lineal} - 3.472*10^{-3}
+	Y_g\:[m] =5.136*10^{-6}\:[\frac{s*m}{A}] *{\left|\frac{di_L}{dt}\right|}_{Lineal} \:[\frac{A}{s}] - 3.472*10^{-3}\:[m]
 \end{equation}
 
 
@@ -149,14 +149,14 @@ Con la ecuación \ref{eq_di-dt_lineal} y \ref{eq_vyf1}, y con una variación en 
 Para pendiente positiva, la salida del circuito derivador resulta:
 
 \begin{equation} \label{eq_Vyf-lineal-pos}
-	V_{deriv}(Y_g) = -0.2595*Y_g[mm] + 1.6\:V
+	V_{deriv}(Y_g)\:[V] = -0.2595\:[\frac{V}{mm}] *Y_g[mm] + 1.6\:[V]
 \end{equation}
 
 
 Para pendiente negativa:
 
 \begin{equation} \label{eq_Vyf-lineal-neg}
-	V_{deriv}(Y_g) = 0.2595*Y_g[mm] + 3.4\:V
+	V_{deriv}(Y_g)\:[V] = 0.2595\:[\frac{V}{mm}] *Y_g[mm] + 3.4\:[V]
 \end{equation}
 
 

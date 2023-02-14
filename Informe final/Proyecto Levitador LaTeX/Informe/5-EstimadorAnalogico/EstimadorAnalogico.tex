@@ -329,7 +329,7 @@ En el caso de que $V_{deriv}$ $\mathrm{<}$ $2.5\:V$, la corriente será positiva
 	V^+=I_{R25}*R_{26}+2.5\:V=\frac{2.5\:V-V_{deriv}\ }{R_{25}}*R_{26}+2.5\:V\ 
 \end{equation} 
 
-Como $R_{25}=R_{26}$
+Como $R_{25}=R_{26}$:
 
 \begin{equation} \label{eq_V+}
 	V^+\ =\ 2.5\:V\ -\ V_{deriv}\ +2.5\:V\ =\ 5\:V\ -\ V_{deriv}\ 
@@ -471,7 +471,7 @@ Por lo tanto, a continuación se analiza en profundidad ambos inconvenientes y s
 
 Debido a que el derivador amplifica las señales de alta frecuencia se decidió agregar un filtro pasa bajos en su entrada, que permita el paso de la onda triangular de corriente pero que filtre la frecuencia de conmutación auxiliar. 
 
-La señal que ingresa al derivador es $V_{IL_{feed}}$, que es una onda triangular de frecuencia fundamental variable entre $1\:kHz$ y $2\:kHz$. Por lo tanto, se permite el paso de sus componentes frecuencia hasta la quinta armónica. De esta manera se diseña que la frecuencia de corte del filtro sea de $20\:kHz$.
+La señal que ingresa al derivador es $V_{IL_{feed}}$, que es una onda triangular de frecuencia fundamental variable entre $1\:kHz$ y $2\:kHz$. Por lo tanto, se permite el paso de sus componentes frecuenciales hasta la quinta armónica. De esta manera se determina que la frecuencia de corte del filtro sea de $20\:kHz$.
 
 Mediante la utilización del software FilterLab se diseña un filtro activo Butterworth de segundo orden, con una frecuencia de corte en $20\:kHz$ y ganancia unitaria. En la figura  \ref{fig:img_Filtro-para-la-entrada-del-derivador} se puede ver el circuito utilizado y en la \ref{fig:img_Respuesta-en-frecuencia-del-filtro-activo}, su respuesta en frecuencia.
 
@@ -502,7 +502,7 @@ En la figura \ref{fig:img_simulacion_lpf_entrada} se muestra el resultado de una
 
 \section{Compensación de resistencia interna}
 
-El segundo inconveniente mencionado en la sección \ref{sec_simulacion_estimador_basico} es la diferencia entre pendientes de crecimiento y de decrecimiento causada por la resistencia interna del electroimán. A continuación se analiza cómo esta corriente provoca dicho efecto, y qué solución se propone.
+El segundo inconveniente mencionado en la sección \ref{sec_simulacion_estimador_basico} es la diferencia entre pendientes de crecimiento y de decrecimiento causada por la resistencia interna del electroimán. A continuación se analiza la causa de dicho efecto y la solución propuesta.
 
 Al circular corriente siempre en el mismo sentido por el electroimán, se produce una caída de tensión constante en su resistencia interna. Esto provoca que no siempre estén aplicados $\pm V_{cc}$ al electroimán sino que, durante el tiempo en que la corriente crece ($T_{ON}$) se aplican $+V_{cc}-I_L*R_L$ y durante el tiempo en que la corriente decrece ($T_{OFF}$) se aplican $-V_{cc}-I_L*R_L$. Esto genera que las pendientes sean distintas. Se puede reescribir la ecuación \ref{eq_derivada_corriente_3} para tener en cuenta el efecto mencionado, considerando que $I_L$ corresponde al valor medio de la corriente del electroimán:
 
@@ -510,7 +510,7 @@ Al circular corriente siempre en el mismo sentido por el electroimán, se produc
 	\left|\frac{di_L}{dt}\right|=\left|\frac{\pm V_{cc}-R_L*I_L}{L(Y_g)}\right|
 \end{equation}
 
-A modo de ejemplo se plantea el caso en que circula la corriente nominal de $21\:A$ y se muestran los valores de la tensión aplicada al electroimán en el semiciclo de crecimiento y del de decrecimiento:
+A modo de ejemplo se plantea el caso en que circula la corriente nominal de $21\:A$ y se muestran los valores de la tensión aplicada al electroimán en el semiciclo de crecimiento y en el de decrecimiento:
 
 \begin{equation} \label{eq_Vbus-didt-RL-2}
 	\abs{V_L}=\abs{\pm V_{cc}-R_L*I_L}= \abs{\pm 24\:V-4.2\:V}
@@ -627,7 +627,7 @@ Para poder llegar a la expresión de la ecuación \ref{eq_Vyf-Vbias4} se debe cu
 
 Se sabe que $H_0 = 53.3\:\frac{mV}{A},\; R_L = 0.2\:\Omega$ y $\tau=C_1*R_1=25 \:ms$. Se utiliza la inductancia $L(4\:mm) = 16.44\:mH$.
 
-Por lo tanto, al resolver la condición 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, al resolver la condición 2) con $V_{op}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$. Finalmente, siguiendo la condición \ref{eq_capacitor_IR}, se determina $C_1=5.14\mu F$.
+Por lo tanto, para resolver la condición 1) se elige $R_4 = 304\: \Omega$ y se obtiene $R_3=1\:k\Omega$. Luego, para resolver la condición 2) con $V_{op}=2.5\:V$ se elige $R_1=1\:k\Omega$ y se obtiene $R_{2}=291.8\:\Omega$. Finalmente, siguiendo la condición \ref{eq_capacitor_IR}, se determina $C_1=5.14\mu F$.
 
 Se simuló nuevamente el circuito estimador con el agregado de la compensación de resistencia interna. En la figura \ref{fig:img_Formas_de_onda_obtenidas_en_la_simulación} se muestra cómo mejoró la forma de onda a la salida del rectificador.
 
@@ -677,7 +677,7 @@ Se realizó la tabla \ref{tab_Resultados_de_simulación_del_estimador} que muest
 	\end{center}
 \end{table}
 
-En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se observa que los valores obtenidos en simulación son menores que los calculados teóricamente. La diferencia es causada por el agregado de la oscilación auxiliar en el diseño del controlador de corriente (\ref{sec_oscilador_auxiliar}). Esta conmutación superpuesta a la alimentación del electroimán provoca que el valor medio de $V_L$ no sea exactamente $V_{cc}$, sino que se puede calcular como $V_L=V_{cc}*d$, donde $d=0.9$ es el ciclo de trabajo de la conmutación auxiliar. Se obtiene $V_L=21.6\:V$. Esta disminución en la alimentación genera una menor pendiente en la forma de onda triangular, por lo tanto la salida del derivador disminuye con respecto a la esperada teóricamente. 
+En la tabla \ref{tab_Resultados_de_simulación_del_estimador} se observa que los valores obtenidos en simulación son menores que los calculados teóricamente. La diferencia es causada por el agregado de la oscilación auxiliar en el diseño del controlador de corriente (\ref{sec_oscilador_auxiliar}). Esta conmutación superpuesta a la alimentación del electroimán provoca que el valor medio de $V_L$ no sea exactamente $V_{cc}$, sino que se puede calcular como $V_L=V_{cc}*d$, donde $d=0.9$ es el ciclo de trabajo de la conmutación auxiliar. Se obtiene $V_L=21.6\:V$. Esta disminución en la alimentación genera una menor pendiente en la forma de onda triangular, por lo tanto la salida del derivador disminuye con respecto a la calculada teóricamente. 
 
 \section{Transferencia final del estimador de distancia de entrehierro}
 
@@ -688,7 +688,7 @@ El comportamiento del circuito estimador no es lineal.  Por lo tanto, para poder
 
 A partir de la expresión \ref{eq_v-estim} se puede determinar que, además de realizarse la derivada, se introduce una inversión de signo. De esta forma, una pendiente positiva a la entrada resulta en valores menores a $2.5\:V$ a la salida, mientras que una pendiente negativa produce una tensión mayor a $2.5\:V$.
 
-Luego, el bloque rectificador y restador se encarga de calcular el valor absoluto de esta señal (en torno a los $2.5\:V$). Al considerar que la pendiente aumenta a medida que lo hace la distancia de separación, se puede concluir que el bloque estimador no produce inversión de signo. Por lo tanto, se debe considerar solamente la ganancia del derivador y el polo que introduce la etapa de restador. Por lo tanto la salida del estimador en función de la salida del derivador queda:
+Luego, el bloque rectificador y restador se encarga de calcular el valor absoluto de esta señal (en torno a los $2.5\:V$). Al considerar que la pendiente aumenta a medida que lo hace la distancia de separación, se puede concluir que el bloque estimador no produce inversión de signo. Por lo tanto, se debe considerar solamente la ganancia del derivador y el polo que introduce la etapa de restador. De esta forma, la salida del estimador en función de la salida del derivador queda:
 
 \begin{equation} \label{eq_vestim_dvil}
 	V_{estim}=0.025*\abs{\frac{dV_{IL_{feed}}}{dt}}*\frac{1}{1+\frac{s}{1\:kr/s}} 

@@ -253,7 +253,7 @@ Debido a la inestabilidad del circuito derivador es necesario compensarlo median
 
 Al agregar esta compensación el circuito deja de comportarse como derivador a partir de la frecuencia del polo agregado en $\frac{1}{H(s)}$. Por lo tanto, esta frecuencia debe ser mayor a la quinta armónica de la onda triangular de corriente. De la tabla \ref{tab_mediciones} se obtiene que la frecuencia fundamental máxima a la que trabaja el sistema (para $Y_g=5\:mm$) es de $1632.35\:Hz$, por lo que al considerar su quinta armónica se obtiene una frecuencia de $8161\:Hz$. 
 
-Por lo tanto, se ubica el polo de la compensación en $16\:kHz$ para maximizar el ancho de banda del derivador, logrando un margen de fase de aproximadamente 45°. Esto da como resultado $R_2=10\:\Omega$, $C_1=1\:uF$ y $R_1=25\: k\Omega$. El bode de la ganancia a lazo abierto del amplificador operacional junto con su red de realimentación $\frac{1}{H(s)}$ con el cero agregado se observa en la figura \ref{fig:img_MCP_compensado}.
+Por lo tanto, se ubica el polo de la compensación en $16\:kHz$ para maximizar el ancho de banda del derivador, logrando un margen de fase de aproximadamente 45°. Esto da como resultado $R_2=10\:\Omega$, $C_1=1\:uF$ y $R_1=25\: k\Omega$. El bode de la ganancia a lazo abierto del amplificador operacional junto con su red de realimentación $\frac{1}{H(s)}$ con el polo agregado se observa en la figura \ref{fig:img_MCP_compensado}.
 
 \begin{figure}[H]
 	\centering
@@ -530,7 +530,7 @@ Para el caso en que $V_{cc}=-24\:V$:
 
 Por lo tanto, sobre el electroimán se aplican dos tensiones distintas, en valor absoluto, durante la carga y descarga. Esto provoca que la rampa de corriente sea asimétrica.
 
-Como se planteó en la sección \ref{sec_simulacion_estimador_basico}, esta diferencia de pendientes provoca que la salida del derivador no tenga una excursión simétrica al rededor del punto de operación $V_{op}=2.5\:V$. Este efecto se muestra con mayor detalle en la figura \ref{fig:img_simulacion_derivador_vmed}.
+Como se planteó en la sección \ref{sec_simulacion_estimador_basico}, esta diferencia de pendientes provoca que la salida del derivador no tenga una excursión simétrica al rededor del punto de operación $V_{op}=2.5\:V$. Este efecto se muestra con mayor detalle en la figura \ref{fig:img_simulacion_derivador_vmed}. 
 
 \begin{figure}[H]
 	\centering
@@ -660,7 +660,7 @@ Finalmente el circuito estimador completo y la simulación se muestran en las fi
 
 Se puede observar que la salida del estimador $V_{estim}$ es una señal aproximadamente continua. Mediante la utilización de los cursores se midió una variación de $97\:mV$ en torno al valor medio, resultando en una mejora con respecto a la simulación realizada en la figura \ref{fig:img_simulacion_derivador+rectificador_ss}, en la que las variaciones de amplitud eran de $233\:mV$.
 
-Se realizó la tabla \ref{tab_Resultados_de_simulación_del_estimador} que muestra el valor resultante y los calculados teóricamente (\ref{tab_Vyf_vs_y}) de $V_{estim}$ en la simulación para distintos casos de distancia de entrehierro. En ella también se agrega una columna con los valores teóricos calculados en \ref{tab_derivada_linealizada} para realizar una comparación.
+Se realizó la tabla \ref{tab_Resultados_de_simulación_del_estimador} que muestra el valor de $V_{estim}$ obtenido en la simulación y los calculados teóricamente (\ref{tab_Vyf_vs_y}) para distintos casos de distancia de entrehierro. 
 
 \begin{table}[H]
 	\begin{center}

@@ -390,7 +390,7 @@ El controlador de corriente tendrá una corriente media variable entre $0\:A$ y 
 Entonces, con este ancho de histéresis elegido se obtiene una frecuencia de conmutación de la planta (calculada para el peor caso de corriente $I_{min}=30\:A$):
 
 \begin{equation} \label{eq_fplanta}
-	F_{planta}=1092\:Hz
+	F_{planta}=1092\:[Hz]
 \end{equation}
 
 \subsection{Cálculo de ganancia de entrada}
@@ -398,7 +398,7 @@ Entonces, con este ancho de histéresis elegido se obtiene una frecuencia de con
 Como se observa en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin}, la etapa de entrada consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Si bien aún no se eligió el sensor de corriente que será utilizado, puede considerarse su ganancia de contínua $H(s=0)$, denominada $H_0$. En la expresión \ref{eq_kin} se muestra la ganancia de entrada en función de $H_0$ para poder calcularla una vez elegido el sensor.
 
 \begin{equation} \label{eq_kin}
-	K_{in}=\frac{30\:A*H_0}{5\:V}=6*H_0 
+	K_{in}=\frac{30\:[A]*H_0}{5\:[V]}=6\:[\frac{A}{V}]*H_0 
 \end{equation}
 
 %Como se ve en el diagrama en bloques de la figura \ref{fig:img_diag-en-bloques-conH-y-Kin} la etapa de entrada que consiste en la ganancia $K_{in}$ y el restador con la señal realimentada. El objetivo es que una tensión de referencia en la entrada entre $0\:V$ y $5\:V$ se corresponda de manera lineal con una corriente de salida entre $0\:A$ y $30\:A$ (en valor medio). Por lo tanto, se obtiene una ganancia del controlador de corriente de $6\:A/V$. Dado que la ganancia del sensor HO15-NP \cite{HO15-NP} es de $H(s) = 53.3\:mV/A$ se puede calcular la ganancia de entrada como:
@@ -466,7 +466,7 @@ Este sensor tiene la capacidad de medir tanto corrientes en sentido positivo, co
 De esta forma, el bloque $H_0$ de realimentación queda definido como:
 
 \begin{equation}
-	H_0=\frac{V_{IL_{feed}}}{I_L}=53.33 \:\frac{mV}{A}
+	H_0=\frac{V_{IL_{feed}}}{I_L}=53.33 \:[\frac{mV}{A}]
 \end{equation}
 
 \subsubsection{Conexión de sensor en el puente}
@@ -670,13 +670,13 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 
 \begin{equation} 
 	\begin{aligned}
-		C_{BS} &> \frac{170 \:nC + 0.625\:nC + \frac{2 \:mA + 2.55 \:mA}{50 \:kHz}}{0.1 \:V}\\
+		C_{BS} &> \frac{170 \:[nC] + 0.625\:[nC] + \frac{2 \:[mA] + 2.55 \:[mA]}{50 \:[kHz]}}{0.1 \:[V]}\\
 	\end{aligned}
 \end{equation}
 
 \begin{equation} 
 	\begin{aligned}
-		C_{BS} &> 2.61 \:\mu F\\	
+		C_{BS} &> 2.61 \:[\mu F]\\	
 	\end{aligned}
 \end{equation}
 
@@ -730,13 +730,13 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 \noindent Con $\Delta I_L=500 \:mA$ y $T=0.47\:ms$ que corresponde a $Y_g = 2 \:mm$ según la tabla \ref{tab_mediciones}.
 
 \begin{equation} 
-	\Delta Q = 21\:A * \frac{0.47\:ms}{2} \approx 5\:mC
+	\Delta Q = 21\:[A] * \frac{0.47\:[ms]}{2} \approx 5\:[mC]
 \end{equation}
 
 \noindent Al considerar que un \textsl{ripple} de $\Delta V=500 \:mV$ es aceptable, se obtiene un valor de:
 
 \begin{equation} 
-	c = \frac{\Delta Q}{\Delta V} = 10 \:mF
+	c = \frac{\Delta Q}{\Delta V} = 10 \:[mF]
 \end{equation}
 
 \noindent Dado que por los capacitores circula una corriente elevada ($21.25\:A$) es recomendable disminuir la ESR total para minimizar la potencia disipada. Por lo tanto, se colocan capacitores en paralelo de baja ESR, como se muestra en la figura \ref{fig:img_capacitores-fuente}.
@@ -763,13 +763,13 @@ En la sección \ref{sec_res-gate} se agregaron resistencias de protección entre
 \noindent Por lo tanto, se puede calcular la potencia que disipan como:
 
 \begin{equation}\label{eq_potencia} 
-	P = I^2 * R_T = 21.25^2 * \frac{R_{ESR}}{n}
+	P = I^2 * R_T = 21.25^2 \:[A^2]* \frac{R_{ESR}}{n}
 \end{equation}
 
 \noindent Se decidió utilizar 6 capacitores  EKY-350ELL222MM25S del fabricante Chemi-Con. Estos tienen una capacidad de $2200 \:uF$ con un rating de tensión de $50\:V$ y una ESR de $17 \:\Omega$ (datos obtenidos de \cite{EKY-350ELL222MM25S}) . De esta forma, al reemplazar en la ecuación \ref{eq_potencia} se obtiene que la potencia disipada es de: 
 
 \begin{equation} 
-	P=1.28\:W
+	P=1.28\:[W]
 \end{equation}
 
 \subsection{Etapa de entrada y restador}
@@ -781,7 +781,7 @@ En esta sección se diseña la implementación circuital correspondiente a la et
 En principio se calcula la ganancia de entrada $K_{in}$ utilizando la ecuación \ref{eq_kin} y teniendo en cuenta la ganancia del sensor de efecto Hall elegido:
 
 \begin{equation}
-	K_{in}=6\:\frac{A}{V}*53.33\:\frac{mV}{A}=0.32
+	K_{in}=6\:[\frac{A}{V}]*53.33\:[\frac{mV}{A}]=0.32
 \end{equation}
 
 Se desea implementar un circuito que realice la operación matemática 
@@ -911,7 +911,7 @@ A continuación se determina qué valor utilizar para la tensión de referencia 
 Teniendo en cuenta este cambio en el punto de operación, la salida de la etapa de acondicionamiento para la salida del sensor de efecto Hall queda:
 
 \begin{equation} \label{eq_salida_restador_hall_2}
-	V_{IL_{feed}}=V_{sns}-2.5V =I_L*H_0 + 2.6V - 2.5V =I_L*H_0+0.1V
+	V_{IL_{feed}}=V_{sns}-2.5\:[V] =I_L*H_0 + 2.6\:[V] - 2.5\:[V] =I_L*H_0+0.1\:[V]
 \end{equation}
 
 En la figura \ref{fig:img_circuito-de-entrada-completo.png} se muestran los circuitos correspondientes a la etapa de entrada y acondicionamiento de salida del sensor, con la modificación en el punto de operación:
@@ -975,7 +975,7 @@ Para obtener una expresión para la salida en función de la entrada, primero es
 Las ecuaciones son las siguientes:
 
 \begin{equation} 
-	V^+ = V_h*\frac{R_{8}}{R_{8}+R_{7}} + 2.5\:V*\frac{R_{7}}{R_{8}+R_{7}}
+	V^+ = V_h*\frac{R_{8}}{R_{8}+R_{7}} + 2.5\:[V]*\frac{R_{7}}{R_{8}+R_{7}}
 \end{equation} 
 
 La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por lo tanto, se pueden plantear dos casos: 
@@ -983,13 +983,13 @@ La tensión diferencial entre las patas $V^+$ y $V^-$ es $Vd=(V^+)-(V^-)$. Por l
 1- Cuando $V_e>V^+$ entonces $V_h=0\:V$. Resulta:
 
 \begin{equation}
-	V^+_{off}=2.5*\frac{R_{7}}{R_{8}+R_{7}}
+	V^+_{off}=2.5\:[V]*\frac{R_{7}}{R_{8}+R_{7}}
 \end{equation}
 
 2- Cuando $V_e<V^+$ entonces $V_h=5\:V$. Resulta:
 
 \begin{equation}
-	V^+_{on}=2.5*\frac{R_{7}}{R_{8}+R_{7}} + 5\:V*\frac{R_{8}}{R_{8}+R_{7}}=V^+_{off}+5V*\frac{R_{8}}{R_{8}+R_{7}}
+	V^+_{on}=2.5\:[V]*\frac{R_{7}}{R_{8}+R_{7}} + 5\:[V]*\frac{R_{8}}{R_{8}+R_{7}}=V^+_{off}+5\:[V]*\frac{R_{8}}{R_{8}+R_{7}}
 \end{equation}
 
 Como $V_{e}$ tiene forma triangular, inicialmente se tendrá una forma de onda de rampa creciente tal que $V_e < V^+_{on}$. Por lo tanto, la salida del comparador será $V_{h}=5\:V$. Luego, cuando $V_e > V^+_{off}$ se alternará la salida del comparador a $V_{h}=0\:V$ alternando la señal a una rampa decreciente hasta que nuevamente se alcance $V_e<V^+$. Este ciclo de histéresis se mantiene constante.
@@ -997,7 +997,7 @@ Como $V_{e}$ tiene forma triangular, inicialmente se tendrá una forma de onda d
 Para obtener un ancho de histéresis de $26.665\:mV$ entonces la diferencia entre el punto mas alto y mas bajo debe ser:
 
 \begin{equation}
-	V^+_{on}-V^+_{off} = 5\:V*\frac{R_{8}}{R_{8}+R_{7}}= 26.665\:mV
+	V^+_{on}-V^+_{off} = 5\:[V]*\frac{R_{8}}{R_{8}+R_{7}}= 26.665\:[mV]
 \end{equation}
 
 Si se toma $R_{7}=200 \:k\Omega$ se obtiene $R_{8}=1072 \;\Omega$. Por lo tanto, se toma un valor comercial de $R_{8}=1066\:\Omega$. De esta forma se obtiene el ancho de histéresis deseado.
@@ -1173,7 +1173,7 @@ Si bien el controlador de corriente está basado en un control de tipo no lineal
 \noindent Para saber la corriente media que hay a la salida al aplicarle cierta tensión en la entrada, se utiliza la transferencia de lazo cerrado (sin considerar polos, y suponiendo alta ganancia de lazo abierto):
 
 \begin{equation} 
-I_L = V_{IL_{ref}} * \frac{K_{in}}{H_0} = V_{IL_{ref}} * 6\:\frac{A}{V}
+I_L = V_{IL_{ref}} * \frac{K_{in}}{H_0} = V_{IL_{ref}} * 6\:[\frac{A}{V}]
 \end{equation}
 
 \subsection{Frecuencia de conmutación de la corriente}
@@ -1197,7 +1197,7 @@ F_{planta} = \frac{V_{cc}}{2*\Delta I_L * L(Y_g)}
 \noindent Al tomar las condiciones del problema en el punto de linealización con $Y_{0}=4\:mm$, resulta una inductancia $L = 7.55 \:mH + 8.89 \:mH$. Luego, al considerar la resistencia del bobinado $R_L=0.2\:\Omega$, se calcula la ubicación del polo:
 
 \begin{equation} 
-\omega _{polo} = \frac{0.2\:\Omega}{16.44 \:mH} = 12.17 \:rad/s
+\omega _{polo} = \frac{0.2\:[\Omega]}{16.44 \:[mH]} = 12.17 \:[rad/s]
 \end{equation}
 
 \noindent La tabla \ref{tab_mediciones} muestra  entre qué valores de frecuencia se ve afectada la forma de onda al modificarse la distancia de separación.

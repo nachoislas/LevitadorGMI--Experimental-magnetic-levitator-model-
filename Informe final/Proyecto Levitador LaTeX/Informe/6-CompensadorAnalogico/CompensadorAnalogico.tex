@@ -24,21 +24,21 @@ En esta sección se diseña el control del lazo de realimentación interno, que 
 Las funciones transferencia de cada bloque del diagrama \ref{fig:diag-interno} están dadas por:
 
 \begin{equation*}
-	G_{IL}(s) =\frac{I_L[A]}{V_{IL_{ref}}[V]}=\frac{6}{1+\frac{s}{12.17}}
+	G_{IL}(s) =\frac{I_L}{V_{IL_{ref}}}=\frac{6}{1+\frac{s}{12.17}}\:[\frac{A}{V}]
 \end{equation*}
 
 \begin{equation*} 
-	G_{p}(M,s)=\frac{Y_g[m]}{I_L[A]}=-\sqrt{\frac{30}{M}}*\frac{1.201}{s^{2}-4900}
+	G_{p}(M,s)=\frac{Y_g}{I_L}=-\sqrt{\frac{30}{M}}*\frac{1.201}{s^{2}-4900}\:[\frac{m}{A}]
 \end{equation*}
 
 \begin{equation*} 
-	H_{estim}(s)=\frac{V_{estim}[V]}{Y_{g}[m]}=\frac{259.6}{(1+\frac{s}{1\:kr/s})}
+	H_{estim}(s)=\frac{V_{estim}}{Y_{g}}=\frac{259.6}{(1+\frac{s}{1\:kr/s})}\:[\frac{V}{m}]
 \end{equation*}
 
 La transferencia de lazo cerrado ($TLC_{interna}$) del diagrama \ref{fig:diag-interno} queda definida como:
 
 \begin{equation}
-	TLC_{interna}=\frac{Y_g[m]}{V_{ref_c}[V]}=\frac{G_c*G_{IL}*G_p}{1+G_c*G_{IL}*G_p*H_{estim}}
+	TLC_{interna}=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_{IL}*G_p}{1+G_c*G_{IL}*G_p*H_{estim}}\:[\frac{m}{V}]
 \end{equation}
 
 A continuación se analiza la estabilidad de la planta considerando una masa $M=30\:kg$ y se diseña el bloque del compensador interno $G_c(s)$ para lograr estabilizarla. Luego, se verificará la estabilidad con este mismo compensador para una masa $M=1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
@@ -103,7 +103,7 @@ Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros
 La realimentación positiva se genera al sumar la señal $V_{estim}$ con la señal de entrada del sistema. La transferencia de lazo cerrado del diagrama en bloques ahora se define como:
 
 \begin{equation}
-	TLC_{interna}=\frac{Y_g[m]}{V_{ref_c}[V]}=\frac{G_c*G_{IL}*G_p}{1-G_c*G_{IL}*G_p*H_{estim}}
+	TLC_{interna}=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_{IL}*G_p}{1-G_c*G_{IL}*G_p*H_{estim}}\:[\frac{m}{V}]
 \end{equation}
 
 Siguiendo el criterio de estabilidad de Nyquist, al utilizar realimentación positiva, la cantidad de giros (N) debe analizarse alrededor del punto $1+j0$. Si estos son en sentido horario, N será positivo, caso contrario será negativo. Al variar el valor de K, es posible hacer que el punto $1+j0$ quede contenido en la zona 1 o en la zona 2 de la figura \ref{fig:nyquist-con-zonas}. 
@@ -164,11 +164,11 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 
 \begin{equation*}
 	\begin{aligned}
-		&W_0 =200\:r/s\\
+		&W_0 =200\:[r/s]\\
 		&{\varphi }_{max} =65\textrm{°}\\
 		&\alpha =\frac{1+sen({\varphi }_{max})}{1-sen{(\varphi }_{max})}=20.346\\
-		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\:r/s\\
-		&W_p =\sqrt{\alpha }*W_0=902.1\: r/s\\
+		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\:[r/s]\\
+		&W_p =\sqrt{\alpha }*W_0=902.1\:[r/s]\\
 	\end{aligned}
 \end{equation*} 
 \noindent Finalmente, agregando una ganancia K y considerando las dos redes de adelanto de fase, se llega a la transferencia del controlador:
@@ -247,7 +247,7 @@ Finalmente se puede expresar la función transferencia del lazo de control inter
 
 
 \begin{equation}
-	TLC_{interna}(s)=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_{p}*G_{iL}}{1-G_c*G_{p}*G_{iL}*H_{estim}}
+	TLC_{interna}(s)=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_{p}*G_{iL}}{1-G_c*G_{p}*G_{iL}*H_{estim}}\:[\frac{m}{V}]
 	%	\frac{-3.6301*}{den}
 \end{equation}
 
@@ -323,7 +323,7 @@ En el lazo de realimentación interno actúa el compensador por adelanto de fase
 
 \noindent Para el an\'{a}lisis se considera como realimentaci\'{o}n: 
 
-\[H_{estim}=\frac{V_{estim}}{Y_g[m]}= \frac{259.6}{(1 + \frac{s}{1\:k})
+\[H_{estim}=\frac{V_{estim}}{Y_g}= \frac{259.6}{(1 + \frac{s}{1\:k})\:[\frac{V}{m}]
 }\] 
 
 \noindent La cadena de avance con masa de $30\:kg$ es:
@@ -435,7 +435,7 @@ Para que la tensión de referencia de posición $V_{y_{ref}}$ se corresponda con
 Como se vio en la sección \ref{seccopn-estim-completo} la salida del estimador para cada valor de posición toma los  valores mostrados en la tabla \ref{tab_Resultados_de_simulación_del_estimador}. Estos fueron obtenidos a partir de la siguiente ecuación:
 
 \begin{equation}
-	V_{estim}=Y_g*H_{estim}+3.4V
+	V_{estim}=Y_g*H_{estim}+3.4\:[V]
 \end{equation}
 
 
@@ -500,7 +500,7 @@ Los valores de $V_{estim}$ y $Y_{g_{real}}$ fueron calculados como:
 \end{equation}
 
 \begin{equation}
-	Y_{g_{real}}=\frac{V_{estim}-3.4\:V}{H{estim}(s=0)}
+	Y_{g_{real}}=\frac{V_{estim}-3.4\:[V]}{H{estim}(s=0)}
 \end{equation}
 
 \begin{table}[H]
@@ -528,7 +528,7 @@ De la tabla \ref{tension-ref-vs-separacion-real} se puede ver que los valores de
 Finalmente se puede expresar la función transferencia del lazo de control externo como:
 
 \begin{equation}
-	TLC_{externa}(s)=\frac{Y_g}{V_{y_{ref}}}=\frac{F*G_{ext}*TLC_{interna}}{1-G_{ext}*TLC_{interna}*H_{estim}}
+	TLC_{externa}(s)=\frac{Y_g}{V_{y_{ref}}}=\frac{F*G_{ext}*TLC_{interna}}{1-G_{ext}*TLC_{interna}*H_{estim}}\:[\frac{m}{V}]
 	%	\frac{-3.6301*}{den}
 \end{equation}
 
@@ -575,13 +575,13 @@ Por otro lado, se utiliza un amplificador operacional en modo seguidor de la se�
 Como se observa en el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_final}, luego de la etapa de generación de $V_{y_{ref}}$ se encuentra una etapa de ganancia, representada por el bloque F, junto con la suma de la señal realimentada $V_{estim}$. Este circuito estará implementado a partir de la utilización de amplificadores operacionales alimentados con fuente simple de $5\:V$, al igual que en el resto de las etapas. Es por ello que se debe tener la consideración de que la salida de esta etapa tenga un punto de operación de $2.5\:V$. Por lo tanto el circuito debe implementar la función:
 
 \begin{equation*} 
-	Ve_{ext}= 2.5\:V + V_{estim} + F*V_{y_{ref}}
+	Ve_{ext}= 2.5\:[V] + V_{estim} + F*V_{y_{ref}}
 \end{equation*}
 
 Como se analizó en la sección \ref{sec_calculo_F}, el valor de F es negativo. Por lo tanto, se puede reescribir la función como:
 
 \begin{equation} \label{eq_transferencia_veext}
-	Ve_{ext}= 2.5\:V + V_{estim} - \abs{F}*V_{y_{ref}}
+	Ve_{ext}= 2.5\:[V] + V_{estim} - \abs{F}*V_{y_{ref}}
 \end{equation}
 
 Para lograrlo se utiliza la topología circuital mostrada en la figura \ref{fig:etapa-de-entrada-sumador}.
@@ -599,7 +599,7 @@ La señal $V_{y_{ref}}$ ingresa a la entrada inversora del amplificador operacio
 	\resizebox{.99\hsize}{!}
 	{
 		$
-		Ve_{ext}= [2.5\:V (\frac{R_3//R_5}{R_1+R_3//R_5})+V_{estim}(\frac{R_1//R_5}{R_3+R_1//R_5})](1+\frac{R_2}{R_4})-V_{y_{ref}}(\frac{R_2}{R_4})
+		Ve_{ext}= [2.5\:[V] (\frac{R_3//R_5}{R_1+R_3//R_5})+V_{estim}(\frac{R_1//R_5}{R_3+R_1//R_5})](1+\frac{R_2}{R_4})-V_{y_{ref}}(\frac{R_2}{R_4})
 		$
 	}
 \end{equation*}
@@ -639,7 +639,7 @@ Para obtener el valor de $F=1.015$ a partir del cociente entre  $R_2$  y $R_4$, 
 Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) se utiliza un circuito basado en un amplificador operacional. Este tiene una red de realimentación RC para que su transferencia de lazo cerrado tenga el polo del compensador. Como se utiliza un amplificador operacional con alimentación simple de $5\:V$, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto, se implementa la función:
 
 \begin{equation}
-	V_{ref_c}=2.5\:V+V_{e_{ext}}*\frac{K_{int}}{1+\frac{s}{p_{int}}}
+	V_{ref_c}=2.5\:[V]+V_{e_{ext}}*\frac{K_{int}}{1+\frac{s}{p_{int}}}
 \end{equation}
 
 \noindent En la figura \ref{fig:circuito-integrador} se puede observar la topología utilizada para el diseño del circuito externo.
@@ -660,13 +660,13 @@ A continuación se plantea cómo está formada la salida del circuito con respec
 La salida del circuito de la figura está dada por:
 
 \begin{equation} \label{eq_salida_integrador}
-	V_{ref_c}=2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{X_{300}}{R_{305}})-V_{e_{ext}}*\frac{X_{300}}{R_{305}}
+	V_{ref_c}=2.5\:[V]*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{X_{300}}{R_{305}})-V_{e_{ext}}*\frac{X_{300}}{R_{305}}
 \end{equation}
 
 Si se considera que la tensión de $2.5\:V$ en la entrada no inversora es continua, se puede considerar que el término de $X_{300}$ es constante con valor $R_{300}$. Por lo tanto se puede reescribir la ecuación \ref{eq_salida_integrador} como:
 
 \begin{equation} \label{eq_salida_integrador_2}
-	V_{ref_c}=2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})-V_{e_{ext}}*\frac{R_{300}}{R_{305}}*\frac{1}{1+s*\tau 0}
+	V_{ref_c}=2.5\:[V]*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})-V_{e_{ext}}*\frac{R_{300}}{R_{305}}*\frac{1}{1+s*\tau 0}
 \end{equation}
 
 De \ref{eq_salida_integrador_2} se plantean tres ecuaciones de diseño:
@@ -681,13 +681,13 @@ De \ref{eq_salida_integrador_2} se plantean tres ecuaciones de diseño:
 
 
 \begin{equation} \label{eq_ganancia_vop_integrador}
-	2.5\:V*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})=2.5\:V
+	2.5\:[V]*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})=2.5\:[V]
 \end{equation}
 
 Se comienza con el diseño del polo del circuito utilizando la ecuación \ref{eq_polo_integrador} y se obtiene:
 
 \begin{equation}
-	R_{300}*C_{300}=\frac{1}{0.1r/s}
+	R_{300}*C_{300}=\frac{1}{0.1\:[r/s]}
 \end{equation}
 
 Se elige el valor del componente $C_{300}=22\:\mu F$, lo que resulta en $R_{300}=454.5k\:\Omega$, que se aproxima al valor comercial mas cercano $R_{300}=459\:k\Omega$.
@@ -713,7 +713,7 @@ Una vez obtenida la salida del compensador externo, esta ingresa a un sumador co
 En el diagrama en bloques de la figura \ref{fig:diag-en-bloques-comp_final} esta señal ingresa al sumador con signo positivo. Sin embargo, en la etapa anterior se generó una inversión de signo que no estaba contemplada en el diagrama en bloques. Es por ello que se decide utilizar esta etapa de sumador para cancelar dicha inversión. Además, debido a que se utiliza un amplificador operacional alimentado con fuente simple, también se agrega el punto de operación de $2.5\:V$ en la salida. Por lo tanto, la función que se debe implementar es:
 
 \begin{equation}
-	Ve_{int}=2.5\:V+V_{estim}-V_{ref_c}
+	Ve_{int}=2.5\:[V]+V_{estim}-V_{ref_c}
 \end{equation}
 
 El circuito utilizado para implementar la función se muestra en la figura \ref{fig:circuito-sumador-lazo-interno}. 
@@ -728,7 +728,7 @@ El circuito utilizado para implementar la función se muestra en la figura \ref{
 Para que este circuito genere correctamente la función deseada, se analiza su salida en función de sus componentes:
 
 \begin{equation*}
-	Ve_{int}=2.5\:V*\frac{R_{304}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})+V_{estim}*\frac{R_{302}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})-V_{ref_c}*\frac{R_{308}}{R_{306}}
+	Ve_{int}=2.5\:[V]*\frac{R_{304}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})+V_{estim}*\frac{R_{302}}{R_{304}+R_{302}}*(1+\frac{R_{308}}{R_{306}})-V_{ref_c}*\frac{R_{308}}{R_{306}}
 \end{equation*}
 
 Al igualar los coeficientes con la ecuación \ref{fig:circuito-sumador-lazo-interno} se pueden plantear las siguientes ecuaciones de diseño:
@@ -822,11 +822,11 @@ Si se diseña el bloque $H$ de forma tal de que $A_w>>1/H$ sea mayor en la banda
 \end{equation}
 
 \begin{equation} 
-	\frac{1}{C_x R_x} =  902.1
+	\frac{1}{C_x R_x} =  902.1\:[rad/s]
 \end{equation} 
 
 \begin{equation} 
-	\frac{1}{C_x [R_x + R_1]} = 44.3
+	\frac{1}{C_x [R_x + R_1]} = 44.3\:[rad/s]
 \end{equation} 
 
 En la figura \ref{fig:bode_compensador_cadena_avance} se muestra el diagrama de bode del bloque $A_w$ y $1/H$. Se puede ver que $A_w >> 1/H$ en la banda de interés y que el sistema resulta estable ya que el margen de fase resultante es de 90 grados.
@@ -848,10 +848,10 @@ Finalmente aproximando la transferencia de lazo cerrado interna $TLC_{af}$ a $1/
 Considerando el punto de operación de $2.5V$ en la entrada no inversora se obtiene:
 
 \begin{equation} 
-	Vaf_{out}= 2.5\:V* (1+\frac{R_a}{R_b})- Vaf_{in}*\frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}
+	Vaf_{out}= 2.5\:[V]* (1+\frac{R_a}{R_b})- Vaf_{in}*\frac{R_a}{R_b}*\frac{1+sC(R_x+R_1)}{1+sCR_x}
 \end{equation}
 
-Por lo tanto, para tener un polo en $902.1\:Hz$ y un cero en $44.3\:Hz$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. 
+Por lo tanto, para tener un polo en $902.1\:[rad/s]$ y un cero en $44.3\:[rad/s]$, al elegir un capacitor $C = 1\:uF$, resulta en $R_x = 1100\:\Omega$ y $R_1 = 21.5\:k\Omega$. Además, se elige $R_a = R_b = 200\:k\Omega$ para obtener una ganancia unitaria. 
 
 \subsubsection{Ganancia de compensador interno}
 
@@ -867,7 +867,7 @@ La ganancia del compensador se obtiene con una etapa amplificadora por medio de 
 Una de las entrada al circuito es señal $Vaf_{out}$, que está compuesta por un término de alterna $\hat{Vaf_{out}}$ superpuesta a un punto de operación de $2.5\:V$ ($\overline{Vaf_{out}}$). Por lo tanto, debido a que solo se desea amplificar el término de alterna, se agrega en la entrada inversora del amplificador operacional una señal que elimine dicho punto de operación. Además, como se utiliza una fuente de alimentación simple para el circuito, se desea que la salida tenga un punto de operación de $2.5\:V$. Por lo tanto, la función a implementar resulta:
 
 \begin{equation} \label{eq_sum_int_1}
-	V_{IL_{ref}}=2.5\:V+10*\hat{Vaf_{out}}
+	V_{IL_{ref}}=2.5\:[V]+10*\hat{Vaf_{out}}
 \end{equation}
 
 La salida del circuito de la figura \ref{fig:ganancia-compensador} en función de sus entradas es:
@@ -876,7 +876,7 @@ La salida del circuito de la figura \ref{fig:ganancia-compensador} en función d
 	\resizebox{.8\hsize}{!}
 	{
 		$
-		V_{IL_{ref}}=(2.5\:V\frac{R_{321}}{R_{321}+R_{319}}+Vaf_{out}\frac{R_{319}}{R_{321}+R_{319}})(1+\frac{R_{323}}{R_{322}})-2.5\:V\frac{R_{323}}{R_{322}}
+		V_{IL_{ref}}=(2.5\:[V]\frac{R_{321}}{R_{321}+R_{319}}+Vaf_{out}\frac{R_{319}}{R_{321}+R_{319}})(1+\frac{R_{323}}{R_{322}})-2.5\:[V]\frac{R_{323}}{R_{322}}
 		$
 	}
 \end{equation}

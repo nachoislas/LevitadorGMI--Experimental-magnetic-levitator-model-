@@ -123,13 +123,13 @@ En esta sección se diseña el algoritmo que realiza la estimación de distancia
 La señal que entra al ADC es la salida del sensor de efecto Hall $V_{IL_{feed}}$, que fue calculada en \ref{eq_salida_restador_hall_2} y se repite a continuación.
 
 \begin{equation*}
-	V_{IL_{feed}}=K_h*I_L+0.1\:V
+	V_{IL_{feed}}=K_h*I_L+0.1\:[V]
 \end{equation*}
 
 Donde $K_h$ es la ganancia del sensor de efecto Hall. Como la señal $V_{IL_{feed}}$ tiene un punto de operación de $0.1\:V$, se decide realizar el análisis adoptando una nueva señal $V_h$ tal que:
 
 \begin{equation*}
-	V_h=V_{IL_{feed}}-0.1\:V=K_h*I_L
+	V_h=V_{IL_{feed}}-0.1\:[V]=K_h*I_L
 \end{equation*}
 
 
@@ -144,7 +144,7 @@ El ADC toma muestras de la señal en su entrada de manera periódica. Es importa
 Como se vio en el capitulo \ref{cap:ControladorCorriente}, la forma de onda de la salida del sensor de efecto Hall es triangular y presenta una frecuencia de conmutación ($F_{planta}$) que varía en función de la distancia de entrehierro. Se puede calcular como:
 
 \begin{equation} \label{eq_frecuencia-de-muestreo}
-	F_{planta}(Y_g)=\frac{V_{cc}}{2 * L(Y_g) * \Delta I_L}
+	F_{planta}(Y_g)=\frac{V_{cc}}{2 * L(Y_g) * \Delta I_L}\:[Hz]
 \end{equation}
 
 
@@ -171,7 +171,7 @@ Al aplicar en la ecuación \ref{eq_frecuencia-de-muestreo} los valores de induct
  Para la estimación de distancia de entrehierro es necesario medir la pendiente de la onda triangular sin alterar demasiado su forma. Debido a que la conversión realizada por el ADC recorta el contenido de frecuencia de la señal a partir de la mitad de frecuencia de muestreo, se debe elegir esta última de manera que se conserve la información de la pendiente.  Por lo tanto, para reconstruirla correctamente se decide que la frecuencia de muestreo del ADC sea al menos el doble de la frecuencia de la 5° armónica para el caso de distancia de entrehierro en que $F_{planta}$ es la mayor. Para tener cierto margen, se adopta que la frecuencia de muestreo sea 2.5 veces superior. Es decir:
 
 \begin{equation} 
-	F_{ADC} \geq 2.5 * 5 * F_{planta_{max}} \Rightarrow  F_{ADC} \geq 2.5 * 5 * 1632\:Hz \Rightarrow F_{ADC} \geq 20400\:Hz
+	F_{ADC} \geq 2.5 * 5 * F_{planta_{max}} \Rightarrow  F_{ADC} \geq 2.5 * 5 * 1632\:[Hz] \Rightarrow F_{ADC} \geq 20400\:[Hz]
 \end{equation}
 
 
@@ -225,7 +225,7 @@ Al utilizar este método de estimación, puede ocurrir que se obtenga una nueva 
 En el capitulo \ref{cap:Estimador Analogico} se analizó la relación entre la distancia de entrehierro con la pendiente de la corriente en el electroimán. Se llegó a la expresión \ref{eq_Yg_despejada}, que se repite a continuación:
 
 \begin{equation} \label{eq_yg_vs_derivada}
-	Y_g = 5.136*10^{-6}*|\frac{di_L}{dt}|- 3.472*10^{-3} [m]
+	Y_g = 5.136*10^{-6}\:[\frac{m*s}{A}]*|\frac{di_L}{dt}|- 3.472*10^{-3} [m]
 \end{equation}
 
 A partir de la expresión \ref{eq_yg_vs_derivada} se puede obtener la distancia de entrehierro midiendo la pendiente de la corriente. Sin embargo, esta expresión fue calculada suponiendo que no se generaba una caída de tensión en la resistencia interna del electroimán ($R_L$), obteniendo una pendiente teórica. Esta caída provoca que la tensión efectiva aplicada sobre la inductancia sea distinta para el semiciclo de subida que para el de bajada. De esta forma, la onda triangular presenta diferentes pendientes (en valor absoluto) para cada caso. Esta se representa como $(\frac{di_L}{dt})_{Real}$ y es la que se mide al utilizar el ADC. La relación entre esta y la teórica se da por:
@@ -269,7 +269,7 @@ Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado
 
 
 \begin{equation} \label{eq_inductancia}
-	L(Y_g)[n] = -2.56*Y_g[n]+0.0271\:H
+	L(Y_g)[n] = -2.56\:[\frac{H}{m}]*Y_g[n]+0.0271\:[H]
 \end{equation}
 
  Por lo tanto, la ecuación correspondiente en el tiempo discreto resulta:
@@ -306,13 +306,13 @@ Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\D
 A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y_g=2.1\:mm$. Esta resulta en $F_{planta}[2.1\:mm] = 1104.8\:Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $F_{planta}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un ($\Delta Y_g$) mínimo de  $0.1\:mm$. Este valor puede obtenerse como:
 
 \begin{equation} 
-	\Delta F_{planta} = F_{planta}[2.1\:mm] - F_{planta}[2\:mm] = 44.8\:Hz
+	\Delta F_{planta} = F_{planta}(2.1\:[mm]) - F_{planta}(2\:[mm]) = 44.8\:[Hz]
 \end{equation}
 
  Las pendientes para el peor caso se da con la menor variación de tensión entre muestras. Es decir, para el caso de en que $F_{planta}$ es la mínima. En la ecuación \ref{eq_pendiente} se muestra el cálculo de la pendiente de la onda triangular en función de la frecuencia de conmutación.
 
 \begin{equation} \label{eq_pendiente}
-	P(F_{planta}) = \frac{\Delta V}{T_{planta}/2} = 2*K_h*\Delta i_L*F_{planta} = 2 * 0.0533 * 0.5 * F_{planta}
+	P(F_{planta}) = \frac{\Delta V}{T_{planta}/2} = 2*K_h*\Delta i_L*F_{planta} = 2 * 0.0533\:[\frac{V}{A}] * 0.5\:[A] * F_{planta}
 \end{equation}
 
  A partir de la ecuación \ref{eq_pendiente} es posible obtener el valor de la pendiente para la mínima frecuencia de conmutación y la de su incremento correspondiente a una variación en la posición de $0.1\:mm$. Esta situación se representa en la figura \ref{fig:variacion-de-pendiente}.
@@ -343,7 +343,7 @@ Por lo tanto, para poder diferenciar las pendientes, la resolución del ADC debe
 Al considerar $F_{ADC} = 25\:kHz$:
 
 \begin{equation} 
-	\Delta V_{ADC} = T_{ADC} * [P(F_{planta_{min}} + \Delta F_{planta}) - P(F_{planta_{min}})] = 96\:\mu V
+	\Delta V_{ADC} = T_{ADC} * [P(F_{planta_{min}} + \Delta F_{planta}) - P(F_{planta_{min}})] = 96\:[\mu V]
 \end{equation}
 
 
@@ -367,7 +367,7 @@ Se propone realizar una adquisición separada de ambas componentes de la tensió
 Debido a que el ADC permite una excursión entre $0\:V$ y $3.3\:V$, la máxima ganancia posible es de 60 veces para la componente de alterna.
 
 \begin{equation*}
-	3.3 \:V = \frac{26.7\:mV_{pp}}{2}*G_{max}+2.5\:V
+	3.3 \:[V] = \frac{26.7\:[mV_{pp}]}{2}*G_{max}+2.5\:[V]
 \end{equation*}
 
 Por otro lado, es necesario determinar la ganancia mínima que debe tener el circuito para que un cambio en la distancia de separación de $0.1\:mm$ pueda ser detectado por el ADC cuya resolución es de $\Delta V_{ADC}=0.8\:mV$.
@@ -375,7 +375,7 @@ Por otro lado, es necesario determinar la ganancia mínima que debe tener el cir
 Por lo tanto se plantea:
 
 \begin{equation}\label{eq_ganancia_minima_adc}
-	 96\:\mu V * G_{min} > \Delta V_{ADC} 
+	 96\:[\mu V] * G_{min} > \Delta V_{ADC} 
 \end{equation}
 
 De la ecuación \ref{eq_ganancia_minima_adc} se obtiene que la ganancia mínima debe ser de 9 veces.
@@ -397,7 +397,7 @@ Para realizar la separación de las componentes de la señal $V_h$ se utiliza un
 Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
 
 \begin{equation} 
-	P(F_{planta}) = 50 * [0.0533 * 0.5 * (F_{planta}*2)]\:[\frac{V}{s}]
+	P(F_{planta}) = 50 * [0.0533\:[\frac{V}{A}] * 0.5\:[A] * (F_{planta}*2)]\:[\frac{V}{s}]
 \end{equation}
 
  Al reemplazar para el incremento de frecuencia se obtiene: 
@@ -415,7 +415,7 @@ Al considerar la ganancia elegida,  la pendiente de la onda triangular resulta:
 \begin{equation*} 
 	\resizebox{.9\hsize}{!}
 	{
-	$\Delta V_{ADC} = T_S * [P(F_{planta_{min}} + \Delta F_{planta}) - P(F_{planta_{min}})] = 0.1177\:V - 0.1129\:V = 4.7\:mV$
+	$\Delta V_{ADC} = T_S * [P(F_{planta_{min}} + \Delta F_{planta}) - P(F_{planta_{min}})] = 0.1177\:[V] - 0.1129\:[V] = 4.7\:[mV]$
 	}
 \end{equation*}
 
@@ -435,7 +435,7 @@ En esta sección se realiza el diseño circuital de las etapas de acondicionamie
  Para indicar al microcontrolador la distancia de separación deseada se utiliza la señal  $V_{y_{ref}}$ proveniente del potenciómetro ubicado en la placa de control. Esta señal de referencia es también utilizada por el compensador analógico y la correspondencia entre ella y la distancia de entrehierro deseada es:
  
  \begin{equation} \label{eq_vyref_vs_yg}
- 	V_{y_{ref}}=Y_g*259.6+3.4\:V
+ 	V_{y_{ref}}=259.6\:[\frac{V}{m}]*Y_g+3.4\:[V]
  \end{equation}
  
 Esta señal tiene una tensión que varía entre $3.96\:V$ y $4.69\:V$ para valores de $Y_g$ entre $2\:mm$ y $5\:mm$, que resulta mayor a la que puede leer el ADC. Por este motivo se implementa un circuito que permita llevarla a valores de tensión adecuados para su correcto funcionamiento. 
@@ -445,7 +445,7 @@ Se implementa un circuito que le resta el punto de operación de $2.5\:V$  para 
 Luego, dentro del microcontrolador, se asigna cada valor leído por el ADC a una distancia de separación deseada ($Y_{ref}$), según la fórmula \ref{eq_y-ref-dig}. Esta será luego utilizada como referencia del sistema de control digital.
 
 \begin{equation} \label{eq_y-ref-dig}
-	Y_{ref}\ =\frac{Vy_{ref_{ADC}} +2.5 - 3.4\:V}{259.6}\:[m]=\frac{Vy_{ref_{ADC}} - 0.9\:V}{259.6}\:[m]
+	Y_{ref}\ =\frac{Vy_{ref_{ADC}} +2.5\:[V] - 3.4\:[V]}{259.6\:[\frac{V}{m}]}\:[m]=\frac{Vy_{ref_{ADC}} - 0.9\:[V]}{259.6\:[\frac{V}{m}]}\:[m]
 \end{equation}
 
 De esta manera se obtiene la señal $Y_{ref}$ que varía entre valores de $2\:mm$ y $5\:mm$, según la tensión de entrada al ADC.
@@ -475,21 +475,21 @@ A continuación se analiza la salida de este circuito en función de sus entrada
 Por lo tanto, la salida del circuito se puede expresar como:
 
 \begin{equation*} 
-	Vy_{ref_{ADC}}=\frac{Z}{Z+R_{413}}(1+\frac{Z}{R_{412}})Vy_{ref}-\frac{Z}{R_{412}}*2.5\:V
+	Vy_{ref_{ADC}}=\frac{Z}{Z+R_{413}}(1+\frac{Z}{R_{412}})Vy_{ref}-\frac{Z}{R_{412}}*2.5\:[V]
 \end{equation*}
 
 Si se considera que $R_{412}=R_{413}$ resulta:
 
 %y que $2.5\:V$ es una señal continua se obtiene:
 \begin{equation*} 
-	Vy_{ref_{ADC}}=\frac{Z}{R_{412}}Vy_{Ref}-\frac{Z}{R_{412}}*2.5\:V
+	Vy_{ref_{ADC}}=\frac{Z}{R_{412}}Vy_{Ref}-\frac{Z}{R_{412}}*2.5\:[V]
 \end{equation*}
 
 
 Como se desea ganancia unitaria, se define que $R_{411}=R_{412}$ y se obtiene:
 
 \begin{equation*} 
-	Vy_{ref_{ADC}}=\frac{1}{1+sC_{408}R_{411}}(Vy_{Ref}-2.5\:V)
+	Vy_{ref_{ADC}}=\frac{1}{1+sC_{408}R_{411}}(Vy_{Ref}-2.5\:[V])
 \end{equation*}
 
 %\begin{equation*} 
@@ -525,17 +525,17 @@ Para resolver este circuito se plantea:
 La salida en función de sus entradas resulta:
 
 \begin{equation*} 
-	V_{IfeedADC} =\frac{Z_2}{Z_1}*Vi_{feed}+2.5\:V
+	V_{IfeedADC} =\frac{Z_2}{Z_1}*Vi_{feed}+2.5\:[V]
 \end{equation*}
 
 \begin{equation*} 
-	V_{IfeedADC} =\frac{sC_{404}R_{404}}{(1+sC_{402}R_{404})(1+sC_{404}R_{405})}*Vi_{feed}+2.5\:V
+	V_{IfeedADC} =\frac{sC_{404}R_{404}}{(1+sC_{402}R_{404})(1+sC_{404}R_{405})}*Vi_{feed}+2.5\:[V]
 \end{equation*}
 
 Para lograr la frecuencia de corte inferior de $100\:Hz$ es necesario definir correctamente los valores de los componentes correspondientes a $Z_1$. Para ello, se plantea la siguiente ecuación:
 
 \begin{equation*} 
-	100\:Hz=\frac{1}{2\pi C_{404}R_{405}}
+	100\:[Hz]=\frac{1}{2\pi C_{404}R_{405}}
 \end{equation*}
 
 Se elige $R_{405}=1\:k\Omega$ por lo que resulta $C_{404}=1.6\:\mu F$. De esta forma se obtiene $R_{409}=1\:k\Omega$ y $C_{406}=1.6\:\mu F$.
@@ -543,7 +543,7 @@ Se elige $R_{405}=1\:k\Omega$ por lo que resulta $C_{404}=1.6\:\mu F$. De esta f
 Debido a la acción del cero en el origen, la ganancia del circuito ira en aumento hasta alcanzar la frecuencia del primer polo ubicado en $100\:Hz$. Una vez alcanzado, la ganancia permanecerá constante. Ese valor es la ganancia resultante en la banda de paso. Como se desea que sea de 50, se plantea la siguiente ecuación:
 
 \begin{equation*} 
-	\frac{1}{2\pi C_{404}R_{404}}=\frac{100\:Hz}{50}
+	\frac{1}{2\pi C_{404}R_{404}}=\frac{100\:[Hz]}{50}
 \end{equation*}
 
 Por lo tanto, resulta $R_{404}=50\:k\Omega$. De esta forma se obtiene $R_{408}=50\:k\Omega$.
@@ -551,7 +551,7 @@ Por lo tanto, resulta $R_{404}=50\:k\Omega$. De esta forma se obtiene $R_{408}=5
 Finalmente, para lograr una frecuencia de corte superior de $12\:kHz$ se plantea:
 
 \begin{equation*} 
-	12\:kHz=\frac{1}{2\pi C_{402}R_{404}}
+	12\:[kHz]=\frac{1}{2\pi C_{402}R_{404}}
 \end{equation*}
 
 Por lo tanto, se obtiene $C_{402}=270\:pF$. De esta forma resulta $C_{407}=270\:pF$.
@@ -624,7 +624,7 @@ La señal de salida puede ser expresada en función de su entrada como:
 
 Por lo tanto, como se desea una frecuencia de corte de $100\:Hz$ se plantea la siguiente ecuación:
 \begin{equation*} 
-	\frac{1}{2\pi C_{401}R_{401}}=100\:Hz
+	\frac{1}{2\pi C_{401}R_{401}}=100\:[Hz]
 \end{equation*}
 
 Al elegir una resistencia $R_{401}=10\:k\Omega$ resulta en $C_{401}=160\:nF$.
@@ -656,7 +656,7 @@ La salida del circuito en función de su entrada es:
 Para conseguir una ganancia en continua de  $\frac{5V}{3.3V}$ se plantea:
 
 \begin{equation*} 
-	\frac{R_{402}}{R_{400}} +1 = \frac{5V}{3.3V}
+	\frac{R_{402}}{R_{400}} +1 = \frac{5\:V}{3.3\:V}
 \end{equation*}
 
 Por lo tanto, se elige $R_{400}=10\:k\Omega$ y resulta $R_{402}=5\:k\Omega$. 
@@ -664,7 +664,7 @@ Por lo tanto, se elige $R_{400}=10\:k\Omega$ y resulta $R_{402}=5\:k\Omega$.
 Para que la frecuencia de corte del filtro se encuentre en $1.75\:kHz$, se plantea:
 
 \begin{equation*} 
-	\frac{1}{2\pi C_{400}R_{402}}=1.75\:kHz
+	\frac{1}{2\pi C_{400}R_{402}}=1.75\:[kHz]
 \end{equation*}
 
 De esta forma, se obtiene $C_{400}=18\:nF$. 
@@ -752,7 +752,7 @@ En esta sección se diseña el control del lazo de realimentación interno, que 
 La transferencia de lazo cerrado ($TLC_{interna}$) del diagrama \ref{fig:diag-interno_dig} queda definida como:
 
 \begin{equation}
-	TLC_{interna}=\frac{Y_g[m]}{V_{ref_c}[V]}=\frac{G_c*G_T}{1+G_c*G_T}
+	TLC_{interna}=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_T}{1+G_c*G_T}\:[\frac{m}{V}]
 \end{equation}
 
 A continuación se analiza el comportamiento de la planta considerando una masa $M=30\:kg$ y se diseña el bloque del compensador interno $G_c(w)$ para lograr estabilizarla. Luego, se verificará la estabilidad con este mismo compensador para una masa $M=1\:kg$, que corresponde a la mínima con la que trabaja el sistema.
@@ -813,7 +813,7 @@ Debido a que $GH_T$ tiene un polo en el semiplano derecho ($P=1$) y no hay giros
 La realimentación positiva se genera al sumar la señal $Y_g$ con la señal de entrada del sistema. La transferencia de lazo cerrado del diagrama en bloques ahora se define como:
 
 \begin{equation}
-	TLC_{interna}=\frac{Y_g[m]}{V_{ref_c}[V]}=\frac{G_c*G_T}{1-G_c*G_T}
+	TLC_{interna}=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_T}{1-G_c*G_T}\:[\frac{m}{V}]
 \end{equation}
 
 Siguiendo el criterio de estabilidad de Nyquist, al utilizar realimentación positiva, la cantidad de giros (N) debe analizarse alrededor del punto $1+j0$. Si estos son en sentido horario, N será positivo, caso contrario será negativo. Al variar el valor de K, es posible hacer que el punto $1+j0$ quede contenido en la zona 1 o en la zona 2 de la figura \ref{fig:nyquist-con-zonas_digital}. 
@@ -873,11 +873,11 @@ Una red de adelanto de fase está compuesta por un polo ($W_p$) y un cero ($W_c$
 
 \begin{equation*}
 	\begin{aligned}
-		&W_0 =200\:r/s\\
+		&W_0 =200\:[rad/s]\\
 		&{\varphi }_{max} =65\textrm{°}\\
 		&\alpha =\frac{1+sen({\varphi }_{max})}{1-sen{(\varphi }_{max})}=20.346\\
-		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\:r/s\\
-		&W_p =\sqrt{\alpha }*W_0=902.1\: r/s\\
+		&W_c =\frac{W_0}{\sqrt{\alpha }}=\ 44.3\:[rad/s]\\
+		&W_p =\sqrt{\alpha }*W_0=902.1\: [rad/s]\\
 	\end{aligned}
 \end{equation*} 
 \noindent Finalmente, agregando una ganancia K y considerando las dos redes de adelanto de fase, se llega a la transferencia del controlador:
@@ -950,7 +950,7 @@ Finalmente se puede expresar la función transferencia del lazo de control inter
 
 
 \begin{equation}
-	TLC_{interna}(w)=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_T}{1-G_c*G_T}
+	TLC_{interna}(w)=\frac{Y_g}{V_{ref_c}}=\frac{G_c*G_T}{1-G_c*G_T}\:[\frac{m}{V}]
 	%	\frac{-3.6301*}{den}
 \end{equation}
 

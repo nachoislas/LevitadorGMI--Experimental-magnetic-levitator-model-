@@ -265,7 +265,7 @@ $V_h$ es la tensión proporcional a la corriente que circula por el electroimán
 
 Los términos $\bar{V_h}[n]$ y $\hat{V_h}[n]$ se obtienen al sensar el valor medio y el de alterna de la tensión $V_h$ mediante dos canales del ADC, uno para cada señal.
 
-Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtuvo a partir de la linealización de la inductancia en función de las mediciones realizadas sobre el electroimán.
+Por otro lado, el valor de $L(Y_g)[n-1]$ se obtiene al aplicar el valor estimado de posición anterior en la ecuación \ref{eq_inductancia}. El cálculo de esta expresión se obtuvo a partir de la ecuación de la inductancia \ref{eq_induct_practica} en función de las mediciones realizadas sobre el electroimán.
 
 
 \begin{equation} \label{eq_inductancia}
@@ -303,7 +303,7 @@ En esta sección se analiza cuál es la resolución en posición que se puede ob
 Una variación de posición ($\Delta Y_g$) produce un cambio de inductancia ($\Delta L(Y_g)$) que se traduce en un cambio de frecuencia ($\Delta F_{planta}$). Para poder detectar el mínimo cambio de posición en un período de muestreo ($T_{ADC}$) se debe tener una resolución tal que permita discernir ese cambio de frecuencia.
 
 
-A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y_g=2.1\:mm$. Esta resulta en $F_{planta}[2.1\:mm] = 1104.8\:Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $F_{planta}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un ($\Delta Y_g$) mínimo de  $0.1\:mm$. Este valor puede obtenerse como:
+A partir de la expresión de la inductancia \ref{eq_induct_practica} y la ecuación \ref{eq_frecuencia-de-muestreo} es posible obtener el valor de frecuencia para una separación de $Y_g=2.1\:mm$. Esta resulta en $F_{planta}[2.1\:mm] = 1104.8\:Hz$. De esta forma, al conocer el valor de frecuencia para $2\:mm$, el cual es de $F_{planta}[2\:mm] = 1060\:Hz$, es posible obtener la variación de frecuencia para un ($\Delta Y_g$) mínimo de  $0.1\:mm$. Este valor puede obtenerse como:
 
 \begin{equation} 
 	\Delta F_{planta} = F_{planta}(2.1\:[mm]) - F_{planta}(2\:[mm]) = 44.8\:[Hz]

@@ -133,9 +133,9 @@ Donde $K_h$ es la ganancia del sensor de efecto Hall. Como la señal $V_{IL_{fee
 \end{equation*}
 
 
-La conversión entre la señal $V_{IL_{feed}}$ y $V_h$ será realizada dentro del microcontrolador luego de muestrear la señal de entrada con ADC.
+La conversión entre la señal $V_{IL_{feed}}$ y $V_h$ será realizada dentro del microcontrolador luego de muestrear la señal de entrada con el ADC.
 
-La estimación de distancia de entrehierro se obtendrá al medir la pendiente de la señal $V_h$. Dentro del microcontrolador se implementa un algoritmo para procesar las muestras y calcular la distancia estimada. 
+La estimación de la distancia de entrehierro se obtendrá al medir la pendiente de la señal $V_h$. Dentro del microcontrolador se implementa un algoritmo para procesar las muestras y calcular la distancia estimada. 
 
 \subsection{Determinación de la frecuencia de muestreo}
 
@@ -312,8 +312,13 @@ A partir de la expresión linealizada de la inductancia \ref{eq_induct_practica}
  Las pendientes para el peor caso se da con la menor variación de tensión entre muestras. Es decir, para el caso de en que $F_{planta}$ es la mínima. En la ecuación \ref{eq_pendiente} se muestra el cálculo de la pendiente de la onda triangular en función de la frecuencia de conmutación.
 
 \begin{equation} \label{eq_pendiente}
-	P(F_{planta}) = \frac{\Delta V}{T_{planta}/2} = 2*K_h*\Delta i_L*F_{planta} = 2 * 0.0533\:[\frac{V}{A}] * 0.5\:[A] * F_{planta}
+\resizebox{.85\hsize}{!}
+{
+	$P(F_{planta}) = \frac{\Delta V}{T_{planta}/2} = 2*K_h*\Delta i_L*F_{planta} = 2 * 0.0533\:[\frac{V}{A}] * 0.5\:[A] * F_{planta}$
+}
 \end{equation}
+
+
 
  A partir de la ecuación \ref{eq_pendiente} es posible obtener el valor de la pendiente para la mínima frecuencia de conmutación y la de su incremento correspondiente a una variación en la posición de $0.1\:mm$. Esta situación se representa en la figura \ref{fig:variacion-de-pendiente}.
 
@@ -540,7 +545,7 @@ Para lograr la frecuencia de corte inferior de $100\:Hz$ es necesario definir co
 
 Se elige $R_{405}=1\:k\Omega$ por lo que resulta $C_{404}=1.6\:\mu F$. De esta forma se obtiene $R_{409}=1\:k\Omega$ y $C_{406}=1.6\:\mu F$.
 
-Debido a la acción del cero en el origen, la ganancia del circuito ira en aumento hasta alcanzar la frecuencia del primer polo ubicado en $100\:Hz$. Una vez alcanzado, la ganancia permanecerá constante. Ese valor es la ganancia resultante en la banda de paso. Como se desea que sea de 50, se plantea la siguiente ecuación:
+Debido a la acción del cero en el origen, la ganancia del circuito irá en aumento hasta alcanzar la frecuencia del primer polo ubicado en $100\:Hz$. Una vez alcanzado, la ganancia permanecerá constante. Ese valor es la ganancia resultante en la banda de paso. Como se desea que sea de 50, se plantea la siguiente ecuación:
 
 \begin{equation*} 
 	\frac{1}{2\pi C_{404}R_{404}}=\frac{100\:[Hz]}{50}
@@ -656,7 +661,7 @@ La salida del circuito en función de su entrada es:
 Para conseguir una ganancia en continua de  $\frac{5V}{3.3V}$ se plantea:
 
 \begin{equation*} 
-	\frac{R_{402}}{R_{400}} +1 = \frac{5\:V}{3.3\:V}
+	\frac{R_{402}}{R_{400}} +1 = \frac{5\:[V]}{3.3\:[V]}
 \end{equation*}
 
 Por lo tanto, se elige $R_{400}=10\:k\Omega$ y resulta $R_{402}=5\:k\Omega$. 

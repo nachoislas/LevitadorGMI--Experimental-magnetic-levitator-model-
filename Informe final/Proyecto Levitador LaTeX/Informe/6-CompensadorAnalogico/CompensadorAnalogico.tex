@@ -321,10 +321,12 @@ Es importante notar que la ganancia de la transferencia de lazo cerrado en ambos
 En el lazo de realimentación interno actúa el compensador por adelanto de fase previamente diseñado y, en el externo, un controlador del tipo integral. Esto permite suavizar la respuesta al escalón del sistema y eliminar el error en régimen permanente.
 
 
-\noindent Para el an\'{a}lisis se considera como realimentaci\'{o}n: 
+\noindent Para el an\'{a}lisis se considera como realimentación: 
 
-\[H_{estim}=\frac{V_{estim}}{Y_g}= \frac{259.6}{(1 + \frac{s}{1\:k})\:[\frac{V}{m}]
-}\] 
+\begin{equation*}
+	H_{estim}=\frac{V_{estim}}{Y_g} = \frac{259.6}{(1 + \frac{s}{1\:k})
+}\:[\frac{V}{m}]
+\end{equation*}
 
 \noindent La cadena de avance con masa de $30\:kg$ es:
 
@@ -651,7 +653,7 @@ Para implementar la transferencia de $G_{ext}$ (calculada en \ref{eq_gexterno}) 
 	\label{fig:circuito-integrador}
 \end{figure}
 
-A continuación se plantea cómo está formada la salida del circuito con respecto a cada una de sus entradas. Para simplificar la escritura de las ecuaciones se define $X_{300}$ como la relación entre el paralelo de $R_{300}$ y la reactancia de $C_{300}$ y $\tau 0 = R_{300}*C_{300}$:
+A continuación se plantea cómo está formada la salida del circuito con respecto a cada una de sus entradas. Para simplificar la escritura de las ecuaciones se define $X_{300}$ como el paralelo entre $R_{300}$ y la reactancia de $C_{300}$ y $\tau 0$ como el producto entre $R_{300}$ y $C_{300}$:
 
 \begin{equation}
 	X_{300} = R_{300} // \frac{1}{s*C_{300}} = \frac{R_{300}}{1+s*\tau 0}
@@ -663,7 +665,7 @@ La salida del circuito de la figura está dada por:
 	V_{ref_c}=2.5\:[V]*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{X_{300}}{R_{305}})-V_{e_{ext}}*\frac{X_{300}}{R_{305}}
 \end{equation}
 
-Si se considera que la tensión de $2.5\:V$ en la entrada no inversora es continua, se puede considerar que el término de $X_{300}$ es constante con valor $R_{300}$. Por lo tanto se puede reescribir la ecuación \ref{eq_salida_integrador} como:
+Si se considera que la tensión de $2.5\:V$ en la entrada no inversora es continua, se puede simplificar el término $X_{300}$ como una constante de valor $R_{300}$. Por lo tanto, se reescribe la ecuación \ref{eq_salida_integrador} como:
 
 \begin{equation} \label{eq_salida_integrador_2}
 	V_{ref_c}=2.5\:[V]*\frac{R_{311}}{R_{307}+R_{311}}*(1+\frac{R_{300}}{R_{305}})-V_{e_{ext}}*\frac{R_{300}}{R_{305}}*\frac{1}{1+s*\tau 0}
@@ -703,7 +705,7 @@ Con este circuito se obtiene la función transferencia del compensador, sin cons
 	G_{ext_{circuito}}=-\frac{50}{1+\frac{s}{0.1r/s}}
 \end{equation}
 
-Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado,. Por lo tanto, debe cancelarse este signo en la siguiente etapa, que corresponde al sumador del lazo de realimentación interno.
+Es importante notar que la transferencia del circuito agrega una inversión de signo que no se encontraba presente en la transferencia del controlador diseñado. Por lo tanto, debe cancelarse en la siguiente etapa, que corresponde al sumador del lazo de realimentación interno.
 
 
 \subsection{Sumador del lazo interno}
@@ -749,7 +751,7 @@ Al resolver este conjunto de ecuaciones se obtiene que todas las resistencias de
 
 \subsection{Compensador interno}
 
-En esta sección se realizará el diseño del compensador del lazo de control interno. Este puede ser dividido en tres etapas internas: dos redes de adelanto de fase conectadas en cascada seguidas de una ganancia.
+En esta sección se realizará el diseño del compensador del lazo de control interno. Este puede ser dividido en tres etapas: dos redes de adelanto de fase conectadas en cascada seguidas de una ganancia.
 
 A continuación se realiza el diseño de cada una de las etapas internas por separado.
 

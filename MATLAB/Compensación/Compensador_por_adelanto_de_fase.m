@@ -148,7 +148,6 @@ step(tlcConIntegradorDigital);
 CtotalZ = zpk(c2d(CtotalW, Ts,'tustin'));
 intZ    = zpk(c2d(integradorDigital, Ts,'tustin'));
 
-
 %% funciones
 function [y0,L] = distandinduc(y)
     switch y

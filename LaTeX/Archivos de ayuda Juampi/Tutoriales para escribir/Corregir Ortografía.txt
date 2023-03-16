@@ -1,2 +1,0 @@
-Pararme en el renglón del texto a partir del cual quiero revisar la ortografía.
-Luego voy a "Herramientas", "Revisar ortografía"
